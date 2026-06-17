@@ -476,14 +476,14 @@ function render() {
       el.className = 'card';
       let mediaHtml = '';
       if (n.m) {
-        // Animated GIF preview from Mux (auto-plays silently, no real audio/video needed)
-        mediaHtml = `<div class="card-media-wrap">
-          <img class="card-media" src="https://image.mux.com/${n.m}/animated.gif?width=400" loading="lazy" onerror="this.src='https://image.mux.com/${n.m}/thumbnail.jpg?width=400'; this.classList.add('static-fallback')" />
-          <span class="play-badge">▶ PREVIEW</span>
+        // Static thumbnail only - Mux video/gif streams require a signed token we don't have
+        mediaHtml = `<div class="card-media-wrap" data-video="1">
+          <img class="card-media" src="https://image.mux.com/${n.m}/thumbnail.jpg?width=400" loading="lazy" />
+          <span class="play-badge">▶ VIDEO</span>
         </div>`;
       } else if (n.t) {
         mediaHtml = `<div class="card-media-wrap">
-          <img class="card-media" src="${n.t}" loading="lazy" data-full="${n.t}" onerror="this.closest('.card-media-wrap').style.display='none'" />
+          <img class="card-media" src="${n.t}" loading="lazy" data-full="${n.t}" />
         </div>`;
       }
       el.innerHTML = `
@@ -497,6 +497,17 @@ function render() {
           <a class="view-link" href="https://substack.com/@magickmica/note/c-${n.id}" target="_blank" rel="noopener">${n.m ? 'WATCH FULL VIDEO →' : 'VIEW ON SUBSTACK →'}</a>
         </div>
       `;
+      const img = el.querySelector('.card-media');
+      if (img) {
+        img.addEventListener('error', () => {
+          const wrap = img.closest('.card-media-wrap');
+          if (wrap.dataset.video) {
+            wrap.outerHTML = '<div class="video-placeholder"><div class="play-icon">▶</div><div class="play-text">VIDEO NOTE</div></div>';
+          } else {
+            wrap.style.display = 'none';
+          }
+        });
+      }
       grid.appendChild(el);
     });
     loadBtn.style.display = filtered.length > displayCount ? 'block' : 'none';
