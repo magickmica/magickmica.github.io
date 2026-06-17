@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>✨ Magick Mica Notes Archive ✨</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
 
@@ -236,19 +235,18 @@
     background: rgba(255,255,255,0.03);
     border-bottom: 1px solid rgba(255,110,247,0.15);
   }
-  .card-media-wrap { position: relative; cursor: pointer; }
+  .card-media-wrap { position: relative; }
   .play-badge {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    position: absolute; bottom: 8px; right: 8px;
     background: rgba(0,0,0,0.65);
     border: 1px solid var(--holo1);
     color: var(--holo1);
     font-family: 'VT323', monospace;
-    font-size: 1rem;
-    padding: 6px 14px;
+    font-size: 0.85rem;
+    padding: 2px 8px;
     letter-spacing: 0.1em;
     pointer-events: none;
-    box-shadow: 0 0 15px rgba(255,110,247,0.4);
+    box-shadow: 0 0 10px rgba(255,110,247,0.3);
   }
   .card-inner { padding: 0.9rem; display: flex; flex-direction: column; flex: 1; }
   .card-body {
@@ -478,10 +476,10 @@ function render() {
       el.className = 'card';
       let mediaHtml = '';
       if (n.m) {
-        // Real playable Mux video
+        // Animated GIF preview from Mux (auto-plays silently, no real audio/video needed)
         mediaHtml = `<div class="card-media-wrap">
-          <video class="card-video" muted loop playsinline preload="none" poster="https://image.mux.com/${n.m}/thumbnail.jpg?width=400" data-mux-id="${n.m}"></video>
-          <span class="play-badge">▶ TAP TO PLAY</span>
+          <img class="card-media" src="https://image.mux.com/${n.m}/animated.gif?width=400" loading="lazy" onerror="this.src='https://image.mux.com/${n.m}/thumbnail.jpg?width=400'; this.classList.add('static-fallback')" />
+          <span class="play-badge">▶ PREVIEW</span>
         </div>`;
       } else if (n.t) {
         mediaHtml = `<div class="card-media-wrap">
@@ -496,43 +494,13 @@ function render() {
             <span>${formatDate(n.d)}</span>
             <span class="card-stats">❤ ${n.l} &nbsp; ↩ ${n.r}</span>
           </div>
-          <a class="view-link" href="https://substack.com/@magickmica/note/c-${n.id}" target="_blank" rel="noopener">VIEW ON SUBSTACK →</a>
+          <a class="view-link" href="https://substack.com/@magickmica/note/c-${n.id}" target="_blank" rel="noopener">${n.m ? 'WATCH FULL VIDEO →' : 'VIEW ON SUBSTACK →'}</a>
         </div>
       `;
       grid.appendChild(el);
     });
     loadBtn.style.display = filtered.length > displayCount ? 'block' : 'none';
-    setupVideoPlayers();
   }
-}
-
-function setupVideoPlayers() {
-  document.querySelectorAll('.card-video').forEach(video => {
-    const wrap = video.closest('.card-media-wrap');
-    const badge = wrap.querySelector('.play-badge');
-    let hls = null;
-    let loaded = false;
-
-    function loadAndPlay() {
-      if (!loaded) {
-        const playbackId = video.dataset.muxId;
-        const src = `https://stream.mux.com/${playbackId}.m3u8`;
-        if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          video.src = src;
-        } else if (window.Hls && Hls.isSupported()) {
-          hls = new Hls();
-          hls.loadSource(src);
-          hls.attachMedia(video);
-        }
-        loaded = true;
-      }
-      video.play().catch(() => {});
-      badge.style.display = 'none';
-      video.controls = true;
-    }
-
-    wrap.addEventListener('click', loadAndPlay, { once: false });
-  });
 }
 
 function escapeHtml(str) {
