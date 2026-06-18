@@ -190,7 +190,6 @@
   .filter-btn.tv     { color: var(--holo1); border-color: var(--holo1); }
   .filter-btn.art    { color: var(--holo4); border-color: var(--holo4); }
   .filter-btn.restack{ color: var(--holo2); border-color: var(--holo2); }
-  .filter-btn.podcast{ color: var(--holo5); border-color: var(--holo5); }
 
   .filter-btn.active, .filter-btn:hover {
     color: #000 !important;
@@ -199,7 +198,6 @@
   .filter-btn.tv.active, .filter-btn.tv:hover      { background: var(--holo1); box-shadow: var(--glow-pink); }
   .filter-btn.art.active, .filter-btn.art:hover    { background: var(--holo4); box-shadow: 0 0 15px var(--holo4); }
   .filter-btn.restack.active, .filter-btn.restack:hover { background: var(--holo2); box-shadow: var(--glow-cyan); }
-  .filter-btn.podcast.active, .filter-btn.podcast:hover { background: var(--holo5); box-shadow: 0 0 15px var(--holo5); }
 
   .month-select {
     font-family: 'VT323', monospace;
@@ -342,10 +340,6 @@
   .type-restack .card-read { color: var(--holo2); border-color: var(--holo2); }
   .type-restack:hover .card-read { background: var(--holo2); color: #000; }
 
-  .type-podcast .card-type { color: var(--holo5); }
-  .type-podcast .type-dot  { background: var(--holo5); box-shadow: 0 0 6px var(--holo5); }
-  .type-podcast .card-read { color: var(--holo5); border-color: var(--holo5); }
-  .type-podcast:hover .card-read { background: var(--holo5); color: #000; }
 
   /* EMPTY STATE */
   #empty {
@@ -413,7 +407,6 @@
     <button class="filter-btn tv" data-filter="tv">📺 MAGICK MICA TV</button>
     <button class="filter-btn art" data-filter="art">🎨 MAGICK MICA ART</button>
     <button class="filter-btn restack" data-filter="restack">↩ RESTACKS</button>
-    <button class="filter-btn podcast" data-filter="podcast">🎙 PODCAST</button>
     <select class="month-select" id="monthFilter">
       <option value="">ALL DATES</option>
     </select>
@@ -459,12 +452,11 @@ const ARTICLES = [
   { date: "2025-11-16", type: "newsletter", newsletter: "tv",      title: "Fun Donald Trump Ballroom Satire Images LOL Part 1", subtitle: "Ballroom Donald Trump Parody Images In One Hugeee Post!",                               preview: "When I started the Trump satire series, I wasn't entirely sure where it was going. It became a way to express myself and find humor instead of anger...",      slug: "fun-donald-trump-ballroom-satire" },
   { date: "2025-07-15", type: "newsletter", newsletter: "tv",      title: "Grok on Elon Musk: He's A Cosmic Alchemist",         subtitle: "Who is Elon Musk to Grok?",                                                             preview: "So what happens when you ask Grok about Elon Musk? I went straight to grok.com/chat to find out. What a fascinating conversation!!",                          slug: "grok-on-elon-musk-hes-a-cosmic-alchemist" },
   { date: "2025-06-11", type: "newsletter", newsletter: "art",     title: "Some Goddess UFO images",                            subtitle: "Vivid Rainbow Deep Space Pyramid Energy Web Graphics",                                   preview: "Goddess Imprinted video by MagickMica. We are the music makers, and we are the dreamers of the dream...",                                                      slug: "some-goddess-ufo-images" },
-  { date: "2025-05-24", type: "podcast",    newsletter: "tv",      title: "I asked invideo.ai for a Weird Trump Video",         subtitle: "And here it is unedited.",                                                               preview: "What is the current state of AI video technology? I typed: Make a fun video about weird facts about Donald Trump. Here's what happened...",                   slug: "i-asked-invideoai-for-a-weird-trump" },
   { date: "2024-08-08", type: "newsletter", newsletter: "tv",      title: "We Fly Free",                                        subtitle: "Racing through the night, neon lights glow — Stars above align",                        preview: "Toi et moi, c'est l'amour. Together we soar. Your touch is the key. We fly free.",                                                                             slug: "we-fly-free" },
   { date: "2024-07-18", type: "newsletter", newsletter: "tv",      title: "Cosmic Stellar Drive Music Video",                   subtitle: "Cosmic Stellar Drive Music Video - Watch and VOTE",                                     preview: "Check out my new music video entered in a contest at Civitai via Project Odyssey. Every reaction is a vote! Top 50 videos go to finals...",                  slug: "cosmic-stellar-drive-music-video" },
 ];
 
-const TYPE_LABELS = { newsletter: 'Newsletter', restack: 'Restack', podcast: 'Podcast', page: 'Page' };
+const TYPE_LABELS = { newsletter: 'Newsletter', restack: 'Restack', page: 'Page' };
 const NL_LABELS   = { tv: 'Magick Mica TV', art: 'Magick Mica Art' };
 const NL_URLS     = { tv: 'https://magickmica.substack.com/p/', art: 'https://magickmicaart.substack.com/p/' };
 
@@ -490,7 +482,6 @@ function render() {
   const filtered = ARTICLES.filter(a => {
     if (activeFilter !== 'all') {
       if (activeFilter === 'restack' && a.type !== 'restack') return false;
-      if (activeFilter === 'podcast' && a.type !== 'podcast') return false;
       if (activeFilter === 'tv' && a.newsletter !== 'tv') return false;
       if (activeFilter === 'art' && a.newsletter !== 'art') return false;
     }
