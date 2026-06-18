@@ -180,6 +180,41 @@
   }
   .month-select option { background: #0d0520; }
 
+  .date-range-row {
+    align-items: center;
+    border-top: 1px dashed rgba(255,110,247,0.15);
+    padding-top: 0.8rem;
+  }
+  .preset-btn { font-size: 0.9rem; padding: 0.25rem 0.7rem; }
+  .date-range-label {
+    font-family: 'VT323', monospace;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    color: rgba(200,180,255,0.5);
+    margin-left: 0.3rem;
+  }
+  .date-input {
+    background: rgba(110,239,255,0.05);
+    border: 1px solid var(--holo2);
+    color: var(--holo2);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    outline: none;
+    color-scheme: dark;
+  }
+  .date-range-sep {
+    color: var(--holo3);
+    font-family: 'VT323', monospace;
+  }
+  #clearRangeBtn {
+    border-color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.6);
+  }
+  #clearRangeBtn:hover { background: rgba(255,255,255,0.6); color: #000; }
+  .random-btn { border-color: var(--holo3); color: var(--holo3); }
+  .random-btn:hover { background: var(--holo3); color: #000; box-shadow: 0 0 15px var(--holo3); }
+
   .sort-select {
     font-family: 'VT323', monospace;
     font-size: 1rem;
@@ -287,15 +322,116 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, rgba(255,110,247,0.08), rgba(110,239,255,0.08));
+    background: #0a0612;
     border-bottom: 1px solid rgba(255,110,247,0.15);
-    font-family: 'VT323', monospace;
-    color: var(--holo1);
-    flex-direction: column;
-    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
   }
-  .video-placeholder .play-icon { font-size: 2.5rem; }
-  .video-placeholder .play-text { font-size: 1rem; letter-spacing: 0.2em; }
+  .tv-frame {
+    width: 86%;
+    height: 78%;
+    border-radius: 18% / 22%;
+    background: #000;
+    border: 3px solid rgba(255,157,30,0.75);
+    box-shadow:
+      0 0 0 4px rgba(10,6,18,0.8),
+      0 0 35px rgba(255,140,0,0.55),
+      inset 0 0 30px rgba(0,0,0,0.85);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.4rem;
+    animation: tv-flicker 2.6s infinite;
+  }
+  @keyframes tv-flicker {
+    0%, 92%, 100% { filter: brightness(1); }
+    93% { filter: brightness(1.6); }
+    94% { filter: brightness(0.5); }
+    95% { filter: brightness(1.3) hue-rotate(20deg); }
+    96% { filter: brightness(0.7); }
+    97% { filter: brightness(1); }
+  }
+  .tv-static {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,180,80,0.10) 0px, transparent 1px, transparent 2px, rgba(255,180,80,0.10) 3px),
+      repeating-radial-gradient(circle at 20% 30%, rgba(255,160,60,0.18) 0, transparent 2%),
+      repeating-radial-gradient(circle at 70% 60%, rgba(255,255,255,0.10) 0, transparent 1.5%),
+      repeating-radial-gradient(circle at 40% 80%, rgba(255,140,0,0.14) 0, transparent 1%);
+    background-size: 100% 4px, 6px 6px, 5px 5px, 4px 4px;
+    animation: tv-noise 0.4s steps(2) infinite;
+    opacity: 0.7;
+  }
+  .tv-glitch-bar {
+    position: absolute; left: 0; right: 0;
+    height: 8%;
+    background: rgba(255,157,30,0.35);
+    mix-blend-mode: screen;
+    animation: tv-glitch-move 3.1s infinite;
+  }
+  @keyframes tv-glitch-move {
+    0%   { top: -10%; opacity: 0; }
+    38%  { top: -10%; opacity: 0; }
+    40%  { top: 22%; opacity: 0.8; transform: translateX(-4%); }
+    42%  { top: 22%; opacity: 0; }
+    70%  { top: 65%; opacity: 0; }
+    72%  { top: 65%; opacity: 0.7; transform: translateX(5%); }
+    74%  { top: 65%; opacity: 0; }
+    100% { top: -10%; opacity: 0; }
+  }
+  @keyframes tv-noise {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(-1%, 1%); }
+    50%  { transform: translate(1%, -1%); }
+    75%  { transform: translate(-1%, -1%); }
+    100% { transform: translate(1%, 1%); }
+  }
+  .tv-scanline {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.4) 0px, transparent 1px, transparent 3px);
+    pointer-events: none;
+  }
+  .tv-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+    color: #ff9d1e;
+    text-shadow: 0 0 12px #ff9d1e, 0 0 24px rgba(255,140,0,0.6);
+  }
+  .tv-content .play-icon {
+    font-size: 1.8rem;
+    animation: tv-glitch-text 2.6s infinite;
+  }
+  .tv-content .play-text {
+    font-family: 'VT323', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    animation: tv-glitch-text 2.6s infinite;
+  }
+  @keyframes tv-glitch-text {
+    0%, 92%, 100% { transform: translate(0,0); opacity: 1; }
+    93% { transform: translate(2px,0); opacity: 0.6; }
+    94% { transform: translate(-2px,1px); opacity: 1; }
+    95% { transform: translate(1px,-1px); opacity: 0.5; }
+    96% { transform: translate(0,0); opacity: 1; }
+  }
+  .tv-antenna {
+    position: absolute; top: -10px; left: 50%;
+    width: 2px; height: 16px;
+    background: rgba(255,157,30,0.7);
+    transform: translateX(-50%) rotate(-15deg);
+    transform-origin: bottom;
+  }
+  .tv-antenna::after {
+    content: '';
+    position: absolute; top: -8px; left: -14px;
+    width: 2px; height: 14px;
+    background: rgba(255,157,30,0.5);
+    transform: rotate(30deg);
+    transform-origin: bottom;
+  }
   .card-video {
     width: 100%;
     aspect-ratio: 1/1;
@@ -373,6 +509,9 @@
   <div class="site-sub">☆ every transmission, never lost ☆</div>
   <div class="stats-row">Searchable archive of <span id="totalCount">0</span> notes &nbsp;·&nbsp; <span id="dateSpan"></span></div>
   <nav class="nav-links">
+    <a href="blog.html">✦ BLOG ✦</a>
+    <a href="articles.html">📰 ARTICLES</a>
+    <a href="guestbook.html">📖 GUESTBOOK</a>
     <a href="archive.html">📚 ARTICLE ARCHIVE</a>
     <a href="https://magickmica.substack.com/notes" target="_blank">📺 LIVE NOTES</a>
     <a href="https://magickmica.github.io" target="_blank">🌐 HOME</a>
@@ -396,6 +535,18 @@
     </select>
     <button class="filter-btn" id="mediaOnlyBtn">📷 IMAGES/VIDEOS ONLY</button>
     <button class="filter-btn" id="textOnlyBtn">📝 TEXT ONLY</button>
+    <button class="filter-btn random-btn" id="randomBtn">🔀 RANDOM NOTE</button>
+  </div>
+  <div class="filters date-range-row">
+    <button class="filter-btn preset-btn" data-preset="today">TODAY</button>
+    <button class="filter-btn preset-btn" data-preset="week">THIS WEEK</button>
+    <button class="filter-btn preset-btn" data-preset="lastweek">LAST WEEK</button>
+    <button class="filter-btn preset-btn" data-preset="month">THIS MONTH</button>
+    <span class="date-range-label">CUSTOM:</span>
+    <input type="date" id="dateFrom" class="date-input" />
+    <span class="date-range-sep">→</span>
+    <input type="date" id="dateTo" class="date-input" />
+    <button class="filter-btn" id="clearRangeBtn">✕ CLEAR</button>
   </div>
 </div>
 
@@ -418,6 +569,8 @@ const NOTES = [{"d":"2026-06-17","l":4,"r":2,"id":277790759,"b":"\"The beach is 
 
 let activeMonth = '', searchVal = '', sortMode = 'newest';
 let mediaOnly = false, textOnly = false;
+let dateFrom = '', dateTo = '';
+let randomPickId = null;
 let displayCount = 48;
 
 const months = [...new Set(NOTES.map(n => n.d.slice(0,7)))].sort().reverse();
@@ -439,11 +592,16 @@ function formatDate(d) {
 }
 
 function getFiltered() {
+  if (randomPickId !== null) {
+    return NOTES.filter(n => n.id === randomPickId);
+  }
   const q = searchVal.toLowerCase();
   let filtered = NOTES.filter(n => {
-    if (mediaOnly && !n.t) return false;
-    if (textOnly && n.t) return false;
+    if (mediaOnly && !n.t && !n.m) return false;
+    if (textOnly && (n.t || n.m)) return false;
     if (activeMonth && !n.d.startsWith(activeMonth)) return false;
+    if (dateFrom && n.d < dateFrom) return false;
+    if (dateTo && n.d > dateTo) return false;
     if (q) {
       const body = (n.b || '').toLowerCase();
       if (!body.includes(q)) return false;
@@ -502,7 +660,7 @@ function render() {
         img.addEventListener('error', () => {
           const wrap = img.closest('.card-media-wrap');
           if (wrap.dataset.video) {
-            wrap.outerHTML = '<div class="video-placeholder"><div class="play-icon">▶</div><div class="play-text">VIDEO NOTE</div></div>';
+            wrap.outerHTML = '<div class="video-placeholder"><div class="tv-frame"><div class="tv-antenna"></div><div class="tv-static"></div><div class="tv-glitch-bar"></div><div class="tv-scanline"></div><div class="tv-content"><div class="play-icon">▶</div><div class="play-text">NO SIGNAL</div></div></div></div>';
           } else {
             wrap.style.display = 'none';
           }
@@ -522,22 +680,26 @@ function escapeHtml(str) {
 
 document.getElementById('search').addEventListener('input', e => {
   searchVal = e.target.value;
+  randomPickId = null;
   displayCount = 48;
   render();
 });
 document.getElementById('monthFilter').addEventListener('change', e => {
   activeMonth = e.target.value;
+  randomPickId = null;
   displayCount = 48;
   render();
 });
 document.getElementById('sortSelect').addEventListener('change', e => {
   sortMode = e.target.value;
+  randomPickId = null;
   displayCount = 48;
   render();
 });
 document.getElementById('mediaOnlyBtn').addEventListener('click', e => {
   mediaOnly = !mediaOnly;
   if (mediaOnly) textOnly = false;
+  randomPickId = null;
   document.getElementById('textOnlyBtn').classList.remove('active');
   e.target.classList.toggle('active', mediaOnly);
   displayCount = 48;
@@ -546,6 +708,7 @@ document.getElementById('mediaOnlyBtn').addEventListener('click', e => {
 document.getElementById('textOnlyBtn').addEventListener('click', e => {
   textOnly = !textOnly;
   if (textOnly) mediaOnly = false;
+  randomPickId = null;
   document.getElementById('mediaOnlyBtn').classList.remove('active');
   e.target.classList.toggle('active', textOnly);
   displayCount = 48;
@@ -553,6 +716,85 @@ document.getElementById('textOnlyBtn').addEventListener('click', e => {
 });
 document.getElementById('loadMoreBtn').addEventListener('click', () => {
   displayCount += 48;
+  render();
+});
+
+// Date range presets
+function toISODate(d) { return d.toISOString().slice(0,10); }
+function setRange(from, to) {
+  dateFrom = from; dateTo = to;
+  document.getElementById('dateFrom').value = from;
+  document.getElementById('dateTo').value = to;
+  activeMonth = '';
+  document.getElementById('monthFilter').value = '';
+  randomPickId = null;
+  displayCount = 48;
+  render();
+}
+document.querySelectorAll('.preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const now = new Date();
+    const todayStr = toISODate(now);
+    const preset = btn.dataset.preset;
+    if (preset === 'today') {
+      setRange(todayStr, todayStr);
+    } else if (preset === 'week') {
+      const dow = now.getDay();
+      const monday = new Date(now); monday.setDate(now.getDate() - ((dow + 6) % 7));
+      setRange(toISODate(monday), todayStr);
+    } else if (preset === 'lastweek') {
+      const dow = now.getDay();
+      const thisMonday = new Date(now); thisMonday.setDate(now.getDate() - ((dow + 6) % 7));
+      const lastMonday = new Date(thisMonday); lastMonday.setDate(thisMonday.getDate() - 7);
+      const lastSunday = new Date(thisMonday); lastSunday.setDate(thisMonday.getDate() - 1);
+      setRange(toISODate(lastMonday), toISODate(lastSunday));
+    } else if (preset === 'month') {
+      const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      setRange(toISODate(firstOfMonth), todayStr);
+    }
+  });
+});
+document.getElementById('dateFrom').addEventListener('change', e => {
+  dateFrom = e.target.value;
+  randomPickId = null;
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  displayCount = 48;
+  render();
+});
+document.getElementById('dateTo').addEventListener('change', e => {
+  dateTo = e.target.value;
+  randomPickId = null;
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  displayCount = 48;
+  render();
+});
+document.getElementById('clearRangeBtn').addEventListener('click', () => {
+  dateFrom = ''; dateTo = '';
+  document.getElementById('dateFrom').value = '';
+  document.getElementById('dateTo').value = '';
+  randomPickId = null;
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  displayCount = 48;
+  render();
+});
+
+// Random note jump
+document.getElementById('randomBtn').addEventListener('click', () => {
+  searchVal = '';
+  document.getElementById('search').value = '';
+  dateFrom = ''; dateTo = '';
+  document.getElementById('dateFrom').value = '';
+  document.getElementById('dateTo').value = '';
+  activeMonth = '';
+  document.getElementById('monthFilter').value = '';
+  mediaOnly = false; textOnly = false;
+  document.getElementById('mediaOnlyBtn').classList.remove('active');
+  document.getElementById('textOnlyBtn').classList.remove('active');
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  randomPickId = NOTES[Math.floor(Math.random() * NOTES.length)].id;
+  displayCount = 48;
   render();
 });
 

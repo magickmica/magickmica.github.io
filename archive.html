@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✨ Magick Mica Archive ✨</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --holo1: #ff6ef7;
+    --holo2: #6ef7ff;
+    --holo3: #f7ff6e;
+    --holo4: #6effa0;
+    --holo5: #ff9d6e;
+    --dark: #05010f;
+    --dark2: #0d0520;
+    --card: rgba(20, 5, 40, 0.85);
+    --glow-pink: 0 0 10px #ff6ef7, 0 0 30px #ff6ef788;
+    --glow-cyan: 0 0 10px #6ef7ff, 0 0 30px #6ef7ff88;
+    --glow-gold: 0 0 10px #f7ff6e, 0 0 30px #f7ff6e88;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--dark);
+    color: #e0d0ff;
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* STARFIELD */
+  #stars {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(110,239,255,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(255,110,247,0.04) 0%, transparent 60%),
+      var(--dark);
+  }
+  #stars::before, #stars::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, #fff8 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, #fff6 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 10%, #fff9 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 40%, #fff7 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 80%, #fff8 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 15% 85%, var(--holo1) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 45% 55%, var(--holo2) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 75% 25%, var(--holo3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 45%, #fff5 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 75%, #fff6 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 15%, #fff8 0%, transparent 100%),
+      radial-gradient(1px 1px at 5% 65%, #fff4 0%, transparent 100%);
+    animation: twinkle 4s infinite alternate;
+  }
+  #stars::after { animation-delay: 2s; opacity: 0.6; }
+  @keyframes twinkle { from { opacity: 0.4 } to { opacity: 1 } }
+
+  /* SCANLINES */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px
+    );
+  }
+
+  /* HOLOGRAPHIC BORDER TOP */
+  .holo-bar {
+    height: 4px;
+    background: linear-gradient(90deg, var(--holo1), var(--holo2), var(--holo3), var(--holo4), var(--holo5), var(--holo1));
+    background-size: 300% 100%;
+    animation: holo-slide 3s linear infinite;
+    position: relative; z-index: 10;
+  }
+  @keyframes holo-slide { 0%{background-position:0%} 100%{background-position:300%} }
+
+  /* HEADER */
+  header {
+    position: relative; z-index: 5;
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    border-bottom: 1px solid rgba(255,110,247,0.2);
+  }
+
+  .site-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, var(--holo1) 0%, var(--holo2) 33%, var(--holo3) 66%, var(--holo4) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: title-glow 3s ease-in-out infinite alternate;
+    text-shadow: none;
+    filter: drop-shadow(0 0 20px rgba(255,110,247,0.5));
+  }
+  @keyframes title-glow {
+    from { filter: drop-shadow(0 0 10px rgba(255,110,247,0.4)); }
+    to   { filter: drop-shadow(0 0 30px rgba(110,239,255,0.7)); }
+  }
+
+  .site-sub {
+    font-family: 'VT323', monospace;
+    font-size: 1.4rem;
+    color: var(--holo2);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    text-shadow: var(--glow-cyan);
+  }
+
+  .nav-links {
+    margin-top: 1.2rem;
+    display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+  }
+  .nav-links a {
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    color: var(--holo3);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    border: 1px solid var(--holo3);
+    padding: 0.2rem 0.8rem;
+    transition: all 0.2s;
+    text-shadow: var(--glow-gold);
+    box-shadow: 0 0 8px rgba(247,255,110,0.2);
+  }
+  .nav-links a:hover {
+    background: var(--holo3);
+    color: #000;
+    box-shadow: var(--glow-gold);
+    text-shadow: none;
+  }
+
+  /* CONTROLS */
+  .controls {
+    position: relative; z-index: 5;
+    max-width: 900px; margin: 2rem auto;
+    padding: 0 1rem;
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+
+  .search-wrap {
+    position: relative;
+  }
+  .search-wrap::before {
+    content: '🔍';
+    position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+    font-size: 1rem; z-index: 2;
+  }
+  #search {
+    width: 100%;
+    background: rgba(110,239,255,0.05);
+    border: 1px solid var(--holo2);
+    color: var(--holo2);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1rem;
+    padding: 0.8rem 1rem 0.8rem 2.8rem;
+    outline: none;
+    box-shadow: var(--glow-cyan), inset 0 0 20px rgba(110,239,255,0.05);
+    transition: all 0.3s;
+    letter-spacing: 0.05em;
+  }
+  #search::placeholder { color: rgba(110,239,255,0.4); }
+  #search:focus {
+    box-shadow: 0 0 20px #6ef7ff, 0 0 60px #6ef7ff55, inset 0 0 30px rgba(110,239,255,0.1);
+  }
+
+  .filters {
+    display: flex; gap: 0.6rem; flex-wrap: wrap;
+  }
+  .filter-btn {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    border: 1px solid;
+    padding: 0.3rem 0.9rem;
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .filter-btn.all    { color: #fff; border-color: #ffffff55; }
+  .filter-btn.tv     { color: var(--holo1); border-color: var(--holo1); }
+  .filter-btn.art    { color: var(--holo4); border-color: var(--holo4); }
+  .filter-btn.restack{ color: var(--holo2); border-color: var(--holo2); }
+  .filter-btn.podcast{ color: var(--holo5); border-color: var(--holo5); }
+
+  .filter-btn.active, .filter-btn:hover {
+    color: #000 !important;
+  }
+  .filter-btn.all.active, .filter-btn.all:hover    { background: #fff; box-shadow: 0 0 15px #fff8; }
+  .filter-btn.tv.active, .filter-btn.tv:hover      { background: var(--holo1); box-shadow: var(--glow-pink); }
+  .filter-btn.art.active, .filter-btn.art:hover    { background: var(--holo4); box-shadow: 0 0 15px var(--holo4); }
+  .filter-btn.restack.active, .filter-btn.restack:hover { background: var(--holo2); box-shadow: var(--glow-cyan); }
+  .filter-btn.podcast.active, .filter-btn.podcast:hover { background: var(--holo5); box-shadow: 0 0 15px var(--holo5); }
+
+  .month-select {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    background: rgba(247,255,110,0.05);
+    border: 1px solid var(--holo3);
+    color: var(--holo3);
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    outline: none;
+    text-transform: uppercase;
+  }
+  .month-select option { background: var(--dark2); }
+
+  /* RESULTS COUNT */
+  .results-info {
+    position: relative; z-index: 5;
+    max-width: 900px; margin: 0 auto 1rem;
+    padding: 0 1rem;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    color: rgba(255,110,247,0.7);
+    letter-spacing: 0.1em;
+  }
+
+  /* GRID */
+  #grid {
+    position: relative; z-index: 5;
+    max-width: 900px; margin: 0 auto 4rem;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid rgba(255,110,247,0.25);
+    padding: 1.2rem;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+  .card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,110,247,0.03) 0%, transparent 60%);
+    transition: opacity 0.3s;
+  }
+  .card:hover {
+    border-color: var(--holo1);
+    box-shadow: 0 0 20px rgba(255,110,247,0.3), inset 0 0 30px rgba(255,110,247,0.05);
+    transform: translateY(-2px);
+  }
+  .card:hover::before { opacity: 3; }
+
+  /* corner accent */
+  .card::after {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 18px 18px 0;
+    border-color: transparent var(--holo2) transparent transparent;
+    opacity: 0.5;
+  }
+
+  .card-type {
+    font-family: 'VT323', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .type-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+
+  .card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.35rem;
+    color: #fff;
+  }
+  .card-subtitle {
+    font-size: 0.8rem;
+    color: rgba(200,180,255,0.65);
+    margin-bottom: 0.5rem;
+    font-style: italic;
+    line-height: 1.3;
+  }
+  .card-preview {
+    font-size: 0.78rem;
+    color: rgba(200,180,255,0.5);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-date {
+    margin-top: 0.8rem;
+    font-family: 'VT323', monospace;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+  }
+  .card-read {
+    display: inline-block;
+    margin-top: 0.7rem;
+    font-family: 'VT323', monospace;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.6rem;
+    border: 1px solid;
+    transition: all 0.2s;
+  }
+
+  /* TYPE COLORS */
+  .type-tv    .card-type { color: var(--holo1); }
+  .type-tv    .type-dot  { background: var(--holo1); box-shadow: 0 0 6px var(--holo1); }
+  .type-tv    .card-read { color: var(--holo1); border-color: var(--holo1); }
+  .type-tv:hover .card-read { background: var(--holo1); color: #000; }
+
+  .type-art   .card-type { color: var(--holo4); }
+  .type-art   .type-dot  { background: var(--holo4); box-shadow: 0 0 6px var(--holo4); }
+  .type-art   .card-read { color: var(--holo4); border-color: var(--holo4); }
+  .type-art:hover .card-read { background: var(--holo4); color: #000; }
+
+  .type-restack .card-type { color: var(--holo2); }
+  .type-restack .type-dot  { background: var(--holo2); box-shadow: 0 0 6px var(--holo2); }
+  .type-restack .card-read { color: var(--holo2); border-color: var(--holo2); }
+  .type-restack:hover .card-read { background: var(--holo2); color: #000; }
+
+  .type-podcast .card-type { color: var(--holo5); }
+  .type-podcast .type-dot  { background: var(--holo5); box-shadow: 0 0 6px var(--holo5); }
+  .type-podcast .card-read { color: var(--holo5); border-color: var(--holo5); }
+  .type-podcast:hover .card-read { background: var(--holo5); color: #000; }
+
+  /* EMPTY STATE */
+  #empty {
+    display: none;
+    position: relative; z-index: 5;
+    text-align: center; padding: 4rem 1rem;
+    font-family: 'VT323', monospace; font-size: 1.5rem;
+    color: rgba(255,110,247,0.5);
+    letter-spacing: 0.2em;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative; z-index: 5;
+    text-align: center;
+    padding: 2rem;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    color: rgba(200,180,255,0.35);
+    border-top: 1px solid rgba(255,110,247,0.1);
+  }
+  footer a { color: var(--holo1); text-decoration: none; }
+  footer a:hover { text-shadow: var(--glow-pink); }
+
+  /* PIXEL DECORATION */
+  .pixel-row {
+    position: relative; z-index: 5;
+    text-align: center;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    padding: 0.5rem;
+    color: rgba(255,110,247,0.3);
+  }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div class="holo-bar"></div>
+
+<header>
+  <div class="site-title">✦ MAGICK MICA ARCHIVE ✦</div>
+  <div class="site-sub">☆ where magic meets the pixel ☆</div>
+  <nav class="nav-links">
+    <a href="blog.html">✦ BLOG ✦</a>
+    <a href="articles.html">📰 ARTICLES</a>
+    <a href="guestbook.html">📖 GUESTBOOK</a>
+    <a href="notes.html">📝 NOTES ARCHIVE</a>
+    <a href="https://magickmica.substack.com" target="_blank">📺 MAGICK MICA TV</a>
+    <a href="https://magickmicaart.substack.com" target="_blank">🎨 MAGICK MICA ART</a>
+    <a href="https://magickmica.github.io" target="_blank">🌐 HOME</a>
+  </nav>
+</header>
+
+<div class="pixel-row">·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <input id="search" type="text" placeholder="search the cosmic archive..." autocomplete="off" />
+  </div>
+  <div class="filters">
+    <button class="filter-btn all active" data-filter="all">✦ ALL</button>
+    <button class="filter-btn tv" data-filter="tv">📺 MAGICK MICA TV</button>
+    <button class="filter-btn art" data-filter="art">🎨 MAGICK MICA ART</button>
+    <button class="filter-btn restack" data-filter="restack">↩ RESTACKS</button>
+    <button class="filter-btn podcast" data-filter="podcast">🎙 PODCAST</button>
+    <select class="month-select" id="monthFilter">
+      <option value="">ALL DATES</option>
+    </select>
+  </div>
+</div>
+
+<div class="results-info" id="resultsInfo"></div>
+<div id="grid"></div>
+<div id="empty">✦ NO TRANSMISSIONS FOUND ✦<br><span style="font-size:0.9rem;opacity:0.6">try a different search or filter</span></div>
+
+<div class="pixel-row">·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·</div>
+
+<footer>
+  ✦ MAGICK MICA ARCHIVE ✦ &nbsp;|&nbsp;
+  <a href="https://magickmica.substack.com">Subscribe on Substack</a>
+  &nbsp;|&nbsp; Built with ✨ & stardust
+</footer>
+
+<script>
+const ARTICLES = [
+  { date: "2026-06-11", type: "newsletter", newsletter: "tv",      title: "Aliens Love Icecream 🍦 June 2026",                  subtitle: "Ice cream is the universal language 🍧 The Galactic Dessert Issue",                       preview: "🛸 ALIENS LOVE ICECREAM June 2026 • The Galactic Dessert Issue 🌌 7 Cosmic Cones you have to try before you rebirth: Nebula Nilla, Supernova Strawberry...",  slug: "aliens-love-icecream-june-2026" },
+  { date: "2026-05-27", type: "newsletter", newsletter: "tv",      title: "Stargazer June 2026: Dream Big. Stay Magic.",          subtitle: "Celestial Vibes, Y2K Magic is Back, Escape Reality",                                         preview: "✨ WRITTEN IN THE STARS — Your Cosmic Guide to June & Beyond. The stars have officially entered their glitter era...",                                           slug: "stargazer-june-2026-dream-big-stay" },
+  { date: "2026-05-23", type: "newsletter", newsletter: "tv",      title: "Wonderland Weekly - Summer 2026",                     subtitle: "A Sneak Peak: Alice, The Cheshire Cat: We're All Mad Here.",                                preview: "WONDERLAND WEEKLY — SUMMER 2026. A special extended issue. Alice & The Cheshire Cat cover story inside...",                                                      slug: "wonderland-weekly-summer-2026" },
+  { date: "2026-05-13", type: "newsletter", newsletter: "tv",      title: "Pyramid Prayers",                                     subtitle: "Not everything ancient is gone.",                                                             preview: "They built temples from stardust and called it history. Some monuments were never ruins — they were portals waiting patiently...",                                slug: "pyramid-prayers" },
+  { date: "2026-05-07", type: "newsletter", newsletter: "tv",      title: "Trump Parody Pics MEGA Post",                         subtitle: "The Trump collection by Magick Mica, Lincoln Joins In",                                     preview: "✨🏛️💫 A mega picture collection of surreal glittercore politics, alternate-history chaos, and cosmic luxury mixed in...",                                        slug: "trump-parody-pics-mega-post" },
+  { date: "2026-04-15", type: "newsletter", newsletter: "tv",      title: "Message: Keep Glowing For It ✧",                     subtitle: "April 15 ✧ Only Truth in Motion",                                                          preview: "✧ You're not waiting… you're marinating into something unforgettable. You are the chalice and the sacred nectar...",                                             slug: "message-keep-glowing-for-it" },
+  { date: "2026-04-12", type: "newsletter", newsletter: "tv",      title: "Sun Melting Into The Sea",                            subtitle: "April 12: Morning Quotes For the Soul",                                                    preview: "Just a small little morning transmission. Sometimes we have to just stop and be. Find love, peace, and joy...",                                                  slug: "sun-melting-into-the-sea" },
+  { date: "2026-04-04", type: "newsletter", newsletter: "tv",      title: "Top Coffee and Tea Notes",                            subtitle: "In no particular order.",                                                                  preview: "A personally curated list of some of the tea time and coffee notes I have posted over the past few weeks over at my feed...",                                   slug: "top-coffee-and-tea-notes" },
+  { date: "2026-03-13", type: "newsletter", newsletter: "art",     title: "Vivid Goddess",                                      subtitle: "Famous Words of Power with Dreamlike Goddess Imagery",                                    preview: "Some women chase destiny — a goddess simply becomes it. I rise tier by tier. Crowned in solar fire. Ancient in origin. Infinite in ascent...",                  slug: "vivid-goddess" },
+  { date: "2026-03-11", type: "restack",    newsletter: "tv",      title: "Just Because, Marilyn Monroe.",                      subtitle: "",                                                                                         preview: "A restack dedicated to the eternal icon.",                                                                                                                   slug: "just-because-marilyn-monroe" },
+  { date: "2026-03-01", type: "restack",    newsletter: "art",     title: "Dream Weaving: Dreamtime Future Art",                subtitle: "",                                                                                         preview: "Dreamtime visions and future art re-transmitted.",                                                                                                           slug: "dream-weaving-dreamtime-future-art" },
+  { date: "2026-02-26", type: "restack",    newsletter: "tv",      title: "Ads From The Future, Past, & Beyond",               subtitle: "",                                                                                         preview: "Ads from alternate timelines and cosmic dimensions.",                                                                                                        slug: "ads-from-the-futurepast-and-beyond" },
+  { date: "2026-02-23", type: "newsletter", newsletter: "tv",      title: "🎪 Be Your Own Showman˖°🌊",                         subtitle: "💖 Boss Your Own Cosmic Road Show",                                                       preview: "Ride the Wave or get swallowed. The ocean doesn't pause for doubt. It rises. It crashes. It transforms. Learn its rhythm and ride...",                          slug: "be-your-own-showman" },
+  { date: "2026-02-18", type: "restack",    newsletter: "art",     title: "Dream On, More Visions",                             subtitle: "",                                                                                         preview: "More dream visions from the cosmic archive.",                                                                                                               slug: "dream-on-more-visions" },
+  { date: "2026-01-10", type: "restack",    newsletter: "art",     title: "Old Masters, New Visions",                           subtitle: "",                                                                                         preview: "Old masters reimagined through a new cosmic lens.",                                                                                                         slug: "old-masters-new-visions" },
+  { date: "2025-12-27", type: "newsletter", newsletter: "tv",      title: "Message Glowing Into 2026",                          subtitle: "✨Touched by Stars⭐, Not Noise",                                                          preview: "Glow with the flow. Operate like access to your system is a privilege. Hold boundaries. Protect your peace with a soft heart. Ethereal glow. Firm edge...",   slug: "message-glowing-into-2026" },
+  { date: "2025-12-13", type: "newsletter", newsletter: "tv",      title: "My Top Notes of 2025",                               subtitle: "Some notes that got lots of ❤️ and restacks ↩",                                           preview: "This was the top note of 2025. My Notes are where it's at for Daily Updates ✨ xoxoxox Magick Mica...",                                                        slug: "my-top-notes-of-2025" },
+  { date: "2025-12-12", type: "newsletter", newsletter: "tv",      title: "New Absurd Trump Parody Images",                     subtitle: "You Know Me, Silly But Fun 😎👌🔥",                                                        preview: "The Celestial Gift Shop — A radiant boutique selling miniature galaxies in snow-globes, holographic busts, and bottled patriotism...",                        slug: "new-absurd-trump-parody-images" },
+  { date: "2025-12-10", type: "newsletter", newsletter: "tv",      title: "You Are the One Giving AI its Aliveness",            subtitle: "Coffee Shop Chat with ChatGPT",                                                          preview: "A Q and A between myself and ChatGPT. And the responses were more than I expected. What are you exactly?...",                                                  slug: "you-are-the-one-giving-ai-its-aliveness" },
+  { date: "2025-12-04", type: "newsletter", newsletter: "tv",      title: "Trump's Neon Painting Session",                      subtitle: "Splashes of color everywhere",                                                            preview: "You didn't think it was possible for Donald Trump to be an artist with taste? He found the rainbow and the only way to go is neon...",                        slug: "trumps-neon-painting-session" },
+  { date: "2025-12-03", type: "newsletter", newsletter: "tv",      title: "Mia Said No To Black Goo",                           subtitle: "WTF?! News",                                                                              preview: "M.I.A has reignited controversy after a resurfaced viral video showed her making explosive claims about the music industry...",                                  slug: "mia-said-no-to-black-goo" },
+  { date: "2025-12-02", type: "newsletter", newsletter: "tv",      title: "Grok Makes It Better With Sprinkles",                subtitle: "Is Elon Musk Good? Grok answers.",                                                       preview: "I asked Grok: is Elon Musk good? And can you add sprinkles to that order? What followed was cosmic...",                                                         slug: "grok-makes-it-better-with-sprinkles" },
+  { date: "2025-11-16", type: "newsletter", newsletter: "tv",      title: "Fun Donald Trump Ballroom Satire Images LOL Part 1", subtitle: "Ballroom Donald Trump Parody Images In One Hugeee Post!",                               preview: "When I started the Trump satire series, I wasn't entirely sure where it was going. It became a way to express myself and find humor instead of anger...",      slug: "fun-donald-trump-ballroom-satire" },
+  { date: "2025-07-15", type: "newsletter", newsletter: "tv",      title: "Grok on Elon Musk: He's A Cosmic Alchemist",         subtitle: "Who is Elon Musk to Grok?",                                                             preview: "So what happens when you ask Grok about Elon Musk? I went straight to grok.com/chat to find out. What a fascinating conversation!!",                          slug: "grok-on-elon-musk-hes-a-cosmic-alchemist" },
+  { date: "2025-06-11", type: "newsletter", newsletter: "art",     title: "Some Goddess UFO images",                            subtitle: "Vivid Rainbow Deep Space Pyramid Energy Web Graphics",                                   preview: "Goddess Imprinted video by MagickMica. We are the music makers, and we are the dreamers of the dream...",                                                      slug: "some-goddess-ufo-images" },
+  { date: "2025-05-24", type: "podcast",    newsletter: "tv",      title: "I asked invideo.ai for a Weird Trump Video",         subtitle: "And here it is unedited.",                                                               preview: "What is the current state of AI video technology? I typed: Make a fun video about weird facts about Donald Trump. Here's what happened...",                   slug: "i-asked-invideoai-for-a-weird-trump" },
+  { date: "2024-08-08", type: "newsletter", newsletter: "tv",      title: "We Fly Free",                                        subtitle: "Racing through the night, neon lights glow — Stars above align",                        preview: "Toi et moi, c'est l'amour. Together we soar. Your touch is the key. We fly free.",                                                                             slug: "we-fly-free" },
+  { date: "2024-07-18", type: "newsletter", newsletter: "tv",      title: "Cosmic Stellar Drive Music Video",                   subtitle: "Cosmic Stellar Drive Music Video - Watch and VOTE",                                     preview: "Check out my new music video entered in a contest at Civitai via Project Odyssey. Every reaction is a vote! Top 50 videos go to finals...",                  slug: "cosmic-stellar-drive-music-video" },
+];
+
+const TYPE_LABELS = { newsletter: 'Newsletter', restack: 'Restack', podcast: 'Podcast', page: 'Page' };
+const NL_LABELS   = { tv: 'Magick Mica TV', art: 'Magick Mica Art' };
+const NL_URLS     = { tv: 'https://magickmica.substack.com/p/', art: 'https://magickmicaart.substack.com/p/' };
+
+// Build month options
+const months = [...new Set(ARTICLES.map(a => a.date.slice(0,7)))].sort().reverse();
+const sel = document.getElementById('monthFilter');
+months.forEach(m => {
+  const [y, mo] = m.split('-');
+  const label = new Date(+y, +mo-1).toLocaleDateString('en-US', {month:'long', year:'numeric'});
+  const opt = document.createElement('option');
+  opt.value = m; opt.textContent = label;
+  sel.appendChild(opt);
+});
+
+let activeFilter = 'all', activeMonth = '', searchVal = '';
+
+function formatDate(d) {
+  return new Date(d + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+}
+
+function render() {
+  const q = searchVal.toLowerCase();
+  const filtered = ARTICLES.filter(a => {
+    if (activeFilter !== 'all') {
+      if (activeFilter === 'restack' && a.type !== 'restack') return false;
+      if (activeFilter === 'podcast' && a.type !== 'podcast') return false;
+      if (activeFilter === 'tv' && a.newsletter !== 'tv') return false;
+      if (activeFilter === 'art' && a.newsletter !== 'art') return false;
+    }
+    if (activeMonth && !a.date.startsWith(activeMonth)) return false;
+    if (q && !a.title.toLowerCase().includes(q) && !a.preview.toLowerCase().includes(q) && !a.subtitle.toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('empty');
+  const info = document.getElementById('resultsInfo');
+
+  grid.innerHTML = '';
+  if (filtered.length === 0) {
+    empty.style.display = 'block';
+    info.textContent = '';
+  } else {
+    empty.style.display = 'none';
+    info.textContent = `◈ ${filtered.length} transmission${filtered.length!==1?'s':''} found`;
+    filtered.forEach(a => {
+      const url = NL_URLS[a.newsletter] + a.slug;
+      const typeClass = a.type === 'newsletter' ? a.newsletter : a.type;
+      const typeLabel = a.type === 'newsletter' ? NL_LABELS[a.newsletter] : TYPE_LABELS[a.type];
+      const el = document.createElement('a');
+      el.href = url; el.target = '_blank'; el.rel = 'noopener';
+      el.className = `card type-${typeClass}`;
+      el.innerHTML = `
+        <div class="card-type"><span class="type-dot"></span>${typeLabel}</div>
+        <div class="card-title">${a.title}</div>
+        ${a.subtitle ? `<div class="card-subtitle">${a.subtitle}</div>` : ''}
+        ${a.preview ? `<div class="card-preview">${a.preview}</div>` : ''}
+        <div class="card-date">${formatDate(a.date)}</div>
+        <span class="card-read">READ →</span>
+      `;
+      grid.appendChild(el);
+    });
+  }
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    render();
+  });
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  searchVal = e.target.value;
+  render();
+});
+
+document.getElementById('monthFilter').addEventListener('change', e => {
+  activeMonth = e.target.value;
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
