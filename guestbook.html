@@ -288,6 +288,8 @@
 </footer>
 
 <script>
+const GUESTBOOK_API = 'https://jsonblob.com/api/jsonBlob/019ee5c3-aef6-743c-bd61-a8b46ed69448';
+
 function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
@@ -296,9 +298,9 @@ function escapeHtml(str) {
 
 async function loadGuestbook() {
   try {
-    const result = await window.storage.get('guestbook-entries', true);
-    const entries = result && result.value ? JSON.parse(result.value) : [];
-    renderGuestbook(entries);
+    const res = await fetch(GUESTBOOK_API);
+    const entries = await res.json();
+    renderGuestbook(Array.isArray(entries) ? entries : []);
   } catch (e) {
     renderGuestbook([]);
   }
@@ -346,14 +348,20 @@ document.getElementById('gbSubmit').addEventListener('click', async () => {
   try {
     let entries = [];
     try {
-      const result = await window.storage.get('guestbook-entries', true);
-      if (result && result.value) entries = JSON.parse(result.value);
-    } catch (e) { /* no entries yet */ }
+      const res = await fetch(GUESTBOOK_API);
+      const data = await res.json();
+      if (Array.isArray(data)) entries = data;
+    } catch (e) { /* start fresh if fetch fails */ }
 
     entries.push({ name, location, message, ts: Date.now() });
     if (entries.length > 300) entries = entries.slice(-300);
 
-    await window.storage.set('guestbook-entries', JSON.stringify(entries), true);
+    await fetch(GUESTBOOK_API, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(entries)
+    });
+
     renderGuestbook(entries);
 
     document.getElementById('gbName').value = '';
