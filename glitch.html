@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ Glitch & Simulation ✦ Y3K Magazine Issue 103</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@400;700;900&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --accent: #ff9d6e;
+    --accent2: #ff6ef7;
+    --dark: #07020f;
+    --panel: rgba(18, 6, 32, 0.88);
+    --ink: #efe6ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--ink);
+    font-family: 'Spectral', serif;
+    overflow-x: hidden;
+  }
+
+  #stars {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 30% 20%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, color-mix(in srgb, var(--accent2) 10%, transparent) 0%, transparent 60%),
+                var(--dark);
+  }
+  #stars::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 12% 22%, #fff9 0%, transparent 100%),
+      radial-gradient(1px 1px at 32% 62%, #fff7 0%, transparent 100%),
+      radial-gradient(1px 1px at 52% 12%, #fff8 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 75% 25%, var(--accent) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 18% 85%, var(--accent2) 0%, transparent 100%);
+    animation: twinkle 5s infinite alternate;
+  }
+  @keyframes twinkle { from { opacity: 0.35 } to { opacity: 0.9 } }
+
+  /* STICKY NAV */
+  .mag-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(7,2,15,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    padding: 0.9rem 1.2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 0.8rem;
+  }
+  .mag-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.3rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-shadow: 0 0 12px var(--accent);
+    text-decoration: none;
+  }
+  .mag-issue {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.45);
+  }
+  .mag-toc {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+  }
+  .mag-toc a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .mag-toc a:hover { color: var(--accent); }
+
+  /* COVER */
+  .cover-wrap {
+    position: relative;
+    height: 92vh;
+    min-height: 480px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .cover-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(1.15) contrast(1.05);
+  }
+  .cover-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(7,2,15,0.1) 0%, rgba(7,2,15,0.3) 55%, rgba(7,2,15,0.97) 100%);
+  }
+  .cover-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 2rem 1.5rem 3rem;
+    max-width: 900px;
+  }
+  .cover-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent);
+    margin-bottom: 0.8rem;
+  }
+  .cover-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.2rem, 7vw, 5rem);
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    background: linear-gradient(135deg, var(--accent) 0%, #fff 50%, var(--accent2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 25px color-mix(in srgb, var(--accent) 50%, transparent));
+  }
+  .cover-sub {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.7);
+    margin-top: 1rem;
+  }
+  .scroll-cue {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding-bottom: 1.6rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.4);
+    animation: bob 2.2s infinite ease-in-out;
+  }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+  /* CHAPTER STRUCTURE */
+  .chapter {
+    position: relative; z-index: 5;
+    max-width: 880px; margin: 0 auto;
+    padding: 5rem 1.5rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+  .chapter:last-of-type { border-bottom: none; }
+  .chapter-marker {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .chapter-eyebrow {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.2rem 0.7rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .chapter-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 1.3rem;
+  }
+  .chapter-title em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .chapter-lede {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 1.4rem;
+    line-height: 1.6;
+  }
+  .chapter-body {
+    font-size: 1.08rem;
+    line-height: 1.85;
+    color: rgba(235,225,255,0.88);
+  }
+  .chapter-body p { margin-bottom: 1.1rem; }
+  .pull-quote {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: var(--accent);
+    text-align: center;
+    margin: 2.2rem 0;
+    padding: 0 1rem;
+    text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+
+  /* CHAPTER IMAGE INLINE */
+  .chapter-img {
+    width: 100%;
+    margin: 1.8rem 0;
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    box-shadow: 0 0 30px color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+  .chapter-img img { width: 100%; display: block; }
+
+  /* GRID OF QUOTE CARDS (Cast of Characters / Gallery style) */
+  .quote-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+  }
+  .quote-card {
+    background: var(--panel);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    padding: 0;
+    overflow: hidden;
+    text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+    transition: all 0.25s;
+  }
+  .quote-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 30%, transparent);
+    transform: translateY(-3px);
+  }
+  .quote-card-img { aspect-ratio: 1/1; overflow: hidden; background: rgba(255,255,255,0.03); }
+  .quote-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .quote-card-body {
+    padding: 0.9rem 1rem;
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: rgba(235,225,255,0.85);
+    flex: 1;
+  }
+  .quote-card-footer {
+    padding: 0 1rem 0.8rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.35);
+    display: flex; justify-content: space-between;
+  }
+
+  /* NUMBERED LIST (Bucket List style) */
+  .num-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1.3rem; }
+  .num-item { display: flex; gap: 1.1rem; align-items: flex-start; }
+  .num-marker {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.6rem;
+    color: var(--accent);
+    min-width: 50px;
+    text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+  .num-content { flex: 1; }
+  .num-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.3rem;
+  }
+  .num-desc { font-size: 0.95rem; color: rgba(235,225,255,0.7); line-height: 1.6; }
+
+  /* STYLE KEYWORDS */
+  .keyword-row {
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+    margin-top: 1.3rem;
+  }
+  .keyword-chip {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+    color: var(--accent);
+    padding: 0.3rem 0.85rem;
+  }
+
+  /* ICON SECTION (final feature, image gallery strip) */
+  .icon-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+  }
+  .icon-gallery img {
+    width: 100%; aspect-ratio: 1/1; object-fit: cover;
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+
+  /* SUBSCRIBE / RELATED ARTICLES */
+  .related-articles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+  }
+  .related-card {
+    background: var(--panel);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    text-decoration: none; color: inherit;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .related-card:hover { border-color: var(--accent); box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 25%, transparent); }
+  .related-img { aspect-ratio: 16/10; overflow: hidden; background: rgba(255,255,255,0.03); }
+  .related-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .related-title {
+    padding: 0.8rem 0.9rem 0.9rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.35;
+  }
+
+  /* CLOSING / TAGLINE */
+  .closing-wrap {
+    position: relative; z-index: 5;
+    text-align: center;
+    padding: 4rem 1.5rem 2rem;
+  }
+  .closing-tagline {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-weight: 900;
+    color: var(--accent);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 40%, transparent);
+    margin-bottom: 0.5rem;
+  }
+  .closing-sub {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    color: rgba(255,255,255,0.5);
+    font-size: 1rem;
+  }
+  .issue-stamp {
+    margin-top: 1.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.3);
+  }
+  .divider-row {
+    text-align: center;
+    color: color-mix(in srgb, var(--accent) 50%, transparent);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 1.5rem 0;
+  }
+
+  /* EXPLORE OTHER ISSUES */
+  .other-issues {
+    position: relative; z-index: 5;
+    max-width: 880px; margin: 0 auto; padding: 0 1.5rem 3rem;
+    text-align: center;
+  }
+  .other-issues-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+  .other-issues-row { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
+  .other-issue-pill {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  footer {
+    position: relative; z-index: 5;
+    text-align: center; padding: 2rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.3);
+    border-top: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .mag-toc { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+
+<nav class="mag-nav">
+  <a class="mag-logo" href="minimags.html">Y3K</a>
+  <span class="mag-issue">ISSUE 103 · Simulation Theory Edition</span>
+  <div class="mag-toc">
+    <a href="#ch1">Feature</a>
+    <a href="#ch2">Decoded</a>
+    <a href="#ch3">The World</a>
+    <a href="#ch4">Glitch List</a>
+    <a href="#ch5">Aesthetic</a>
+    <a href="#ch6">Final Feature</a>
+  </div>
+</nav>
+
+<div class="cover-wrap">
+  <img class="cover-img" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0a6a4ebb-9cb2-4777-ac3c-a0c7e9a19125_1200x1200.png" alt="Glitch & Simulation cover" onerror="this.style.display='none'" />
+  <div class="cover-overlay"></div>
+  <div class="cover-content">
+    <div class="cover-eyebrow">✦ Y3K MAGAZINE · ISSUE 103 ✦</div>
+    <div class="cover-title">Glitch & Simulation</div>
+    <div class="cover-sub">When reality buffers, lags, and shows its source code</div>
+  </div>
+</div>
+<div class="scroll-cue">▾ SCROLL TO READ ▾</div>
+
+<!-- CHAPTER 1: FEATURE -->
+<section class="chapter" id="ch1">
+  <div class="chapter-marker">CHAPTER ONE · FEATURE</div>
+  <span class="chapter-eyebrow">Feature</span>
+  <h1 class="chapter-title">Reality.exe Has Stopped Working</h1>
+  <div class="chapter-body">
+    <p>““Between one breath and the next, I glitched out of fear and into power.”
+
+♡⋆｡˚⋆❀ 🐚𝒷𝓁ℯ𝓈𝓈ℯ𝒹💫🫧𓇼 ˖°.☘︎ ݁˖”</p><p>““She does not chase truth—she decodes it, through the luminous geometry within her mind.”    
+
+           ✩‧₊˚𓆩♡𓆪         
+
+The Matrix - Speller Breaker
+
+ੈ✩‧✶₊˚༺☆༻ੈ🧙🏻‍♀️🔮🪄✶
+
+https://unsaidunderside.substack.com/p/matrix-”</p>
+  </div>
+  <div class="chapter-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0a6a4ebb-9cb2-4777-ac3c-a0c7e9a19125_1200x1200.png" loading="lazy" onerror="this.parentElement.style.display='none'" /></div>
+</section>
+
+<!-- CHAPTER 2: CAST / GALLERY GRID -->
+<section class="chapter" id="ch2">
+  <div class="chapter-marker">CHAPTER TWO · DECODED</div>
+  <span class="chapter-eyebrow">Decoded</span>
+  <h2 class="chapter-title">Signs You’re In The Matrix</h2>
+  <p class="chapter-lede">The system has a few tells.</p>
+  <div class="quote-grid">
+    <a class="quote-card" href="https://substack.com/@magickmica/note/c-245829616" target="_blank" rel="noopener">
+          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0a6a4ebb-9cb2-4777-ac3c-a0c7e9a19125_1200x1200.png" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
+          <div class="quote-card-body">A fairy’s wingbeat is soft—
+
+but it can glitch an entire universe into something more beautiful.</div>
+          <div class="quote-card-footer"><span>❤ 18</span><span>VIEW →</span></div>
+        </a>
+<a class="quote-card" href="https://substack.com/@magickmica/note/c-249887561" target="_blank" rel="noopener">
+          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff58329e7-ed69-4912-bc8f-d9a0e681ad6e_1402x1122.png" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
+          <div class="quote-card-body">“Your softness is not a setting — it’s your operating system.”</div>
+          <div class="quote-card-footer"><span>❤ 17</span><span>VIEW →</span></div>
+        </a>
+<a class="quote-card" href="https://substack.com/@magickmica/note/c-267075163" target="_blank" rel="noopener">
+          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7a8c8c5b-4cbc-416a-a839-8177ca2a4d14_1024x1536.png" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
+          <div class="quote-card-body">“The Wizard no longer speaks through smoke and thunder… now he appears in corrupted holograms across the city skyline.”</div>
+          <div class="quote-card-footer"><span>❤ 12</span><span>VIEW →</span></div>
+        </a>
+<a class="quote-card" href="https://substack.com/@magickmica/note/c-249577799" target="_blank" rel="noopener">
+          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F14c9a327-c543-4b65-8239-337086df62b0_540x540.gif" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
+          <div class="quote-card-body">“Glitch into magic.”
+
+████████████████</div>
+          <div class="quote-card-footer"><span>❤ 12</span><span>VIEW →</span></div>
+        </a>
+<a class="quote-card" href="https://substack.com/@magickmica/note/c-245790839" target="_blank" rel="noopener">
+          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F116fb9c0-e56b-4cbf-b4ab-5e3b28961908_1200x1209.png" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
+          <div class="quote-card-body">If you know… You know. 
+
+𝄜
+
+https://unsaidunderside.substack.com/p/matrix-encoded-how-the-film-is-all</div>
+          <div class="quote-card-footer"><span>❤ 12</span><span>VIEW →</span></div>
+        </a>
+<a class="quote-card" href="https://substack.com/@magickmica/note/c-256409279" target="_blank" rel="noopener">
+          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F98da4a49-c92c-49be-b971-53f8cd002251_1555x1853.png" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
+          <div class="quote-card-body">The TV can glitch reality….
+
+████████𝄃𝄃𝄂𝄀𝄁𝄃𝄂𝄂𝄃𝄃𝄃𝄂𝄀𝄁𝄃𝄂𝄂𝄃</div>
+          <div class="quote-card-footer"><span>❤ 11</span><span>VIEW →</span></div>
+        </a>
+  </div>
+</section>
+
+<!-- CHAPTER 3: THE WORLD -->
+<section class="chapter" id="ch3">
+  <div class="chapter-marker">CHAPTER THREE · THE WORLD</div>
+  <span class="chapter-eyebrow">The World</span>
+  <h2 class="chapter-title">System Status: Unstable</h2>
+  <div class="chapter-body">
+    <p>A fairy’s wingbeat is soft—
+
+but it can glitch an entire universe into something more beautiful.</p><p>It’s going to be a glitchy Friday the 13th - Vday 14th mix. 
+
+@🫶🫵Kry5tyn🖕🫵</p>
+  </div>
+  <div class="pull-quote">"Lucky, Loaded &amp; Glitching
+
+🎩🌈💰🍀"</div>
+</section>
+
+<!-- CHAPTER 4: BUCKET LIST -->
+<section class="chapter" id="ch4">
+  <div class="chapter-marker">CHAPTER FOUR · GLITCH LIST</div>
+  <span class="chapter-eyebrow">Glitch List</span>
+  <h2 class="chapter-title">Errors Worth Keeping</h2>
+  <div class="num-list">
+    <div class="num-item">
+          <div class="num-marker">01</div>
+          <div class="num-content">
+            <div class="num-title">“Every spill is a spell, every glitch a prophecy—this desk r</div>
+            <div class="num-desc">❤ 14 likes · ↩ 2 restacks</div>
+          </div>
+        </div>
+<div class="num-item">
+          <div class="num-marker">02</div>
+          <div class="num-content">
+            <div class="num-title">“The Wizard no longer speaks through smoke and thunder… now </div>
+            <div class="num-desc">❤ 12 likes · ↩ 1 restacks</div>
+          </div>
+        </div>
+<div class="num-item">
+          <div class="num-marker">03</div>
+          <div class="num-content">
+            <div class="num-title">“Glitch into magic.”</div>
+            <div class="num-desc">❤ 12 likes · ↩ 3 restacks</div>
+          </div>
+        </div>
+<div class="num-item">
+          <div class="num-marker">04</div>
+          <div class="num-content">
+            <div class="num-title">If you know… You know. </div>
+            <div class="num-desc">❤ 12 likes · ↩ 4 restacks</div>
+          </div>
+        </div>
+<div class="num-item">
+          <div class="num-marker">05</div>
+          <div class="num-content">
+            <div class="num-title">“Every glitch is a doorway to another timeline.”</div>
+            <div class="num-desc">❤ 12 likes · ↩ 2 restacks</div>
+          </div>
+        </div>
+  </div>
+</section>
+
+<!-- CHAPTER 5: STYLE / KEYWORDS -->
+<section class="chapter" id="ch5">
+  <div class="chapter-marker">CHAPTER FIVE · AESTHETIC</div>
+  <span class="chapter-eyebrow">Aesthetic</span>
+  <h2 class="chapter-title">Corrupted but Cute</h2>
+  <p class="chapter-lede">Static never looked this good.</p>
+  <div class="keyword-row">
+    <span class="keyword-chip">Matrix</span><span class="keyword-chip">Glitch</span><span class="keyword-chip">Simulation</span><span class="keyword-chip">Firewall</span><span class="keyword-chip">Corrupted</span><span class="keyword-chip">Reboot</span><span class="keyword-chip">Reality.Exe</span><span class="keyword-chip">404</span>
+  </div>
+  <div class="icon-gallery">
+    <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F42db930f-6d24-4431-84ef-85bd4815d160_2048x2048.jpeg" loading="lazy" onerror="this.style.display='none'" /><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd5d441a3-dd5d-4fc2-b3b2-f03469c18373_1200x1200.png" loading="lazy" onerror="this.style.display='none'" /><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff28698aa-dec1-4d96-9813-cfbeb50bba0e_1024x1536.png" loading="lazy" onerror="this.style.display='none'" /><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd640bce4-9998-41ae-9859-bd60e90b8be0_1200x1200.png" loading="lazy" onerror="this.style.display='none'" /><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc434057a-d824-4f09-9afa-2148f978df8d_1500x1500.png" loading="lazy" onerror="this.style.display='none'" /><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F33c0b281-7ad1-4bcf-ae15-d5b34d432c13_1500x844.png" loading="lazy" onerror="this.style.display='none'" />
+  </div>
+</section>
+
+<!-- CHAPTER 6: FINAL FEATURE / ICON -->
+<section class="chapter" id="ch6">
+  <div class="chapter-marker">CHAPTER SIX · FINAL FEATURE</div>
+  <span class="chapter-eyebrow">Final Feature</span>
+  <h2 class="chapter-title">The Glitch Is the Point</h2>
+  <div class="chapter-body">
+    <p>When reality buffers, lags, and shows its source code.</p><p>Every note, every image, every quiet transmission adds another layer to this world.</p>
+  </div>
+  <div class="pull-quote">"“Glitch the system. Burn the horizon.”
+
+➤💥💗✨"</div>
+
+  <div class="chapter-marker" style="margin-top:2.5rem;">RELATED READING</div>
+  <div class="related-articles">
+    <p style="color:rgba(255,255,255,0.3); font-family:'Share Tech Mono',monospace; font-size:0.85rem;">More stories coming soon.</p>
+  </div>
+</section>
+
+<div class="closing-wrap">
+  <div class="closing-tagline">STAY GLITCHY.</div>
+  <div class="closing-sub">When reality buffers, lags, and shows its source code</div>
+  <div class="divider-row">✦ ✧ ✦ ✵ ✦ ✧ ✦</div>
+  <div class="issue-stamp">Y3K Magazine · Issue 103 · Simulation Theory Edition · All Rights Reserved</div>
+</div>
+
+<div class="other-issues">
+  <div class="other-issues-label">✦ Explore Other Issues ✦</div>
+  <div class="other-issues-row" id="otherIssues"></div>
+</div>
+
+<footer>
+  ✦ <a href="https://magickmica.substack.com" target="_blank">Magick Mica TV</a> ✦ where magic meets the pixel ✦<br>
+  <a href="minimags.html">← Back to All Issues</a> &nbsp;|&nbsp;
+  <a href="blog.html">Blog Home</a> &nbsp;|&nbsp;
+  <a href="https://substack.com/@magickmica" target="_blank">↗ substack.com/@magickmica</a>
+</footer>
+
+<script>
+const ALL_ISSUES = [{"key": "wonderland", "label": "Wonderland & Alice", "color": "#ff6ef7"}, {"key": "egypt", "label": "Ancient Egypt & Goddess", "color": "#f7ff6e"}, {"key": "glitch", "label": "Glitch & Simulation", "color": "#ff9d6e"}, {"key": "cosmic", "label": "Cosmic & Space", "color": "#6ef7ff"}, {"key": "gothic", "label": "Gothic & Dark Aesthetic", "color": "#b06eff"}, {"key": "food", "label": "Food & Dessert", "color": "#6effa0"}, {"key": "y2k", "label": "Y2K Nostalgia", "color": "#ff6e9d"}, {"key": "art", "label": "Art & Masters", "color": "#ffd76e"}, {"key": "animals", "label": "Animals & Creatures", "color": "#6eafff"}, {"key": "queen", "label": "Queen Energy", "color": "#ff6e6e"}];
+const CURRENT_KEY = 'glitch';
+const otherDiv = document.getElementById('otherIssues');
+ALL_ISSUES.forEach(iss => {
+  if (iss.key === CURRENT_KEY) return;
+  const a = document.createElement('a');
+  a.className = 'other-issue-pill';
+  a.href = iss.key + '.html';
+  a.style.color = iss.color;
+  a.style.borderColor = iss.color;
+  a.textContent = iss.label;
+  otherDiv.appendChild(a);
+});
+</script>
+</body>
+</html>

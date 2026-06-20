@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ Y3K Magazine — All Issues ✦</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@400;700;900&family=Spectral:ital,wght@0,400;1,400&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --holo1: #ff6ef7; --holo2: #6ef7ff; --holo3: #f7ff6e; --holo4: #6effa0;
+    --dark: #07020f; --panel: rgba(18, 6, 32, 0.88);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--dark); color: #e0d0ff;
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh; overflow-x: hidden;
+  }
+  #stars {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 20% 30%, rgba(110,239,255,0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(255,110,247,0.05) 0%, transparent 60%), var(--dark);
+  }
+  #stars::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, #fff8 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, #fff6 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 75% 25%, var(--holo3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 15% 85%, var(--holo1) 0%, transparent 100%);
+    animation: twinkle 4s infinite alternate;
+  }
+  @keyframes twinkle { from { opacity: 0.4 } to { opacity: 1 } }
+  .holo-bar {
+    height: 5px;
+    background: linear-gradient(90deg, var(--holo1), var(--holo2), var(--holo3), var(--holo4), var(--holo1));
+    background-size: 300% 100%; animation: holo-slide 3s linear infinite;
+    position: relative; z-index: 10;
+  }
+  @keyframes holo-slide { 0%{background-position:0%} 100%{background-position:300%} }
+
+  header {
+    position: relative; z-index: 5; text-align: center;
+    padding: 3.5rem 1rem 2rem;
+    border-bottom: 2px solid rgba(255,110,247,0.25);
+  }
+  .site-title {
+    font-family: 'Orbitron', sans-serif; font-weight: 900;
+    font-size: clamp(2rem, 6vw, 4rem); letter-spacing: 0.05em;
+    background: linear-gradient(135deg, var(--holo1), var(--holo2), var(--holo3), var(--holo4));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(255,110,247,0.5));
+  }
+  .site-sub {
+    font-family: 'Spectral', serif; font-style: italic;
+    font-size: 1.15rem; color: rgba(220,200,255,0.7);
+    margin-top: 0.7rem;
+  }
+  .nav-links { margin-top: 1.3rem; display: flex; justify-content: center; gap: 1.1rem; flex-wrap: wrap; }
+  .nav-links a {
+    font-family: 'VT323', monospace; font-size: 1.05rem;
+    color: var(--holo3); text-decoration: none; letter-spacing: 0.12em;
+    border: 1px solid var(--holo3); padding: 0.2rem 0.7rem; transition: all 0.2s;
+  }
+  .nav-links a:hover { background: var(--holo3); color: #000; box-shadow: 0 0 12px var(--holo3); }
+
+  .issues-grid {
+    position: relative; z-index: 5;
+    max-width: 1200px; margin: 3rem auto; padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+  .issue-card {
+    display: flex; flex-direction: column;
+    text-decoration: none; color: inherit;
+    background: var(--panel);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .issue-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 35px color-mix(in srgb, var(--accent) 35%, transparent);
+    transform: translateY(-5px);
+  }
+  .issue-cover {
+    position: relative; aspect-ratio: 3/4; overflow: hidden;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 15%, transparent), color-mix(in srgb, var(--accent2) 15%, transparent));
+  }
+  .issue-cover img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+  .issue-card:hover .issue-cover img { transform: scale(1.08); }
+  .issue-cover.no-img img { display: none; }
+  .issue-cover-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(7,2,15,0.9) 100%);
+  }
+  .issue-num {
+    position: absolute; top: 10px; left: 10px;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.15em; color: var(--accent);
+    border: 1px solid var(--accent); padding: 2px 8px;
+    background: rgba(0,0,0,0.5);
+  }
+  .issue-info { padding: 1.1rem 1.2rem 1.3rem; }
+  .issue-title {
+    font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1.15rem;
+    color: var(--accent); margin-bottom: 0.4rem;
+    text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+  .issue-edition {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.1em; color: rgba(255,255,255,0.4);
+    text-transform: uppercase; margin-bottom: 0.6rem;
+  }
+  .issue-tagline {
+    font-family: 'Spectral', serif; font-style: italic; font-size: 0.88rem;
+    color: rgba(220,200,255,0.65); line-height: 1.5;
+  }
+
+  footer {
+    position: relative; z-index: 5; text-align: center; padding: 2rem;
+    font-family: 'VT323', monospace; font-size: 1rem; letter-spacing: 0.15em;
+    color: rgba(200,180,255,0.35);
+    border-top: 1px solid rgba(255,110,247,0.1);
+  }
+  footer a { color: var(--holo1); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div class="holo-bar"></div>
+
+<header>
+  <div class="site-title">✦ Y3K MAGAZINE ✦</div>
+  <div class="site-sub">ten worlds. one cosmic universe. pick your issue.</div>
+  <nav class="nav-links">
+    <a href="blog.html">✦ BLOG HOME ✦</a>
+    <a href="articles.html">📰 ARTICLES</a>
+    <a href="notes.html">📝 NOTES ARCHIVE</a>
+    <a href="https://magickmica.substack.com" target="_blank">📺 SUBSCRIBE</a>
+  </nav>
+</header>
+
+<div class="issues-grid">
+
+    <a class="issue-card" href="wonderland.html" style="--accent: #ff6ef7; --accent2: #b06eff;">
+      <div class="issue-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fde85ab22-95a0-45cb-b537-40cc6e60596f_600x600.gif" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="issue-cover-overlay"></div>
+        <div class="issue-num">ISSUE 101</div>
+      </div>
+      <div class="issue-info">
+        <div class="issue-title">Wonderland & Alice</div>
+        <div class="issue-edition">Down the Rabbit Hole Edition</div>
+        <div class="issue-tagline">Follow the white rabbit into a curious, corrupted timeline</div>
+      </div>
+    </a>
+
+    <a class="issue-card" href="egypt.html" style="--accent: #f7ff6e; --accent2: #ffb86e;">
+      <div class="issue-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F68ac5dbb-8513-4b6d-9c67-4bdc7ccd22d2_1200x1200.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="issue-cover-overlay"></div>
+        <div class="issue-num">ISSUE 102</div>
+      </div>
+      <div class="issue-info">
+        <div class="issue-title">Ancient Egypt & Goddess</div>
+        <div class="issue-edition">Ancient Future Edition</div>
+        <div class="issue-tagline">Pyramids, pharaohs, and divine feminine energy across the ages</div>
+      </div>
+    </a>
+
+    <a class="issue-card" href="glitch.html" style="--accent: #ff9d6e; --accent2: #ff6ef7;">
+      <div class="issue-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0a6a4ebb-9cb2-4777-ac3c-a0c7e9a19125_1200x1200.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="issue-cover-overlay"></div>
+        <div class="issue-num">ISSUE 103</div>
+      </div>
+      <div class="issue-info">
+        <div class="issue-title">Glitch & Simulation</div>
+        <div class="issue-edition">Simulation Theory Edition</div>
+        <div class="issue-tagline">When reality buffers, lags, and shows its source code</div>
+      </div>
+    </a>
+
+    <a class="issue-card" href="cosmic.html" style="--accent: #6ef7ff; --accent2: #b06eff;">
+      <div class="issue-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6468d82a-9e6d-453e-b3d2-acedf0731aaf_1200x1200.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="issue-cover-overlay"></div>
+        <div class="issue-num">ISSUE 104</div>
+      </div>
+      <div class="issue-info">
+        <div class="issue-title">Cosmic & Space</div>
+        <div class="issue-edition">Stardust Edition</div>
+        <div class="issue-tagline">Galaxies, stardust, and the vast wonder of the universe</div>
+      </div>
+    </a>
+
+    <a class="issue-card" href="gothic.html" style="--accent: #b06eff; --accent2: #ff6e9d;">
+      <div class="issue-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Facb26bc1-0462-4b7a-9b5e-4be99cd5bf12_600x600.gif" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="issue-cover-overlay"></div>
+        <div class="issue-num">ISSUE 105</div>
+      </div>
+      <div class="issue-info">
+        <div class="issue-title">Gothic & Dark Aesthetic</div>
+        <div class="issue-edition">Midnight Magic Edition</div>
+        <div class="issue-tagline">Velvet shadows, midnight magic, and beautiful darkness</div>
+      </div>
+    </a>
+
+    <a class="issue-card" href="food.html" style="--accent: #6effa0; --accent2: #ffd76e;">
+      <div class="issue-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Facb26bc1-0462-4b7a-9b5e-4be99cd5bf12_600x600.gif" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="issue-cover-overlay"></div>
+        <div class="issue-num">ISSUE 106</div>
+      </div>
+      <div class="issue-info">
+        <div class="issue-title">Food & Dessert</div>
+        <div class="issue-edition">Sweet & Cosmic Edition</div>
+        <div class="issue-tagline">Sweet treats, cosmic coffee, and edible nostalgia</div>
+      </div>
+    </a>
+
+    <a class="issue-card" href="y2k.html" style="--accent: #ff6e9d; --accent2: #6ef7ff;">
+      <div class="issue-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff5641448-cd09-4830-82f2-ef7cff352ed0_600x338.gif" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="issue-cover-overlay"></div>
+        <div class="issue-num">ISSUE 107</div>
+      </div>
+      <div class="issue-info">
+        <div class="issue-title">Y2K Nostalgia</div>
+        <div class="issue-edition">Forever Y2K Edition</div>
+        <div class="issue-tagline">VHS static, disco balls, and the magic of the early 2000s</div>
+      </div>
+    </a>
+
+    <a class="issue-card" href="art.html" style="--accent: #ffd76e; --accent2: #ff9d6e;">
+      <div class="issue-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe9611fff-0fc6-48e3-96df-6e7552922298_1149x1369.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="issue-cover-overlay"></div>
+        <div class="issue-num">ISSUE 108</div>
+      </div>
+      <div class="issue-info">
+        <div class="issue-title">Art & Masters</div>
+        <div class="issue-edition">Old Masters, New Visions Edition</div>
+        <div class="issue-tagline">Old masterpieces reimagined through a cosmic lens</div>
+      </div>
+    </a>
+
+    <a class="issue-card" href="animals.html" style="--accent: #6eafff; --accent2: #6effa0;">
+      <div class="issue-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2fcc5d7-40a3-4385-bec4-b0f3ebd02edb_896x1600.jpeg" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="issue-cover-overlay"></div>
+        <div class="issue-num">ISSUE 109</div>
+      </div>
+      <div class="issue-info">
+        <div class="issue-title">Animals & Creatures</div>
+        <div class="issue-edition">Magical Creatures Edition</div>
+        <div class="issue-tagline">Foxes, owls, dragons, and other magical companions</div>
+      </div>
+    </a>
+
+    <a class="issue-card" href="queen.html" style="--accent: #ff6e6e; --accent2: #ffd76e;">
+      <div class="issue-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b29b35d-d833-426a-bea4-6c55ef3d8ea2_500x500.gif" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="issue-cover-overlay"></div>
+        <div class="issue-num">ISSUE 110</div>
+      </div>
+      <div class="issue-info">
+        <div class="issue-title">Queen Energy</div>
+        <div class="issue-edition">Queen Energy Edition</div>
+        <div class="issue-tagline">Power, grace, and the art of glowing unapologetically</div>
+      </div>
+    </a>
+</div>
+
+<footer>
+  ✦ MAGICK MICA — Y3K MAGAZINE ✦ &nbsp;|&nbsp;
+  <a href="https://magickmica.substack.com">Subscribe on Substack</a>
+</footer>
+
+</body>
+</html>
