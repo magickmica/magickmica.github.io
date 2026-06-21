@@ -100,17 +100,30 @@
   }
   @keyframes blink { 50% { opacity: 0; } }
 
+  .header-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .header-title-block {
+    text-align: center;
+  }
   .mascot-img {
-    width: 140px;
+    width: 100px;
     height: auto;
-    margin: 0 auto 0.8rem;
-    display: block;
-    filter: drop-shadow(0 0 25px rgba(255,110,247,0.55)) drop-shadow(0 0 45px rgba(110,239,255,0.3));
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 18px rgba(255,110,247,0.5)) drop-shadow(0 0 32px rgba(110,239,255,0.25));
     animation: mascot-float 4s ease-in-out infinite;
   }
   @keyframes mascot-float {
     0%, 100% { transform: translateY(0) rotate(-1deg); }
-    50% { transform: translateY(-10px) rotate(1deg); }
+    50% { transform: translateY(-8px) rotate(1deg); }
+  }
+  @media (max-width: 640px) {
+    .header-top-row { flex-direction: column; }
+    .mascot-img { width: 80px; }
   }
 
   .site-title {
@@ -394,9 +407,13 @@
 </div>
 
 <header>
-  <img class="mascot-img" src="images/crystal-pixel-blog.png" alt="Crystal Pixel Mage" />
-  <div class="site-title">✦ MAGICK MICA'S BLOG ✦</div>
-  <div class="site-sub">☆ est. 2025 ☆ where magic meets the pixel ☆</div>
+  <div class="header-top-row">
+    <img class="mascot-img" src="images/magickmica-character-logo.png" alt="Magick Mica" />
+    <div class="header-title-block">
+      <div class="site-title">✦ MAGICK MICA'S BLOG ✦</div>
+      <div class="site-sub">☆ est. 2025 ☆ where magic meets the pixel ☆</div>
+    </div>
+  </div>
   <div class="under-construction"><span class="blink">🚧</span> THIS PAGE IS ALWAYS UNDER CONSTRUCTION <span class="blink">🚧</span></div>
   <nav class="nav-links">
     <a href="articles.html">📰 ARTICLES</a>
