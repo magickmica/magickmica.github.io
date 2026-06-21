@@ -100,6 +100,19 @@
   }
   @keyframes blink { 50% { opacity: 0; } }
 
+  .mascot-img {
+    width: 140px;
+    height: auto;
+    margin: 0 auto 0.8rem;
+    display: block;
+    filter: drop-shadow(0 0 25px rgba(255,110,247,0.55)) drop-shadow(0 0 45px rgba(110,239,255,0.3));
+    animation: mascot-float 4s ease-in-out infinite;
+  }
+  @keyframes mascot-float {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+  }
+
   .site-title {
     font-family: 'Orbitron', sans-serif;
     font-size: clamp(1.8rem, 6vw, 3.6rem);
@@ -377,16 +390,16 @@
 <div id="stars"></div>
 <div class="holo-bar"></div>
 <div class="marquee-wrap">
-  <span class="marquee">✦ WELCOME TO MY CORNER OF THE INTERNET ✦ BEST VIEWED AT 1024x768 ✦ VISIT MY GUESTBOOK ✦ NOW WITH 100% MORE GLITTER ✦ THANKS FOR VISITING ✦ DON'T FORGET TO SUBSCRIBE ✦</span>
+  <span class="marquee">✦ WELCOME TO MY CORNER OF THE INTERNET ✦ BEST VIEWED AT 1024x768 ✦ NOW WITH 100% MORE GLITTER ✦ THANKS FOR VISITING ✦ DON'T FORGET TO SUBSCRIBE ✦</span>
 </div>
 
 <header>
+  <img class="mascot-img" src="images/crystal-pixel-blog.png" alt="Crystal Pixel Mage" />
   <div class="site-title">✦ MAGICK MICA'S BLOG ✦</div>
   <div class="site-sub">☆ est. 2025 ☆ where magic meets the pixel ☆</div>
   <div class="under-construction"><span class="blink">🚧</span> THIS PAGE IS ALWAYS UNDER CONSTRUCTION <span class="blink">🚧</span></div>
   <nav class="nav-links">
     <a href="articles.html">📰 ARTICLES</a>
-    <a href="guestbook.html">📖 GUESTBOOK</a>
     <a href="archive.html">📚 SEARCH ARCHIVE</a>
     <a href="notes.html">📝 NOTES ARCHIVE</a>
     <a href="https://magickmica.substack.com" target="_blank">📺 MAGICK MICA TV</a>
@@ -443,10 +456,27 @@
     </div>
 
     <div class="side-panel">
+      <h3>✦ Y3K Magazine ✦</h3>
+      <div class="about-text" style="margin-bottom:0.6rem;">10 themed issues, each its own little world.</div>
+      <div class="about-text" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:0.7rem;">
+        <a href="wonderland.html" style="color:#ff6ef7; border:1px solid #ff6ef7; padding:2px 7px; font-size:0.78rem; text-decoration:none;">🐰 Wonderland</a>
+        <a href="egypt.html" style="color:#f7ff6e; border:1px solid #f7ff6e; padding:2px 7px; font-size:0.78rem; text-decoration:none;">𓂀 Egypt</a>
+        <a href="glitch.html" style="color:#ff9d6e; border:1px solid #ff9d6e; padding:2px 7px; font-size:0.78rem; text-decoration:none;">👾 Glitch</a>
+        <a href="cosmic.html" style="color:#6ef7ff; border:1px solid #6ef7ff; padding:2px 7px; font-size:0.78rem; text-decoration:none;">✨ Cosmic</a>
+        <a href="gothic.html" style="color:#b06eff; border:1px solid #b06eff; padding:2px 7px; font-size:0.78rem; text-decoration:none;">🦇 Gothic</a>
+        <a href="food.html" style="color:#6effa0; border:1px solid #6effa0; padding:2px 7px; font-size:0.78rem; text-decoration:none;">🍦 Food</a>
+        <a href="y2k.html" style="color:#ff6e9d; border:1px solid #ff6e9d; padding:2px 7px; font-size:0.78rem; text-decoration:none;">📼 Y2K</a>
+        <a href="art.html" style="color:#ffd76e; border:1px solid #ffd76e; padding:2px 7px; font-size:0.78rem; text-decoration:none;">🖼️ Art</a>
+        <a href="animals.html" style="color:#6eafff; border:1px solid #6eafff; padding:2px 7px; font-size:0.78rem; text-decoration:none;">🦊 Animals</a>
+        <a href="queen.html" style="color:#ff6e6e; border:1px solid #ff6e6e; padding:2px 7px; font-size:0.78rem; text-decoration:none;">👑 Queen</a>
+      </div>
+      <a href="minimags.html" style="color:var(--holo3); font-size:0.85rem;">→ See all issues</a>
+    </div>
+
+    <div class="side-panel">
       <h3>Quick Links</h3>
       <div class="about-text">
         📰 <a href="articles.html" style="color:var(--holo2)">Browse the magazine</a><br><br>
-        📖 <a href="guestbook.html" style="color:var(--holo2)">Sign the guestbook</a><br><br>
         📚 <a href="archive.html" style="color:var(--holo2)">Search the full archive</a><br><br>
         📝 <a href="notes.html" style="color:var(--holo2)">Browse all notes</a><br><br>
         ✍️ <a href="https://magickmica.substack.com" style="color:var(--holo2)">Subscribe on Substack</a>
