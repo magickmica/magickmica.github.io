@@ -60,7 +60,7 @@
   header {
     position: relative; z-index: 5;
     text-align: center;
-    padding: 2.2rem 1rem 1rem;
+    padding: 1.4rem 1rem 0.5rem;
   }
   .site-title {
     font-family: 'Orbitron', sans-serif;
@@ -101,15 +101,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem 1rem 1rem;
+    padding: 1.2rem 1rem 0.5rem;
     position: relative; z-index: 5;
   }
 
   .tv-set {
     width: min(94vw, 520px);
     background: linear-gradient(160deg, #2a1f3d 0%, #1a1228 60%, #100a1c 100%);
-    border-radius: 28px;
-    padding: 28px 28px 60px;
+    border-radius: 26px;
+    padding: 24px 24px 18px;
     position: relative;
     box-shadow:
       0 25px 60px rgba(0,0,0,0.7),
@@ -120,13 +120,13 @@
     /* texture/grain on the cabinet */
     content: '';
     position: absolute; inset: 0;
-    border-radius: 28px;
+    border-radius: 26px;
     background-image: repeating-linear-gradient(125deg, rgba(255,255,255,0.015) 0px, transparent 2px, transparent 4px);
     pointer-events: none;
   }
 
   .tv-brand {
-    position: absolute; top: 10px; left: 32px;
+    position: absolute; top: 9px; left: 28px;
     font-family: 'Orbitron', sans-serif;
     font-size: 0.7rem;
     letter-spacing: 0.15em;
@@ -186,13 +186,14 @@
 
   .note-content {
     position: relative; z-index: 1;
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.7rem;
+    justify-content: center;
+    gap: 0.6rem;
     animation: note-fade-in 0.4s ease;
     cursor: pointer;
   }
@@ -204,14 +205,18 @@
   }
 
   .note-img {
+    flex: 0 1 auto;
     max-width: 100%;
-    max-height: 55%;
+    max-height: 60%;
+    min-height: 0;
     object-fit: contain;
     border: 1px solid rgba(255,110,247,0.3);
     box-shadow: 0 0 18px rgba(255,110,247,0.25);
   }
 
   .note-text {
+    flex: 0 1 auto;
+    min-height: 0;
     font-family: 'Share Tech Mono', monospace;
     font-size: clamp(0.85rem, 2.6vw, 1.05rem);
     color: #f0e8ff;
@@ -262,68 +267,117 @@
 
   /* CONTROLS BELOW SCREEN */
   .tv-controls {
-    margin-top: 22px;
+    margin-top: 16px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 2px;
+    flex-wrap: wrap;
   }
   .tv-speaker {
+    display: none;
+  }
     flex: 1;
-    height: 26px;
+    height: 22px;
     background: repeating-linear-gradient(90deg, rgba(0,0,0,0.5) 0px, rgba(0,0,0,0.5) 3px, transparent 3px, transparent 7px);
     border-radius: 4px;
-    opacity: 0.6;
-  }
-  .tv-knob {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #4a3a66, #1a1228 70%);
-    border: 2px solid rgba(255,255,255,0.15);
-    position: relative;
-    flex-shrink: 0;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.5);
-  }
-  .tv-knob::after {
-    content: '';
-    position: absolute; top: 4px; left: 50%;
-    width: 2px; height: 10px;
-    background: rgba(255,255,255,0.4);
-    transform: translateX(-50%);
+    opacity: 0.5;
+    align-self: center;
   }
   .tv-led {
-    width: 9px; height: 9px;
+    width: 8px; height: 8px;
     border-radius: 50%;
     background: var(--holo4);
     box-shadow: 0 0 8px var(--holo4);
     flex-shrink: 0;
+    align-self: center;
     animation: led-pulse 2s infinite;
   }
   @keyframes led-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-  /* BUTTON ROW */
-  .action-row {
-    position: relative; z-index: 5;
-    display: flex; flex-wrap: wrap; gap: 0.8rem;
-    justify-content: center;
-    padding: 1.5rem 1rem 0.5rem;
+  /* CHANNEL KNOB - click to change channel, spins when clicked */
+  .control-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
   }
-  .tv-btn {
-    font-family: 'VT323', monospace;
-    font-size: 1.15rem;
-    letter-spacing: 0.12em;
-    background: transparent;
-    border: 1px solid var(--holo1);
-    color: var(--holo1);
-    padding: 0.6rem 1.6rem;
+  .knob-btn {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #4a3a66, #1a1228 70%);
+    border: 2px solid rgba(255,110,247,0.4);
+    position: relative;
     cursor: pointer;
-    text-transform: uppercase;
-    transition: all 0.2s;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5), 0 0 12px rgba(255,110,247,0.15);
+    transition: box-shadow 0.2s;
+    padding: 0;
   }
-  .tv-btn:hover { background: var(--holo1); color: #000; box-shadow: 0 0 18px var(--holo1); }
-  .tv-btn.secondary { border-color: var(--holo2); color: var(--holo2); }
-  .tv-btn.secondary:hover { background: var(--holo2); color: #000; box-shadow: 0 0 18px var(--holo2); }
-  .tv-btn.active { background: var(--holo2); color: #000; box-shadow: 0 0 18px var(--holo2); }
+  .knob-btn:hover {
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5), 0 0 18px rgba(255,110,247,0.45);
+  }
+  .knob-btn::after {
+    content: '';
+    position: absolute; top: 6px; left: 50%;
+    width: 2.5px; height: 13px;
+    background: var(--holo1);
+    box-shadow: 0 0 4px var(--holo1);
+    transform: translateX(-50%);
+    transition: transform 0.18s;
+  }
+  .knob-btn.spinning::after {
+    animation: knob-spin 0.18s linear;
+  }
+  @keyframes knob-spin {
+    from { transform: translateX(-50%) rotate(0deg); }
+    to { transform: translateX(-50%) rotate(360deg); }
+  }
+  .knob-ticks {
+    position: absolute; inset: -3px;
+    border-radius: 50%;
+    border: 1px dashed rgba(255,255,255,0.1);
+  }
+
+  /* TOGGLE SWITCH - flip for auto-rotate */
+  .switch-btn {
+    width: 56px; height: 29px;
+    border-radius: 16px;
+    background: #0d0815;
+    border: 2px solid rgba(110,239,255,0.35);
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .switch-btn .switch-nub {
+    position: absolute; top: 2px; left: 2px;
+    width: 21px; height: 21px;
+    border-radius: 50%;
+    background: linear-gradient(160deg, #6e6080, #2a1f3d);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    transition: transform 0.25s, background 0.25s;
+  }
+  .switch-btn.on {
+    border-color: var(--holo2);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6), 0 0 14px rgba(110,239,255,0.4);
+  }
+  .switch-btn.on .switch-nub {
+    transform: translateX(27px);
+    background: linear-gradient(160deg, var(--holo2), #1a8a99);
+  }
+
+  .control-label {
+    font-family: 'VT323', monospace;
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .control-label.pink { color: var(--holo1); text-shadow: 0 0 8px rgba(255,110,247,0.5); }
+  .control-label.cyan { color: var(--holo2); text-shadow: 0 0 8px rgba(110,239,255,0.5); }
 
   .note-footer-link {
     display: block;
@@ -373,16 +427,22 @@
       <div class="tv-flicker-overlay"></div>
     </div>
     <div class="tv-controls">
+      <div class="control-unit">
+        <button class="knob-btn" id="changeChannelBtn" aria-label="Change channel">
+          <span class="knob-ticks"></span>
+        </button>
+        <span class="control-label pink">Change Channel</span>
+      </div>
       <div class="tv-speaker"></div>
       <div class="tv-led"></div>
-      <div class="tv-knob"></div>
+      <div class="control-unit">
+        <button class="switch-btn" id="autoRotateBtn" aria-label="Toggle auto-rotate">
+          <span class="switch-nub"></span>
+        </button>
+        <span class="control-label cyan">Auto-Rotate</span>
+      </div>
     </div>
   </div>
-</div>
-
-<div class="action-row">
-  <button class="tv-btn" id="changeChannelBtn">📺 CHANGE CHANNEL</button>
-  <button class="tv-btn secondary" id="autoRotateBtn">▶ AUTO-ROTATE</button>
 </div>
 
 <a class="note-footer-link" id="viewOnSubstack" href="#" target="_blank" rel="noopener">VIEW THIS NOTE ON SUBSTACK →</a>
@@ -435,6 +495,11 @@ function showNote(note) {
 
 function changeChannel() {
   const staticEl = document.getElementById('channelStatic');
+  const knob = document.getElementById('changeChannelBtn');
+  knob.classList.remove('spinning');
+  // restart animation
+  void knob.offsetWidth;
+  knob.classList.add('spinning');
   staticEl.classList.add('active');
   setTimeout(() => {
     const note = pickRandomNote();
@@ -446,15 +511,14 @@ function changeChannel() {
 document.getElementById('changeChannelBtn').addEventListener('click', changeChannel);
 
 document.getElementById('autoRotateBtn').addEventListener('click', (e) => {
+  const switchEl = e.currentTarget;
   if (autoRotateInterval) {
     clearInterval(autoRotateInterval);
     autoRotateInterval = null;
-    e.target.textContent = '▶ AUTO-ROTATE';
-    e.target.classList.remove('active');
+    switchEl.classList.remove('on');
   } else {
     autoRotateInterval = setInterval(changeChannel, 6000);
-    e.target.textContent = '⏸ STOP ROTATING';
-    e.target.classList.add('active');
+    switchEl.classList.add('on');
   }
 });
 
