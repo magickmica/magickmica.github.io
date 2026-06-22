@@ -218,14 +218,32 @@
     flex: 0 1 auto;
     min-height: 0;
     font-family: 'Share Tech Mono', monospace;
-    font-size: clamp(0.85rem, 2.6vw, 1.05rem);
+    font-size: clamp(0.7rem, 2.6vw, 1.05rem);
     color: #f0e8ff;
-    line-height: 1.55;
+    line-height: 1.4;
     white-space: pre-wrap;
     text-shadow: 0 0 8px rgba(110,239,255,0.3);
-    max-height: 100%;
-    overflow-y: auto;
+    overflow: hidden;
     padding: 0 0.3rem;
+  }
+  .note-content.has-img .note-text {
+    font-size: clamp(0.62rem, 2vw, 0.85rem);
+    line-height: 1.3;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+  .note-content:not(.has-img) .note-text {
+    -webkit-line-clamp: 9;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+  .note-content.long-text .note-text {
+    font-size: clamp(0.6rem, 1.8vw, 0.8rem);
+    line-height: 1.3;
+  }
+  .note-content.long-text.has-img .note-img {
+    max-height: 64%;
   }
 
   .note-meta {
@@ -488,6 +506,9 @@ function showNote(note) {
   html += `<div class="note-tap-hint">▸ TAP TO VIEW ON SUBSTACK</div>`;
 
   container.innerHTML = html;
+  container.classList.toggle('has-img', !!note.t);
+  container.classList.toggle('long-text', !!(note.b && note.b.length > 120));
+
   const noteUrl = `https://substack.com/@magickmica/note/c-${note.id}`;
   container.onclick = () => window.open(noteUrl, '_blank', 'noopener');
   document.getElementById('viewOnSubstack').href = noteUrl;
