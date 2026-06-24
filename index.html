@@ -63,8 +63,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    font-size: 0.5rem;
-    letter-spacing: 0.45em;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
     color: rgba(163,255,87,0.7);
     background: rgba(163,255,87,0.06);
@@ -115,8 +115,8 @@
   @keyframes shimmer { to { background-position: 300% center; } }
 
   .hero-tagline {
-    font-size: 0.55rem;
-    letter-spacing: 0.38em;
+    font-size: 0.95rem;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: rgba(200,180,255,0.4);
     margin-bottom: 1rem;
@@ -145,8 +145,8 @@
     margin: 2.8rem 0 1.1rem;
   }
   .section-label span {
-    font-size: 0.48rem;
-    letter-spacing: 0.4em;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: rgba(200,180,255,0.35);
     white-space: nowrap;
@@ -184,8 +184,8 @@
     box-shadow: 0 8px 40px rgba(163,255,87,0.1), 0 2px 12px rgba(0,0,0,0.4);
   }
   .card-featured .card-eyebrow {
-    font-size: 0.48rem;
-    letter-spacing: 0.4em;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--lime);
     margin-bottom: 0.6rem;
@@ -208,7 +208,7 @@
     margin-bottom: 0.6rem;
   }
   .card-featured .card-desc {
-    font-size: 0.55rem;
+    font-size: 0.95rem;
     line-height: 1.9;
     color: rgba(200,180,255,0.5);
     max-width: 520px;
@@ -219,7 +219,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.55rem;
+    font-size: 0.95rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--lime);
@@ -272,14 +272,14 @@
   .card-icon { font-size: 1.6rem; margin-bottom: 0.75rem; line-height: 1; }
   .card-name {
     font-family: 'VT323', monospace;
-    font-size: 1.35rem;
-    letter-spacing: 0.08em;
-    line-height: 1.1;
+    font-size: 1.65rem;
+    letter-spacing: 0.06em;
+    line-height: 1.15;
     color: var(--card-color, #fff);
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.4rem;
   }
   .card-hint {
-    font-size: 0.48rem;
+    font-size: 0.85rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--card-muted, rgba(200,180,255,0.3));
@@ -288,7 +288,7 @@
     line-height: 1.8;
   }
   .card-link-label {
-    font-size: 0.45rem;
+    font-size: 0.8rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--card-color, rgba(200,180,255,0.4));
@@ -347,7 +347,7 @@
   .ext-badge {
     position: absolute;
     top: 0.85rem; right: 0.85rem;
-    font-size: 0.42rem;
+    font-size: 0.75rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: rgba(200,180,255,0.25);
@@ -379,13 +379,13 @@
     background-clip: text;
   }
   .footer-copy {
-    font-size: 0.43rem;
+    font-size: 0.78rem;
     letter-spacing: 0.28em;
     text-transform: uppercase;
     color: rgba(200,180,255,0.18);
   }
   .footer-404 {
-    font-size: 0.43rem;
+    font-size: 0.78rem;
     letter-spacing: 0.2em;
     color: rgba(200,180,255,0.2);
     margin-top: 0.2rem;
@@ -421,6 +421,249 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
+  /* ── RANDOM NOTE MINI TV ── */
+  .mtv-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    margin: 0 auto 1.5rem;
+    max-width: 380px;
+  }
+  .mtv-set {
+    width: 100%;
+    background: linear-gradient(160deg, #2a1f3d 0%, #1a1228 60%, #100a1c 100%);
+    border-radius: 22px;
+    padding: 18px 18px 14px;
+    position: relative;
+    box-shadow:
+      0 20px 50px rgba(0,0,0,0.6),
+      0 0 0 2px rgba(255,255,255,0.04) inset,
+      0 0 35px rgba(255,110,247,0.15);
+  }
+  .mtv-brand {
+    position: absolute; top: 7px; left: 22px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.25);
+  }
+  .mtv-screen-wrap {
+    border-radius: 14px;
+    background: #000;
+    border: 8px solid #0d0815;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+  }
+  .mtv-screen {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 40%, #1c0f2e 0%, #0a0514 75%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.9rem;
+    text-align: center;
+  }
+  .mtv-screen::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
+    pointer-events: none;
+  }
+  .mtv-scanlines {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.25) 0px, transparent 1px, transparent 3px);
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    z-index: 3;
+  }
+  .mtv-flicker {
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,0.02);
+    pointer-events: none;
+    animation: mtv-flicker-kf 2.5s infinite;
+    z-index: 2;
+  }
+  @keyframes mtv-flicker-kf {
+    0%, 92%, 100% { opacity: 0; }
+    94% { opacity: 0.6; }
+    96% { opacity: 0.1; }
+  }
+  .mtv-note {
+    position: relative; z-index: 1;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    animation: mtv-fade-kf 0.4s ease;
+    cursor: pointer;
+  }
+  @keyframes mtv-fade-kf {
+    from { opacity: 0; filter: brightness(2.5); transform: scale(1.03); }
+    to { opacity: 1; filter: brightness(1); transform: scale(1); }
+  }
+  .mtv-note-img {
+    flex: 0 1 auto;
+    max-width: 100%;
+    max-height: 65%;
+    min-height: 0;
+    object-fit: contain;
+    border: 1px solid rgba(255,110,247,0.3);
+    box-shadow: 0 0 14px rgba(255,110,247,0.25);
+  }
+  .mtv-note.portrait-img .mtv-note-img {
+    max-height: 48%;
+  }
+  .mtv-note.portrait-img .mtv-note-text {
+    -webkit-line-clamp: 1;
+  }
+  .mtv-note-text {
+    flex: 0 1 auto;
+    min-height: 0;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(0.62rem, 2.4vw, 0.82rem);
+    color: #f0e8ff;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    text-shadow: 0 0 6px rgba(110,239,255,0.3);
+    overflow: hidden;
+    padding: 0 0.3rem;
+  }
+  .mtv-note.has-img .mtv-note-text {
+    font-size: clamp(0.55rem, 1.8vw, 0.7rem);
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+  .mtv-note:not(.has-img) .mtv-note-text {
+    -webkit-line-clamp: 7;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+  .mtv-note-meta {
+    font-family: 'VT323', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: #f7ff6e;
+    text-shadow: 0 0 6px #f7ff6e;
+  }
+  .mtv-static {
+    position: absolute; inset: 0;
+    z-index: 4;
+    display: none;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0px, transparent 1px, transparent 2px, rgba(255,255,255,0.06) 3px),
+      repeating-radial-gradient(circle at 20% 30%, rgba(255,255,255,0.12) 0, transparent 2%),
+      repeating-radial-gradient(circle at 70% 60%, rgba(255,255,255,0.1) 0, transparent 1.5%);
+    background-size: 100% 4px, 6px 6px, 5px 5px;
+    animation: mtv-noise-kf 0.4s steps(2) infinite;
+  }
+  .mtv-static.active { display: block; }
+  @keyframes mtv-noise-kf {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(-2%, 1%); }
+    50% { transform: translate(2%, -1%); }
+    75% { transform: translate(-1%, -2%); }
+    100% { transform: translate(1%, 2%); }
+  }
+  .mtv-controls {
+    margin-top: 12px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .mtv-unit { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
+  .mtv-knob {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #4a3a66, #1a1228 70%);
+    border: 2px solid rgba(255,110,247,0.4);
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5), 0 0 12px rgba(255,110,247,0.15);
+    transition: box-shadow 0.2s;
+    padding: 0;
+  }
+  .mtv-knob:hover { box-shadow: 0 3px 8px rgba(0,0,0,0.5), 0 0 18px rgba(255,110,247,0.45); }
+  .mtv-knob::after {
+    content: '';
+    position: absolute; top: 5px; left: 50%;
+    width: 2px; height: 10px;
+    background: #ff6ef7;
+    box-shadow: 0 0 4px #ff6ef7;
+    transform: translateX(-50%);
+  }
+  .mtv-knob.spin::after { animation: mtv-spin-kf 0.18s linear; }
+  @keyframes mtv-spin-kf {
+    from { transform: translateX(-50%) rotate(0deg); }
+    to { transform: translateX(-50%) rotate(360deg); }
+  }
+  .mtv-led {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #6effa0;
+    box-shadow: 0 0 8px #6effa0;
+    flex-shrink: 0;
+    align-self: center;
+    margin-bottom: 14px;
+    animation: mtv-led-kf 2s infinite;
+  }
+  @keyframes mtv-led-kf { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .mtv-switch {
+    width: 42px; height: 22px;
+    border-radius: 12px;
+    background: #0d0815;
+    border: 2px solid rgba(110,239,255,0.35);
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .mtv-switch-nub {
+    position: absolute; top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: linear-gradient(160deg, #6e6080, #2a1f3d);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    transition: transform 0.25s, background 0.25s;
+  }
+  .mtv-switch.on {
+    border-color: #6ef7ff;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6), 0 0 14px rgba(110,239,255,0.4);
+  }
+  .mtv-switch.on .mtv-switch-nub {
+    transform: translateX(20px);
+    background: linear-gradient(160deg, #6ef7ff, #1a8a99);
+  }
+  .mtv-label {
+    font-family: 'VT323', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .mtv-pink { color: #ff6ef7; text-shadow: 0 0 6px rgba(255,110,247,0.5); }
+  .mtv-cyan { color: #6ef7ff; text-shadow: 0 0 6px rgba(110,239,255,0.5); }
+  .mtv-full-link {
+    font-family: 'VT323', monospace;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    color: #f7ff6e;
+    text-decoration: none;
+    border: 1px solid #f7ff6e;
+    padding: 0.4rem 1.1rem;
+    transition: all 0.2s;
+  }
+  .mtv-full-link:hover { background: #f7ff6e; color: #000; box-shadow: 0 0 14px #f7ff6e; }
+
 </style>
 </head>
 <body>
@@ -478,6 +721,67 @@
       <div class="card-link-label">Go there →</div>
     </a>
 
+  </div>
+
+  <!-- ── SUBSTACK ARCHIVE ── -->
+  <div class="section-label"><span>Substack Archive</span></div>
+
+  <div class="card-grid">
+
+    <a class="card v-pink" href="https://magickmica.github.io/blog.html">
+      <span class="card-icon">✦</span>
+      <div class="card-name">The Blog</div>
+      <div class="card-hint">A cosmic corner of the internet. Posts, sidebar curiosities, and the occasional surprise.</div>
+      <div class="card-link-label">Read the blog →</div>
+    </a>
+
+    <a class="card v-cyan" href="https://magickmica.github.io/notes.html">
+      <span class="card-icon">📝</span>
+      <div class="card-name">Notes Archive</div>
+      <div class="card-hint">Every transmission, never lost. Search thousands of notes by date, mood, or media.</div>
+      <div class="card-link-label">Browse the notes →</div>
+    </a>
+
+    <a class="card v-gold" href="https://magickmica.github.io/articles.html">
+      <span class="card-icon">📰</span>
+      <div class="card-name">Article Archive</div>
+      <div class="card-hint">The full magazine. Every newsletter issue from Magick Mica TV and Magick Mica Art, in one place.</div>
+      <div class="card-link-label">Read the archive →</div>
+    </a>
+
+  </div>
+
+  <!-- ── RANDOM NOTE TV (embedded mini player) ── -->
+  <div class="section-label"><span>Random Note TV</span></div>
+
+  <div class="mtv-wrap">
+    <div class="mtv-set">
+      <div class="mtv-brand">MAGICKVISION™</div>
+      <div class="mtv-screen-wrap">
+        <div class="mtv-screen" id="mtvScreen">
+          <div class="mtv-note" id="mtvNote"></div>
+        </div>
+        <div class="mtv-static" id="mtvStatic"></div>
+        <div class="mtv-scanlines"></div>
+        <div class="mtv-flicker"></div>
+      </div>
+      <div class="mtv-controls">
+        <div class="mtv-unit">
+          <button class="mtv-knob" id="mtvChannelBtn" aria-label="Change channel">
+            <span class="mtv-knob-ticks"></span>
+          </button>
+          <span class="mtv-label mtv-pink">Change Channel</span>
+        </div>
+        <div class="mtv-led"></div>
+        <div class="mtv-unit">
+          <button class="mtv-switch" id="mtvAutoBtn" aria-label="Toggle auto-rotate">
+            <span class="mtv-switch-nub"></span>
+          </button>
+          <span class="mtv-label mtv-cyan">Auto-Rotate</span>
+        </div>
+      </div>
+    </div>
+    <a class="mtv-full-link" href="https://magickmica.github.io/random-note.html">📺 Open Full Random Note TV →</a>
   </div>
 
   <!-- ── EXTENDED UNIVERSE ── -->
@@ -570,6 +874,77 @@
     document.body.appendChild(p);
   }
 })();
+</script>
+
+<script>
+const MTV_NOTES = [{"d":"2026-04-13","l":82,"r":6,"id":242529436,"b":"You are beautiful, You are worthy, You are enough.\n\n𖤓","c":["queen"]},{"d":"2026-03-27","l":60,"r":16,"id":234062272,"b":"“Just a ghost trying to espresso myself into existence.”\n\n𖤓 ｡𖦹°‧ ⋆☀︎.𓍢ִ໋☕️✧˚ ༘ ⋆","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa8f17e8c-c14a-4672-864a-5b6fe98da973_600x600.gif"},{"d":"2026-02-17","l":60,"r":12,"id":215718429,"b":"“Every version of me was practice for the miracle I am now.”\n\n✨⋆✴︎˚｡⋆ ⊹₊🪄⊹₊⟡⋆💫","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2acf2e4d-ef35-4489-8c93-b2e4fa0cdcdd_1200x1409.png"},{"d":"2026-04-06","l":55,"r":6,"id":238967395,"b":"Abundance flows to me because I am open and ready to receive peace and freedom.\n\n💚"},{"d":"2026-05-25","l":54,"r":13,"id":264761834,"b":"“Curiosity didn’t kill the cat — it opened a portal.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2fcc5d7-40a3-4385-bec4-b0f3ebd02edb_896x1600.jpeg","c":["animals"]},{"d":"2026-03-21","l":53,"r":13,"id":230977692,"b":"“Midnight wasn’t the end of her story… it was the doorway to a thousand untold ones.”\n\n👗🪄🕛⋆.˚🦋༘⋆❤︎","m":"3I01fFd4sBZC5Fu01RT4kJc8Da8XWuJ002nkM00FO3cZFUY","c":["gothic"]},{"d":"2026-02-21","l":52,"r":5,"id":217651659,"b":"“Without music, life would be a mistake.” \n\nFriedrich Nietzsche\n\nִֶָ. ..𓆩❤️‍🔥𓆪𓂃 ࣪ ִֶָ🔥་༘࿐💥ৡ","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1d9c3452-0a5e-4fbf-ae9f-f93b350aff9f_1200x1200.png"},{"d":"2026-04-07","l":49,"r":19,"id":239392252,"b":"“Rest is not a reward. It’s a requirement.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F74d5d26f-0088-4ef9-aed2-19ccb3e640df_1200x663.png"},{"d":"2026-05-13","l":47,"r":5,"id":258314262,"b":"The dream was lovely, but being alive is magic.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F36e1dba8-fa53-4bf6-afaf-0b292f7d04a1_1200x1200.png"},{"d":"2026-05-27","l":45,"r":10,"id":265733318,"b":"“Like, if Edgar Allan Poe had a shopping addiction.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5d600b71-025a-44a0-a1df-7e929f8c29cb_1024x1536.png"},{"d":"2026-05-08","l":43,"r":4,"id":255867819,"b":"I don’t seek divine timing… I am divine timing. \n\n❦"},{"d":"2026-04-16","l":42,"r":10,"id":244449031,"b":"Make them wonder how you became this divine.","m":"MFVvlp4pBQfvRFwR2zzxVXj00SUgcIfZCwZwWdcO3bF00"},{"d":"2026-03-19","l":42,"r":8,"id":230067338,"b":"🌿✨“The forest does not make noise when it creates legends—it whispers, and those who listen become them.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fec68691b-ab7f-486d-8605-8a2876b47a77_800x440.gif"},{"d":"2026-02-27","l":42,"r":9,"id":220498486,"b":"“Nature always wears the colors of the spirit.”\n\nRalph Waldo Emerson\n\n💦⟡ ݁₊ .🤍🌊☁️⟡ ݁₊ .🌿🍃✨️","m":"gVm3w0083Hd00UOcSOkB3hgBpaCIlZlM9eQFIb02ftqAME"},{"d":"2026-05-07","l":41,"r":10,"id":255251188,"b":"“Maybe humanity was softer when we danced under \n\nconstellations instead of algorithms.” \n\n—📼VHS Crystal Goddess .𖢻 ݁ ˖:","m":"lceuN6wnjv6jbdIe02bfQuuSwFhS9FBIG6bg7nHipVKg","c":["egypt","cosmic","y2k"]},{"d":"2026-05-05","l":41,"r":7,"id":254020646,"b":"I don’t follow roads, I bend them.\n\n💖🍁⭐☘️💎🪻 No Place Like Me.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F704ee90c-084e-4778-9731-439cf30fc665_1888x1888.png"},{"d":"2026-03-22","l":41,"r":5,"id":231676095,"b":"“Not all spells need wands—some are made with sugar, sunshine, and a wooden spoon.”\n\n🥣‧₊˚ ⋅  𓐐𓎩 ‧₊˚ ⋅🍪⋆˚࿔✨","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Facb26bc1-0462-4b7a-9b5e-4be99cd5bf12_600x600.gif","c":["gothic","food"]},{"d":"2026-04-08","l":40,"r":8,"id":240434259,"b":"Glow like you remember something ancient about yourself that the world hasn’t caught up to yet.","c":["queen"]},{"d":"2026-03-09","l":40,"r":7,"id":225221489,"b":"“The sea, once it casts its spell, holds one in its net of wonder forever.”\n\nJacques Cousteau","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdf795bd8-2e9b-4281-8096-e28ddbfe0541_400x727.gif","c":["gothic"]},{"d":"2026-05-05","l":39,"r":4,"id":254026780,"b":"The universe doesn’t always rush—sometimes it holds the wave steady just for you. ✨🌊","c":["cosmic"]},{"d":"2026-05-03","l":39,"r":5,"id":252944293,"b":"The Healing Hand is here for you… always.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F864bd0f8-d3df-4c61-9da2-7dc9d0cf6fe6_600x600.gif"},{"d":"2026-04-13","l":39,"r":0,"id":242676355,"b":"Be so aligned within yourself that confusion cannot comfortably exist around you.","c":["queen"]},{"d":"2026-04-07","l":39,"r":4,"id":239541706,"b":"Carry yourself like magic is mandatory."},{"d":"2026-05-24","l":37,"r":7,"id":264528286,"b":"Glow like you’ve already met your highest self and decided to never shrink again.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b29b35d-d833-426a-bea4-6c55ef3d8ea2_500x500.gif","c":["queen"]},{"d":"2026-04-15","l":37,"r":7,"id":243857689,"b":"”I am here to honor what my spirit already knows.”\n\n࿔","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F26a8124b-69cd-4847-a5fd-5e775c2169d4_1120x1120.png"},{"d":"2026-03-27","l":37,"r":6,"id":233836605,"b":"“Let it all dissolve back into source—your soul was always holy, always precious.”\n\n⭐────────✨➜❤️────୨ৎ────💖｡ ₊°༺❤︎༻°₊ ｡","m":"POvQz02YFf00i5WnNX2TU3kVgwKUKCBJAbbB5AIAJDbLk"},{"d":"2026-05-27","l":35,"r":8,"id":265909733,"b":"🌊 “Water never argues with the rock. It simply keeps moving.”"},{"d":"2026-05-07","l":35,"r":4,"id":255421725,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb7337b58-4931-4b8f-9956-152048ea59d2_1024x1536.png"},{"d":"2026-04-12","l":35,"r":5,"id":242336644,"b":"Be rare enough to be remembered, soft enough to be loved."},{"d":"2026-03-15","l":35,"r":10,"id":227965619,"b":"“If life is but a dream, Alice wondered who was holding the remote.”","m":"OUdHtP8w5tz00So1f02022sOg02H02DIbcTmKdvGQdq2T029A","c":["wonderland"]},{"d":"2026-03-04","l":35,"r":6,"id":223025779,"b":"“Galactic feminine rising.”\n\n⋆.ೃ࿔*:･࿔‧ ֶָ֢˚˖𐦍˖˚ֶָ֢ ‧࿔₊⊹𓇢𓆸","m":"kNhVJQ3LbwFL3ZYXQ6jxkX2nSR962eHgm8jSNq3XA3Q"},{"d":"2026-04-13","l":34,"r":7,"id":242479152,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F61414c94-1a52-447c-b99e-bb6673ee236e_600x600.gif"},{"d":"2026-04-07","l":34,"r":4,"id":239379842,"b":"Treat your peace like a sacred investment—protected, prioritized, and never negotiated."},{"d":"2026-04-06","l":34,"r":1,"id":239305010,"b":"I really want to say a deep thank you to everyone who likes and comments, and even if you just like to look, you are welcome here."},{"d":"2026-02-23","l":34,"r":8,"id":218586015,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F075496f6-f19e-4574-99e3-60c88b1cd9e2_761x740.png"},{"d":"2026-06-12","l":33,"r":6,"id":274957602,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3eb46464-75f2-4ebb-abaa-d2ecb789386a_2048x2048.jpeg"},{"d":"2026-05-20","l":33,"r":6,"id":262436664,"b":"“I was not born beneath the stars… darling, I taught them how to shimmer.”\n\n🌌","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6468d82a-9e6d-453e-b3d2-acedf0731aaf_1200x1200.png","c":["cosmic","queen"]},{"d":"2026-05-20","l":33,"r":8,"id":262177002,"b":"Soul of a Warrior.  Heart of a Queen. \n\nShe carries ancient strength with modern magic. \n\n𖧶","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F448f883c-d66a-483e-be6e-aea7a30b38ca_1254x1254.png","c":["queen"]},{"d":"2026-05-15","l":33,"r":5,"id":259619647,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd03f7ab4-ca06-4590-ac4d-12e366081a18_1312x1206.png"},{"d":"2026-05-15","l":33,"r":5,"id":259405966,"b":"SMILE.    Move those muscle cheeks!","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9e682857-9902-46ed-9792-6423f16685ec_1200x1200.png"},{"d":"2026-05-14","l":33,"r":5,"id":258951160,"b":"Treat Your Energy Like Royalty.  🜲","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2fe8bfa7-5a8e-48bf-9e58-35dbd2d9b4ec_1254x1254.png"},{"d":"2026-04-05","l":33,"r":7,"id":238707102,"b":"“I don’t obey the broadcast… I rewrite the frequency.”\n\n₊˚⊹♡﹌﹌﹌﹌﹌☆⋆｡𖦹°‧★❯❯❯❯﹌﹌﹌⟢ ˙ᵕ˙","m":"tkgyYOqzqI1D7YxudnI3DES6TUMsjeyAQij02s3lnoDI"},{"d":"2026-03-15","l":33,"r":4,"id":228226059,"b":"“In this little floating kitchen, the coffee pours forever—yet the cup remains perfectly full, as if the universe understands balance.”\n\n☕︎˙✧✨˖°☕ ༘ ⋆｡˚‧✨ ‧₊˚ ⋅⋆☕︎ ˖","m":"gv6GBgb1UFmh01Yemk00xPXa6IPs1K00F3TMWJShCg8ZYo","c":["cosmic","food"]},{"d":"2026-03-02","l":33,"r":4,"id":222094517,"b":"Dino Dragonfly Neon World\n\n🦖˚ ༘ ⋆｡˚ 🦕✧ ˚ ༘ ⋆｡˚ 🌿≽༏≼","m":"ojIjkYRz2Lv1ER9i6Gs25J3rJ02B8OFlNMfHX3BrNZRg","c":["animals"]},{"d":"2026-01-22","l":33,"r":5,"id":203282967,"b":"Too Fine for the Frame","m":"ZU01nou7ktWl01c7GlAhQ02cg6ywaWyczTmD8xS02wj7RhE"},{"d":"2026-04-20","l":32,"r":3,"id":246252344,"b":"“Cosmic paws, cozy thoughts, and tea that tastes like dreams.”\n\n🌌♠🐈‍⬛💠🐾","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7ed44e20-aede-42f2-99b9-90460deed2e6_1250x1250.png","c":["cosmic"]},{"d":"2026-04-15","l":32,"r":1,"id":242959903,"b":"Raise your standards until your reality rises with you.\n\n၊၊||၊"},{"d":"2026-03-01","l":32,"r":5,"id":221483363,"b":"“Her claws are velvet, but her spirit is solar.”\n\n💫⋆⭒˚.⋆🪐 ⋆⭒˚.⋆\n\nCosmick Cat  \n\n🐾๋࣭ ⭑⚝💜✮⋆˙≽ܫ≼","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffd3d4895-c354-4221-b493-e038bb1321cb_384x592.gif","c":["cosmic","gothic","animals"]},{"d":"2026-02-14","l":32,"r":8,"id":214441986,"b":"Glow Like the Galaxy Goddess You Are.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F68ac5dbb-8513-4b6d-9c67-4bdc7ccd22d2_1200x1200.png","c":["egypt","cosmic","queen"]},{"d":"2026-02-05","l":32,"r":1,"id":210514569,"b":"🥠 I just opened my fortune cookie. 🥠\n\n\n\nIt reads: 👀\n\n\n\nTomorrow will be a day of healing and renewal.\n\n\n\n👍 Ok. I’ll take it.  😊","c":["food"]},{"d":"2026-04-29","l":31,"r":7,"id":250763811,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd44836e9-fbf1-4563-b8c8-1469e5862114_1555x1555.png"},{"d":"2026-04-19","l":31,"r":2,"id":245791610,"b":"The forest still remembers you—\n\neven if you traded its whispers for glowing cities and electric skies.\n\n𖠰","c":["queen"]},{"d":"2026-03-28","l":31,"r":10,"id":234661864,"b":"“At 12:12, she didn’t wake from sleep—she woke from illusion, and the whole kingdom shimmered back to life.”\n\nᶻ 𝗓 𐰁 .ᐟ🏰𓍢ִ໋࿆🌷͙֒✧˚ ༘⚜️ ⋆｡˚♡🪡","m":"58MoqcHbYOgmVIjl3veG3OgbMKtp76F9xPyMITgLjVM","c":["queen"]},{"d":"2026-03-29","l":30,"r":9,"id":234996188,"b":"“I do not simply exist within this world… I drift through it, a whispered dream wrapped in light and longing.”\n\n🪄‧₊˚ ☁️⋅♡🪐༘⋆🔮☾🌳𖤓🌌","m":"dzQJAjSt5mPgoFE6FfRfaKzt00DmwY0143o1TJv1C00UuY"},{"d":"2026-03-28","l":30,"r":7,"id":234811228,"b":"\"I didn’t wake up in a new world…I stayed, and watched this one transform around me.\"","m":"qvTUSM02e5QOXXpcZPe86RXpedxy02VMLM1dyUfqIiSP00"},{"d":"2026-03-24","l":30,"r":7,"id":232645451,"b":"Cheshire Cat: “Tell me, Alice… which current will you follow?”\n\nAlice: “I don’t care which wave takes me—”\n\nCheshire Cat: “Then all tides are in your favor.”\n\nAlice: “—so long as I don’t drift forever.”\n\nCheshire Cat: “Drift long enough… and even the ocean delivers you somewhere.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fde85ab22-95a0-45cb-b537-40cc6e60596f_600x600.gif","c":["wonderland","animals"]},{"d":"2026-03-23","l":30,"r":6,"id":232258254,"b":"“Wings made of starlight……  Fairy portal open.”\n\n˚˖𓍢ִ໋🧚🏻₊˚ʚ 🪷 ₊˚⋆.˚🦋༘⋆𓂃 ࣪˖ ִֶָ🧚‍♀️*˖˚ֶָ֢ ‧࿔","m":"g8cctxtgOZr7gd6tm4LX92Apgh00202sovVAPNh00x3MdM","c":["cosmic","animals"]},{"d":"2026-02-16","l":30,"r":9,"id":215322331,"b":"“A goddess does not chase trends,  she creates timelines.”\n\n.˳·˖✶𓆩𓁺𓆪✶˖·˳.🎞️｡ ₊༺❤︎༻°₊ ｡⭐11:11","m":"lfI02EyTaQSaUoG5HJuoESiEwk023fmwdIcNE3NlOsiRE","c":["egypt"]},{"d":"2026-02-11","l":30,"r":2,"id":213136875,"b":"“I celebrate myself, and sing myself.”\n\nWalt Whitman\n\nﾒ𝟶ﾒ𝟶\n\n❄️💎❅💙","m":"24MXEiZ7ADY77U3ipAwk5A7oVzfbYlDmH5iZwyxuxAg"},{"d":"2026-06-12","l":29,"r":6,"id":274761264,"b":"“Alice didn't fall down the rabbit hole. She uploaded herself to another dimension.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2ed7e4b9-928f-44a2-a2fb-8cc95648ae50_1200x1513.png","c":["wonderland","animals"]},{"d":"2026-05-22","l":29,"r":4,"id":263461283,"b":"Don’t be like the rest of them, Darling. ♡","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2f45614b-3d22-4834-bf8f-660ded8937b1_1550x1846.png"},{"d":"2026-04-08","l":29,"r":5,"id":240103223,"b":"Love from overflow, never from absence, never from hunger."},{"d":"2026-03-20","l":29,"r":6,"id":230818806,"b":"“When I open up my sleepy eyes… the cosmos purrs back at me.”\n\n⋆.˚🌕. ݁₊ ⊹🌌 . ݁˖ . ݁⋆⭒˚.⋆🪐 ⋆⭒˚.⋆🌍.𖥔 ݁ ˖🌠","m":"KEK1WI024heof12cCvRo501Sm62bfLVVmacHTjcmcm4bE"},{"d":"2026-03-18","l":29,"r":14,"id":229774322,"b":"“Somewhere between the first sip and the last, I became a dream.”\n\n♡₊˚ 🐸・₊✧💚.✦ ݁˖🍵","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F589f4589-f485-4d59-bdd3-859be3e890e1_600x600.gif"},{"d":"2026-02-25","l":29,"r":4,"id":219460726,"b":"“Courage is resistance to fear, mastery of fear—not absence of fear.”\n\nMark Twain","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9a7b08dd-a846-4b25-b135-28ee0861dd1a_1200x2104.png"},{"d":"2026-06-14","l":28,"r":7,"id":276100790,"b":"“Some teas wake the body. This one woke forgotten memories from past lives.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff87b3527-17ac-4275-804b-2f65e5974e27_2048x2048.jpeg"},{"d":"2026-04-14","l":28,"r":3,"id":243434012,"b":"Walk like the universe personally styled you.\n\n𓃮","c":["cosmic"]},{"d":"2026-04-07","l":28,"r":4,"id":239349910,"b":"Speak as if your words are rare elements—measured, intentional, and never wasted."},{"d":"2026-03-03","l":28,"r":10,"id":222516239,"b":"“The cosmos bends for the soul who trusts its own orbit.”\n\n⋆✴︎˚｡🌠⋆✨💫★⭐️💗🪄✨ \n\nhttps://substack.com/@magickmica/note/c-222421387?r=1hebq8&utm_source=notes-share-action&utm_medium=web","m":"CukK3R02ri00keNjAMc5902BC2EMYlnGs1YocN2FP01BBao","c":["cosmic"]},{"d":"2026-02-28","l":28,"r":3,"id":221183368,"b":"“Glow like you were handcrafted by starlight.”\n\n🪄✨⋆✴︎˚｡⋆⭐࿐ ࿔*:･ﾟ🌌★","m":"jKlaY3SdNozbVewRF4hIKZrCZgfgA4kvaz8M9jvigo00","c":["cosmic","queen"]},{"d":"2026-02-28","l":28,"r":6,"id":220913716,"b":"“I paint flowers so they will not die.”\n\n🌺Frida Kahlo","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6181c019-23e6-4575-a9b3-519eefac9889_1200x1738.png"},{"d":"2026-02-09","l":28,"r":3,"id":212219625,"b":"“She does not chase the stars; she remembers she was made of them.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F83f82526-e016-4251-ba45-d57bb5d467de_1200x686.png","c":["cosmic"]},{"d":"2026-02-06","l":28,"r":4,"id":210623786,"b":"“She is proof that gentleness can rule empires.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F971534c4-0c26-468e-b681-6c9ee5f58928_1200x1200.png"},{"d":"2026-01-31","l":28,"r":2,"id":207843415,"b":"Act like your soul is expensive."},{"d":"2026-05-08","l":27,"r":7,"id":255967514,"b":"Your ticket to Dreamland…….. \n\n*more to come later","m":"zO4fjciKvdfGg1baroPZpWno00klOOKCCALThQq1F6qA"},{"d":"2026-05-02","l":27,"r":3,"id":252660967,"b":"Pretty.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F91c74609-6dd4-4b84-9cf0-a15e5696c681_1368x768.png","c":["queen"]},{"d":"2026-04-15","l":27,"r":1,"id":244066146,"b":"Slowing down isn’t falling behind, it’s letting life season you properly.\n\n⋆˚✿"},{"d":"2026-04-14","l":27,"r":7,"id":243227688,"b":"“Catch the glow, not just the wave—let the light carry you where fear won’t.”","m":"8NUtxPTooKD39vJsxTMLJgoboYI9EhIiUSQXvbIOwLs","c":["animals","queen"]},{"d":"2026-04-10","l":27,"r":2,"id":241293172,"b":"The universe doesn’t rush masterpieces… it lets them develop layers.\n\n☰","c":["cosmic","art"]},{"d":"2026-03-21","l":27,"r":10,"id":231311985,"b":"“Step right up — this train don’t follow maps… only magick.”\n\n🔮⋆.˚ ☾⭒.˚🌙⋆✴︎˚｡💜⋆✨💫⭐️⋆˙⟡💖🪶📜🌕ִֶָ☾♡","m":"sgWVTwluauymKkc02zhk3JJV5i2QDaJRHtiMq01khNnGw"},{"d":"2026-03-01","l":27,"r":4,"id":221601484,"b":"🥠 Today’s fortune cookie reads:\n\nRemember to celebrate small victories.","c":["food"]},{"d":"2026-06-17","l":26,"r":5,"id":277894940,"b":"I woke up feeling like a miracle in motion.\n\n𓀤𓀥"},{"d":"2026-06-02","l":26,"r":7,"id":269060278,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F23456183-fc95-421d-a054-2b98c7a2aa4e_1200x1200.png"},{"d":"2026-05-28","l":26,"r":5,"id":266745655,"b":"“The return of the old web is really the return of imagination.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Feb542166-dec8-4e06-b71b-2b03fb72dec3_1254x1254.png"},{"d":"2026-05-10","l":26,"r":3,"id":256786900,"b":"ᕼᗩᑭᑭY Mother’s Day \n\n𖤓"},{"d":"2026-05-03","l":26,"r":3,"id":253017180,"b":"The universe fits quite nicely inside a teacup, don’t you think?\n\nYours Truly,\n\nCosmick Frog ✨🐸","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffc2215f6-9918-4c0f-99d7-c69955e35b75_2222x2222.png","c":["cosmic"]},{"d":"2026-04-28","l":26,"r":2,"id":250557936,"b":"Fairy logic only.\n\n⋆.ೃ𐦍*:･⋆𐦍.ೃ࿔*:･","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb16c965a-21f8-4cfd-b70c-f45d32ad7ff6_1200x1200.png","c":["animals"]},{"d":"2026-04-09","l":26,"r":4,"id":240620654,"b":"“Not lost—just gently swaying through timelines.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F90ffdc8c-ed6b-436b-897c-55cb27c95f55_1440x2160.jpeg"},{"d":"2026-04-08","l":26,"r":2,"id":240031808,"b":"“She stirs her tea the way she stirs her energy — slowly, gently, with intention.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F074b1f02-2b7d-4518-98a6-1be45cfaf4a7_1200x1200.png","c":["animals"]},{"d":"2026-03-28","l":26,"r":10,"id":234399638,"b":"▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄","m":"6LPdedy3tJ1RBMPDl3ixW02ijMH502KtfqROI1aSWb02qA"},{"d":"2026-03-17","l":26,"r":5,"id":229373552,"b":"“You are never walking alone—wings you cannot see are lifting you forward. We’ve got this.”\n\n⋆✴︎˚｡⋆ @Eve Solara ⋆✴︎˚｡⋆","m":"tGV02A7dZxhQ86008x1Woa01aV001dspV63kL5UHnK7Ze8s"},{"d":"2026-03-12","l":26,"r":6,"id":226833678,"b":"Time for cosmic coffee. ☕🌌","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F534917e1-43db-41fe-9bbf-1981c6a4f8e7_450x450.gif","c":["cosmic","food"]},{"d":"2026-03-09","l":26,"r":3,"id":225362465,"b":"“Enter rooms like destiny invited you.”","m":"VjsPO02Otk6naSGq028ouIdcmGZJSvAFx6KYJyIynuggQ"},{"d":"2026-03-01","l":26,"r":4,"id":221237586,"b":"“You are held by a universe that knows your name.”\n\n⋆⭒˚.⋆🔭.𖥔 ݁ ˖🛸── .✦⋆⭒˚.⋆🪐 ⋆⭒˚.⋆","m":"v1Bqolxb1jCfTjz2sKwt7UY32102ilXOJZ501pAx37u028","c":["cosmic"]},{"d":"2026-02-19","l":26,"r":7,"id":216699086,"b":"“Sometimes things fall apart so that better things can fall together.”\n\nMarilyn Monroe  💋","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4f0728ed-8cac-46cb-830d-87399fc8e25f_1200x1641.png"},{"d":"2026-06-18","l":25,"r":6,"id":278711185,"b":"👻 ̟࿔*:⋆☕Ghostlight Coffee","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc2db026a-da61-44a9-be9c-7a3bd695051a_1149x1369.png","v":false},{"d":"2026-06-15","l":25,"r":5,"id":276924261,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b44bfbc-ba9f-4bc6-b54f-e4a36a5968b5_2048x2048.jpeg"},{"d":"2026-06-14","l":25,"r":5,"id":275869878,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F68ac10df-c54e-4d09-a82d-dcda17510cd8_1122x1402.png"},{"d":"2026-05-21","l":25,"r":6,"id":262870283,"b":"Make magic. Make moves. Make it count.\n\n⋆｡ﾟ🌊｡⏾⋆","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb7cdd7a5-77a2-4789-a46d-297baea5d4e0_1254x1254.png"},{"d":"2026-05-20","l":25,"r":4,"id":262071555,"b":"Coffee first. Then alignment with the shimmering architecture of reality.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6dbf1d27-fbec-4105-b144-ad0c415896ed_1200x1200.png","c":["food","queen"]},{"d":"2026-05-10","l":25,"r":2,"id":256665320,"b":"I don’t reach for the stars… they remember me.\n\n✷","c":["cosmic"]},{"d":"2026-05-03","l":25,"r":1,"id":253173665,"b":"“I slipped through a fracture in the sky and found you.”\n\nཐི༏ཋྀ.𓂃 ࣪˖ ִֶָ🧚‍♀️*˖˚ֶָ֢ ‧࿔✦ ݁˖🧚🏻‍♀️✨⋆✴︎˚｡⋆🍄˖᯽ ݁˖","m":"TwTJeLHlP7jmN2OGHhPoaDvSQ1017orwzJxNH6p2T7O8"},{"d":"2026-04-15","l":25,"r":3,"id":243710350,"b":"You’re not late… you just found the slower magic.\n\n❅"},{"d":"2026-04-13","l":25,"r":4,"id":242746491,"b":"“She didn’t rush her routine—she enchanted it.”\n\n⊹₊⟡⋆˗ˏˋ☕ˎˊ˗⊹₊⟡⋆🏠","m":"TDwg6GCMpPMR6uTrL6o51FxJWnOPRyGKFhw2PsN3Mhs"},{"d":"2026-04-11","l":25,"r":4,"id":241738156,"b":"Just Trust Yourself ⋆˙⟡🌹 @Eve Solara","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa11b3c7f-2496-4310-9d9f-dc52e69039e9_1500x855.png"},{"d":"2026-04-09","l":25,"r":1,"id":240435079,"b":"Let your silence say what your energy no longer needs to explain."},{"d":"2026-04-07","l":25,"r":4,"id":239541304,"b":"Be priceless, not popular."},{"d":"2026-03-23","l":25,"r":7,"id":231905702,"b":"\"The all-seeing eye does not sleep—it rings the alarm inside your soul until you remember who you are.\"\n\n👁️𖹭𓏲ּ𝄢𓂁𓂄🧿👁‍🗨(˶ᵔ ᵕ ᵔ˶)𓂀𓁹 𓁹𓁹‿𓁹","m":"302wNF3D4G2ikfnZXFSX02VP8LzdMWr9KbrmTNEF02etVI"},{"d":"2026-03-21","l":25,"r":6,"id":231265926,"b":"“Baking is a quiet kind of magic—warming the hands, and gently healing the heart.”\n\nฅ՞•ﻌ•՞ฅ  💗","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4e517b2c-705c-481b-8091-8fc29bfdd9de_600x600.gif"},{"d":"2026-03-19","l":25,"r":8,"id":230358658,"b":"“Between nebula clouds and glittering galaxies walks a cat made of stardust.”\n\n🐈‍⬛‧₊˚ ☁️⋅♡🪐༘⋆‧₊˚ ✶⋆.˚⋆.˚ ☾⭒.˚⭒˚.⋆⭒🖤⃝🪐⭒˚.⋆⭒","m":"VsJDXtYZLvx5bPRuBJv3TH00UtjGsNPX01RYKp4YTIa2Q","c":["cosmic","animals"]},{"d":"2026-03-14","l":25,"r":3,"id":227711430,"b":"“The cup is warm, the crystals shimmer, and the day begins with quiet magic.”\n\n☕⋆✴︎˚｡⋆✨🪄★⋆˙⟡🔥","m":"Zkek0102Z32YrxYVM1yChGIl4C9iMab00pe00u00EZYF9sx00","c":["queen"]},{"d":"2026-03-09","l":25,"r":2,"id":225158161,"b":"Feeling 💚🌈💰🍀🍀𝓁𝓊𝒸𝓀𝓎🍀","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F90a838c5-8fc3-494d-a21d-8dbfbf1124df_1200x1455.png"},{"d":"2026-03-08","l":25,"r":3,"id":224743536,"b":"Lost an hour. I have my tea to warm me up.\n\nI see a lot of don’t forget to drink water reminders.\n\nWell, try having warm herbal tea instead. Dip into it. Start like a kid at a dinner table. Get a semi hot cup of tea and put a spoon or two of sugar in it. Swirl it around. Take your time… take a sip. Your belly will love you. \n\n⋆˚࿔🫖‧₊˚ ⋅ ☕︎ 𓎩 ‧₊˚ ⋅","c":["cosmic","food"]},{"d":"2026-01-28","l":25,"r":5,"id":206516145,"b":"Venus Power Moves\n\n🤍☁️🌿🍃✨️","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc40a0af5-da18-4893-b1ee-a319dadea046_1200x1200.png"},{"d":"2026-06-11","l":24,"r":6,"id":274173209,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4a8cc298-d34f-4139-806e-85269c922418_1539x1022.png"},{"d":"2026-06-05","l":24,"r":6,"id":271161538,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9792308b-5a35-4e3c-baa2-6b9b431fb39d_834x834.png"},{"d":"2026-05-18","l":24,"r":3,"id":261091655,"b":"The ancients did not build monuments… they built frequencies.\n\n𓂀 𓋹","m":"U2AlQOznxY6UWv41relyDMnCkAoEfd9Bt8aHBwhpIxw"},{"d":"2026-05-16","l":24,"r":3,"id":259992452,"b":"I just made some hot tea myself, with extra maple syrup.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5ff97b3e-4e52-45cf-b24c-cc5701a10e50_1200x1200.png"},{"d":"2026-05-16","l":24,"r":5,"id":259835471,"b":"11:11","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b59332c-d2a7-48b6-8752-11d58379acd4_1254x1254.png"},{"d":"2026-05-14","l":24,"r":5,"id":258812511,"b":"What if the world remembered the sky instead of the screen?\n\n✴︎"},{"d":"2026-04-20","l":24,"r":5,"id":246264063,"b":"Be careful what you call “unproductive”—your peace is doing invisible work.\n\n𖡎"},{"d":"2026-04-19","l":24,"r":4,"id":245918636,"b":"Hi, I didn’t trip… I chose to fall into something curious.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F74602fc3-5330-4096-b619-2be7c511c0dd_540x832.gif"},{"d":"2026-04-14","l":24,"r":1,"id":243406043,"b":"“The fairies never lie — they just sparkle around the truth.”\n\n𖧧","m":"0026402Foy9AWHsu3kD9RxOcDYE01JqLXZ5vIilDBNW012w","c":["queen"]},{"d":"2026-04-14","l":24,"r":2,"id":243345241,"b":"Protect your sparkle like it’s top secret.\n\n🕵🏻","c":["queen"]},{"d":"2026-04-13","l":24,"r":1,"id":242833882,"b":"You are flowing in abundance. What is needed will soon be here."},{"d":"2026-04-13","l":24,"r":3,"id":242335955,"b":"Your aura? Limited edition.\n\n✰"},{"d":"2026-04-10","l":24,"r":5,"id":240237820,"b":"“The universe pours endlessly, yet my cup receives only what my heart can hold.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe5665e96-d444-4ad3-a85e-8dc1299d93bf_1668x919.png","c":["cosmic"]},{"d":"2026-04-09","l":24,"r":2,"id":240920091,"b":"Shine quietly, but leave a trail.\n\n𓂀"},{"d":"2026-04-04","l":24,"r":2,"id":237521401,"b":"If you’re reading this now, you are not behind, you are not late—you are on your own perfectly timed path.\n\n🌠"},{"d":"2026-04-03","l":24,"r":5,"id":237602562,"b":"“Romanticize your divinity.”\n\n🏝️🦜🥥🌿🌴˚.⋆☁️🌳 🦍🌴🐒˚˖𓍢ִ໋🍃","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fedf96362-571e-4b2e-a02b-3c9e97e5b933_1200x1200.png"},{"d":"2026-03-21","l":24,"r":2,"id":231078710,"b":"What I build in quiet moments becomes the loudest expression of my Master Peace. 🏁"},{"d":"2026-03-16","l":24,"r":10,"id":228627851,"b":"“Good heavens… must we truly endure this century? I would gladly return to the days when the greatest inconvenience was a wandering oracle or a mildly irritated god.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd3c91831-35bc-4c4d-92b7-23883523724f_1200x1110.png"},{"d":"2026-03-15","l":24,"r":5,"id":228274935,"b":"“In the cosmic disco of existence, every soul has a beat.”\n\n‎♫⋆｡♪✨ ₊˚♬ ﾟ.‧₊˚✧🪩✧˚₊‧✨","m":"5epNIUMQz00p54Tq5uJxGGurMadwL00otKgroWrkcMnJI","c":["cosmic"]},{"d":"2026-03-15","l":24,"r":2,"id":228097394,"b":"↟𖠰˚☀︎ᨒ↟⋆｡°·☁︎𖠰ᨒ ོ ☼ ↟↟ ᨒ↟ 𖠰 ᨒ\n\ninspiration: lbert Bierstadt – Among the Sierra Nevada Mountains, 1868","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F75cb069d-8afd-445c-8106-0ab3aad69bcd_1200x1200.png"},{"d":"2026-03-08","l":24,"r":3,"id":224783907,"b":"Crystalline Coffee Time","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdebc503c-be61-4a72-8741-0e28f309ce32_1200x1200.png","c":["food"]},{"d":"2026-03-06","l":24,"r":7,"id":224044516,"b":"Luck For You !\n\n💚✨💚💲💚.☘︎ ݁˖💚⭐☘️🥝","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8882e526-219a-4829-8210-37f2cf221705_650x650.gif"},{"d":"2026-02-26","l":24,"r":3,"id":219956796,"b":"That’s right Dorothy.    👨🏻‍🌾  \n\nThere’s no place like home.","m":"kdf2vCIyhHYTWN8anzwEiQF5PMWSIV01Vmn193lSa7fU"},{"d":"2026-02-24","l":24,"r":4,"id":218834937,"b":"TVs","m":"vRKnglzqdW2A5Vl3waGNKoARgqktYMNRlu02hzs022kcY"},{"d":"2026-02-17","l":24,"r":3,"id":215724894,"b":"“My becoming is louder than my fear.”","m":"3miQ00r2YKHxESk7uJkfrMHzvGFm1ogEs5ausHLkSpQI"},{"d":"2026-01-31","l":24,"r":4,"id":208130066,"b":"“Soft nights make strong mornings.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2ce63838-995c-4422-b831-5089c22d515d_1200x1200.png"},{"d":"2026-06-13","l":23,"r":2,"id":275664708,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcc2adf04-ae72-4262-bd43-aa877dc51d09_1024x1024.png"},{"d":"2026-05-21","l":23,"r":4,"id":262668213,"b":"My soul woke up expensive.\n\n😂"},{"d":"2026-05-16","l":23,"r":5,"id":259979748,"b":"☾ “She turned darkness into glowing candy-colored magick.” ☾","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb2543d0f-6c8f-491f-8e79-e0f7504d086d_1500x1500.png","c":["food","queen"]},{"d":"2026-05-11","l":23,"r":1,"id":257463693,"b":"Your Remind to Just Relax.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F33357d56-3240-4a01-9d12-7930b676ac49_2000x2397.png"},{"d":"2026-04-21","l":23,"r":5,"id":246668161,"b":"“Magic isn’t gone—\n\nit just upgraded its aesthetic.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa35a3a58-5974-4bef-9c31-ebc33d3ec2ff_540x832.gif"},{"d":"2026-04-20","l":23,"r":3,"id":246174920,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F72ed7be6-55f8-4a7b-92e9-db2ab3087e63_1080x1080.jpeg"},{"d":"2026-04-18","l":23,"r":1,"id":245494743,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3befd4f5-ada1-4592-9ae3-81283a5f323b_1200x1200.png"},{"d":"2026-04-15","l":23,"r":3,"id":243923211,"b":"“She’s been mysterious for centuries… now she’s just vibing.”\n\n✦","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F60657bdc-8261-4317-82e2-32c4c7d9724f_1024x1536.png"},{"d":"2026-04-03","l":23,"r":4,"id":237522476,"b":"“In the hush between sirens, magic slips through—quiet, glowing, and just a little dangerous.”\n\n▀▄▀▄▀▄⚞^. .^⚟","m":"YfoFG9zBwctBnP6IbXVnmokuHKE01UFBEcVniMgv77Qs","c":["queen"]},{"d":"2026-03-25","l":23,"r":6,"id":232967940,"b":"What’s your four word story?\n\nPixel Crystal Says,   ⋆☕︎ ˖ Cosmos in a Cup.     🌌🌠💫\n\nAnyone can play, please do.  😊 So, what is your four word story?\n\nCalling @Eve Solara •͜• @Gustave Deresse ♡ ̆̈ @Sacred AF - Ami ❤️‍🔥 @Lindsay’s Wavelength :) @Shadow Whimsy - Steph ₍^. .^₎⟆\n\nThanks to @Natalie Nicholson\n\n⋆.˚ 🌙ྀིྀི .⭒˚","m":"00pgcS1DffaMZlyNSUfwKJXpLRO7GuVUOXd00Yzbet5A4","c":["gothic"]}];
+let mtvAutoInterval = null;
+
+function mtvEscapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function mtvPickNote() {
+  return MTV_NOTES[Math.floor(Math.random() * MTV_NOTES.length)];
+}
+
+function mtvIsPortrait(url) {
+  const m = url.match(/_(\d+)x(\d+)/);
+  if (!m) return false;
+  const w = parseInt(m[1], 10), h = parseInt(m[2], 10);
+  return h > w * 1.15;
+}
+
+function mtvShowNote(note) {
+  const container = document.getElementById('mtvNote');
+  let html = '';
+  if (note.t) {
+    html += `<img class="mtv-note-img" src="${note.t}" loading="lazy" onerror="this.style.display='none'" />`;
+  }
+  if (note.b) {
+    html += `<div class="mtv-note-text">${mtvEscapeHtml(note.b)}</div>`;
+  } else if (!note.t) {
+    html += `<div class="mtv-note-text">✦ static ✦</div>`;
+  }
+  html += `<div class="mtv-note-meta">❤ ${note.l} &nbsp; ↩ ${note.r}</div>`;
+  container.innerHTML = html;
+  container.classList.toggle('has-img', !!note.t);
+  container.classList.toggle('portrait-img', !!(note.t && mtvIsPortrait(note.t)));
+
+  const noteUrl = `https://substack.com/@magickmica/note/c-${note.id}`;
+  container.onclick = () => window.open(noteUrl, '_blank', 'noopener');
+}
+
+function mtvChangeChannel() {
+  const staticEl = document.getElementById('mtvStatic');
+  const knob = document.getElementById('mtvChannelBtn');
+  knob.classList.remove('spin');
+  void knob.offsetWidth;
+  knob.classList.add('spin');
+  staticEl.classList.add('active');
+  setTimeout(() => {
+    mtvShowNote(mtvPickNote());
+    staticEl.classList.remove('active');
+  }, 180);
+}
+
+document.getElementById('mtvChannelBtn').addEventListener('click', mtvChangeChannel);
+
+document.getElementById('mtvAutoBtn').addEventListener('click', (e) => {
+  const sw = e.currentTarget;
+  if (mtvAutoInterval) {
+    clearInterval(mtvAutoInterval);
+    mtvAutoInterval = null;
+    sw.classList.remove('on');
+  } else {
+    mtvAutoInterval = setInterval(mtvChangeChannel, 6000);
+    sw.classList.add('on');
+  }
+});
+
+mtvShowNote(mtvPickNote());
 </script>
 </body>
 </html>
