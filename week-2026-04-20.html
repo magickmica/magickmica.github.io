@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ Apr 20–26, 2026 ✦ Y3K Magazine</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@400;700;900&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --accent: #6ef7ff;
+    --accent2: #f7ff6e;
+    --dark: #07020f;
+    --panel: rgba(18, 6, 32, 0.88);
+    --ink: #efe6ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--ink);
+    font-family: 'Spectral', serif;
+    overflow-x: hidden;
+  }
+
+  #stars {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 30% 20%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, color-mix(in srgb, var(--accent2) 10%, transparent) 0%, transparent 60%),
+                var(--dark);
+  }
+  #stars::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 12% 22%, #fff9 0%, transparent 100%),
+      radial-gradient(1px 1px at 32% 62%, #fff7 0%, transparent 100%),
+      radial-gradient(1px 1px at 52% 12%, #fff8 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 75% 25%, var(--accent) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 18% 85%, var(--accent2) 0%, transparent 100%);
+    animation: twinkle 5s infinite alternate;
+  }
+  @keyframes twinkle { from { opacity: 0.35 } to { opacity: 0.9 } }
+
+  .mag-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(7,2,15,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    padding: 0.9rem 1.2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 0.8rem;
+  }
+  .mag-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.3rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-shadow: 0 0 12px var(--accent);
+    text-decoration: none;
+  }
+  .mag-issue {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.45);
+  }
+  .mag-toc {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+  }
+  .mag-toc a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .mag-toc a:hover { color: var(--accent); }
+
+  .cover-wrap {
+    position: relative;
+    height: 70vh;
+    min-height: 380px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .cover-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(1.15) contrast(1.05);
+  }
+  .cover-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(7,2,15,0.1) 0%, rgba(7,2,15,0.3) 55%, rgba(7,2,15,0.97) 100%);
+  }
+  .cover-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 2rem 1.5rem 2.5rem;
+    max-width: 900px;
+  }
+  .cover-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent);
+    margin-bottom: 0.8rem;
+  }
+  .cover-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 6vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    background: linear-gradient(135deg, var(--accent) 0%, #fff 50%, var(--accent2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 25px color-mix(in srgb, var(--accent) 50%, transparent));
+  }
+  .cover-sub {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.7);
+    margin-top: 1rem;
+  }
+  .scroll-cue {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding-bottom: 1.6rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.4);
+    animation: bob 2.2s infinite ease-in-out;
+  }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+  .chapter {
+    position: relative; z-index: 5;
+    max-width: 880px; margin: 0 auto;
+    padding: 4rem 1.5rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+  .chapter:last-of-type { border-bottom: none; }
+  .chapter-marker {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .chapter-eyebrow {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.2rem 0.7rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .chapter-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.6rem, 4.2vw, 2.5rem);
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 1.1rem;
+  }
+  .chapter-lede {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 1.3rem;
+    line-height: 1.6;
+  }
+  .chapter-body {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(235,225,255,0.88);
+  }
+  .quote-link, .pull-quote-link {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dotted transparent;
+    transition: border-color 0.2s, opacity 0.2s;
+  }
+  .quote-link:hover, .pull-quote-link:hover {
+    border-bottom-color: currentColor;
+    opacity: 0.85;
+  }
+  .pull-quote {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    line-height: 1.5;
+    color: var(--accent);
+    text-align: center;
+    margin: 2rem 0;
+    padding: 0 1rem;
+    text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+
+  .quote-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1.1rem;
+    margin-top: 1.4rem;
+  }
+  .quote-card {
+    background: var(--panel);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    overflow: hidden;
+    text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+    transition: all 0.25s;
+  }
+  .quote-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 30%, transparent);
+    transform: translateY(-3px);
+  }
+  .quote-card-img { aspect-ratio: 1/1; overflow: hidden; background: rgba(255,255,255,0.03); }
+  .quote-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .quote-card-body {
+    padding: 0.8rem 0.9rem;
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(235,225,255,0.85);
+    flex: 1;
+  }
+  .quote-card-footer {
+    padding: 0 0.9rem 0.75rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.35);
+    display: flex; justify-content: space-between;
+  }
+
+  /* TIMELINE - chronological list of every note that period */
+  .timeline {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .timeline-day-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 40%, transparent);
+    margin: 1.6rem 0 0.7rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px dashed color-mix(in srgb, var(--accent) 30%, transparent);
+    text-transform: uppercase;
+  }
+  .timeline-day-label:first-child { margin-top: 0; }
+  .timeline-item {
+    display: flex;
+    gap: 0.8rem;
+    text-decoration: none;
+    color: inherit;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 8%, transparent);
+    transition: background 0.15s;
+  }
+  .timeline-item:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+  .timeline-thumb {
+    width: 44px; height: 44px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+  .timeline-thumb-placeholder {
+    width: 44px; height: 44px;
+    flex-shrink: 0;
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .timeline-content { flex: 1; min-width: 0; }
+  .timeline-text {
+    font-size: 0.88rem;
+    color: rgba(235,225,255,0.85);
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .timeline-stats {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.35);
+    margin-top: 0.2rem;
+  }
+
+  /* STATS GRID */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-top: 1.4rem;
+  }
+  .stat-box {
+    background: var(--panel);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    padding: 1.1rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.9rem;
+    color: var(--accent);
+    text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  .related-articles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.4rem;
+  }
+  .related-card {
+    background: var(--panel);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    text-decoration: none; color: inherit;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .related-card:hover { border-color: var(--accent); box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 25%, transparent); }
+  .related-img { aspect-ratio: 16/10; overflow: hidden; background: rgba(255,255,255,0.03); }
+  .related-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .related-title {
+    padding: 0.8rem 0.9rem 0.9rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.35;
+  }
+
+  .closing-wrap {
+    position: relative; z-index: 5;
+    text-align: center;
+    padding: 3.5rem 1.5rem 2rem;
+  }
+  .closing-tagline {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.2rem, 2.8vw, 1.8rem);
+    font-weight: 900;
+    color: var(--accent);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 40%, transparent);
+    margin-bottom: 0.5rem;
+  }
+  .closing-sub {
+    font-family: 'Spectral', serif;
+    font-style: italic;
+    color: rgba(255,255,255,0.5);
+    font-size: 1rem;
+  }
+  .divider-row {
+    text-align: center;
+    color: color-mix(in srgb, var(--accent) 50%, transparent);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 1.5rem 0;
+  }
+
+  .adjacent-nav {
+    position: relative; z-index: 5;
+    max-width: 880px; margin: 0 auto; padding: 0 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .adj-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .adj-link:hover { background: var(--accent); color: #000; }
+  .adj-link.disabled { opacity: 0.25; pointer-events: none; }
+
+  footer {
+    position: relative; z-index: 5;
+    text-align: center; padding: 2rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.3);
+    border-top: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .mag-toc { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+
+<nav class="mag-nav">
+  <a class="mag-logo" href="minimags.html">Y3K</a>
+  <span class="mag-issue">WEEKLY · Apr 20–26, 2026</span>
+  <div class="mag-toc">
+    <a href="#ch1">Recap</a>
+    <a href="#ch2">Highlights</a>
+    <a href="#ch3">Words</a>
+    <a href="#ch4">Timeline</a>
+    <a href="#ch5">Stats</a>
+    <a href="#ch6">Reading</a>
+  </div>
+</nav>
+
+<div class="cover-wrap">
+  <img class="cover-img" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7ed44e20-aede-42f2-99b9-90460deed2e6_1250x1250.png" alt="Apr 20–26, 2026 cover" onerror="this.style.display='none'" />
+  <div class="cover-overlay"></div>
+  <div class="cover-content">
+    <div class="cover-eyebrow">✦ Y3K MAGAZINE ✦</div>
+    <div class="cover-title">Apr 20–26, 2026</div>
+    <div class="cover-sub">84 notes · a week of cosmic transmissions</div>
+  </div>
+</div>
+<div class="scroll-cue">▾ SCROLL TO CATCH UP ▾</div>
+
+<section class="chapter" id="ch1">
+  <div class="chapter-marker">CHAPTER ONE · RECAP</div>
+  <span class="chapter-eyebrow">The Recap</span>
+  <h1 class="chapter-title">The Week in Review</h1>
+  <div class="chapter-body">
+    <p>This week, 84 transmissions went out into the world, gathering 992 hearts and 190 restacks along the way.</p><p><a class="quote-link" href="https://substack.com/@magickmica/note/c-246252344" target="_blank" rel="noopener">““Cosmic paws, cozy thoughts, and tea that tastes like dreams.”
+
+🌌♠🐈‍⬛💠🐾”</a></p><p><a class="quote-link" href="https://substack.com/@magickmica/note/c-246264063" target="_blank" rel="noopener">“Be careful what you call “unproductive”—your peace is doing invisible work.
+
+𖡎”</a></p>
+  </div>
+</section>
+
+<section class="chapter" id="ch2">
+  <div class="chapter-marker">CHAPTER TWO · HIGHLIGHTS</div>
+  <span class="chapter-eyebrow">Highlights</span>
+  <h2 class="chapter-title">Most-Loved Transmissions</h2>
+  <p class="chapter-lede">The notes everyone couldn't stop liking.</p>
+  <div class="quote-grid">
+    <a class="quote-card" href="https://substack.com/@magickmica/note/c-246252344" target="_blank" rel="noopener">
+          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7ed44e20-aede-42f2-99b9-90460deed2e6_1250x1250.png" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
+          <div class="quote-card-body">“Cosmic paws, cozy thoughts, and tea that tastes like dreams.”
+
+🌌♠🐈‍⬛💠🐾</div>
+          <div class="quote-card-footer"><span>❤ 32</span><span>VIEW →</span></div>
+        </a>
+<a class="quote-card" href="https://substack.com/@magickmica/note/c-246174920" target="_blank" rel="noopener">
+          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F72ed7be6-55f8-4a7b-92e9-db2ab3087e63_1080x1080.jpeg" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
+          
+          <div class="quote-card-footer"><span>❤ 23</span><span>VIEW →</span></div>
+        </a>
+<a class="quote-card" href="https://substack.com/@magickmica/note/c-246668161" target="_blank" rel="noopener">
+          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa35a3a58-5974-4bef-9c31-ebc33d3ec2ff_540x832.gif" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
+          <div class="quote-card-body">“Magic isn’t gone—
+
+it just upgraded its aesthetic.”</div>
+          <div class="quote-card-footer"><span>❤ 23</span><span>VIEW →</span></div>
+        </a>
+<a class="quote-card" href="https://substack.com/@magickmica/note/c-248668818" target="_blank" rel="noopener">
+          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F75b96492-b702-4d91-a765-463d4a0fc63b_1402x1122.png" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
+          <div class="quote-card-body">Windows 95 Style
+
+💾</div>
+          <div class="quote-card-footer"><span>❤ 21</span><span>VIEW →</span></div>
+        </a>
+<a class="quote-card" href="https://substack.com/@magickmica/note/c-245580165" target="_blank" rel="noopener">
+          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fab40f5eb-19ba-4c1d-a80e-89282031d11c_600x600.gif" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
+          <div class="quote-card-body">Float through life like you belong to another realm.</div>
+          <div class="quote-card-footer"><span>❤ 19</span><span>VIEW →</span></div>
+        </a>
+<a class="quote-card" href="https://substack.com/@magickmica/note/c-248039392" target="_blank" rel="noopener">
+          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F45ad46ac-9d45-457b-8230-8b3ab6cb4f8e_1200x1200.png" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
+          
+          <div class="quote-card-footer"><span>❤ 19</span><span>VIEW →</span></div>
+        </a>
+  </div>
+</section>
+
+<section class="chapter" id="ch3">
+  <div class="chapter-marker">CHAPTER THREE · WORDS</div>
+  <span class="chapter-eyebrow">In Their Words</span>
+  <h2 class="chapter-title">What Was Said</h2>
+  <div class="chapter-body">
+    <p><a class="quote-link" href="https://substack.com/@magickmica/note/c-246668161" target="_blank" rel="noopener">“Magic isn’t gone—
+
+it just upgraded its aesthetic.”</a></p><p><a class="quote-link" href="https://substack.com/@magickmica/note/c-248668818" target="_blank" rel="noopener">Windows 95 Style
+
+💾</a></p><p><a class="quote-link" href="https://substack.com/@magickmica/note/c-245580165" target="_blank" rel="noopener">Float through life like you belong to another realm.</a></p>
+  </div>
+  <div class="pull-quote"><a class="pull-quote-link" href="https://substack.com/@magickmica/note/c-246180337" target="_blank" rel="noopener">“I was invisible—so I rewrote myself in neon frequencies.”</a></div>
+</section>
+
+<section class="chapter" id="ch4">
+  <div class="chapter-marker">CHAPTER FOUR · TIMELINE</div>
+  <span class="chapter-eyebrow">The Full Timeline</span>
+  <h2 class="chapter-title">Every Transmission, In Order</h2>
+  <div class="timeline">
+    <div class="timeline-day-label">Apr 20, 2026</div>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-245580165" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fab40f5eb-19ba-4c1d-a80e-89282031d11c_600x600.gif" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Float through life like you belong to another realm.</div>
+                <div class="timeline-stats">❤ 19 · ↩ 5</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246174920" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F72ed7be6-55f8-4a7b-92e9-db2ab3087e63_1080x1080.jpeg" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">🖼️ Image note</div>
+                <div class="timeline-stats">❤ 23 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246180337" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2ccb1a9e-1427-4d9c-9272-6ebd6e221f51_800x451.gif" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">I was invisible—so I rewrote myself in neon frequencies.</div>
+                <div class="timeline-stats">❤ 18 · ↩ 6</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246184990" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Electric energy in every step, rebellion in every move—dance like the world’s watching but can’t touch you.
+
+﹌﹌﹌﹌﹌</div>
+                <div class="timeline-stats">❤ 9 · ↩ 0</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246185861" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F73e654f3-1ee2-4eb6-9eb0-2fd657db20d6_1960x1960.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">🖼️ Image note</div>
+                <div class="timeline-stats">❤ 18 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246252344" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7ed44e20-aede-42f2-99b9-90460deed2e6_1250x1250.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“Cosmic paws, cozy thoughts, and tea that tastes like dreams.”
+
+🌌♠🐈‍⬛💠🐾</div>
+                <div class="timeline-stats">❤ 32 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246264063" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Be careful what you call “unproductive”—your peace is doing invisible work.
+
+𖡎</div>
+                <div class="timeline-stats">❤ 24 · ↩ 5</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246401298" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F215453f5-ae99-458a-beea-05416306269e_1500x1129.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“Oh dear!” said Alice, “the day has become terribly strange.”
+
+“Good!” said the Hatter, “for ordinary days rarely know how to pour proper tea.”</div>
+                <div class="timeline-stats">❤ 10 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246551846" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe77c526c-33c1-47b6-adb0-14077030f25a_1024x1024.jpeg" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“You weren’t meant to outgrow wonder—
+
+you were meant to evolve it.”</div>
+                <div class="timeline-stats">❤ 9 · ↩ 1</div>
+              </div>
+            </a>
+<div class="timeline-day-label">Apr 21, 2026</div>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246668161" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa35a3a58-5974-4bef-9c31-ebc33d3ec2ff_540x832.gif" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“Magic isn’t gone—
+
+it just upgraded its aesthetic.”</div>
+                <div class="timeline-stats">❤ 23 · ↩ 5</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246674710" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fec1fdb2d-5e68-4189-9f2b-c491216d8347_1250x1250.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">🃜🃚🃖🃁🂭🂺</div>
+                <div class="timeline-stats">❤ 7 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246678250" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa7989b05-d851-461e-b2a4-dc03da65853c_1200x1292.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Time slipped past me—now I’m drifting somewhere it doesn’t exist.
+
+𐃯</div>
+                <div class="timeline-stats">❤ 10 · ↩ 4</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246685088" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3d7da206-e287-4072-bc3c-2014e630125f_955x1118.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“Fairies don’t fade—
+
+they just change colors until you can’t quite explain them anymore.”</div>
+                <div class="timeline-stats">❤ 10 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246754856" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Silence is not doing nothing… it’s your nervous system recalibrating in real time.
+
+𓁈</div>
+                <div class="timeline-stats">❤ 14 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246757623" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0429af43-0bfe-4160-992e-ec950c15f461_1200x684.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“Oh dear!” said Alice. “My thoughts are growing curious again—curiouser and curiouser!”
+
+And the Hatter replied, “Splendid! For curious thoughts are the only ones that know the way to tea.”</div>
+                <div class="timeline-stats">❤ 16 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246764368" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">:: SYSTEM OVERRIDE ::
+
+Old sight: disabled.
+
+New sight: luminous, infinite, awake.
+
+User now seeing through light itself. ✧</div>
+                <div class="timeline-stats">❤ 9 · ↩ 4</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246816437" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">🐚 “A single shell found is still treasure—never forget that.”</div>
+                <div class="timeline-stats">❤ 14 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246837359" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Some energies don’t bloom on impact— they infuse over time.
+
+𓇢𓆸</div>
+                <div class="timeline-stats">❤ 10 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246953057" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Soul, Novelty, Experimental, Wonderland.
+
+4 words to describe substack 🤔
+
+@Ra Castaldo @Natalie Nicholson @Sparksinthedark @A Rebel's Diary
+
+@Eve Solara @Gustave Deresse @Nobody  &amp; Open to All to Play
+
+💜⋆˙⟡⭐💖⋆🌙✴︎˚｡⋆💕</div>
+                <div class="timeline-stats">❤ 9 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246965139" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">“Some movies don’t age—they wait, patiently, to rescue you again when you need them most.”
+
+🎬˙✧˖°🍿 ༘ ⋆｡˚🎞️♡🎟️
+
+Drop Your Favorite Movies to recommend to all in the comments.</div>
+                <div class="timeline-stats">❤ 7 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247009788" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F29f1b4ac-ad29-4caf-899b-0be795e71343_800x492.gif" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Even the smallest ripple can shimmer like an ocean when you let it catch the light.</div>
+                <div class="timeline-stats">❤ 11 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247123486" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">What is your story?</div>
+                <div class="timeline-stats">❤ 10 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247125933" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbaa4830c-33b5-425a-be5d-5af1e78e0f23_1200x1209.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">:: down—load in pr—ogress ::
+
+vision.exe up—grading
+
+plasma pl—asma PL—ASMA
+
+I see in waves now
+
+@Ra Castaldo</div>
+                <div class="timeline-stats">❤ 16 · ↩ 4</div>
+              </div>
+            </a>
+<div class="timeline-day-label">Apr 22, 2026</div>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-246813308" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd3c4f38d-7704-412f-8d30-d7a91fe179ad_800x492.gif" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">A Ghostly Good Time</div>
+                <div class="timeline-stats">❤ 12 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247285177" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Ride the wave that feels like magic, even if no one else sees it.
+
+ꕀ</div>
+                <div class="timeline-stats">❤ 17 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247288652" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F65950812-ce89-4f59-93dc-08dfbb855cdc_1200x675.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“We’re all mad here, you see—mad as clocks that forgot Wednesday, mad as teacups that dream of stars, mad enough to chase a rabbit straight into the center of tomorrow.”</div>
+                <div class="timeline-stats">❤ 12 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247306172" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Do it like summer never ends.
+
+⋆☀︎</div>
+                <div class="timeline-stats">❤ 12 · ↩ 0</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247314684" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Where your spirit rests, the unseen gathers… for even eternity leans toward your glow.</div>
+                <div class="timeline-stats">❤ 12 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247319134" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe891f548-d94c-49cf-ac14-c7a4f86a9571_1200x1200.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“Do not look for me in forests alone—
+
+I glitter in neon dreams, in pixels, in places your logic forgot to glow.”</div>
+                <div class="timeline-stats">❤ 7 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247333474" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff1acd817-3e8b-4bc0-87a5-13a5fcf8d576_1500x828.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">The house doesn’t just stay clean; it learns how to glow in her language.</div>
+                <div class="timeline-stats">❤ 8 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247342604" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">“She spoke not to be heard, but to awaken the stars sleeping in others.”</div>
+                <div class="timeline-stats">❤ 10 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247360035" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Soft waves, soft timing… you didn’t miss it.
+
+𓂃 𓈒𓏸</div>
+                <div class="timeline-stats">❤ 6 · ↩ 0</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247476687" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">“Between folding laundry and folding light, she turns ordinary rooms into quiet constellations.”
+
+────୨ৎ────</div>
+                <div class="timeline-stats">❤ 13 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247501796" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc94831ce-64c3-41cc-a576-ebeff99c4d38_1200x1715.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“Blowin’ bubbles and knockin’ doubles.”</div>
+                <div class="timeline-stats">❤ 15 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247540866" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Hang on, darling—the dream is about to bloom.</div>
+                <div class="timeline-stats">❤ 13 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247655223" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">You Glow.</div>
+                <div class="timeline-stats">❤ 9 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247697587" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">“It was never the kiss that broke the spell, but the quiet remembering of who she was beneath it.”</div>
+                <div class="timeline-stats">❤ 10 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247702165" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd5d441a3-dd5d-4fc2-b3b2-f03469c18373_1200x1200.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Cheshire Cat: “Pick a path, or let the path pick you.”
+
+Alice: “I don’t really mind where it leads—”
+
+Cheshire Cat: “Then direction is just a decoration.”
+
+Alice: “—as long as I don’t stay stuck.”
+
+Cheshire Cat: “Keep going… even glitches eventually become destinations.”</div>
+                <div class="timeline-stats">❤ 10 · ↩ 3</div>
+              </div>
+            </a>
+<div class="timeline-day-label">Apr 23, 2026</div>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247870679" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F33131dc6-9d28-41bc-8001-2077303d369a_800x800.gif" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">When I chose ease over control, the world turned golden around me.
+
+🦈๋࣭⭑</div>
+                <div class="timeline-stats">❤ 10 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247895945" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcf3763cd-fb4a-4f11-aeca-c6fd6f5ea852_1500x828.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">In real time 💖⋆˙⟡💜🌠 @Eve Solara</div>
+                <div class="timeline-stats">❤ 15 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247906118" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7fb3371e-01df-48d4-be9b-8d75b2b87afd_1144x1375.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">I had to. Chat GTP has a new image model they want us to use. OK.
+
+The Three Stooges Pie Fight.</div>
+                <div class="timeline-stats">❤ 16 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247911901" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb8496220-c822-44a2-b912-d92cd2a6a8cd_600x600.gif" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Steel tracks, golden soul.
+
+Every stop is a transformation. I exit as more.
+
+I am the rush, the rhythm, the radiant arrival.
+
+From underground to untouchable.
+
+❯❯❯❯
+
+This year, I don’t commute — I ascend.</div>
+                <div class="timeline-stats">❤ 6 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-247922299" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">You’ve totally got this!
+
+𓉸ྀི</div>
+                <div class="timeline-stats">❤ 14 · ↩ 0</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248012622" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F68820b18-9c4f-4f17-a2e8-08c7613d5a2d_1200x1200.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Puff-o-Fresh!
+
+☁️☁️☁️
+
+𝓜𝓪𝓻𝓼𝓱𝓶𝓪𝓵𝓵𝓸𝔀 Air Freshner</div>
+                <div class="timeline-stats">❤ 11 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248039392" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F45ad46ac-9d45-457b-8230-8b3ab6cb4f8e_1200x1200.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">🖼️ Image note</div>
+                <div class="timeline-stats">❤ 19 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248064046" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb8594a40-8796-4982-bb09-1829085044c2_1200x684.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“She rises through plasma currents, a living machine of divinity, flowing in electric tides.”
+
+🪼⋆.ೃ࿔*:･〰️🦭₊˚.༄🌊₊˚.༄♒︎</div>
+                <div class="timeline-stats">❤ 12 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248085389" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Old wires, new dreams… still the same heart on the line.
+
+😂☏💖🤣🧸✌︎㋡🤪🦋⚙︎</div>
+                <div class="timeline-stats">❤ 13 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248139509" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">“One minute I was sipping tea… the next I was dodging curses in ruby slippers.”
+
+👠
+
+Pixel Crystal slips into The Wizard of Oz frequency….</div>
+                <div class="timeline-stats">❤ 18 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248142712" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F74dba642-99ac-4aa2-a197-db73027c077f_500x500.gif" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Healing is the true universal language.</div>
+                <div class="timeline-stats">❤ 14 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248163825" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8fe282ee-8ef9-4573-8335-a0bf647bded6_1200x661.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“A scandal once lasted a season. Now it lasts until lunch.”</div>
+                <div class="timeline-stats">❤ 7 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248206644" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F27b481d6-6677-4aa3-abb9-36686d5306d6_600x600.gif" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“Forward is a form of peace.”
+
+⋆✴︎˚｡⋆/┆\🏁🏎️✩₊˚.⋆☾⋆⁺₊✧</div>
+                <div class="timeline-stats">❤ 9 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248210170" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F95b75df5-d462-40d5-adee-aeb5a3577236_1200x1200.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“The rabbit said, ‘Hurry,’ but the mirror showed me standing still in five different centuries.”
+
+ִֶָ𓂃 ࣪˖ ִֶָ⏱️۝🐇་༘࿐</div>
+                <div class="timeline-stats">❤ 16 · ↩ 3</div>
+              </div>
+            </a>
+<div class="timeline-day-label">Apr 24, 2026</div>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248240310" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd66649ba-8259-44e5-9024-f7e493a17fdf_2111x3168.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Cinderella x Alice</div>
+                <div class="timeline-stats">❤ 17 · ↩ 5</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248361027" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fac2cf881-6b65-41ad-8c6b-ff54314a922d_1320x753.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“Her essence is patented by the universe.”
+
+⋆˙⟡🔴🟠🟡🟢🔵🟣</div>
+                <div class="timeline-stats">❤ 11 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248442207" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe448d1e1-65a7-4743-9635-c4b13a219fb1_1200x1399.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“A little ghost sipping liquid stardust.” ✨👻</div>
+                <div class="timeline-stats">❤ 15 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248514001" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">11:11
+
+⚘</div>
+                <div class="timeline-stats">❤ 6 · ↩ 0</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248658055" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F67960767-7707-446a-bc62-298386b16880_1320x753.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Where the pyramid points, the cosmos answers.</div>
+                <div class="timeline-stats">❤ 9 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248668818" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F75b96492-b702-4d91-a765-463d4a0fc63b_1402x1122.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Windows 95 Style
+
+💾</div>
+                <div class="timeline-stats">❤ 21 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248687469" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Turn sound on.</div>
+                <div class="timeline-stats">❤ 8 · ↩ 3</div>
+              </div>
+            </a>
+<div class="timeline-day-label">Apr 25, 2026</div>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248767045" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5a9ba77f-fa0c-4775-8f64-0c272bc3bbc8_1254x1254.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“The night is softer when seen through fairy wings and stardust dreams.”</div>
+                <div class="timeline-stats">❤ 16 · ↩ 4</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248769438" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6b5f30ad-54a7-41b3-8f6d-8711fa15f6e4_1254x1254.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">✨“Some dreams don’t belong to sleep—they belong to the stars, waiting for you to remember them.”</div>
+                <div class="timeline-stats">❤ 13 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248772530" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F370bcddb-7b42-4869-b0be-a3f6b5516438_1800x2249.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Marilyn &amp; Joe Forever
+
+₊˚.🌹⋆⁺₊</div>
+                <div class="timeline-stats">❤ 3 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248778134" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fffb6649f-49f9-49b9-889f-1ffb4b5e6f03_1400x800.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">⚡“The universe plays its part, but so do you—each moment a chance to recast the scene into something luminous.”</div>
+                <div class="timeline-stats">❤ 8 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248780663" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F11d6b39a-4899-4549-a8a9-e42cb2faecd7_1200x1800.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“All the world is made of faith, and trust, and pixie dust.”
+
+J. M. Barrie — Peter Pan</div>
+                <div class="timeline-stats">❤ 13 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248895565" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fad9df0c0-cd31-4516-815d-2b2252b4f139_1149x1369.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">⋆✴︎˚｡⋆👉⋆˙⟡✩₊˚.⋆⋆.˚🦋༘⋆☾⋆⁺₊✧</div>
+                <div class="timeline-stats">❤ 6 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248899577" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">“She does not fear the unseen—
+
+she governs it,
+
+through the sacred lens of her awakened eye.”
+
+〰・♡・〰
+
+Working on my next art post for Magick Mica Art</div>
+                <div class="timeline-stats">❤ 3 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248905018" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd0c3b544-1672-4dbc-ac92-3e3e404926bc_1254x1254.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">꒷꒦︶꒷꒦︶ ๋ ࣭ ⭑꒷꒦ Ice Cream Dreams</div>
+                <div class="timeline-stats">❤ 12 · ↩ 4</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-248953343" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fef2ea35e-32fa-4fd8-90de-57dc9cfd38ec_1400x1668.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">What Alice Found Behind The Curtain…
+
+🪟📺༘⋆📼˚ ༘ ೀ⋆｡˚👀🏠🛋️</div>
+                <div class="timeline-stats">❤ 10 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249047123" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1a780a7e-df72-4fbe-8ed2-ac6de35439bd_1672x941.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Welcome to the place where logic slips and delight takes over.
+
+The tea is glowing, the laughter echoes, and nothing needs to make sense.
+
+You didn’t fall—you floated into something softer than reality.
+
+Every step twists the world into something more delicious.
+
+The sky giggles in colors you’ve never learned to name.
+
+Stay curious… that’s where the dopamine lives.
+
+ The rules dissolved the moment you closed your eyes.
+
+ Wonder tastes better when it’s a little bit strange.
+
+ You’re not lost—you’re looping through joy.
+
+Reality called… but your dreams turned up the music.</div>
+                <div class="timeline-stats">❤ 6 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249049096" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F65917778-499d-4496-a315-3f6ed3306081_2222x3333.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Y2K may be over , the vibes are forever.
+
+✨💾𝄞⨾💿✮˚.⋆💽</div>
+                <div class="timeline-stats">❤ 11 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249054499" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc44497dc-5dfe-4aa0-b6f5-7cbcba8ac511_1500x1875.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Polite chaos, heavily iced.
+
+⋆✴︎˚｡⋆💕⋆˙⟡☕</div>
+                <div class="timeline-stats">❤ 12 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249107502" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">“Dreamland is where my softer self goes to become infinite.”
+
+⏾⋆.˚🎡🎪🎠🎆🎢</div>
+                <div class="timeline-stats">❤ 14 · ↩ 6</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249133672" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Mona Lisa… Smiles???
+
+😊✮⋆˙☺🤍ツ✨</div>
+                <div class="timeline-stats">❤ 7 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249150933" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">“The signal says consume. The silence says wake up.”</div>
+                <div class="timeline-stats">❤ 7 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249159960" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F435879eb-2026-4bdf-b097-21906b10ff7c_1684x934.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“I am the calm beneath every glittering illusion.”</div>
+                <div class="timeline-stats">❤ 9 · ↩ 2</div>
+              </div>
+            </a>
+<div class="timeline-day-label">Apr 26, 2026</div>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249290511" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F03c99548-6761-4a63-9531-798a00bfa5a4_1668x951.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“In the temple of her body, the pineal glows—a silent oracle, a cosmic compass, a divine inheritance.”
+
+꧁⎝ 𓆩༺✧༻𓆪 ⎠꧂</div>
+                <div class="timeline-stats">❤ 10 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249291536" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F71a97bbb-c5e1-4382-ba01-8f4cdcf6fb32_1536x1024.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Stay In The Current</div>
+                <div class="timeline-stats">❤ 6 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249364366" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9e3ee8d3-dd08-4a97-b55d-fa415f5b1820_1200x2133.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“The modern pastry is flawless in form, yet barren in imagination.”</div>
+                <div class="timeline-stats">❤ 10 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249366801" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F91d7fc7c-0022-4001-9e8a-fb2fd063ea19_1200x1200.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">TRUMP reimagined series by Magick Mica.
+
+Mega Post coming soon. Hopefully. There are many of these in the collection.  Love him or hate him.. he’s here.</div>
+                <div class="timeline-stats">❤ 4 · ↩ 0</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249368225" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F89226b38-f823-41ff-aa8e-b2dc0ad1a0e5_1200x1200.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Yes, Which way should I go from here?
+
+જ⁀➴
+
+Alice  x  Cheshire Cat</div>
+                <div class="timeline-stats">❤ 10 · ↩ 4</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249374836" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">Be the glitch they can’t replicate.</div>
+                <div class="timeline-stats">❤ 4 · ↩ 1</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249577799" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F14c9a327-c543-4b65-8239-337086df62b0_540x540.gif" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">“Glitch into magic.”
+
+████████████████</div>
+                <div class="timeline-stats">❤ 12 · ↩ 3</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249581723" target="_blank" rel="noopener">
+              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe4d7f80a-6cb0-49e1-8fe4-8ddd53e5e1f5_2222x2777.png" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
+              <div class="timeline-content">
+                <div class="timeline-text">Pure Imagination Lives Here.</div>
+                <div class="timeline-stats">❤ 16 · ↩ 2</div>
+              </div>
+            </a>
+<a class="timeline-item" href="https://substack.com/@magickmica/note/c-249619722" target="_blank" rel="noopener">
+              <div class="timeline-thumb-placeholder">✨</div>
+              <div class="timeline-content">
+                <div class="timeline-text">✨“You didn’t arrive here… you were remembered by it.”</div>
+                <div class="timeline-stats">❤ 9 · ↩ 3</div>
+              </div>
+            </a>
+  </div>
+</section>
+
+<section class="chapter" id="ch5">
+  <div class="chapter-marker">CHAPTER FIVE · BY THE NUMBERS</div>
+  <span class="chapter-eyebrow">By the Numbers</span>
+  <h2 class="chapter-title">Apr 20–26, 2026 in Stats</h2>
+  <div class="stats-grid">
+    <div class="stat-box"><div class="stat-num">84</div><div class="stat-label">Notes Posted</div></div><div class="stat-box"><div class="stat-num">992</div><div class="stat-label">Total Likes</div></div><div class="stat-box"><div class="stat-num">190</div><div class="stat-label">Total Restacks</div></div><div class="stat-box"><div class="stat-num">55</div><div class="stat-label">With Images</div></div><div class="stat-box"><div class="stat-num">Apr 25</div><div class="stat-label">Busiest Day</div></div>
+  </div>
+</section>
+
+<section class="chapter" id="ch6">
+  <div class="chapter-marker">CHAPTER SIX · RELATED READING</div>
+  <span class="chapter-eyebrow">Related Reading</span>
+  <h2 class="chapter-title">Articles From This Period</h2>
+  <div class="related-articles">
+    <p style="color:rgba(255,255,255,0.3); font-family:'Share Tech Mono',monospace; font-size:0.85rem;">No newsletter posts went out this period.</p>
+  </div>
+</section>
+
+<div class="closing-wrap">
+  <div class="closing-tagline">✦ THAT'S A WRAP ✦</div>
+  <div class="closing-sub">84 notes · a week of cosmic transmissions</div>
+  <div class="divider-row">✦ ✧ ✦ ✵ ✦ ✧ ✦</div>
+</div>
+
+<div class="adjacent-nav">
+  <a class="adj-link" href="week-2026-04-13.html">← Previous Week</a>
+  <a class="adj-link" href="week-2026-04-27.html">Next Week →</a>
+</div>
+
+<footer>
+  ✦ <a href="https://magickmica.substack.com" target="_blank">Magick Mica TV</a> ✦ where magic meets the pixel ✦<br>
+  <a href="minimags.html">← Back to All Issues</a> &nbsp;|&nbsp;
+  <a href="blog.html">Blog Home</a>
+</footer>
+
+</body>
+</html>
