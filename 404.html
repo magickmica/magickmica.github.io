@@ -4,87 +4,143 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>404 — Signal Lost | Magick Mica TV</title>
+<meta name="description" content="Signal lost. Find your way back to Magick Mica TV — broadcasts, stories, and the Mystical Spiral Store.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --pink: #ff2d9b;
-    --cyan: #00f0ff;
-    --lime: #a3ff57;
+    --pink:   #ff2d9b;
+    --cyan:   #00f0ff;
+    --lime:   #a3ff57;
     --purple: #c084fc;
-    --deep: #0a0010;
+    --gold:   #ffd250;
+    --teal:   #00c8b4;
+    --deep:   #07000f;
+    --surface: rgba(255,255,255,0.03);
+    --border:  rgba(255,255,255,0.07);
   }
 
-  html, body {
-    height: 100%;
+  html { scroll-behavior: smooth; }
+
+  body {
+    min-height: 100vh;
     background: var(--deep);
     color: #fff;
     font-family: 'Space Mono', monospace;
     overflow-x: hidden;
   }
 
-  /* ── starfield ── */
-  #stars {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
+  /* ── canvas bg ── */
+  #bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
-  /* ── noise overlay ── */
+  /* ── grain ── */
   body::after {
     content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-    opacity: 0.4;
-    mix-blend-mode: overlay;
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35; mix-blend-mode: overlay;
   }
 
-  /* ── layout ── */
-  .stage {
-    position: relative;
-    z-index: 2;
-    min-height: 100vh;
+  /* ── layout wrapper ── */
+  .page { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 0 1.25rem 4rem; }
+
+  /* ══════════════════════════════
+     HERO
+  ══════════════════════════════ */
+  .hero {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 2rem 1rem 3rem;
-    gap: 0;
+    padding: 3.5rem 0 2.5rem;
+    text-align: center;
+    position: relative;
   }
 
-  /* ── top label ── */
-  .broadcast-label {
-    font-size: 0.55rem;
-    letter-spacing: 0.4em;
+  /* alert badge (live-badge, alert variant) */
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: rgba(200,180,255,0.35);
+    color: rgba(255,45,155,0.75);
+    background: rgba(255,45,155,0.07);
+    border: 1px solid rgba(255,45,155,0.25);
+    border-radius: 100px;
+    padding: 0.3rem 0.85rem;
     margin-bottom: 1.8rem;
-    animation: fadeIn 1s ease forwards;
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--pink);
+    box-shadow: 0 0 8px var(--pink);
+    animation: pulse 1.1s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(0.7); }
   }
 
-  /* ── TV ── */
+  /* logo / title */
+  .hero-title {
+    font-family: 'VT323', monospace;
+    font-size: clamp(2.6rem, 8vw, 4.2rem);
+    letter-spacing: 0.08em;
+    line-height: 1.05;
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+    margin-bottom: 0.5rem;
+  }
+  @keyframes shimmer { to { background-position: 200% center; } }
+
+  .hero-tagline {
+    font-size: 0.95rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(200,180,255,0.4);
+    margin-bottom: 1rem;
+  }
+  .hero-tagline em {
+    color: rgba(163,255,87,0.6);
+    font-style: normal;
+    margin: 0 0.3rem;
+  }
+
+  .hero-divider {
+    width: 100%;
+    max-width: 420px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(192,84,252,0.4), rgba(0,240,255,0.4), transparent);
+    margin: 0.5rem auto 0;
+  }
+
+  /* ══════════════════════════════
+     404 TV SET
+  ══════════════════════════════ */
   .tv-wrap {
     position: relative;
-    width: min(420px, 92vw);
-    margin-bottom: 2.2rem;
+    width: min(360px, 78vw);
+    margin-bottom: 2rem;
     animation: floatTV 5s ease-in-out infinite;
   }
   @keyframes floatTV {
     0%,100% { transform: translateY(0px) rotate(-0.3deg); }
-    50%      { transform: translateY(-10px) rotate(0.3deg); }
+    50%      { transform: translateY(-9px) rotate(0.3deg); }
   }
 
   .tv-body {
     background: linear-gradient(160deg, #1a0030 0%, #0d0020 100%);
     border: 2px solid rgba(180,100,255,0.25);
     border-radius: 22px;
-    padding: 18px 18px 24px;
+    padding: 16px 16px 22px;
     box-shadow:
       0 0 0 1px rgba(0,240,255,0.08),
       0 0 40px rgba(192,84,252,0.2),
@@ -92,91 +148,65 @@
       inset 0 0 30px rgba(0,0,0,0.6);
     position: relative;
   }
-
-  /* antenna */
   .tv-body::before {
     content: '';
     position: absolute;
-    top: -32px;
-    left: 50%;
+    top: -30px; left: 50%;
     transform: translateX(-50%);
-    width: 2px;
-    height: 28px;
+    width: 2px; height: 26px;
     background: linear-gradient(to top, rgba(200,150,255,0.5), transparent);
-    box-shadow: -16px 0 0 rgba(200,150,255,0.3), 16px 0 0 rgba(200,150,255,0.3);
+    box-shadow: -15px 0 0 rgba(200,150,255,0.3), 15px 0 0 rgba(200,150,255,0.3);
   }
   .tv-body::after {
     content: '';
     position: absolute;
-    top: -32px;
-    left: calc(50% - 18px);
-    width: 36px;
-    height: 1px;
+    top: -30px; left: calc(50% - 17px);
+    width: 34px; height: 1px;
     background: rgba(200,150,255,0.3);
   }
 
-  /* screen bezel */
   .tv-screen-wrap {
     position: relative;
     border-radius: 10px;
     overflow: hidden;
     background: #000;
     aspect-ratio: 4/3;
-    box-shadow:
-      inset 0 0 20px rgba(0,0,0,0.8),
-      inset 0 0 60px rgba(0,0,0,0.4);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8), inset 0 0 60px rgba(0,0,0,0.4);
   }
 
-  /* static canvas */
   #static-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
     opacity: 0.12;
   }
 
-  /* scanlines */
   .scanlines {
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent 0px,
-      transparent 3px,
-      rgba(0,0,0,0.22) 3px,
-      rgba(0,0,0,0.22) 4px
-    );
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.22) 3px, rgba(0,0,0,0.22) 4px);
     pointer-events: none;
     z-index: 3;
   }
 
-  /* screen content */
   .screen-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 1.5rem;
-    gap: 0.5rem;
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 100%; padding: 1.4rem; gap: 0.4rem;
   }
 
-  .signal-lost {
-    font-size: 0.5rem;
-    letter-spacing: 0.5em;
+  .signal-lost-tag {
+    font-size: 0.62rem;
+    letter-spacing: 0.4em;
     text-transform: uppercase;
     color: rgba(163,255,87,0.6);
     animation: blink 1.4s step-end infinite;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.2rem;
   }
   @keyframes blink { 50% { opacity: 0; } }
 
   .num-404 {
     font-family: 'VT323', monospace;
-    font-size: clamp(5rem, 20vw, 7rem);
+    font-size: clamp(4.2rem, 16vw, 5.8rem);
     line-height: 1;
     color: #fff;
     position: relative;
@@ -185,8 +215,7 @@
   .num-404::before,
   .num-404::after {
     content: '404';
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     font-family: 'VT323', monospace;
   }
   .num-404::before {
@@ -219,236 +248,313 @@
 
   .screen-msg {
     font-family: 'VT323', monospace;
-    font-size: 1.05rem;
+    font-size: 1rem;
     color: rgba(192,84,252,0.85);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-align: center;
-    line-height: 1.4;
+    line-height: 1.3;
   }
 
-  /* tv bottom row */
   .tv-bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 4px 0;
+    padding: 9px 4px 0;
   }
   .tv-knob {
-    width: 14px;
-    height: 14px;
+    width: 13px; height: 13px;
     border-radius: 50%;
     border: 1.5px solid rgba(200,150,255,0.3);
     position: relative;
   }
   .tv-knob::after {
     content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%) translateY(-4px);
-    width: 2px;
-    height: 4px;
+    width: 2px; height: 4px;
     background: rgba(200,150,255,0.5);
     border-radius: 1px;
   }
   .tv-brand {
     font-family: 'VT323', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
     color: rgba(200,150,255,0.3);
   }
 
-  /* ── headline under TV ── */
-  .headline {
+  /* ══════════════════════════════
+     SECTION LABELS
+  ══════════════════════════════ */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 2.8rem 0 1.1rem;
+  }
+  .section-label span {
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(200,180,255,0.35);
+    white-space: nowrap;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(180,100,255,0.2), transparent);
+  }
+
+  /* ══════════════════════════════
+     FEATURED CARD
+  ══════════════════════════════ */
+  .card-featured {
+    display: block;
+    text-decoration: none;
+    position: relative;
+    border-radius: 14px;
+    border: 1px solid rgba(163,255,87,0.18);
+    background: linear-gradient(135deg, rgba(163,255,87,0.05) 0%, rgba(0,0,0,0) 60%);
+    overflow: hidden;
+    padding: 2rem 2rem 1.75rem;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  }
+  .card-featured::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(163,255,87,0.5), rgba(0,240,255,0.4), transparent);
+  }
+  .card-featured:hover {
+    transform: translateY(-3px);
+    border-color: rgba(163,255,87,0.45);
+    box-shadow: 0 8px 40px rgba(163,255,87,0.1), 0 2px 12px rgba(0,0,0,0.4);
+  }
+  .card-featured .card-eyebrow {
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .card-featured .card-eyebrow::before {
+    content: '';
+    width: 20px; height: 1px;
+    background: var(--lime);
+    opacity: 0.5;
+  }
+  .card-featured .card-title {
     font-family: 'VT323', monospace;
-    font-size: clamp(1.6rem, 5vw, 2.2rem);
-    letter-spacing: 0.08em;
+    font-size: clamp(2rem, 6vw, 2.8rem);
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 0.6rem;
+  }
+  .card-featured .card-desc {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: rgba(200,180,255,0.5);
+    max-width: 520px;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.2rem;
+  }
+  .card-featured .card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+    transition: gap 0.18s;
+  }
+  .card-featured:hover .card-cta { gap: 0.8rem; }
+  .card-featured .card-emoji {
+    position: absolute;
+    right: 1.75rem; top: 50%;
+    transform: translateY(-50%);
+    font-size: 4rem;
+    opacity: 0.12;
+    pointer-events: none;
+    transition: opacity 0.22s, transform 0.22s;
+  }
+  .card-featured:hover .card-emoji { opacity: 0.2; transform: translateY(-50%) scale(1.08); }
+
+  /* alt accent (purple/pink) — used for Wonderland Weekly's own slot */
+  .card-featured.accent-alt {
+    border-color: rgba(192,84,252,0.2);
+    background: linear-gradient(135deg, rgba(192,84,252,0.06) 0%, rgba(0,0,0,0) 60%);
+  }
+  .card-featured.accent-alt::before {
+    background: linear-gradient(90deg, transparent, rgba(192,84,252,0.55), rgba(255,45,155,0.4), transparent);
+  }
+  .card-featured.accent-alt:hover {
+    border-color: rgba(192,84,252,0.5);
+    box-shadow: 0 8px 40px rgba(192,84,252,0.12), 0 2px 12px rgba(0,0,0,0.4);
+  }
+  .card-featured.accent-alt .card-eyebrow { color: var(--purple); }
+  .card-featured.accent-alt .card-eyebrow::before { background: var(--purple); }
+  .card-featured.accent-alt .card-cta { color: var(--purple); }
+
+  /* ══════════════════════════════
+     CARD GRID
+  ══════════════════════════════ */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.9rem;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    border-radius: 12px;
+    border: 1px solid var(--card-border, rgba(255,255,255,0.07));
+    background: var(--card-bg, rgba(255,255,255,0.02));
+    padding: 1.4rem 1.4rem 1.25rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--card-glow, transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .card:hover { transform: translateY(-3px); }
+  .card:hover::before { opacity: 1; }
+
+  .card-icon { font-size: 1.6rem; margin-bottom: 0.75rem; line-height: 1; }
+  .card-name {
+    font-family: 'VT323', monospace;
+    font-size: 1.65rem;
+    letter-spacing: 0.06em;
+    line-height: 1.15;
+    color: var(--card-color, #fff);
+    margin-bottom: 0.4rem;
+  }
+  .card-hint {
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--card-muted, rgba(200,180,255,0.3));
+    margin-bottom: auto;
+    padding-bottom: 1rem;
+    line-height: 1.8;
+  }
+  .card-link-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--card-color, rgba(200,180,255,0.4));
+    opacity: 0.5;
+    transition: opacity 0.18s;
+  }
+  .card:hover .card-link-label { opacity: 1; }
+
+  /* color variants */
+  .card.v-purple {
+    --card-bg: rgba(192,84,252,0.05);
+    --card-border: rgba(192,84,252,0.18);
+    --card-color: var(--purple);
+    --card-muted: rgba(192,84,252,0.4);
+    --card-glow: linear-gradient(135deg, rgba(192,84,252,0.06), transparent);
+  }
+  .card.v-purple:hover { border-color: rgba(192,84,252,0.45); box-shadow: 0 6px 30px rgba(192,84,252,0.1); }
+
+  .card.v-gold {
+    --card-bg: rgba(255,210,80,0.04);
+    --card-border: rgba(255,210,80,0.18);
+    --card-color: var(--gold);
+    --card-muted: rgba(255,210,80,0.4);
+    --card-glow: linear-gradient(135deg, rgba(255,210,80,0.05), transparent);
+  }
+  .card.v-gold:hover { border-color: rgba(255,210,80,0.45); box-shadow: 0 6px 30px rgba(255,210,80,0.1); }
+
+  .card.v-teal {
+    --card-bg: rgba(0,200,180,0.04);
+    --card-border: rgba(0,200,180,0.18);
+    --card-color: var(--teal);
+    --card-muted: rgba(0,200,180,0.4);
+    --card-glow: linear-gradient(135deg, rgba(0,200,180,0.05), transparent);
+  }
+  .card.v-teal:hover { border-color: rgba(0,200,180,0.45); box-shadow: 0 6px 30px rgba(0,200,180,0.1); }
+
+  .card.v-cyan {
+    --card-bg: rgba(0,240,255,0.04);
+    --card-border: rgba(0,240,255,0.15);
+    --card-color: var(--cyan);
+    --card-muted: rgba(0,240,255,0.4);
+    --card-glow: linear-gradient(135deg, rgba(0,240,255,0.05), transparent);
+  }
+  .card.v-cyan:hover { border-color: rgba(0,240,255,0.45); box-shadow: 0 6px 30px rgba(0,240,255,0.1); }
+
+  .card.v-pink {
+    --card-bg: rgba(255,45,155,0.04);
+    --card-border: rgba(255,45,155,0.18);
+    --card-color: var(--pink);
+    --card-muted: rgba(255,45,155,0.4);
+    --card-glow: linear-gradient(135deg, rgba(255,45,155,0.05), transparent);
+  }
+  .card.v-pink:hover { border-color: rgba(255,45,155,0.45); box-shadow: 0 6px 30px rgba(255,45,155,0.1); }
+
+  /* external badge */
+  .ext-badge {
+    position: absolute;
+    top: 0.85rem; right: 0.85rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(200,180,255,0.25);
+    border: 1px solid rgba(200,180,255,0.12);
+    border-radius: 4px;
+    padding: 0.15rem 0.4rem;
+  }
+
+  /* ══════════════════════════════
+     FOOTER
+  ══════════════════════════════ */
+  .hub-footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
     text-align: center;
-    line-height: 1.2;
+  }
+  .footer-brand {
+    font-family: 'VT323', monospace;
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    text-decoration: none;
     background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan));
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: shimmer 3s linear infinite;
-    margin-bottom: 0.3rem;
+    transition: opacity 0.18s, background-position 0.5s;
   }
-  @keyframes shimmer { to { background-position: 200% center; } }
-
-  .subhead {
-    font-size: 0.55rem;
+  .footer-brand:hover { opacity: 0.8; background-position: 100% center; }
+  .footer-copy {
+    font-size: 0.78rem;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: rgba(200,180,255,0.35);
-    text-align: center;
-    margin-bottom: 2.2rem;
-  }
-
-  /* ── portal links ── */
-  .portals {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.9rem;
-    width: 100%;
-    max-width: 380px;
-    margin-bottom: 2rem;
-  }
-
-  .portal-link {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    width: 100%;
-    padding: 0.75rem 1.25rem;
-    text-decoration: none;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .portal-link::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.18s ease;
-  }
-  .portal-link:hover { transform: translateY(-2px) scale(1.01); }
-  .portal-link:hover::before { opacity: 1; }
-
-  .portal-link.primary {
-    background: rgba(163,255,87,0.08);
-    border-color: rgba(163,255,87,0.3);
-  }
-  .portal-link.primary::before {
-    background: linear-gradient(90deg, rgba(163,255,87,0.06), transparent);
-  }
-  .portal-link.primary:hover {
-    border-color: rgba(163,255,87,0.7);
-    box-shadow: 0 0 18px rgba(163,255,87,0.15), 0 0 40px rgba(163,255,87,0.05);
-  }
-  .portal-link.primary .portal-icon { color: var(--lime); }
-  .portal-link.primary .portal-label { color: var(--lime); }
-  .portal-link.primary .portal-sub { color: rgba(163,255,87,0.5); }
-
-  .portal-link.secondary {
-    background: rgba(192,84,252,0.08);
-    border-color: rgba(192,84,252,0.25);
-  }
-  .portal-link.secondary::before {
-    background: linear-gradient(90deg, rgba(192,84,252,0.06), transparent);
-  }
-  .portal-link.secondary:hover {
-    border-color: rgba(192,84,252,0.6);
-    box-shadow: 0 0 18px rgba(192,84,252,0.15), 0 0 40px rgba(192,84,252,0.05);
-  }
-  .portal-link.secondary .portal-icon { color: var(--purple); }
-  .portal-link.secondary .portal-label { color: var(--purple); }
-  .portal-link.secondary .portal-sub { color: rgba(192,84,252,0.5); }
-
-  .portal-link.tertiary {
-    background: rgba(0,240,255,0.06);
-    border-color: rgba(0,240,255,0.2);
-  }
-  .portal-link.tertiary::before {
-    background: linear-gradient(90deg, rgba(0,240,255,0.05), transparent);
-  }
-  .portal-link.tertiary:hover {
-    border-color: rgba(0,240,255,0.55);
-    box-shadow: 0 0 18px rgba(0,240,255,0.12), 0 0 40px rgba(0,240,255,0.04);
-  }
-  .portal-link.tertiary .portal-icon { color: var(--cyan); }
-  .portal-link.tertiary .portal-label { color: var(--cyan); }
-  .portal-link.tertiary .portal-sub { color: rgba(0,240,255,0.45); }
-
-  /* pink — Mags */
-  .portal-link.pink {
-    background: rgba(255,45,155,0.07);
-    border-color: rgba(255,45,155,0.25);
-  }
-  .portal-link.pink::before { background: linear-gradient(90deg, rgba(255,45,155,0.06), transparent); }
-  .portal-link.pink:hover {
-    border-color: rgba(255,45,155,0.6);
-    box-shadow: 0 0 18px rgba(255,45,155,0.15), 0 0 40px rgba(255,45,155,0.05);
-  }
-  .portal-link.pink .portal-icon { color: var(--pink); }
-  .portal-link.pink .portal-label { color: var(--pink); }
-  .portal-link.pink .portal-sub { color: rgba(255,45,155,0.45); }
-
-  /* gold — UFO */
-  .portal-link.gold {
-    background: rgba(255,210,80,0.07);
-    border-color: rgba(255,210,80,0.22);
-  }
-  .portal-link.gold::before { background: linear-gradient(90deg, rgba(255,210,80,0.06), transparent); }
-  .portal-link.gold:hover {
-    border-color: rgba(255,210,80,0.6);
-    box-shadow: 0 0 18px rgba(255,210,80,0.15), 0 0 40px rgba(255,210,80,0.05);
-  }
-  .portal-link.gold .portal-icon { color: #ffd250; }
-  .portal-link.gold .portal-label { color: #ffd250; }
-  .portal-link.gold .portal-sub { color: rgba(255,210,80,0.45); }
-
-  /* ocean — Beach Life */
-  .portal-link.ocean {
-    background: rgba(0,200,180,0.07);
-    border-color: rgba(0,200,180,0.22);
-  }
-  .portal-link.ocean::before { background: linear-gradient(90deg, rgba(0,200,180,0.06), transparent); }
-  .portal-link.ocean:hover {
-    border-color: rgba(0,200,180,0.6);
-    box-shadow: 0 0 18px rgba(0,200,180,0.15), 0 0 40px rgba(0,200,180,0.05);
-  }
-  .portal-link.ocean .portal-icon { color: #00c8b4; }
-  .portal-link.ocean .portal-label { color: #00c8b4; }
-  .portal-link.ocean .portal-sub { color: rgba(0,200,180,0.45); }
-
-  .portal-icon {
-    font-size: 1.5rem;
-    flex-shrink: 0;
-    line-height: 1;
-  }
-  .portal-text { flex: 1; }
-  .portal-label {
-    font-family: 'VT323', monospace;
-    font-size: 1.2rem;
-    letter-spacing: 0.1em;
-    line-height: 1;
-    display: block;
-    margin-bottom: 2px;
-  }
-  .portal-sub {
-    font-size: 0.5rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    display: block;
-  }
-  .portal-arrow {
-    font-size: 0.9rem;
-    opacity: 0.4;
-    transition: opacity 0.18s, transform 0.18s;
-  }
-  .portal-link:hover .portal-arrow {
-    opacity: 1;
-    transform: translateX(3px);
-  }
-
-  /* ── footer ── */
-  .footer-sig {
-    font-size: 0.45rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
     color: rgba(200,180,255,0.18);
-    text-align: center;
   }
 
   /* ── floating particles ── */
   .particle {
-    position: fixed;
-    pointer-events: none;
-    z-index: 0;
+    position: fixed; pointer-events: none; z-index: 0;
     border-radius: 50%;
     animation: drift linear infinite;
     opacity: 0;
@@ -456,143 +562,206 @@
   @keyframes drift {
     0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
     5%   { opacity: 1; }
-    95%  { opacity: 0.4; }
-    100% { transform: translateY(-20px) rotate(720deg); opacity: 0; }
+    95%  { opacity: 0.3; }
+    100% { transform: translateY(-30px) rotate(540deg); opacity: 0; }
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
+  /* ── responsive ── */
+  @media (max-width: 520px) {
+    .card-featured { padding: 1.4rem 1.25rem; }
+    .card-featured .card-emoji { display: none; }
   }
 
-  /* responsive */
-  @media (max-width: 420px) {
-    .screen-msg { font-size: 0.85rem; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
 </head>
 <body>
 
-<canvas id="stars"></canvas>
+<canvas id="bg"></canvas>
 
-<div class="stage">
-  <div class="broadcast-label">✦ Magick Mica TV — Emergency Broadcast ✦</div>
+<div class="page">
 
-  <div class="tv-wrap">
-    <div class="tv-body">
-      <div class="tv-screen-wrap">
-        <canvas id="static-canvas"></canvas>
-        <div class="scanlines"></div>
-        <div class="screen-content">
-          <div class="signal-lost">⬛ Signal Lost</div>
-          <div class="num-404">404</div>
-          <div class="screen-msg">you've wandered<br>off the map</div>
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      Signal Lost
+    </div>
+
+    <div class="tv-wrap">
+      <div class="tv-body">
+        <div class="tv-screen-wrap">
+          <canvas id="static-canvas"></canvas>
+          <div class="scanlines"></div>
+          <div class="screen-content">
+            <div class="signal-lost-tag">⬛ No Broadcast</div>
+            <div class="num-404">404</div>
+            <div class="screen-msg">you've wandered<br>off the map</div>
+          </div>
+        </div>
+        <div class="tv-bottom">
+          <div class="tv-knob"></div>
+          <div class="tv-brand">MAGICK MICA TV</div>
+          <div class="tv-knob"></div>
         </div>
       </div>
-      <div class="tv-bottom">
-        <div class="tv-knob"></div>
-        <div class="tv-brand">MAGICK MICA TV</div>
-        <div class="tv-knob"></div>
-      </div>
     </div>
+
+    <h1 class="hero-title">Wrong Rabbit Hole, Darling</h1>
+    <p class="hero-tagline"><em>✦</em> this page has vanished into the ether <em>✦</em></p>
+    <div class="hero-divider"></div>
+  </header>
+
+  <!-- ── RANDOM BROADCAST ── -->
+  <div class="section-label"><span>Random Broadcast</span></div>
+
+  <a class="card-featured" href="https://magickmica.github.io/random-note.html">
+    <div class="card-eyebrow">Tune In</div>
+    <div class="card-title">Random Note TV</div>
+    <div class="card-desc">Skip the map entirely. Spin the dial and land on a random transmission pulled straight from the archive — you never know what you'll get.</div>
+    <div class="card-cta">Spin the dial <span>→</span></div>
+    <div class="card-emoji">📺</div>
+  </a>
+
+  <!-- ── WONDERLAND WEEKLY — OWN SLOT ── -->
+  <div class="section-label"><span>This Week's Episode</span></div>
+
+  <a class="card-featured accent-alt" href="https://magickmica.github.io/alice/wonderland-weekly-expanded.html">
+    <div class="card-eyebrow">Main Broadcast</div>
+    <div class="card-title">Wonderland Weekly</div>
+    <div class="card-desc">The flagship transmission — where Alice goes deeper, the rabbit hole gets stranger, and the weekly broadcast never quite looks the same twice.</div>
+    <div class="card-cta">Enter the broadcast <span>→</span></div>
+    <div class="card-emoji">🐇</div>
+  </a>
+
+  <!-- ── CHANNELS ── -->
+  <div class="section-label"><span>All Channels</span></div>
+
+  <div class="card-grid">
+
+    <a class="card v-gold" href="https://magickmica.github.io/alice/alice-ufo-message.html">
+      <span class="card-icon">🛸</span>
+      <div class="card-name">Alice — UFO Message</div>
+      <div class="card-hint">Signals from beyond the looking glass. Transmissions that came from somewhere else entirely.</div>
+      <div class="card-link-label">Open channel →</div>
+    </a>
+
+    <a class="card v-purple" href="https://magickmica.github.io/mags/mags/index.html">
+      <span class="card-icon">✨</span>
+      <div class="card-name">Mags</div>
+      <div class="card-hint">The hub within the hub. Stories, moments, and magic gathered in one place.</div>
+      <div class="card-link-label">Tune in →</div>
+    </a>
+
+    <a class="card v-teal" href="https://magickmica.github.io/mags/mags/rhode-island-beach-life.html">
+      <span class="card-icon">🌊</span>
+      <div class="card-name">Rhode Island Beach Life</div>
+      <div class="card-hint">Salt, sand, and a certain kind of light. The ocean transmissions.</div>
+      <div class="card-link-label">Go there →</div>
+    </a>
+
   </div>
 
-  <h1 class="headline">Wrong Rabbit Hole, Darling</h1>
-  <p class="subhead">this page has vanished into the ether</p>
+  <!-- ── NOTES ── -->
+  <div class="section-label"><span>Notes</span></div>
 
-  <nav class="portals" aria-label="Navigation options">
-    <a class="portal-link primary" href="https://magickmica.github.io/alice/wonderland-weekly-expanded.html">
-      <span class="portal-icon">🐇</span>
-      <span class="portal-text">
-        <span class="portal-label">Return to Wonderland</span>
-        <span class="portal-sub">Back to the main broadcast</span>
-      </span>
-      <span class="portal-arrow">→</span>
+  <div class="card-grid">
+
+    <a class="card v-cyan" href="https://magickmica.github.io/notes.html">
+      <span class="card-icon">📝</span>
+      <div class="card-name">Notes Archive</div>
+      <div class="card-hint">Every transmission, never lost. Search thousands of notes by date, mood, or media.</div>
+      <div class="card-link-label">Browse the notes →</div>
     </a>
 
-    <a class="portal-link secondary" href="https://substack.com/@magickmica" target="_blank" rel="noopener">
-      <span class="portal-icon">📺</span>
-      <span class="portal-text">
-        <span class="portal-label">Substack Channel</span>
-        <span class="portal-sub">substack.com/@magickmica</span>
-      </span>
-      <span class="portal-arrow">↗</span>
+  </div>
+
+  <!-- ── BLOG & ARCHIVE ── -->
+  <div class="section-label"><span>Blog &amp; Archive</span></div>
+
+  <div class="card-grid">
+
+    <a class="card v-pink" href="https://magickmica.github.io/blog.html">
+      <span class="card-icon">✦</span>
+      <div class="card-name">The Blog</div>
+      <div class="card-hint">A cosmic corner of the internet. Posts, sidebar curiosities, and the occasional surprise.</div>
+      <div class="card-link-label">Read the blog →</div>
     </a>
 
-    <a class="portal-link tertiary" href="https://www.themysticalspiralstore.com/" target="_blank" rel="noopener">
-      <span class="portal-icon">🌀</span>
-      <span class="portal-text">
-        <span class="portal-label">The Mystical Spiral Store</span>
-        <span class="portal-sub">themysticalspiralstore.com</span>
-      </span>
-      <span class="portal-arrow">↗</span>
+    <a class="card v-gold" href="https://magickmica.github.io/articles.html">
+      <span class="card-icon">📰</span>
+      <div class="card-name">Article Archive</div>
+      <div class="card-hint">The full magazine. Every newsletter issue from Magick Mica TV and Magick Mica Art, in one place.</div>
+      <div class="card-link-label">Read the archive →</div>
     </a>
 
-    <a class="portal-link pink" href="https://magickmica.github.io/mags/mags/index.html">
-      <span class="portal-icon">✨</span>
-      <span class="portal-text">
-        <span class="portal-label">Mags</span>
-        <span class="portal-sub">magickmica.github.io/mags</span>
-      </span>
-      <span class="portal-arrow">→</span>
+  </div>
+
+  <!-- ── EXTENDED UNIVERSE ── -->
+  <div class="section-label"><span>Extended Universe</span></div>
+
+  <div class="card-grid">
+
+    <a class="card v-cyan" href="https://substack.com/@magickmica" target="_blank" rel="noopener">
+      <span class="ext-badge">External ↗</span>
+      <span class="card-icon">📡</span>
+      <div class="card-name">Substack</div>
+      <div class="card-hint">The written word. Subscribe to receive transmissions direct to your inbox.</div>
+      <div class="card-link-label">substack.com/@magickmica</div>
     </a>
 
-    <a class="portal-link gold" href="https://magickmica.github.io/alice/alice-ufo-message.html">
-      <span class="portal-icon">🛸</span>
-      <span class="portal-text">
-        <span class="portal-label">Alice — UFO Message</span>
-        <span class="portal-sub">magickmica.github.io/alice</span>
-      </span>
-      <span class="portal-arrow">→</span>
+    <a class="card v-pink" href="https://www.themysticalspiralstore.com/" target="_blank" rel="noopener">
+      <span class="ext-badge">External ↗</span>
+      <span class="card-icon">🌀</span>
+      <div class="card-name">Mystical Spiral Store</div>
+      <div class="card-hint">Objects that carry the signal. Curated artifacts for the curious and the cosmic.</div>
+      <div class="card-link-label">themysticalspiralstore.com</div>
     </a>
 
-    <a class="portal-link ocean" href="https://magickmica.github.io/mags/mags/rhode-island-beach-life.html">
-      <span class="portal-icon">🌊</span>
-      <span class="portal-text">
-        <span class="portal-label">Rhode Island Beach Life</span>
-        <span class="portal-sub">magickmica.github.io/mags</span>
-      </span>
-      <span class="portal-arrow">→</span>
-    </a>
-  </nav>
+  </div>
 
-  <div class="footer-sig">© Magick Mica TV · All Transmissions Reserved</div>
-</div>
+  <!-- ── FOOTER ── -->
+  <footer class="hub-footer">
+    <a class="footer-brand" href="/">Magick Mica TV</a>
+    <div class="footer-copy">© Magick Mica TV · All Transmissions Reserved</div>
+  </footer>
+
+</div><!-- /page -->
 
 <script>
 /* ── starfield ── */
 (function(){
-  const c = document.getElementById('stars');
+  const c = document.getElementById('bg');
   const ctx = c.getContext('2d');
   let W, H, stars = [];
-  function resize(){
-    W = c.width = innerWidth;
-    H = c.height = innerHeight;
-  }
+  const cols = ['#fff','rgba(192,84,252,0.9)','rgba(0,240,255,0.8)','rgba(255,45,155,0.7)','rgba(163,255,87,0.7)'];
+  function resize(){ W = c.width = innerWidth; H = c.height = innerHeight; }
   function mkStars(){
     stars = [];
-    const n = Math.floor((W * H) / 4000);
-    for(let i=0;i<n;i++){
-      stars.push({
-        x: Math.random()*W,
-        y: Math.random()*H,
-        r: Math.random()*1.2+0.2,
-        a: Math.random(),
-        da: (Math.random()-0.5)*0.006,
-        col: ['#fff','rgba(192,84,252,0.8)','rgba(0,240,255,0.7)','rgba(255,45,155,0.7)'][Math.floor(Math.random()*4)]
-      });
-    }
+    const n = Math.floor((W*H)/3500);
+    for(let i=0;i<n;i++) stars.push({
+      x: Math.random()*W, y: Math.random()*H,
+      r: Math.random()*1.3+0.2,
+      a: Math.random(), da: (Math.random()-0.5)*0.005,
+      col: cols[Math.floor(Math.random()*cols.length)]
+    });
   }
   function draw(){
     ctx.clearRect(0,0,W,H);
+    const g1 = ctx.createRadialGradient(W*0.2, H*0.15, 0, W*0.2, H*0.15, W*0.35);
+    g1.addColorStop(0,'rgba(192,84,252,0.04)'); g1.addColorStop(1,'transparent');
+    ctx.fillStyle=g1; ctx.fillRect(0,0,W,H);
+    const g2 = ctx.createRadialGradient(W*0.8, H*0.6, 0, W*0.8, H*0.6, W*0.3);
+    g2.addColorStop(0,'rgba(0,240,255,0.03)'); g2.addColorStop(1,'transparent');
+    ctx.fillStyle=g2; ctx.fillRect(0,0,W,H);
     stars.forEach(s=>{
       s.a += s.da;
       if(s.a<=0||s.a>=1) s.da*=-1;
-      ctx.beginPath();
-      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-      ctx.fillStyle = s.col;
-      ctx.globalAlpha = s.a * 0.8;
-      ctx.fill();
+      ctx.globalAlpha = s.a * 0.9;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle = s.col; ctx.fill();
     });
     ctx.globalAlpha = 1;
     requestAnimationFrame(draw);
@@ -601,14 +770,11 @@
   window.addEventListener('resize',()=>{ resize(); mkStars(); });
 })();
 
-/* ── static noise ── */
+/* ── TV static noise ── */
 (function(){
   const c = document.getElementById('static-canvas');
   const ctx = c.getContext('2d');
-  function resize(){
-    c.width = c.offsetWidth;
-    c.height = c.offsetHeight;
-  }
+  function resize(){ c.width = c.offsetWidth; c.height = c.offsetHeight; }
   function noise(){
     const w=c.width, h=c.height;
     const img = ctx.createImageData(w,h);
@@ -626,17 +792,17 @@
 
 /* ── floating particles ── */
 (function(){
-  const colors=['rgba(255,45,155,0.6)','rgba(0,240,255,0.5)','rgba(163,255,87,0.5)','rgba(192,84,252,0.6)'];
-  for(let i=0;i<18;i++){
+  const cols=['rgba(255,45,155,0.5)','rgba(0,240,255,0.4)','rgba(163,255,87,0.4)','rgba(192,84,252,0.5)','rgba(255,210,80,0.4)'];
+  for(let i=0;i<20;i++){
     const p = document.createElement('div');
-    p.className = 'particle';
-    const sz = Math.random()*4+2;
-    p.style.cssText = [
+    p.className='particle';
+    const sz = Math.random()*3+1.5;
+    p.style.cssText=[
       `width:${sz}px`,`height:${sz}px`,
-      `background:${colors[Math.floor(Math.random()*colors.length)]}`,
+      `background:${cols[Math.floor(Math.random()*cols.length)]}`,
       `left:${Math.random()*100}vw`,
-      `animation-duration:${Math.random()*18+12}s`,
-      `animation-delay:${Math.random()*14}s`
+      `animation-duration:${Math.random()*22+14}s`,
+      `animation-delay:${Math.random()*18}s`
     ].join(';');
     document.body.appendChild(p);
   }
