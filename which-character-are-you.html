@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which Wonderland Character Are You? — Wonderland Weekly</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Dancing+Script:wght@700&family=Oswald:wght@700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Anton&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root {
+  --hot-pink:#ff2d78; --cyan:#00f5ff; --yellow:#fff200;
+  --purple:#b44fff; --lime:#7fff00; --gold:#ffd700;
+  --bg:#060011;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:#fff;font-family:'Libre Baskerville',serif;overflow-x:hidden;min-height:100vh;}
+
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(1px 1px at 5% 8%,rgba(255,255,255,.9) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 18% 32%,rgba(255,255,255,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 30% 55%,rgba(0,245,255,.6) 0%,transparent 100%),
+    radial-gradient(2px 2px at 45% 12%,rgba(180,79,255,.8) 0%,transparent 100%),
+    radial-gradient(1px 1px at 60% 70%,rgba(255,255,255,.9) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 75% 40%,rgba(255,210,0,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 88% 18%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(2px 2px at 92% 80%,rgba(255,45,120,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 12% 88%,rgba(255,255,255,.8) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 52% 45%,rgba(0,255,179,.5) 0%,transparent 100%);
+}
+
+@keyframes holo{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes shimmer{0%,100%{opacity:1}50%{opacity:.55}}
+@keyframes glow-pink{0%,100%{text-shadow:0 0 10px var(--hot-pink),0 0 30px var(--hot-pink)}50%{text-shadow:0 0 20px var(--cyan),0 0 60px var(--cyan)}}
+@keyframes scale-in{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:.82}94%{opacity:1}97%{opacity:.9}98%{opacity:1}}
+@keyframes scanmove{0%{background-position:0 0}100%{background-position:0 6px}}
+@keyframes antenna-wiggle{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes channel-pop{0%{opacity:0;transform:scale(1.04)}100%{opacity:1;transform:scale(1)}}
+@keyframes static-flash{0%,100%{opacity:0}50%{opacity:.5}}
+@keyframes blink-rec{0%,100%{opacity:1}50%{opacity:.2}}
+
+.holo-text{background:linear-gradient(90deg,#ff2d78,#b44fff,#00f5ff,#fff200,#7fff00,#ff2d78);background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:holo 4s ease infinite;}
+
+/* TOP BAR */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 1.5rem;
+  border-bottom:1px solid rgba(180,79,255,.3);
+  position:relative;z-index:2;
+  flex-wrap:wrap;gap:.75rem;
+}
+.topbar .logo{
+  font-family:'Bangers',cursive;font-size:1.4rem;letter-spacing:.08em;
+  text-decoration:none;
+}
+.back-link{
+  font-family:'Oswald',sans-serif;font-size:.85rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--cyan);text-decoration:none;
+  display:flex;align-items:center;gap:.4rem;
+  border:1px solid rgba(0,245,255,.4);padding:.5rem 1rem;
+  transition:all .2s;
+}
+.back-link:hover{background:rgba(0,245,255,.15);}
+
+/* PAGE HEADER */
+.page-header{text-align:center;padding:2.5rem 1.5rem 1rem;position:relative;z-index:1;}
+.page-header .kicker{
+  font-family:'Oswald',sans-serif;font-size:.85rem;letter-spacing:.3em;
+  color:var(--cyan);text-transform:uppercase;margin-bottom:.75rem;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+}
+.page-header .kicker::before,.page-header .kicker::after{content:'✦';color:var(--yellow);animation:shimmer 2s ease-in-out infinite;}
+.page-header h1{
+  font-family:'Bangers',cursive;font-size:clamp(2.2rem,6vw,4rem);
+  line-height:1;letter-spacing:.03em;margin-bottom:.5rem;
+}
+.page-header p{
+  font-size:1.05rem;color:#b5a5d5;font-style:italic;max-width:480px;margin:0 auto;
+}
+
+/* MAIN LAYOUT */
+.stage{
+  max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem;
+  display:grid;grid-template-columns:1fr 1.15fr;gap:2.5rem;align-items:start;
+  position:relative;z-index:1;
+}
+@media(max-width:860px){.stage{grid-template-columns:1fr;}}
+
+/* ══════════ RETRO TV ══════════ */
+.tv-wrap{ display:flex; flex-direction:column; align-items:center; }
+
+.antenna{ display:flex; gap:1.5rem; margin-bottom:-6px; z-index:2; }
+.antenna i{
+  display:block;width:3px;height:55px;background:#888;
+  transform-origin:bottom center;
+  animation:antenna-wiggle 6s ease-in-out infinite;
+  position:relative;
+}
+.antenna i:first-child{transform:rotate(-22deg);animation-delay:.3s;}
+.antenna i:last-child{transform:rotate(22deg);}
+.antenna i::after{
+  content:'';position:absolute;top:-4px;left:-3px;width:9px;height:9px;
+  border-radius:50%;background:radial-gradient(circle,#ccc,#777);
+}
+
+.tv-body{
+  background:linear-gradient(160deg,#3a2e1c,#1f1810 60%,#140f0a);
+  border-radius:22px;
+  padding:1.6rem 1.6rem 2.4rem;
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.6),
+    inset 0 0 0 2px rgba(255,255,255,.05),
+    inset 0 -6px 12px rgba(0,0,0,.5);
+  width:100%;max-width:420px;
+  position:relative;
+}
+.tv-body::before{
+  content:'';position:absolute;inset:0;border-radius:22px;
+  background:linear-gradient(135deg,rgba(255,255,255,.06),transparent 40%);
+  pointer-events:none;
+}
+
+.screen-frame{
+  background:#000;
+  border-radius:14px;
+  padding:10px;
+  box-shadow:inset 0 0 0 3px #0a0a0a, inset 0 0 25px rgba(0,0,0,.9);
+}
+
+.screen{
+  position:relative;
+  width:100%;
+  aspect-ratio:4/3;
+  border-radius:8px;
+  overflow:hidden;
+  background:#000;
+  animation:flicker 7s infinite;
+}
+
+.screen img{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover;
+  opacity:0;
+  filter:saturate(1.3) contrast(1.05);
+  animation:channel-pop .5s ease forwards;
+}
+.screen img.showing{ opacity:1; }
+
+.screen::before{
+  content:'';position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0px,
+    rgba(0,0,0,0) 2px,
+    rgba(0,0,0,.18) 3px
+  );
+  animation:scanmove .25s linear infinite;
+}
+.screen::after{
+  content:'';position:absolute;inset:0;z-index:4;pointer-events:none;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,.10), transparent 35%),
+    radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%);
+}
+
+.static-burst{
+  position:absolute;inset:0;z-index:5;pointer-events:none;
+  background:repeating-radial-gradient(circle,#fff 0,#000 1px);
+  opacity:0;
+  mix-blend-mode:overlay;
+}
+.static-burst.flash{ animation:static-flash .25s steps(2); }
+
+.screen-label{
+  position:absolute;bottom:6px;left:8px;z-index:6;
+  font-family:'VT323',monospace;font-size:.95rem;color:#7fff7f;
+  text-shadow:0 0 4px #7fff7f;letter-spacing:.05em;
+}
+.screen-label .rec-dot{
+  display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:#ff3030;margin-right:5px;
+  animation:blink-rec 1.1s infinite;
+  box-shadow:0 0 5px #ff3030;
+}
+
+.tv-controls{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:1.1rem;padding:0 .25rem;
+}
+.tv-brand{
+  font-family:'VT323',monospace;font-size:1.1rem;letter-spacing:.2em;
+  color:#c8b89a;text-transform:uppercase;
+}
+.tv-knobs{ display:flex; gap:.6rem; }
+.knob{
+  width:20px;height:20px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#666,#222);
+  box-shadow:0 1px 2px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.08);
+  position:relative;
+}
+.knob::after{
+  content:'';position:absolute;top:2px;left:50%;width:2px;height:7px;
+  background:#bbb;transform:translateX(-50%);
+}
+
+.tv-stand{
+  width:90px;height:14px;margin-top:-2px;
+  background:linear-gradient(160deg,#2a2014,#160f08);
+  border-radius:0 0 8px 8px;
+}
+
+.now-watching{
+  margin-top:1.25rem;text-align:center;
+}
+.now-watching .label{
+  font-family:'Oswald',sans-serif;font-size:.72rem;letter-spacing:.2em;
+  color:var(--purple);text-transform:uppercase;margin-bottom:.3rem;
+}
+.now-watching .caption{
+  font-family:'Dancing Script',cursive;font-size:1.2rem;color:var(--yellow);
+  min-height:1.6em;
+}
+
+/* ══════════ QUIZ CARD ══════════ */
+.quiz-card{
+  background:linear-gradient(135deg,#0d0025,#05000f);
+  border:2px solid var(--purple);
+  padding:2.25rem;
+  position:relative;
+}
+.quiz-card::after{
+  content:'';position:absolute;top:0;right:0;width:90px;height:90px;
+  background:radial-gradient(circle at top right, rgba(0,245,255,.12), transparent);
+  pointer-events:none;
+}
+
+.progress-bar{display:flex;gap:.4rem;justify-content:center;margin-bottom:1.25rem;}
+.dot{width:10px;height:10px;border-radius:50%;background:rgba(180,79,255,.3);transition:background .3s;}
+.dot.active{background:var(--hot-pink);}
+
+.quiz-progress{
+  font-family:'Oswald',sans-serif;font-size:.85rem;letter-spacing:.2em;
+  color:var(--purple);text-transform:uppercase;margin-bottom:1.1rem;text-align:center;
+}
+.quiz-question{
+  font-family:'Bangers',cursive;font-size:clamp(1.5rem,3.5vw,2.1rem);color:#fff;
+  margin-bottom:1.75rem;letter-spacing:.03em;line-height:1.15;text-align:center;
+}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-bottom:1.5rem;}
+@media(max-width:480px){.quiz-opts{grid-template-columns:1fr;}}
+.quiz-btn{
+  background:#0a0020;border:1px solid rgba(180,79,255,.5);color:#c8b0e8;
+  font-family:'Oswald',sans-serif;font-size:.95rem;letter-spacing:.06em;
+  text-transform:uppercase;padding:1rem .9rem;cursor:pointer;
+  transition:all .25s;text-align:left;line-height:1.45;
+}
+.quiz-btn:hover{background:rgba(180,79,255,.2);border-color:var(--purple);color:#fff;}
+.quiz-btn.selected{background:rgba(255,45,120,.25);border-color:var(--hot-pink);color:#fff;}
+
+.quiz-nav{display:flex;justify-content:center;gap:1rem;margin-top:.5rem;}
+.quiz-nav-btn{
+  background:var(--hot-pink);color:#000;font-family:'Oswald',sans-serif;
+  font-size:.9rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+  border:none;padding:.85rem 1.9rem;cursor:pointer;transition:opacity .2s;
+}
+.quiz-nav-btn:hover{opacity:.85;}
+
+.quiz-result{display:none;animation:scale-in .4s ease;text-align:center;}
+.quiz-result.show{display:block;}
+.result-badge{
+  display:inline-block;padding:.35rem 1.1rem;background:var(--yellow);color:#000;
+  font-family:'Oswald',sans-serif;font-size:.82rem;letter-spacing:.2em;
+  text-transform:uppercase;margin-bottom:.85rem;
+}
+.result-char{font-family:'Bangers',cursive;font-size:clamp(2.2rem,6vw,3.2rem);line-height:1;margin:.5rem 0;}
+.result-desc{font-size:1.02rem;color:#c8b8e8;line-height:1.8;max-width:480px;margin:0 auto;}
+.quiz-restart{
+  background:none;border:1px solid var(--cyan);color:var(--cyan);
+  font-family:'Oswald',sans-serif;font-size:.82rem;letter-spacing:.2em;
+  text-transform:uppercase;padding:.65rem 1.5rem;cursor:pointer;margin-top:1.5rem;
+}
+.quiz-restart:hover{background:rgba(0,245,255,.12);}
+
+.share-row{
+  margin-top:1.5rem;display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;
+}
+.share-row a{
+  font-family:'Oswald',sans-serif;font-size:.78rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--cyan);text-decoration:none;
+  border:1px solid rgba(0,245,255,.4);padding:.55rem 1.1rem;
+  transition:all .2s;
+}
+.share-row a:hover{background:rgba(0,245,255,.15);}
+
+footer{
+  text-align:center;padding:2rem 1.5rem 3rem;
+  font-family:'Oswald',sans-serif;font-size:.78rem;letter-spacing:.2em;
+  color:#5a4870;text-transform:uppercase;position:relative;z-index:1;
+}
+footer a{color:var(--hot-pink);text-decoration:none;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="logo holo-text" href="/wwe.html">WW ♥</a>
+  <a class="back-link" href="/wwe.html#quiz">← Back to the Full Issue</a>
+</div>
+
+<div class="page-header">
+  <div class="kicker">Interactive Quiz</div>
+  <h1><span class="holo-text">WHICH WONDERLAND<br>CHARACTER ARE YOU?</span></h1>
+  <p>Answer five questions. Watch the static clear. Wonderland already knows the answer.</p>
+</div>
+
+<div class="stage">
+
+  <!-- ══════════ RETRO TV ══════════ -->
+  <div class="tv-wrap">
+    <div class="antenna"><i></i><i></i></div>
+    <div class="tv-body">
+      <div class="screen-frame">
+        <div class="screen" id="screen">
+          <div class="static-burst" id="staticBurst"></div>
+          <div class="screen-label"><span class="rec-dot"></span>WONDERLAND TV — LIVE</div>
+        </div>
+      </div>
+      <div class="tv-controls">
+        <span class="tv-brand">Wonderl-Vision</span>
+        <div class="tv-knobs"><span class="knob"></span><span class="knob"></span></div>
+      </div>
+    </div>
+    <div class="tv-stand"></div>
+
+    <div class="now-watching">
+      <div class="label">✦ Now Watching ✦</div>
+      <div class="caption" id="nowCaption">Tuning in to Wonderland...</div>
+    </div>
+  </div>
+
+  <!-- ══════════ QUIZ ══════════ -->
+  <div class="quiz-card" id="quiz-section">
+    <div id="quiz-body">
+      <div class="progress-bar" id="quiz-dots"></div>
+      <div class="quiz-progress" id="quiz-prog">Question 1 of 5</div>
+      <div class="quiz-question" id="quiz-q"></div>
+      <div class="quiz-opts" id="quiz-opts"></div>
+      <div class="quiz-nav">
+        <button class="quiz-nav-btn" id="quiz-next">Next ✦</button>
+      </div>
+    </div>
+
+    <div class="quiz-result" id="quiz-result">
+      <div class="result-badge" id="r-badge">You are...</div>
+      <div class="result-char holo-text" id="r-char"></div>
+      <p class="result-desc" id="r-desc"></p>
+      <div class="share-row">
+        <a href="/wwe.html">✦ Read the Full Issue</a>
+        <a href="#" id="retryLink">↻ Take it Again</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Wonderland Weekly · Summer 2026 · <a href="/wwe.html">Back to the magazine</a>
+</footer>
+
+<script>
+/* ════════════ RETRO TV: RANDOM IMAGE CYCLER ════════════ */
+const channelImages = [
+  { src:"/alice-cheshire-cat.png",     caption:"Caught Smiling? ♥" },
+  { src:"/alice-cry-pool-tears.png",   caption:"Deep in Thought" },
+  { src:"/alice-which-way-hm.png",     caption:"Still Following..." },
+  { src:"/alice-now.png",              caption:"Moonlit Glade" },
+  { src:"/alice-tea-cup.png",          caption:"Tea For Two ♥" },
+  { src:"/alice-who.png",              caption:"The Question Wonderland Never Stops Asking" },
+  { src:"/alice-drink-me-what.png",    caption:"Holographic Look 01" },
+  { src:"/alice-drinkme-never.png",    caption:"Mad Tea Party Look" },
+  { src:"/alice-mad-tea-party.png",    caption:"Six Impossible Things Before Breakfast" },
+  { src:"/alice-tea-mad-hatter.png",   caption:"Very Good Advice, Seldom Followed" },
+  { src:"/alice-jam-.png",             caption:"The Rose Petal Jam, Allegedly" },
+  { src:"/alice-distorted.png",        caption:"Field Research Is Occasionally Upside Down" },
+  { src:"/alice-i-am.png",             caption:"Still Following..." },
+  { src:"/alice-mouse.png",            caption:"From the Pool of Tears" },
+];
+
+const screen    = document.getElementById('screen');
+const burstEl   = document.getElementById('staticBurst');
+const captionEl = document.getElementById('nowCaption');
+let currentImg  = null;
+let shuffled    = [];
+let shufIndex   = 0;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function nextChannel(){
+  if(shufIndex >= shuffled.length){
+    shuffled = shuffle(channelImages);
+    shufIndex = 0;
+  }
+  const item = shuffled[shufIndex++];
+
+  burstEl.classList.remove('flash');
+  void burstEl.offsetWidth;
+  burstEl.classList.add('flash');
+
+  setTimeout(() => {
+    if(currentImg) currentImg.remove();
+    const img = document.createElement('img');
+    img.src = item.src;
+    img.alt = item.caption;
+    img.className = 'showing';
+    screen.insertBefore(img, burstEl);
+    currentImg = img;
+    captionEl.textContent = item.caption;
+  }, 90);
+}
+
+nextChannel();
+setInterval(nextChannel, 3200);
+
+
+/* ════════════ QUIZ LOGIC ════════════ */
+const questions=[
+  {q:"Someone gives you terrible directions. You...",opts:["Follow them anyway out of curiosity","Ask seventeen follow-up questions","Smile and go the opposite way","Make a very thorough plan and ignore the plan"]},
+  {q:"Your ideal afternoon looks like...",opts:["Exploring somewhere you've never been","Reading every book in a room, simultaneously","Presiding over a chaotic event you've somehow organised","Watching others from a comfortable height"]},
+  {q:"You give advice by...",opts:["Asking questions until the person answers their own","Telling the truth, beautifully and indirectly","Pointing firmly and saying 'that way'","Offering a cryptic observation and then leaving"]},
+  {q:"Your relationship with time is...",opts:["It's a suggestion","An enemy I respect","I control it, actually","It's relative, and I've made peace with this"]},
+  {q:"When things go wrong you...",opts:["Grow to the occasion — literally if needed","Question everything, loudly","Announce someone has made a mistake","Disappear and reappear when it's better"]},
+];
+
+const results=[
+  {name:"Alice",badge:"The Curious One",desc:"Brave, brilliant, and perpetually underestimated. You walk into impossible situations with your eyes wide open and your chin up. You ask the questions nobody else thinks to ask — and then you follow them, wherever they lead. The magic of Wonderland is not where it took you. It's what it revealed you already were."},
+  {name:"The Cheshire Cat",badge:"The Wise One",desc:"Ancient, amused, and profoundly selective about visibility. You see everything — usually from a comfortable vantage point — and choose with great care what to say about it. Your wisdom is genuine, your presence is a gift, and your disappearing act is not avoidance. It is simply a very specific form of trust. You always come back, just the grin first."},
+  {name:"The Red Queen",badge:"The Decisive One",desc:"Commanding, direct, and widely misunderstood. You know what you want. You express it clearly, sometimes at volume. The heads thing is a phase — or a metaphor — and either way you've moved past it. Your power is real. Learn to hold it a little more gently and the garden will bloom for you completely."},
+  {name:"The Mad Hatter",badge:"The Joyful Chaos Agent",desc:"You arrived at the party you're throwing and you've never fully left. Time bends around you. Hats multiply. The tea is always somehow hot. You create joy at volume and with commitment, and if the world occasionally cannot keep up — that is the world's problem, truly, not yours. The party is better with you in it."},
+];
+
+let current=0, answers=[];
+
+function startQuiz(){
+  current=0; answers=[];
+  document.getElementById('quiz-body').style.display='block';
+  document.getElementById('quiz-result').classList.remove('show');
+  document.getElementById('quiz-result').style.display='none';
+  renderQ();
+}
+
+function renderQ(){
+  const q=questions[current];
+  document.getElementById('quiz-q').textContent=q.q;
+  document.getElementById('quiz-prog').textContent=`Question ${current+1} of ${questions.length}`;
+  const opts=document.getElementById('quiz-opts');
+  opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='quiz-btn'+(answers[current]===i?' selected':'');
+    b.textContent=o;
+    b.onclick=()=>{answers[current]=i;document.querySelectorAll('.quiz-btn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');};
+    opts.appendChild(b);
+  });
+  const dots=document.getElementById('quiz-dots');
+  dots.innerHTML=questions.map((_,i)=>`<div class="dot${i===current?' active':''}"></div>`).join('');
+  document.getElementById('quiz-next').textContent=current<questions.length-1?'Next ✦':'See My Result ✦';
+}
+
+document.getElementById('quiz-next').onclick=()=>{
+  if(answers[current]===undefined)return;
+  if(current<questions.length-1){current++;renderQ();}
+  else{showResult();}
+};
+
+function showResult(){
+  const tally=[0,0,0,0];
+  answers.forEach(a=>tally[a%4]++);
+  const winner=tally.indexOf(Math.max(...tally));
+  const r=results[winner];
+  document.getElementById('r-badge').textContent='You are...';
+  document.getElementById('r-char').textContent=r.name;
+  document.getElementById('r-desc').textContent=r.desc;
+  document.getElementById('quiz-body').style.display='none';
+  const res=document.getElementById('quiz-result');
+  res.style.display='block';
+  res.classList.add('show');
+}
+
+document.getElementById('retryLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  startQuiz();
+});
+
+startQuiz();
+</script>
+</body>
+</html>
