@@ -111,6 +111,43 @@ body::before{
 }
 .mmtv-hub-link:hover .mmtv-hub-arrow{transform:translateX(3px);}
 
+.mags-promo{border:1px solid rgba(255,210,0,.35);}
+.mags-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:1.1rem;
+}
+.mags-card{
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:.3rem;
+  padding:.9rem .5rem;
+  background:rgba(255,210,0,.06);
+  border:1px solid rgba(255,210,0,.25);
+  text-decoration:none;
+  transition:all .2s ease;
+}
+.mags-card:hover{
+  background:rgba(255,45,120,.12);
+  border-color:var(--hot-pink);
+  transform:translateY(-2px);
+}
+.mags-card-icon{font-size:1.6rem;line-height:1;margin-bottom:.15rem;}
+.mags-card-title{
+  font-family:'Oswald',sans-serif;font-size:.78rem;letter-spacing:.04em;
+  text-transform:uppercase;color:#fff;line-height:1.3;
+}
+.mags-card-sub{
+  font-family:'Oswald',sans-serif;font-size:.65rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--cyan);
+}
+.mags-view-all{
+  display:block;text-align:center;
+  font-family:'Oswald',sans-serif;font-size:.78rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--yellow);text-decoration:none;
+  border:1px solid rgba(255,210,0,.4);padding:.65rem;
+  transition:all .2s ease;
+}
+.mags-view-all:hover{background:rgba(255,210,0,.12);}
+
+
 
 /* KICKER / LABELS */
 .kicker{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.25em;color:var(--cyan);text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem;}
@@ -1065,6 +1102,40 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
       <div style="font-family:'Bangers',cursive;font-size:1.75rem;line-height:1.1;margin-bottom:.75rem;"><span class="holo-text">THE MAD HATTER:<br>UNFILTERED</span></div>
       <p style="font-size:1rem;color:#9585b5;line-height:1.6;margin-bottom:.75rem;">He hasn't been sober since the clocks stopped. He has opinions about punctuality. This is our most anticipated interview of the decade. Bring a very large cup.</p>
       <span class="badge bp">On Sale: Last Thursday</span>
+    </div>
+
+    <!-- THE COSMIC COLLECTION — MAGS CROSS-PROMO -->
+    <div class="panel mags-promo">
+      <div class="kicker kicker-star" style="justify-content:center;">From Magick Mica TV</div>
+      <div style="text-align:center;margin-bottom:.25rem;">
+        <span style="font-family:'Bangers',cursive;font-size:1.6rem;"><span class="holo-text">THE COSMIC COLLECTION</span></span>
+      </div>
+      <p style="font-size:.92rem;color:#9585b5;text-align:center;margin-bottom:1.25rem;font-style:italic;">Four sacred mini-mag issues. Infinite frequency.</p>
+
+      <div class="mags-grid">
+        <a href="https://magickmica.github.io/mags/mags/cleopatras-dream-articles.html" target="_blank" rel="noopener" class="mags-card">
+          <span class="mags-card-icon">👁️</span>
+          <span class="mags-card-title">Cleopatra's<br>Dream</span>
+          <span class="mags-card-sub">Y3K · Issue 777</span>
+        </a>
+        <a href="https://magickmica.github.io/mags/mags/pyramid-mystery-articles.html" target="_blank" rel="noopener" class="mags-card">
+          <span class="mags-card-icon">🔺</span>
+          <span class="mags-card-title">Pyramid<br>Mystery</span>
+          <span class="mags-card-sub">Issue 444 · 2222</span>
+        </a>
+        <a href="https://magickmica.github.io/mags/mags/galactic-goddess-articles.html" target="_blank" rel="noopener" class="mags-card">
+          <span class="mags-card-icon">🌌</span>
+          <span class="mags-card-title">Galactic<br>Goddess</span>
+          <span class="mags-card-sub">Y2K Edition</span>
+        </a>
+        <a href="https://magickmica.github.io/mags/mags/luminous-soul-articles.html" target="_blank" rel="noopener" class="mags-card">
+          <span class="mags-card-icon">🌙</span>
+          <span class="mags-card-title">Luminous<br>Soul</span>
+          <span class="mags-card-sub">Issue 24 · 2026</span>
+        </a>
+      </div>
+
+      <a href="https://magickmica.github.io/mags/mags/index.html" target="_blank" rel="noopener" class="mags-view-all">View the Full Collection ↗</a>
     </div>
   </aside>
 </div>
