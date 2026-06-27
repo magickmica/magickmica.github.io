@@ -81,6 +81,36 @@ body::before{
 .panel-pink{background:linear-gradient(145deg,#200010,#100008);border:1px solid rgba(255,45,120,.4);}
 .panel-yellow{background:linear-gradient(145deg,#1a1400,#0a0800);border:1px solid rgba(255,210,0,.4);}
 .panel-dark{background:#000;border:1px solid rgba(255,255,255,.1);}
+.mmtv-hub{border:1px solid rgba(0,245,255,.35);}
+.mmtv-hub-links{display:flex;flex-direction:column;gap:.6rem;margin-top:.75rem;}
+.mmtv-hub-link{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.75rem .85rem;
+  background:rgba(180,79,255,.08);
+  border:1px solid rgba(180,79,255,.25);
+  text-decoration:none;
+  transition:all .2s ease;
+}
+.mmtv-hub-link:hover{
+  background:rgba(0,245,255,.12);
+  border-color:rgba(0,245,255,.5);
+  transform:translateX(3px);
+}
+.mmtv-hub-icon{font-size:1.4rem;flex-shrink:0;line-height:1;}
+.mmtv-hub-text{
+  flex:1;min-width:0;
+  font-size:.85rem;color:#c0b0d8;line-height:1.5;
+}
+.mmtv-hub-text strong{
+  color:#fff;font-family:'Oswald',sans-serif;font-size:.85rem;
+  letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:.15rem;
+}
+.mmtv-hub-arrow{
+  color:var(--cyan);font-size:1.1rem;flex-shrink:0;
+  transition:transform .2s ease;
+}
+.mmtv-hub-link:hover .mmtv-hub-arrow{transform:translateX(3px);}
+
 
 /* KICKER / LABELS */
 .kicker{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.25em;color:var(--cyan);text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem;}
@@ -386,7 +416,7 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
 
   <!-- COVER HERO IMAGE -->
   <figure style="margin:1.75rem 0;border:1px solid rgba(180,79,255,.4);overflow:hidden;">
-    <img src="alice-which-way-hm.png" alt="Alice looking up at the Cheshire Cat in the glowing forest" style="width:100%;display:block;">
+    <img src="/alice-which-way-hm.png" alt="Alice looking up at the Cheshire Cat in the glowing forest" style="width:100%;display:block;">
     <figcaption style="font-family:'Oswald',sans-serif;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:var(--cyan);text-align:center;padding:.6rem;background:#0a0020;">"I've often seen a cat without a grin... but never a grin without a cat."</figcaption>
   </figure>
 
@@ -415,11 +445,11 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
 
 <!-- POLAROIDS -->
 <div class="pols">
-  <div class="pol"><div class="pol-img"><img src="alice-cheshire-cat.png" alt="Alice looking up at the Cheshire Cat" loading="lazy"></div><span class="pol-cap">Caught Smiling? ♥</span></div>
-  <div class="pol"><div class="pol-img"><img src="alice-cry-pool-tears.png" alt="Alice deep in thought" loading="lazy"></div><span class="pol-cap">Deep in Thought</span></div>
-  <div class="pol"><div class="pol-img"><img src="alice-i-am.png" alt="Alice in Wonderland" loading="lazy"></div><span class="pol-cap">Still Following...</span></div>
-  <div class="pol"><div class="pol-img"><img src="alice-now.png" alt="Alice with the Tweedles under a starry sky" loading="lazy"></div><span class="pol-cap">Moonlit Glade</span></div>
-  <div class="pol"><div class="pol-img"><img src="alice-tea-cup.png" alt="Alice sitting in a giant teacup" loading="lazy"></div><span class="pol-cap">Tea For Two ♥</span></div>
+  <div class="pol"><div class="pol-img"><img src="/alice-cheshire-cat.png" alt="Alice looking up at the Cheshire Cat" loading="lazy"></div><span class="pol-cap">Caught Smiling? ♥</span></div>
+  <div class="pol"><div class="pol-img"><img src="/alice-cry-pool-tears.png" alt="Alice deep in thought" loading="lazy"></div><span class="pol-cap">Deep in Thought</span></div>
+  <div class="pol"><div class="pol-img"><img src="/alice-i-am.png" alt="Alice in Wonderland" loading="lazy"></div><span class="pol-cap">Still Following...</span></div>
+  <div class="pol"><div class="pol-img"><img src="/alice-now.png" alt="Alice with the Tweedles under a starry sky" loading="lazy"></div><span class="pol-cap">Moonlit Glade</span></div>
+  <div class="pol"><div class="pol-img"><img src="/alice-tea-cup.png" alt="Alice sitting in a giant teacup" loading="lazy"></div><span class="pol-cap">Tea For Two ♥</span></div>
 </div>
 
 <!-- ══════════════════ DEEP DIVE ══════════════════ -->
@@ -438,7 +468,7 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
     <p class="dek">Every riddle, every half-vanished truth. We've spent three issues decoding his philosophy — and what we found will change how you see everything.</p>
 
     <figure style="margin:1.5rem 0;border:1px solid rgba(255,45,120,.4);overflow:hidden;">
-      <img src="alice-who.png" alt="Alice with WHO? graffiti and the Drink Me bottle" style="width:100%;display:block;">
+      <img src="/alice-who.png" alt="Alice with WHO? graffiti and the Drink Me bottle" style="width:100%;display:block;">
       <figcaption style="font-family:'Oswald',sans-serif;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--hot-pink);text-align:center;padding:.55rem;background:#0a0010;">The question Wonderland never stops asking</figcaption>
     </figure>
 
@@ -507,6 +537,36 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
         <blockquote>"I grin because the alternative is taking everything seriously."</blockquote>
         <span class="qs">— The Cheshire Cat</span>
         <span class="qi">✦ 6.8M shares · Print it on everything</span>
+      </div>
+    </div>
+
+    <!-- MORE FROM MAGICK MICA TV HUB CARD -->
+    <div class="panel panel-dark mmtv-hub">
+      <div style="text-align:center;margin-bottom:1.25rem;">
+        <img src="/magick-mica-tv-logo.png" alt="Magick Mica TV" style="max-width:170px;width:70%;display:block;margin:0 auto;filter:drop-shadow(0 0 8px rgba(255,45,155,.4));">
+      </div>
+      <div class="kicker kicker-star" style="justify-content:center;">More From Magick Mica TV</div>
+      <div class="mmtv-hub-links">
+        <a href="/which-character-are-you.html" class="mmtv-hub-link">
+          <span class="mmtv-hub-icon">🐱</span>
+          <span class="mmtv-hub-text"><strong>Take the Quiz</strong><br>Which Wonderland character are you?</span>
+          <span class="mmtv-hub-arrow">→</span>
+        </a>
+        <a href="https://substack.com/@magickmica" target="_blank" rel="noopener" class="mmtv-hub-link">
+          <span class="mmtv-hub-icon">✦</span>
+          <span class="mmtv-hub-text"><strong>Read on Substack</strong><br>More sacred, glittery things</span>
+          <span class="mmtv-hub-arrow">↗</span>
+        </a>
+        <a href="https://www.themysticalspiralstore.com/" target="_blank" rel="noopener" class="mmtv-hub-link">
+          <span class="mmtv-hub-icon">🔮</span>
+          <span class="mmtv-hub-text"><strong>The Mystical Spiral</strong><br>Handmade gemstone talismans</span>
+          <span class="mmtv-hub-arrow">↗</span>
+        </a>
+        <a href="https://magickmica.github.io/" target="_blank" rel="noopener" class="mmtv-hub-link">
+          <span class="mmtv-hub-icon">📺</span>
+          <span class="mmtv-hub-text"><strong>Magick Mica TV</strong><br>Where magic meets the pixel</span>
+          <span class="mmtv-hub-arrow">↗</span>
+        </a>
       </div>
     </div>
 
@@ -580,7 +640,7 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
     <a href="https://www.themysticalspiralstore.com/product-page/opollia-auric-fire-talisman-ethiopian-opal-gemstone-antique-copper-coil" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
       <div class="ad-card" style="border-color:var(--yellow);cursor:pointer;transition:transform .2s;">
         <p style="font-family:'Oswald',sans-serif;font-size:.65rem;letter-spacing:.15em;color:rgba(255,242,0,.7);text-transform:uppercase;margin-bottom:.75rem;">✦ Sponsored &nbsp;·&nbsp; From The Mystical Spiral Store</p>
-        <img src="opollia-talisman.png" alt="Opollia Auric Fire Talisman — Ethiopian Opal Gemstone wrapped in antique copper coil" style="width:100%;max-width:200px;display:block;margin:0 auto 1rem;border-radius:4px;">
+        <img src="/opollia-talisman.png" alt="Opollia Auric Fire Talisman — Ethiopian Opal Gemstone wrapped in antique copper coil" style="width:100%;max-width:200px;display:block;margin:0 auto 1rem;border-radius:4px;">
         <div class="ad-title" style="color:var(--yellow);font-size:1.5rem;">OPOLLIA</div>
         <div class="ad-sub" style="color:#fff;">Auric Fire Talisman</div>
         <div class="ad-body" style="margin-top:.5rem;">Ethiopian Opal Gemstone<br>Wrapped in Antique Copper Coil<br><br>One of a kind. Each piece unique — exactly like everything else worth keeping in Wonderland.</div>
@@ -774,7 +834,7 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
 
   <div class="three-col">
     <div class="panel panel-pink" style="text-align:center;padding:0;overflow:hidden;">
-      <img src="alice-drink-me-what.png" alt="Alice in holographic dress with Drink Me bottle" style="width:100%;height:220px;object-fit:cover;display:block;">
+      <img src="/alice-drink-me-what.png" alt="Alice in holographic dress with Drink Me bottle" style="width:100%;height:220px;object-fit:cover;display:block;">
       <div style="padding:1.5rem;">
         <span class="badge bp" style="margin-bottom:.75rem;display:inline-block;">Look 01</span>
         <h3 class="hed-sm"><span class="holo-text">Holographic</span></h3>
@@ -782,7 +842,7 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
       </div>
     </div>
     <div class="panel panel-cyan" style="text-align:center;padding:0;overflow:hidden;">
-      <img src="alice-now.png" alt="Alice in pink dress with NOW typography under starry sky" style="width:100%;height:220px;object-fit:cover;display:block;">
+      <img src="/alice-now.png" alt="Alice in pink dress with NOW typography under starry sky" style="width:100%;height:220px;object-fit:cover;display:block;">
       <div style="padding:1.5rem;">
         <span class="badge bc" style="margin-bottom:.75rem;display:inline-block;">Look 02</span>
         <h3 class="hed-sm" style="color:var(--purple);">Dreamcore</h3>
@@ -790,7 +850,7 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
       </div>
     </div>
     <div class="panel panel-yellow" style="text-align:center;padding:0;overflow:hidden;">
-      <img src="alice-drinkme-never.png" alt="Alice in NEVER typography dress with Drink Me bottle" style="width:100%;height:220px;object-fit:cover;display:block;">
+      <img src="/alice-drinkme-never.png" alt="Alice in NEVER typography dress with Drink Me bottle" style="width:100%;height:220px;object-fit:cover;display:block;">
       <div style="padding:1.5rem;">
         <span class="badge by" style="margin-bottom:.75rem;display:inline-block;">Look 03</span>
         <h3 class="hed-sm" style="color:var(--yellow);">Mad Tea Party</h3>
@@ -815,15 +875,15 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
 
 <div class="three-col" style="margin-bottom:1rem;">
   <figure style="margin:0;border:1px solid rgba(255,210,0,.4);overflow:hidden;">
-    <img src="alice-mad-tea-party.png" alt="Alice and the Mad Hatter at the tea table" style="width:100%;height:280px;object-fit:cover;display:block;">
+    <img src="/alice-mad-tea-party.png" alt="Alice and the Mad Hatter at the tea table" style="width:100%;height:280px;object-fit:cover;display:block;">
     <figcaption style="font-family:'Oswald',sans-serif;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--yellow);text-align:center;padding:.55rem;background:#0a0800;">"Six impossible things before breakfast"</figcaption>
   </figure>
   <figure style="margin:0;border:1px solid rgba(0,245,255,.4);overflow:hidden;">
-    <img src="alice-tea-mad-hatter.png" alt="Alice at the tea party with the Mad Hatter and White Rabbit" style="width:100%;height:280px;object-fit:cover;display:block;">
+    <img src="/alice-tea-mad-hatter.png" alt="Alice at the tea party with the Mad Hatter and White Rabbit" style="width:100%;height:280px;object-fit:cover;display:block;">
     <figcaption style="font-family:'Oswald',sans-serif;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);text-align:center;padding:.55rem;background:#000c1a;">"I give myself very good advice, but I very seldom follow it"</figcaption>
   </figure>
   <figure style="margin:0;border:1px solid rgba(255,45,120,.4);overflow:hidden;">
-    <img src="alice-jam-.png" alt="Alice with rose petal jam" style="width:100%;height:280px;object-fit:cover;display:block;">
+    <img src="/alice-jam-.png" alt="Alice with rose petal jam" style="width:100%;height:280px;object-fit:cover;display:block;">
     <figcaption style="font-family:'Oswald',sans-serif;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--hot-pink);text-align:center;padding:.55rem;background:#100008;">The Rose Petal Jam, allegedly</figcaption>
   </figure>
 </div>
@@ -881,7 +941,7 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
   <p class="dek">We spent three weeks embedded in Wonderland. What we found surprised everyone, including us.</p>
 
   <figure style="margin:1.5rem 0;border:1px solid rgba(180,79,255,.4);overflow:hidden;">
-    <img src="alice-distorted.png" alt="Alice falling upside down through the rabbit hole" style="width:100%;display:block;">
+    <img src="/alice-distorted.png" alt="Alice falling upside down through the rabbit hole" style="width:100%;display:block;">
     <figcaption style="font-family:'Oswald',sans-serif;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--purple);text-align:center;padding:.55rem;background:#0c001f;">Field research is occasionally upside down</figcaption>
   </figure>
 
@@ -947,7 +1007,7 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
     <h2 class="hed-md" style="color:var(--yellow);margin-bottom:1.25rem;">YOUR LETTERS THIS SEASON</h2>
 
     <figure style="margin:0 0 1.5rem 1.5rem;border:1px solid rgba(180,79,255,.4);overflow:hidden;float:right;width:200px;max-width:40%;" class="letters-figure">
-      <img src="alice-mouse.png" alt="Alice swimming with the mouse in the Pool of Tears" style="width:100%;display:block;">
+      <img src="/alice-mouse.png" alt="Alice swimming with the mouse in the Pool of Tears" style="width:100%;display:block;">
       <figcaption style="font-family:'Oswald',sans-serif;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);text-align:center;padding:.5rem;background:#0c001f;">From the Pool of Tears</figcaption>
     </figure>
 
@@ -1057,6 +1117,18 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
     font-size: 2rem;
     animation: tvglow 2.5s ease-in-out infinite alternate;
   }
+  .mmtv-logo-img {
+    display: block;
+    max-width: 320px;
+    width: 80%;
+    margin: 0 auto 0.5rem;
+    filter: drop-shadow(0 0 10px rgba(255,45,155,0.45));
+    animation: tvglow 2.5s ease-in-out infinite alternate;
+    transition: transform 0.25s ease;
+  }
+  .mmtv-logo-img:hover {
+    transform: scale(1.03);
+  }
   @keyframes tvglow {
     from { filter: drop-shadow(0 0 4px #ff2d9b) drop-shadow(0 0 8px rgba(255,45,155,0.4)); }
     to   { filter: drop-shadow(0 0 8px #00f0ff) drop-shadow(0 0 16px rgba(0,240,255,0.4)); }
@@ -1134,8 +1206,9 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
 </style>
 
 <footer class="mmtv-footer">
-  <div class="mmtv-tv">📺</div>
-  <div class="mmtv-title"><A href="https://magickmica.github.io/">Magick Mica TV x Github</a></div>
+  <a href="https://magickmica.github.io/" style="display:inline-block;text-decoration:none;">
+    <img src="/magick-mica-tv-logo.png" alt="Magick Mica TV" class="mmtv-logo-img">
+  </a>
   <div class="mmtv-tagline">
     <span>✦</span> Where Magic Meets the Pixel <span>✦</span>
   </div>
