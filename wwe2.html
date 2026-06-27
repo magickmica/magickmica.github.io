@@ -81,6 +81,36 @@ body::before{
 .panel-pink{background:linear-gradient(145deg,#200010,#100008);border:1px solid rgba(255,45,120,.4);}
 .panel-yellow{background:linear-gradient(145deg,#1a1400,#0a0800);border:1px solid rgba(255,210,0,.4);}
 .panel-dark{background:#000;border:1px solid rgba(255,255,255,.1);}
+.mmtv-hub{border:1px solid rgba(0,245,255,.35);}
+.mmtv-hub-links{display:flex;flex-direction:column;gap:.6rem;margin-top:.75rem;}
+.mmtv-hub-link{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.75rem .85rem;
+  background:rgba(180,79,255,.08);
+  border:1px solid rgba(180,79,255,.25);
+  text-decoration:none;
+  transition:all .2s ease;
+}
+.mmtv-hub-link:hover{
+  background:rgba(0,245,255,.12);
+  border-color:rgba(0,245,255,.5);
+  transform:translateX(3px);
+}
+.mmtv-hub-icon{font-size:1.4rem;flex-shrink:0;line-height:1;}
+.mmtv-hub-text{
+  flex:1;min-width:0;
+  font-size:.85rem;color:#c0b0d8;line-height:1.5;
+}
+.mmtv-hub-text strong{
+  color:#fff;font-family:'Oswald',sans-serif;font-size:.85rem;
+  letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:.15rem;
+}
+.mmtv-hub-arrow{
+  color:var(--cyan);font-size:1.1rem;flex-shrink:0;
+  transition:transform .2s ease;
+}
+.mmtv-hub-link:hover .mmtv-hub-arrow{transform:translateX(3px);}
+
 
 /* KICKER / LABELS */
 .kicker{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.25em;color:var(--cyan);text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem;}
@@ -507,6 +537,36 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
         <blockquote>"I grin because the alternative is taking everything seriously."</blockquote>
         <span class="qs">— The Cheshire Cat</span>
         <span class="qi">✦ 6.8M shares · Print it on everything</span>
+      </div>
+    </div>
+
+    <!-- MORE FROM MAGICK MICA TV HUB CARD -->
+    <div class="panel panel-dark mmtv-hub">
+      <div style="text-align:center;margin-bottom:1.25rem;">
+        <img src="/magick-mica-tv-logo.png" alt="Magick Mica TV" style="max-width:170px;width:70%;display:block;margin:0 auto;filter:drop-shadow(0 0 8px rgba(255,45,155,.4));">
+      </div>
+      <div class="kicker kicker-star" style="justify-content:center;">More From Magick Mica TV</div>
+      <div class="mmtv-hub-links">
+        <a href="/which-character-are-you.html" class="mmtv-hub-link">
+          <span class="mmtv-hub-icon">🐱</span>
+          <span class="mmtv-hub-text"><strong>Take the Quiz</strong><br>Which Wonderland character are you?</span>
+          <span class="mmtv-hub-arrow">→</span>
+        </a>
+        <a href="https://substack.com/@magickmica" target="_blank" rel="noopener" class="mmtv-hub-link">
+          <span class="mmtv-hub-icon">✦</span>
+          <span class="mmtv-hub-text"><strong>Read on Substack</strong><br>More sacred, glittery things</span>
+          <span class="mmtv-hub-arrow">↗</span>
+        </a>
+        <a href="https://www.themysticalspiralstore.com/" target="_blank" rel="noopener" class="mmtv-hub-link">
+          <span class="mmtv-hub-icon">🔮</span>
+          <span class="mmtv-hub-text"><strong>The Mystical Spiral</strong><br>Handmade gemstone talismans</span>
+          <span class="mmtv-hub-arrow">↗</span>
+        </a>
+        <a href="https://magickmica.github.io/" target="_blank" rel="noopener" class="mmtv-hub-link">
+          <span class="mmtv-hub-icon">📺</span>
+          <span class="mmtv-hub-text"><strong>Magick Mica TV</strong><br>Where magic meets the pixel</span>
+          <span class="mmtv-hub-arrow">↗</span>
+        </a>
       </div>
     </div>
 
