@@ -652,6 +652,78 @@
   }
   .mtv-pink { color: #ff6ef7; text-shadow: 0 0 6px rgba(255,110,247,0.5); }
   .mtv-cyan { color: #6ef7ff; text-shadow: 0 0 6px rgba(110,239,255,0.5); }
+
+  /* ── Y3K MAGAZINE SECTION ── */
+  .mag-section {
+    position: relative; z-index: 5;
+    max-width: 900px; margin: 0 auto 1.5rem;
+    padding: 0 1.2rem;
+    display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+  }
+  .mag-intro {
+    font-family: 'VT323', monospace;
+    font-size: 1rem; letter-spacing: 0.15em;
+    color: rgba(200,180,255,0.5);
+    text-align: center; text-transform: uppercase;
+  }
+  .mag-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    width: 100%;
+  }
+  .mag-card {
+    text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+    background: rgba(18,6,32,0.7);
+    border: 1px solid rgba(255,110,247,0.25);
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .mag-card:hover {
+    border-color: #ff6ef7;
+    box-shadow: 0 0 22px rgba(255,110,247,0.3);
+    transform: translateY(-4px);
+  }
+  .mag-card-cover {
+    position: relative;
+    aspect-ratio: 1/1; overflow: hidden;
+    background: linear-gradient(135deg, rgba(255,110,247,0.1), rgba(110,239,255,0.1));
+  }
+  .mag-card-cover img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.4s;
+  }
+  .mag-card:hover .mag-card-cover img { transform: scale(1.08); }
+  .mag-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(7,2,15,0.9) 100%);
+  }
+  .mag-card-count {
+    position: absolute; bottom: 6px; left: 8px;
+    font-family: 'VT323', monospace; font-size: 0.75rem;
+    letter-spacing: 0.1em; color: #f7ff6e;
+    text-shadow: 0 0 6px #f7ff6e;
+  }
+  .mag-card-label {
+    padding: 0.6rem 0.8rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700; font-size: 0.78rem;
+    color: #fff; line-height: 1.3;
+  }
+  .mag-hub-link {
+    font-family: 'VT323', monospace;
+    font-size: 1.05rem; letter-spacing: 0.12em;
+    color: #f7ff6e; text-decoration: none;
+    border: 1px solid #f7ff6e;
+    padding: 0.4rem 1.2rem;
+    transition: all 0.2s;
+  }
+  .mag-hub-link:hover {
+    background: #f7ff6e; color: #000;
+    box-shadow: 0 0 16px #f7ff6e;
+  }
+
   .mtv-full-link {
     font-family: 'VT323', monospace;
     font-size: 0.95rem;
@@ -687,12 +759,12 @@
   <!-- ── FEATURED ── -->
   <div class="section-label"><span>Featured Transmission</span></div>
 
-  <a class="card-featured" href="https://magickmica.github.io/alice/wonderland-weekly-expanded.html">
+    <a class="card-featured" href="https://magickmica.github.io/week-2026-06-29.html">
     <div class="card-eyebrow">Main Broadcast</div>
-    <div class="card-title">Wonderland Weekly</div>
-    <div class="card-desc">The flagship transmission — where Alice goes deeper, the rabbit hole gets stranger, and the weekly broadcast never quite looks the same twice.</div>
-    <div class="card-cta">Enter the broadcast <span>→</span></div>
-    <div class="card-emoji">🐇</div>
+    <div class="card-title">Y3K Magazine</div>
+    <div class="card-desc">Jun 29–Jul 5, 2026 &mdash; 72 notes from the week. Highlights, timeline, pull quotes, and stats.</div>
+    <div class="card-cta">Read this week's issue <span>&rarr;</span></div>
+    <div class="card-emoji">&#x2726;</div>
   </a>
 
   <!-- ── CHANNELS ── -->
@@ -782,6 +854,95 @@
       </div>
     </div>
     <a class="mtv-full-link" href="https://magickmica.github.io/random-note.html">📺 Open Full Random Note TV →</a>
+  </div>
+
+  <!-- ── EXTENDED UNIVERSE ── -->
+
+  <!-- ── Y3K MAGAZINE ── -->
+  <div class="section-label"><span>Y3K Magazine</span></div>
+
+  <div class="mag-section">
+    <div class="mag-intro">Missed a week? Every transmission, archived by date.</div>
+    <div class="mag-grid">
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-06-22.html">
+      <div class="mag-card-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F581771df-30ba-4387-879c-eae3f3b27202_2048x2048.jpeg" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">124 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jun 22–Jun 28</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-06-15.html">
+      <div class="mag-card-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc2db026a-da61-44a9-be9c-7a3bd695051a_1149x1369.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">122 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jun 15–Jun 21</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-06-08.html">
+      <div class="mag-card-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3eb46464-75f2-4ebb-abaa-d2ecb789386a_2048x2048.jpeg" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">191 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jun 8–Jun 14</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-06-01.html">
+      <div class="mag-card-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F23456183-fc95-421d-a054-2b98c7a2aa4e_1200x1200.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">169 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jun 1–Jun 7</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-05-25.html">
+      <div class="mag-card-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2fcc5d7-40a3-4385-bec4-b0f3ebd02edb_896x1600.jpeg" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">170 NOTES</div>
+      </div>
+      <div class="mag-card-label">May 25–May 31</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-05-18.html">
+      <div class="mag-card-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b29b35d-d833-426a-bea4-6c55ef3d8ea2_500x500.gif" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">86 NOTES</div>
+      </div>
+      <div class="mag-card-label">May 18–May 24</div>
+    </a>
+    </div>
+        <div class="mag-card-count">72 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jun 29–Jul 5</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-06-22.html">
+      <div class="mag-card-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F581771df-30ba-4387-879c-eae3f3b27202_2048x2048.jpeg" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">124 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jun 22–Jun 28</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-06-15.html">
+      <div class="mag-card-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc2db026a-da61-44a9-be9c-7a3bd695051a_1149x1369.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">122 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jun 15–Jun 21</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-06-08.html">
+      <div class="mag-card-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3eb46464-75f2-4ebb-abaa-d2ecb789386a_2048x2048.jpeg" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">191 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jun 8–Jun 14</div>
+    </a>
+    </div>
+    <a class="mag-hub-link" href="https://magickmica.github.io/minimags.html">✦ Browse All Weekly &amp; Monthly Issues ✦</a>
   </div>
 
   <!-- ── EXTENDED UNIVERSE ── -->
