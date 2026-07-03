@@ -269,7 +269,24 @@
     color: rgba(200,180,255,0.5);
     letter-spacing: 0.08em;
   }
-  .post-body { padding: 0.9rem 1.1rem; }
+  .post-body {
+    padding: 0.9rem 1.1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .post-body-text { flex: 1; min-width: 0; }
+  .post-cover {
+    width: 130px;
+    flex-shrink: 0;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border: 1px solid rgba(255,110,247,0.3);
+    box-shadow: 0 0 12px rgba(255,110,247,0.15);
+  }
+  @media (max-width: 500px) {
+    .post-cover { width: 90px; }
+  }
   .post-subtitle {
     font-style: italic;
     font-size: 0.88rem;
@@ -890,8 +907,11 @@ function render() {
           <div class="post-date">${formatDate(p.date)}</div>
         </div>
         <div class="post-body">
-          ${p.subtitle ? `<div class="post-subtitle">${escapeHtml(p.subtitle)}</div>` : ''}
-          ${p.preview ? `<div class="post-preview">${escapeHtml(p.preview)}...</div>` : ''}
+          <div class="post-body-text">
+            ${p.subtitle ? `<div class="post-subtitle">${escapeHtml(p.subtitle)}</div>` : ''}
+            ${p.preview ? `<div class="post-preview">${escapeHtml(p.preview)}...</div>` : ''}
+          </div>
+          ${p.cover_url ? `<img class="post-cover" src="${p.cover_url}" loading="lazy" onerror="this.style.display='none'" />` : ''}
         </div>
         <div class="post-footer">
           <a class="read-more" href="${getUrl(p)}" target="_blank" rel="noopener">READ FULL POST →</a>
