@@ -234,11 +234,65 @@
     gap: 1.2rem;
   }
 
+  /* NOTES MOSAIC BANNER */
+  .notes-mosaic-wrap {
+    position: relative; z-index: 5;
+    max-width: 1100px;
+    margin: 1.5rem auto 0.5rem;
+    padding: 0 1rem;
+  }
+  .notes-mosaic-label {
+    text-align: center;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    color: var(--holo3);
+    text-shadow: 0 0 8px var(--holo3);
+    margin-bottom: 0.7rem;
+  }
+  .notes-mosaic {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 0.6rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--holo1) transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+  .notes-mosaic::-webkit-scrollbar { height: 6px; }
+  .notes-mosaic::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+  .notes-mosaic::-webkit-scrollbar-thumb { background: var(--holo1); border-radius: 3px; }
+  .notes-mosaic a {
+    flex-shrink: 0;
+    width: 110px; height: 110px;
+    overflow: hidden;
+    border: 1px solid rgba(255,110,247,0.3);
+    transition: all 0.25s;
+    position: relative;
+  }
+  .notes-mosaic a:nth-child(3n) { border-color: rgba(110,239,255,0.3); }
+  .notes-mosaic a:nth-child(3n+1) { border-color: rgba(247,255,110,0.3); }
+  .notes-mosaic a:hover {
+    border-color: #fff;
+    box-shadow: 0 0 16px rgba(255,110,247,0.5);
+    transform: scale(1.05);
+    z-index: 2;
+  }
+  .notes-mosaic img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s;
+  }
+  .notes-mosaic a:hover img { transform: scale(1.12); }
+  @media (max-width: 600px) {
+    .notes-mosaic a { width: 85px; height: 85px; }
+  }
+
   /* CARD */
   .card {
     background: var(--card);
     border: 1px solid rgba(255,110,247,0.25);
-    padding: 1.2rem;
     transition: all 0.25s;
     position: relative;
     overflow: hidden;
@@ -247,11 +301,23 @@
     display: block;
     color: inherit;
   }
+  .card-cover {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid rgba(255,110,247,0.25);
+    transition: transform 0.4s;
+  }
+  .card:hover .card-cover { transform: scale(1.05); }
+  .card-inner { padding: 1.1rem 1.2rem 1.2rem; position: relative; z-index: 2; }
   .card::before {
     content: '';
     position: absolute; inset: 0;
     background: linear-gradient(135deg, rgba(255,110,247,0.03) 0%, transparent 60%);
     transition: opacity 0.3s;
+    z-index: 1;
+    pointer-events: none;
   }
   .card:hover {
     border-color: var(--holo1);
@@ -269,6 +335,7 @@
     border-width: 0 18px 18px 0;
     border-color: transparent var(--holo2) transparent transparent;
     opacity: 0.5;
+    z-index: 3;
   }
 
   .card-type {
@@ -398,6 +465,11 @@
 
 <div class="pixel-row">·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·</div>
 
+<div class="notes-mosaic-wrap">
+  <div class="notes-mosaic-label">✦ FROM THE NOTES FEED ✦</div>
+  <div class="notes-mosaic" id="notesMosaic"></div>
+</div>
+
 <div class="controls">
   <div class="search-wrap">
     <input id="search" type="text" placeholder="search the cosmic archive..." autocomplete="off" />
@@ -481,12 +553,15 @@ function render() {
       el.href = url; el.target = '_blank'; el.rel = 'noopener';
       el.className = `card type-${typeClass}`;
       el.innerHTML = `
-        <div class="card-type"><span class="type-dot"></span>${typeLabel}</div>
-        <div class="card-title">${a.title}</div>
-        ${a.subtitle ? `<div class="card-subtitle">${a.subtitle}</div>` : ''}
-        ${a.preview ? `<div class="card-preview">${a.preview}</div>` : ''}
-        <div class="card-date">${formatDate(a.date)}</div>
-        <span class="card-read">READ →</span>
+        ${a.cover_url ? `<img class="card-cover" src="${a.cover_url}" loading="lazy" onerror="this.style.display='none'" />` : ''}
+        <div class="card-inner">
+          <div class="card-type"><span class="type-dot"></span>${typeLabel}</div>
+          <div class="card-title">${a.title}</div>
+          ${a.subtitle ? `<div class="card-subtitle">${a.subtitle}</div>` : ''}
+          ${a.preview ? `<div class="card-preview">${a.preview}</div>` : ''}
+          <div class="card-date">${formatDate(a.date)}</div>
+          <span class="card-read">READ →</span>
+        </div>
       `;
       grid.appendChild(el);
     });
@@ -511,6 +586,18 @@ document.getElementById('monthFilter').addEventListener('change', e => {
   activeMonth = e.target.value;
   render();
 });
+
+
+// NOTES MOSAIC BANNER
+const NOTES_MOSAIC = [{"id":234062272,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa8f17e8c-c14a-4672-864a-5b6fe98da973_600x600.gif"},{"id":215718429,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2acf2e4d-ef35-4489-8c93-b2e4fa0cdcdd_1200x1409.png"},{"id":264761834,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2fcc5d7-40a3-4385-bec4-b0f3ebd02edb_896x1600.jpeg"},{"id":217651659,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1d9c3452-0a5e-4fbf-ae9f-f93b350aff9f_1200x1200.png"},{"id":239392252,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F74d5d26f-0088-4ef9-aed2-19ccb3e640df_1200x663.png"},{"id":258314262,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F36e1dba8-fa53-4bf6-afaf-0b292f7d04a1_1200x1200.png"},{"id":265733318,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5d600b71-025a-44a0-a1df-7e929f8c29cb_1024x1536.png"},{"id":230067338,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fec68691b-ab7f-486d-8605-8a2876b47a77_800x440.gif"},{"id":254020646,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F704ee90c-084e-4778-9731-439cf30fc665_1888x1888.png"},{"id":231676095,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Facb26bc1-0462-4b7a-9b5e-4be99cd5bf12_600x600.gif"},{"id":225221489,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdf795bd8-2e9b-4281-8096-e28ddbfe0541_400x727.gif"},{"id":252944293,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F864bd0f8-d3df-4c61-9da2-7dc9d0cf6fe6_600x600.gif"},{"id":264528286,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b29b35d-d833-426a-bea4-6c55ef3d8ea2_500x500.gif"},{"id":243857689,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F26a8124b-69cd-4847-a5fd-5e775c2169d4_1120x1120.png"},{"id":255421725,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb7337b58-4931-4b8f-9956-152048ea59d2_1024x1536.png"},{"id":242479152,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F61414c94-1a52-447c-b99e-bb6673ee236e_600x600.gif"},{"id":218586015,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F075496f6-f19e-4574-99e3-60c88b1cd9e2_761x740.png"},{"id":274957602,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3eb46464-75f2-4ebb-abaa-d2ecb789386a_2048x2048.jpeg"},{"id":262436664,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6468d82a-9e6d-453e-b3d2-acedf0731aaf_1200x1200.png"},{"id":262177002,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F448f883c-d66a-483e-be6e-aea7a30b38ca_1254x1254.png"},{"id":259619647,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd03f7ab4-ca06-4590-ac4d-12e366081a18_1312x1206.png"},{"id":259405966,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9e682857-9902-46ed-9792-6423f16685ec_1200x1200.png"},{"id":258951160,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2fe8bfa7-5a8e-48bf-9e58-35dbd2d9b4ec_1254x1254.png"},{"id":246252344,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7ed44e20-aede-42f2-99b9-90460deed2e6_1250x1250.png"}];
+(function() {
+  const el = document.getElementById('notesMosaic');
+  if (el && NOTES_MOSAIC.length) {
+    el.innerHTML = NOTES_MOSAIC.map(n =>
+      `<a href="https://substack.com/@magickmica/note/c-${n.id}" target="_blank" rel="noopener"><img src="${n.t}" loading="lazy" onerror="this.parentElement.style.display='none'" /></a>`
+    ).join('');
+  }
+})();
 
 render();
 </script>
