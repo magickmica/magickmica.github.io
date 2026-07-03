@@ -312,6 +312,142 @@
     border: 2px solid rgba(110,239,255,0.3);
     padding: 1rem;
   }
+
+  /* ── ENHANCED SIDEBAR PANELS ── */
+  .sidebar-random-note {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: rgba(224,208,255,0.9);
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(110,239,255,0.2);
+    padding: 0.8rem;
+    margin-bottom: 0.7rem;
+    min-height: 60px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .sidebar-random-note:hover { border-color: var(--holo2); }
+  .sidebar-random-note .rn-text { display: block; margin-bottom: 0.4rem; }
+  .sidebar-random-note .rn-meta { color: var(--holo3); font-size: 0.72rem; }
+  .sidebar-shuffle-btn {
+    width: 100%;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    background: transparent;
+    border: 1px solid var(--holo1);
+    color: var(--holo1);
+    padding: 0.4rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .sidebar-shuffle-btn:hover { background: var(--holo1); color: #000; box-shadow: 0 0 12px var(--holo1); }
+
+  .sidebar-trending a {
+    display: block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: rgba(224,208,255,0.85);
+    text-decoration: none;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed rgba(255,110,247,0.15);
+    transition: color 0.2s;
+  }
+  .sidebar-trending a:last-child { border-bottom: none; }
+  .sidebar-trending a:hover { color: var(--holo2); }
+  .sidebar-trending .tr-likes { color: var(--holo1); font-size: 0.72rem; }
+
+  .sidebar-issues a {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    color: rgba(224,208,255,0.85);
+    text-decoration: none;
+    padding: 0.4rem 0;
+    border-bottom: 1px dashed rgba(255,110,247,0.15);
+    transition: color 0.2s;
+  }
+  .sidebar-issues a:hover { color: var(--holo3); }
+  .sidebar-issues .iss-count { color: rgba(255,255,255,0.35); }
+  .sidebar-all-issues {
+    display: block;
+    margin-top: 0.6rem;
+    font-family: 'VT323', monospace;
+    font-size: 0.9rem;
+    color: var(--holo3);
+    text-decoration: none;
+  }
+  .sidebar-all-issues:hover { text-shadow: 0 0 8px var(--holo3); }
+
+  .sidebar-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .sidebar-topics a {
+    font-family: 'VT323', monospace;
+    font-size: 0.9rem;
+    color: var(--holo2);
+    text-decoration: none;
+    border: 1px solid rgba(110,239,255,0.35);
+    padding: 2px 8px;
+    transition: all 0.2s;
+  }
+  .sidebar-topics a:hover { background: var(--holo2); color: #000; box-shadow: 0 0 10px var(--holo2); }
+
+  /* Random note with image */
+  .sidebar-random-note .rn-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 0.6rem;
+    border: 1px solid rgba(255,110,247,0.25);
+  }
+
+  /* Trending notes thumbnails */
+  .sidebar-trending a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .sidebar-trending .tr-thumb {
+    width: 42px; height: 42px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border: 1px solid rgba(110,239,255,0.25);
+  }
+  .sidebar-trending .tr-body { flex: 1; min-width: 0; }
+
+  /* Gallery grid */
+  .sidebar-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+  .sidebar-gallery a {
+    display: block;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    border: 1px solid rgba(255,110,247,0.2);
+    transition: all 0.2s;
+  }
+  .sidebar-gallery a:hover {
+    border-color: var(--holo1);
+    box-shadow: 0 0 12px rgba(255,110,247,0.4);
+    z-index: 2;
+  }
+  .sidebar-gallery img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+  }
+  .sidebar-gallery a:hover img { transform: scale(1.1); }
+
   .side-panel h3 {
     font-family: 'VT323', monospace;
     font-size: 1.1rem;
@@ -450,10 +586,47 @@
       <div class="about-text">✨💫 Daily Fun Notes & Art ❤️🧡💛💚💙💜<br><br>𓅓 In a world of noise, this is your nostalgic cosmic space. Curiosities, dreams, and delightful nonsense live here.<br><br>For entertainment purposes only—follow the white rabbit responsibly. ✧⭐</div>
     </div>
 
+    <div class="side-panel">
+      <h3>📺 Random Note TV</h3>
+      <div id="sidebarRandomNote" class="sidebar-random-note"></div>
+      <button id="sidebarShuffleBtn" class="sidebar-shuffle-btn">🎲 SHUFFLE</button>
+    </div>
+
+    <div class="side-panel">
+      <h3>🔥 Trending Notes</h3>
+      <div id="sidebarTrending" class="sidebar-trending"></div>
+    </div>
+
+    <div class="side-panel">
+      <h3>🖼️ Note Gallery</h3>
+      <div id="sidebarGallery" class="sidebar-gallery"></div>
+      <a href="notes.html" class="sidebar-all-issues">→ Browse all notes</a>
+    </div>
+
     <div class="side-panel counter-box">
       <h3>Visitor Counter</h3>
       <div class="counter-display" id="visitorCounter">007777</div>
       <div class="counter-label">YOU ARE VISITOR #<span id="visitorNum">7778</span></div>
+    </div>
+
+    <div class="side-panel">
+      <h3>📅 Latest Issues</h3>
+      <div id="sidebarIssues" class="sidebar-issues"></div>
+      <a href="minimags.html" class="sidebar-all-issues">→ All weekly & monthly issues</a>
+    </div>
+
+    <div class="side-panel">
+      <h3>🏷️ Explore Topics</h3>
+      <div class="sidebar-topics">
+        <a href="notes.html?q=coffee">☕ Coffee</a>
+        <a href="notes.html?q=egypt">𓂀 Egypt</a>
+        <a href="notes.html?q=cosmic">✨ Cosmic</a>
+        <a href="notes.html?q=queen">👑 Queen</a>
+        <a href="notes.html?q=alice">🐰 Alice</a>
+        <a href="notes.html?q=coffee">🌙 Moon</a>
+        <a href="notes.html?q=glow">🌟 Glow</a>
+        <a href="notes.html?q=dream">💭 Dreams</a>
+      </div>
     </div>
 
     <div class="side-panel webring">
@@ -484,6 +657,7 @@
         📰 <a href="articles.html" style="color:var(--holo2)">Browse the magazine</a><br><br>
         📚 <a href="archive.html" style="color:var(--holo2)">Search the full archive</a><br><br>
         📝 <a href="notes.html" style="color:var(--holo2)">Browse all notes</a><br><br>
+        📺 <a href="random-note.html" style="color:var(--holo2)">Random Note TV</a><br><br>
         ✍️ <a href="https://magickmica.substack.com" style="color:var(--holo2)">Subscribe on Substack</a>
       </div>
     </div>
@@ -591,5 +765,59 @@ async function updateVisitorCounter() {
 }
 updateVisitorCounter();
 </script>
+
+<script>
+const SIDEBAR_DATA = {"random_pool":[{"id":234062272,"b":"“Just a ghost trying to espresso myself into existence.”\n\n𖤓 ｡𖦹°‧ ⋆☀︎.𓍢ִ໋☕️✧˚ ༘ ⋆","l":60,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa8f17e8c-c14a-4672-864a-5b6fe98da973_600x600.gif"},{"id":215718429,"b":"“Every version of me was practice for the miracle I am now.”\n\n✨⋆✴︎˚｡⋆ ⊹₊🪄⊹₊⟡⋆💫","l":60,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2acf2e4d-ef35-4489-8c93-b2e4fa0cdcdd_1200x1409.png"},{"id":264761834,"b":"“Curiosity didn’t kill the cat — it opened a portal.”","l":54,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2fcc5d7-40a3-4385-bec4-b0f3ebd02edb_896x1600.jpeg"},{"id":217651659,"b":"“Without music, life would be a mistake.” \n\nFriedrich Nietzsche\n\nִֶָ. ..𓆩❤️‍🔥𓆪𓂃 ࣪ ִֶָ🔥་༘࿐💥ৡ","l":52,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1d9c3452-0a5e-4fbf-ae9f-f93b350aff9f_1200x1200.png"},{"id":239392252,"b":"“Rest is not a reward. It’s a requirement.”","l":49,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F74d5d26f-0088-4ef9-aed2-19ccb3e640df_1200x663.png"},{"id":258314262,"b":"The dream was lovely, but being alive is magic.","l":47,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F36e1dba8-fa53-4bf6-afaf-0b292f7d04a1_1200x1200.png"},{"id":265733318,"b":"“Like, if Edgar Allan Poe had a shopping addiction.”","l":45,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5d600b71-025a-44a0-a1df-7e929f8c29cb_1024x1536.png"},{"id":230067338,"b":"🌿✨“The forest does not make noise when it creates legends—it whispers, and those who listen become them.”","l":42,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fec68691b-ab7f-486d-8605-8a2876b47a77_800x440.gif"},{"id":254020646,"b":"I don’t follow roads, I bend them.\n\n💖🍁⭐☘️💎🪻 No Place Like Me.","l":41,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F704ee90c-084e-4778-9731-439cf30fc665_1888x1888.png"},{"id":231676095,"b":"“Not all spells need wands—some are made with sugar, sunshine, and a wooden spoon.”\n\n🥣‧₊˚ ⋅  𓐐𓎩 ‧₊˚ ⋅🍪⋆˚࿔✨","l":41,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Facb26bc1-0462-4b7a-9b5e-4be99cd5bf12_600x600.gif"},{"id":225221489,"b":"“The sea, once it casts its spell, holds one in its net of wonder forever.”\n\nJacques Cousteau","l":40,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdf795bd8-2e9b-4281-8096-e28ddbfe0541_400x727.gif"},{"id":252944293,"b":"The Healing Hand is here for you… always.","l":39,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F864bd0f8-d3df-4c61-9da2-7dc9d0cf6fe6_600x600.gif"},{"id":264528286,"b":"Glow like you’ve already met your highest self and decided to never shrink again.","l":37,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b29b35d-d833-426a-bea4-6c55ef3d8ea2_500x500.gif"},{"id":243857689,"b":"”I am here to honor what my spirit already knows.”\n\n࿔","l":37,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F26a8124b-69cd-4847-a5fd-5e775c2169d4_1120x1120.png"},{"id":255421725,"b":"","l":35,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb7337b58-4931-4b8f-9956-152048ea59d2_1024x1536.png"},{"id":242479152,"b":"","l":34,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F61414c94-1a52-447c-b99e-bb6673ee236e_600x600.gif"},{"id":218586015,"b":"","l":34,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F075496f6-f19e-4574-99e3-60c88b1cd9e2_761x740.png"},{"id":274957602,"b":"","l":33,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3eb46464-75f2-4ebb-abaa-d2ecb789386a_2048x2048.jpeg"},{"id":262436664,"b":"“I was not born beneath the stars… darling, I taught them how to shimmer.”\n\n🌌","l":33,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6468d82a-9e6d-453e-b3d2-acedf0731aaf_1200x1200.png"},{"id":262177002,"b":"Soul of a Warrior.  Heart of a Queen. \n\nShe carries ancient strength with modern magic. \n\n𖧶","l":33,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F448f883c-d66a-483e-be6e-aea7a30b38ca_1254x1254.png"},{"id":259619647,"b":"","l":33,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd03f7ab4-ca06-4590-ac4d-12e366081a18_1312x1206.png"},{"id":259405966,"b":"SMILE.    Move those muscle cheeks!","l":33,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9e682857-9902-46ed-9792-6423f16685ec_1200x1200.png"},{"id":258951160,"b":"Treat Your Energy Like Royalty.  🜲","l":33,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2fe8bfa7-5a8e-48bf-9e58-35dbd2d9b4ec_1254x1254.png"},{"id":246252344,"b":"“Cosmic paws, cozy thoughts, and tea that tastes like dreams.”\n\n🌌♠🐈‍⬛💠🐾","l":32,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7ed44e20-aede-42f2-99b9-90460deed2e6_1250x1250.png"},{"id":221483363,"b":"“Her claws are velvet, but her spirit is solar.”\n\n💫⋆⭒˚.⋆🪐 ⋆⭒˚.⋆\n\nCosmick Cat  \n\n🐾๋࣭ ⭑⚝💜✮⋆˙≽ܫ≼","l":32,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffd3d4895-c354-4221-b493-e038bb1321cb_384x592.gif"},{"id":214441986,"b":"Glow Like the Galaxy Goddess You Are.","l":32,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F68ac5dbb-8513-4b6d-9c67-4bdc7ccd22d2_1200x1200.png"},{"id":250763811,"b":"","l":31,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd44836e9-fbf1-4563-b8c8-1469e5862114_1555x1555.png"},{"id":232645451,"b":"Cheshire Cat: “Tell me, Alice… which current will you follow?”\n\nAlice: “I don’t care which wave takes me—”\n\nCheshire Cat: “Then al","l":30,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fde85ab22-95a0-45cb-b537-40cc6e60596f_600x600.gif"},{"id":274761264,"b":"“Alice didn't fall down the rabbit hole. She uploaded herself to another dimension.”","l":29,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2ed7e4b9-928f-44a2-a2fb-8cc95648ae50_1200x1513.png"},{"id":263461283,"b":"Don’t be like the rest of them, Darling. ♡","l":29,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2f45614b-3d22-4834-bf8f-660ded8937b1_1550x1846.png"},{"id":229774322,"b":"“Somewhere between the first sip and the last, I became a dream.”\n\n♡₊˚ 🐸・₊✧💚.✦ ݁˖🍵","l":29,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F589f4589-f485-4d59-bdd3-859be3e890e1_600x600.gif"},{"id":219460726,"b":"“Courage is resistance to fear, mastery of fear—not absence of fear.”\n\nMark Twain","l":29,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9a7b08dd-a846-4b25-b135-28ee0861dd1a_1200x2104.png"},{"id":276100790,"b":"“Some teas wake the body. This one woke forgotten memories from past lives.”","l":28,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff87b3527-17ac-4275-804b-2f65e5974e27_2048x2048.jpeg"},{"id":220913716,"b":"“I paint flowers so they will not die.”\n\n🌺Frida Kahlo","l":28,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6181c019-23e6-4575-a9b3-519eefac9889_1200x1738.png"},{"id":212219625,"b":"“She does not chase the stars; she remembers she was made of them.”","l":28,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F83f82526-e016-4251-ba45-d57bb5d467de_1200x686.png"},{"id":210623786,"b":"“She is proof that gentleness can rule empires.”","l":28,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F971534c4-0c26-468e-b681-6c9ee5f58928_1200x1200.png"},{"id":252660967,"b":"Pretty.","l":27,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F91c74609-6dd4-4b84-9cf0-a15e5696c681_1368x768.png"},{"id":269060278,"b":"","l":26,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F23456183-fc95-421d-a054-2b98c7a2aa4e_1200x1200.png"},{"id":266745655,"b":"“The return of the old web is really the return of imagination.”","l":26,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Feb542166-dec8-4e06-b71b-2b03fb72dec3_1254x1254.png"},{"id":253017180,"b":"The universe fits quite nicely inside a teacup, don’t you think?\n\nYours Truly,\n\nCosmick Frog ✨🐸","l":26,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffc2215f6-9918-4c0f-99d7-c69955e35b75_2222x2222.png"}],"recent_top":[{"id":281205802,"b":"I woke up with moonlight still in my hair.\n\n⏾","l":40,"d":"2026-06-23","t":""},{"id":282431680,"b":"The sun rises just to see you glow.\n\n✴︎","l":29,"d":"2026-06-25","t":""},{"id":278711185,"b":"👻 ̟࿔*:⋆☕Ghostlight Coffee","l":25,"d":"2026-06-18","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc2db026a-da61-44a9-be9c-7a3bd695051a_1149x1369.png"},{"id":282654325,"b":"The universe whispered, “It’s time.”","l":23,"d":"2026-06-25","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F581771df-30ba-4387-879c-eae3f3b27202_2048x2048.jpeg"},{"id":285861347,"b":"The pool was never water—it was the night sky taught to flow.","l":22,"d":"2026-07-01","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7c9c83c0-2321-4e57-b579-9eb6d8086d76_1582x994.png"},{"id":285244318,"b":"","l":22,"d":"2026-06-30","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6a7bf416-6f10-48f5-b83c-c56212db9e4f_1200x1200.jpeg"}],"gallery":[{"id":234062272,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa8f17e8c-c14a-4672-864a-5b6fe98da973_600x600.gif","l":60},{"id":215718429,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2acf2e4d-ef35-4489-8c93-b2e4fa0cdcdd_1200x1409.png","l":60},{"id":264761834,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2fcc5d7-40a3-4385-bec4-b0f3ebd02edb_896x1600.jpeg","l":54},{"id":217651659,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1d9c3452-0a5e-4fbf-ae9f-f93b350aff9f_1200x1200.png","l":52},{"id":239392252,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F74d5d26f-0088-4ef9-aed2-19ccb3e640df_1200x663.png","l":49},{"id":258314262,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F36e1dba8-fa53-4bf6-afaf-0b292f7d04a1_1200x1200.png","l":47},{"id":265733318,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5d600b71-025a-44a0-a1df-7e929f8c29cb_1024x1536.png","l":45},{"id":230067338,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fec68691b-ab7f-486d-8605-8a2876b47a77_800x440.gif","l":42},{"id":254020646,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F704ee90c-084e-4778-9731-439cf30fc665_1888x1888.png","l":41}]};
+const SIDEBAR_ISSUES = [{"key":"week-2026-06-29","label":"Jun 29–Jul 5","count":72},{"key":"week-2026-06-22","label":"Jun 22–Jun 28","count":124},{"key":"week-2026-06-15","label":"Jun 15–Jun 21","count":122},{"key":"week-2026-06-08","label":"Jun 8–Jun 14","count":191},{"key":"week-2026-06-01","label":"Jun 1–Jun 7","count":169}];
+
+function sbEscape(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// Random Note panel
+function showSidebarRandomNote() {
+  const pool = SIDEBAR_DATA.random_pool;
+  const note = pool[Math.floor(Math.random() * pool.length)];
+  const el = document.getElementById('sidebarRandomNote');
+  const text = note.b ? sbEscape(note.b) : '✦ image note ✦';
+  const img = note.t ? `<img class="rn-img" src="${note.t}" loading="lazy" onerror="this.style.display='none'" />` : '';
+  el.innerHTML = `${img}<span class="rn-text">${text}</span><span class="rn-meta">❤ ${note.l} · tap to view →</span>`;
+  el.onclick = () => window.open(`https://substack.com/@magickmica/note/c-${note.id}`, '_blank', 'noopener');
+}
+document.getElementById('sidebarShuffleBtn').addEventListener('click', showSidebarRandomNote);
+showSidebarRandomNote();
+
+// Trending Notes panel
+function renderTrending() {
+  const el = document.getElementById('sidebarTrending');
+  el.innerHTML = SIDEBAR_DATA.recent_top.map(n => {
+    const text = n.b ? sbEscape(n.b) : '✦ image note ✦';
+    const thumb = n.t ? `<img class="tr-thumb" src="${n.t}" loading="lazy" onerror="this.style.display='none'" />` : '';
+    return `<a href="https://substack.com/@magickmica/note/c-${n.id}" target="_blank" rel="noopener">${thumb}<span class="tr-body">${text} <span class="tr-likes">❤${n.l}</span></span></a>`;
+  }).join('');
+}
+renderTrending();
+
+// Photo Gallery panel
+function renderGallery() {
+  const el = document.getElementById('sidebarGallery');
+  el.innerHTML = SIDEBAR_DATA.gallery.map(n =>
+    `<a href="https://substack.com/@magickmica/note/c-${n.id}" target="_blank" rel="noopener"><img src="${n.t}" loading="lazy" onerror="this.parentElement.style.display='none'" /></a>`
+  ).join('');
+}
+renderGallery();
+
+// Latest Issues panel
+function renderIssues() {
+  const el = document.getElementById('sidebarIssues');
+  el.innerHTML = SIDEBAR_ISSUES.map(iss =>
+    `<a href="${iss.key}.html"><span>${iss.label}</span><span class="iss-count">${iss.count} notes</span></a>`
+  ).join('');
+}
+renderIssues();
+</script>
+
 </body>
 </html>
