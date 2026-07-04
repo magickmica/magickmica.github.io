@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALIENS LOVE ICECREAM — Issue #4: The Recall of the Starseeds</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Special+Elite&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{
+  --newsprint:#efe3bd; --ink:#17110a; --tabloid-red:#c41e1e; --halftone-blue:#1e3fa0;
+  --y2k-pink:#ff3ec8; --cosmic-purple:#5b2d8f; --cork:#a97843;
+  --crt-green:#3cff7a; --crt-bg:#050b06;
+  --paper-shadow:0 3px 0 rgba(0,0,0,.25), 0 10px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--ink);font-family:Georgia,'Times New Roman',serif;line-height:1.55}
+
+/* masthead */
+.masthead{
+  background:repeating-linear-gradient(45deg,transparent 0 12px,rgba(255,255,255,.04) 12px 24px),
+    linear-gradient(180deg,#2a0a4a,#12043a 55%,#05010f);
+  border-bottom:6px double var(--y2k-pink);
+  padding:26px 16px 18px;text-align:center;position:relative;overflow:hidden;
+}
+.masthead .stars{position:absolute;inset:0;pointer-events:none;background-image:
+  radial-gradient(2px 2px at 12% 30%,#fff 50%,transparent 51%),
+  radial-gradient(2px 2px at 78% 22%,#ffd7fa 50%,transparent 51%),
+  radial-gradient(1.5px 1.5px at 45% 70%,#9ff 50%,transparent 51%),
+  radial-gradient(2px 2px at 90% 60%,#fff 50%,transparent 51%),
+  radial-gradient(1.5px 1.5px at 25% 80%,#ff9df0 50%,transparent 51%)}
+.masthead h1{font-family:'Anton',Impact,sans-serif;font-size:clamp(2rem,7.5vw,4.4rem);
+  letter-spacing:.03em;margin:0;color:#fff;text-transform:uppercase;
+  text-shadow:3px 3px 0 var(--tabloid-red),6px 6px 0 var(--y2k-pink),0 0 26px rgba(255,62,200,.55)}
+.issue-tag{display:inline-block;margin-top:10px;background:var(--tabloid-red);color:#fff;
+  font-family:'Anton',Impact,sans-serif;letter-spacing:.14em;font-size:.85rem;padding:5px 16px;
+  transform:rotate(-2deg);box-shadow:2px 2px 0 #000}
+.tagline{color:#e8c9ff;font-style:italic;margin:10px 0 0;font-size:.95rem}
+
+/* nav + ticker */
+.nav-bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:14px 10px;
+  background:#0d0a1c;border-bottom:4px solid var(--y2k-pink);position:sticky;top:0;z-index:50}
+.nav-bar a{color:#fff;text-decoration:none;font-family:'Anton',Impact,sans-serif;
+  letter-spacing:.1em;font-size:.8rem;text-transform:uppercase;padding:6px 12px;border:2px solid transparent}
+.nav-bar a:hover,.nav-bar a:focus-visible{border-color:var(--y2k-pink);color:var(--y2k-pink)}
+.ticker{background:var(--tabloid-red);color:#fff;overflow:hidden;white-space:nowrap;
+  border-top:3px solid #000;border-bottom:3px solid #000;
+  font-family:'Anton',Impact,sans-serif;letter-spacing:.08em}
+.ticker .reel{display:inline-block;padding:8px 0;animation:ticker 38s linear infinite}
+.ticker span{margin:0 2.2em}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.blink{animation:blink 1.1s steps(2,start) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.ticker .reel{animation:none}.blink{animation:none}.pin-card{transition:none}}
+
+/* newsprint sections */
+.page{max-width:980px;margin:0 auto;padding:28px 16px 40px}
+.newsprint{background:radial-gradient(circle at 20% 10%,rgba(255,255,255,.35),transparent 40%),var(--newsprint);
+  border:1px solid #b7a370;box-shadow:var(--paper-shadow);padding:34px clamp(18px,5vw,52px);margin-bottom:40px}
+.kicker{font-family:'Anton',Impact,sans-serif;color:var(--tabloid-red);letter-spacing:.2em;
+  text-transform:uppercase;font-size:.8rem;border-bottom:3px double var(--ink);display:inline-block;padding-bottom:2px}
+h2.headline{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;
+  font-size:clamp(1.6rem,5vw,2.8rem);line-height:1.02;margin:.35em 0 .2em}
+.subhead{font-style:italic;font-size:1.1rem;color:#4a3c22;margin-top:0}
+.byline{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#6b5a35;margin-bottom:22px}
+.pull-quote{font-family:'Anton',Impact,sans-serif;font-size:1.35rem;text-transform:uppercase;
+  border-top:4px solid var(--tabloid-red);border-bottom:4px solid var(--tabloid-red);
+  padding:14px 6px;margin:28px 0;text-align:center;color:var(--halftone-blue)}
+hr.tabloid-rule{border:none;border-top:4px double var(--ink);margin:36px 0}
+
+/* stickers & stamps */
+.sticker{display:inline-block;background:var(--y2k-pink);color:#fff;font-family:'Anton',Impact,sans-serif;
+  font-size:.75rem;letter-spacing:.1em;padding:6px 12px;border-radius:999px;border:2px solid #fff;
+  box-shadow:2px 3px 0 rgba(0,0,0,.4);transform:rotate(3deg);text-transform:uppercase}
+.stamp{display:inline-block;font-family:'Special Elite','Courier New',monospace;color:var(--tabloid-red);
+  border:4px solid var(--tabloid-red);padding:4px 14px;font-size:1.05rem;letter-spacing:.28em;
+  text-transform:uppercase;transform:rotate(-6deg);opacity:.85;margin:6px 0 18px}
+
+/* classified paper */
+.classified-file{background:#f6f1df;border:1px solid #c9bd93;font-family:'Special Elite','Courier New',monospace;
+  padding:26px clamp(16px,4vw,40px);margin:30px 0;box-shadow:var(--paper-shadow)}
+.classified-file .field{margin:.5em 0}
+.classified-file .label{text-transform:uppercase;letter-spacing:.15em;font-size:.75rem;color:#6b5a35;display:block}
+.redacted{background:var(--ink);color:var(--ink);padding:0 .4em;cursor:pointer;user-select:none;transition:color .25s}
+.redacted.revealed{color:var(--crt-green);background:#111}
+.checklist{list-style:none;padding:0}
+.checklist li::before{content:"☑ ";color:var(--tabloid-red)}
+
+/* evidence board */
+.board-wrap{background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.08),transparent 50%),
+  repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,0,0,.06) 3px 4px),var(--cork);
+  border:14px solid #4b2f12;border-radius:6px;
+  box-shadow:inset 0 0 40px rgba(0,0,0,.45),var(--paper-shadow);
+  position:relative;padding:30px 18px;margin:34px 0}
+.board-title{font-family:'Special Elite','Courier New',monospace;background:#fffbe8;display:inline-block;
+  padding:6px 16px;transform:rotate(-1.5deg);box-shadow:2px 3px 6px rgba(0,0,0,.4);
+  font-size:1rem;letter-spacing:.1em;margin-bottom:18px}
+.board{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:34px 26px;padding:10px 4px 16px}
+.board svg.strings{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.pin-card{position:relative;z-index:2;background:#fffdf2;padding:16px 14px 14px;text-decoration:none;
+  color:var(--ink);box-shadow:3px 5px 10px rgba(0,0,0,.45);transform:rotate(var(--tilt,-1.5deg));
+  transition:transform .18s ease;border:1px solid #d8cfa8}
+.pin-card:nth-child(even){--tilt:1.8deg}
+.pin-card:nth-child(3n){--tilt:-2.6deg}
+.pin-card:hover,.pin-card:focus-visible{transform:rotate(0) scale(1.045);outline:3px solid var(--y2k-pink);z-index:3}
+.pin-card::before{content:"";position:absolute;top:-9px;left:50%;width:16px;height:16px;margin-left:-8px;
+  border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8080,var(--tabloid-red) 70%);
+  box-shadow:0 3px 4px rgba(0,0,0,.5)}
+.pin-card .pc-kicker{font-family:'Special Elite','Courier New',monospace;font-size:.65rem;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--tabloid-red)}
+.pin-card h3{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;font-size:1.02rem;line-height:1.1;margin:.3em 0 .35em}
+.pin-card p{font-size:.82rem;margin:0;color:#4a3c22}
+
+/* CRT terminal section */
+.terminal{background:var(--crt-bg);color:var(--crt-green);font-family:'VT323',monospace;
+  font-size:1.3rem;padding:34px clamp(16px,4vw,50px);margin-bottom:40px;position:relative;
+  border:1px solid #123d22;box-shadow:var(--paper-shadow)}
+.terminal::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 2px,transparent 2px 4px)}
+.terminal>*{position:relative;z-index:1}
+.term-header{border:2px solid var(--crt-green);padding:14px 18px;
+  text-shadow:0 0 8px rgba(60,255,122,.7);margin-bottom:26px}
+.dossier{border:1px dashed var(--crt-green);padding:18px 20px;margin:22px 0}
+.dossier h3{margin:0 0 8px;font-size:1.5rem;text-shadow:0 0 10px rgba(60,255,122,.8);letter-spacing:.08em;font-weight:normal}
+.dossier dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 20px;margin:0}
+.dossier dt{opacity:.65;text-transform:uppercase;letter-spacing:.12em;font-size:.95rem}
+.dossier dd{margin:0}
+.unredact-btn{font-family:inherit;font-size:1.05rem;background:transparent;color:var(--y2k-pink);
+  border:2px solid var(--y2k-pink);padding:4px 14px;margin-top:12px;cursor:pointer;
+  letter-spacing:.15em;text-transform:uppercase;position:relative;z-index:2}
+.unredact-btn:hover,.unredact-btn:focus-visible{background:var(--y2k-pink);color:#000;outline:none}
+.term-secret{display:none;margin-top:10px;color:#aefcc9;border-left:3px solid var(--y2k-pink);padding-left:12px}
+.term-secret.open{display:block}
+
+/* timeline */
+.timeline{list-style:none;padding:0;margin:34px 0;position:relative}
+.timeline::before{content:"";position:absolute;left:9px;top:0;bottom:0;width:4px;
+  background:repeating-linear-gradient(180deg,var(--tabloid-red) 0 14px,transparent 14px 22px)}
+.timeline li{padding:0 0 26px 40px;position:relative}
+.timeline li::before{content:"";position:absolute;left:0;top:4px;width:16px;height:16px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ff8080,var(--tabloid-red) 70%);box-shadow:0 2px 4px rgba(0,0,0,.45)}
+.timeline .year{font-family:'Anton',Impact,sans-serif;color:var(--halftone-blue);font-size:1.2rem;letter-spacing:.06em}
+
+/* misc */
+.fake-ad{border:5px dashed var(--y2k-pink);background:linear-gradient(135deg,#fff0fb,#f3e2ff);
+  padding:24px;margin:34px 0;text-align:center}
+.fake-ad h3{font-family:'Anton',Impact,sans-serif;color:var(--cosmic-purple);text-transform:uppercase;font-size:1.5rem;margin:0 0 8px}
+.fine-print{font-size:.7rem;color:#7a6a8a;font-style:italic}
+.photo-caption{background:#fffdf2;border:1px solid #d8cfa8;padding:14px;margin:20px 0;box-shadow:var(--paper-shadow)}
+.photo-caption .frame{aspect-ratio:4/3;background:radial-gradient(circle at 60% 35%,rgba(255,255,255,.5),transparent 30%),
+  linear-gradient(180deg,#2a2340,#0d0a1c);display:flex;align-items:center;justify-content:center;
+  color:#cbb8ff;font-family:'Special Elite',monospace;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px}
+.footer{text-align:center;color:#cbb8ff;font-size:.8rem;padding:30px 12px 50px;font-family:'Special Elite',monospace}
+.back-top{display:inline-block;margin-top:8px}
+</style>
+</head>
+<body id="top">
+
+<header class="masthead">
+  <div class="stars"></div>
+  <h1>🛸 Aliens Love Icecream 🍦</h1>
+  <div class="issue-tag">ISSUE #4 — THE RECALL OF THE STARSEEDS</div>
+  <p class="tagline">"Stay Frosty, Stay Cosmic" — the tabloid the pyramids don't want you to read</p>
+</header>
+
+<nav class="nav-bar">
+  <a href="#board-section">Evidence Board</a>
+  <a href="#stories">Stories</a>
+  <a href="#database">Starseed Database</a>
+  <a href="#classified">Classified</a>
+  <a href="#timeline-section">Timeline</a>
+</nav>
+
+<div class="ticker" aria-hidden="true">
+  <div class="reel">
+    <span>🚨 PLANET EARTH MOVED TO WATCHLIST STATUS</span>
+    <span>🛸 MASS STARSEED RETRIEVAL REPORTED NEAR PYRAMID SITES</span>
+    <span>👁 CLASSIFIED FILES LEAKED FROM STONEHENGE</span>
+    <span>🎤 ELVIS, TUPAC &amp; MARILYN SPOTTED AT INTERDIMENSIONAL SUMMIT</span>
+    <span>🍦 FREE COSMIC POSTER INSIDE</span>
+    <span>🚨 PLANET EARTH MOVED TO WATCHLIST STATUS</span>
+    <span>🛸 MASS STARSEED RETRIEVAL REPORTED NEAR PYRAMID SITES</span>
+    <span>👁 CLASSIFIED FILES LEAKED FROM STONEHENGE</span>
+    <span>🎤 ELVIS, TUPAC &amp; MARILYN SPOTTED AT INTERDIMENSIONAL SUMMIT</span>
+    <span>🍦 FREE COSMIC POSTER INSIDE</span>
+  </div>
+</div>
+
+<main class="page">
+
+  <!-- ============ FRONT PAGE ============ -->
+  <article class="newsprint" id="board-section">
+    <span class="sticker blink">Urgent Update</span>
+    <span class="kicker">Breaking Cosmic News</span>
+    <h2 class="headline">The Day the Pyramids Turned Back On</h2>
+    <p class="subhead">At exactly 3:33 AM GMT, the ancient check-in stations came online.</p>
+    <p class="byline">Filed by the Intergalactic Icecream Council Press Pool</p>
+
+    <p>For centuries they sat silent. Then sensors across multiple continents recorded an unusual
+    phenomenon: the Great Pyramids began emitting a low-frequency harmonic signal. Witnesses
+    described glowing geometric patterns above the structures, strange humming sounds, and vivid
+    dreams involving stars and forgotten memories.</p>
+
+    <div class="pull-quote">"The pyramids were never tombs. They were check-in stations."</div>
+
+    <div class="board-wrap">
+      <span class="board-title">📌 EVIDENCE BOARD — CONNECT THE DOTS</span>
+      <div class="board" id="board">
+        <svg class="strings" id="strings" aria-hidden="true"></svg>
+        <a class="pin-card" href="#story-pyramids" data-node="pyramids">
+          <span class="pc-kicker">The Pyramid Files</span>
+          <h3>Galactic Storage Cones</h3>
+          <p>Triangle upon triangle until memory becomes edible.</p>
+        </a>
+        <a class="pin-card" href="#story-stonehenge" data-node="stonehenge">
+          <span class="pc-kicker">Signal Logs</span>
+          <h3>Stonehenge: Interstellar Rotary Phone</h3>
+          <p>Incoming retrieval requests spiking.</p>
+        </a>
+        <a class="pin-card" href="#story-elvis" data-node="elvis">
+          <span class="pc-kicker">File 001</span>
+          <h3>Elvis: Recalled</h3>
+          <p>Last seen: The Neon Desert Sector.</p>
+        </a>
+        <a class="pin-card" href="#story-tupac" data-node="tupac">
+          <span class="pc-kicker">File 002</span>
+          <h3>Tupac: Extracted</h3>
+          <p>Symptom: profound lyrics at 2 AM.</p>
+        </a>
+        <a class="pin-card" href="#story-marilyn" data-node="marilyn">
+          <span class="pc-kicker">File 003</span>
+          <h3>Marilyn: Venus Transferred</h3>
+          <p>Beauty Frequency Research.</p>
+        </a>
+        <a class="pin-card" href="#classified" data-node="classified">
+          <span class="pc-kicker">Leaked Documents</span>
+          <h3>Retrieval Notice</h3>
+          <p>"They activated themselves."</p>
+        </a>
+        <a class="pin-card" href="#database" data-node="database">
+          <span class="pc-kicker">Restricted Terminal</span>
+          <h3>Starseed Database</h3>
+          <p>Click UNREDACT at your own risk.</p>
+        </a>
+        <a class="pin-card" href="#timeline-section" data-node="timeline">
+          <span class="pc-kicker">Chronology Unit</span>
+          <h3>The Recall Timeline</h3>
+          <p>12,000 BC → 2026.</p>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============ STORIES ============ -->
+  <article class="newsprint" id="stories">
+    <div id="story-pyramids">
+      <span class="stamp">Classified</span>
+      <span class="kicker">Ancient Construction Cover-Up</span>
+      <h2 class="headline">Why the Pyramids Were Actually Cosmic Icecream Receivers</h2>
+      <p class="subhead">Archaeologists said tombs. Leaked interstellar documents say galactic storage cones.</p>
+      <p>According to the Mint Tablet Archives, ancient builders were assisted by
+      <strong>THE SCOOP ARCHITECTS</strong>. Their mission was not construction — but harvesting
+      resonance points on Earth. Each pyramid was allegedly built to collect emotional energy,
+      stabilize Earth's "sugar-core frequency," and store starseed packets in crystalline chambers
+      beneath the sand.</p>
+      <div class="pull-quote">"Place triangle upon triangle until memory becomes edible."</div>
+      <div class="classified-file">
+        <p><span class="label">Known Activations</span></p>
+        <ul class="checklist">
+          <li>Pyramid Complex</li>
+          <li>Stonehenge</li>
+          <li>Easter Island</li>
+        </ul>
+        <p>⚠️ Unknown South Pacific Site — pending<br>⚠️ Arctic Crystal Array — pending</p>
+      </div>
+    </div>
+
+    <hr class="tabloid-rule">
+
+    <div id="story-stonehenge">
+      <span class="kicker">Frequency Phone Booth</span>
+      <h2 class="headline">Why Aliens Built Stonehenge</h2>
+      <p class="subhead">Official explanation: ancient monument. Unofficial explanation: interstellar rotary phone.</p>
+      <p>According to recovered schematics, each stone once functioned as part of a planetary
+      communication grid: starseed tracking, dimensional navigation, and emotional weather
+      monitoring. Recent activity shows a spike in "incoming starseed retrieval requests."</p>
+      <div class="pull-quote">Researchers now believe Stonehenge is receiving signals again.</div>
+    </div>
+
+    <hr class="tabloid-rule">
+
+    <div id="story-elvis">
+      <span class="stamp">File 001</span>
+      <h2 class="headline">Elvis: The Glitter Frequency Channel</h2>
+      <p class="subhead">He never left. He just changed formats.</p>
+      <div class="classified-file">
+        <div class="field"><span class="label">Status</span> RECALLED</div>
+        <div class="field"><span class="label">Current Assignment</span> Morale Enhancement Division</div>
+        <div class="field"><span class="label">Last Reported Location</span> The Neon Desert Sector</div>
+      </div>
+      <p>Declassified speculation suggests Elvis was a "joy transmission vessel" placed in the 20th
+      century to activate mass emotional resonance through music. Witnesses continue reporting
+      sightings at diners, gas stations, and roadside UFO cafés.</p>
+    </div>
+
+    <hr class="tabloid-rule">
+
+    <div id="story-tupac">
+      <span class="stamp">File 002</span>
+      <h2 class="headline">Tupac: Project Mirror Return</h2>
+      <p class="subhead">Not disappearance — relocation for frequency recalibration.</p>
+      <div class="classified-file">
+        <div class="field"><span class="label">Status</span> EXTRACTED</div>
+        <div class="field"><span class="label">Current Assignment</span> Poetic Resonance Network</div>
+        <div class="field"><span class="label">Reported Symptom</span> Sudden urge to write profound lyrics at 2 AM</div>
+      </div>
+      <p>According to archive records, Tupac now helps distribute inspiration across developing
+      civilizations. Witnesses report coded lyric echoes in unrelated artists and sudden poetic
+      radio interference.</p>
+      <div class="pull-quote">"He will reappear when rhythm aligns with truth."</div>
+    </div>
+
+    <hr class="tabloid-rule">
+
+    <div id="story-marilyn">
+      <span class="stamp">File 003</span>
+      <h2 class="headline">Marilyn: Venus Signal Embodiment</h2>
+      <p class="subhead">A soft-light emissary, returned to the Venus Collective.</p>
+      <div class="classified-file">
+        <div class="field"><span class="label">Status</span> VENUS TRANSFERRED</div>
+        <div class="field"><span class="label">Current Assignment</span> Beauty Frequency Research</div>
+      </div>
+      <p>In leaked starseed lore, Marilyn is described as a soft-light emissary encoded in human
+      form. After her timeline event, reports suggest "energy signature appearances" in dream
+      states and recurring visual echoes across pop culture decades.</p>
+      <div class="pull-quote">Mirror glitches? Lipstick appearing where none was left? Classic Venus residue.</div>
+    </div>
+
+    <hr class="tabloid-rule">
+
+    <span class="kicker">Photo Analysis Lab</span>
+    <div class="photo-caption">
+      <div class="frame">PHOTO A — [ image unrecoverable ]</div>
+      <p><strong>Blurry light above pyramid.</strong><br>Official: lens flare.<br>
+      Tabloid: ancient shuttle returning for inventory.</p>
+    </div>
+    <div class="photo-caption">
+      <div class="frame">PHOTO B — [ image unrecoverable ]</div>
+      <p><strong>Mysterious figure in white jumpsuit.</strong><br>Official: Elvis impersonator.<br>
+      Tabloid: actual Elvis returning from Sector 9.</p>
+    </div>
+    <div class="photo-caption">
+      <div class="frame">PHOTO C — [ image unrecoverable ]</div>
+      <p><strong>Glowing object above Stonehenge.</strong><br>Official: drone.<br>
+      Tabloid: interdimensional customer service representative.</p>
+    </div>
+
+    <div class="fake-ad">
+      <h3>⭐ Starseed DNA Test Kit™ ⭐</h3>
+      <p>Ever wonder if you're part alien, part cosmic dessert engineer, a former pyramid
+      supervisor, or a retired galactic musician? <strong>Find out today!</strong></p>
+      <p class="fine-print">Results scientifically unverified and emotionally suspicious.</p>
+    </div>
+    <a class="back-top" href="#top">↑ back to the front page</a>
+  </article>
+
+  <!-- ============ TERMINAL DATABASE ============ -->
+  <section class="terminal" id="database">
+    <div class="term-header">
+      <div>█ SCOOP ARCHIVE TERMINAL v3.33 — RESTRICTED ACCESS █</div>
+      <div>CLEARANCE: ULTRA COSMIC | STATUS: <span class="blink">MONITORED</span></div>
+      <div>&gt; QUERY: STARSEED_RECALL_MANIFEST_2026</div>
+    </div>
+
+    <div class="dossier">
+      <h3>&gt; FILE 001 — ELVIS PRESLEY</h3>
+      <dl>
+        <dt>Origin</dt><dd>Venus Frequency Grid</dd>
+        <dt>Mission</dt><dd>Joy amplification / Glitter Frequency Channel</dd>
+        <dt>Recall Date</dt><dd>1977</dd>
+        <dt>Status</dt><dd>RECALLED — Morale Enhancement Division</dd>
+      </dl>
+      <button class="unredact-btn" data-target="s1">Unredact</button>
+      <div class="term-secret" id="s1">&gt; HIDDEN LORE: Every unexplained radio static burst at 4:44 AM contains a fragment of a Neon Desert Sector broadcast. Do not sing along.</div>
+    </div>
+
+    <div class="dossier">
+      <h3>&gt; FILE 002 — TUPAC SHAKUR</h3>
+      <dl>
+        <dt>Origin</dt><dd>Mirror Realm Relay</dd>
+        <dt>Mission</dt><dd>Poetic Resonance Network</dd>
+        <dt>Recall Date</dt><dd>1996</dd>
+        <dt>Status</dt><dd>EXTRACTED — frequency recalibration</dd>
+      </dl>
+      <button class="unredact-btn" data-target="s2">Unredact</button>
+      <div class="term-secret" id="s2">&gt; HIDDEN LORE: A single lyric has been detected inscribed in sandstone predating human writing. Translation pending rhythm alignment.</div>
+    </div>
+
+    <div class="dossier">
+      <h3>&gt; FILE 003 — MARILYN MONROE</h3>
+      <dl>
+        <dt>Origin</dt><dd>The Venus Collective</dd>
+        <dt>Mission</dt><dd>Beauty-frequency distortion testing</dd>
+        <dt>Recall Date</dt><dd>1962</dd>
+        <dt>Status</dt><dd>VENUS TRANSFERRED — Beauty Frequency Research</dd>
+      </dl>
+      <button class="unredact-btn" data-target="s3">Unredact</button>
+      <div class="term-secret" id="s3">&gt; HIDDEN LORE: Orbital light-field sensors registered her energy signature twice last spring. Both times, lipstick appeared where none was left.</div>
+    </div>
+
+    <div class="dossier">
+      <h3>&gt; FILE 004 — DAVID BOWIE</h3>
+      <dl>
+        <dt>Origin</dt><dd>Velvet Nebula Council</dd>
+        <dt>Mission</dt><dd>Emotional frequency design</dd>
+        <dt>Recall Date</dt><dd>2016 — end of Earth contract</dd>
+        <dt>Status</dt><dd>THE STARMAN EXTRACTION — returned home</dd>
+      </dl>
+      <button class="unredact-btn" data-target="s4">Unredact</button>
+      <div class="term-secret" id="s4">&gt; HIDDEN LORE: The Velvet Nebula Council communicates through color and sound. He taught Earth glamor. Now he teaches galaxies transformation.</div>
+    </div>
+
+    <div class="dossier">
+      <h3>&gt; FILE 005 — [SLOT RESERVED]</h3>
+      <dl>
+        <dt>Identity</dt><dd>████████████</dd>
+        <dt>Status</dt><dd>PENDING RETRIEVAL — PHASE TWO</dd>
+      </dl>
+      <button class="unredact-btn" data-target="s5">Unredact</button>
+      <div class="term-secret" id="s5">&gt; ACCESS DENIED. NICE TRY. THE COUNCIL SEES YOU. 🍦</div>
+    </div>
+  </section>
+
+  <!-- ============ CLASSIFIED DOCS ============ -->
+  <article class="newsprint" id="classified">
+    <span class="kicker">Leaked Document Archive</span>
+    <h2 class="headline">Starseed Retrieval Notice</h2>
+    <p class="subhead">Tap the black bars to unredact. The Council will know.</p>
+
+    <div class="classified-file">
+      <span class="stamp">Ultra Cosmic</span>
+      <div class="field"><span class="label">Classification</span> ULTRA COSMIC</div>
+      <div class="field"><span class="label">Date</span> UNKNOWN</div>
+      <div class="field"><span class="label">Subject</span> EARTH OBSERVATION STATUS</div>
+      <p><span class="label">Summary — planetary conditions indicate:</span></p>
+      <ul class="checklist">
+        <li>Ecological instability</li>
+        <li>Timeline divergence</li>
+        <li>Increased consciousness fluctuations</li>
+        <li>Excessive doom scrolling</li>
+      </ul>
+      <p><span class="label">Recommendation</span>
+      Initiate <span class="redacted" tabindex="0" role="button">Phase Two Retrieval Procedures</span>
+      beginning at the <span class="redacted" tabindex="0" role="button">original starseed drop zones</span>.</p>
+      <p><span class="label">Authorized by</span> The Intergalactic Icecream Council</p>
+    </div>
+
+    <div class="classified-file">
+      <p><span class="label">Leaked transcript — source unknown</span></p>
+      <p><strong>VOICE 1:</strong> "Are they ready?"</p>
+      <p><strong>VOICE 2:</strong> "No."</p>
+      <p><strong>VOICE 1:</strong> "Then why activate the pyramids?"</p>
+      <p><strong>VOICE 2:</strong> "They activated themselves."</p>
+      <p><strong>VOICE 1:</strong> "...that's not good."</p>
+      <p><strong>VOICE 2:</strong> <span class="redacted" tabindex="0" role="button">"Get the mint chip. We may need everyone awake."</span></p>
+    </div>
+  </article>
+
+  <!-- ============ TIMELINE ============ -->
+  <article class="newsprint" id="timeline-section">
+    <span class="kicker">Connect the Dots</span>
+    <h2 class="headline">The Recall Timeline</h2>
+    <p class="subhead">Pyramids → Starseeds → Celebrity Recalls → Stonehenge Signal → 2026 → ????</p>
+    <ul class="timeline">
+      <li><span class="year">12,000 BC</span><br><strong>Pyramids seeded.</strong> Initial starseed vault activation.</li>
+      <li><span class="year">8,000 BC</span><br><strong>Stonehenge activated.</strong> Frequency phone booth installed.</li>
+      <li><span class="year">1956</span><br><strong>Elvis deployed.</strong> Joy transmission vessel goes live.</li>
+      <li><span class="year">1962</span><br><strong>Marilyn recalled.</strong> Venus transfer completed.</li>
+      <li><span class="year">1977</span><br><strong>Elvis recalled.</strong> Reassigned to Morale Enhancement Division.</li>
+      <li><span class="year">1996</span><br><strong>Tupac extracted.</strong> Project Mirror Return initiated.</li>
+      <li><span class="year">2016</span><br><strong>Bowie returns home.</strong> Velvet Nebula Council retrieval.</li>
+      <li><span class="year">2026</span><br><strong>Retrieval phase begins.</strong> Pyramids reactivate at 3:33 AM GMT. Earth moved to Watchlist Status.</li>
+      <li><span class="year">????</span><br><strong class="blink">▓▓▓▓▓▓▓▓▓▓</strong> — record sealed by the Intergalactic Icecream Council.</li>
+    </ul>
+    <a class="back-top" href="#top">↑ back to the front page</a>
+  </article>
+
+</main>
+
+<footer class="footer">
+  ALIENS LOVE ICECREAM is a work of cosmic satire. No starseeds were harmed during retrieval.<br>
+  NEXT ISSUE: THE SUNDAE PROPHECY — the cone awakens. Zilly returns… changed. 🍦✨
+</footer>
+
+<script>
+/* red conspiracy strings */
+(function () {
+  var CONNECTIONS = [
+    ["pyramids","elvis"],["pyramids","stonehenge"],["stonehenge","tupac"],
+    ["elvis","marilyn"],["tupac","classified"],["marilyn","database"],
+    ["classified","timeline"],["pyramids","classified"]
+  ];
+  var board = document.getElementById("board");
+  var svg = document.getElementById("strings");
+  if (!board || !svg) return;
+  function pinPoint(node){
+    var b = board.getBoundingClientRect(), r = node.getBoundingClientRect();
+    return { x: r.left - b.left + r.width/2, y: r.top - b.top + 2 };
+  }
+  function draw(){
+    var b = board.getBoundingClientRect();
+    svg.setAttribute("viewBox","0 0 " + b.width + " " + b.height);
+    svg.innerHTML = "";
+    CONNECTIONS.forEach(function(pair){
+      var a = board.querySelector('[data-node="'+pair[0]+'"]');
+      var c = board.querySelector('[data-node="'+pair[1]+'"]');
+      if(!a || !c) return;
+      var p1 = pinPoint(a), p2 = pinPoint(c);
+      var midX = (p1.x+p2.x)/2;
+      var midY = (p1.y+p2.y)/2 + Math.min(60, Math.abs(p1.x-p2.x)*0.12 + 18);
+      var path = document.createElementNS("http://www.w3.org/2000/svg","path");
+      path.setAttribute("d","M"+p1.x+","+p1.y+" Q"+midX+","+midY+" "+p2.x+","+p2.y);
+      path.setAttribute("fill","none");
+      path.setAttribute("stroke","#c41e1e");
+      path.setAttribute("stroke-width","2.2");
+      path.setAttribute("stroke-linecap","round");
+      path.setAttribute("opacity","0.85");
+      svg.appendChild(path);
+    });
+  }
+  window.addEventListener("load",draw);
+  window.addEventListener("resize",draw);
+})();
+
+/* unredact buttons */
+document.querySelectorAll('.unredact-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var el = document.getElementById(btn.dataset.target);
+    el.classList.toggle('open');
+    btn.textContent = el.classList.contains('open') ? 'Redact' : 'Unredact';
+  });
+});
+
+/* clickable redaction bars */
+document.querySelectorAll('.redacted').forEach(function(el){
+  function reveal(){ el.classList.toggle('revealed'); }
+  el.addEventListener('click',reveal);
+  el.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();reveal();} });
+});
+</script>
+</body>
+</html>
