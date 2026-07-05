@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copper — The Ancient Issue · Magick Mica TV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#14100B;        /* obsidian */
+    --night-2:#1E1710;      /* tomb shadow */
+    --papyrus:#F4E8D0;      /* papyrus */
+    --papyrus-2:#EBDCBB;    /* aged papyrus */
+    --copper:#C97E45;       /* copper */
+    --copper-hi:#F2B47E;    /* polished copper */
+    --gold:#D9AE4F;         /* temple gold */
+    --gold-hi:#F0D48A;      /* gold highlight */
+    --faience:#3BBFA8;      /* egyptian faience turquoise */
+    --lapis:#3E6AC2;        /* lapis lazuli */
+    --ink:#2A2118;          /* ink on papyrus */
+    --display:'Cinzel Decorative', serif;
+    --head:'Cinzel', serif;
+    --body:'Cormorant Garamond', serif;
+    --mono:'Space Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--night);
+    color:var(--papyrus);
+    font-family:var(--body);
+    font-size:1.22rem;
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--gold);color:var(--night);}
+
+  /* faint starfield / gold dust */
+  .dust{
+    position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+    background-image:
+      radial-gradient(1.5px 1.5px at 14% 18%, var(--gold-hi) 60%, transparent),
+      radial-gradient(1px 1px at 36% 64%, var(--copper-hi) 60%, transparent),
+      radial-gradient(1.3px 1.3px at 58% 28%, var(--gold) 60%, transparent),
+      radial-gradient(1px 1px at 74% 82%, var(--faience) 60%, transparent),
+      radial-gradient(1.5px 1.5px at 88% 12%, var(--gold-hi) 60%, transparent),
+      radial-gradient(1px 1px at 22% 90%, var(--copper) 60%, transparent),
+      radial-gradient(1px 1px at 47% 7%, var(--gold) 60%, transparent),
+      radial-gradient(1px 1px at 6% 48%, var(--gold-hi) 60%, transparent);
+    animation:twinkle 7s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{from{opacity:.3}to{opacity:.65}}
+  main{position:relative;z-index:1;}
+
+  /* ---------- hero ---------- */
+  .cover{
+    min-height:92svh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;
+    padding:4.5rem 1.25rem 3.5rem;
+    background:
+      radial-gradient(50rem 30rem at 50% -10%, rgba(217,174,79,.16), transparent 62%),
+      radial-gradient(30rem 20rem at 10% 85%, rgba(201,126,69,.12), transparent 65%),
+      radial-gradient(30rem 20rem at 92% 75%, rgba(59,191,168,.07), transparent 65%);
+  }
+  .issue-strip{
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--faience);
+    display:flex;gap:1.1rem;align-items:center;flex-wrap:wrap;justify-content:center;
+    margin-bottom:1.8rem;
+  }
+  .issue-strip .dot{color:var(--gold);}
+  .glyphs{
+    font-size:1.4rem;letter-spacing:.6em;color:var(--gold);opacity:.85;
+    margin-bottom:1rem;text-indent:.6em;
+  }
+  .masthead{
+    font-family:var(--display);font-weight:900;
+    font-size:clamp(3.4rem, 14vw, 9.5rem);
+    line-height:1;letter-spacing:.06em;
+    background:linear-gradient(175deg, #FFE9C4 4%, var(--gold-hi) 22%, var(--copper-hi) 42%, var(--copper) 62%, #8A4E28 86%, #5E3218 100%);
+    background-size:100% 200%;
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 3px 0 rgba(94,50,24,.6)) drop-shadow(0 14px 34px rgba(201,126,69,.35));
+    animation:sheen 9s ease-in-out infinite alternate;
+  }
+  @keyframes sheen{from{background-position:0 0}to{background-position:0 60%}}
+  .cover-sub{
+    font-family:var(--head);font-weight:600;text-transform:uppercase;
+    font-size:clamp(1rem, 3.4vw, 1.7rem);letter-spacing:.42em;text-indent:.42em;
+    color:var(--gold-hi);margin-top:1.2rem;
+  }
+  .cover-tag{
+    margin-top:1rem;font-style:italic;font-size:1.25rem;color:rgba(244,232,208,.85);
+  }
+  .stickers{display:flex;flex-wrap:wrap;gap:.65rem;justify-content:center;max-width:58rem;margin:2.6rem auto 0;}
+  .sticker{
+    font-family:var(--head);font-weight:600;text-transform:uppercase;letter-spacing:.14em;
+    font-size:.78rem;padding:.55rem 1.05rem;
+    border:1px solid;border-radius:2px;
+    background:rgba(20,16,11,.6);backdrop-filter:blur(3px);
+    text-decoration:none;display:inline-block;
+    transition:transform .18s ease, background .18s ease;
+  }
+  .sticker:hover{transform:translateY(-3px);}
+  .sticker.gold{color:var(--gold-hi);border-color:var(--gold);}
+  .sticker.copper{color:var(--copper-hi);border-color:var(--copper);}
+  .sticker.faience{color:var(--faience);border-color:var(--faience);}
+  .sticker.lapis{color:#8FB0F2;border-color:var(--lapis);}
+  .sticker:hover{background:rgba(217,174,79,.12);}
+
+  /* ---------- sun disk divider ---------- */
+  .sundisk{
+    display:flex;align-items:center;gap:1.1rem;
+    max-width:34rem;margin:0 auto;padding:2.6rem 1.4rem 0;
+  }
+  .sundisk::before,.sundisk::after{
+    content:"";flex:1;height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold));
+  }
+  .sundisk::after{background:linear-gradient(90deg, var(--gold), transparent);}
+  .sundisk span{
+    width:14px;height:14px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--gold-hi), var(--copper));
+    box-shadow:0 0 16px rgba(217,174,79,.6);
+    flex-shrink:0;
+  }
+  .paper .sundisk::before{background:linear-gradient(90deg, transparent, var(--copper));}
+  .paper .sundisk::after{background:linear-gradient(90deg, var(--copper), transparent);}
+
+  /* ---------- sections ---------- */
+  section{position:relative;}
+  .wrap{max-width:44rem;margin:0 auto;padding:4.4rem 1.5rem 4.8rem;}
+  .wrap.wide{max-width:62rem;}
+  .paper{background:var(--papyrus);color:var(--ink);}
+  .paper.aged{background:var(--papyrus-2);}
+  .night2{background:var(--night-2);}
+  .paper ::selection{background:var(--ink);color:var(--papyrus);}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.36em;text-transform:uppercase;
+    display:flex;align-items:center;gap:.9rem;margin-bottom:1.2rem;
+    color:var(--copper);
+  }
+  .eyebrow::before{content:"";width:2.4rem;height:1px;background:currentColor;}
+  h2{
+    font-family:var(--head);font-weight:700;text-transform:uppercase;
+    font-size:clamp(1.9rem, 5.4vw, 3rem);line-height:1.1;letter-spacing:.1em;
+    margin-bottom:.5rem;
+  }
+  .paper h2{color:var(--ink);}
+  section:not(.paper) h2{
+    background:linear-gradient(170deg, var(--gold-hi) 10%, var(--gold) 45%, var(--copper) 90%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+  }
+  .deck{
+    font-family:var(--body);font-style:italic;font-size:1.35rem;
+    margin-bottom:2rem;opacity:.85;
+  }
+  .paper .deck{color:#7A5230;}
+  p{margin-bottom:1.1rem;}
+  p:last-child{margin-bottom:0;}
+  .pull{
+    font-family:var(--head);font-weight:600;font-size:1.4rem;line-height:1.5;letter-spacing:.06em;
+    text-align:center;
+    border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);
+    padding:1.4rem .6rem;margin:2.2rem 0;
+    color:var(--gold-hi);
+  }
+  .paper .pull{color:#8A4E28;border-color:var(--copper);}
+
+  /* ritual / obsession lists */
+  .rituals{list-style:none;margin:1.8rem 0;}
+  .rituals li{
+    padding:.7rem 0 .7rem 2rem;position:relative;
+    border-bottom:1px solid rgba(217,174,79,.25);
+    font-size:1.18rem;
+  }
+  .paper .rituals li{border-color:rgba(42,33,24,.18);}
+  .rituals li::before{content:"☥";position:absolute;left:.15rem;color:var(--copper);}
+
+  /* card grids */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr));gap:1.1rem;margin-top:2.2rem;}
+  .card{
+    border:1px solid rgba(217,174,79,.45);border-radius:3px;
+    padding:1.6rem 1.4rem;
+    background:linear-gradient(170deg, rgba(217,174,79,.07), rgba(201,126,69,.03));
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .card:hover{transform:translateY(-4px);border-color:var(--gold);}
+  .paper .card{border-color:rgba(138,78,40,.4);background:rgba(255,251,240,.55);}
+  .paper .card:hover{border-color:var(--copper);}
+  .card h4{
+    font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.14em;
+    font-size:1rem;margin-bottom:.5rem;color:var(--gold);
+  }
+  .paper .card h4{color:#8A4E28;}
+  .card p{font-size:1.08rem;margin:0;}
+
+  /* perfume menu */
+  .menu{margin:2rem 0;list-style:none;}
+  .menu li{padding:1rem 0;border-bottom:1px solid rgba(42,33,24,.2);}
+  .menu .name{
+    font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;
+    font-size:1.15rem;color:#8A4E28;display:block;
+  }
+  .menu .notes{font-style:italic;color:rgba(42,33,24,.75);}
+
+  /* horoscope grid */
+  .scopes{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1.1rem;margin-top:2.4rem;}
+  .scope{
+    border:1px solid rgba(217,174,79,.4);border-radius:3px;
+    padding:1.5rem 1.4rem;
+    background:rgba(30,23,16,.6);
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .scope:hover{transform:translateY(-4px);border-color:var(--faience);}
+  .scope h4{
+    font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.22em;
+    font-size:1rem;margin-bottom:.55rem;
+  }
+  .scope:nth-child(3n+1) h4{color:var(--gold-hi);}
+  .scope:nth-child(3n+2) h4{color:var(--copper-hi);}
+  .scope:nth-child(3n+3) h4{color:var(--faience);}
+  .scope p{font-size:1.1rem;margin:0;font-style:italic;}
+
+  /* steps (kohl making) */
+  .steps{list-style:none;margin:2rem 0;counter-reset:step;}
+  .steps li{
+    counter-increment:step;
+    display:flex;gap:1.2rem;align-items:flex-start;
+    padding:1.05rem 0;border-bottom:1px solid rgba(42,33,24,.18);
+  }
+  .steps li::before{
+    content:counter(step, upper-roman);
+    font-family:var(--head);font-weight:700;font-size:.95rem;letter-spacing:.1em;
+    color:var(--papyrus);
+    background:linear-gradient(160deg, var(--copper-hi), var(--copper));
+    min-width:2.7rem;height:2.7rem;border-radius:2px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .steps li span{padding-top:.35rem;}
+
+  /* fact callout */
+  .factbox{
+    border:1px solid var(--copper);border-radius:3px;
+    padding:1.4rem 1.5rem;margin:2rem 0;
+    background:rgba(201,126,69,.08);
+    font-size:1.12rem;
+  }
+  .factbox b{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--copper);display:block;margin-bottom:.5rem;font-weight:400;
+  }
+  .paper .factbox{background:rgba(201,126,69,.08);}
+
+  /* affirmation / finale blocks */
+  .affirm{
+    text-align:center;
+    border:1px solid var(--gold);
+    padding:2.4rem 1.6rem;margin-top:2.4rem;
+    background:
+      radial-gradient(22rem 9rem at 50% 0%, rgba(217,174,79,.14), transparent 70%);
+  }
+  .affirm .lines{
+    font-family:var(--head);font-weight:600;text-transform:uppercase;
+    font-size:clamp(1.15rem, 3.6vw, 1.7rem);letter-spacing:.3em;text-indent:.3em;
+    line-height:2.1;
+  }
+  .affirm .lines span{display:block;}
+  .affirm .lines span:nth-child(odd){color:var(--gold-hi);}
+  .affirm .lines span:nth-child(even){color:var(--copper-hi);}
+  .paper .affirm .lines span:nth-child(odd){color:#8A4E28;}
+  .paper .affirm .lines span:nth-child(even){color:#5E3218;}
+  .paper .affirm{border-color:var(--copper);}
+
+  /* goddess cards */
+  .goddess h4{font-size:1.2rem;}
+  .goddess .title{
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;
+    opacity:.65;display:block;margin-bottom:.7rem;
+  }
+
+  /* nile map */
+  .nilemap{margin:2.2rem 0;list-style:none;position:relative;padding-left:2rem;}
+  .nilemap::before{
+    content:"";position:absolute;left:.55rem;top:.6rem;bottom:.6rem;width:3px;border-radius:3px;
+    background:linear-gradient(180deg, var(--faience), var(--lapis));
+    box-shadow:0 0 12px rgba(59,191,168,.5);
+  }
+  .nilemap li{padding:.9rem 0;position:relative;}
+  .nilemap li::before{
+    content:"";position:absolute;left:-1.78rem;top:1.45rem;
+    width:11px;height:11px;border-radius:50%;
+    background:var(--gold);box-shadow:0 0 10px rgba(217,174,79,.7);
+  }
+  .nilemap .city{
+    font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.2em;
+    color:var(--gold-hi);display:block;font-size:1.05rem;
+  }
+
+  /* hotlinked article art */
+  .artfig{margin:2.2rem auto 0;text-align:center;}
+  .artfig img{
+    display:block;width:100%;height:auto;border-radius:3px;
+    border:1px solid var(--gold);
+    box-shadow:0 0 0 6px rgba(20,16,11,.85), 0 0 0 7px rgba(217,174,79,.5), 0 20px 44px rgba(0,0,0,.5);
+  }
+  .paper .artfig img{box-shadow:0 0 0 6px var(--papyrus), 0 0 0 7px rgba(138,78,40,.55), 0 16px 36px rgba(42,33,24,.25);border-color:var(--copper);}
+  .artfig figcaption{
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;
+    margin-top:.9rem;color:var(--copper);
+  }
+
+  /* teasers + footer */
+  .teasers{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1.1rem;margin-top:2rem;}
+  .teaser{
+    border:1px solid rgba(217,174,79,.45);border-radius:3px;padding:1.5rem 1.4rem;
+    display:flex;flex-direction:column;gap:.6rem;
+    background:rgba(30,23,16,.5);
+  }
+  .teaser h3{font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:1.05rem;color:var(--gold-hi);}
+  .teaser p{margin:0;font-size:1.05rem;flex:1;opacity:.9;}
+  .teaser a{
+    align-self:flex-start;
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--copper-hi);border:1px solid var(--copper);border-radius:2px;padding:.5rem 1rem;text-decoration:none;
+    transition:background .18s ease;
+  }
+  .teaser a:hover{background:rgba(201,126,69,.15);}
+  footer{
+    text-align:center;
+    padding:3.4rem 1.4rem 4rem;
+    border-top:1px solid rgba(217,174,79,.4);
+  }
+  footer .motto{
+    font-family:var(--head);font-weight:600;text-transform:uppercase;letter-spacing:.24em;text-indent:.24em;
+    font-size:1rem;color:var(--gold-hi);margin-bottom:.9rem;
+  }
+  footer .small{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;
+    color:rgba(244,232,208,.6);
+  }
+
+  .pyr{display:block;width:100%;height:32px;margin-bottom:-1px;}
+  .cartouche{display:inline-block;border:2px solid var(--gold);border-radius:999px;padding:1rem 3.2rem 1.3rem;position:relative;box-shadow:0 0 30px rgba(217,174,79,.25), inset 0 0 30px rgba(217,174,79,.08);}
+  .cartouche::after{content:"";position:absolute;right:-16px;top:18%;bottom:18%;width:5px;border-radius:3px;background:linear-gradient(180deg,var(--gold-hi),var(--copper));}
+  .wingsun{display:block;margin:0 auto 1.2rem;width:min(320px,70vw);filter:drop-shadow(0 0 14px rgba(217,174,79,.5));}
+  .frieze{font-size:1.05rem;letter-spacing:1.3em;color:var(--gold);opacity:.45;text-align:center;white-space:nowrap;overflow:hidden;margin-top:2.6rem;}
+  .glyphsvg{display:block;margin:1.4rem auto 0;filter:drop-shadow(0 0 18px rgba(217,174,79,.55));}
+  .zg{font-size:1.7rem;display:block;margin-bottom:.4rem;color:var(--gold);text-shadow:0 0 14px rgba(217,174,79,.6);}
+  .affirm{position:relative;}
+  .affirm::before{content:"";position:absolute;top:-2px;left:-2px;width:28px;height:28px;border-top:3px solid var(--copper);border-left:3px solid var(--copper);}
+  .affirm::after{content:"";position:absolute;bottom:-2px;right:-2px;width:28px;height:28px;border-bottom:3px solid var(--copper);border-right:3px solid var(--copper);}
+  .menu li{display:flex;align-items:baseline;gap:.9rem;}
+  .menu .name{display:inline;order:1;}
+  .menu li::after{content:"";flex:1;order:2;border-bottom:2px dotted rgba(42,33,24,.4);transform:translateY(-.35rem);}
+  .menu .notes{order:3;}
+  .feature-lines{font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.3em;text-indent:.3em;text-align:center;font-size:clamp(1.05rem,3.2vw,1.5rem);line-height:2.2;margin-top:1.6rem;}
+  .feature-lines span{display:block;}
+  .feature-lines span:nth-child(1){color:#8A4E28;}
+  .feature-lines span:nth-child(2){color:var(--copper);}
+  .feature-lines span:nth-child(3){color:#B8860B;}
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease, transform .8s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+    .reveal{opacity:1;transform:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:1rem;left:1rem;z-index:50;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;padding:.5rem 1rem;border-radius:2px;border:1px solid #D9AE4F;color:#F0D48A;background:rgba(20,16,11,.7);backdrop-filter:blur(4px)">← Newsstand</a>
+<div class="dust" aria-hidden="true"></div>
+<main>
+
+  <!-- ============ COVER ============ -->
+  <section class="cover">
+    <div class="issue-strip">
+      <span>Magick Mica TV</span><span class="dot">☥</span>
+      <span>The Ancient Issue</span><span class="dot">☥</span>
+      <span>June 2026</span>
+    </div>
+    <svg class="wingsun" viewBox="0 0 320 64" aria-hidden="true">
+      <defs><radialGradient id="sun" cx="38%" cy="32%"><stop offset="0%" stop-color="#F0D48A"/><stop offset="100%" stop-color="#C97E45"/></radialGradient></defs>
+      <path d="M144,34 Q92,10 14,30" fill="none" stroke="#D9AE4F" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M146,40 Q98,26 34,42" fill="none" stroke="#C97E45" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+      <path d="M148,46 Q106,40 56,52" fill="none" stroke="#D9AE4F" stroke-width="1.6" stroke-linecap="round" opacity=".6"/>
+      <path d="M176,34 Q228,10 306,30" fill="none" stroke="#D9AE4F" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M174,40 Q222,26 286,42" fill="none" stroke="#C97E45" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+      <path d="M172,46 Q214,40 264,52" fill="none" stroke="#D9AE4F" stroke-width="1.6" stroke-linecap="round" opacity=".6"/>
+      <circle cx="160" cy="34" r="15" fill="url(#sun)" stroke="#F0D48A" stroke-width="1.5"/>
+    </svg>
+    <div class="glyphs" aria-hidden="true">𓋹 𓂀 𓃠 𓇢𓆸</div>
+    <div class="cartouche"><h1 class="masthead">Copper</h1></div>
+    <div class="cover-sub">For the Queens · By the Goddesses</div>
+    <p class="cover-tag">Beauty is Power. Knowledge is Freedom. Magick is Remembrance.</p>
+    <figure class="artfig" style="max-width:min(23rem,78vw);transform:rotate(-1.6deg);transition:transform .25s ease" onmouseover="this.style.transform='rotate(0deg) scale(1.02)'" onmouseout="this.style.transform='rotate(-1.6deg)'">
+      <img src="https://substackcdn.com/image/fetch/$s_!tICc!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6ca10834-2e5a-473b-b85c-229cbc9a83f8_848x1264.jpeg" alt="Bastet on the Copper issue cover" loading="eager">
+      <figcaption>Bastet · The Ancient Issue cover</figcaption>
+    </figure>
+
+    <nav class="stickers" aria-label="Issue contents">
+      <a class="sticker copper" href="#glow">Glow Like Copper</a>
+      <a class="sticker gold" href="#boutique">Ancient Beauty</a>
+      <a class="sticker faience" href="#kohl">Kohl for Eyes</a>
+      <a class="sticker lapis" href="#horoscope">Pixel Horoscope</a>
+      <a class="sticker gold" href="#goddesses">Goddess Files</a>
+      <a class="sticker copper" href="#ankh">The Ankh</a>
+      <a class="sticker faience" href="#nile">The Nile</a>
+    </nav>
+    <div class="frieze" aria-hidden="true">☥ 𓋹 𓂀 𓃠 𓆣 𓅓 𓇢𓆸 ☥ 𓋹 𓂀 𓃠 𓆣 𓅓 𓇢𓆸 ☥ 𓋹 𓂀 𓃠</div>
+  </section>
+
+  <!-- ============ GLOW LIKE COPPER ============ -->
+  
+  <svg class="pyr" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40 L1200,40 Z" fill="#F4E8D0"/><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40" fill="none" stroke="#D9AE4F" stroke-width="1.6" opacity=".8"/></svg>
+  <section id="glow" class="paper">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cover Story 𖤓</div>
+      <h2>Glow Like Copper</h2>
+      <p class="deck">Beauty secrets from the Nile.</p>
+      <figure class="artfig" style="max-width:100%">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!j8PD!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4093a089-0d6f-481c-93ac-eb5934739423_1672x941.png" alt="Glow Like Copper feature art">
+        <figcaption>From the June 2026 transmission</figcaption>
+      </figure>
+
+      <p>The ancients understood something modern beauty culture forgot: <strong>glow is spiritual.</strong></p>
+      <p>In Ancient Egypt, copper and bronze tones represented the sun, divine warmth, immortality, and sacred femininity. Skin shimmered with oils and mineral pigments beneath candlelight, transforming beauty into ritual.</p>
+      <p>Heavy kohl eyeliner wasn't only cosmetic — it symbolized protection, intuition, and power. Eyes became weapons. Portals. Poetry.</p>
+      <p>This summer's copper revival is less about trends and more about resurrection:</p>
+
+      <ul class="rituals">
+        <li>Metallic lids that reflect like temple walls</li>
+        <li>Glossy bronze lips kissed by sunlight</li>
+        <li>Oils infused with cinnamon, amber, and myrrh</li>
+        <li>Gemstone and copper jewelry layered like armor for the divine feminine</li>
+      </ul>
+
+      <blockquote class="pull">To glow like copper means to look ancient and futuristic at once. Soft, but untouchable. The gods would approve.</blockquote>
+    </div>
+  </section>
+
+  <!-- ============ GODDESS TALK ============ -->
+  
+  <svg class="pyr" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true" style="background:#F4E8D0"><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40 L1200,40 Z" fill="#EBDCBB"/><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40" fill="none" stroke="#D9AE4F" stroke-width="1.6" opacity=".8"/></svg>
+  <section class="paper aged">
+    <div class="wrap reveal">
+      <div class="eyebrow">𓁢 Goddess Talk</div>
+      <h2>Self-Love Rituals From Ancient Times</h2>
+      <p class="deck">Before "self care" became a hashtag, it was ceremony.</p>
+
+      <p>Egyptian queens treated beauty as sacred maintenance of the spirit. Baths filled with oils, flower petals, honey, and milk were believed to cleanse emotional heaviness as much as the body itself.</p>
+      <p>Modern ritual ideas inspired by the ancients:</p>
+
+      <ul class="rituals">
+        <li>Light candles before your nightly routine</li>
+        <li>Wear perfume even when alone</li>
+        <li>Speak kindly to your reflection</li>
+        <li>Adorn yourself for no audience</li>
+        <li>Rest like royalty, not apology</li>
+      </ul>
+
+      <blockquote class="pull">A goddess does not earn rest. She claims it naturally.</blockquote>
+    </div>
+  </section>
+
+  <!-- ============ ANCIENT BEAUTY BOUTIQUE ============ -->
+  
+  <svg class="pyr" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true" style="background:#EBDCBB"><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40 L1200,40 Z" fill="#1E1710"/><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40" fill="none" stroke="#D9AE4F" stroke-width="1.6" opacity=".8"/></svg>
+  <section id="boutique" class="night2">
+    <div class="wrap wide reveal">
+      <div class="eyebrow" style="color:var(--gold)">The Nile's Finest · Vol. 07 Issue 06</div>
+      <h2>Ancient Beauty</h2>
+      <p class="deck">Luxury beauty · Ancient wisdom. Beauty is power — radiance is ancestral.</p>
+      <figure class="artfig" style="max-width:100%">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!HnKn!,w_1300,h_650,c_fill,f_auto,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F55c9d7f7-bc18-44ed-83b7-f6daa800a0a3_1376x768.jpeg" alt="Ancient Beauty: beauty secrets from the Nile">
+        <figcaption>The Nile's finest · Vol. 07</figcaption>
+      </figure>
+
+      <div class="cards">
+        <div class="card"><h4>Sacred Oils &amp; Moon Water</h4><p>Infused with lotus, myrrh, and desert blossoms, these ancient elixirs hydrate, attract, and awaken your divine glow.</p></div>
+        <div class="card"><h4>Kohl: Makeup of Royalty</h4><p>Derived from antimony and precious minerals, kohl protects, heals, and intensifies your gaze. Wear it like the queens did — fierce and fearless.</p></div>
+        <div class="card"><h4>The Ritual of Gold Dust</h4><p>Real gold. Real power. Used to highlight, bless, and protect the skin. Sweep it on collarbones, lids, and cheeks to channel the sun's eternal energy.</p></div>
+      </div>
+
+      <div class="sundisk" aria-hidden="true"><span></span></div>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.18em;font-size:1.2rem;margin-top:2.6rem;color:var(--gold-hi)">Ancient Glamour Techniques</h3>
+      <div class="cards">
+        <div class="card"><h4>Lotus Steam</h4><p>Opens pores and softens skin with floral wisdom.</p></div>
+        <div class="card"><h4>Milk &amp; Honey Baths</h4><p>Cleopatra's secret to silky, glowing skin.</p></div>
+        <div class="card"><h4>Rose Petal Rituals</h4><p>Attract love, beauty, and spiritual cleansing.</p></div>
+        <div class="card"><h4>Incense &amp; Intention</h4><p>Set your energy. Align beauty with your highest self.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PERFUMES & TOOLS ============ -->
+  
+  <svg class="pyr" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true" style="background:#1E1710"><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40 L1200,40 Z" fill="#F4E8D0"/><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40" fill="none" stroke="#D9AE4F" stroke-width="1.6" opacity=".8"/></svg>
+  <section class="paper">
+    <div class="wrap reveal">
+      <div class="eyebrow">Perfume of the Goddesses</div>
+      <h2>Scents That Seduce</h2>
+      <p class="deck">Oils that stay beyond time. Handcrafted. Sacred. Powerful.</p>
+
+      <ul class="menu">
+        <li><span class="name">Isis Bloom</span><span class="notes">Lotus · Vanilla · Myrrh</span></li>
+        <li><span class="name">Hathor's Kiss</span><span class="notes">Jasmine · Honey · Amber</span></li>
+        <li><span class="name">Nefertiti's Secret</span><span class="notes">Rose · Frankincense · Sandalwood</span></li>
+      </ul>
+
+      <div class="factbox">
+        <b>Goddess Beauty Tools · Tools of Transformation</b>
+        Copper mirror · Kohl applicator · Alabaster jar · Gold dust palette
+      </div>
+
+      <div class="affirm">
+        <div class="lines" aria-label="Beauty affirmation">
+          <span>I am radiant.</span>
+          <span>I am timeless.</span>
+          <span>I am a goddess.</span>
+          <span>I glow like copper.</span>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:2rem;font-style:italic"><strong>Not just beauty. This is legacy. This is power.</strong></p>
+    </div>
+  </section>
+
+  <!-- ============ KOHL FOR EYES ============ -->
+  
+  <svg class="pyr" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true" style="background:#F4E8D0"><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40 L1200,40 Z" fill="#EBDCBB"/><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40" fill="none" stroke="#D9AE4F" stroke-width="1.6" opacity=".8"/></svg>
+  <section id="kohl" class="paper aged">
+    <div class="wrap reveal">
+      <div class="eyebrow">Beauty Through Time ☥</div>
+      <h2>Kohl for Eyes 𓂀</h2>
+      <p class="deck">The ancient Egyptian secret of beauty &amp; protection.</p>
+      <svg class="glyphsvg" viewBox="0 0 180 120" width="200" aria-hidden="true">
+        <path d="M18,32 Q90,2 162,30" fill="none" stroke="#8A4E28" stroke-width="5" stroke-linecap="round"/>
+        <path d="M24,56 Q90,22 156,56 Q90,86 24,56 Z" fill="none" stroke="#8A4E28" stroke-width="5" stroke-linejoin="round"/>
+        <circle cx="90" cy="54" r="14" fill="#C97E45" stroke="#8A4E28" stroke-width="4"/>
+        <path d="M64,80 Q60,104 40,112 Q56,108 62,94" fill="none" stroke="#8A4E28" stroke-width="5" stroke-linecap="round"/>
+        <path d="M132,70 L160,96" fill="none" stroke="#8A4E28" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+
+      <div class="factbox">
+        <b>Did you know?</b>
+        Both men and women wore kohl. It was a daily ritual, a symbol of status, and a sign of self-respect.
+      </div>
+      <figure class="artfig" style="max-width:100%">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!H5HC!,w_1300,h_650,c_fill,f_auto,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6be1e0f8-8d45-4ae0-a2b9-53d9a1840c1a_1448x1086.png" alt="Kohl for eyes: beauty through time artwork">
+        <figcaption>Beauty through time 𓁹 𓁹</figcaption>
+      </figure>
+
+      <p><strong>What is kohl?</strong> Kohl is a natural eye cosmetic made from mineral powders. It was used in ancient Egypt for beauty, health, and spiritual protection.</p>
+      <p><strong>A beauty that protects.</strong> Kohl helped reduce glare from the sun and protect the eyes from dust and infections. It was believed to ward off evil spirits and bring good health. Wearing kohl honored the gods and reflected inner and outer beauty.</p>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.2rem;margin-top:2.2rem;color:#8A4E28">How It Was Made</h3>
+      <ol class="steps">
+        <li><span>Galena (lead sulfide) or malachite was ground into fine powder.</span></li>
+        <li><span>Mixed with natural oils or animal fat to create a smooth kohl paste.</span></li>
+        <li><span>Applied with a kohl stick or brush along the lash line.</span></li>
+      </ol>
+
+      <p><strong>The iconic look 𓂀</strong> — bold, elegant, timeless. The extended line was more than makeup: it was a statement of power and culture. Kohl is one of the oldest beauty traditions in history, and its legacy still inspires us today.</p>
+
+      <blockquote class="pull">Kohl isn't just makeup. It's history, health, and heritage.</blockquote>
+    </div>
+  </section>
+
+  <!-- ============ KOHL & COPPER ============ -->
+  
+  <svg class="pyr" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true" style="background:#EBDCBB"><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40 L1200,40 Z" fill="#1E1710"/><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40" fill="none" stroke="#D9AE4F" stroke-width="1.6" opacity=".8"/></svg>
+  <section class="night2">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--copper)">The Makeup of a Goddess</div>
+      <h2>Kohl &amp; Copper</h2>
+      <p class="deck">Ancient beauty never truly dies. It simply reloads in HD.</p>
+
+      <p>Kohl-lined eyes have survived thousands of years because they work.</p>
+      <p>The look elongates the eye, sharpens expression, and instantly transforms the face into something cinematic. Pair it with metallic copper pigments and suddenly you don't look "pretty" anymore — <strong>you look mythological.</strong></p>
+      <p>Current obsession list:</p>
+      <ul class="rituals">
+        <li>Exaggerated eyeliner wings</li>
+        <li>Copper shimmer under flash photography</li>
+        <li>Glossy skin like polished bronze</li>
+        <li>Dark lips paired with gold jewelry</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ PIXEL HOROSCOPE ============ -->
+  
+  <svg class="pyr" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true" style="background:#1E1710"><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40 L1200,40 Z" fill="#14100B"/><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40" fill="none" stroke="#D9AE4F" stroke-width="1.6" opacity=".8"/></svg>
+  <section id="horoscope">
+    <div class="wrap wide reveal">
+      <div class="eyebrow" style="color:var(--faience)">𓄂𓆃 See What the Stars Have in Store</div>
+      <h2>Pixel Horoscope<br>Ancient Egypt Edition</h2>
+      <p class="deck">The stars speak through sand, gold, and forgotten gods.</p>
+      <figure class="artfig" style="max-width:100%">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!9Ot0!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4e9a7f88-fe9f-44ca-b07a-e65c9c439a33_2048x1136.jpeg" alt="Pixel horoscope: ancient Egypt edition header art">
+        <figcaption>See what the stars have in store</figcaption>
+      </figure>
+
+      <div class="scopes">
+        <div class="scope"><span class="zg" aria-hidden="true">♈</span><h4>Aries</h4><p>The desert fire inside you was not placed there to be contained. You are temple lightning in human form.</p></div>
+        <div class="scope"><span class="zg" aria-hidden="true">♉</span><h4>Taurus</h4><p>Gold does not ask permission to be valuable. Neither do you. Luxury is your birthright, not your reward.</p></div>
+        <div class="scope"><span class="zg" aria-hidden="true">♊</span><h4>Gemini</h4><p>Two voices echo in your chamber today — one of logic, one of prophecy. Both were carved into you by Thoth himself.</p></div>
+        <div class="scope"><span class="zg" aria-hidden="true">♋</span><h4>Cancer</h4><p>The Nile remembers everything you tried to forget. But not all memories deserve resurrection.</p></div>
+        <div class="scope"><span class="zg" aria-hidden="true">♌</span><h4>Leo</h4><p>Ra is watching you again. The spotlight is not new — it is your natural state of being.</p></div>
+        <div class="scope"><span class="zg" aria-hidden="true">♍</span><h4>Virgo</h4><p>Even the pyramids were built imperfectly over time. Stop demanding divine precision from mortal moments.</p></div>
+        <div class="scope"><span class="zg" aria-hidden="true">♎</span><h4>Libra</h4><p>Your reflection in sacred water is shifting. A new face is being negotiated between beauty and destiny.</p></div>
+        <div class="scope"><span class="zg" aria-hidden="true">♏</span><h4>Scorpio</h4><p>You are the sealed tomb and the forbidden key. Some truths were never meant to be spoken — only feared.</p></div>
+        <div class="scope"><span class="zg" aria-hidden="true">♐</span><h4>Sagittarius</h4><p>Ancient maps are rewriting themselves in your dreams. Follow the scarab signs, even if they lead into myth.</p></div>
+        <div class="scope"><span class="zg" aria-hidden="true">♑</span><h4>Capricorn</h4><p>You climb like a monument being carved from stone. The world mistakes your silence for stillness.</p></div>
+        <div class="scope"><span class="zg" aria-hidden="true">♒</span><h4>Aquarius</h4><p>You were not shaped for villages — you were encoded in starlight and temple circuitry beyond time.</p></div>
+        <div class="scope"><span class="zg" aria-hidden="true">♓</span><h4>Pisces</h4><p>Dreams arrive wearing gold masks tonight. Do not trust their softness. Even visions can deceive like mirages.</p></div>
+      </div>
+      <figure class="artfig" style="max-width:34rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!RRtW!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F806e01ce-065b-4444-be98-2f6b9da7b5f7_1448x1086.png" alt="Ancient Egypt horoscope pixel artwork">
+        <figcaption>Charted beneath temple stars</figcaption>
+      </figure>
+      <figure class="artfig" style="max-width:100%">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!mNyg!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7847c2b2-7095-4c06-9b32-45bc15647a0a_1376x768.jpeg" alt="Pixel horoscope closing artwork">
+        <figcaption>The stars keep speaking</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ GODDESS FILES ============ -->
+  
+  <svg class="pyr" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40 L1200,40 Z" fill="#F4E8D0"/><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40" fill="none" stroke="#D9AE4F" stroke-width="1.6" opacity=".8"/></svg>
+  <section id="goddesses" class="paper">
+    <div class="wrap reveal">
+      <div class="eyebrow">Dispatches From the Temple</div>
+      <h2>The Goddess Files</h2>
+      <p class="deck">Dreams, diaries &amp; divine legacies.</p>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;color:#8A4E28">Pyramid Dreams · Visions From the Other Side</h3>
+      <p style="margin-top:.8rem">Some say pyramids were tombs. Others believe they were machines for ascension. Across the internet, artists, mystics, historians, and dreamers continue to obsess over their geometry — symbols of permanence in a collapsing world.</p>
+      <p>In dreams, pyramids often represent transformation, hidden knowledge, spiritual awakening, and obsession with eternity. Maybe that's why we still stare at them. They remind us that human beings once built impossible things simply because they believed heaven could touch earth.</p>
+
+      <div class="sundisk" aria-hidden="true"><span></span></div>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;margin-top:2.4rem;color:#8A4E28">Bastet's Diary 𓃠 · Lessons in Feminine Power</h3>
+      <p style="margin-top:.8rem">Bastet teaches a very specific kind of femininity: <strong>softness with claws.</strong> The cat goddess ruled over pleasure, music, beauty, perfume, fertility, and protection. She understood balance better than anyone: be comforting when deserved. Be dangerous when necessary.</p>
+      <p>Her energy in 2026 looks like:</p>
+      <ul class="rituals">
+        <li>Protecting your peace aggressively</li>
+        <li>Disappearing without explanation</li>
+        <li>Staying moisturized during emotional warfare</li>
+        <li>Romanticizing your life while refusing disrespect</li>
+      </ul>
+      <blockquote class="pull">A goddess can purr and still bite.</blockquote>
+
+      <div class="sundisk" aria-hidden="true"><span></span></div>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;margin-top:2.4rem;color:#8A4E28">𓂀 Queen Nefertiti · Beauty. Power. Legacy.</h3>
+      <p style="margin-top:.8rem">Thousands of years later, we still know her face. Nefertiti became immortal not because she was simply beautiful, but because her image carried authority. Precision. Calm. Presence.</p>
+      <p>Her legacy teaches us: beauty without power fades quickly. Beauty with presence becomes history. The internet calls it "face card energy." Ancient Egypt called it royalty.</p>
+      <figure class="artfig" style="max-width:30rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!B6j4!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc882f138-1a75-4d0a-8868-50ddac48c58f_1402x1122.png" alt="Queen Nefertiti artwork">
+        <figcaption>Beauty · Power · Legacy</figcaption>
+      </figure>
+
+      <div class="sundisk" aria-hidden="true"><span></span></div>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;margin-top:2.4rem;color:#8A4E28">Profile of the Month · Hathor, Goddess of Love, Music &amp; Joy</h3>
+      <p style="margin-top:.8rem">Hathor ruled over dance, beauty, music, celebration, femininity, and pleasure. She reminds us that joy itself can be sacred. In a world obsessed with productivity, Hathor energy means:</p>
+      <ul class="rituals">
+        <li>Dancing dramatically in your bedroom</li>
+        <li>Collecting shiny objects</li>
+        <li>Creating art for emotional survival</li>
+        <li>Dressing beautifully even with nowhere to go</li>
+      </ul>
+      <blockquote class="pull">Your joy is not frivolous. It is ancient magic.</blockquote>
+      <figure class="artfig" style="max-width:100%">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!DYnK!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4b315c45-ae16-4907-9787-2840f24d51dc_2048x1136.jpeg" alt="Hathor, goddess of love, music and joy">
+        <figcaption>Profile of the month · Hathor</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ THE ANKH ============ -->
+  
+  <svg class="pyr" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true" style="background:#F4E8D0"><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40 L1200,40 Z" fill="#1E1710"/><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40" fill="none" stroke="#D9AE4F" stroke-width="1.6" opacity=".8"/></svg>
+  <section id="ankh" class="night2">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--gold)">☥ Feature</div>
+      <h2>The Power of the Ankh</h2>
+      <p class="deck">Meaning. Energy. Eternity. Glow like copper — rule like a goddess.</p>
+      <svg class="glyphsvg" viewBox="0 0 200 230" width="150" aria-hidden="true">
+        <defs><linearGradient id="au" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F0D48A"/><stop offset="55%" stop-color="#D9AE4F"/><stop offset="100%" stop-color="#C97E45"/></linearGradient></defs>
+        <ellipse cx="100" cy="62" rx="36" ry="44" fill="none" stroke="url(#au)" stroke-width="15"/>
+        <rect x="92" y="102" width="16" height="112" rx="6" fill="url(#au)"/>
+        <rect x="38" y="108" width="124" height="16" rx="6" fill="url(#au)"/>
+      </svg>
+
+      <p>The Ankh is one of the most recognizable symbols of Ancient Egypt, representing life, divine energy, protection, wisdom, and the eternal journey of the soul. Held by gods, queens, priestesses, and pharaohs, the Ankh was believed to be the sacred key that connected the mortal world to the divine realm.</p>
+      <p><strong>The symbol of divine life.</strong> The oval loop at the top is often interpreted as the eternal soul or the heavens, while the cross below represents the material world. Together they symbolize the union of spirit and matter, heaven and earth, feminine and masculine forces. According to researcher Ra Castaldo, the ankh represents the sun's coronal mass ejection.</p>
+      <p>For thousands of years, the Ankh appeared in temple carvings, sacred ceremonies, and royal tombs. To the ancient Egyptians, it was not merely a symbol — it was a living current of divine energy. Today it survives as both sacred symbol and alternative fashion icon, appearing in pixel art, jewelry, tattoos, and underground aesthetics online.</p>
+      <blockquote class="pull">To wear it is to say: I survived every version of myself before this one.</blockquote>
+      <figure class="artfig" style="max-width:100%">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!AOVG!,w_1300,h_650,c_fill,f_auto,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fabab49e2-d1cc-452c-914e-f2f1bdcb9399_2048x1136.jpeg" alt="The Power of the Ankh artwork">
+        <figcaption>Meaning · Energy · Eternity</figcaption>
+      </figure>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.2rem;margin-top:2.4rem;color:var(--gold-hi)">Ancient Keys to Spiritual Power</h3>
+      <div class="cards">
+        <div class="card"><h4>I · Remembrance</h4><p>Egyptians believed that every soul originated from the divine and carried sacred potential within.</p></div>
+        <div class="card"><h4>II · Harmony</h4><p>Living according to Ma'at — truth, balance, justice, and cosmic order — allowed a person to flow with universal forces rather than against them.</p></div>
+        <div class="card"><h4>III · Ritual</h4><p>Through prayer, meditation, offerings, and sacred symbols such as the Ankh, practitioners strengthened their connection to higher realms.</p></div>
+      </div>
+      <p style="margin-top:1.6rem;font-style:italic">The true temple was not only built of stone. It existed within the heart, where divine wisdom could be awakened and expressed through everyday life.</p>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.2rem;margin-top:2.6rem;color:var(--gold-hi)">The Geometry of Immortality</h3>
+      <p style="margin-top:.8rem">To the ancient Egyptians, geometry was the language of creation. Temples, pyramids, and sacred monuments were built according to proportions believed to reflect the structure of the universe itself. Circles symbolized eternity. Triangles represented ascension. Squares embodied stability and manifestation.</p>
+      <p>The pyramid stands as one of humanity's greatest symbols of sacred geometry — four sides rising from the earth and converging toward a single point, illustrating the journey from physical existence toward spiritual enlightenment. Ancient architects understood that beauty, proportion, and alignment could elevate consciousness. Their structures were designed not only to impress the eye but to inspire the spirit.</p>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.2rem;margin-top:2.6rem;color:var(--gold-hi)">The Feminine Force Behind Creation</h3>
+      <div class="cards">
+        <div class="card goddess"><h4>Isis</h4><span class="title">The Great Mother</span><p>Goddess of magic, protection, and resurrection. Through devotion and intelligence, she became one of the most beloved deities in Egyptian history.</p></div>
+        <div class="card goddess"><h4>Hathor</h4><span class="title">Joy · Beauty · Abundance</span><p>She reminded humanity that spiritual power could be expressed through celebration and love.</p></div>
+        <div class="card goddess"><h4>Sekhmet</h4><span class="title">The Lioness</span><p>Fierce protection and divine justice. She taught that true power requires courage and responsibility.</p></div>
+      </div>
+      <p style="margin-top:1.6rem">Together these goddesses demonstrated that creation itself is a sacred feminine act — active forces shaping destiny, healing communities, and guiding souls. The Ankh often appeared in their hands as a symbol of life-giving power and divine authority.</p>
+
+      <div class="factbox">
+        <b>Protective Magic of the Pharaohs · Traditionally, the Ankh was said to:</b>
+        Guard against negative influences · Strengthen vitality and health · Encourage fertility and abundance · Open pathways to spiritual understanding · Connect the human soul with higher wisdom
+      </div>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.2rem;margin-top:2.6rem;color:var(--gold-hi)">Rituals for Life, Love &amp; Legacy</h3>
+      <p style="margin-top:.6rem;font-style:italic">Daily practices to charge your Ankh — the ancients believed spiritual energy grows through consistent practice.</p>
+      <div class="cards">
+        <div class="card"><h4>Sunrise Intention</h4><p>At dawn, hold an Ankh symbol or visualize one in your mind. Set an intention for the day and imagine golden light flowing through your body.</p></div>
+        <div class="card"><h4>Gratitude Offering</h4><p>Offer thanks for three blessings every evening. Gratitude was considered a sacred force that attracted abundance.</p></div>
+        <div class="card"><h4>Sacred Water Ritual</h4><p>Place a symbol of the Ankh near a glass of water. Reflect on your goals before drinking, symbolically filling yourself with clarity and purpose.</p></div>
+        <div class="card"><h4>Legacy Meditation</h4><p>Ask yourself: what energy am I leaving behind in the world? Consider how your actions contribute to future generations.</p></div>
+      </div>
+      <p style="margin-top:1.6rem;font-style:italic">Small rituals performed consistently create powerful transformations over time.</p>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.2rem;margin-top:2.6rem;color:var(--gold-hi)">Prophetic Visions From the Nile</h3>
+      <p style="margin-top:.8rem">The ancient Egyptians believed dreams were bridges between worlds. Priests recorded dreams and interpreted symbols believed to carry guidance from divine beings or ancestral spirits — water, birds, stars, serpents, and sacred animals all held meaning.</p>
+      <p>Many temples included dedicated dream chambers where seekers would sleep after prayer and ritual, hoping to receive guidance or healing. The ancients taught that intuition is a sacred sense: nurtured through stillness, reflection, and observation, it becomes easier to recognize signs and synchronicities throughout daily life.</p>
+      <p>The Nile itself symbolized the flow of consciousness — ever moving, ever renewing, carrying messages from the seen and unseen worlds alike.</p>
+
+      <div class="affirm">
+        <p style="font-family:var(--mono);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--copper);margin-bottom:1.2rem">☥ The Ankh Within You</p>
+        <p style="font-style:italic;margin-bottom:1.4rem">Hold the key. Remember who you are. You are eternal. You are powerful. You are the Ankh in human form. Create. Protect. Transform. Rise.</p>
+        <div class="lines">
+          <span>You are not a princess.</span>
+          <span>You are a goddess.</span>
+          <span>Built different. Divine by design.</span>
+          <span>Know your power.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE NILE ============ -->
+  
+  <svg class="pyr" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true" style="background:#1E1710"><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40 L1200,40 Z" fill="#F4E8D0"/><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40" fill="none" stroke="#D9AE4F" stroke-width="1.6" opacity=".8"/></svg>
+  <section id="nile" class="paper">
+    <div class="wrap reveal">
+      <div class="eyebrow">Magick Mica TV Presents</div>
+      <h2>The Nile</h2>
+      <p class="deck">Lifeblood of an empire · Source of magick · Flow of eternity.</p>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;color:#8A4E28">A River Divine 𓁢 <span style="font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;opacity:.6;margin-left:.6rem">Page 04</span></h3>
+      <p style="margin-top:.8rem">Long before cities rose from stone, before temples touched the sky, there was the Nile.</p>
+      <p>The ancient Egyptians called their homeland <strong>Kemet</strong>, the Black Land, named for the fertile soil left behind by the river's yearly floods. Every harvest, every monument, every story carved into temple walls began with these waters.</p>
+      <p>To the people of Ancient Egypt, the Nile was not merely a river. It was a living force. A sacred presence. A divine pathway connecting earth, sky, and the realm of the gods. At dawn, its surface reflected the rising sun of Ra. At night, its waters carried moonlight like liquid silver through the desert. Villages gathered along its banks. Priests performed rituals beside it. Merchants traveled its currents carrying treasures and ideas across the kingdom.</p>
+      <p>The Nile was the heartbeat of an empire. And thousands of years later, it still flows — remembering everything.</p>
+      <figure class="artfig" style="max-width:100%">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!VFlt!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F70ad6bec-ce21-4c18-a5ac-b87b5d11e91e_1448x1086.png" alt="The Nile: heart of Kemet artwork">
+        <figcaption>A river divine · Kemet, the Black Land</figcaption>
+      </figure>
+
+      <div class="sundisk" aria-hidden="true"><span></span></div>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;margin-top:2.4rem;color:#8A4E28">Secrets Beneath the Surface <span style="font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;opacity:.6;margin-left:.6rem">Page 08</span></h3>
+      <p style="margin-top:.8rem">The Nile guards its mysteries well. For centuries, archaeologists have uncovered forgotten temples, sacred statues, ceremonial boats, and ancient artifacts hidden beneath layers of mud and shifting sands. Entire cities have disappeared beneath the waters, only to reveal themselves again centuries later.</p>
+      <p>Ancient myths tell of sacred chambers buried beneath riverbanks where priests guarded secret knowledge of the stars, medicine, and the afterlife. Some believe countless treasures still remain hidden. Not gold. <strong>Knowledge.</strong></p>
+      <p>The Nile has always been more than water. It is a keeper of memory. Every ripple carries echoes of civilizations that once flourished along its shores. Some mysteries are waiting to be found. Others may prefer to stay asleep.</p>
+
+      <div class="sundisk" aria-hidden="true"><span></span></div>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;margin-top:2.4rem;color:#8A4E28">The Gift of the Flood 𓁈 <span style="font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;opacity:.6;margin-left:.6rem">Page 12</span></h3>
+      <p style="margin-top:.8rem">Every year, the Nile performed a miracle. Seasonal floods swept across the land, depositing rich black silt across fields and valleys. What appeared destructive was actually a gift. The desert bloomed. Crops flourished. Communities prospered.</p>
+      <p>This cycle transformed one of the world's harshest landscapes into one of its most successful civilizations. The flood was so important that it shaped calendars, ceremonies, taxes, and religious celebrations. Entire systems of life revolved around the river's rhythm.</p>
+      <blockquote class="pull">The Nile taught an ancient lesson: growth often arrives disguised as upheaval. When the waters recede, new life appears.</blockquote>
+      <figure class="artfig" style="max-width:24rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!bGHK!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1b5b8f77-672e-49dc-bdaf-e0b47ba585d5_1086x1448.png" alt="The gift of the flood artwork">
+        <figcaption>The gift of the flood 𓁈</figcaption>
+      </figure>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;margin-top:2.4rem;color:#8A4E28">Beauty Born From Water <span style="font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;opacity:.6;margin-left:.6rem">Page 16</span></h3>
+      <p style="margin-top:.8rem">The Nile was beauty. Its banks overflowed with lotus flowers, papyrus reeds, aromatic herbs, and medicinal plants that became the foundation of Egyptian cosmetics and perfume.</p>
+      <p>Women infused oils with flowers and resins gathered near the river. Lotus blossoms became symbols of rebirth and divine femininity. Papyrus inspired art, literature, and sacred writing. The Nile nourished more than crops — it nourished creativity.</p>
+      <p>Beauty rituals were considered sacred acts, ways of honoring both the body and the gods. To adorn oneself was not vanity. <strong>It was devotion.</strong></p>
+
+      <div class="sundisk" aria-hidden="true"><span></span></div>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;margin-top:2.4rem;color:#8A4E28;text-align:center">Copper · Goddess Feature</h3>
+      <div class="feature-lines" aria-label="She is all. She remembers. She reigns.">
+        <span>Ra · Hathor · Neith · Isis</span>
+        <span>She Is All. She Remembers.</span>
+        <span>She Reigns.</span>
+      </div>
+      <figure class="artfig" style="max-width:100%">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!OMyL!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd63daf33-f013-48b5-9832-785eb4ab68c7_1536x1024.png" alt="The copper goddess feature artwork">
+        <figcaption>She is all · She remembers · She reigns</figcaption>
+      </figure>
+
+      <div class="sundisk" aria-hidden="true"><span></span></div>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;margin-top:2.4rem;color:#8A4E28">Ancient Mysteries of the Nile <span style="font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;opacity:.6;margin-left:.6rem">Page 20</span></h3>
+      <p style="margin-top:.8rem">The monuments of Egypt were never random. Temples aligned with celestial events. Obelisks cast shadows that tracked time. Sacred structures mirrored constellations above. Ancient builders understood the movement of stars with astonishing precision.</p>
+      <p>The Nile itself served as a cosmic guide, linking heaven and earth through ritual, architecture, and navigation. Many researchers continue to study how deeply astronomy influenced Egyptian life. One thing remains clear: the ancients paid attention to the sky. And they left clues everywhere.</p>
+      <figure class="artfig" style="max-width:100%">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!NvW0!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd0864c88-56da-4bfc-b784-b9b05c9ed542_1672x941.png" alt="Ancient mysteries of the Nile artwork">
+        <figcaption>Obelisks · Stars · Alignments</figcaption>
+      </figure>
+
+      <div class="sundisk" aria-hidden="true"><span></span></div>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;margin-top:2.4rem;color:#8A4E28">Goddess Rituals Along the River <span style="font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;opacity:.6;margin-left:.6rem">Page 24</span></h3>
+      <p style="margin-top:.8rem">The banks of the Nile once echoed with sacred music. Priests and priestesses offered flowers, oils, incense, and prayers to the gods. Ceremonies often took place during moonlit evenings when the river reflected the stars above.</p>
+      <p>Water was viewed as a bridge between worlds. Offerings were placed upon the surface and carried away by the current. Songs honored Hathor, Isis, and countless divine forces believed to protect the land.</p>
+      <p>The river was not simply observed. It was spoken to. Loved. Celebrated.</p>
+
+      <div class="sundisk" aria-hidden="true"><span></span></div>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;margin-top:2.4rem;color:#8A4E28">Sacred Lotus &amp; Temple Lore 𓇢𓆸 <span style="font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;opacity:.6;margin-left:.6rem">Page 28</span></h3>
+      <p style="margin-top:.8rem">The lotus flower appears throughout Egyptian art for a reason. Each morning it emerges from the water and opens toward the sun. Each evening it closes and returns to darkness. This cycle made it a symbol of rebirth, enlightenment, and spiritual awakening.</p>
+      <p>Temple walls were filled with lotus imagery, sacred geometry, and coded symbolism designed to teach deeper truths. To the Egyptians, flowers were not decoration. They were messages.</p>
+      <blockquote class="pull">The lotus reminds us that beauty and wisdom often grow from the same source.</blockquote>
+    </div>
+  </section>
+
+  <!-- ============ NILE MAP + RIVER NIGHTS ============ -->
+  
+  <svg class="pyr" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true" style="background:#F4E8D0"><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40 L1200,40 Z" fill="#1E1710"/><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40" fill="none" stroke="#D9AE4F" stroke-width="1.6" opacity=".8"/></svg>
+  <section class="night2">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--faience)">𓁿 The Nile River Map</div>
+      <h2>Four Cities of the River</h2>
+
+      <ul class="nilemap">
+        <li><span class="city">Alexandria</span>Gateway to the Mediterranean and crossroads of knowledge.</li>
+        <li><span class="city">Memphis</span>Ancient capital and center of royal power.</li>
+        <li><span class="city">Thebes</span>Home of magnificent temples and sacred ceremonies.</li>
+        <li><span class="city">Aswan</span>Guardian of the southern frontier and source of legendary stone quarries.</li>
+      </ul>
+      <figure class="artfig" style="max-width:24rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!-qjt!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcd980be0-4799-466a-a607-c90102504d75_1122x1402.png" alt="Illustrated map of the Nile river">
+        <figcaption>The river road of Kemet</figcaption>
+      </figure>
+
+      <div class="sundisk" aria-hidden="true"><span></span></div>
+
+      <h3 style="font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:1.25rem;margin-top:2.4rem;color:var(--gold-hi)">River Nights 𓄂𓆃</h3>
+      <p style="margin-top:.8rem">When the sun sets, the magick rises. The Nile becomes a mirror of stars. Candles flicker upon the water. Incense drifts across the breeze. Temple bells grow distant.</p>
+      <p>Night transforms the river into something timeless — a place where memory, mystery, and imagination meet.</p>
+
+      <div class="factbox">
+        <b>Treasures of Kemet</b>
+        Royal jewelry crafted from gold and copper · Sacred scarabs carrying symbols of transformation · Ankhs representing eternal life · Solar amulets honoring Ra · Rings engraved with protective prayers
+      </div>
+
+      <div class="factbox" style="border-color:var(--faience)">
+        <b style="color:var(--faience)">Coming soon 𓅓 𓆣</b>
+        Sacred Animals of Egypt · Hieroglyph Guide for Beginners · Temple Fashion &amp; Ancient Adornment · The Astrology of Ra
+      </div>
+
+      
+      <figure class="artfig" style="max-width:100%">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!_ItR!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6f2e4b78-0891-40b2-98f8-5584bce308a2_2048x1136.jpeg" alt="River nights closing artwork">
+        <figcaption>When the sun sets, the magick rises</figcaption>
+      </figure>
+
+      <blockquote class="pull" style="margin-top:2.6rem">"I am the river. I am the reflection. I am the remembrance."</blockquote>
+      <p style="text-align:center;font-style:italic">Copper is the color of sunset reflecting across the Nile. Like the river itself, it changes over time yet never loses its essence. It ages gracefully. It survives. It shines.</p>
+    </div>
+  </section>
+
+  <!-- ============ MORE ISSUES ============ -->
+  
+  <svg class="pyr" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true" style="background:#1E1710"><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40 L1200,40 Z" fill="#14100B"/><path d="M0,40 L50,8 L100,40 L150,8 L200,40 L250,8 L300,40 L350,8 L400,40 L450,8 L500,40 L550,8 L600,40 L650,8 L700,40 L750,8 L800,40 L850,8 L900,40 L950,8 L1000,40 L1050,8 L1100,40 L1150,8 L1200,40" fill="none" stroke="#D9AE4F" stroke-width="1.6" opacity=".8"/></svg>
+  <section>
+    <div class="wrap wide reveal">
+      <div class="eyebrow" style="color:var(--gold)">More From Magick Mica TV</div>
+      <h2>The Newsstand</h2>
+      <div class="teasers">
+        <div class="teaser">
+          <h3>The Galactic Dessert Issue</h3>
+          <p>Aliens Love Icecream — 7 cosmic cones, the Moon Pie mystery, Horoscoops &amp; Zilly. June 2026.</p>
+          <a href="galactic-dessert-issue.html">Read the issue →</a>
+        </div>
+        <div class="teaser">
+          <h3>Cosmic Stellar Drive</h3>
+          <p>Pyramids power the universe, crystal starseeds &amp; the Crystal Queen. July 2026.</p>
+          <a href="cosmic-stellar-drive.html">Read the issue →</a>
+        </div>
+        <div class="teaser">
+          <h3>The Meltdown Files</h3>
+          <p>Aliens Love Icecream #2 — melting planets, icecream telepathy &amp; secret recipes. August 2026.</p>
+          <a href="aliens-love-icecream.html">Read the issue →</a>
+        </div>
+        <div class="teaser">
+          <h3>Read on Substack</h3>
+          <p>The Copper issue lives at MagickMica TV — subscribe for new transmissions.</p>
+          <a href="https://magickmica.substack.com/p/magick-mica-tv-copper">Original post →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="frieze" aria-hidden="true" style="margin:0 0 1.6rem">𓇢𓆸 ☥ 𓋹 𓂀 𓃠 𓆣 𓅓 ☥ 𓇢𓆸 ☥ 𓋹 𓂀 𓃠 𓆣 𓅓 ☥ 𓇢𓆸</div>
+    <p class="motto">Beauty is Power · Knowledge is Freedom · Magick is Remembrance</p>
+    <p class="small">Copper · The Ancient Issue · June 2026 · Magick Mica TV ☥ 𓃠</p>
+  </footer>
+
+</main>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
