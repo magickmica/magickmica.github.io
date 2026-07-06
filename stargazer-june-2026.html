@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stargazer — Dream Big. Stay Magic. · Magick Mica TV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500;1,600;1,700&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --midnight:#0B1026;
+    --night2:#131A3B;
+    --desert:#160F1E;
+    --silver:#E8ECFF;
+    --starblue:#7FB4FF;
+    --dreampink:#FFA8D9;
+    --lilac:#C3A8FF;
+    --moongold:#FFE9A8;
+    --serif:'Playfair Display', serif;
+    --body:'Quicksand', sans-serif;
+    --mono:'Space Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--midnight);
+    color:var(--silver);
+    font-family:var(--body);
+    font-size:1.1rem;line-height:1.8;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--starblue);color:var(--midnight);}
+
+  /* starfield + shooting stars */
+  .sky{position:fixed;inset:0;pointer-events:none;z-index:0;}
+  .sky .stars{
+    position:absolute;inset:0;opacity:.75;
+    background-image:
+      radial-gradient(1.6px 1.6px at 11% 16%, #fff 60%, transparent),
+      radial-gradient(1px 1px at 33% 60%, var(--starblue) 60%, transparent),
+      radial-gradient(1.4px 1.4px at 55% 24%, var(--dreampink) 60%, transparent),
+      radial-gradient(1px 1px at 73% 78%, #fff 60%, transparent),
+      radial-gradient(1.8px 1.8px at 87% 10%, var(--moongold) 60%, transparent),
+      radial-gradient(1px 1px at 19% 86%, var(--lilac) 60%, transparent),
+      radial-gradient(1.3px 1.3px at 45% 5%, #fff 60%, transparent),
+      radial-gradient(1px 1px at 93% 44%, var(--starblue) 60%, transparent),
+      radial-gradient(1.2px 1.2px at 5% 42%, var(--dreampink) 60%, transparent),
+      radial-gradient(1px 1px at 64% 52%, #fff 60%, transparent);
+    animation:twinkle 5.5s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{from{opacity:.45}to{opacity:.9}}
+  .sky .comet{
+    position:absolute;width:120px;height:2px;border-radius:2px;
+    background:linear-gradient(90deg, #fff, transparent);
+    filter:drop-shadow(0 0 6px #fff);
+    opacity:0;transform:rotate(-24deg);
+    animation:shoot 9s linear infinite;
+  }
+  .sky .comet:nth-child(2){top:14%;left:70%;}
+  .sky .comet:nth-child(3){top:34%;left:15%;animation-delay:4.5s;}
+  @keyframes shoot{
+    0%,88%{opacity:0;transform:rotate(-24deg) translateX(0);}
+    90%{opacity:.9;}
+    100%{opacity:0;transform:rotate(-24deg) translateX(-42vw);}
+  }
+  @media (prefers-reduced-motion: reduce){.sky .comet{display:none;}}
+  main{position:relative;z-index:1;}
+
+  /* ---------- hero ---------- */
+  .cover{
+    min-height:96svh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:4.5rem 1.25rem 3.5rem;
+    background:
+      radial-gradient(46rem 28rem at 50% -8%, rgba(127,180,255,.16), transparent 62%),
+      radial-gradient(28rem 18rem at 8% 82%, rgba(255,168,217,.1), transparent 65%),
+      radial-gradient(28rem 18rem at 94% 70%, rgba(195,168,255,.12), transparent 65%);
+  }
+  .issue-strip{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--starblue);
+    display:flex;gap:1.1rem;align-items:center;flex-wrap:wrap;justify-content:center;
+    margin-bottom:1.6rem;
+  }
+  .issue-strip .dot{color:var(--dreampink);}
+  .moonrow{font-size:1.15rem;letter-spacing:.9em;text-indent:.9em;color:var(--moongold);opacity:.8;margin-bottom:1.1rem;}
+  .masthead{
+    font-family:var(--serif);font-weight:900;font-style:italic;
+    font-size:clamp(3.2rem, 13vw, 8.8rem);
+    line-height:1;letter-spacing:.01em;
+    background:linear-gradient(170deg, #FFFFFF 8%, var(--silver) 30%, var(--starblue) 62%, var(--lilac) 92%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 0 26px rgba(127,180,255,.45)) drop-shadow(0 10px 34px rgba(195,168,255,.3));
+  }
+  .cover-sub{
+    font-family:var(--mono);font-weight:700;text-transform:uppercase;
+    font-size:clamp(.8rem, 2.6vw, 1.05rem);letter-spacing:.5em;text-indent:.5em;
+    color:var(--moongold);margin-top:1.4rem;text-shadow:0 0 18px rgba(255,233,168,.45);
+  }
+  .cover-tag{margin-top:.9rem;font-family:var(--serif);font-style:italic;font-size:1.35rem;color:rgba(232,236,255,.85);}
+
+  .cover-art{
+    margin:2.4rem auto 0;max-width:min(23rem, 78vw);
+    transform:rotate(1.4deg);transition:transform .25s ease;
+  }
+  .cover-art:hover{transform:rotate(0deg) scale(1.02);}
+  .cover-art img{
+    display:block;width:100%;height:auto;border-radius:1rem;
+    border:2px solid rgba(232,236,255,.75);
+    box-shadow:0 0 0 4px rgba(11,16,38,.7), 0 0 44px rgba(127,180,255,.4), 0 24px 54px rgba(0,0,0,.55);
+  }
+  .cover-art figcaption{
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--lilac);margin-top:.9rem;
+  }
+
+  .stickers{display:flex;flex-wrap:wrap;gap:.65rem;justify-content:center;max-width:54rem;margin:2.4rem auto 0;}
+  .sticker{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
+    padding:.55rem 1.1rem;border-radius:999px;border:1.5px solid;
+    background:rgba(11,16,38,.55);backdrop-filter:blur(4px);
+    text-decoration:none;display:inline-block;
+    transition:transform .18s ease;
+  }
+  .sticker:hover{transform:translateY(-3px);}
+  .sticker.blue{color:var(--starblue);border-color:var(--starblue);box-shadow:0 0 16px rgba(127,180,255,.3);}
+  .sticker.pink{color:var(--dreampink);border-color:var(--dreampink);box-shadow:0 0 16px rgba(255,168,217,.3);}
+  .sticker.lilac{color:var(--lilac);border-color:var(--lilac);box-shadow:0 0 16px rgba(195,168,255,.3);}
+  .sticker.gold{color:var(--moongold);border-color:var(--moongold);box-shadow:0 0 16px rgba(255,233,168,.3);}
+
+  /* ---------- star garland divider ---------- */
+  .garland{
+    display:flex;align-items:center;justify-content:center;gap:1rem;
+    font-size:1rem;color:var(--moongold);opacity:.75;
+    padding:0 1rem;
+  }
+  .garland::before,.garland::after{
+    content:"";flex:0 1 9rem;height:1px;
+    background:linear-gradient(90deg, transparent, var(--starblue));
+  }
+  .garland::after{background:linear-gradient(90deg, var(--starblue), transparent);}
+
+  /* ---------- sections ---------- */
+  section{position:relative;}
+  .wrap{max-width:43rem;margin:0 auto;padding:4.6rem 1.5rem 5rem;}
+  .wrap.wide{max-width:60rem;}
+  .deep{background:var(--night2);}
+  .desertsec{background:linear-gradient(180deg, var(--desert), #1E1229 55%, var(--desert));}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.36em;text-transform:uppercase;
+    display:flex;align-items:center;gap:.9rem;margin-bottom:1.3rem;justify-content:center;
+    color:var(--dreampink);
+  }
+  .eyebrow::before,.eyebrow::after{content:"✦";font-size:.8rem;}
+  h2{
+    font-family:var(--serif);font-weight:800;
+    font-size:clamp(2rem, 5.6vw, 3.1rem);line-height:1.15;
+    margin-bottom:.6rem;text-align:center;
+  }
+  .deck{
+    font-family:var(--serif);font-style:italic;font-size:1.3rem;
+    margin-bottom:2.2rem;opacity:.85;text-align:center;
+  }
+  p{margin-bottom:1.15rem;}
+  p:last-child{margin-bottom:0;}
+  .bigline{
+    font-family:var(--serif);font-style:italic;font-weight:600;
+    font-size:clamp(1.5rem,4.4vw,2.1rem);line-height:1.55;text-align:center;
+    margin:2.4rem auto;max-width:34rem;
+  }
+  .bl-blue{color:var(--starblue);text-shadow:0 0 24px rgba(127,180,255,.4);}
+  .bl-pink{color:var(--dreampink);text-shadow:0 0 24px rgba(255,168,217,.35);}
+  .bl-gold{color:var(--moongold);text-shadow:0 0 24px rgba(255,233,168,.35);}
+  .bl-lilac{color:var(--lilac);text-shadow:0 0 24px rgba(195,168,255,.4);}
+
+  .vibelist{list-style:none;margin:2rem auto;max-width:26rem;}
+  .vibelist li{
+    padding:.75rem 0 .75rem 2rem;position:relative;
+    border-bottom:1px solid rgba(127,180,255,.25);
+    font-weight:600;font-size:1.12rem;
+  }
+  .vibelist li::before{content:"✧";position:absolute;left:.3rem;color:var(--moongold);}
+
+  .ritual{list-style:none;margin:2rem auto;max-width:26rem;counter-reset:r;}
+  .ritual li{
+    counter-increment:r;
+    display:flex;gap:1.1rem;align-items:center;
+    padding:.85rem 0;border-bottom:1px dashed rgba(232,236,255,.2);
+    font-weight:600;
+  }
+  .ritual li::before{
+    content:counter(r);
+    font-family:var(--mono);font-size:.85rem;color:var(--midnight);
+    background:linear-gradient(140deg, var(--moongold), var(--dreampink));
+    min-width:2.2rem;height:2.2rem;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    box-shadow:0 0 14px rgba(255,233,168,.4);
+  }
+
+  /* art figures */
+  .artfig{margin:2.6rem auto 0;text-align:center;}
+  .artfig img{
+    display:block;width:100%;height:auto;border-radius:1rem;
+    border:1.5px solid rgba(232,236,255,.5);
+    box-shadow:0 0 0 4px rgba(11,16,38,.6), 0 0 40px rgba(127,180,255,.3), 0 22px 48px rgba(0,0,0,.55);
+    transition:transform .25s ease;
+  }
+  .artfig:hover img{transform:scale(1.015);}
+  .artfig figcaption{
+    font-family:var(--mono);font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;
+    margin-top:1rem;color:var(--lilac);
+  }
+  .desertsec .artfig img{border-color:rgba(255,233,168,.55);box-shadow:0 0 0 4px rgba(22,15,30,.7), 0 0 40px rgba(255,158,79,.3), 0 22px 48px rgba(0,0,0,.6);}
+  .desertsec .artfig figcaption{color:var(--moongold);}
+
+  /* pyramid prayers lines */
+  .prayer{
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(1.55rem,4.6vw,2.3rem);line-height:1.5;text-align:center;
+    margin:3rem auto;max-width:34rem;
+  }
+  .prayer em{font-style:italic;}
+  .prayer:nth-of-type(4n+1){color:var(--moongold);text-shadow:0 0 26px rgba(255,233,168,.4);}
+  .prayer:nth-of-type(4n+2){color:#FFB27E;text-shadow:0 0 26px rgba(255,178,126,.4);}
+  .prayer:nth-of-type(4n+3){color:var(--dreampink);text-shadow:0 0 26px rgba(255,168,217,.4);}
+  .prayer:nth-of-type(4n+4){color:var(--lilac);text-shadow:0 0 26px rgba(195,168,255,.45);}
+  .stanza{
+    font-family:var(--serif);font-weight:700;
+    font-size:clamp(1.4rem,4vw,2rem);line-height:1.8;text-align:center;
+    margin:3rem auto;max-width:32rem;color:var(--silver);
+  }
+  .stanza span{display:block;}
+  .stanza .gold{color:var(--moongold);text-shadow:0 0 22px rgba(255,233,168,.4);}
+
+  /* goddess quote plates */
+  .plate{
+    border:1.5px solid rgba(195,168,255,.45);border-radius:1.1rem;
+    padding:2.2rem 1.8rem;margin:2.4rem auto;max-width:36rem;
+    text-align:center;background:rgba(19,26,59,.55);
+    transition:transform .18s ease, border-color .18s ease;
+    position:relative;
+  }
+  .plate:hover{transform:translateY(-4px);border-color:var(--moongold);}
+  .plate .glyph{font-size:1.6rem;display:block;margin-bottom:.9rem;}
+  .plate blockquote{
+    font-family:var(--serif);font-style:italic;font-weight:600;
+    font-size:clamp(1.3rem,3.6vw,1.7rem);line-height:1.6;color:var(--silver);
+  }
+  .plate .who{
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--starblue);margin-top:1.2rem;display:block;
+  }
+
+  /* mini gallery */
+  .minigal{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1rem;margin-top:2.4rem;}
+  .minigal img{
+    width:100%;height:auto;display:block;border-radius:.8rem;
+    border:1.5px solid rgba(232,236,255,.4);
+    box-shadow:0 12px 30px rgba(0,0,0,.45);
+    transition:transform .2s ease;
+  }
+  .minigal img:hover{transform:translateY(-4px) scale(1.02);}
+
+  /* tip jar */
+  .tipjar{
+    border:1.5px solid var(--moongold);border-radius:1.3rem;
+    padding:2.2rem 1.8rem;margin-top:2.8rem;text-align:center;
+    background:radial-gradient(26rem 10rem at 50% 0%, rgba(255,233,168,.12), transparent 70%);
+  }
+  .tipjar h3{
+    font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.26em;
+    font-size:1rem;color:var(--moongold);margin-bottom:1rem;
+  }
+  .tipjar a.btn{
+    display:inline-block;margin-top:1rem;
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--midnight);background:linear-gradient(100deg,var(--moongold),var(--dreampink));
+    border-radius:999px;padding:.7rem 1.5rem;text-decoration:none;font-weight:700;
+    box-shadow:0 0 22px rgba(255,233,168,.4);
+    transition:transform .18s ease;
+  }
+  .tipjar a.btn:hover{transform:translateY(-3px);}
+
+  /* teasers + footer */
+  .teasers{display:grid;grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr));gap:1.1rem;margin-top:2rem;}
+  .teaser{
+    border:1.5px solid rgba(127,180,255,.4);border-radius:1rem;padding:1.5rem 1.4rem;
+    display:flex;flex-direction:column;gap:.6rem;background:rgba(19,26,59,.55);
+  }
+  .teaser h3{font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.88rem;color:var(--dreampink);}
+  .teaser p{margin:0;font-size:1rem;flex:1;opacity:.9;}
+  .teaser a{
+    align-self:flex-start;font-family:var(--mono);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--starblue);border:1.5px solid var(--starblue);border-radius:999px;padding:.5rem 1rem;text-decoration:none;
+  }
+  footer{
+    text-align:center;padding:3.4rem 1.4rem 4rem;
+    border-top:1.5px solid rgba(127,180,255,.3);
+  }
+  footer .motto{
+    font-family:var(--serif);font-style:italic;font-weight:700;
+    font-size:1.4rem;color:var(--moongold);margin-bottom:1rem;text-shadow:0 0 18px rgba(255,233,168,.4);
+  }
+  footer .disclaimer{max-width:34rem;margin:0 auto 1.2rem;font-size:.95rem;opacity:.8;}
+  footer .small{font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(232,236,255,.6);}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease, transform .9s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+    .reveal{opacity:1;transform:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+<a href="https://magickmica.github.io/aliens/aliens-love-icecream.html" style="position:fixed;top:1rem;left:1rem;z-index:50;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;padding:.5rem 1rem;border-radius:999px;border:1.5px solid #7FB4FF;color:#BFD7FF;background:rgba(11,16,38,.7);backdrop-filter:blur(4px)">← Magick Mica TV</a>
+<div class="sky" aria-hidden="true"><div class="stars"></div><div class="comet"></div><div class="comet"></div></div>
+<main>
+
+  <!-- ============ COVER ============ -->
+  <section class="cover">
+    <div class="issue-strip">
+      <span>Magick Mica TV</span><span class="dot">✦</span>
+      <span>June 2026</span><span class="dot">✦</span>
+      <span>Celestial Edition</span>
+    </div>
+    <div class="moonrow" aria-hidden="true">☽ ✦ ○ ✦ ☾</div>
+    <h1 class="masthead">Stargazer</h1>
+    <div class="cover-sub">Dream Big · Stay Magic</div>
+    <p class="cover-tag">Celestial vibes · Y2K magic is back · Escape reality</p>
+
+    <figure class="cover-art">
+      <img src="https://substackcdn.com/image/fetch/$s_!L20L!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8d75dd3e-c12b-4a2b-aece-52bb06b1f8e1_1122x1402.png" alt="Stargazer June 2026 cover art" loading="eager">
+      <figcaption>Stargazer · June 2026</figcaption>
+    </figure>
+
+    <nav class="stickers" aria-label="Issue contents">
+      <a class="sticker blue" href="#stars">Written in the Stars</a>
+      <a class="sticker pink" href="#vibes">Celestial Vibes</a>
+      <a class="sticker lilac" href="#y2k">Y2K Magic</a>
+      <a class="sticker gold" href="#dreams">Glowing Dreams</a>
+      <a class="sticker pink" href="#pyramids">Pyramid Prayers</a>
+      <a class="sticker lilac" href="#goddess">Vivid Goddess</a>
+    </nav>
+  </section>
+
+  <!-- ============ WRITTEN IN THE STARS ============ -->
+  <section id="stars" class="deep">
+    <div class="wrap reveal">
+      <div class="eyebrow">Your Cosmic Guide to June &amp; Beyond</div>
+      <h2>✨ Written in the Stars</h2>
+      <p class="deck">The stars have officially entered their glitter era.</p>
+
+      <p>This June, astronomers are calling it a "high-visibility sky season," but spiritually? It feels more like the universe finally texted back. Across social media, telescope livestreams, and dreamy late-night rooftop gatherings, a new obsession is rising: <strong>cosmic escapism</strong>. People aren't just looking at the stars anymore — they're looking <em>through</em> them, searching for signs, softness, and something bigger than the algorithm.</p>
+      <p>And according to celestial romantics everywhere, June 2026 is radiating with "main character constellation energy." <em>Translation?</em> Expect emotional revelations, vivid dreams, random bursts of inspiration, and an overwhelming urge to disappear into a field at 2 a.m. wearing glitter eyeliner.</p>
+      <p>Experts say the night sky appears especially vibrant this month due to atmospheric conditions and increased visibility in several meteor regions — but honestly, we prefer the magical explanation.</p>
+
+      <p class="bigline bl-blue">The universe is <em>flirting</em> again.</p>
+
+      <figure class="artfig" style="max-width:30rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!MCSU!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F931c2842-b37f-4940-a9fb-9ee292a460ff_2261x2261.png" alt="Celestial stargazer artwork">
+        <figcaption>High-visibility sky season</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="garland" aria-hidden="true">✦ ✧ ☾ ✧ ✦</div>
+
+  <!-- ============ CELESTIAL VIBES ============ -->
+  <section id="vibes">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--starblue)">Love, Luck &amp; Stardust This Month</div>
+      <h2>🌌 Celestial Vibes</h2>
+      <p class="deck">If your intuition has been louder lately, you're not imagining it.</p>
+
+      <p>June arrives wrapped in dreamy cosmic static, encouraging people to romanticize their lives again. Suddenly everyone wants handwritten journals, <a href="https://www.themysticalspiralstore.com/" style="color:var(--dreampink)">copper gemstone jewelry</a>, late-night drives, and mysterious playlists that sound like they were found on a burned CD from another dimension.</p>
+      <p>Astrology communities are calling this "soft awakening season" — a time associated with emotional clarity, creativity, and reconnecting with wonder. Whether you believe in the stars literally or metaphorically, one thing is undeniable:</p>
+
+      <p class="bigline bl-pink">People are exhausted by reality.<br>And the cosmos is offering a prettier alternative.</p>
+
+      <p style="text-align:center;font-weight:700">This month's energy favors:</p>
+      <ul class="vibelist">
+        <li>Stargazing over doomscrolling</li>
+        <li>Fantasy over cynicism</li>
+        <li>Glitter over minimalism</li>
+        <li>Magic over productivity culture</li>
+      </ul>
+
+      <p class="bigline bl-gold">Basically? The stars want you to loosen your grip on reality just enough to remember who you were before the world got so loud.</p>
+
+      <figure class="artfig" style="max-width:34rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!PKYn!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9dd54a48-29cf-4774-bb2e-5db355cd07e8_1402x1122.png" alt="Untitled painting: Do you want to wake up?">
+        <figcaption>Untitled · Paint: "Do you want to wake up?"</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="garland" aria-hidden="true">✦ ✧ ○ ✧ ✦</div>
+
+  <!-- ============ Y2K MAGIC ============ -->
+  <section id="y2k" class="deep">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--lilac)">Why the Early 2000s Are Our Cosmic Comfort Era</div>
+      <h2>💿 Y2K Magic Is Back</h2>
+      <p class="deck">Flip phones. Glitter lip gloss. Translucent furniture. Space-themed bedrooms.</p>
+
+      <p>Tiny rhinestones stuck to literally everything. <strong>The internet's latest obsession isn't just nostalgia — it's emotional archaeology.</strong></p>
+      <p>The return of Y2K aesthetics has exploded across fashion, music, and art, but there's one corner of the trend becoming especially powerful: <em>cosmic Y2K</em>.</p>
+
+      <figure class="artfig" style="max-width:24rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!W6Vr!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2fad9915-5b1e-4533-bcbb-2c20594df4b9_1086x1448.png" alt="Cosmic Y2K artwork">
+        <figcaption>Cosmic Y2K rising</figcaption>
+      </figure>
+
+      <p style="margin-top:2.4rem">Think holographic star maps, dreamy alien graphics, glittering galaxies, magical-girl energy, and that strange hopeful feeling the future used to have.</p>
+      <p class="bigline bl-lilac">Back then, <em>the future looked shiny</em>.</p>
+      <p>People imagined chrome cities, magical technology, virtual dream worlds, and emotional freedom. Today's revival taps into that same yearning — not just for the style, but for the optimism.</p>
+      <p><em>The result?</em> A generation rebuilding fantasy culture from old VHS tapes, pixel dolls, celestial graphics, and glitter-soaked internet dreams. And honestly? The stars have never looked more MySpace.</p>
+    </div>
+  </section>
+
+  <div class="garland" aria-hidden="true">✦ ✧ ☽ ✧ ✦</div>
+
+  <!-- ============ GLOWING DREAMS ============ -->
+  <section id="dreams">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--moongold)">The Power of Nighttime Manifestation</div>
+      <h2>✨ Glowing Dreams</h2>
+      <p class="deck">There's something happening around 1:13 a.m.</p>
+
+      <p>Maybe it's the silence. Maybe it's the stars. Maybe the universe simply gets less distracted after midnight. But more people than ever are reporting vivid dreams, surreal synchronicities, and creative breakthroughs during late-night hours.</p>
+      <p>Spiritual communities call it "the liminal glow state" — the strange in-between place where imagination becomes unusually powerful.</p>
+
+      <p style="text-align:center;font-weight:700">The ritual is simple:</p>
+      <ol class="ritual">
+        <li>Dim the lights</li>
+        <li>Put on music that sounds slightly haunted</li>
+        <li>Stare at the sky for too long</li>
+        <li>Write down whatever arrives</li>
+      </ol>
+
+      <p>You don't have to call it manifestation if you don't want to. But something magical happens when people allow themselves to dream without immediately apologizing for it.</p>
+
+      <figure class="artfig" style="max-width:28rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ay9K!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd2330ec6-6066-4091-a6f6-b4beff066b04_1024x1024.jpeg" alt="Alice in Pixel Wonderland artwork">
+        <figcaption>Alice in Pixel Wonderland: This way, That way, Tea Party</figcaption>
+      </figure>
+
+      <div style="margin-top:3.2rem">
+        <div class="eyebrow" style="color:var(--dreampink)">Step Into the World of Wonder</div>
+        <h2 style="font-size:clamp(1.7rem,4.6vw,2.5rem)">📖 Escape Reality</h2>
+        <p class="deck">For one glittering moment, imagine this:</p>
+        <p>You open a book, and instead of information, it gives you another universe.</p>
+        <p>That's the fantasy culture taking over 2026 right now — a rebellion against hyper-optimization and endless notifications. People are craving enchantment again. Fantasy novels are dominating charts, dreamy visual art is exploding online, and "cozy cosmic" aesthetics are becoming the emotional support decor of the internet.</p>
+        <p class="bigline bl-gold">The new luxury isn't status.<br>It's wonder.</p>
+        <p>And maybe that's why the mysterious "WAKE ME" bottle on this month's cover feels oddly symbolic. Is it a potion? A message? A reminder?</p>
+        <p><strong>Maybe waking up doesn't mean becoming more realistic. Maybe it means becoming more alive.</strong></p>
+
+        <p class="bigline bl-blue">They told us to grow up.<br>Instead, we learned how to dream professionally.</p>
+        <p style="text-align:center;font-family:var(--serif);font-style:italic;font-size:1.3rem">See you in the stars. ✨</p>
+
+        <figure class="artfig" style="max-width:28rem">
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Kxyi!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc7d291aa-ffe1-4aaf-87bd-2681c7576499_3333x3333.png" alt="See you in the stars artwork">
+          <figcaption>🌠 Stay asleep · xoxo, Alice</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PYRAMID PRAYERS ============ -->
+  <section id="pyramids" class="desertsec">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--moongold)">𓂀 Feature Transmission · May 2026</div>
+      <h2>Pyramid Prayers</h2>
+      <p class="deck">Not everything ancient is gone.</p>
+
+      <figure class="artfig" style="max-width:38rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!KsN4!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff19a60e1-5dcf-4358-ad72-c7470fc0c4f2_1368x768.jpeg" alt="Neon plasma sphinx in a cosmic desert">
+        <figcaption>The nebula of plasma sphinx</figcaption>
+      </figure>
+
+      <p class="prayer">They built temples from stardust and called it history.</p>
+
+      <p class="prayer">Some monuments were never ruins — they were portals waiting patiently.</p>
+
+      <figure class="artfig" style="max-width:38rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!S6rm!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F10933b4b-1d34-42a7-88d4-67481418b67a_1368x768.jpeg" alt="Golden winged beings over neon pyramids">
+        <figcaption>Golden winged beings</figcaption>
+      </figure>
+
+      <div class="stanza">
+        <span>Ancient stone.</span>
+        <span class="gold">Future memory.</span>
+        <span>Gold wings in the desert.</span>
+        <span class="gold">Celestial blueprints hidden in plain sight.</span>
+        <span>Architecture that feels less like construction</span>
+        <span>and more like communication.</span>
+        <span class="gold" style="margin-top:1rem">Maybe they weren't building monuments.</span>
+        <span class="gold">Maybe they were answering something.</span>
+      </div>
+
+      <figure class="artfig" style="max-width:38rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!9CAP!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F37db2c70-4561-4a89-b5ba-ce3c3255e359_1368x768.jpeg" alt="Cosmic pyramid desert artwork">
+        <figcaption>Breadcrumbs of the gods</figcaption>
+      </figure>
+
+      <p class="prayer">I think the gods left breadcrumbs — we just named them pyramids.</p>
+
+      <p class="prayer">Even the stars kneel when ancient light returns.</p>
+
+      <figure class="artfig" style="max-width:38rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!VkRR!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdceae062-e37a-42a8-b274-87e65cb16d5f_1368x768.jpeg" alt="Ancient light over the desert">
+        <figcaption>When ancient light returns</figcaption>
+      </figure>
+
+      <p class="prayer">Heaven was never above us. It was buried in the sand.</p>
+
+      <p class="prayer">Not everything ancient is gone. Some things are only sleeping.</p>
+
+      <figure class="artfig" style="max-width:38rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!x1sn!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F826d7120-3fd4-4f20-8927-395144cd1e88_1368x768.jpeg" alt="Sleeping monuments artwork">
+        <figcaption>Some things are only sleeping</figcaption>
+      </figure>
+
+      <p class="prayer">Sacred geometry is just the universe writing love letters to itself.</p>
+
+      <div class="stanza">
+        <span>Before history, there were hands</span>
+        <span>stacking stone toward the stars.</span>
+        <span class="gold" style="margin-top:1rem">Some call them ruins.</span>
+        <span class="gold">I call them evidence.</span>
+        <span style="margin-top:1rem">Proof that humans have always looked upward</span>
+        <span>and whispered —</span>
+        <span class="gold" style="font-style:italic">there must be more.</span>
+      </div>
+
+      <figure class="artfig" style="max-width:38rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!3L6B!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F29e94192-44b7-4e3f-8a1a-f0a01cc9405a_1368x768.jpeg" alt="Pyramid prayer artwork">
+        <figcaption>Every pyramid is a prayer</figcaption>
+      </figure>
+
+      <p class="prayer">Every pyramid is just a prayer trying to touch another galaxy.</p>
+
+      <p class="prayer">The desert is not empty. It is listening.</p>
+
+      <figure class="artfig" style="max-width:38rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!8low!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc4f6be37-bad5-4b2f-854a-132a3ae0392a_1368x768.jpeg" alt="Glowing in silence artwork">
+        <figcaption>The desert is listening</figcaption>
+      </figure>
+
+      <p class="prayer">Maybe enlightenment looks like glowing in silence.</p>
+    </div>
+  </section>
+
+  <!-- ============ VIVID GODDESS ============ -->
+  <section id="goddess" class="deep">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--lilac)">Famous Words of Power · Dreamlike Goddess Imagery</div>
+      <h2>Vivid Goddess</h2>
+      <p class="deck">Welcome inside this special goddess image and power thought transmission.</p>
+
+      <p class="bigline bl-pink">Some women chase destiny — a goddess simply becomes it.</p>
+
+      <figure class="artfig" style="max-width:32rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Ijth!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F137a1973-157c-4542-9c84-deb85845e474_800x456.png" alt="Vivid goddess artwork">
+        <figcaption>📜 The scroll</figcaption>
+      </figure>
+
+      <p class="bigline bl-gold" style="font-size:clamp(1.3rem,3.6vw,1.7rem)">I rise tier by tier. Crowned in solar fire. Ancient in origin. Infinite in ascent. I stand aligned with the stars.</p>
+
+      <div class="plate"><span class="glyph">🌙</span><blockquote>"So she spoke, bright-eyed Athena, and a fresh strength flowed into him."</blockquote><span class="who">Homer · The Odyssey, Book 13</span></div>
+
+      <figure class="artfig" style="max-width:36rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!gNCR!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5c782c2f-9b9e-47cc-a697-2e3fcf0e0833_3016x1720.png" alt="Athena goddess artwork">
+        <figcaption>Bright-eyed Athena</figcaption>
+      </figure>
+
+      <div class="plate"><span class="glyph">🦉</span><blockquote>"Athena, flashing-eyed goddess, stood beside him."</blockquote><span class="who">Homer · The Iliad, Book 1</span></div>
+
+      <div class="plate"><span class="glyph">🌊</span><blockquote>"And from the foam arose a maiden, fair and revered, whom gods and men call Aphrodite."</blockquote><span class="who">Hesiod · Theogony</span></div>
+
+      <figure class="artfig" style="max-width:32rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!myLN!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fae3bf10a-aca6-4dca-a8e8-77d8bfbc43ad_1200x1200.png" alt="Goddess rising from foam artwork">
+        <figcaption>From the foam</figcaption>
+      </figure>
+
+      <div class="plate"><span class="glyph">🌸</span><blockquote>"She walks in beauty, like a goddess among mortals."</blockquote><span class="who">Ovid · Metamorphoses</span></div>
+
+      <p class="bigline bl-lilac">Her aura is the spell the universe never wanted to break.</p>
+
+      <div class="plate"><span class="glyph">🔥</span><blockquote>"The goddess roamed the silent woods with her nymphs."</blockquote><span class="who">Ovid · Metamorphoses (Diana / Artemis)</span></div>
+
+      <figure class="artfig" style="max-width:36rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!lVc2!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1a428880-dce8-43fa-ba60-2801c42f372c_1320x753.png" alt="Diana in the silent woods artwork">
+        <figcaption>The silent woods</figcaption>
+      </figure>
+
+      <div class="plate"><span class="glyph">🌌</span><blockquote>"A goddess was his mother, and her presence shone about him."</blockquote><span class="who">Virgil · Aeneid</span></div>
+
+      <div class="plate"><span class="glyph">🌺</span><blockquote>"O Helen, goddess, nymph, perfect, divine!"</blockquote><span class="who">Shakespeare · A Midsummer Night's Dream</span></div>
+
+      <figure class="artfig" style="max-width:36rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!tS0s!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F71930b2d-9fcf-4f85-8685-5089badd3d58_1563x891.png" alt="Dreamlike goddess artwork">
+        <figcaption>🤍☁️🌿🍃✨️</figcaption>
+      </figure>
+
+      <div class="plate"><blockquote>"A queen, and goddess-like, in beauty."</blockquote><span class="who">Shakespeare · Cymbeline</span></div>
+
+      <div class="plate"><span class="glyph">🌟</span><blockquote>"Grace was in all her steps, heaven in her eye."</blockquote><span class="who">John Milton · Paradise Lost, Book VIII</span></div>
+
+      <div class="plate"><span class="glyph">🌿</span><blockquote>"Her angel's face, as the great eye of heaven, shined bright."</blockquote><span class="who">Edmund Spenser · The Faerie Queene</span></div>
+
+      <figure class="artfig" style="max-width:32rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Rctc!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff7294ce3-7d33-4112-a1f0-019f6fdfda36_1200x1200.png" alt="Angel-faced goddess artwork">
+        <figcaption>The great eye of heaven</figcaption>
+      </figure>
+
+      <div class="plate"><span class="glyph">🐚</span><blockquote>"Golden Aphrodite, laughter-loving goddess."</blockquote><span class="who">Homeric Hymn to Aphrodite</span></div>
+
+      <div class="plate"><span class="glyph">🌑</span><blockquote>"Demeter of the golden sword, glorious giver of good gifts."</blockquote><span class="who">Homeric Hymn to Demeter</span></div>
+
+      <div class="plate"><span class="glyph">🌙</span><blockquote>"Artemis, golden-shafted, who delights in arrows."</blockquote><span class="who">Homeric Hymn to Artemis</span></div>
+
+      <figure class="artfig" style="max-width:36rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!yEAU!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc3eb4ae8-c489-4e08-9a59-5dc32f4e159c_1200x684.png" alt="Golden-shafted Artemis artwork">
+        <figcaption>Golden-shafted</figcaption>
+      </figure>
+
+      <div class="plate"><span class="glyph">🦚</span><blockquote>"I am Nature, the universal mother, mistress of all the elements."</blockquote><span class="who">Apuleius · The Golden Ass, Book XI</span></div>
+
+      <div class="plate"><span class="glyph">🌊</span><blockquote>"Who is she that looketh forth as the morning, fair as the moon, clear as the sun, and terrible as an army with banners?"</blockquote><span class="who">Song of Solomon 6:10 · KJV</span></div>
+
+      <figure class="artfig" style="max-width:36rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Iz09!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8a30f1c1-ec56-438f-a48c-d6ceea7acc36_1200x684.png" alt="Fair as the moon artwork">
+        <figcaption>Fair as the moon, clear as the sun</figcaption>
+      </figure>
+
+      <div class="plate"><blockquote>"I am deliberate and afraid of nothing."</blockquote><span class="who">Audre Lorde</span></div>
+
+      <p class="bigline bl-blue">She is not late — she is aligned with cosmic timing.</p>
+
+      <div class="plate"><span class="glyph">🌙</span><blockquote>"She walks in beauty, like the night of cloudless climes and starry skies."</blockquote><span class="who">Lord Byron · She Walks in Beauty</span></div>
+
+      <figure class="artfig" style="max-width:36rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!lief!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F88e01a98-1c80-497e-ba81-6b548232661e_1200x684.png" alt="She walks in beauty artwork">
+        <figcaption>Like the night</figcaption>
+      </figure>
+
+      <div class="plate"><span class="glyph">🌠</span><blockquote>"The stars are the forget-me-nots of the angels."</blockquote><span class="who">Henry Wadsworth Longfellow · The Golden Legend</span></div>
+
+      <p class="bigline bl-gold">The moon taught her softness, the sun taught her power.</p>
+
+      <figure class="artfig" style="max-width:36rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!FtNx!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2356c658-8672-4ba7-a263-95a8035e3e25_1200x684.png" alt="The wind, the stars, and the ocean artwork">
+        <figcaption>The wind, the stars, and the ocean already know her name</figcaption>
+      </figure>
+
+      <p class="bigline bl-lilac">Her spirit glows like a constellation no darkness can erase.</p>
+
+      <figure class="artfig" style="max-width:36rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!rIVy!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9e5870d4-049d-40d0-be9a-60429ce0f015_1200x684.png" alt="Destiny written in stars artwork">
+        <figcaption>Destiny is written in stars, but claimed by the brave</figcaption>
+      </figure>
+
+      <p class="bigline bl-pink">A true goddess doesn't ask the stars for guidance; the stars gather to watch her shine.</p>
+
+      <p class="bigline bl-blue" style="font-size:clamp(1.3rem,3.6vw,1.7rem)">Time dissolves when a goddess steps into her true frequency. · Your presence is the luxury. · She blooms like a cosmic flower in the garden of the universe. · Every goddess has a secret language with the cosmos.</p>
+
+      <div class="minigal">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!XHIT!,w_474,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe5f7a4ca-616e-45b4-ace1-803c2fdb3a4b_2000x2000.png" alt="Goddess gallery artwork 1">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!kuOp!,w_474,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff1362b92-4a6d-4f8e-85d3-8fe7bc27f230_900x900.png" alt="Goddess gallery artwork 2">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ZvH4!,w_474,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6a52d66b-babb-4b03-9fe7-41a6e641b101_1320x1320.png" alt="Goddess gallery artwork 3">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!TC5D!,w_474,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3d6e611d-3dd3-416d-b536-49752b2d45c4_1320x1320.png" alt="Goddess gallery artwork 4">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!fOjS!,w_474,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1af486f5-f7f7-4241-8043-c6ecccc29b0f_2000x2000.png" alt="Goddess gallery artwork 5">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!FV7x!,w_474,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6ef88bb6-3381-4764-80f8-40af171a02aa_2000x2000.png" alt="Goddess gallery artwork 6">
+      </div>
+      <p style="text-align:center;margin-top:1.6rem;font-family:var(--serif);font-style:italic;font-size:1.2rem">Starborn &amp; Sovereign · Cosmic by design · Aligned with infinity. Galactic feminine rising!</p>
+
+      <div class="tipjar">
+        <h3>✨ Thank You So Much For Stopping By ✨</h3>
+        <p>✨✩₊˚🪄.⋆☾⋆⁺₊✧🔮⋆✴︎☽˚｡⋆🕯️</p>
+        <p style="margin-top:1rem">If you enjoyed these images and want to show your love &amp; support — <em>I truly appreciate all of you.</em> I don't think there is anything I adore more than creating art and sharing my visions with the world. My idea is smiles… not frowns. Now more than ever is the time to be part of the solution.</p>
+        <a class="btn" href="https://ko-fi.com/magickmica">MagickMica's Tip Jar ☕</a>
+        <p style="margin-top:1.4rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;color:var(--dreampink)">ﾒ૦ﾒ૦💋 MAGICK MICA</p>
+      </div>
+
+      <p class="bigline bl-gold" style="margin-top:3rem">Glow like you were handcrafted by starlight.</p>
+    </div>
+  </section>
+
+  <!-- ============ MORE ISSUES ============ -->
+  <section>
+    <div class="wrap wide reveal">
+      <div class="eyebrow" style="color:var(--starblue)">More From Magick Mica TV</div>
+      <h2 style="font-size:clamp(1.5rem,4.2vw,2.1rem)">The Newsstand</h2>
+      <div class="teasers">
+        <div class="teaser">
+          <h3>Glow · Transmission Issue</h3>
+          <p>Keep glowing for it ✧ — frequency transmissions &amp; the cosmic road show.</p>
+          <a href="glow-the-transmission-issue.html">Read →</a>
+        </div>
+        <div class="teaser">
+          <h3>Copper · The Ancient Issue</h3>
+          <p>Beauty secrets from the Nile, the Ankh &amp; the goddess files. ☥</p>
+          <a href="copper-the-ancient-issue.html">Read →</a>
+        </div>
+        <div class="teaser">
+          <h3>Aliens Love Icecream</h3>
+          <p>The Galactic Dessert Issue &amp; The Meltdown Files — cones across the cosmos.</p>
+          <a href="https://magickmica.github.io/aliens/aliens-love-icecream.html">Read →</a>
+        </div>
+        <div class="teaser">
+          <h3>Cosmic Stellar Drive</h3>
+          <p>Pyramids power the universe &amp; the Crystal Queen. July 2026.</p>
+          <a href="https://magickmica.github.io/aliens/cosmic-stellar-drive.html">Read →</a>
+        </div>
+        <div class="teaser">
+          <h3>Wonderland Weekly</h3>
+          <p>Summer 2026 — step through the looking glass with Alice.</p>
+          <a href="https://magickmica.github.io/alice/wonderland-weekly-expanded.html">Read →</a>
+        </div>
+        <div class="teaser">
+          <h3>Read on Substack</h3>
+          <p>Stargazer, Pyramid Prayers &amp; Vivid Goddess live at MagickMica TV.</p>
+          <a href="https://magickmica.substack.com/p/stargazer-june-2026-dream-big-stay">Original posts →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="motto">Dream Big. Stay Magic. 🌠</p>
+    <p class="disclaimer">✧ This space is created for inspiration, imagination, and entertainment purposes only. Please enjoy with an open heart and a discerning mind.</p>
+    <p class="small">Stargazer · June 2026 · Magick Mica TV ✨☽⋆</p>
+  </footer>
+
+</main>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.06});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
