@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glow — The Transmission Issue · Magick Mica TV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Monoton&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0E0A1F;         /* twilight indigo */
+    --void-2:#171130;       /* deeper aura */
+    --ocean:#0A1630;        /* midnight sea */
+    --violet:#A78BFF;
+    --rose:#FF7EC2;
+    --aqua:#6FE8D8;
+    --gold:#FFD98A;
+    --foam:#F4F1FF;
+    --wave:#4FC3F7;
+    --marquee:#FF9E4F;
+    --body:'Cormorant Garamond', serif;
+    --mono:'Space Mono', monospace;
+    --neon:'Monoton', cursive;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--foam);
+    font-family:var(--body);
+    font-size:1.25rem;line-height:1.75;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--rose);color:var(--void);}
+
+  /* floating aura orbs */
+  .auras{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .auras span{
+    position:absolute;border-radius:50%;filter:blur(60px);opacity:.35;
+    animation:drift 18s ease-in-out infinite alternate;
+  }
+  .auras span:nth-child(1){width:38rem;height:38rem;left:-12rem;top:-8rem;background:radial-gradient(circle, var(--violet), transparent 70%);}
+  .auras span:nth-child(2){width:30rem;height:30rem;right:-10rem;top:24%;background:radial-gradient(circle, var(--rose), transparent 70%);animation-delay:-6s;}
+  .auras span:nth-child(3){width:26rem;height:26rem;left:8%;top:58%;background:radial-gradient(circle, var(--aqua), transparent 70%);animation-delay:-11s;}
+  .auras span:nth-child(4){width:24rem;height:24rem;right:6%;bottom:-6rem;background:radial-gradient(circle, var(--gold), transparent 70%);animation-delay:-3s;opacity:.22;}
+  @keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(3rem,-2.5rem) scale(1.12)}}
+  @media (prefers-reduced-motion: reduce){.auras span{animation:none;}}
+
+  main{position:relative;z-index:1;}
+
+  /* ---------- hero ---------- */
+  .cover{
+    min-height:96svh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:4.5rem 1.25rem 3.5rem;
+  }
+  .issue-strip{
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--aqua);
+    display:flex;gap:1.1rem;align-items:center;flex-wrap:wrap;justify-content:center;
+    margin-bottom:1.8rem;
+  }
+  .issue-strip .dot{color:var(--rose);}
+  .masthead{
+    font-family:var(--neon);font-weight:400;
+    font-size:clamp(3.6rem, 16vw, 10.5rem);
+    line-height:1;letter-spacing:.04em;
+    background:linear-gradient(100deg, var(--rose) 5%, var(--gold) 30%, var(--aqua) 55%, var(--violet) 80%, var(--rose) 100%);
+    background-size:220% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 0 22px rgba(255,126,194,.45)) drop-shadow(0 0 60px rgba(167,139,255,.35));
+    animation:holo 9s linear infinite;
+  }
+  @keyframes holo{to{background-position:220% 0;}}
+  .cover-sub{
+    font-family:var(--mono);font-weight:700;text-transform:uppercase;
+    font-size:clamp(.85rem, 2.8vw, 1.15rem);letter-spacing:.5em;text-indent:.5em;
+    color:var(--gold);margin-top:1.6rem;text-shadow:0 0 18px rgba(255,217,138,.5);
+  }
+  .cover-tag{margin-top:1rem;font-style:italic;font-size:1.35rem;color:rgba(244,241,255,.85);}
+  .stickers{display:flex;flex-wrap:wrap;gap:.65rem;justify-content:center;max-width:52rem;margin:2.6rem auto 0;}
+  .sticker{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+    padding:.55rem 1.1rem;border-radius:999px;border:1.5px solid;
+    background:rgba(14,10,31,.55);backdrop-filter:blur(4px);
+    text-decoration:none;display:inline-block;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .sticker:hover{transform:translateY(-3px);}
+  .sticker.rose{color:var(--rose);border-color:var(--rose);box-shadow:0 0 16px rgba(255,126,194,.3);}
+  .sticker.aqua{color:var(--aqua);border-color:var(--aqua);box-shadow:0 0 16px rgba(111,232,216,.3);}
+  .sticker.violet{color:var(--violet);border-color:var(--violet);box-shadow:0 0 16px rgba(167,139,255,.3);}
+  .sticker.gold{color:var(--gold);border-color:var(--gold);box-shadow:0 0 16px rgba(255,217,138,.3);}
+
+  /* ---------- wave divider ---------- */
+  .wavediv{display:block;width:100%;height:44px;margin-bottom:-1px;}
+
+  /* ---------- sections ---------- */
+  section{position:relative;}
+  .wrap{max-width:42rem;margin:0 auto;padding:4.6rem 1.5rem 5rem;}
+  .wrap.wide{max-width:60rem;}
+  .deep{background:var(--void-2);}
+  .sea{background:linear-gradient(180deg, var(--ocean), #0D1E42 60%, var(--ocean));}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.36em;text-transform:uppercase;
+    display:flex;align-items:center;gap:.9rem;margin-bottom:1.4rem;justify-content:center;
+    color:var(--rose);
+  }
+  .eyebrow::before,.eyebrow::after{content:"✧";font-size:.9rem;}
+  h2{
+    font-family:var(--mono);font-weight:700;text-transform:uppercase;
+    font-size:clamp(1.6rem, 4.8vw, 2.5rem);line-height:1.2;letter-spacing:.22em;text-indent:.22em;
+    margin-bottom:.6rem;text-align:center;
+  }
+  .deck{
+    font-style:italic;font-size:1.35rem;margin-bottom:2.2rem;opacity:.85;text-align:center;
+  }
+
+  /* transmission lines */
+  .message{
+    font-size:clamp(1.6rem, 4.6vw, 2.4rem);
+    font-style:italic;font-weight:500;line-height:1.55;
+    text-align:center;
+    margin:3.2rem auto;max-width:36rem;
+  }
+  .message b, .message strong{font-style:normal;font-weight:600;}
+  .m-rose{color:var(--rose);text-shadow:0 0 26px rgba(255,126,194,.35);}
+  .m-aqua{color:var(--aqua);text-shadow:0 0 26px rgba(111,232,216,.35);}
+  .m-violet{color:var(--violet);text-shadow:0 0 26px rgba(167,139,255,.4);}
+  .m-gold{color:var(--gold);text-shadow:0 0 26px rgba(255,217,138,.35);}
+  .m-foam{color:var(--foam);text-shadow:0 0 26px rgba(244,241,255,.3);}
+
+  .sep{
+    text-align:center;color:var(--gold);opacity:.7;font-size:1.1rem;letter-spacing:1em;text-indent:1em;
+    margin:2.4rem 0;
+  }
+
+  /* couplets */
+  .couplet{
+    text-align:center;margin:2.8rem auto;max-width:34rem;
+    font-size:clamp(1.45rem, 4vw, 2rem);line-height:1.6;font-weight:500;
+  }
+  .couplet .a{display:block;}
+  .couplet .b{display:block;font-style:italic;}
+  .couplet:nth-of-type(5n+1) .a{color:var(--foam);} .couplet:nth-of-type(5n+1) .b{color:var(--rose);text-shadow:0 0 22px rgba(255,126,194,.35);}
+  .couplet:nth-of-type(5n+2) .a{color:var(--foam);} .couplet:nth-of-type(5n+2) .b{color:var(--aqua);text-shadow:0 0 22px rgba(111,232,216,.35);}
+  .couplet:nth-of-type(5n+3) .a{color:var(--foam);} .couplet:nth-of-type(5n+3) .b{color:var(--violet);text-shadow:0 0 22px rgba(167,139,255,.4);}
+  .couplet:nth-of-type(5n+4) .a{color:var(--foam);} .couplet:nth-of-type(5n+4) .b{color:var(--gold);text-shadow:0 0 22px rgba(255,217,138,.35);}
+  .couplet:nth-of-type(5n+5) .a{color:var(--foam);} .couplet:nth-of-type(5n+5) .b{color:var(--wave);text-shadow:0 0 22px rgba(79,195,247,.4);}
+
+  /* art figures */
+  .artfig{margin:2.6rem auto 0;text-align:center;}
+  .artfig img{
+    display:block;width:100%;height:auto;border-radius:1rem;
+    border:1.5px solid rgba(244,241,255,.5);
+    box-shadow:0 0 0 4px rgba(14,10,31,.6), 0 0 44px rgba(167,139,255,.35), 0 24px 50px rgba(0,0,0,.55);
+    transition:transform .25s ease;
+  }
+  .artfig:hover img{transform:scale(1.015);}
+  .artfig figcaption{
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;
+    margin-top:1rem;color:var(--violet);
+  }
+
+  /* ocean poem */
+  .oceanpoem{
+    text-align:center;font-size:clamp(1.5rem, 4.4vw, 2.2rem);line-height:1.7;font-weight:500;font-style:italic;
+  }
+  .oceanpoem .hl{color:var(--wave);text-shadow:0 0 24px rgba(79,195,247,.45);font-style:normal;font-weight:600;}
+  .seaglyphs{text-align:center;font-size:1rem;letter-spacing:.35em;opacity:.75;margin:2rem 0;color:var(--aqua);}
+
+  /* marquee showman */
+  .marquee{
+    border:3px solid var(--marquee);border-radius:1.4rem;
+    padding:2.8rem 1.8rem;position:relative;
+    background:
+      radial-gradient(30rem 14rem at 50% 0%, rgba(255,158,79,.12), transparent 70%),
+      rgba(14,10,31,.5);
+    box-shadow:0 0 34px rgba(255,158,79,.3), inset 0 0 34px rgba(255,158,79,.08);
+  }
+  .marquee::before{
+    content:"";position:absolute;inset:8px;border-radius:1rem;pointer-events:none;
+    background-image:radial-gradient(circle 3px, var(--gold) 40%, transparent 55%);
+    background-size:26px 26px;background-repeat:repeat-x;
+    background-position:0 0;
+    height:6px;
+    animation:bulbs 1.2s steps(2) infinite;
+  }
+  @keyframes bulbs{50%{background-position:13px 0;}}
+  .marquee h3{
+    font-family:var(--neon);font-weight:400;text-transform:uppercase;
+    font-size:clamp(1.7rem, 6vw, 3.1rem);line-height:1.15;text-align:center;
+    color:var(--marquee);
+    text-shadow:0 0 18px rgba(255,158,79,.7), 0 0 50px rgba(255,126,194,.4);
+    margin-bottom:1.6rem;
+  }
+  .marquee p{text-align:center;font-size:1.3rem;}
+  .marquee .big{
+    font-size:clamp(1.5rem,4.2vw,2.1rem);font-style:italic;font-weight:500;
+    color:var(--gold);text-shadow:0 0 22px rgba(255,217,138,.4);
+    margin:1.6rem 0;
+  }
+
+  /* retro TV frame */
+  .tv{
+    max-width:36rem;margin:2.8rem auto 0;
+    border:10px solid #2B2440;border-radius:1.6rem;
+    background:#120D26;position:relative;overflow:hidden;
+    box-shadow:0 0 0 2px rgba(167,139,255,.4), 0 0 44px rgba(167,139,255,.3), 0 24px 50px rgba(0,0,0,.6);
+    padding:2.2rem 1.8rem 2.6rem;
+  }
+  .tv::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(0deg, rgba(255,255,255,.045) 0 2px, transparent 2px 5px);
+  }
+  .tv .onair{
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--rose);display:flex;justify-content:space-between;margin-bottom:1.4rem;
+  }
+  .tv .onair .rec{color:#FF5470;animation:blinkrec 1.4s steps(1) infinite;}
+  @keyframes blinkrec{50%{opacity:.25;}}
+  .tv p{font-size:1.22rem;text-align:center;}
+  .tv .hearts{text-align:center;font-size:1.3rem;letter-spacing:.4em;text-indent:.4em;margin-top:1.4rem;}
+
+  /* quote cards */
+  .quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1.2rem;margin-top:2.6rem;}
+  .qcard{
+    border:1.5px solid rgba(167,139,255,.45);border-radius:1rem;
+    padding:1.8rem 1.5rem;text-align:center;
+    background:rgba(23,17,48,.6);
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .qcard:hover{transform:translateY(-4px);border-color:var(--aqua);}
+  .qcard p{font-size:1.3rem;font-style:italic;line-height:1.6;}
+  .qcard .who{
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--aqua);margin-top:1rem;display:block;
+  }
+
+  /* spiral promo */
+  .spiral{
+    border:1.5px solid var(--gold);border-radius:1.3rem;
+    padding:2.2rem 1.8rem;margin-top:2.8rem;text-align:center;
+    background:radial-gradient(26rem 10rem at 50% 0%, rgba(255,217,138,.12), transparent 70%);
+  }
+  .spiral h3{
+    font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.26em;
+    font-size:1.05rem;color:var(--gold);margin-bottom:1rem;
+  }
+  .spiral p{font-size:1.2rem;}
+  .spiral .code{
+    display:inline-block;margin:1.2rem 0;
+    font-family:var(--mono);font-size:1rem;letter-spacing:.18em;
+    color:var(--void);background:linear-gradient(100deg,var(--gold),var(--rose));
+    border-radius:999px;padding:.65rem 1.6rem;font-weight:700;
+  }
+  .spiral a.btn{
+    display:inline-block;font-family:var(--mono);font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--gold);border:1.5px solid var(--gold);border-radius:999px;padding:.6rem 1.3rem;text-decoration:none;
+    transition:background .18s ease;
+  }
+  .spiral a.btn:hover{background:rgba(255,217,138,.12);}
+
+  /* teasers + footer */
+  .teasers{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1.1rem;margin-top:2rem;}
+  .teaser{
+    border:1.5px solid rgba(167,139,255,.4);border-radius:1rem;padding:1.5rem 1.4rem;
+    display:flex;flex-direction:column;gap:.6rem;background:rgba(23,17,48,.55);
+  }
+  .teaser h3{font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.92rem;color:var(--rose);}
+  .teaser p{margin:0;font-size:1.05rem;flex:1;opacity:.9;}
+  .teaser a{
+    align-self:flex-start;font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--aqua);border:1.5px solid var(--aqua);border-radius:999px;padding:.5rem 1rem;text-decoration:none;
+  }
+  footer{
+    text-align:center;padding:3.4rem 1.4rem 4rem;
+    border-top:1.5px solid rgba(167,139,255,.35);
+  }
+  footer .motto{
+    font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.3em;text-indent:.3em;
+    font-size:.85rem;color:var(--gold);margin-bottom:.9rem;text-shadow:0 0 16px rgba(255,217,138,.4);
+  }
+  footer .small{font-family:var(--mono);font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(244,241,255,.6);}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease, transform .9s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+    .reveal{opacity:1;transform:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+<a href="https://magickmica.github.io/aliens/aliens-love-icecream.html" style="position:fixed;top:1rem;left:1rem;z-index:50;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;padding:.5rem 1rem;border-radius:999px;border:1.5px solid #A78BFF;color:#CBB8FF;background:rgba(14,10,31,.7);backdrop-filter:blur(4px)">← Magick Mica TV</a>
+<div class="auras" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+<main>
+
+  <!-- ============ COVER ============ -->
+  <section class="cover">
+    <div class="issue-strip">
+      <span>Magick Mica TV</span><span class="dot">✧</span>
+      <span>The Transmission Issue</span><span class="dot">✧</span>
+      <span>Spring 2026</span>
+    </div>
+    <h1 class="masthead">Glow</h1>
+    <div class="cover-sub">Keep Glowing For It ✧ Be Your Own Showman</div>
+    <p class="cover-tag">Only truth in motion · Boss your own cosmic road show</p>
+
+    <nav class="stickers" aria-label="Issue contents">
+      <a class="sticker rose" href="#message">The Message</a>
+      <a class="sticker violet" href="#transmissions">Transmissions</a>
+      <a class="sticker aqua" href="#wave">Ride the Wave</a>
+      <a class="sticker gold" href="#showman">Be Your Own Showman</a>
+      <a class="sticker violet" href="#tv">Magick Mica TV</a>
+      <a class="sticker rose" href="#spiral">The Mystical Spiral</a>
+    </nav>
+  </section>
+
+  <!-- ============ THE MESSAGE ============ -->
+  <section id="message" class="deep">
+    <div class="wrap reveal">
+      <div class="eyebrow">April 15 · Only Truth in Motion</div>
+      <h2>Keep Glowing For It</h2>
+      <p class="deck">A message.</p>
+
+      <figure class="artfig" style="max-width:24rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!iFYS!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6e3f8b84-518a-440a-ac04-27a1c89a891d_888x1332.png" alt="Keep Glowing For It artwork">
+        <figcaption>Transmission received</figcaption>
+      </figure>
+
+      <p class="message m-violet"><strong>In my aura of higher frequency.</strong></p>
+
+      <figure class="artfig" style="max-width:20rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!tuUK!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6b649b75-01a6-41ca-a341-778869b1e8ea_600x925.gif" alt="Glowing aura animation">
+        <figcaption>Aura · in motion</figcaption>
+      </figure>
+
+      <p class="message m-rose">You're not waiting… you're <strong>marinating</strong> into something unforgettable.</p>
+
+      <figure class="artfig" style="max-width:18rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!_DxL!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3930fd31-9532-4c0c-ad0f-ffbcc4795181_600x600.gif" alt="Shimmering animation">
+        <figcaption>✧</figcaption>
+      </figure>
+
+      <p class="message m-gold">You are the chalice and the sacred nectar — both vessel and divinity, endlessly pouring into yourself.</p>
+
+      <figure class="artfig" style="max-width:24rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!sEZi!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7f764e3d-2e23-4149-9c0f-1792ff0740aa_888x1332.png" alt="The chalice and the sacred nectar artwork">
+        <figcaption>Vessel &amp; divinity</figcaption>
+      </figure>
+
+      <p class="message m-aqua">Walk gently, for the ground beneath you recalls your ancient name.</p>
+
+      <p class="message m-foam">Softly does the goddess arrive — never in force, always <em>in bloom</em>.</p>
+
+      <figure class="artfig" style="max-width:24rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!O16b!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F65ad120c-f126-46e0-92f2-3afacdaac377_888x1332.png" alt="Softly does the goddess arrive artwork">
+        <figcaption>Always in bloom</figcaption>
+      </figure>
+
+      <div class="sep" aria-hidden="true">✧</div>
+
+      <p class="message m-violet">Crowned in starlight and silence, she remembers what the world has long forgotten.</p>
+
+      <figure class="artfig" style="max-width:20rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!jVH3!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5f58b6c-e232-4dee-9a35-9087ee7754cc_600x925.gif" alt="Crowned in starlight animation">
+        <figcaption>Crowned in starlight</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ TRANSMISSIONS ============ -->
+  <section id="transmissions">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--violet)">Frequency Report</div>
+      <h2>Transmissions</h2>
+      <p class="deck">Boundaries, now instinct. Peace, now baseline.</p>
+
+      <div class="couplet"><span class="a">I don't announce.</span><span class="b">I radiate.</span></div>
+      <div class="couplet"><span class="a">Seen without reaching.</span><span class="b">Felt without force.</span></div>
+      <div class="couplet"><span class="a">Resonance only.</span><span class="b">The rest dissolves.</span></div>
+      <div class="couplet"><span class="a">I refine, not chase.</span><span class="b">I align, not convince.</span></div>
+      <div class="couplet"><span class="a">What's meant for me</span><span class="b">recognizes the frequency.</span></div>
+
+      <div class="sep" aria-hidden="true">✧ ✧ ✧</div>
+
+      <div class="couplet"><span class="a">Still waters.</span><span class="b">Sharp knowing.</span></div>
+      <div class="couplet"><span class="a">Soft presence.</span><span class="b">Unshakeable core.</span></div>
+      <div class="couplet"><span class="a">I no longer explain my light.</span><span class="b">I let it reveal.</span></div>
+      <div class="couplet"><span class="a">Boundaries, now instinct.</span><span class="b">Peace, now baseline.</span></div>
+      <div class="couplet"><span class="a">No performance.</span><span class="b">Only truth in motion.</span></div>
+
+      <figure class="artfig" style="max-width:36rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!s5-f!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcfbdeb7c-a89b-4475-a1a9-b37d11ff680e_1200x511.png" alt="Glow transmission artwork">
+        <figcaption>Field report</figcaption>
+      </figure>
+
+      <div class="couplet"><span class="a">My glow is not decoration.</span><span class="b">It is discernment.</span></div>
+      <div class="couplet"><span class="a">I move where it's reciprocal.</span><span class="b">I stay where it's real.</span></div>
+      <div class="couplet"><span class="a">Anything else</span><span class="b">fades on its own.</span></div>
+      <div class="couplet"><span class="a">Calm is my authority.</span><span class="b">Silence is my filter.</span></div>
+      <div class="couplet"><span class="a">I don't absorb.</span><span class="b">I transmute.</span></div>
+
+      <div class="sep" aria-hidden="true">✧ ✧ ✧</div>
+
+      <div class="couplet"><span class="a">Untouchable doesn't mean closed.</span><span class="b">It means intentional.</span></div>
+      <div class="couplet"><span class="a">I am not hard to reach.</span><span class="b">I am aligned to be met.</span></div>
+      <div class="couplet"><span class="a">Energy speaks first.</span><span class="b">Words arrive later.</span></div>
+
+      <figure class="artfig" style="max-width:38rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!oneV!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F30329863-eb86-420b-9fd0-0c8f3a78c7e9_1500x638.png" alt="Frequency held artwork">
+        <figcaption>Frequency held</figcaption>
+      </figure>
+
+      <div class="couplet"><span class="a">Frequency held. Field intact.</span><span class="b">Glow… sustained. ✧</span></div>
+
+      <figure class="artfig" style="max-width:26rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!l5Vi!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8fbd8773-50f5-4170-b359-31d967a83c4f_800x451.gif" alt="Glow sustained animation">
+        <figcaption>Glow · sustained</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- wave divider into the sea -->
+  <svg class="wavediv" viewBox="0 0 1200 44" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,44 L0,26 C40,10 80,10 120,24 C160,38 200,38 240,22 C280,8 320,8 360,24 C400,40 440,40 480,24 C520,8 560,8 600,22 C640,36 680,36 720,22 C760,8 800,8 840,24 C880,40 920,40 960,24 C1000,8 1040,8 1080,22 C1120,34 1160,34 1200,26 L1200,44 Z" fill="#0A1630"/>
+    <path d="M0,26 C40,10 80,10 120,24 C160,38 200,38 240,22 C280,8 320,8 360,24 C400,40 440,40 480,24 C520,8 560,8 600,22 C640,36 680,36 720,22 C760,8 800,8 840,24 C880,40 920,40 960,24 C1000,8 1040,8 1080,22 C1120,34 1160,34 1200,26" fill="none" stroke="#4FC3F7" stroke-width="2" opacity=".8"/>
+  </svg>
+
+  <!-- ============ RIDE THE WAVE ============ -->
+  <section id="wave" class="sea">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--wave)">˖°𓇼🌊 The Ocean Report</div>
+      <h2>Ride the Wave</h2>
+      <p class="deck">Or get swallowed. Or catch a wave in that <em>Life's A Beach</em> way.</p>
+
+      <figure class="artfig" style="max-width:38rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Y27e!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F518a0e8b-09d0-4bde-b397-a4578b43532d_1200x686.png" alt="Ride the wave artwork">
+        <figcaption>Ride the wave · or get swallowed</figcaption>
+      </figure>
+
+      <div class="seaglyphs" aria-hidden="true">𓇼 🌊 𓂃 ⋆ 🐚 𓂃 🫧 ⋆ 🐠 ⋆ 🪸</div>
+
+      <div class="oceanpoem">
+        <p>Ride the wave. Or get swallowed.</p>
+        <p style="margin-top:1.4rem">The ocean doesn't pause for doubt.<br>It <span class="hl">rises</span>. It <span class="hl">crashes</span>. It <span class="hl">transforms</span>.</p>
+        <p style="margin-top:1.4rem">Learn its rhythm —<br>while mastering your own timing.</p>
+        <p style="margin-top:1.4rem">Ride the becoming.<br>Or be washed away by it.</p>
+      </div>
+
+      <div class="seaglyphs" aria-hidden="true">🌊 ⋆｡𖦹 ° 𓆝 𓆟 𓆞 𓆝 𓆟 ⋆ ❀ ˖° 🫧 𓇼</div>
+
+      <figure class="artfig" style="max-width:24rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!RkXT!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc87887ea-469d-401e-957c-ea83eedc3202_400x225.gif" alt="Cowabunga Wave animated remix by Magick Mica">
+        <figcaption>Cowabunga Wave remix by Magick Mica ⋆｡ﾟ🌊 · Inspired by Hokusai's Great Wave off Kanagawa</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ SHOWMAN ============ -->
+  <section id="showman" class="deep">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--marquee)">✩˚⋆☾⋆⁺₊✧⋆ Center Ring</div>
+      <h2 style="letter-spacing:.14em">Boss Your Own<br>Cosmic Road Show</h2>
+      <p class="deck">🎪 Be your own showman.</p>
+
+      <div class="marquee">
+        <h3>You Are The Headliner</h3>
+        <p>You are not background energy in someone else's production.</p>
+        <p class="big">You are the headliner, director, soundtrack producer, and architect of the special effects.</p>
+        <p>The universe hands you raw stardust. You decide whether it becomes static… <strong>or a supernova</strong>.</p>
+        <p class="big">Tour your dreams loudly. Light your name in bold neon across your own timeline.</p>
+        <p>No gatekeepers. No waiting room. No dimmed lights. Just you… <strong>glowing</strong>.</p>
+        <p class="big" style="color:var(--rose);text-shadow:0 0 22px rgba(255,126,194,.45)">You are the light.</p>
+        <p>The radiant force that could unblind the lost and awaken the wandering.</p>
+        <p class="big">This is your ⭐ star-born ⭐ showcase.<br>And <em>no wave</em> defeats the one who rides it.</p>
+      </div>
+
+      <figure class="artfig" style="max-width:34rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!r_VQ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6d395604-0eb7-45b1-befc-a1cd0cae2ea7_1200x1173.png" alt="Cosmic road show artwork">
+        <figcaption>The cosmic road show</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ MAGICK MICA TV ============ -->
+  <section id="tv">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--violet)">˙✧˖°📺 ⋆｡˚ Station Identification</div>
+      <h2>Magick Mica TV</h2>
+      <p class="deck">What is this place?</p>
+
+      <div class="tv">
+        <div class="onair"><span class="rec">● REC</span><span>PLAY ▶</span><span>CHANNEL 777</span></div>
+        <p>It's <em>our</em> hub on this space of the web. A place you can see things with extreme vivid color and an overall feeling of high energy. Because here <strong>creative energy rules</strong>.</p>
+        <p style="margin-top:1.1rem">And by activating your inner connection to soul and creation you get that much closer to being your own showman in this cosmic road show.</p>
+        <p style="margin-top:1.1rem"><em>Start seeing outside the dark sludge of despair, and enter a new cosmic realm.</em></p>
+        <p class="hearts" aria-hidden="true">❤️🧡💛💚💙💜</p>
+      </div>
+
+      <div class="quotes">
+        <div class="qcard"><p>"The future is already here — it's just not evenly distributed."</p><span class="who">William Gibson</span></div>
+        <div class="qcard"><p>"The best way to predict the future is to invent it."</p><span class="who">Alan Kay</span></div>
+        <div class="qcard"><p>"Any sufficiently advanced technology is indistinguishable from magic."</p><span class="who">Arthur C. Clarke</span></div>
+        <div class="qcard"><p>"Close your eyes — another world is waiting."</p><span class="who">Magick Mica TV</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MYSTICAL SPIRAL ============ -->
+  <section id="spiral" class="deep">
+    <div class="wrap reveal">
+      <div class="eyebrow" style="color:var(--gold)">Support the Transmission</div>
+      <h2>The Mystical Spiral</h2>
+
+      <div class="spiral">
+        <h3>✨ Magical Code ✨</h3>
+        <p>Use the magical code below to get <strong>21% off</strong> anything on the whole site — like a beautiful gemstone copper pendant made with love. This is how you can show support! 🍓❤️🩷🔥🧡⭐💛✨💚💎💙💜</p>
+        <div class="code">MagickMica</div>
+        <br>
+        <a class="btn" href="https://www.themysticalspiralstore.com/">Visit The Mystical Spiral →</a>
+      </div>
+
+      <p style="text-align:center;margin-top:3rem;font-style:italic;font-size:1.3rem">Expect future posts mixing thought, quotes, artwork, and more to come.<br>Reporting for fun…</p>
+      <p style="text-align:center;font-family:var(--mono);font-size:.8rem;letter-spacing:.22em;margin-top:1rem;color:var(--rose)">ﾒ૦ﾒ૦💋 MAGICK MICA</p>
+    </div>
+  </section>
+
+  <!-- ============ MORE ISSUES ============ -->
+  <section>
+    <div class="wrap wide reveal">
+      <div class="eyebrow" style="color:var(--aqua)">More From Magick Mica TV</div>
+      <h2 style="font-size:clamp(1.3rem,4vw,1.9rem)">The Newsstand</h2>
+      <div class="teasers">
+        <div class="teaser">
+          <h3>The Galactic Dessert Issue</h3>
+          <p>Aliens Love Icecream — 7 cosmic cones, the Moon Pie mystery &amp; Zilly.</p>
+          <a href="https://magickmica.github.io/aliens/galactic-dessert-issue.html">Read →</a>
+        </div>
+        <div class="teaser">
+          <h3>Cosmic Stellar Drive</h3>
+          <p>Pyramids power the universe, crystal starseeds &amp; the Crystal Queen.</p>
+          <a href="https://magickmica.github.io/aliens/cosmic-stellar-drive.html">Read →</a>
+        </div>
+        <div class="teaser">
+          <h3>The Meltdown Files</h3>
+          <p>Aliens Love Icecream #2 — melting planets &amp; icecream telepathy.</p>
+          <a href="https://magickmica.github.io/aliens/aliens-love-icecream.html">Read →</a>
+        </div>
+        <div class="teaser">
+          <h3>Copper · The Ancient Issue</h3>
+          <p>Beauty secrets from the Nile, the Ankh &amp; the goddess files. ☥</p>
+          <a href="copper-the-ancient-issue.html">Read →</a>
+        </div>
+        <div class="teaser">
+          <h3>Read on Substack</h3>
+          <p>These transmissions live at MagickMica TV — subscribe for more.</p>
+          <a href="https://magickmica.substack.com/p/message-keep-glowing-for-it">Original posts →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="motto">Frequency Held · Field Intact · Glow Sustained ✧</p>
+    <p class="small">Glow · The Transmission Issue · Magick Mica TV 📺✨💋</p>
+  </footer>
+
+</main>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.06});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
