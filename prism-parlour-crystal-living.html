@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prism Parlour — Suburban Crystal Living · Magick Mica TV</title>
+<meta name="description" content="Home · Heart · Harmony — the magic is in the routine. Coffee rituals, tea history, morning light, and cozy crystal living from Magick Mica.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --cream:#FBF4EE;
+    --cream2:#F6E9E4;
+    --blush:#FBE0EC;
+    --rose:#E88BB4;
+    --rose-deep:#C25E8E;
+    --lilac:#B9A4E8;
+    --mint:#8FD9C4;
+    --sky:#9CC9F0;
+    --gold:#E8B96B;
+    --ink:#4A3B4E;
+    --ink-soft:#6E5C72;
+    --serif:'Fraunces', serif;
+    --body:'Quicksand', sans-serif;
+    --mono:'Space Mono', monospace;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:1.12rem;line-height:1.8;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--rose);color:#fff;}
+
+  /* drifting prism rainbows */
+  .prisms{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .prisms span{
+    position:absolute;width:26rem;height:9rem;border-radius:50%;
+    filter:blur(48px);opacity:.4;
+    background:linear-gradient(90deg, rgba(232,139,180,.5), rgba(185,164,232,.5), rgba(156,201,240,.5), rgba(143,217,196,.5), rgba(232,185,107,.5));
+    animation:drift 22s ease-in-out infinite alternate;
+  }
+  .prisms span:nth-child(1){top:6%;left:-6rem;transform:rotate(-18deg);}
+  .prisms span:nth-child(2){top:44%;right:-8rem;transform:rotate(14deg);animation-delay:-7s;}
+  .prisms span:nth-child(3){bottom:8%;left:20%;transform:rotate(-8deg);animation-delay:-13s;opacity:.3;}
+  @keyframes drift{from{transform:translateY(0) rotate(-18deg);}to{transform:translateY(-3rem) rotate(-10deg);}}
+  @media (prefers-reduced-motion:reduce){.prisms span{animation:none;}}
+
+  main{position:relative;z-index:1;}
+
+  /* ── HERO ── */
+  .cover{
+    text-align:center;padding:4.5rem 1.4rem 3rem;
+    background:
+      radial-gradient(40rem 22rem at 50% -6%, rgba(232,139,180,.16), transparent 62%),
+      radial-gradient(26rem 16rem at 10% 80%, rgba(185,164,232,.14), transparent 65%),
+      radial-gradient(26rem 16rem at 92% 70%, rgba(156,201,240,.14), transparent 65%);
+  }
+  .issue-strip{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--rose-deep);
+    display:flex;gap:1rem;align-items:center;justify-content:center;flex-wrap:wrap;
+    margin-bottom:1.8rem;
+  }
+  .issue-strip .dot{color:var(--lilac);}
+  .prismrow{font-size:1.1rem;letter-spacing:.5em;text-indent:.5em;margin-bottom:1rem;}
+  .masthead{
+    font-family:var(--serif);font-weight:500;font-style:italic;
+    font-size:clamp(3rem, 11vw, 6.6rem);
+    line-height:1;letter-spacing:-.01em;
+    background:linear-gradient(100deg, var(--rose) 8%, var(--lilac) 34%, var(--sky) 58%, var(--mint) 78%, var(--gold) 98%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 3px 20px rgba(232,139,180,.28));
+    animation:sheen 10s ease-in-out infinite alternate;
+  }
+  @keyframes sheen{to{background-position:200% 0;}}
+  .masthead small{
+    display:block;font-style:normal;font-weight:400;
+    font-size:clamp(1.1rem,3.6vw,2rem);letter-spacing:.02em;margin-top:.1em;
+  }
+  .cover-sub{
+    font-family:var(--mono);font-weight:700;text-transform:uppercase;
+    font-size:clamp(.72rem,2.2vw,.95rem);letter-spacing:.4em;text-indent:.4em;
+    color:var(--rose-deep);margin-top:1.5rem;
+  }
+  .cover-tag{
+    font-family:var(--serif);font-style:italic;font-size:1.35rem;
+    margin-top:1rem;color:var(--ink-soft);
+  }
+  .cover-art{
+    margin:2.4rem auto 0;max-width:min(22rem,76vw);
+    transform:rotate(-1.6deg);transition:transform .25s ease;
+  }
+  .cover-art:hover{transform:rotate(0deg) scale(1.02);}
+  .cover-art img{
+    display:block;width:100%;height:auto;border-radius:1rem;
+    border:5px solid #fff;
+    box-shadow:0 0 0 2px rgba(232,139,180,.4), 0 20px 44px rgba(74,59,78,.22);
+  }
+  .cover-art figcaption{
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--rose-deep);margin-top:.9rem;
+  }
+  .stickers{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;max-width:52rem;margin:2.4rem auto 0;}
+  .sticker{
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;
+    padding:.5rem 1rem;border-radius:999px;border:1.5px solid;
+    background:rgba(255,255,255,.6);backdrop-filter:blur(4px);
+    text-decoration:none;display:inline-block;transition:transform .18s ease;
+  }
+  .sticker:hover{transform:translateY(-3px);}
+  .sticker.rose{color:var(--rose-deep);border-color:var(--rose);}
+  .sticker.lilac{color:#7A63B8;border-color:var(--lilac);}
+  .sticker.sky{color:#4E86C0;border-color:var(--sky);}
+  .sticker.mint{color:#3E9E85;border-color:var(--mint);}
+  .sticker.gold{color:#B0812E;border-color:var(--gold);}
+
+  /* ── prism ribbon divider ── */
+  .ribbon{height:6px;border:none;margin:0;background:linear-gradient(90deg, var(--rose), var(--lilac), var(--sky), var(--mint), var(--gold), var(--rose));background-size:200% 100%;animation:sheen 8s linear infinite;opacity:.55;}
+  .sparkle{text-align:center;font-size:1.1rem;letter-spacing:.6em;text-indent:.6em;color:var(--lilac);margin:3.2rem 0 0;opacity:.8;}
+
+  /* ── sections ── */
+  section{position:relative;}
+  .wrap{max-width:44rem;margin:0 auto;padding:4.4rem 1.5rem 4.6rem;}
+  .wrap.wide{max-width:60rem;}
+  .band-blush{background:linear-gradient(180deg, var(--blush), var(--cream));}
+  .band-cream{background:var(--cream2);}
+  .band-white{background:#FFFDFB;}
+
+  .eyebrow{
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.32em;text-transform:uppercase;
+    display:flex;align-items:center;gap:.9rem;justify-content:center;
+    color:var(--rose-deep);margin-bottom:1.1rem;
+  }
+  .eyebrow::before,.eyebrow::after{content:"✦";font-size:.8rem;color:var(--lilac);}
+  h2{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(2rem,5.6vw,3rem);line-height:1.12;text-align:center;
+    color:var(--ink);margin-bottom:.5rem;
+  }
+  h2 em{font-style:italic;color:var(--rose-deep);}
+  .deck{
+    font-family:var(--serif);font-style:italic;font-size:1.3rem;text-align:center;
+    color:var(--ink-soft);margin-bottom:2rem;
+  }
+  p{margin-bottom:1.15rem;}
+  p:last-child{margin-bottom:0;}
+  em{color:var(--rose-deep);font-style:italic;}
+  strong{color:var(--ink);font-weight:700;}
+
+  .pull{
+    font-family:var(--serif);font-style:italic;font-size:1.5rem;line-height:1.5;text-align:center;
+    color:var(--rose-deep);
+    padding:1.6rem 1rem;margin:2rem 0;position:relative;
+  }
+  .pull::before,.pull::after{content:"❝";font-family:var(--serif);font-size:2rem;color:var(--lilac);opacity:.6;}
+  .pull::after{content:"❞";}
+
+  .mantra{
+    text-align:center;border:1.5px solid var(--rose);border-radius:1.4rem;
+    padding:2rem 1.6rem;margin:2.2rem 0;
+    background:radial-gradient(20rem 8rem at 50% 0%, rgba(232,139,180,.1), transparent 70%);
+  }
+  .mantra .lines{font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,4vw,1.8rem);line-height:1.7;color:var(--rose-deep);}
+  .mantra .lines span{display:block;}
+  .mantra .heart{font-size:1.3rem;margin-top:.6rem;}
+
+  /* checklists & pills */
+  .checklist{list-style:none;margin:1.8rem auto;max-width:30rem;}
+  .checklist li{
+    padding:.7rem 0 .7rem 2.2rem;position:relative;
+    border-bottom:1px solid rgba(232,139,180,.3);font-weight:600;
+  }
+  .checklist li::before{content:"☐";position:absolute;left:.2rem;color:var(--rose);font-size:1.1rem;}
+  .checklist.done li::before{content:"✦";color:var(--lilac);}
+
+  .pills{display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center;margin:1.8rem 0;}
+  .pills span{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+    border:1.5px solid var(--lilac);color:#7A63B8;border-radius:999px;padding:.45rem 1rem;
+    background:rgba(255,255,255,.5);
+  }
+
+  /* numbered rituals */
+  .ritual{list-style:none;margin:2rem 0;counter-reset:r;}
+  .ritual li{
+    counter-increment:r;display:flex;gap:1.1rem;align-items:flex-start;
+    padding:1rem 0;border-bottom:1px solid rgba(185,164,232,.3);
+  }
+  .ritual li::before{
+    content:"0" counter(r);
+    font-family:var(--serif);font-style:italic;font-size:1.3rem;color:var(--rose-deep);
+    min-width:2.4rem;flex-shrink:0;
+  }
+  .ritual li div{padding-top:.15rem;font-weight:500;}
+
+  /* recipe card */
+  .recipe{
+    border:1.5px solid var(--gold);border-radius:1.3rem;padding:2rem 1.8rem;margin:2.4rem 0;
+    background:rgba(255,253,251,.7);
+  }
+  .recipe h3{font-family:var(--serif);font-style:italic;font-size:1.7rem;color:var(--rose-deep);text-align:center;margin-bottom:1.2rem;}
+  .recipe .ing{font-family:var(--mono);font-size:.8rem;letter-spacing:.06em;text-align:center;color:var(--ink-soft);margin-bottom:1.4rem;line-height:2;}
+  .recipe ol{list-style:none;counter-reset:i;max-width:22rem;margin:0 auto;}
+  .recipe ol li{counter-increment:i;padding:.5rem 0 .5rem 2rem;position:relative;font-weight:500;}
+  .recipe ol li::before{content:counter(i);font-family:var(--serif);font-style:italic;color:var(--gold);position:absolute;left:.3rem;font-size:1.2rem;}
+
+  /* timeline */
+  .timeline{margin:2.4rem 0;position:relative;padding-left:2rem;list-style:none;}
+  .timeline::before{content:"";position:absolute;left:.5rem;top:.5rem;bottom:.5rem;width:2px;background:linear-gradient(180deg,var(--rose),var(--lilac),var(--sky),var(--mint));border-radius:2px;}
+  .timeline li{position:relative;padding:0 0 1.8rem;}
+  .timeline li::before{content:"";position:absolute;left:-1.55rem;top:.55rem;width:10px;height:10px;border-radius:50%;background:var(--rose);box-shadow:0 0 0 4px rgba(232,139,180,.2);}
+  .timeline .era{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rose-deep);}
+  .timeline h4{font-family:var(--serif);font-weight:600;font-size:1.25rem;color:var(--ink);margin:.15rem 0 .35rem;}
+  .timeline p{font-size:1.02rem;margin:0;}
+
+  /* cards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(13.5rem,1fr));gap:1rem;margin:2rem 0;}
+  .card{
+    border:1px solid rgba(185,164,232,.4);border-radius:1rem 1rem 1rem .25rem;
+    padding:1.4rem 1.3rem;background:rgba(255,255,255,.55);
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  .card:hover{transform:translateY(-4px);border-color:var(--rose);}
+  .card h4{font-family:var(--serif);font-style:italic;font-size:1.3rem;color:var(--rose-deep);margin-bottom:.4rem;}
+  .card p{font-size:1rem;margin:0;}
+
+  /* art figures */
+  .artfig{margin:2.4rem auto 0;text-align:center;}
+  .artfig img{
+    display:block;width:100%;height:auto;border-radius:1rem;
+    border:4px solid #fff;box-shadow:0 0 0 2px rgba(185,164,232,.35), 0 16px 36px rgba(74,59,78,.18);
+    transition:transform .25s ease;
+  }
+  .artfig:hover img{transform:scale(1.015);}
+  .artfig figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--lilac);margin-top:.8rem;}
+
+  /* mini gallery */
+  .minigal{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:1rem;margin-top:2rem;}
+  .minigal img{width:100%;height:auto;display:block;border-radius:.9rem;border:4px solid #fff;box-shadow:0 10px 26px rgba(74,59,78,.16);transition:transform .2s ease;}
+  .minigal img:hover{transform:translateY(-4px) scale(1.02);}
+
+  /* printable cards */
+  .printable{
+    border:2px dashed var(--rose);border-radius:1.4rem;
+    padding:2rem 1.8rem;margin:2.4rem 0;text-align:center;
+    background:rgba(251,224,236,.4);
+  }
+  .printable .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:1rem;}
+  .printable h3{font-family:var(--serif);font-style:italic;font-size:1.6rem;color:var(--ink);margin-bottom:1rem;}
+  .printable a.btn{
+    display:inline-block;margin-top:1.2rem;
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;
+    color:#fff;background:linear-gradient(100deg,var(--rose),var(--lilac));
+    border-radius:999px;padding:.7rem 1.6rem;text-decoration:none;font-weight:700;
+    box-shadow:0 8px 22px rgba(232,139,180,.35);transition:transform .18s ease;
+  }
+  .printable a.btn:hover{transform:translateY(-3px);}
+
+  /* warning box */
+  .notice{
+    border:1.5px solid var(--lilac);border-radius:1.2rem;padding:1.6rem 1.6rem;margin:2rem 0;
+    background:rgba(255,255,255,.55);
+  }
+  .notice h4{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:#7A63B8;margin-bottom:.8rem;}
+  .notice p{font-size:1rem;margin:0;font-style:italic;}
+
+  /* teasers + footer */
+  .teasers{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin-top:2rem;}
+  .teaser{
+    border:1px solid rgba(232,139,180,.4);border-radius:1rem;padding:1.4rem 1.3rem;
+    display:flex;flex-direction:column;gap:.5rem;background:rgba(255,255,255,.6);
+  }
+  .teaser h3{font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.82rem;color:var(--rose-deep);}
+  .teaser p{margin:0;font-size:.98rem;flex:1;color:var(--ink-soft);}
+  .teaser a{align-self:flex-start;font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#7A63B8;border:1px solid var(--lilac);border-radius:999px;padding:.45rem 1rem;text-decoration:none;}
+  footer{text-align:center;padding:3.4rem 1.4rem 4rem;border-top:1px solid rgba(232,139,180,.3);}
+  footer .motto{font-family:var(--serif);font-style:italic;font-size:1.5rem;color:var(--rose-deep);margin-bottom:.8rem;}
+  footer .disclaimer{max-width:34rem;margin:0 auto 1.2rem;font-size:.9rem;color:var(--ink-soft);}
+  footer .small{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);opacity:.7;}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease, transform .8s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}.reveal{opacity:1;transform:none;}html{scroll-behavior:auto;}}
+</style>
+</head>
+<body>
+<a href="https://magickmica.github.io/aliens/newsstand.html" style="position:fixed;top:1rem;left:1rem;z-index:50;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;padding:.5rem 1rem;border-radius:999px;border:1.5px solid #E88BB4;color:#C25E8E;background:rgba(251,244,238,.8);backdrop-filter:blur(4px)">← Newsstand</a>
+<div class="prisms" aria-hidden="true"><span></span><span></span><span></span></div>
+<main>
+
+  <!-- ══════════ COVER ══════════ -->
+  <section class="cover">
+    <div class="issue-strip">
+      <span>Magick Mica TV</span><span class="dot">✦</span>
+      <span>June 2026</span><span class="dot">✦</span>
+      <span>Prism Parlour · Issue 07</span>
+    </div>
+    <div class="prismrow" aria-hidden="true">🌈 ✦ 🔮 ✦ ☕ ✦ 🌸</div>
+    <h1 class="masthead">Suburban<small>Crystal Living</small></h1>
+    <div class="cover-sub">Home · Heart · Harmony</div>
+    <p class="cover-tag">The magic is in the routine.</p>
+
+    <figure class="cover-art">
+      <img src="https://substackcdn.com/image/fetch/$s_!fd83!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb2697134-bcf6-4f8c-a338-80b122cf9cf1_1122x1402.png" alt="Suburban Crystal Living cover — a crystalline dreamgirl in her cosmic kitchen" loading="eager">
+      <figcaption>Cover Story · June 2026</figcaption>
+    </figure>
+
+    <nav class="stickers" aria-label="Issue contents">
+      <a class="sticker rose" href="#coffee">The Stardust Brew</a>
+      <a class="sticker gold" href="#tea">Steeped in Time</a>
+      <a class="sticker sky" href="#sun">Wake Up With the Sun</a>
+      <a class="sticker lilac" href="#parlour">The Prism Parlour</a>
+      <a class="sticker mint" href="#printables">Free Printables</a>
+    </nav>
+  </section>
+
+  <hr class="ribbon">
+
+  <!-- ══════════ COFFEE ══════════ -->
+  <section id="coffee" class="band-blush">
+    <div class="wrap reveal">
+      <div class="eyebrow">Cover Story · June 2026</div>
+      <h2>The <em>Stardust</em> Brew</h2>
+      <p class="deck">How one crystalline dreamgirl turned ordinary coffee into a portal ritual.</p>
+
+      <p>Every morning begins the same way — the soft hum of the kitchen, celestial light leaking through curtains, and the scent of coffee spiraling like nebula smoke through the air.</p>
+      <p>For her, coffee is not productivity. It is atmosphere. It is memory. It is a small sacred spell whispered into the universe before the day begins.</p>
+      <p>Wrapped in prism reflections and holographic morning light, she transforms a suburban kitchen into something cosmic — proving that magick does not always arrive dramatically. Sometimes it arrives in a chipped mug beside the stove.</p>
+
+      <blockquote class="pull">The universe speaks softly through steam and sugar.</blockquote>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.5rem;text-align:center;color:var(--rose-deep);margin:2.4rem 0 .4rem">5 Ways to Make Coffee Feel Magical</h3>
+      <ol class="ritual">
+        <li><div>Brew slowly with intention</div></li>
+        <li><div>Use glass or iridescent mugs</div></li>
+        <li><div>Play ambient dream-pop or vintage jazz</div></li>
+        <li><div>Open a window while the steam rises</div></li>
+        <li><div>Treat mornings like cinema scenes</div></li>
+      </ol>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 .4rem">Coffee as Time Travel</h3>
+      <p>The first sip always tastes like another era. A little 1978 kitchen warmth. A little Y2K futurism. A little suburban fairy tale. Coffee becomes a bridge between timelines — comforting, familiar, yet strangely infinite.</p>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 .4rem">Inside the Cosmic Kitchen</h3>
+      <p style="text-align:center;font-style:italic;color:var(--ink-soft);margin-bottom:1.1rem">Morning routines from another dimension.</p>
+      <p>She lights no candles. She follows no strict rituals. Instead, she lets the moment guide her — watching cream swirl like galaxies, letting music echo softly against the cabinets, staring out the window while the stars fade into morning.</p>
+      <p>The coffee ritual becomes less about caffeine… and more about becoming present inside your own life.</p>
+
+      <div class="pills">
+        <span>Steam like aurora light</span>
+        <span>Tiny galaxies inside the mug</span>
+        <span>Soft mornings heal loud nights</span>
+        <span>Espresso for the dreamers</span>
+      </div>
+
+      <div class="recipe">
+        <h3>The Nebula Latte ✦</h3>
+        <div class="ing">espresso ✦ lavender syrup ✦ vanilla oat milk<br>edible shimmer dust ✦ whipped cream cloud</div>
+        <ol>
+          <li>Brew espresso slowly</li>
+          <li>Add lavender + vanilla</li>
+          <li>Froth milk until cloud-soft</li>
+          <li>Sprinkle shimmer dust</li>
+          <li>Watch the galaxy form</li>
+        </ol>
+      </div>
+
+      <p style="text-align:center;font-style:italic;color:var(--ink-soft)">A clean kitchen. A warm drink. A peaceful heart. Sometimes that is enough to feel infinite. ♡</p>
+    </div>
+  </section>
+
+  <hr class="ribbon">
+
+  <!-- ══════════ TEA ══════════ -->
+  <section id="tea" class="band-white">
+    <div class="wrap reveal">
+      <div class="eyebrow">Tea Stories</div>
+      <h2>Steeped in Time</h2>
+      <p class="deck">The history of tea &amp; garden tea time.</p>
+
+      <p>From ancient legends to afternoon rituals, tea has warmed hearts, bridged cultures, and brought people together for thousands of years. Every cup has a story. <strong>What will yours be?</strong> ☕︎</p>
+
+      <blockquote class="pull">Good tea. Fresh air. Pretty things. Simple moments become magic.</blockquote>
+
+      <p style="text-align:center;font-weight:700;letter-spacing:.06em">GARDEN TEA TIME IS SELF CARE</p>
+      <div class="pills">
+        <span>♡ Slow down</span><span>♡ Breathe deep</span><span>♡ Sip mindfully</span><span>♡ Be present</span><span>♡ Feel grateful</span>
+      </div>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.5rem;text-align:center;color:var(--rose-deep);margin:2.6rem 0 1.4rem">A Journey as Gentle as a Sip</h3>
+      <ul class="timeline">
+        <li><span class="era">2737 BCE</span><h4>Legend Begins in China</h4><p>According to legend, Emperor Shennong discovered tea when leaves from a wild tree blew into his pot of boiling water. He sipped… and felt refreshed. Tea was born.</p></li>
+        <li><span class="era">618–907 CE</span><h4>Tea Takes Root</h4><p>During the Tang Dynasty, tea drinking became popular. People began to cultivate tea, write poetry about it, and turn it into an art form.</p></li>
+        <li><span class="era">960–1279 CE</span><h4>The Song Dynasty</h4><p>Tea culture flourished! Whisked powdered tea and elegant tea gatherings became symbols of refinement and peace.</p></li>
+        <li><span class="era">1271–1368 CE</span><h4>Tea Travels the World</h4><p>Marco Polo brought tea to Europe, sparking curiosity and trade along the Silk Road. The world was falling in love with tea.</p></li>
+        <li><span class="era">1600s CE</span><h4>Tea Time in England</h4><p>Tea became fashionable in England. By the 1700s, afternoon tea rituals began — blending comfort, conversation, and charm.</p></li>
+        <li><span class="era">Today</span><h4>A Global Tradition</h4><p>From green to black, oolong to herbal, tea unites cultures, soothes souls, and inspires mindful moments every day.</p></li>
+      </ul>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.4rem 0 1rem">The Magic in Every Cup</h3>
+      <div class="cards">
+        <div class="card"><p>✦ Antioxidants for body &amp; mind</p></div>
+        <div class="card"><p>✦ Supports focus &amp; calm</p></div>
+        <div class="card"><p>✦ Hydrates &amp; refreshes</p></div>
+        <div class="card"><p>✦ Brings people together</p></div>
+        <div class="card"><p>✦ A ritual of love &amp; mindfulness</p></div>
+      </div>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 1rem">Create Your Garden Tea Time</h3>
+      <p style="text-align:center">Turn your garden, balcony, or backyard into a little paradise and treat yourself to a tea moment.</p>
+      <ul class="checklist done" style="margin-top:1.4rem">
+        <li>A pretty teacup you love</li>
+        <li>Fresh flowers or greenery</li>
+        <li>A cozy seat in the sunshine</li>
+        <li>Your favorite tea &amp; a sweet treat</li>
+        <li>A good book or kind thoughts</li>
+      </ul>
+      <p style="text-align:center;font-weight:700;margin-top:1rem">That's it. You deserve this. ♡</p>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 1rem">Tea Pairs Perfectly With…</h3>
+      <div class="pills">
+        <span>♡ Scones &amp; clotted cream</span><span>♡ Lemon cakes &amp; berries</span><span>♡ Finger sandwiches</span><span>♡ Macarons &amp; chocolates</span><span>♡ Kind conversations</span>
+      </div>
+
+      <div class="mantra">
+        <div class="lines" aria-label="Tea mantra">
+          <span>I steep peace.</span>
+          <span>I sip joy.</span>
+          <span>I choose presence.</span>
+        </div>
+        <div class="heart">♡</div>
+      </div>
+      <p style="text-align:center;font-style:italic;color:var(--ink-soft)">Where flowers bloom and tea flows, the soul feels at home. ☕🌸</p>
+    </div>
+  </section>
+
+  <hr class="ribbon">
+
+  <!-- ══════════ COFFEE HISTORY ══════════ -->
+  <section class="band-cream">
+    <div class="wrap reveal">
+      <div class="eyebrow">More Than Just a Morning Ritual</div>
+      <h2>The Beautiful History of Coffee</h2>
+      <p class="deck">From ancient legends to modern cafés — one cup at a time.</p>
+
+      <p style="text-align:center">Coffee has traveled oceans, sparked conversations, and awakened the world.</p>
+      <div class="pills">
+        <span>comfort in a cup</span><span>fuel for dreams</span><span>a reason to pause</span><span>a story worth savoring</span>
+      </div>
+      <blockquote class="pull">Coffee doesn't ask silly questions. Coffee understands.</blockquote>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.5rem;text-align:center;color:var(--rose-deep);margin:2.4rem 0 1.4rem">A Timeline of Timeless Flavor</h3>
+      <ul class="timeline">
+        <li><span class="era">9th Century</span><h4>Legend Begins</h4><p>The story of coffee begins in Ethiopia with a goat herder named Kaldi, who noticed his goats dancing with energy after eating red berries.</p></li>
+        <li><span class="era">15th Century</span><h4>Spiritual Fuel</h4><p>Coffee spreads across the Arabian Peninsula, brewed and cherished in Sufi monasteries to stay awake during long nights of prayer.</p></li>
+        <li><span class="era">16th Century</span><h4>Houses of Coffee</h4><p>Coffee houses — "penny universities" — open in the Middle East and become centers for conversation, music, and ideas.</p></li>
+        <li><span class="era">17th Century</span><h4>Across the Seas</h4><p>Merchants and explorers bring coffee to Europe, where it becomes a symbol of intellect, sophistication, and social connection.</p></li>
+        <li><span class="era">18th–19th Century</span><h4>The World Awakens</h4><p>Coffee plantations grow in Asia, Africa, and Latin America, making coffee one of the world's most beloved commodities.</p></li>
+        <li><span class="era">21st Century</span><h4>Modern Sip, Ancient Soul</h4><p>Today, coffee culture continues to evolve — honoring tradition while inspiring creativity, community, and mindfulness.</p></li>
+      </ul>
+
+      <blockquote class="pull">It's not just what we drink. It's what brings us together.</blockquote>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.4rem 0 1rem">Coffee Around the World</h3>
+      <div class="cards">
+        <div class="card"><h4>Italy</h4><p>Espresso, passion, and ritual.</p></div>
+        <div class="card"><h4>Turkey</h4><p>Strong, rich, and steeped in tradition.</p></div>
+        <div class="card"><h4>Vietnam</h4><p>Bold, sweet, and unforgettable.</p></div>
+        <div class="card"><h4>Brazil</h4><p>Smooth, balanced, and beloved.</p></div>
+        <div class="card"><h4>Ethiopia</h4><p>The birthplace of it all.</p></div>
+      </div>
+
+      <div class="notice">
+        <h4>✦ Fun Coffee Facts</h4>
+        <p style="font-style:normal">Coffee is the second most traded commodity in the world · There are over 100 different species of coffee plants · The aroma of coffee can boost memory and improve mood · "Kaffee" in German comes from "qahwa" in Arabic.</p>
+      </div>
+      <p style="text-align:center;font-style:italic;color:var(--ink-soft)">Through every era, every culture, every sunrise — coffee reminds us to stay curious, stay present, and savor the little things.</p>
+    </div>
+  </section>
+
+  <hr class="ribbon">
+
+  <!-- ══════════ WAKE UP WITH THE SUN ══════════ -->
+  <section id="sun" class="band-white">
+    <div class="wrap reveal">
+      <div class="eyebrow">The Art of Morning Light 🌞</div>
+      <h2>Wake Up With the Sun</h2>
+      <p class="deck">A morning ritual for soft hearts and cosmic minds.</p>
+
+      <figure class="artfig" style="max-width:34rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!vx2-!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F709a779b-9d0a-4749-9c31-71a920aacafa_1536x1024.png" alt="A sunlit crystal bedroom filled with morning light">
+        <figcaption>Mornings are invitations</figcaption>
+      </figure>
+
+      <p style="text-align:center;margin-top:1.8rem">Before the world asks for your energy, give yourself a moment to remember who you are. Let sunlight kiss your face. Let rainbows fill your room. Let your spirit stretch like it's made of stardust.</p>
+
+      <div class="mantra">
+        <div class="k" style="font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:.8rem">Morning Mantra</div>
+        <div class="lines"><span>I am light.</span><span>I am becoming.</span><span>I welcome this beautiful day.</span></div>
+        <div class="heart">♡</div>
+      </div>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.4rem 0 .4rem">Sunlight Is Magic</h3>
+      <p style="text-align:center">Natural light regulates your mood, boosts your energy, and reminds your body that it's okay to bloom. <em>Let it in. Let it heal you.</em></p>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.5rem;text-align:center;color:var(--rose-deep);margin:2.6rem 0 .4rem">Sun Gazing for Soul Care</h3>
+      <p style="text-align:center">Gazing at the rising sun — especially within the first hour after sunrise — can calm your mind, support your circadian rhythm, and fill you with quiet clarity. Just 3–5 minutes is enough.</p>
+      <blockquote class="pull">Breathe. Soak it in. Let it reset you.</blockquote>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.4rem 0 1rem">Morning Ritual Ideas</h3>
+      <ol class="ritual">
+        <li><div>Open your curtains and let the sun in.</div></li>
+        <li><div>Sip something that makes you smile.</div></li>
+        <li><div>Write your dreams, thoughts, or intentions.</div></li>
+        <li><div>Surround yourself with things that sparkle.</div></li>
+        <li><div>Stretch, breathe, and give thanks.</div></li>
+      </ol>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 1rem">The Power of Morning Sunlight</h3>
+      <div class="cards">
+        <div class="card"><p>✦ Regulates your circadian rhythm for better sleep &amp; more energy</p></div>
+        <div class="card"><p>✦ Boosts serotonin, your natural mood lifter</p></div>
+        <div class="card"><p>✦ Supports vitamin D production &amp; immune health</p></div>
+        <div class="card"><p>✦ Improves focus, clarity &amp; mental well-being</p></div>
+        <div class="card"><p>✦ Helps you feel grounded, calm &amp; connected</p></div>
+      </div>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 1rem">The Sunlit Bedroom Checklist</h3>
+      <ul class="checklist" style="max-width:26rem">
+        <li>Sheer or light curtains</li>
+        <li>Crystals or prism catchers</li>
+        <li>Soft pastel or natural tones</li>
+        <li>Cozy textures (blankets, pillows)</li>
+        <li>A warm drink spot (tea/coffee)</li>
+        <li>Meaningful objects you love</li>
+        <li>A journal by your bedside</li>
+        <li>Space to stretch and breathe</li>
+      </ul>
+
+      <div class="notice">
+        <h4>💎 Pro Tip</h4>
+        <p>Place a prism or crystal near your window to fill your room with rainbow reminders. 🌈</p>
+      </div>
+
+      <blockquote class="pull">The sun sees your light. So should you.</blockquote>
+    </div>
+  </section>
+
+  <hr class="ribbon">
+
+  <!-- ══════════ PRISM PARLOUR ══════════ -->
+  <section id="parlour" class="band-blush">
+    <div class="wrap reveal">
+      <div class="eyebrow">Prism Parlour Magazine · Issue 07</div>
+      <h2>Inside the <em>Prism Parlour</em></h2>
+      <p class="deck">Home furnishings for dreamers, collectors, and cosmic romantics.</p>
+
+      <figure class="artfig" style="max-width:36rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!9MUb!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F21a08f1e-c641-48b1-9e09-1491049578b9_3300x2200.png" alt="A cozy enchanted room full of crystals, books, and prism light">
+        <figcaption>cozy • magickal • nostalgic • you ♡</figcaption>
+      </figure>
+
+      <p style="margin-top:1.8rem">Some homes are decorated. Others are enchanted. Inside her world, every object feels chosen with emotion — books stacked like tiny portals, crystal prisms scattering rainbows across walls, handwritten letters tucked between candles and teacups.</p>
+      <p>Nothing matches perfectly. That is the point. The room glows with lived-in magick: VHS tapes beside antique novels, soft pink lamp light against holographic reflections, warmth from the fireplace flickering across iridescent surfaces like moving stained glass.</p>
+      <p><strong>This is not minimalism. This is memory maximalism.</strong></p>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.5rem;text-align:center;color:var(--rose-deep);margin:2.4rem 0 1rem">The Magickal Furnishing Formula</h3>
+      <div class="pills">
+        <span>✦ warm wood textures</span><span>✦ iridescent reflections</span><span>✦ cozy clutter with intention</span><span>✦ vintage books + cassette tapes</span><span>✦ rainbow prism lighting</span><span>✦ celestial mugs &amp; glassware</span><span>✦ fireplaces with ambient glow</span><span>✦ handwritten notes on walls</span>
+      </div>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 .4rem">Furniture That Feels Alive</h3>
+      <p>The desk is scratched from years of journaling. The bookshelf bends slightly under beloved stories. The chair creaks softly like an old friend. Perfect homes can feel cold. But magical homes hold evidence of living. 🌙</p>
+
+      <blockquote class="pull">A beautiful room should feel like a secret you can rest inside.</blockquote>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.4rem 0 1rem">The Cosmic Comfort Starter Pack</h3>
+      <ul class="checklist" style="max-width:26rem">
+        <li>Prism catchers on windows</li>
+        <li>Layered warm lighting</li>
+        <li>Iridescent trays &amp; mirrors</li>
+        <li>Vintage media collections</li>
+        <li>Soft blankets in pastel shades</li>
+        <li>Handwritten notes + sketches</li>
+        <li>Reflective glass decor</li>
+        <li>Candles that smell like rain or vanilla</li>
+      </ul>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 .4rem">The Return of Cozy Maximalism</h3>
+      <p>Minimalism taught people to remove. Magical interiors invite people to feel again. <em>More texture. More personality. More nostalgia. More glow.</em> A magical home should reflect the inner world of the person living there — shimmering, imperfect, emotional, alive.</p>
+
+      <blockquote class="pull">Home is not where things are perfect. Home is where the light knows your name.</blockquote>
+
+      <div class="sparkle" aria-hidden="true">✦ ⋆ ˚ ｡ ⋆ ✦ ⋆ ˚ ｡ ⋆ ✦</div>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.6rem;text-align:center;color:var(--rose-deep);margin:2.6rem 0 1rem">The Magick of Routine</h3>
+      <p>In a world obsessed with escape, she chose devotion instead. Not to perfection — but to repetition softened by intention. Every morning begins with tiny rituals: opening lace curtains to let the sunrise spill across the floorboards, watering crystal flowers beside the window, wiping mirrors until they glow like portals instead of glass.</p>
+      <p>She believes a home remembers how it is treated. A rushed room becomes restless. A cared-for room begins to breathe with you. And somewhere between laundry cycles and candlelight, the suburban house transforms into a sanctuary.</p>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.6rem;text-align:center;color:var(--rose-deep);margin:2.6rem 0 1rem">Glow Where You Are Planted</h3>
+      <p>There is something rebellious about creating beauty in the same place every day. Not every dream requires a distant city or dramatic reinvention. Sometimes the real magick appears in quiet bedrooms with pink walls, neon reflections, and dishes drying beside fresh flowers.</p>
+      <p>She decorates slowly — one crystal, one poster, one shimmering object at a time — until the room no longer feels borrowed from childhood, but authored by her becoming. Outside the window, the neighborhood stays the same. Inside, entire galaxies rearrange themselves nightly.</p>
+
+      <figure class="artfig" style="max-width:26rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!W85A!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F417f5759-ac93-41bb-8338-738763f2b7d6_1500x2250.png" alt="A glowing crystal vanity after sunset">
+        <figcaption>Crystal energy for soft living</figcaption>
+      </figure>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.6rem;text-align:center;color:var(--rose-deep);margin:2.6rem 0 1rem">Crystal Energy for Soft Living</h3>
+      <p>Her room glows after sunset. Moonlight catches the faceted edges of tiny crystals scattered across her vanity while soft pink neon hums overhead. The mirror reflects rainbows onto the walls, turning even silence into color.</p>
+      <p>She keeps amethyst near the bed for calm thoughts, rose quartz beside handwritten notes, and clear quartz near the window where morning light can pass through it like liquid prism glass. Whether or not crystals hold energy almost doesn't matter anymore — the ritual itself changes the atmosphere.</p>
+      <blockquote class="pull">To place beauty somewhere intentionally is its own kind of spell.</blockquote>
+      <p style="text-align:center">And perhaps that is what soft living truly is: not fragility, but creating gentleness on purpose in a world that rarely slows down.</p>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.6rem;text-align:center;color:var(--rose-deep);margin:2.6rem 0 1rem">Your Room, Your Retreat</h3>
+      <p>A bedroom is more than storage for belongings. It is storage for emotion. The blankets remember exhausted evenings. The vanity remembers hopeful mornings. Even the glow of the ceiling stars begins to shape the emotional weather of the room over time.</p>
+      <p>She treats her space carefully because she understands something most people forget: environments quietly train the heart. A cluttered room can make thoughts feel louder. Soft lighting can turn survival mode into rest. Her room is not designed for impressing strangers. <strong>It is designed for returning to herself.</strong></p>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.6rem;text-align:center;color:var(--rose-deep);margin:2.6rem 0 1rem">Evening Wind-Down Rituals</h3>
+      <p>When the suburban streets go quiet and the houses dim one by one, her room becomes its own glowing universe. The evening begins with small ceremonies: dimming the lights, washing away the day slowly instead of rushing, straightening blankets, opening the window for cool night air.</p>
+      <p>Nothing dramatic happens here. That is the point. Rest is not earned only after greatness. Peace should not require collapse. She believes nighttime should feel like being gently welcomed back into your own spirit.</p>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.6rem;text-align:center;color:var(--rose-deep);margin:2.6rem 0 1rem">Soft Spaces, Strong Hearts</h3>
+      <p>People often mistake softness for weakness because they only recognize power when it arrives loudly. But there is strength in maintaining warmth. Strength in creating comfort. Strength in continuing to care for beauty in a world constantly asking people to harden themselves.</p>
+      <p>Beneath the softness is discipline — the discipline of protecting her peace, organizing her energy, and choosing what enters her atmosphere. <strong>The soft life is not passive. It is curated with intention.</strong></p>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.6rem;text-align:center;color:var(--rose-deep);margin:2.6rem 0 1rem">The Suburban Dreamscape</h3>
+      <p>At dusk, the neighborhood transforms. Streetlights flicker awake one by one while windows glow softly against the deepening blue sky. Sprinklers hiss in the distance like static from another decade. Inside her room, she watches the moon appear beside the rooftops and wonders how many people are secretly building private dreamworlds behind ordinary walls.</p>
+      <p>Suburbia can feel repetitive to some. To her, it feels cinematic. <em>A thousand tiny lives glowing quietly at once.</em></p>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.6rem;text-align:center;color:var(--rose-deep);margin:2.6rem 0 1rem">Pretty Things Can Be Powerful</h3>
+      <p>There is a reason she surrounds herself with iridescence, pastel light, crystals, perfume bottles, and delicate colors. Not because beauty solves everything — but because beauty changes the emotional texture of survival. Pretty things slow people down. They invite attention. They remind the nervous system that gentleness still exists.</p>
+      <p style="text-align:center;font-style:italic;color:var(--ink-soft)">These moments appear small from the outside. Yet entire inner worlds are held together by details like these. 🌙</p>
+    </div>
+  </section>
+
+  <hr class="ribbon">
+
+  <!-- ══════════ PRINTABLES ══════════ -->
+  <section id="printables" class="band-white">
+    <div class="wrap reveal">
+      <div class="eyebrow">Free Printables · Crystal Pixel</div>
+      <h2>Notebooks Become <em>Portals</em></h2>
+      <p class="deck">Free printable stationery for cosmic daydreamers. 💿</p>
+
+      <p style="text-align:center">There's something so magical about tiny dreamy rituals… making tea at midnight, writing wishes in glitter pens, decorating your room like it exists halfway between a magical girl anime and an old internet dreamscape.</p>
+
+      <figure class="artfig" style="max-width:24rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!OFaK!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F889d2678-a975-49ca-83ac-1bbf0aafdd39_848x1264.jpeg" alt="Crystal Pixel Princess printable stationery">
+        <figcaption>Crystal Pixel Princess</figcaption>
+      </figure>
+
+      <p style="text-align:center;margin-top:1.6rem">Inspired by pixel princess energy, holographic crystals, soft pink nostalgia, Y2K internet glitter, and dreamy late-night journaling.</p>
+      <blockquote class="pull">Princess of another dimension doing ordinary things in extraordinary ways.</blockquote>
+
+      <div class="minigal">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!XD88!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F156ed6c8-39d5-4406-b34a-0573134f9f97_848x1264.jpeg" alt="Crystal Pixel printable page 1">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!OsdB!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fabe63f57-718f-42f2-9a4a-2647423a4a7b_848x1264.jpeg" alt="Crystal Pixel printable page 2">
+      </div>
+
+      <div class="printable">
+        <div class="k">Download + Print</div>
+        <h3>✨ Crystal Pixel Princess Printable Drop</h3>
+        <p style="text-align:left;max-width:26rem;margin:0 auto">Perfect for journaling pages, planner inserts, bedroom decor, vision boards, scrapbooking, and pen pal letters. Print at 100% scale on matte photo paper or cardstock. Borderless printing gives the prettiest full-page dreamy effect.</p>
+        <a class="btn" href="https://magickmicaart.substack.com/p/crystal-pixel-princess-printable" target="_blank" rel="noopener">Get the Printable →</a>
+      </div>
+
+      <div class="printable" style="border-color:var(--lilac);background:rgba(185,164,232,.12)">
+        <div class="k" style="color:#7A63B8">Download + Print</div>
+        <h3>💎 Crystal Pixel Shopping List</h3>
+        <p>A free downloadable to-do &amp; shopping list. Click, print, and there you have it — "Don't forget" has never been easier. ❤️🧡💛💚💙💜</p>
+        <a class="btn" href="https://magickmicaart.substack.com/p/shopping-list-printable-crystal-pixel" target="_blank" rel="noopener" style="background:linear-gradient(100deg,var(--lilac),var(--sky))">Get the Printable →</a>
+      </div>
+
+      <div class="mantra">
+        <div class="k" style="font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:.8rem">Little reminder while using these</div>
+        <div class="lines">
+          <span>You do not need permission to romanticize your life.</span>
+          <span>Make the tea prettier. Use the glitter pen.</span>
+          <span>Write the impossible dream down anyway.</span>
+        </div>
+      </div>
+      <p style="text-align:center;font-family:var(--mono);font-size:.8rem;letter-spacing:.14em;color:var(--rose-deep);margin-top:1.4rem">xoxo · Crystal Pixel</p>
+    </div>
+  </section>
+
+  <hr class="ribbon">
+
+  <!-- ══════════ FUNTERTAINMENT NOTICE ══════════ -->
+  <section class="band-cream">
+    <div class="wrap reveal">
+      <div class="notice" style="border-color:var(--rose)">
+        <h4 style="color:var(--rose-deep)">⚠ Official Funtertainment Notice</h4>
+        <p style="font-style:normal">Warning: side effects may include sudden urges to decorate with crystals · rearranging your bookshelf by color · buying another pretty mug · talking to plants · watching the sunrise on purpose · believing your bedroom deserves fairy lights · collecting "just one more" blanket. <strong>Proceed with cozy caution.</strong></p>
+      </div>
+
+      <div class="teasers">
+        <div class="teaser">
+          <h3>The Mystical Spiral</h3>
+          <p>Crystals, prism catchers, and objects that carry the signal.</p>
+          <a href="https://www.themysticalspiralstore.com/" target="_blank" rel="noopener">Shop crystals →</a>
+        </div>
+        <div class="teaser">
+          <h3>Copper · Ancient Issue</h3>
+          <p>Beauty secrets from the Nile, the Ankh &amp; the goddess files. ☥</p>
+          <a href="copper-the-ancient-issue.html">Read →</a>
+        </div>
+        <div class="teaser">
+          <h3>Stargazer</h3>
+          <p>Dream big, stay magic — celestial vibes &amp; Y2K wonder. ✨</p>
+          <a href="stargazer-june-2026.html">Read →</a>
+        </div>
+        <div class="teaser">
+          <h3>The Newsstand</h3>
+          <p>Every glittering issue on the rack, all in one place.</p>
+          <a href="https://magickmica.github.io/aliens/newsstand.html">Browse →</a>
+        </div>
+        <div class="teaser">
+          <h3>Read on Substack</h3>
+          <p>Suburban Crystal Living &amp; the Prism Parlour live at MagickMica.</p>
+          <a href="https://magickmica.substack.com/p/suburban-crystal-living-june-2026" target="_blank" rel="noopener">Original posts →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="motto">Home · Heart · Harmony ♡</p>
+    <p class="disclaimer">✦ A clean kitchen. A warm drink. A peaceful heart. Sometimes that is enough to feel infinite. Created for inspiration &amp; entertainment. Proceed with cozy caution.</p>
+    <p class="small">Prism Parlour · Suburban Crystal Living · June 2026 · Magick Mica TV 🌈🔮</p>
+  </footer>
+
+</main>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.05});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
