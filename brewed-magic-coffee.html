@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brewed Magic — Your Coffee, Your Magic · Magick Mica TV</title>
+<meta name="description" content="Little rituals. Big energy. Coffee, morning light, and the art of a beautiful morning from Magick Mica.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Quicksand:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --cream:#FBF4EA;
+    --cream2:#F5E9D8;
+    --foam:#FFFBF4;
+    --latte:#C9A27A;
+    --mocha:#9A6B47;
+    --espresso:#5A3D2B;
+    --rose:#E39BA8;
+    --sage:#A7C4A0;
+    --gold:#E3B457;
+    --ink:#4B3626;
+    --ink-soft:#7A6350;
+    --serif:'Fraunces', serif;
+    --body:'Quicksand', sans-serif;
+    --mono:'Space Mono', monospace;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:1.12rem;line-height:1.8;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--mocha);color:#fff;}
+
+  /* rising steam */
+  .steam{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .steam span{
+    position:absolute;bottom:-8rem;width:16rem;height:16rem;border-radius:50%;
+    background:radial-gradient(circle, rgba(201,162,122,.28), transparent 68%);
+    filter:blur(30px);opacity:0;
+    animation:steamrise linear infinite;
+  }
+  .steam span:nth-child(1){left:6%;animation-duration:20s;animation-delay:0s;}
+  .steam span:nth-child(2){left:44%;animation-duration:26s;animation-delay:8s;background:radial-gradient(circle, rgba(227,155,168,.22), transparent 68%);}
+  .steam span:nth-child(3){left:78%;animation-duration:23s;animation-delay:4s;background:radial-gradient(circle, rgba(167,196,160,.22), transparent 68%);}
+  @keyframes steamrise{0%{transform:translateY(0) scale(.8);opacity:0;}12%{opacity:.6;}88%{opacity:.3;}100%{transform:translateY(-120vh) scale(1.3);opacity:0;}}
+  @media (prefers-reduced-motion:reduce){.steam span{animation:none;}}
+
+  main{position:relative;z-index:1;}
+
+  /* ── HERO ── */
+  .cover{
+    text-align:center;padding:4.5rem 1.4rem 3rem;
+    background:
+      radial-gradient(38rem 22rem at 50% -6%, rgba(201,162,122,.2), transparent 62%),
+      radial-gradient(24rem 15rem at 12% 82%, rgba(227,155,168,.12), transparent 65%),
+      radial-gradient(24rem 15rem at 90% 72%, rgba(167,196,160,.12), transparent 65%);
+  }
+  .issue-strip{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--mocha);display:flex;gap:1rem;align-items:center;justify-content:center;flex-wrap:wrap;
+    margin-bottom:1.8rem;
+  }
+  .issue-strip .dot{color:var(--rose);}
+  .beanrow{font-size:1.1rem;letter-spacing:.5em;text-indent:.5em;margin-bottom:1rem;}
+  .masthead{
+    font-family:var(--serif);font-weight:600;font-style:italic;
+    font-size:clamp(3rem, 12vw, 7rem);line-height:.98;letter-spacing:-.01em;
+    background:linear-gradient(120deg, var(--espresso) 6%, var(--mocha) 40%, var(--latte) 70%, var(--gold) 98%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 3px 16px rgba(90,61,43,.22));
+  }
+  .masthead small{display:block;font-style:normal;font-weight:400;font-size:clamp(1rem,3.2vw,1.7rem);letter-spacing:.16em;text-transform:uppercase;margin-top:.5em;color:var(--mocha);-webkit-text-fill-color:var(--mocha);}
+  .cover-sub{
+    font-family:var(--mono);font-weight:700;text-transform:uppercase;
+    font-size:clamp(.72rem,2.2vw,.95rem);letter-spacing:.4em;text-indent:.4em;
+    color:var(--mocha);margin-top:1.5rem;
+  }
+  .cover-tag{font-family:var(--serif);font-style:italic;font-size:1.35rem;margin-top:.9rem;color:var(--ink-soft);}
+  .cover-art{margin:2.4rem auto 0;max-width:min(26rem,80vw);transform:rotate(1.2deg);transition:transform .25s ease;}
+  .cover-art:hover{transform:rotate(0deg) scale(1.02);}
+  .cover-art img{display:block;width:100%;height:auto;border-radius:1rem;border:5px solid var(--foam);box-shadow:0 0 0 2px rgba(201,162,122,.45), 0 20px 44px rgba(75,54,38,.24);}
+  .cover-art figcaption{font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:var(--mocha);margin-top:.9rem;}
+  .stickers{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;max-width:52rem;margin:2.4rem auto 0;}
+  .sticker{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;padding:.5rem 1rem;border-radius:999px;border:1.5px solid;background:rgba(255,251,244,.7);backdrop-filter:blur(4px);text-decoration:none;display:inline-block;transition:transform .18s ease;}
+  .sticker:hover{transform:translateY(-3px);}
+  .sticker.mocha{color:var(--mocha);border-color:var(--mocha);}
+  .sticker.rose{color:#C56B7C;border-color:var(--rose);}
+  .sticker.sage{color:#5E8A56;border-color:var(--sage);}
+  .sticker.gold{color:#A87C1E;border-color:var(--gold);}
+
+  /* bean-string divider */
+  .beans{text-align:center;font-size:1rem;letter-spacing:.7em;text-indent:.7em;color:var(--latte);margin:0;padding:1.2rem 0;opacity:.8;}
+  hr.rule{border:none;height:2px;background:linear-gradient(90deg,transparent,var(--latte),transparent);margin:0;}
+
+  /* ── sections ── */
+  section{position:relative;}
+  .wrap{max-width:44rem;margin:0 auto;padding:4.4rem 1.5rem 4.6rem;}
+  .wrap.wide{max-width:60rem;}
+  .band-cream{background:var(--cream2);}
+  .band-foam{background:var(--foam);}
+  .band-espresso{background:linear-gradient(180deg, var(--espresso), #4A3121);color:#F3E7D8;}
+  .band-espresso h2{color:#F3E7D8;}
+  .band-espresso .deck{color:rgba(243,231,216,.8);}
+  .band-espresso p{color:rgba(243,231,216,.92);}
+  .band-espresso .eyebrow{color:var(--gold);}
+  .band-espresso strong{color:#fff;}
+  .band-espresso em{color:var(--gold);}
+
+  .eyebrow{font-family:var(--mono);font-size:.64rem;letter-spacing:.32em;text-transform:uppercase;display:flex;align-items:center;gap:.9rem;justify-content:center;color:var(--mocha);margin-bottom:1.1rem;}
+  .eyebrow::before,.eyebrow::after{content:"☕";font-size:.85rem;}
+  h2{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,5.6vw,3rem);line-height:1.12;text-align:center;color:var(--espresso);margin-bottom:.5rem;}
+  h2 em{font-style:italic;color:var(--mocha);}
+  .deck{font-family:var(--serif);font-style:italic;font-size:1.3rem;text-align:center;color:var(--ink-soft);margin-bottom:2rem;}
+  p{margin-bottom:1.15rem;}
+  p:last-child{margin-bottom:0;}
+  em{color:var(--mocha);font-style:italic;}
+  strong{color:var(--espresso);font-weight:700;}
+
+  .pull{font-family:var(--serif);font-style:italic;font-size:1.5rem;line-height:1.5;text-align:center;color:var(--mocha);padding:1.6rem 1rem;margin:2rem 0;position:relative;}
+  .pull::before,.pull::after{content:"❝";font-family:var(--serif);font-size:1.9rem;color:var(--latte);opacity:.6;}
+  .pull::after{content:"❞";}
+  .band-espresso .pull{color:var(--gold);}
+  .band-espresso .pull::before,.band-espresso .pull::after{color:rgba(227,180,87,.5);}
+
+  .mantra{text-align:center;border:1.5px solid var(--latte);border-radius:1.4rem;padding:2rem 1.6rem;margin:2.2rem 0;background:radial-gradient(20rem 8rem at 50% 0%, rgba(201,162,122,.12), transparent 70%);}
+  .mantra .lines{font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,4vw,1.8rem);line-height:1.7;color:var(--mocha);}
+  .mantra .lines span{display:block;}
+  .mantra .heart{font-size:1.3rem;margin-top:.6rem;}
+
+  .pills{display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center;margin:1.8rem 0;}
+  .pills span{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;border:1.5px solid var(--latte);color:var(--mocha);border-radius:999px;padding:.45rem 1rem;background:rgba(255,251,244,.6);}
+  .band-espresso .pills span{border-color:rgba(227,180,87,.5);color:var(--gold);background:rgba(90,61,43,.4);}
+
+  /* ways cards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(13.5rem,1fr));gap:1rem;margin:2rem 0;}
+  .card{border:1px solid rgba(201,162,122,.5);border-radius:1rem 1rem 1rem .25rem;padding:1.4rem 1.3rem;background:rgba(255,251,244,.6);transition:transform .18s ease,border-color .18s ease;}
+  .card:hover{transform:translateY(-4px);border-color:var(--mocha);}
+  .card h4{font-family:var(--serif);font-style:italic;font-size:1.3rem;color:var(--mocha);margin-bottom:.4rem;}
+  .card p{font-size:1rem;margin:0;}
+  .band-espresso .card{background:rgba(90,61,43,.35);border-color:rgba(227,180,87,.4);}
+  .band-espresso .card h4{color:var(--gold);}
+
+  /* journey steps */
+  .journey{list-style:none;margin:2rem 0;counter-reset:j;}
+  .journey li{counter-increment:j;display:flex;gap:1.2rem;align-items:flex-start;padding:1.1rem 0;border-bottom:1px solid rgba(201,162,122,.35);}
+  .journey li::before{content:counter(j);font-family:var(--serif);font-style:italic;font-size:1.3rem;color:#fff;background:linear-gradient(150deg,var(--latte),var(--mocha));min-width:2.6rem;height:2.6rem;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 14px rgba(154,107,71,.3);}
+  .journey li b{display:block;font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--espresso);}
+  .journey li span{font-size:1.02rem;}
+  .band-espresso .journey li b{color:#F3E7D8;}
+  .band-espresso .journey li{border-color:rgba(227,180,87,.25);}
+
+  /* checklist */
+  .checklist{list-style:none;margin:1.8rem auto;max-width:28rem;}
+  .checklist li{padding:.7rem 0 .7rem 2.2rem;position:relative;border-bottom:1px solid rgba(201,162,122,.35);font-weight:600;}
+  .checklist li::before{content:"☕";position:absolute;left:.1rem;}
+
+  /* art figures */
+  .artfig{margin:2.4rem auto 0;text-align:center;}
+  .artfig img{display:block;width:100%;height:auto;border-radius:1rem;border:4px solid var(--foam);box-shadow:0 0 0 2px rgba(201,162,122,.4), 0 16px 36px rgba(75,54,38,.2);transition:transform .25s ease;}
+  .artfig:hover img{transform:scale(1.015);}
+  .artfig figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mocha);margin-top:.8rem;}
+
+  /* notes / polaroid */
+  .polaroid{background:var(--foam);border:1px solid rgba(201,162,122,.5);border-bottom-width:3rem;border-radius:.4rem;padding:1.4rem 1.4rem;margin:2rem auto;max-width:30rem;box-shadow:0 12px 30px rgba(75,54,38,.16);transform:rotate(-1.2deg);text-align:center;}
+  .polaroid p{font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--espresso);margin:0;}
+
+  /* facts box */
+  .notice{border:1.5px solid var(--gold);border-radius:1.2rem;padding:1.6rem;margin:2rem 0;background:rgba(255,251,244,.6);}
+  .notice h4{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:#A87C1E;margin-bottom:.8rem;}
+  .notice p{font-size:1rem;margin:0;}
+
+  /* tea notes cards */
+  .notecards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.2rem;margin-top:2.2rem;}
+  .notecard{border:1px solid rgba(167,196,160,.5);border-radius:1rem;padding:1.6rem 1.4rem;background:rgba(255,251,244,.6);text-align:center;}
+  .notecard .q{font-family:var(--serif);font-style:italic;font-size:1.25rem;line-height:1.5;color:var(--espresso);}
+  .notecard .deco{font-size:1rem;letter-spacing:.1em;color:var(--sage);margin-top:.9rem;}
+  .notecard img{width:100%;height:auto;border-radius:.7rem;margin-top:1rem;border:3px solid var(--foam);box-shadow:0 8px 20px rgba(75,54,38,.16);}
+
+  /* teasers + footer */
+  .teasers{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin-top:2rem;}
+  .teaser{border:1px solid rgba(201,162,122,.5);border-radius:1rem;padding:1.4rem 1.3rem;display:flex;flex-direction:column;gap:.5rem;background:rgba(255,251,244,.7);}
+  .teaser h3{font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.82rem;color:var(--mocha);}
+  .teaser p{margin:0;font-size:.98rem;flex:1;color:var(--ink-soft);}
+  .teaser a{align-self:flex-start;font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#5E8A56;border:1px solid var(--sage);border-radius:999px;padding:.45rem 1rem;text-decoration:none;}
+  footer{text-align:center;padding:3.4rem 1.4rem 4rem;border-top:1px solid rgba(201,162,122,.4);}
+  footer .motto{font-family:var(--serif);font-style:italic;font-size:1.5rem;color:var(--mocha);margin-bottom:.8rem;}
+  footer .disclaimer{max-width:34rem;margin:0 auto 1.2rem;font-size:.9rem;color:var(--ink-soft);}
+  footer .small{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);opacity:.7;}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease, transform .8s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}.reveal{opacity:1;transform:none;}html{scroll-behavior:auto;}}
+</style>
+</head>
+<body>
+<a href="https://magickmica.github.io/aliens/newsstand.html" style="position:fixed;top:1rem;left:1rem;z-index:50;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;padding:.5rem 1rem;border-radius:999px;border:1.5px solid #9A6B47;color:#9A6B47;background:rgba(251,244,234,.8);backdrop-filter:blur(4px)">← Newsstand</a>
+<div class="steam" aria-hidden="true"><span></span><span></span><span></span></div>
+<main>
+
+  <!-- ══════════ COVER ══════════ -->
+  <section class="cover">
+    <div class="issue-strip">
+      <span>Magick Mica TV</span><span class="dot">☕</span>
+      <span>The Coffee Companion</span><span class="dot">☕</span>
+      <span>Issue 08</span>
+    </div>
+    <div class="beanrow" aria-hidden="true">☕ ✦ 🫘 ✦ 🌞 ✦ 🍵</div>
+    <h1 class="masthead">Brewed Magic<small>Your Coffee, Your Magic</small></h1>
+    <div class="cover-sub">Little Rituals · Big Energy ♡</div>
+    <p class="cover-tag">Savor slow. Live well. Stay caffeinated.</p>
+
+    <figure class="cover-art">
+      <img src="https://substackcdn.com/image/fetch/$s_!vRJt!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc485c9d0-d48f-42eb-a260-8654c6f0c7f8_1536x1024.png" alt="Brewed Magic cover — a cozy cosmic coffee scene" loading="eager">
+      <figcaption>Brewed Magic · Cover</figcaption>
+    </figure>
+
+    <nav class="stickers" aria-label="Issue contents">
+      <a class="sticker mocha" href="#coffee">Your Coffee, Your Magic</a>
+      <a class="sticker gold" href="#cherry">Beauty Begins at the Berry</a>
+      <a class="sticker rose" href="#morning">A Beautiful Morning</a>
+      <a class="sticker sage" href="#notes">Coffee &amp; Tea Notes</a>
+    </nav>
+  </section>
+
+  <div class="beans" aria-hidden="true">🫘 ⋆ ˚ ｡ ⋆ 🫘 ⋆ ˚ ｡ ⋆ 🫘 ⋆ ˚ ｡ ⋆ 🫘</div>
+
+  <!-- ══════════ YOUR COFFEE YOUR MAGIC ══════════ -->
+  <section id="coffee" class="band-cream">
+    <div class="wrap reveal">
+      <div class="eyebrow">Brewed Magic</div>
+      <h2>Your Coffee, <em>Your Magic</em></h2>
+      <p class="deck">Little rituals. Big energy. ♡</p>
+
+      <p style="text-align:center">Coffee is more than a drink — it's a moment, a mood, a connection to cultures and stories around the world. However you brew it, drink it, or dream it… <strong>make it yours.</strong></p>
+
+      <div class="mantra">
+        <div class="lines"><span>Savor slow.</span><span>Live well.</span><span>Stay caffeinated.</span></div>
+        <div class="heart">♡</div>
+      </div>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.5rem;text-align:center;color:var(--mocha);margin:2.4rem 0 1rem">Coffee Is…</h3>
+      <div class="pills">
+        <span>a hug in a mug</span><span>a spark of joy</span><span>fuel for dreams</span><span>a reason to pause</span>
+      </div>
+
+      <figure class="artfig" style="max-width:22rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ZcIT!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F831175d5-4e03-4eba-b75b-65f247621152_1200x1800.png" alt="A dreamy cup of coffee">
+        <figcaption>a hug in a mug ♡</figcaption>
+      </figure>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.8rem 0 1rem">Ways to Enjoy Your Coffee</h3>
+      <div class="cards">
+        <div class="card"><h4>Classic &amp; Cozy</h4><p>Keep it simple. A hot black coffee never goes out of style.</p></div>
+        <div class="card"><h4>Creamy &amp; Dreamy</h4><p>Add a splash of milk, a drizzle of sweetness, and make it your own.</p></div>
+        <div class="card"><h4>Iced &amp; Energizing</h4><p>Pour over ice for a refreshing boost perfect for sunny days.</p></div>
+        <div class="card"><h4>Spiced &amp; Soulful</h4><p>Cinnamon, cardamom, nutmeg — warm spices turn coffee into comfort.</p></div>
+        <div class="card"><h4>Fun &amp; Flavorful</h4><p>Try vanilla, hazelnut, coconut, or lavender. Life's too short for boring coffee.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule"><div class="beans" aria-hidden="true">☕ ⋆ ˚ ｡ ⋆ ☕ ⋆ ˚ ｡ ⋆ ☕</div>
+
+  <!-- ══════════ THE CHERRY ══════════ -->
+  <section id="cherry" class="band-espresso">
+    <div class="wrap reveal">
+      <div class="eyebrow">More Than Just a Morning Ritual</div>
+      <h2>Beauty Begins at the Berry</h2>
+      <p class="deck">The incredible story of the coffee cherry. ♡</p>
+
+      <p>Before it becomes the aromatic brew we love, coffee starts as a vibrant little fruit called a <em>coffee cherry</em>. Grown on coffee trees in tropical regions, these cherries hold two seeds — coffee beans — inside. It takes care, patience, and the perfect climate to bring them to life.</p>
+
+      <figure class="artfig" style="max-width:22rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!yx44!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb3ecca95-55b0-4758-8a8b-705a9c12d35b_1200x1200.png" alt="A coffee cherry on the branch">
+        <figcaption>from a cherry, to a bean, to your cup</figcaption>
+      </figure>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 1rem;color:#F3E7D8">The Journey of the Cherry</h3>
+      <ol class="journey">
+        <li><div><b>Grown With Care</b><span>Coffee trees take 3–4 years to produce cherries.</span></div></li>
+        <li><div><b>Hand-Picked</b><span>Ripe cherries are carefully picked, usually by hand.</span></div></li>
+        <li><div><b>Processed</b><span>The cherries are washed, fermented, and dried to reveal the beans.</span></div></li>
+        <li><div><b>Roasted to Perfection</b><span>Heat unlocks the flavor, aroma, and magic.</span></div></li>
+        <li><div><b>Brewed With Love</b><span>And finally, it's ready for your cup.</span></div></li>
+      </ol>
+
+      <blockquote class="pull">From a cherry, to a bean, to your cup. ♡</blockquote>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.4rem 0 1rem;color:#F3E7D8">Love Your Coffee, Love Your Planet</h3>
+      <div class="pills">
+        <span>✦ Choose sustainably sourced beans</span><span>✦ Support farmers &amp; fair trade</span><span>✦ Every mindful choice matters</span>
+      </div>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 1rem;color:#F3E7D8">Fun Facts About Coffee</h3>
+      <div class="cards">
+        <div class="card"><h4>Around the World</h4><p>Coffee is grown in over 70 countries.</p></div>
+        <div class="card"><h4>Arabica Rules</h4><p>Arabica beans make up about 60% of the world's coffee.</p></div>
+        <div class="card"><h4>Global Commodity</h4><p>Coffee is the second most traded commodity after oil.</p></div>
+        <div class="card"><h4>Long-Living Trees</h4><p>A coffee tree can live 50–100 years and keep producing with love.</p></div>
+        <div class="card"><h4>The Origin of the Word</h4><p>"Coffee" comes from the Arabic <em>qahwa</em> — "strength" or "energy."</p></div>
+      </div>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 1rem;color:#F3E7D8">Coffee Pairs Beautifully With…</h3>
+      <div class="pills">
+        <span>☕ Good books</span><span>💐 Fresh flowers</span><span>☀ Morning light</span><span>☕ Deep talks</span><span>✨ Big dreams</span>
+      </div>
+
+      <blockquote class="pull">Good coffee. Good people. Great moments. Sip slow. Stay curious. Be kind. Life happens. Coffee helps. ☕✨</blockquote>
+    </div>
+  </section>
+
+  <hr class="rule"><div class="beans" aria-hidden="true">🌞 ⋆ ˚ ｡ ⋆ 🌞 ⋆ ˚ ｡ ⋆ 🌞</div>
+
+  <!-- ══════════ BEAUTIFUL MORNING ══════════ -->
+  <section id="morning" class="band-foam">
+    <div class="wrap reveal">
+      <div class="eyebrow">Building a Bedroom That Feels Like an Oasis</div>
+      <h2>The Art of a <em>Beautiful Morning</em> 🌞</h2>
+      <p class="deck">A beautiful bedroom is not simply where you sleep — it is where you remember yourself.</p>
+
+      <figure class="artfig" style="max-width:26rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!NIQ9!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fccac271c-7bc6-41b3-b4a2-04a7be0bb43e_1254x1254.png" alt="A sunlit dreamy bedroom oasis">
+        <figcaption>A room where the morning knows your name</figcaption>
+      </figure>
+
+      <h3 style="font-family:var(--serif);font-style:italic;font-size:1.5rem;text-align:center;color:var(--mocha);margin:2.4rem 0 1rem">The New Luxury: Slow Mornings</h3>
+      <p>For years, designers chased perfection — minimal furniture, empty surfaces, neutral walls. Now a different philosophy is returning. People want rooms that feel <em>alive</em>.</p>
+      <div class="pills">
+        <span>♡ a soft blanket on an unmade bed</span><span>♡ a favorite mug waiting nearby</span><span>♡ rainbow light on the walls</span><span>♡ a crystal catching the sunrise</span>
+      </div>
+      <p style="text-align:center;font-style:italic;color:var(--ink-soft)">These small details transform an ordinary room into a personal paradise.</p>
+
+      <figure class="artfig" style="max-width:22rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!j6hm!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd0d0fa3a-56ca-4720-b1e9-2056cffb0f90_2600x3900.png" alt="A cozy iridescent bedroom detail">
+        <figcaption>collected, not decorated</figcaption>
+      </figure>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 1rem">The Magic of Morning Light</h3>
+      <p>Natural sunlight changes more than a space — it changes us. Morning light helps regulate the body's internal clock, supports healthy sleep cycles, improves mood, and creates a sense of calm before the demands of the day arrive. <em>Open the curtains. Let the room wake up with you.</em> Even five quiet minutes in the sunlight can become a ritual that carries through the entire day.</p>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 1rem">The Psychology of Cozy</h3>
+      <p>A room feels comforting when it tells a story — the old note pinned to the wall, the blanket you've owned for years, the cup you reach for every morning, the sunlight that always lands in the same place.</p>
+      <blockquote class="pull">The most beautiful bedrooms are rarely perfect. They are personal.</blockquote>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.4rem 0 1rem">Morning Ritual</h3>
+      <p style="text-align:center;font-style:italic;color:var(--ink-soft)">Before checking your phone:</p>
+      <ul class="checklist" style="max-width:24rem">
+        <li>Open the curtains</li>
+        <li>Take three slow breaths</li>
+        <li>Hold something warm</li>
+        <li>Watch the colors change</li>
+        <li>Decide that today deserves your kindness</li>
+      </ul>
+
+      <div class="polaroid">
+        <p>Collect moments, not clutter. Leave room for wonder. Let the sunrise decorate for you. A quiet bedroom can become the loudest source of peace.</p>
+      </div>
+
+      <blockquote class="pull">A bedroom filled with morning light becomes a gentle promise that today can begin again.</blockquote>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.4rem 0 1rem">The Dream Room Checklist</h3>
+      <ul class="checklist">
+        <li>Soft layered blankets</li>
+        <li>Sheer curtains that glow at sunrise</li>
+        <li>A favorite coffee or tea mug</li>
+        <li>Iridescent pillows &amp; reflective accents</li>
+        <li>Fresh flowers or a tiny plant</li>
+        <li>Crystals or prism catchers</li>
+        <li>A bedside journal</li>
+        <li>Objects that hold memories instead of trends</li>
+      </ul>
+
+      <h3 style="font-family:var(--serif);font-weight:600;font-size:1.4rem;text-align:center;margin:2.6rem 0 1rem">The Iridescent Bedroom Trend</h3>
+      <p style="text-align:center">Modern dreamy interiors combine pastel textiles, holographic reflections, vintage paper ephemera, rainbow prism lighting, soft pink accents, natural morning sunlight, and meaningful collections. Instead of hiding personality, this style <strong>celebrates it</strong>.</p>
+
+      <figure class="artfig" style="max-width:24rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!nwQB!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc11624b9-a0bc-45ef-9cc3-70845564f03a_1254x1254.png" alt="An iridescent dreamy bedroom">
+        <figcaption>shimmering, imperfect, alive</figcaption>
+      </figure>
+
+      <blockquote class="pull">Build a room where the morning knows your name, and even ordinary days will begin like magic.</blockquote>
+    </div>
+  </section>
+
+  <hr class="rule"><div class="beans" aria-hidden="true">🍵 ⋆ ˚ ｡ ⋆ 🍵 ⋆ ˚ ｡ ⋆ 🍵</div>
+
+  <!-- ══════════ COFFEE & TEA NOTES ══════════ -->
+  <section id="notes" class="band-cream">
+    <div class="wrap wide reveal">
+      <div class="eyebrow">Best of Notes</div>
+      <h2>Top <em>Coffee &amp; Tea</em> Notes</h2>
+      <p class="deck">A personally curated little list — in no particular order.</p>
+
+      <p style="text-align:center">A small collection of the tea-time and coffee notes shared over at the feed, starring <strong>Pixel Crystal</strong> — a sweet signature character in the Magick Mica TV world, always creating magick in her cosmic lab — and the eternal <strong>Tea Cup Kitty</strong>.</p>
+
+      <div class="notecards">
+        <div class="notecard">
+          <div class="q">"Just a ghost trying to espresso myself into existence."</div>
+          <div class="deco" aria-hidden="true">𖤓 ｡𖦹°‧ ⋆☀︎ ☕️ ✧˚ ༘ ⋆</div>
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!_FUU!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa8f17e8c-c14a-4672-864a-5b6fe98da973_600x600.gif" alt="Ghost espresso animated note">
+        </div>
+        <div class="notecard">
+          <div class="q">"Somewhere between the first sip and the last, I became a dream."</div>
+          <div class="deco" aria-hidden="true">♡₊˚ 🐸・₊✧💚 ✦ ݁˖ 🍵</div>
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!5EC7!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F589f4589-f485-4d59-bdd3-859be3e890e1_600x600.gif" alt="Tea dream animated note">
+        </div>
+        <div class="notecard">
+          <div class="q">"Careful, dear — this is no ordinary tea… time twirls sideways, secrets steep twice, and every sip invites a little more wonder than you meant to take."</div>
+          <div class="deco" aria-hidden="true">♡ ⋆☕︎ ˖🫖 ✦ ⟡ 🕰️ ♡</div>
+        </div>
+        <div class="notecard">
+          <div class="q">Ghost 👻 coffee with marshmallows &amp; whipped cream.</div>
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!wSjI!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb9052320-434a-41dc-8910-6c32e8240bd0_2000x2000.png" alt="Ghost coffee with marshmallows">
+        </div>
+        <div class="notecard">
+          <div class="q">Tea Cup Kitty — animated to stay alive forever and ever! 🫖</div>
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!gjrm!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fba408000-9275-4e71-829c-800582241a0f_600x600.gif" alt="Tea Cup Kitty animated note">
+        </div>
+        <div class="notecard">
+          <div class="q">Time for cosmic coffee. ☕🌌</div>
+          <div class="deco" aria-hidden="true">✦ ⋆ ˚ ｡ ⋆ ✦</div>
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!OD1H!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2246dcf9-1ef2-4637-acd1-77dd23284f1a_600x600.gif" alt="Cosmic coffee animated note">
+        </div>
+      </div>
+
+      <p style="text-align:center;margin-top:2.4rem;font-family:var(--serif);font-style:italic;font-size:1.2rem;color:var(--mocha)">See more tea time with woodland animals &amp; cosmic characters over on the feed. ☕🌸</p>
+    </div>
+  </section>
+
+  <hr class="rule"><div class="beans" aria-hidden="true">☕ ⋆ ˚ ｡ ⋆ ☕ ⋆ ˚ ｡ ⋆ ☕</div>
+
+  <!-- ══════════ FAIRY NOTE + TEASERS ══════════ -->
+  <section class="band-foam">
+    <div class="wrap reveal">
+      <div class="notice" style="border-color:var(--mocha)">
+        <h4 style="color:var(--mocha)">☕ A Friendly Note from the Coffee Fairies</h4>
+        <p>Our stories are lovingly sprinkled with imagination, folklore, cozy traditions, and fascinating facts. Think of this magazine as a warm conversation over coffee — not a substitute for professional advice. Sip responsibly. <em>Dream extravagantly.</em></p>
+      </div>
+
+      <div class="teasers">
+        <div class="teaser">
+          <h3>Suburban Crystal Living</h3>
+          <p>The Prism Parlour — cozy crystal living, tea history &amp; free printables. 🌈</p>
+          <a href="prism-parlour-crystal-living.html">Read →</a>
+        </div>
+        <div class="teaser">
+          <h3>The Mystical Spiral</h3>
+          <p>Copper pendants, crystals &amp; prism catchers.</p>
+          <a href="https://www.themysticalspiralstore.com/" target="_blank" rel="noopener">Shop →</a>
+        </div>
+        <div class="teaser">
+          <h3>Ko-Fi</h3>
+          <p>Support the magic &amp; the art — buy Magick Mica a coffee. ☕</p>
+          <a href="https://ko-fi.com/magickmica" target="_blank" rel="noopener">Tip jar →</a>
+        </div>
+        <div class="teaser">
+          <h3>The Newsstand</h3>
+          <p>Every glittering issue on the rack, all in one place.</p>
+          <a href="https://magickmica.github.io/aliens/newsstand.html">Browse →</a>
+        </div>
+        <div class="teaser">
+          <h3>Read on Substack</h3>
+          <p>Your Coffee Your Magic &amp; the Coffee/Tea Notes live at MagickMica.</p>
+          <a href="https://magickmicaart.substack.com/p/your-coffee-your-magic" target="_blank" rel="noopener">Original posts →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="motto">Good Coffee. Good People. Great Moments. ☕</p>
+    <p class="disclaimer">This magazine is best enjoyed with an open mind, a warm drink, and a healthy sense of wonder. The facts are researched, the whimsy is intentional, and the magic is complimentary. ☕✨</p>
+    <p class="small">Brewed Magic · Your Coffee, Your Magic · Magick Mica TV ☕🌞</p>
+  </footer>
+
+</main>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.05});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
