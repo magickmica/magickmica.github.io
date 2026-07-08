@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sampler — Three Transmissions · Magick Mica TV</title>
+<meta name="description" content="A sampler from Magick Mica TV — Wonderland Weekly, a morning transmission, and an art remix gallery. Three flavors, one channel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --void:#0C0A1A;
+    --void2:#14112A;
+    /* channel accents */
+    --wonder:#43E8D4;
+    --wonder1:#43E8D4;
+    --wonder2:#B98BFF;
+    --morning:#FFC97A;
+    --morning2:#FF9EC4;
+    --art:#FF5FA8;
+    --art2:#7AD4FF;
+    --foam:#F4F1FF;
+    --ink-soft:#B8B0D8;
+    --serif:'Fraunces', serif;
+    --body:'Space Grotesk', sans-serif;
+    --mono:'Space Mono', monospace;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--foam);
+    font-family:var(--body);
+    font-size:1.12rem;line-height:1.75;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--art);color:#fff;}
+
+  /* scanline shimmer overlay */
+  .tvfx{position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.5;background:repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 2px, transparent 2px 4px);mix-blend-mode:overlay;}
+  .glowbg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .glowbg span{position:absolute;border-radius:50%;filter:blur(70px);opacity:.35;}
+  .glowbg span:nth-child(1){width:34rem;height:34rem;left:-10rem;top:-6rem;background:radial-gradient(circle,var(--wonder2),transparent 70%);}
+  .glowbg span:nth-child(2){width:28rem;height:28rem;right:-8rem;top:38%;background:radial-gradient(circle,var(--morning),transparent 70%);opacity:.22;}
+  .glowbg span:nth-child(3){width:30rem;height:30rem;left:10%;bottom:-8rem;background:radial-gradient(circle,var(--art),transparent 70%);opacity:.28;}
+  main{position:relative;z-index:1;}
+
+  /* ── HERO ── */
+  .cover{text-align:center;padding:4.5rem 1.4rem 3rem;}
+  .issue-strip{font-family:var(--mono);font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:var(--wonder1);display:flex;gap:1rem;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:1.6rem;}
+  .issue-strip .dot{color:var(--art);}
+  .tvicon{font-size:2.4rem;margin-bottom:1rem;filter:drop-shadow(0 0 16px rgba(185,139,255,.6));}
+  .masthead{
+    font-family:var(--serif);font-weight:600;font-style:italic;
+    font-size:clamp(3rem,12vw,7rem);line-height:.98;
+    background:linear-gradient(100deg,var(--wonder1) 6%,var(--wonder2) 32%,var(--morning) 56%,var(--art) 82%,var(--art2) 100%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 0 26px rgba(185,139,255,.35));
+    animation:sheen 10s ease-in-out infinite alternate;
+  }
+  @keyframes sheen{to{background-position:200% 0;}}
+  .masthead small{display:block;font-style:normal;font-weight:400;font-size:clamp(1rem,3.4vw,1.7rem);letter-spacing:.16em;text-transform:uppercase;margin-top:.4em;-webkit-text-fill-color:var(--foam);color:var(--foam);}
+  .cover-tag{font-family:var(--serif);font-style:italic;font-size:1.35rem;margin-top:1.2rem;color:var(--ink-soft);}
+  .dial{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;max-width:44rem;margin:2.4rem auto 0;}
+  .dial a{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;padding:.55rem 1.1rem;border-radius:999px;border:1.5px solid;background:rgba(12,10,26,.55);backdrop-filter:blur(4px);text-decoration:none;transition:transform .18s ease;}
+  .dial a:hover{transform:translateY(-3px);}
+  .dial .d1{color:var(--wonder1);border-color:var(--wonder1);}
+  .dial .d2{color:var(--morning);border-color:var(--morning);}
+  .dial .d3{color:var(--art);border-color:var(--art);}
+
+  /* ── channel divider ── */
+  .channel{display:flex;align-items:center;gap:1rem;justify-content:center;font-family:var(--mono);font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;padding:3.6rem 1rem 0;}
+  .channel::before,.channel::after{content:"";flex:0 1 6rem;height:1px;}
+  .ch-w{color:var(--wonder1);} .ch-w::before,.ch-w::after{background:linear-gradient(90deg,transparent,var(--wonder1));} .ch-w::after{background:linear-gradient(90deg,var(--wonder1),transparent);}
+  .ch-m{color:var(--morning);} .ch-m::before,.ch-m::after{background:linear-gradient(90deg,transparent,var(--morning));} .ch-m::after{background:linear-gradient(90deg,var(--morning),transparent);}
+  .ch-a{color:var(--art);} .ch-a::before,.ch-a::after{background:linear-gradient(90deg,transparent,var(--art));} .ch-a::after{background:linear-gradient(90deg,var(--art),transparent);}
+
+  section{position:relative;}
+  .wrap{max-width:44rem;margin:0 auto;padding:2.6rem 1.5rem 4.4rem;}
+  .wrap.wide{max-width:62rem;}
+
+  .badge{display:inline-block;font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;padding:.35rem .9rem;border-radius:999px;margin-bottom:1.1rem;}
+  .badge.w{color:var(--void);background:var(--wonder1);}
+  .badge.m{color:var(--void);background:var(--morning);}
+  .badge.a{color:#fff;background:var(--art);}
+  h2{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,5.6vw,3rem);line-height:1.12;margin-bottom:.5rem;}
+  h2 em{font-style:italic;}
+  .ch-w-text em{color:var(--wonder1);} .ch-m-text em{color:var(--morning);} .ch-a-text em{color:var(--art);}
+  .deck{font-family:var(--serif);font-style:italic;font-size:1.3rem;color:var(--ink-soft);margin-bottom:2rem;}
+  p{margin-bottom:1.15rem;}
+  p:last-child{margin-bottom:0;}
+
+  .pull{font-family:var(--serif);font-style:italic;font-size:1.5rem;line-height:1.5;text-align:center;padding:1.6rem 1rem;margin:2rem 0;}
+  .pull.w{color:var(--wonder1);} .pull.m{color:var(--morning);} .pull.a{color:var(--art);}
+
+  .artfig{margin:2.4rem auto 0;text-align:center;}
+  .artfig img{display:block;width:100%;height:auto;border-radius:1rem;border:3px solid rgba(244,241,255,.25);box-shadow:0 18px 40px rgba(0,0,0,.5);transition:transform .25s ease;}
+  .artfig:hover img{transform:scale(1.015);}
+  .artfig figcaption{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;margin-top:.8rem;color:var(--ink-soft);}
+  .w-frame img{border-color:rgba(67,232,212,.4);box-shadow:0 0 30px rgba(67,232,212,.2),0 18px 40px rgba(0,0,0,.5);}
+  .m-frame img{border-color:rgba(255,201,122,.4);box-shadow:0 0 30px rgba(255,201,122,.2),0 18px 40px rgba(0,0,0,.5);}
+  .a-frame img{border-color:rgba(255,95,168,.4);box-shadow:0 0 30px rgba(255,95,168,.2),0 18px 40px rgba(0,0,0,.5);}
+
+  /* trend list */
+  .trend{list-style:none;margin:1.8rem 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.7rem;}
+  .trend li{border:1px solid rgba(67,232,212,.35);border-radius:.7rem;padding:.8rem 1rem;font-size:1rem;background:rgba(20,17,42,.5);}
+  .trend li::before{content:"◈ ";color:var(--wonder1);}
+
+  /* quote plates for morning */
+  .qplate{border:1px solid rgba(255,201,122,.4);border-radius:1.2rem;padding:1.8rem 1.6rem;margin:1.6rem 0;text-align:center;background:rgba(20,17,42,.5);}
+  .qplate p{font-family:var(--serif);font-style:italic;font-size:1.35rem;line-height:1.5;color:var(--foam);margin:0;}
+  .qplate .em{color:var(--morning);}
+
+  /* art remix gallery */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:1.1rem;margin-top:2.2rem;}
+  .art-card{border:1px solid rgba(255,95,168,.3);border-radius:.9rem;overflow:hidden;background:rgba(20,17,42,.5);transition:transform .2s ease,border-color .2s ease;}
+  .art-card:hover{transform:translateY(-5px);border-color:var(--art);}
+  .art-card img{width:100%;height:auto;display:block;}
+  .art-card .cap{padding:.9rem 1rem;font-size:.92rem;line-height:1.4;color:var(--ink-soft);}
+  .art-card .cap b{color:var(--foam);font-weight:600;display:block;font-family:var(--serif);font-style:italic;font-size:1.05rem;}
+
+  /* CTA to full issues */
+  .fullcta{border:1px solid rgba(244,241,255,.2);border-radius:1.2rem;padding:1.7rem 1.6rem;margin-top:2.6rem;text-align:center;background:rgba(20,17,42,.6);}
+  .fullcta p{margin-bottom:1.1rem;font-size:1.05rem;color:var(--ink-soft);}
+  .fullcta a{display:inline-block;font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;border-radius:999px;padding:.7rem 1.5rem;font-weight:700;transition:transform .18s ease;}
+  .fullcta a:hover{transform:translateY(-3px);}
+  .fullcta a.w{color:var(--void);background:linear-gradient(100deg,var(--wonder1),var(--wonder2));}
+  .fullcta a.m{color:var(--void);background:linear-gradient(100deg,var(--morning),var(--morning2));}
+  .fullcta a.a{color:#fff;background:linear-gradient(100deg,var(--art),var(--art2));}
+
+  /* teasers + footer */
+  .teasers{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin-top:2rem;}
+  .teaser{border:1px solid rgba(185,139,255,.35);border-radius:1rem;padding:1.4rem 1.3rem;display:flex;flex-direction:column;gap:.5rem;background:rgba(20,17,42,.6);}
+  .teaser h3{font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.82rem;color:var(--wonder2);}
+  .teaser p{margin:0;font-size:.98rem;flex:1;color:var(--ink-soft);}
+  .teaser a{align-self:flex-start;font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--wonder1);border:1px solid var(--wonder1);border-radius:999px;padding:.45rem 1rem;text-decoration:none;}
+  footer{text-align:center;padding:3.4rem 1.4rem 4rem;border-top:1px solid rgba(185,139,255,.3);}
+  footer .tv{font-size:1.8rem;display:block;margin-bottom:.5rem;}
+  footer .brand{font-family:var(--serif);font-style:italic;font-size:1.6rem;background:linear-gradient(100deg,var(--wonder1),var(--morning),var(--art));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
+  footer .motto{font-family:var(--serif);font-style:italic;font-size:1.1rem;color:var(--ink-soft);margin:.5rem 0 1rem;}
+  footer .small{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);opacity:.7;}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}.reveal{opacity:1;transform:none;}html{scroll-behavior:auto;}.tvfx{display:none;}}
+</style>
+</head>
+<body>
+<a href="https://magickmica.github.io/aliens/newsstand.html" style="position:fixed;top:1rem;left:1rem;z-index:50;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;padding:.5rem 1rem;border-radius:999px;border:1.5px solid #B98BFF;color:#D5C4FF;background:rgba(12,10,26,.7);backdrop-filter:blur(4px)">← Newsstand</a>
+<div class="glowbg" aria-hidden="true"><span></span><span></span><span></span></div>
+<div class="tvfx" aria-hidden="true"></div>
+<main>
+
+  <!-- ══════════ COVER ══════════ -->
+  <section class="cover">
+    <div class="issue-strip">
+      <span>Magick Mica TV</span><span class="dot">✦</span>
+      <span>Now Playing</span><span class="dot">✦</span>
+      <span>The Sampler</span>
+    </div>
+    <div class="tvicon" aria-hidden="true">📺</div>
+    <h1 class="masthead">The Sampler<small>Three Transmissions</small></h1>
+    <p class="cover-tag">Flip the dial. Three flavors, one channel. ✦</p>
+
+    <nav class="dial" aria-label="Channels">
+      <a class="d1" href="#wonderland">CH 01 · Wonderland Weekly</a>
+      <a class="d2" href="#morning">CH 02 · Morning Transmission</a>
+      <a class="d3" href="#remix">CH 03 · Art Remix Gallery</a>
+    </nav>
+  </section>
+
+  <!-- ══════════ CHANNEL 01 · WONDERLAND ══════════ -->
+  <div class="channel ch-w">CH 01 · Now Tuning In</div>
+  <section id="wonderland">
+    <div class="wrap reveal ch-w-text">
+      <span class="badge w">👑 Wonderland Weekly · Summer 2026</span>
+      <h2>Alice &amp; The <em>Cheshire Cat</em></h2>
+      <p class="deck">Inside the most iconic duo in Wonderland — destiny, madness &amp; the art of getting lost.</p>
+
+      <figure class="artfig w-frame" style="max-width:30rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!tLN4!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F12f8b444-b351-48f4-8530-f4c3c28eec94_1024x1536.png" alt="Alice and the Cheshire Cat in Wonderland">
+        <figcaption>The curious dreamer &amp; the cosmic trickster</figcaption>
+      </figure>
+
+      <p style="margin-top:1.8rem">Some celebrity friendships are built on fame. Others are built on chaos. For decades, Wonderland has whispered about the strange connection between Alice and the Cheshire Cat — the curious dreamer and the cosmic trickster whose grin has become one of the most recognizable symbols in all alternate realities.</p>
+      <p>They disappear. They reappear. They speak in riddles. They vanish before answering questions. And somehow… they always seem to know where the next portal opens.</p>
+      <p>“People think Wonderland is about nonsense,” Alice says thoughtfully. “But I think it's really about becoming someone new every time you get lost.” The Cheshire Cat grins wider. <em>“Getting lost is the whole point.”</em></p>
+
+      <blockquote class="pull w">“We're all mad here” — but madness isn't chaos. It's what happens when you stop pretending the world makes perfect sense.</blockquote>
+
+      <span class="badge w" style="margin-top:1rem">💿 Trend Report</span>
+      <h2 style="font-size:clamp(1.6rem,4.6vw,2.3rem)">Holographic Fashion From the Rabbit Hole</h2>
+      <p class="deck" style="margin-bottom:1.4rem">This summer's hottest Wonderland trend? Reflective chaos.</p>
+      <ul class="trend">
+        <li>Holographic checkerboard prints</li>
+        <li>Liquid chrome accessories</li>
+        <li>Oversized storybook bows</li>
+        <li>Iridescent platform boots</li>
+        <li>Transparent glitter trench coats</li>
+        <li>Animated jewelry projections</li>
+      </ul>
+      <p style="margin-top:1.6rem">Alice herself calls the trend “emotional armor.” <em>“If you're going to wander through strange realities, you might as well sparkle while doing it.”</em></p>
+
+      <blockquote class="pull w">“All waves become portals eventually.” — The Cheshire Cat</blockquote>
+
+      <div class="fullcta">
+        <p>This is just a sneak peek. The full extended issue awaits through the looking glass.</p>
+        <a class="w" href="https://magickmica.github.io/alice/wonderland-weekly-expanded.html">Enter Wonderland Weekly →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ CHANNEL 02 · MORNING ══════════ -->
+  <div class="channel ch-m">CH 02 · Changing Channels</div>
+  <section id="morning">
+    <div class="wrap reveal ch-m-text">
+      <span class="badge m">🌅 Morning Transmission</span>
+      <h2>Sun Melting <em>Into the Sea</em></h2>
+      <p class="deck">A small morning transmission. Sometimes we have to just stop and be.</p>
+
+      <figure class="artfig m-frame" style="max-width:26rem">
+        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!2a7N!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F682221de-c5d0-43a4-9e36-f430392d43f9_1000x1000.png" alt="A sun melting into the sea">
+        <figcaption>April 12 · Morning quotes for the soul</figcaption>
+      </figure>
+
+      <div class="qplate" style="margin-top:2rem"><p>Sun melting into the sea, and suddenly… <span class="em">there's nowhere I need to be.</span></p></div>
+      <div class="qplate"><p>Let it sit. Let it breathe. <span class="em">Let it become richer than you imagined.</span></p></div>
+      <div class="qplate"><p>The sun doesn't rush — it simply rises and becomes undeniable. <span class="em">Be like that today.</span> ✨</p></div>
+      <div class="qplate"><p>Before the world speaks, listen — the universe already whispered: <span class="em">you're meant to shine today.</span> ✧</p></div>
+      <div class="qplate"><p>A new day transmits softly through the light — not asking you to be perfect, <span class="em">only to glow a little brighter than yesterday.</span></p></div>
+
+      <blockquote class="pull m">Rushing skips the depth. Marination builds the legend.</blockquote>
+
+      <div class="qplate"><p>Morning arrives like a gentle frequency shift — <span class="em">tuning your heart back to its original, radiant channel.</span> ♡</p></div>
+      <p style="text-align:center;font-family:var(--serif);font-style:italic;font-size:1.2rem;color:var(--morning);margin-top:1.6rem">Now, it's time to make that cup of coffee. ☕</p>
+
+      <div class="fullcta">
+        <p>Read the full morning transmission — with all its animated light — on Substack.</p>
+        <a class="m" href="https://magickmica.substack.com/p/sun-melting-into-the-sea" target="_blank" rel="noopener">Read the transmission →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ CHANNEL 03 · ART REMIX ══════════ -->
+  <div class="channel ch-a">CH 03 · Signal Boost</div>
+  <section id="remix">
+    <div class="wrap wide reveal ch-a-text">
+      <span class="badge a">🎨 Dream On · More Visions</span>
+      <h2>The <em>Art Remix</em> Gallery</h2>
+      <p class="deck">More fun with remixing art — old masters, new neon visions.</p>
+
+      <div class="gallery">
+        <div class="art-card">
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Lhpp!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fadd92606-a6ea-4a5a-952c-042340adb603_1500x1064.png" alt="Remix of Dali's The Persistence of Memory">
+          <div class="cap"><b>Persistence of Memory</b>Salvador Dalí, 1931 — always a favorite remix. 🖼️</div>
+        </div>
+        <div class="art-card">
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!HfwE!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe4e8c36f-be9e-445b-b37c-f05fd5005079_1200x1200.png" alt="Remixed Rembrandt self portrait">
+          <div class="cap"><b>Remember Rembrandt</b>The master's self portrait, reimagined.</div>
+        </div>
+        <div class="art-card">
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!6Dj5!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd32ece3e-9ed5-4785-91cf-12e76c06ef9e_930x930.png" alt="Neon ice cream royalty">
+          <div class="cap"><b>Neon Royalty</b>Huge neon ice cream scoops are for royalty.</div>
+        </div>
+        <div class="art-card">
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!TZvi!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2cf591da-7332-427f-a77c-e1c37a496e20_1048x1034.png" alt="Remix of Bruegel's The Peasant Wedding">
+          <div class="cap"><b>Cake &amp; Freedom</b>After <em>The Peasant Wedding</em> — Pieter Bruegel the Elder, 1567.</div>
+        </div>
+        <div class="art-card">
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!iWIL!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F18d61760-029f-49d0-a00f-9819d33e402e_1525x2287.png" alt="Frida Kahlo pop art with Van Gogh starry sky">
+          <div class="cap"><b>Frida × Starry Sky</b>Frida Kahlo in pop art with Van Gogh's stars.</div>
+        </div>
+        <div class="art-card">
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!NHeE!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6beb5cd0-23a8-43c6-b849-8fc6b1b3757f_1250x1234.png" alt="Persist Enigma remix, Dali's time meets Mona Lisa">
+          <div class="cap"><b>Persist / Enigma</b>Dalí's melting time meets the Mona Lisa.</div>
+        </div>
+        <div class="art-card">
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!IN28!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F83df394b-f0b1-46e0-9476-5253e7bc6cd8_1200x1408.png" alt="Basquiat inspired Mona Lisa">
+          <div class="cap"><b>Basquiat Mona</b>The Mona Lisa, remixed Basquiat-style.</div>
+        </div>
+        <div class="art-card">
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!razq!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff1ad33ec-bf46-4bfb-93ed-10f30ded4e24_1200x1200.png" alt="Remix inspired by Botticelli's Birth of Venus">
+          <div class="cap"><b>Birth of Venus</b>Inspired by Sandro Botticelli's masterpiece.</div>
+        </div>
+        <div class="art-card">
+          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!kgCI!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff33e1385-890b-4b4f-bf73-8c32bd78a180_1200x1269.png" alt="Portrait in the art style of Picasso">
+          <div class="cap"><b>Picasso Dreams</b>Reimagined in the style of Picasso.</div>
+        </div>
+      </div>
+
+      <blockquote class="pull a">“No harm crosses my aura.” ⋆༺☾𖤓༻⋆</blockquote>
+
+      <div class="fullcta">
+        <p>This is just a taste of the remix gallery — the Mona Lisa collection and more await.</p>
+        <a class="a" href="https://magickmicaart.substack.com/cp/188424755" target="_blank" rel="noopener">See the full gallery →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ MORE ══════════ -->
+  <div class="channel ch-w" style="color:var(--wonder2)">Back to the Guide</div>
+  <section>
+    <div class="wrap wide reveal">
+      <h2 style="text-align:center;font-size:clamp(1.6rem,4.4vw,2.2rem)">More on Magick Mica TV</h2>
+      <div class="teasers">
+        <div class="teaser">
+          <h3>The Newsstand</h3>
+          <p>Eight glittering full issues on the rack, all in one place.</p>
+          <a href="https://magickmica.github.io/aliens/newsstand.html">Browse →</a>
+        </div>
+        <div class="teaser">
+          <h3>Sacred Mini Articles</h3>
+          <p>The Cosmic Collection — four temple-portal issues.</p>
+          <a href="https://magickmica.github.io/mags/mags/index.html">Browse →</a>
+        </div>
+        <div class="teaser">
+          <h3>The Hub</h3>
+          <p>All transmissions — every channel of Magick Mica TV.</p>
+          <a href="https://magickmica.github.io/">Go there →</a>
+        </div>
+        <div class="teaser">
+          <h3>The Mystical Spiral</h3>
+          <p>Copper pendants, crystals &amp; objects that carry the signal.</p>
+          <a href="https://www.themysticalspiralstore.com/" target="_blank" rel="noopener">Shop →</a>
+        </div>
+        <div class="teaser">
+          <h3>Read on Substack</h3>
+          <p>Wonderland Weekly, morning transmissions &amp; art remixes.</p>
+          <a href="https://magickmica.substack.com/" target="_blank" rel="noopener">Subscribe →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="tv" aria-hidden="true">📺</span>
+    <div class="brand">Magick Mica TV</div>
+    <p class="motto">Flip the dial. Three flavors, one channel. ✦</p>
+    <p class="small">The Sampler · Three Transmissions · Magick Mica TV 📺✨</p>
+  </footer>
+
+</main>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.05});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
