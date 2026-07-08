@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Art Wing — Collages, Ads &amp; Icons · Magick Mica TV</title>
+<meta name="description" content="The Art Wing — a gallery of Magick Mica's collages, quote art, parody ads, and pop icons. Six rooms of remix magick.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --gallery:#0E0C16;
+    --gallery2:#17131F;
+    --wall:#1C1826;
+    --plaster:#F3EEE6;
+    --gold:#E4B85E;
+    --rose:#FF6FA8;
+    --violet:#B58BFF;
+    --mint:#63D9C4;
+    --sky:#78C4FF;
+    --ink-soft:#C3BBD6;
+    --serif:'Fraunces', serif;
+    --body:'Space Grotesk', sans-serif;
+    --mono:'Space Mono', monospace;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--gallery);
+    color:var(--plaster);
+    font-family:var(--body);
+    font-size:1.1rem;line-height:1.7;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--rose);color:#fff;}
+
+  .glowbg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  .glowbg span{position:absolute;border-radius:50%;filter:blur(80px);opacity:.28;}
+  .glowbg span:nth-child(1){width:34rem;height:34rem;left:-10rem;top:-6rem;background:radial-gradient(circle,var(--violet),transparent 70%);}
+  .glowbg span:nth-child(2){width:30rem;height:30rem;right:-8rem;top:34%;background:radial-gradient(circle,var(--rose),transparent 70%);}
+  .glowbg span:nth-child(3){width:30rem;height:30rem;left:14%;bottom:-8rem;background:radial-gradient(circle,var(--mint),transparent 70%);opacity:.2;}
+  main{position:relative;z-index:1;}
+
+  /* ── HERO ── */
+  .cover{text-align:center;padding:4.5rem 1.4rem 2.6rem;}
+  .issue-strip{font-family:var(--mono);font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:var(--mint);display:flex;gap:1rem;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:1.4rem;}
+  .issue-strip .dot{color:var(--rose);}
+  .tvicon{font-size:2.2rem;margin-bottom:.8rem;filter:drop-shadow(0 0 16px rgba(181,139,255,.6));}
+  .masthead{
+    font-family:var(--serif);font-weight:600;font-style:italic;
+    font-size:clamp(2.8rem,11vw,6.4rem);line-height:.98;
+    background:linear-gradient(100deg,var(--gold) 5%,var(--rose) 34%,var(--violet) 62%,var(--sky) 90%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 0 26px rgba(181,139,255,.3));
+    animation:sheen 11s ease-in-out infinite alternate;
+  }
+  @keyframes sheen{to{background-position:200% 0;}}
+  .masthead small{display:block;font-style:normal;font-weight:400;font-size:clamp(1rem,3.2vw,1.6rem);letter-spacing:.14em;text-transform:uppercase;margin-top:.4em;-webkit-text-fill-color:var(--plaster);color:var(--plaster);}
+  .cover-tag{font-family:var(--serif);font-style:italic;font-size:1.3rem;margin-top:1.1rem;color:var(--ink-soft);}
+  .dial{display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center;max-width:48rem;margin:2.2rem auto 0;}
+  .dial a{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.5rem 1rem;border-radius:999px;border:1.5px solid rgba(228,184,94,.5);color:var(--gold);background:rgba(14,12,22,.5);backdrop-filter:blur(4px);text-decoration:none;transition:transform .18s ease;}
+  .dial a:hover{transform:translateY(-3px);border-color:var(--gold);}
+
+  /* ── room label · art-deco plaque ── */
+  .roomlabel{display:flex;align-items:center;gap:1.1rem;justify-content:center;padding:4rem 1rem 0;}
+  .roomlabel .rail{flex:0 1 9rem;position:relative;height:7px;}
+  .roomlabel .rail::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+  .roomlabel .rail::after{content:"";position:absolute;left:14%;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(228,184,94,.45));}
+  .roomlabel .rail.r::before{background:linear-gradient(90deg,var(--gold),transparent);}
+  .roomlabel .rail.r::after{left:0;right:14%;background:linear-gradient(90deg,rgba(228,184,94,.45),transparent);}
+  .roomlabel .gem{color:var(--gold);font-size:.8rem;line-height:1;text-shadow:0 0 12px rgba(228,184,94,.8);animation:gemglow 3s ease-in-out infinite;}
+  .roomlabel .gem.small{font-size:.5rem;opacity:.7;animation-delay:1.5s;}
+  @keyframes gemglow{0%,100%{opacity:.65;transform:scale(1);}50%{opacity:1;transform:scale(1.22);}}
+  .roomlabel .plaque{
+    position:relative;
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--gold);text-indent:.32em;white-space:nowrap;
+    padding:.85rem 1.6rem;
+    border:1px solid rgba(228,184,94,.55);
+    background:
+      linear-gradient(180deg, rgba(228,184,94,.12), rgba(228,184,94,.03) 45%, rgba(14,12,22,.2)),
+      var(--gallery2);
+    box-shadow:0 0 24px rgba(228,184,94,.14), inset 0 0 18px rgba(228,184,94,.07);
+    clip-path:polygon(1rem 0, calc(100% - 1rem) 0, 100% 50%, calc(100% - 1rem) 100%, 1rem 100%, 0 50%);
+  }
+  .roomlabel .plaque::before,.roomlabel .plaque::after{
+    content:"◆";position:absolute;top:50%;transform:translateY(-50%);
+    font-size:.42rem;color:var(--gold);opacity:.85;
+  }
+  .roomlabel .plaque::before{left:.42rem;}
+  .roomlabel .plaque::after{right:.42rem;}
+  @media (max-width:640px){
+    .roomlabel{gap:.7rem;}
+    .roomlabel .rail{flex:0 1 3.2rem;}
+    .roomlabel .plaque{white-space:normal;text-align:center;letter-spacing:.22em;font-size:.6rem;padding:.75rem 1.2rem;}
+  }
+  @media (prefers-reduced-motion:reduce){.roomlabel .gem{animation:none;}}
+
+  section{position:relative;}
+  .wrap{max-width:64rem;margin:0 auto;padding:2.4rem 1.4rem 4rem;}
+  .wrap.narrow{max-width:42rem;}
+
+  .room-head{text-align:center;margin-bottom:2rem;}
+  .badge{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;padding:.35rem .9rem;border-radius:999px;margin-bottom:1rem;color:#0E0C16;}
+  .b-gold{background:var(--gold);} .b-rose{background:var(--rose);} .b-violet{background:var(--violet);} .b-mint{background:var(--mint);} .b-sky{background:var(--sky);}
+  h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.9rem,5.4vw,2.8rem);line-height:1.12;margin-bottom:.5rem;}
+  h2 em{font-style:italic;color:var(--gold);}
+  .deck{font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--ink-soft);}
+
+  /* masonry gallery */
+  .masonry{columns:3;column-gap:1rem;}
+  .masonry.two{columns:2;}
+  @media (max-width:800px){.masonry{columns:2;}}
+  @media (max-width:520px){.masonry,.masonry.two{columns:1;}}
+  .frame{break-inside:avoid;margin-bottom:1rem;background:var(--wall);border:1px solid rgba(243,238,230,.14);border-radius:.7rem;overflow:hidden;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;}
+  .frame:hover{transform:translateY(-4px);border-color:rgba(228,184,94,.5);box-shadow:0 16px 34px rgba(0,0,0,.5);}
+  .frame img{width:100%;height:auto;display:block;}
+  .frame .plate{padding:.75rem .9rem;font-size:.9rem;line-height:1.4;color:var(--ink-soft);}
+  .frame .plate b{color:var(--plaster);font-weight:600;font-family:var(--serif);font-style:italic;display:block;font-size:1rem;}
+
+  /* quote strip between rooms */
+  .quotestrip{text-align:center;font-family:var(--serif);font-style:italic;font-size:clamp(1.4rem,4.2vw,2rem);line-height:1.5;color:var(--violet);max-width:34rem;margin:2.8rem auto 0;padding:0 1rem;}
+  .quotestrip.gold{color:var(--gold);} .quotestrip.rose{color:var(--rose);} .quotestrip.mint{color:var(--mint);}
+
+  /* essay room */
+  .essay p{margin-bottom:1.2rem;}
+  .essay p:last-child{margin-bottom:0;}
+  .essay em{color:var(--violet);font-style:italic;}
+  .essay strong{color:#fff;}
+  .essay .lead{font-family:var(--serif);font-style:italic;font-size:1.4rem;color:var(--gold);text-align:center;margin-bottom:1.8rem;}
+  .pull{font-family:var(--serif);font-style:italic;font-size:1.5rem;line-height:1.5;text-align:center;color:var(--rose);padding:1.6rem 1rem;margin:1.8rem 0;}
+  .steplist{list-style:none;margin:1.6rem 0;counter-reset:s;}
+  .steplist li{counter-increment:s;padding:1rem 0 1rem 3.2rem;position:relative;border-bottom:1px solid rgba(243,238,230,.12);}
+  .steplist li::before{content:counter(s);font-family:var(--serif);font-style:italic;font-size:1.3rem;color:#0E0C16;background:linear-gradient(150deg,var(--violet),var(--rose));width:2.3rem;height:2.3rem;border-radius:50%;display:flex;align-items:center;justify-content:center;position:absolute;left:0;top:.9rem;}
+  .steplist li b{font-family:var(--serif);color:var(--violet);}
+  .essayart{margin:2rem 0 0;text-align:center;}
+  .essayart img{width:100%;max-width:26rem;height:auto;border-radius:.8rem;border:1px solid rgba(181,139,255,.4);box-shadow:0 0 30px rgba(181,139,255,.2);}
+
+  /* Marilyn quotes */
+  .mmquote{border-left:2px solid var(--gold);padding:.4rem 0 .4rem 1.3rem;margin:1rem 0;font-family:var(--serif);font-style:italic;font-size:1.2rem;color:var(--plaster);}
+  .mmcat{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin:2rem 0 .6rem;}
+
+  /* CTA */
+  .fullcta{border:1px solid rgba(243,238,230,.18);border-radius:1.1rem;padding:1.5rem 1.5rem;margin-top:2.2rem;text-align:center;background:rgba(23,19,31,.6);}
+  .fullcta p{margin-bottom:1rem;font-size:1rem;color:var(--ink-soft);}
+  .fullcta a{display:inline-block;font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;border-radius:999px;padding:.65rem 1.4rem;font-weight:700;color:#0E0C16;background:linear-gradient(100deg,var(--gold),var(--rose));transition:transform .18s ease;}
+  .fullcta a:hover{transform:translateY(-3px);}
+
+  /* teasers + footer */
+  .teasers{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin-top:2rem;}
+  .teaser{border:1px solid rgba(181,139,255,.3);border-radius:1rem;padding:1.4rem 1.3rem;display:flex;flex-direction:column;gap:.5rem;background:rgba(23,19,31,.6);}
+  .teaser h3{font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.82rem;color:var(--violet);}
+  .teaser p{margin:0;font-size:.96rem;flex:1;color:var(--ink-soft);}
+  .teaser a{align-self:flex-start;font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:.45rem 1rem;text-decoration:none;}
+  footer{text-align:center;padding:3.4rem 1.4rem 4rem;border-top:1px solid rgba(181,139,255,.3);}
+  footer .tv{font-size:1.8rem;display:block;margin-bottom:.5rem;}
+  footer .brand{font-family:var(--serif);font-style:italic;font-size:1.6rem;background:linear-gradient(100deg,var(--gold),var(--rose),var(--violet));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
+  footer .motto{font-family:var(--serif);font-style:italic;font-size:1.1rem;color:var(--ink-soft);margin:.5rem 0 1rem;}
+  footer .small{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);opacity:.7;}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}.reveal{opacity:1;transform:none;}html{scroll-behavior:auto;}}
+</style>
+</head>
+<body>
+<a href="https://magickmica.github.io/aliens/newsstand.html" style="position:fixed;top:1rem;left:1rem;z-index:50;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;padding:.5rem 1rem;border-radius:999px;border:1.5px solid #E4B85E;color:#E4B85E;background:rgba(14,12,22,.7);backdrop-filter:blur(4px)">← Newsstand</a>
+<div class="glowbg" aria-hidden="true"><span></span><span></span><span></span></div>
+<main>
+
+  <!-- ══════════ COVER ══════════ -->
+  <section class="cover">
+    <div class="issue-strip">
+      <span>Magick Mica TV</span><span class="dot">✦</span>
+      <span>Now Exhibiting</span><span class="dot">✦</span>
+      <span>The Art Wing</span>
+    </div>
+    <div class="tvicon" aria-hidden="true">🖼️</div>
+    <h1 class="masthead">The Art Wing<small>Collages · Ads · Icons</small></h1>
+    <p class="cover-tag">Six rooms of remix magick. Wander freely. ✦</p>
+
+    <nav class="dial" aria-label="Gallery rooms">
+      <a href="#collages">01 · Collage Notes</a>
+      <a href="#holographic">02 · The Holographic Heart</a>
+      <a href="#fairytale">03 · Quote Collages</a>
+      <a href="#cats">04 · Cats, Coffee &amp; Alice</a>
+      <a href="#ads">05 · Ads From Beyond</a>
+      <a href="#marilyn">06 · Marilyn</a>
+    </nav>
+  </section>
+
+  <!-- ══════════ ROOM 01 · COLLAGE NOTES ══════════ -->
+  <div class="roomlabel"><span class="gem small" aria-hidden="true">✦</span><span class="rail" aria-hidden="true"></span><span class="gem" aria-hidden="true">◈</span><span class="plaque">Room 01 · Now Entering</span><span class="gem" aria-hidden="true">◈</span><span class="rail r" aria-hidden="true"></span><span class="gem small" aria-hidden="true">✦</span></div>
+  <section id="collages">
+    <div class="wrap">
+      <div class="room-head reveal">
+        <span class="badge b-gold">🎨 Fun Collages + Never Before Seen</span>
+        <h2>Collage <em>Notes</em></h2>
+        <p class="deck">The latest collages as seen on Magick Mica TV's Notes.</p>
+      </div>
+
+      <div class="masonry reveal">
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!isUF!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7c938476-b14f-42f5-88df-d1fadd4b188b_1254x1254.png" alt="Bill and Ted's Future Feels Restored"><div class="plate"><b>Bill &amp; Ted's Future Feels Restored</b>A new reality is ready to install. Trust the timing.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!XZFg!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F50cccf0c-15c0-4781-91f7-aab1236831db_1888x1888.png" alt="Jam-stained squirrel"><div class="plate">A squirrel with jam-stained paws will always choose berries over anything else.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!di2-!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F49f00ef1-bfcc-47c2-a784-5c215e28ea6a_1888x1888.png" alt="Pyramid Queen"><div class="plate"><b>Pyramid Queen</b>Built from dreams, sprayed in neon. I turned doubt into technicolor destiny.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!x0RV!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6f51dc4e-2f4f-44df-b077-ddb9ce6f3c88_1254x1254.png" alt="My aura is a rebellion of light"><div class="plate">My aura isn't one color — it's a rebellion of light.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!S37r!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fda936d08-784a-4b87-9aef-f7bffd612937_1888x2249.png" alt="Wonderland is calling"><div class="plate">Wonderland is calling.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!blib!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9894dd9b-bbe0-4289-91aa-31dd67cd8842_1254x1254.png" alt="They looked up"><div class="plate">They looked up — not in curiosity, but in recognition.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!RxIv!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F88421480-fa99-44ac-a011-26090ad173a4_2222x2222.png" alt="Fruit is the earth's promise"><div class="plate">Fruit is the Earth's quiet promise fulfilled.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!o_ZY!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F88c3f1ef-6706-4f7c-9ccb-62e7d456ded7_1888x2832.png" alt="Bewitched"><div class="plate"><b>Bewitched</b>A touch of magic makes everything possible.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Rx6P!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc77c6d16-92f3-4999-83a4-3554b4ec9fd7_1555x1251.png" alt="The kitchen is my cauldron"><div class="plate"><b>The Kitchen is my Cauldron</b>A well-stirred potion and a well-stirred soup aren't so different.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!8nhy!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F556ece6c-fdb4-440e-ac17-d0f43b75a564_1122x1402.png" alt="Pick your frequency"><div class="plate">Pick your frequency. Change your transmission.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!1Lrh!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd7a2b44a-0d6e-4016-8d5a-882760eca295_1149x1369.png" alt="Never seen before"><div class="plate">Never seen before. 😱</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Ra56!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F87392493-8d33-4cda-9102-08b93e56aa26_1024x1536.png" alt="Indoor Tanning Lotion parody ad"><div class="plate"><b>Indoor Tanning Lotion</b>Parody ad — magnificently bronzed.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!rjm5!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffa4226c5-ab23-4ced-8567-316d7d2b8036_2222x1485.png" alt="Make Music Great Again VHS"><div class="plate"><b>Make Music Great Again</b>A magical performance VHS.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ylOf!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe26dd907-9578-424d-b973-807fc604bc0b_1402x1122.png" alt="Candy OS for Windows 95"><div class="plate"><b>Candy OS</b>For Windows 95.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!W7DK!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3a9c6b15-427f-4ae6-989e-e4b539ae3246_1402x1122.png" alt="Sakura OS for Windows 95"><div class="plate"><b>Sakura OS</b>For Windows 95.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!cIT4!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1d1ca34f-b84f-4dfd-a6db-6912d88039eb_1403x1121.png" alt="Prism OS for Windows 95"><div class="plate"><b>Prism OS</b>For Windows 95.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!A_uN!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2926aaa2-80c9-458c-bbda-27278c660f87_1122x1402.png" alt="Some magic whispers"><div class="plate">Some magic whispers instead of roars.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Euw3!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F489e61d7-6cfa-47ea-ad3c-c02758c1d826_1331x1181.png" alt="Painting and dreaming time"><div class="plate">Painting &amp; dreaming time.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!HCF4!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb5e0ef8d-336f-40ad-9fa2-72bb83e16580_1315x1197.png" alt="You are the artist of your universe"><div class="plate"><b>Windows Paint</b>You are the artist of your universe.</div></div>
+      </div>
+
+      <div class="quotestrip gold">"While I rest, the universe rearranges miracles."</div>
+
+      <div class="fullcta reveal">
+        <p>See the full collage drop with all the extras.</p>
+        <a href="https://magickmicaart.substack.com/p/fun-collages-plus-some-never-before" target="_blank" rel="noopener">View full post →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ROOM 02 · HOLOGRAPHIC HEART ══════════ -->
+  <div class="roomlabel"><span class="gem small" aria-hidden="true">✦</span><span class="rail" aria-hidden="true"></span><span class="gem" aria-hidden="true">◈</span><span class="plaque">Room 02 · The Reading Room</span><span class="gem" aria-hidden="true">◈</span><span class="rail r" aria-hidden="true"></span><span class="gem small" aria-hidden="true">✦</span></div>
+  <section id="holographic" style="background:var(--gallery2)">
+    <div class="wrap narrow essay">
+      <div class="room-head reveal">
+        <span class="badge b-violet">💠 A Philosophy of Radiant Joy</span>
+        <h2>The Holographic <em>Heart</em></h2>
+        <p class="deck">Holographic You + The Universe.</p>
+      </div>
+
+      <div class="reveal">
+        <p class="lead">The universe, at its core, is not solid. It is light — refracted, reflected, endlessly mirroring itself into form. And so are you.</p>
+        <p>Holographic philosophy teaches us that the whole is contained within every fragment. Shatter a holographic plate and each broken piece still holds the entire image. Not a part of it. <em>All</em> of it.</p>
+        <p>This is what happiness truly is — not something you build piece by piece, chasing it like a destination. It is already whole within you. Every moment of joy you've ever felt wasn't new light entering you. It was <em>your own light</em> finding a new angle to shine from.</p>
+        <p class="pull">You are not seeking happiness. You are remembering it.</p>
+        <p>Like the fractured, crystalline figures in a cosmic mirror — even broken apart, even scattered — the reflection is still perfect. Still luminous. Still <em>you</em>. The graffiti on the walls of the universe reads clearly if you look: <strong>you were never incomplete.</strong></p>
+        <p>Happiness, then, is not an emotion. It is a frequency — a decision to let the light bend through you rather than block it. To be, like a prism, not a wall but a <em>transformer</em> of energy. <strong>Be the hologram. Hold the whole within the fragment. Shine anyway.</strong></p>
+
+        <div class="essayart"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Khh1!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff0ab83f1-0f41-40de-b397-78430ff4245c_1023x1537.png" alt="Holographic heart figure"></div>
+      </div>
+
+      <div class="room-head reveal" style="margin-top:3rem">
+        <h2 style="font-size:clamp(1.6rem,4.6vw,2.2rem)">We Don't Like <em>Synthetic Fear</em></h2>
+        <p class="deck">The dance erases the doom.</p>
+      </div>
+
+      <div class="reveal">
+        <p>Synthetic fear is manufactured — fed to you through screens, headlines, and noise, a frequency designed to keep you small, frozen, and disconnected from your own power. But the body knows the antidote. <strong>It has always been movement. It has always been the dance.</strong></p>
+        <p>It is fear without a tiger. Fear without a fire. Anxiety dressed up as information, pumped into your nervous system until stillness feels dangerous. The antidote is not thought — you cannot <em>think</em> your way out of a feeling that lives in the body. You have to <em>move</em> it out.</p>
+
+        <div class="essayart"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!4Nji!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4156ad40-dfd9-466b-ad0d-35a32ddcaac5_1200x686.png" alt="Dance erases the doom" style="max-width:100%"></div>
+
+        <ol class="steplist" style="margin-top:2rem">
+          <li><b>The Shake-Out.</b> Before you even call it dancing — just shake. Hands, arms, shoulders. Animals do this instinctively after a threat passes. Shake the static off.</li>
+          <li><b>Eyes Closed, No Mirror.</b> Synthetic fear loves your self-consciousness. Close your eyes. Move only for the feeling, not the image.</li>
+          <li><b>Follow the Breath, Not the Beat.</b> Let your inhale lift your arms, your exhale drop your chest. Before the music, follow your own body's rhythm.</li>
+          <li><b>The Stomp.</b> Fear floats you out of your body. Stomping grounds you back in. Feet. Floor. Earth. You are <em>here</em>.</li>
+          <li><b>Dance the Feeling, Not Away From It.</b> Don't escape — express. Let the fear move through your arms like it has somewhere to go, then watch it dissolve into freedom.</li>
+          <li><b>The 3-Minute Reset.</b> One song. Dance alone. No performance. Synthetic fear cannot survive three full minutes of authentic movement.</li>
+        </ol>
+
+        <p style="margin-top:1.6rem">Fear is stored energy with nowhere to go. Dance gives it an exit. When you move with intention — even wildly, even imperfectly — you tell your nervous system: <em>the threat is not real. I am alive. I am safe. I am here.</em></p>
+        <p class="pull">Move. Stomp. Shake. Spin. The doom was never as permanent as it felt. The dance always wins.</p>
+      </div>
+
+      <div class="fullcta reveal">
+        <p>Read the full philosophy of radiant joy.</p>
+        <a href="https://magickmicaart.substack.com/p/the-holographic-heart-a-philosophy" target="_blank" rel="noopener">View full post →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ROOM 03 · QUOTE COLLAGES ══════════ -->
+  <div class="roomlabel"><span class="gem small" aria-hidden="true">✦</span><span class="rail" aria-hidden="true"></span><span class="gem" aria-hidden="true">◈</span><span class="plaque">Room 03 · The Quote Hall</span><span class="gem" aria-hidden="true">◈</span><span class="rail r" aria-hidden="true"></span><span class="gem small" aria-hidden="true">✦</span></div>
+  <section id="fairytale">
+    <div class="wrap">
+      <div class="room-head reveal">
+        <span class="badge b-rose">💖 Not Your Fairytale — Your Upgrade</span>
+        <h2>Quote <em>Collages</em></h2>
+        <p class="deck">Carefully crafted quote collages. 💖</p>
+      </div>
+
+      <div class="masonry two reveal">
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!h5Yj!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe6d2c8b8-b77a-42f9-9b32-271beadcfc02_1888x1888.png" alt="Quote collage"></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!UFrn!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F05159857-9a65-4646-b301-93bcb98f7296_1888x1888.png" alt="Quote collage"></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!rsdR!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F34d26694-4139-469b-bdd6-c44171e9d8ef_1526x3253.png" alt="Tall quote collage"></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!107e!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F094a33f7-27d2-4446-9000-b607bfd33009_2222x2222.png" alt="Quote collage"></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Qjoe!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0f469702-78b8-4b93-8bde-e7279afaf66b_2222x3333.png" alt="Quote collage"></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!cXRJ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4ca3a813-6fc8-49e4-bcbc-4294ef5d150c_1888x1888.png" alt="Quote collage"></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!kKvN!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F70902944-1858-4492-9ee2-4801144a8b99_1254x1254.png" alt="Quote collage"></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!4fDx!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F05ef928b-6f5c-49e7-8d3d-d378995581b6_1777x2666.png" alt="Quote collage"></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!_PE-!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5e841bef-fcae-4f71-99a5-969b819ed3c3_1888x1888.png" alt="Quote collage"></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ZxbK!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdb1863ad-1621-4c49-9d24-410ff96c8348_2752x1536.jpeg" alt="Quote collage banner"></div>
+      </div>
+
+      <div class="fullcta reveal">
+        <p>See all the quote collages.</p>
+        <a href="https://magickmicaart.substack.com/p/not-your-fairytale-your-upgrade" target="_blank" rel="noopener">View full post →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ROOM 04 · CATS COFFEE ALICE ══════════ -->
+  <div class="roomlabel"><span class="gem small" aria-hidden="true">✦</span><span class="rail" aria-hidden="true"></span><span class="gem" aria-hidden="true">◈</span><span class="plaque">Room 04 · The Grand Hall</span><span class="gem" aria-hidden="true">◈</span><span class="rail r" aria-hidden="true"></span><span class="gem small" aria-hidden="true">✦</span></div>
+  <section id="cats" style="background:var(--gallery2)">
+    <div class="wrap">
+      <div class="room-head reveal">
+        <span class="badge b-mint">🐱 Magick, Cats, Coffee, Alice &amp; More</span>
+        <h2>The <em>Grand</em> Hall</h2>
+        <p class="deck">Some magic is loud with thunder… and some is quiet, like a cup of coffee that never overfills.</p>
+      </div>
+
+      <div class="masonry reveal">
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!3CMC!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb3082cfc-0823-4881-b847-4e03eda7c48d_1888x2359.png" alt="Quiet magic coffee"><div class="plate">Some magic is quiet, like a cup of coffee that never overfills.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Mz5F!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb819ccd3-8182-46d2-8f37-948207f4b19c_1402x1122.png" alt="Time Machine"><div class="plate"><b>Time</b>What keeps everything from happening at once. — The Time Machine (1960)</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ifoV!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdd0ceb6d-5d15-406e-ba30-73569fddd71f_1024x1536.png" alt="This summer everything blooms"><div class="plate">This summer, everything blooms — including me.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!i9X4!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdf9c83f2-0c27-4cc4-a6f4-87c9ce80e962_2222x3333.png" alt="You are the cosmos"><div class="plate">You are the cosmos. Rearranged, reborn, renewed.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!SW-7!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8c1179e8-8a23-419e-b57c-8fffe2c30bb5_2222x3333.png" alt="Housework is magic"><div class="plate"><b>Housework is Magic!</b>She simply whispered it into harmony.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!64Wu!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff466a641-17e1-4b71-8fa7-a927cff5c5ab_1254x1254.png" alt="Cosmick cats"><div class="plate"><b>Cosmick Cats</b></div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!nwTz!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F81a57d9c-926d-4298-b358-6237af443529_1536x1024.png" alt="Alice in Wonderland"><div class="plate"><b>Alice In Wonderland</b></div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!uAuF!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbfe26f07-f2f5-40dd-8185-c9d84711e7c3_1888x2832.png" alt="Alice collage"><div class="plate">Down the rabbit hole.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!q0Tu!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F116dbb0c-a796-48b9-a58f-74909075ada6_1536x1024.png" alt="Blast from the past"><div class="plate"><b>Blast From The Past</b>Meets 1999 and the 2000's.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!qzxw!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F29a998e1-d0d2-4526-b7ab-9815aaadbd8c_1888x2249.png" alt="Dreamland"><div class="plate">I do not sleep — I visit Dreamland to remember who I am.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!5Mlj!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fffa8e331-9a17-4b42-aa90-46260a6adb9e_1122x1402.png" alt="Willy Wonka"><div class="plate"><b>Willy Wonka</b></div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!o607!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F21cf38d0-f864-45c2-86f5-a8952fcf4c31_1888x1888.png" alt="Tea and coffee time"><div class="plate"><b>Tea &amp; Coffee Time</b></div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!iEl_!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd0877b20-46d9-4040-a74d-180f29dcf2f8_2222x2222.png" alt="One sip for the body"><div class="plate">One sip for the body, one dream for the soul. ❤︎</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!iEPT!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff9da95f8-6185-4685-bca9-5c6856fb4067_2222x2222.png" alt="Caffeinated and constellated"><div class="plate">Caffeinated, constellated &amp; completely unbothered.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!0vrf!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb55027bd-7580-4a25-8956-84e5664b942b_2000x2000.png" alt="Girls just wanna have fun"><div class="plate"><b>Girls Just Wanna Have Fun</b>No rules, just rebellion.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!iJoT!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcbc5a202-5fb9-4668-a04f-0dce81570fcf_1536x1024.png" alt="Windows 95 and Y2K"><div class="plate"><b>Welcome to Windows 95 &amp; Y2K</b>I am. I align. I rise.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!c5LP!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcd12a061-d666-48fe-8869-0716beb3587f_2222x2222.png" alt="Freedom refracts"><div class="plate">Freedom isn't fixed — it refracts.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!fSTc!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2549feb4-8ac3-4115-9f16-e33874c012ba_2222x1481.png" alt="Portal Edition MagickMica OS"><div class="plate"><b>Portal Edition OS</b>Step into your highest timeline.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!bTD0!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2d720aef-b86d-40e7-9276-764ca94f14b1_1888x1888.png" alt="Marilyn Monroe upgraded"><div class="plate"><b>Marilyn Monroe Upgraded</b></div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ckJh!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc8ec3db5-f236-460e-a306-5413f2f19e91_1555x1853.png" alt="Crystal era"><div class="plate">BRB… stepping into my crystal era.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!XAi5!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd0c3b544-1672-4dbc-ac92-3e3e404926bc_1254x1254.png" alt="Mission report earth ice cream"><div class="plate">Mission Report: Earth Ice Cream… extremely worth it. ♡</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!-OoF!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc0fdc891-86ad-4dc5-a488-b50cdccfd34f_2222x3333.png" alt="History of ice cream"><div class="plate"><b>The History of Ice Cream</b></div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Q41j!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1f67c4d6-d59b-4a8b-9a8f-3b8a58f089eb_1888x1888.png" alt="Fairy designs"><div class="plate"><b>Fairy Designs</b></div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!cJcE!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F756cbabe-ff8c-4722-8e55-217d43335439_1555x2333.png" alt="Thou shalt not text back"><div class="plate">Thou shalt not text back immediately.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!gaY5!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd66649ba-8259-44e5-9024-f7e493a17fdf_2111x3168.png" alt="White Rabbit"><div class="plate"><b>Cinderella + Alice + Oz</b>The White Rabbit runs through reflections.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!GgI-!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fef2ea35e-32fa-4fd8-90de-57dc9cfd38ec_1400x1668.png" alt="Alien adjusting the universe"><div class="plate">Alice found an alien adjusting the brightness of the universe.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!iZ9d!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F370bcddb-7b42-4869-b0be-a3f6b5516438_1800x2249.png" alt="Marilyn and Joe Florida 1961"><div class="plate"><b>Marilyn &amp; Joe</b>Florida 1961 recreation.</div></div>
+      </div>
+
+      <div class="quotestrip mint">"The rabbit isn't late — you're just early to the magic."</div>
+
+      <div class="fullcta reveal">
+        <p>Explore the full collection — cats, coffee, Alice &amp; a whole lot more.</p>
+        <a href="https://magickmicaart.substack.com/p/cats-coffee-alice-and-other-art-collages" target="_blank" rel="noopener">View full post →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ROOM 05 · ADS FROM BEYOND ══════════ -->
+  <div class="roomlabel"><span class="gem small" aria-hidden="true">✦</span><span class="rail" aria-hidden="true"></span><span class="gem" aria-hidden="true">◈</span><span class="plaque">Room 05 · The Advertising Archive</span><span class="gem" aria-hidden="true">◈</span><span class="rail r" aria-hidden="true"></span><span class="gem small" aria-hidden="true">✦</span></div>
+  <section id="ads">
+    <div class="wrap">
+      <div class="room-head reveal">
+        <span class="badge b-sky">📺 Ads From The Future, Past &amp; Beyond</span>
+        <h2>The Advertising <em>Archive</em></h2>
+        <p class="deck">Fun experimental advertising art. We interrupt your program to bring you Dreamscape Television!</p>
+      </div>
+
+      <div class="masonry reveal">
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!sECN!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8e920966-db52-402f-9f3e-a7a5950c4d1b_1735x1735.png" alt="Vintage ad art"><div class="plate">What I create shall outlive the ages.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!uzZ5!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F772ebb2e-c0ea-42d4-adb6-e8c071aca6e5_2214x2214.png" alt="Pink Bliss Bubble Gum"><div class="plate"><b>Pink Bliss Bubble Gum!</b>A modern marvel for the modern gentlewoman.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!jHNr!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0b33939e-46d9-4ab9-9dcc-6a6567b444cc_1200x2404.png" alt="Medieval moves"><div class="plate">TikTok has nothing on these OG medieval moves.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!2_aq!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff9119175-e410-4884-a97b-bfad312331f1_1200x1750.png" alt="Temples of Infinity"><div class="plate"><b>Temples of Infinity</b>Towering crystalline wonders — built by eternal hands.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Pf4F!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F73f13507-45e5-4ddd-9415-4697e897e30c_2371x3069.png" alt="Apple Pie Airways"><div class="plate"><b>Apple Pie Airways</b>Fly the flavors of freedom!</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Ejv-!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4747f7da-00b8-4f96-9549-a32f165c5b0e_1500x1404.png" alt="Persistence of Liberty Bell"><div class="plate"><b>The Persistence of Liberty Bell</b>Your future is freedom!</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!G-9R!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6411ef74-a66a-4626-9db5-59d28ae8f71d_1200x1644.png" alt="Cupid kiss ad"><div class="plate">Pop a kiss, feel the spark. ➶♡</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ctD1!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc13b925c-4172-4cb1-a5b3-1bd473930231_1200x1139.png" alt="Hot cocoa ad"><div class="plate"><b>Hot Cocoa</b>Mallow melt &amp; marshmallow romance.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!79wD!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1fad73b6-788b-4b06-b5a6-7b2e5f63f2d6_1200x1200.png" alt="Consume reproduce buy"><div class="plate">Consume. Reproduce. Buy. Drive. Eat. Watch. Love!</div></div>
+      </div>
+
+      <div class="fullcta reveal">
+        <p>Browse the full advertising archive from the future, past &amp; beyond.</p>
+        <a href="https://magickmicaart.substack.com/p/ads-from-the-futurepast-and-beyond" target="_blank" rel="noopener">View full post →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ROOM 06 · MARILYN ══════════ -->
+  <div class="roomlabel"><span class="gem small" aria-hidden="true">✦</span><span class="rail" aria-hidden="true"></span><span class="gem" aria-hidden="true">◈</span><span class="plaque">Room 06 · The Icon Room</span><span class="gem" aria-hidden="true">◈</span><span class="rail r" aria-hidden="true"></span><span class="gem small" aria-hidden="true">✦</span></div>
+  <section id="marilyn" style="background:var(--gallery2)">
+    <div class="wrap">
+      <div class="room-head reveal">
+        <span class="badge b-rose">💋 Just Because, Marilyn Monroe</span>
+        <h2>The <em>Icon</em> Room</h2>
+        <p class="deck">Goddess art &amp; quotes. 💋🎬</p>
+      </div>
+
+      <div class="masonry reveal">
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!H5d9!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcfb627cc-465d-4b47-a9c2-d41dda5571cd_1555x2000.png" alt="Marilyn Monroe art"></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!qC4V!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1dc2c82a-79cb-42b6-8b9b-f2a53a005e4a_1290x1231.png" alt="Marilyn art"></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ntiz!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5a71784a-542a-4f35-863f-0f52d5fca4f7_1200x1641.png" alt="Marilyn bubble gum pout"><div class="plate">Marilyn Monroe Bubble Gum Pout piece.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!8oYz!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F897c4486-9dff-4e28-9ad2-36c6816dc4eb_1250x1246.png" alt="Neon diamond Marilyn"><div class="plate">Neon Diamond — Marilyn's Best Friend pop art remix.</div></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Y0cl!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6024c503-e28c-4f8a-8b66-324aca90d8e9_1200x1200.png" alt="Marilyn art"></div>
+        <div class="frame"><img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!xznf!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcb4cdd40-7c90-4c67-9556-d62d58c832e2_800x800.png" alt="Marilyn art"></div>
+      </div>
+
+      <div class="narrow" style="max-width:42rem;margin:2.4rem auto 0">
+        <p class="mmcat">✨ On Confidence &amp; Being Yourself</p>
+        <blockquote class="mmquote">"Imperfection is beauty, madness is genius, and it's better to be absolutely ridiculous than absolutely boring."</blockquote>
+        <blockquote class="mmquote">"We are all of us stars, and we deserve to twinkle."</blockquote>
+        <p class="mmcat">💋 On Love &amp; Relationships</p>
+        <blockquote class="mmquote">"A wise girl kisses but doesn't love, listens but doesn't believe, and leaves before she is left."</blockquote>
+        <blockquote class="mmquote">"I don't mind living in a man's world, as long as I can be a woman in it."</blockquote>
+        <p class="mmcat">🌹 On Strength &amp; Vulnerability</p>
+        <blockquote class="mmquote">"I restore myself when I'm alone."</blockquote>
+        <blockquote class="mmquote">"Sometimes things fall apart so that better things can fall together."</blockquote>
+      </div>
+
+      <div class="quotestrip rose">"I do not chase — I radiate, and what is aligned arrives."</div>
+
+      <div class="fullcta reveal">
+        <p>See the full Marilyn tribute — art &amp; quotes.</p>
+        <a href="https://magickmicaart.substack.com/p/just-because-marilyn-monroe" target="_blank" rel="noopener">View full post →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ MORE ══════════ -->
+  <div class="roomlabel"><span class="gem small" aria-hidden="true">✦</span><span class="rail" aria-hidden="true"></span><span class="gem" aria-hidden="true">◈</span><span class="plaque">Exit · Gift Shop</span><span class="gem" aria-hidden="true">◈</span><span class="rail r" aria-hidden="true"></span><span class="gem small" aria-hidden="true">✦</span></div>
+  <section>
+    <div class="wrap">
+      <div class="room-head reveal"><h2 style="font-size:clamp(1.6rem,4.4vw,2.2rem)">More on Magick Mica TV</h2></div>
+      <div class="teasers">
+        <div class="teaser"><h3>The Newsstand</h3><p>Eight glittering full issues on the rack.</p><a href="https://magickmica.github.io/aliens/newsstand.html">Browse →</a></div>
+        <div class="teaser"><h3>The Sampler</h3><p>Wonderland, morning transmissions &amp; art remixes.</p><a href="the-sampler-three-transmissions.html">Flip the dial →</a></div>
+        <div class="teaser"><h3>Sacred Mini Articles</h3><p>The Cosmic Collection — four temple-portal issues.</p><a href="https://magickmica.github.io/mags/mags/index.html">Browse →</a></div>
+        <div class="teaser"><h3>The Mystical Spiral</h3><p>Copper pendants, crystals &amp; art prints.</p><a href="https://www.themysticalspiralstore.com/" target="_blank" rel="noopener">Shop →</a></div>
+        <div class="teaser"><h3>Ko-Fi</h3><p>Support the art — buy Magick Mica a coffee. ☕</p><a href="https://ko-fi.com/magickmica" target="_blank" rel="noopener">Tip jar →</a></div>
+        <div class="teaser"><h3>Read on Substack</h3><p>New collage drops posted daily on Notes.</p><a href="https://magickmicaart.substack.com/" target="_blank" rel="noopener">Subscribe →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="tv" aria-hidden="true">🖼️</span>
+    <div class="brand">Magick Mica TV</div>
+    <p class="motto">You are the artist of your universe. ✦</p>
+    <p class="small">The Art Wing · Collages · Ads · Icons · Magick Mica TV 🎨✨</p>
+  </footer>
+
+</main>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.04});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
