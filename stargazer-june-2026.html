@@ -107,7 +107,7 @@
   }
   .cover-art:hover{transform:rotate(0deg) scale(1.02);}
   .cover-art img{
-    display:block;width:100%;height:auto;border-radius:1rem;
+    display:block;width:100%;height:auto;aspect-ratio:1122/1402;border-radius:1rem;
     border:2px solid rgba(232,236,255,.75);
     box-shadow:0 0 0 4px rgba(11,16,38,.7), 0 0 44px rgba(127,180,255,.4), 0 24px 54px rgba(0,0,0,.55);
   }
@@ -314,15 +314,56 @@
     .reveal{opacity:1;transform:none;}
     html{scroll-behavior:auto;}
   }
+
+  /* ── sticky feature topbar ── */
+  .topbar{
+    position:sticky;top:0;z-index:60;
+    display:flex;align-items:center;gap:.4rem;justify-content:center;flex-wrap:wrap;
+    padding:.6rem 4.6rem;
+    background:rgba(11,16,38,.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(127,180,255,.25);
+    box-shadow:0 4px 20px rgba(0,0,0,.35);
+  }
+  .topbar .brandmini{
+    font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--moongold);margin-right:.5rem;white-space:nowrap;opacity:.9;
+  }
+  .topbar a{
+    font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;
+    text-decoration:none;color:var(--silver);
+    padding:.42rem .85rem;border-radius:999px;border:1px solid transparent;
+    transition:color .18s ease, border-color .18s ease, background .18s ease;white-space:nowrap;
+  }
+  .topbar a:hover{color:var(--midnight);background:var(--starblue);border-color:var(--starblue);}
+  .topbar a.on{color:var(--midnight);border-color:var(--starblue);}
+  .topbar a.a-star:hover,.topbar a.a-star.on{background:var(--starblue);border-color:var(--starblue);}
+  .topbar a.a-pyr:hover,.topbar a.a-pyr.on{background:var(--dreampink);border-color:var(--dreampink);}
+  .topbar a.a-god:hover,.topbar a.a-god.on{background:var(--lilac);border-color:var(--lilac);}
+  @media (max-width:560px){
+    .topbar{padding:.55rem .8rem;gap:.3rem;}
+    .topbar .brandmini{width:100%;text-align:center;margin:0 0 .2rem;}
+    .topbar a{font-size:.56rem;padding:.38rem .7rem;letter-spacing:.08em;}
+  }
+  /* offset anchor jumps so the sticky bar doesn't cover headings */
+  section[id]{scroll-margin-top:4.2rem;}
 </style>
 </head>
 <body>
-<a href="https://magickmica.github.io/newsstand.html" style="position:fixed;top:1rem;left:1rem;z-index:50;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;padding:.5rem 1rem;border-radius:999px;border:1.5px solid #7FB4FF;color:#BFD7FF;background:rgba(11,16,38,.7);backdrop-filter:blur(4px)">← Magick Mica TV</a>
+<a href="https://magickmica.github.io/aliens/newsstand.html" style="position:fixed;top:1rem;left:1rem;z-index:50;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;padding:.5rem 1rem;border-radius:999px;border:1.5px solid #7FB4FF;color:#BFD7FF;background:rgba(11,16,38,.7);backdrop-filter:blur(4px)">← Magick Mica TV</a>
 <div class="sky" aria-hidden="true"><div class="stars"></div><div class="comet"></div><div class="comet"></div></div>
 <main>
 
+  <!-- ============ STICKY FEATURE NAV ============ -->
+  <nav class="topbar" aria-label="Feature navigation">
+    <span class="brandmini">☽ Stargazer</span>
+    <a class="a-star" href="#top">Stargazer</a>
+    <a class="a-pyr" href="#pyramids">Pyramid Prayers</a>
+    <a class="a-god" href="#goddess">Vivid Goddess</a>
+  </nav>
+
   <!-- ============ COVER ============ -->
-  <section class="cover">
+  <section class="cover" id="top">
     <div class="issue-strip">
       <span>Magick Mica TV</span><span class="dot">✦</span>
       <span>June 2026</span><span class="dot">✦</span>
@@ -334,7 +375,7 @@
     <p class="cover-tag">Celestial vibes · Y2K magic is back · Escape reality</p>
 
     <figure class="cover-art">
-      <img src="https://substackcdn.com/image/fetch/$s_!L20L!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8d75dd3e-c12b-4a2b-aece-52bb06b1f8e1_1122x1402.png" alt="Stargazer June 2026 cover art" loading="eager">
+      <img src="https://substackcdn.com/image/fetch/$s_!L20L!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8d75dd3e-c12b-4a2b-aece-52bb06b1f8e1_1122x1402.png" alt="Stargazer June 2026 cover art" width="1122" height="1402" loading="eager">
       <figcaption>Stargazer · June 2026</figcaption>
     </figure>
 
@@ -362,7 +403,7 @@
       <p class="bigline bl-blue">The universe is <em>flirting</em> again.</p>
 
       <figure class="artfig" style="max-width:30rem">
-        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!MCSU!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F931c2842-b37f-4940-a9fb-9ee292a460ff_2261x2261.png" alt="Celestial stargazer artwork">
+        <img width="2261" height="2261" loading="lazy" src="https://substackcdn.com/image/fetch/$s_!MCSU!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F931c2842-b37f-4940-a9fb-9ee292a460ff_2261x2261.png" alt="Celestial stargazer artwork">
         <figcaption>High-visibility sky season</figcaption>
       </figure>
     </div>
@@ -393,7 +434,7 @@
       <p class="bigline bl-gold">Basically? The stars want you to loosen your grip on reality just enough to remember who you were before the world got so loud.</p>
 
       <figure class="artfig" style="max-width:34rem">
-        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!PKYn!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9dd54a48-29cf-4774-bb2e-5db355cd07e8_1402x1122.png" alt="Untitled painting: Do you want to wake up?">
+        <img width="1402" height="1122" loading="lazy" src="https://substackcdn.com/image/fetch/$s_!PKYn!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9dd54a48-29cf-4774-bb2e-5db355cd07e8_1402x1122.png" alt="Untitled painting: Do you want to wake up?">
         <figcaption>Untitled · Paint: "Do you want to wake up?"</figcaption>
       </figure>
     </div>
@@ -412,7 +453,7 @@
       <p>The return of Y2K aesthetics has exploded across fashion, music, and art, but there's one corner of the trend becoming especially powerful: <em>cosmic Y2K</em>.</p>
 
       <figure class="artfig" style="max-width:24rem">
-        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!W6Vr!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2fad9915-5b1e-4533-bcbb-2c20594df4b9_1086x1448.png" alt="Cosmic Y2K artwork">
+        <img width="1086" height="1448" loading="lazy" src="https://substackcdn.com/image/fetch/$s_!W6Vr!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2fad9915-5b1e-4533-bcbb-2c20594df4b9_1086x1448.png" alt="Cosmic Y2K artwork">
         <figcaption>Cosmic Y2K rising</figcaption>
       </figure>
 
@@ -446,7 +487,7 @@
       <p>You don't have to call it manifestation if you don't want to. But something magical happens when people allow themselves to dream without immediately apologizing for it.</p>
 
       <figure class="artfig" style="max-width:28rem">
-        <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ay9K!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd2330ec6-6066-4091-a6f6-b4beff066b04_1024x1024.jpeg" alt="Alice in Pixel Wonderland artwork">
+        <img width="1024" height="1024" loading="lazy" src="https://substackcdn.com/image/fetch/$s_!ay9K!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd2330ec6-6066-4091-a6f6-b4beff066b04_1024x1024.jpeg" alt="Alice in Pixel Wonderland artwork">
         <figcaption>Alice in Pixel Wonderland: This way, That way, Tea Party</figcaption>
       </figure>
 
@@ -464,7 +505,7 @@
         <p style="text-align:center;font-family:var(--serif);font-style:italic;font-size:1.3rem">See you in the stars. ✨</p>
 
         <figure class="artfig" style="max-width:28rem">
-          <img loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Kxyi!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc7d291aa-ffe1-4aaf-87bd-2681c7576499_3333x3333.png" alt="See you in the stars artwork">
+          <img width="3333" height="3333" loading="lazy" src="https://substackcdn.com/image/fetch/$s_!Kxyi!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc7d291aa-ffe1-4aaf-87bd-2681c7576499_3333x3333.png" alt="See you in the stars artwork">
           <figcaption>🌠 Stay asleep · xoxo, Alice</figcaption>
         </figure>
       </div>
@@ -745,6 +786,38 @@
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   },{threshold:.06});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script>
+(function(){
+  var map=[{id:'pyramids',sel:'.a-pyr'},{id:'goddess',sel:'.a-god'},{id:'top',sel:'.a-star'}];
+  var links={}; map.forEach(function(m){links[m.id]=document.querySelector(m.sel);});
+  var secs=map.map(function(m){return document.getElementById(m.id);}).filter(Boolean);
+  function clear(){Object.values(links).forEach(function(l){l&&l.classList.remove('on');});}
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){clear();var l=links[e.target.id];if(l)l.classList.add('on');}
+    });
+  },{rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(function(s){obs.observe(s);});
+})();
+</script>
+<script>
+(function(){
+  function jumpToHash(){
+    if(!location.hash) return;
+    var el=document.getElementById(location.hash.slice(1));
+    if(el){ el.scrollIntoView({block:'start'}); }
+  }
+  // Re-align after everything (images/fonts) has loaded and layout settled.
+  window.addEventListener('load', function(){
+    jumpToHash();
+    // a couple of delayed passes catch late-loading cover art / reflow
+    setTimeout(jumpToHash, 120);
+    setTimeout(jumpToHash, 400);
+  });
+  // Also handle hash changes while on the page (e.g. clicking a shared link twice)
+  window.addEventListener('hashchange', jumpToHash);
+})();
 </script>
 </body>
 </html>
