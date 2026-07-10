@@ -10,234 +10,153 @@
 <style>
   :root{
     --void:#08071a;
-    --void-2:#100e28;
     --milk:#ece9ff;
     --muted:#9a95c8;
+    --muted-dim:#6f6a99;
     --line:rgba(180,170,255,.14);
-    --line-strong:rgba(180,170,255,.28);
-    --card:rgba(255,255,255,.028);
-    --card-hi:rgba(255,255,255,.05);
-    /* opal spectrum */
-    --sp-teal:#46e5c8;
-    --sp-blue:#5a8bff;
-    --sp-violet:#b17dff;
-    --sp-pink:#ff6fae;
-    --sp-amber:#ffc46b;
+    --line-strong:rgba(180,170,255,.30);
+    --card:rgba(255,255,255,.03);
+    --card-hi:rgba(255,255,255,.055);
+    --sp-teal:#46e5c8;--sp-blue:#5a8bff;--sp-violet:#b17dff;--sp-pink:#ff6fae;--sp-amber:#ffc46b;
   }
-
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
-    background:var(--void);
-    color:var(--milk);
-    font-family:"Space Grotesk",system-ui,sans-serif;
-    line-height:1.55;
-    overflow-x:hidden;
-    -webkit-font-smoothing:antialiased;
+    background:var(--void);color:var(--milk);
+    font-family:"Space Grotesk",system-ui,sans-serif;line-height:1.55;
+    overflow-x:hidden;-webkit-font-smoothing:antialiased;
   }
-  /* deep-space ambient field */
   body::before{
     content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
     background:
-      radial-gradient(60% 45% at 78% 8%, rgba(90,139,255,.16), transparent 60%),
-      radial-gradient(55% 40% at 12% 22%, rgba(177,125,255,.14), transparent 62%),
-      radial-gradient(70% 55% at 50% 105%, rgba(70,229,200,.10), transparent 60%),
+      radial-gradient(60% 45% at 80% 4%, rgba(90,139,255,.15), transparent 60%),
+      radial-gradient(55% 40% at 10% 20%, rgba(177,125,255,.13), transparent 62%),
+      radial-gradient(70% 55% at 50% 108%, rgba(70,229,200,.09), transparent 60%),
       var(--void);
   }
-  .grain{
-    position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;
-    background-image:radial-gradient(rgba(255,255,255,.9) .5px, transparent .5px);
-    background-size:3px 3px;
-  }
+  .grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;
+    background-image:radial-gradient(rgba(255,255,255,.9) .5px, transparent .5px);background-size:3px 3px}
   .wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px}
-
   a{color:inherit;text-decoration:none}
+  .eyebrow{font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);font-weight:500}
 
-  .eyebrow{
-    font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;
-    color:var(--muted);font-weight:500;
-  }
-
-  /* ---------- HERO ---------- */
-  header{position:relative;z-index:1;padding:34px 0 8px}
+  header{position:relative;z-index:1;padding:32px 0 4px}
   .brand{display:flex;align-items:center;gap:14px}
-  .sigil{
-    width:34px;height:34px;border-radius:50%;flex:none;
-    background:
-      conic-gradient(from 210deg, var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber),var(--sp-teal));
-    box-shadow:0 0 0 1px var(--line-strong), 0 0 22px rgba(140,120,255,.45);
-    animation:spin 18s linear infinite;
-  }
+  .sigil{width:34px;height:34px;border-radius:50%;flex:none;
+    background:conic-gradient(from 210deg,var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber),var(--sp-teal));
+    box-shadow:0 0 0 1px var(--line-strong),0 0 22px rgba(140,120,255,.45);animation:spin 18s linear infinite}
   .brand-name{font-family:"Fraunces",serif;font-weight:600;font-size:1.05rem;letter-spacing:.02em}
   .brand-name b{font-weight:900}
 
-  .hero{position:relative;z-index:1;padding:72px 0 60px;text-align:center}
+  .hero{position:relative;z-index:1;padding:80px 0 56px;text-align:center}
   .hero .kicker{margin-bottom:26px}
-  .hero h1{
-    font-family:"Fraunces",serif;
-    font-weight:900;
-    font-size:clamp(3rem,10vw,7.6rem);
-    line-height:.92;
-    letter-spacing:-.02em;
-    margin:0 auto;
-  }
+  .hero h1{font-family:"Fraunces",serif;font-weight:900;
+    font-size:clamp(3.2rem,11vw,8rem);line-height:.9;letter-spacing:-.025em}
   .hero h1 .shine{
     background:linear-gradient(100deg,var(--sp-pink),var(--sp-amber),var(--sp-teal),var(--sp-blue),var(--sp-violet));
-    background-size:220% 100%;
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    animation:driftfill 9s ease-in-out infinite;
-  }
-  .hero p.lede{
-    max-width:620px;margin:28px auto 0;color:var(--muted);
-    font-size:1.06rem;
-  }
+    background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:driftfill 9s ease-in-out infinite}
+  .hero p.lede{max-width:600px;margin:28px auto 0;color:var(--muted);font-size:1.06rem}
   .hero p.lede b{color:var(--milk);font-weight:500}
+  .spectrum-rule{width:min(360px,70vw);height:2px;margin:38px auto 0;border-radius:2px;
+    background:linear-gradient(90deg,transparent,var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber),transparent)}
+  .hero .stat{margin-top:22px;font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted-dim)}
 
-  .orb-stage{margin:44px auto 0;width:min(340px,72vw);aspect-ratio:1/1;position:relative}
-  .orb{
-    position:absolute;inset:0;border-radius:50%;
-    background:
-      radial-gradient(120% 120% at 32% 26%, #fff9, transparent 26%),
-      radial-gradient(100% 100% at 70% 30%, var(--sp-amber), transparent 42%),
-      radial-gradient(120% 120% at 78% 74%, var(--sp-blue), transparent 46%),
-      radial-gradient(120% 120% at 22% 78%, var(--sp-teal), transparent 48%),
-      radial-gradient(120% 120% at 50% 50%, var(--sp-pink), transparent 60%),
-      conic-gradient(from 200deg,var(--sp-violet),var(--sp-blue),var(--sp-teal),var(--sp-amber),var(--sp-pink),var(--sp-violet));
-    box-shadow:inset 0 0 60px rgba(0,0,0,.5), 0 30px 90px rgba(90,60,180,.5), 0 0 0 1px var(--line-strong);
-    filter:saturate(1.15);
-    animation:hue 14s ease-in-out infinite;
-  }
-  .orb::after{
-    content:"";position:absolute;inset:0;border-radius:50%;
-    background:linear-gradient(125deg,transparent 34%, rgba(255,255,255,.55) 49%, transparent 62%);
-    background-size:300% 300%;mix-blend-mode:screen;
-    animation:sheen 7s linear infinite;
-  }
-  .orb-cap{position:absolute;left:50%;bottom:-6px;transform:translate(-50%,100%);
-    font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
-
-  /* ---------- STICKY FILTER NAV ---------- */
-  .navbar{
-    position:sticky;top:0;z-index:20;margin-top:56px;
-    backdrop-filter:blur(14px);
-    background:linear-gradient(var(--void),rgba(8,7,26,.72));
-    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  }
+  .navbar{position:sticky;top:0;z-index:20;margin-top:44px;backdrop-filter:blur(14px);
+    background:linear-gradient(var(--void),rgba(8,7,26,.72));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .navbar .wrap{display:flex;gap:10px;align-items:center;overflow-x:auto;padding-top:14px;padding-bottom:14px;scrollbar-width:none}
   .navbar .wrap::-webkit-scrollbar{display:none}
   .navbar .lbl{font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);flex:none;margin-right:6px}
-  .chip{
-    flex:none;font-size:.82rem;padding:7px 15px;border-radius:100px;
-    border:1px solid var(--line-strong);color:var(--muted);
-    transition:.25s;white-space:nowrap;cursor:pointer;background:transparent;font-family:inherit;
-  }
+  .chip{flex:none;font-size:.82rem;padding:7px 15px;border-radius:100px;border:1px solid var(--line-strong);
+    color:var(--muted);transition:.25s;white-space:nowrap;cursor:pointer;background:transparent;font-family:inherit}
   .chip:hover,.chip.on{color:var(--void);background:var(--milk);border-color:var(--milk)}
 
-  /* ---------- SECTIONS ---------- */
-  section.coll{padding:74px 0 0}
-  .coll-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:34px}
-  .coll-head .num{font-family:"Fraunces",serif;font-style:italic;font-weight:400;color:var(--muted);font-size:1.1rem}
-  .coll-head h2{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.9rem,4.4vw,3rem);letter-spacing:-.015em;line-height:1.02;margin:6px 0 12px}
+  section.coll{padding:72px 0 0}
+  .coll-head{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:32px}
+  .coll-head .num{font-family:"Fraunces",serif;font-style:italic;font-weight:400;color:var(--muted);font-size:1.05rem}
+  .coll-head h2{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.9rem,4.4vw,3rem);letter-spacing:-.015em;line-height:1.02;margin:4px 0 12px}
   .coll-head .note{max-width:560px;color:var(--muted);font-size:.98rem}
-  .coll-head .tally{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);text-align:right;flex:none}
-  .coll-head .rule{height:1px;flex:1 1 120px;background:var(--line);align-self:center;min-width:60px}
+  .coll-head .rule{height:1px;flex:1 1 100px;background:var(--line);align-self:center;min-width:50px}
+  .coll-head .tally{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-dim);flex:none;white-space:nowrap}
 
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
 
-  .card{
-    position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;
-    background:var(--card);transition:.3s cubic-bezier(.2,.7,.2,1);
-    display:flex;flex-direction:column;
-  }
-  .card:hover{transform:translateY(-5px);border-color:var(--line-strong);background:var(--card-hi)}
+  .card{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    background:var(--card);transition:.3s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column}
+  .card::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:16px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+  .card:hover{transform:translateY(-6px);border-color:var(--line-strong);background:var(--card-hi);
+    box-shadow:0 22px 50px rgba(30,20,70,.55)}
   .card:focus-within{outline:2px solid var(--sp-blue);outline-offset:2px}
 
-  .gem{position:relative;aspect-ratio:1/.82;overflow:hidden;isolation:isolate;background:#0c0a20}
-  .gem i{ /* the opal body */
-    position:absolute;inset:0;
+  .shot{position:relative;aspect-ratio:4/5;overflow:hidden;
     background:
-      radial-gradient(60% 55% at var(--px) var(--py), var(--o1), transparent 46%),
-      radial-gradient(55% 55% at calc(100% - var(--px)) 72%, var(--o2), transparent 50%),
-      radial-gradient(50% 50% at 24% calc(100% - var(--py)), var(--o3), transparent 54%),
-      radial-gradient(70% 70% at 50% 50%, var(--o4), transparent 66%),
-      conic-gradient(from var(--ang), var(--o1),var(--o2),var(--o3),var(--o4),var(--o1));
-    filter:saturate(1.1) contrast(1.02);
-    mix-blend-mode:var(--blend,normal);
-  }
-  .gem::before{ /* speckle play-of-color */
-    content:"";position:absolute;inset:0;z-index:1;opacity:.5;
-    background:
-      radial-gradient(circle at 20% 30%, var(--o1) 0 3px, transparent 4px),
-      radial-gradient(circle at 68% 22%, var(--o3) 0 2px, transparent 3px),
-      radial-gradient(circle at 40% 66%, var(--o2) 0 3px, transparent 4px),
-      radial-gradient(circle at 82% 60%, var(--o4) 0 2px, transparent 3px),
-      radial-gradient(circle at 30% 84%, var(--o3) 0 2px, transparent 3px),
-      radial-gradient(circle at 58% 46%, var(--o1) 0 2px, transparent 3px);
-    mix-blend-mode:screen;
-  }
-  .gem::after{ /* sweeping sheen */
-    content:"";position:absolute;inset:0;z-index:2;
-    background:linear-gradient(118deg,transparent 38%, rgba(255,255,255,.42) 50%, transparent 63%);
-    background-size:280% 280%;mix-blend-mode:screen;
-    transition:background-position .1s;
-    animation:sheen 8s linear infinite;
-  }
-  .card:hover .gem::after{animation-duration:2.4s}
-  .gem .darken{position:absolute;inset:0;z-index:0;background:radial-gradient(120% 120% at 50% 120%, rgba(0,0,0,.55), transparent 60%)}
+      radial-gradient(60% 60% at 35% 30%, rgba(90,139,255,.25), transparent 60%),
+      radial-gradient(60% 60% at 70% 70%, rgba(255,111,174,.2), transparent 60%),
+      #0c0a20;}
+  .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    transition:transform .5s cubic-bezier(.2,.7,.2,1);opacity:0}
+  .shot img.loaded{opacity:1}
+  .card:hover .shot img{transform:scale(1.05)}
+  .shot::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(to top, rgba(8,7,26,.55), transparent 42%)}
+  .shot .seam{position:absolute;left:0;right:0;bottom:0;height:2px;z-index:2;
+    background:linear-gradient(90deg,var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber));opacity:.85}
 
-  .badge{
-    position:absolute;z-index:5;top:12px;left:12px;font-size:.62rem;letter-spacing:.16em;
-    text-transform:uppercase;padding:5px 9px;border-radius:100px;font-weight:500;
-    background:rgba(8,7,26,.72);border:1px solid var(--line-strong);color:var(--milk);backdrop-filter:blur(4px);
-  }
-  .badge.out{color:#ffb3c8;border-color:rgba(255,120,160,.4)}
+  .badge{position:absolute;z-index:5;top:12px;left:12px;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+    padding:5px 9px;border-radius:100px;font-weight:500;background:rgba(8,7,26,.66);
+    border:1px solid var(--line-strong);color:var(--milk);backdrop-filter:blur(4px)}
+  .badge.low{color:#ffdd9e;border-color:rgba(255,196,107,.45)}
 
-  .card-body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:12px;flex:1}
-  .card h3{font-family:"Fraunces",serif;font-weight:500;font-size:1.02rem;line-height:1.2;letter-spacing:-.01em}
+  .card-body{padding:15px 16px 17px;display:flex;flex-direction:column;gap:11px;flex:1}
+  .card h3{font-family:"Fraunces",serif;font-weight:500;font-size:1rem;line-height:1.22;letter-spacing:-.01em}
   .card .meta{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .price{font-weight:700;font-size:1.06rem;letter-spacing:.01em}
+  .price{font-weight:700;font-size:1.06rem}
   .price .cur{color:var(--muted);font-weight:400;font-size:.78rem;margin-right:1px}
-  .go{
-    font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
-    display:inline-flex;align-items:center;gap:6px;transition:.2s;
-  }
+  .go{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:6px;transition:.2s}
   .card:hover .go{color:var(--milk)}
   .go .arw{transition:transform .25s}
   .card:hover .go .arw{transform:translateX(3px)}
   .stretch{position:absolute;inset:0;z-index:4}
 
-  /* ---------- OUTRO / FOOTER ---------- */
-  .outro{margin-top:100px;padding:70px 0;border-top:1px solid var(--line);text-align:center}
-  .outro h2{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:-.015em}
-  .outro p{color:var(--muted);max-width:560px;margin:16px auto 0}
-  .storebtn{
-    display:inline-flex;align-items:center;gap:10px;margin-top:30px;padding:14px 26px;border-radius:100px;
-    background:var(--milk);color:var(--void);font-weight:700;font-size:.9rem;letter-spacing:.02em;transition:.25s;
-  }
-  .storebtn:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(150,130,255,.35)}
+  section.archive{padding:80px 0 0}
+  .arch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+  .arch-row{display:flex;align-items:center;gap:14px;padding:13px 16px;border:1px solid var(--line);border-radius:12px;
+    background:rgba(255,255,255,.015);transition:.25s;position:relative}
+  .arch-row:hover{border-color:var(--line-strong);background:rgba(255,255,255,.04)}
+  .arch-dot{width:26px;height:26px;border-radius:7px;flex:none;
+    background:conic-gradient(from var(--a,200deg),var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber),var(--sp-teal));
+    filter:saturate(.85) brightness(.8);opacity:.7}
+  .arch-row .an{flex:1;font-size:.86rem;line-height:1.3;color:var(--muted)}
+  .arch-row:hover .an{color:var(--milk)}
+  .arch-row .ap{font-size:.82rem;color:var(--muted-dim);white-space:nowrap;text-decoration:line-through}
 
+  .outro{margin-top:96px;padding:70px 0;border-top:1px solid var(--line);text-align:center}
+  .outro h2{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:-.015em}
+  .outro p{color:var(--muted);max-width:540px;margin:16px auto 0}
+  .storebtn{display:inline-flex;align-items:center;gap:10px;margin-top:30px;padding:14px 26px;border-radius:100px;
+    background:var(--milk);color:var(--void);font-weight:700;font-size:.9rem;transition:.25s}
+  .storebtn:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(150,130,255,.35)}
   footer{position:relative;z-index:1;padding:40px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem}
   footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
-  .disclaimer{max-width:680px;line-height:1.6;font-size:.76rem;margin-top:18px;color:#6f6a99}
+  .disclaimer{max-width:700px;line-height:1.6;font-size:.76rem;margin-top:18px;color:var(--muted-dim)}
 
-  /* reveal */
   .reveal{opacity:0;transform:translateY(18px)}
   .reveal.in{opacity:1;transform:none;transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1)}
 
   @keyframes spin{to{transform:rotate(360deg)}}
-  @keyframes sheen{0%{background-position:180% 0}100%{background-position:-80% 0}}
-  @keyframes hue{0%,100%{filter:saturate(1.15) hue-rotate(0deg)}50%{filter:saturate(1.3) hue-rotate(38deg)}}
   @keyframes driftfill{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 
   @media (max-width:640px){
-    .hero{padding:48px 0 40px}
+    .hero{padding:52px 0 40px}
     .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
     .card h3{font-size:.9rem}
-    .coll-head .tally{text-align:left}
+    .arch-grid{grid-template-columns:1fr}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;scroll-behavior:auto}
     .reveal{opacity:1;transform:none}
+    .shot img{transition:opacity .3s}
   }
 </style>
 </head>
@@ -256,23 +175,22 @@
 <div class="hero">
   <div class="wrap">
     <div class="eyebrow kicker">Curated Picks · The Mystical Spiral Store</div>
-    <h1>The <span class="shine">Opal</span><br>Vault</h1>
-    <p class="lede">Every stone here carries its own <b>play-of-color</b> — the flash that only opal makes. These are the pieces Magick Mica TV keeps coming back to, hand-picked from the opal collection and named for the stars they echo.</p>
-    <div class="orb-stage">
-      <div class="orb"></div>
-      <div class="orb-cap">Ethiopian Welo · fire within</div>
-    </div>
+    <h1>The <span class="shine">Opal</span> Vault</h1>
+    <p class="lede">Every stone here carries its own <b>play-of-color</b> — the flash only opal makes. These are the pieces Magick Mica TV keeps coming back to, each a one-of-a-kind cut named for the stars it echoes.</p>
+    <div class="spectrum-rule"></div>
+    <div class="stat" id="heroStat"></div>
   </div>
 </div>
 
 <nav class="navbar" id="nav">
   <div class="wrap">
     <span class="lbl">Jump to</span>
-    <button class="chip" data-to="pink">Pink Opal Towers</button>
+    <button class="chip" data-to="pink">Pink Towers</button>
     <button class="chip" data-to="fire">Ethiopian Fire Opal</button>
     <button class="chip" data-to="black">Black Opal · Aurora</button>
     <button class="chip" data-to="matrix">Fire Matrix</button>
     <button class="chip" data-to="opalite">Opalite</button>
+    <button class="chip" data-to="archive">Sold-Out Archive</button>
   </div>
 </nav>
 
@@ -281,7 +199,7 @@
 <div class="outro">
   <div class="wrap">
     <h2>See the whole opal drop</h2>
-    <p>Availability shifts fast on the one-of-a-kind pieces. Browse the full, live opal collection at the source.</p>
+    <p>These pieces are one-of-a-kind and move fast. Browse the full, live opal collection at the source.</p>
     <a class="storebtn" href="https://www.themysticalspiralstore.com/search?q=opal" target="_blank" rel="noopener">
       Shop all opal at The Mystical Spiral Store <span>↗</span>
     </a>
@@ -294,104 +212,86 @@
       <div class="sigil" style="width:26px;height:26px"></div>
       <span>Magick Mica TV — opal curation</span>
     </div>
-    <span>Prices &amp; stock as listed at time of curation</span>
+    <span>Photos, prices &amp; stock from the store at time of curation</span>
   </div>
   <div class="wrap">
-    <p class="disclaimer">Magick Mica TV curates and links to products sold by The Mystical Spiral Store; all sales, shipping, and fulfillment are handled by the store. Prices and availability change — the store page is the source of truth. Descriptions of crystal or gemstone properties reflect traditional metaphysical lore and are shared for interest and enjoyment, not as medical, psychological, or factual claims.</p>
+    <p class="disclaimer">Magick Mica TV curates and links to products sold by The Mystical Spiral Store; all sales, shipping, and fulfillment are handled by the store. Product images are the store's own. Prices and availability change — the store page is the source of truth. Descriptions of crystal or gemstone properties reflect traditional metaphysical lore, shared for interest, not as medical or factual claims.</p>
   </div>
 </footer>
 
 <script>
-/* ---- product data (real names, prices, links, stock from the opal search) ---- */
-const COLLECTIONS = [
-  {
-    id:"pink", num:"I", title:"Peruvian Pink Opal Towers", tint:"pink",
-    note:"Soft, matte rose towers — the gentle, budget-friendly entry point to the collection. Both hand-cut, sub-30-dollar, and in stock.",
-    items:[
-      {n:"Peruvian Pink Opal Tower (1.33 oz)", p:"24.69", u:"peruvian-pink-opal-tower-1-33-oz"},
-      {n:"Peruvian Pink Opal Tower (1.35 oz)", p:"26.59", u:"peruvian-pink-opal-tower"},
-    ]
-  },
-  {
-    id:"fire", num:"II", title:"Ethiopian Fire Opal Talismans", tint:"fire",
-    note:"The heart of the vault: Welo opal set in hand-wound copper coils, each named for a star or constellation. Amber bodies that throw green and blue fire when they catch light.",
-    items:[
-      {n:'"Nine Rays" Ethiopian Opal Gemstone Copper Coil Amulet', p:"109.99", u:"9-rays-ethiopian-opal-gemstone-copper-coil-amulet"},
-      {n:"Opallia Auric Fire Talisman: Ethiopian Opal · Antique Copper Coil", p:"117.29", u:"opallia-auric-fire-talisman-ethiopian-opal-gemstone-antique-copper-coil"},
-      {n:"Opollia Auric Fire Talisman: Ethiopian Opal · Antique Copper Coil", p:"95.10", u:"opollia-auric-fire-talisman-ethiopian-opal-gemstone-antique-copper-coil"},
-      {n:"Lemurian Golden Fire Opollia Talisman · Antique Copper Coil", p:"124.89", u:"lemurian-golden-fire-opollia-talisman-opal-gemstone-antique-copper-coil"},
-      {n:"Opallia Pulsar Fire Talisman: Ethiopian Opal · Royal Cubit Coil", p:"137.19", u:"opallia-pulsar-fire-talisman-ethiopian-opal-gemstone-royal-cubit-copper-coil"},
-      {n:"Opollia Blue Spirit Fire Talisman: Ethiopian Opal · Antique Copper Coil", p:"113.00", u:"opollia-blue-spirit-fire-talisman-ethiopian-opal-gemstone-antique-copper-coil"},
-      {n:"Pulse of Andromeda Amulet: Ethiopian Opal · Royal Cubit Coil", p:"87.81", u:"pulse-of-andromeda-amulet-ethiopian-opal-gemstone-royal-cubit-copper-coil"},
-      {n:"Streams of Cygnus Talisman: Ethiopian Opal Specimen · Royal Cubit Coil", p:"169.80", u:"streams-of-cygnus-talisman-ethiopian-opal-gemstone-specimen-royal-cubit-coil"},
-      {n:"Pulse of Pleiades Amulet: Ethiopian Opal · Antique Royal Cubit Copper", p:"186.00", u:"pulse-of-pleiades-amulet-ethiopian-opal-gemstone-antique-royal-cubit-copper"},
-      {n:'"Saa - Akhu" Lemurian Golden Heart Fire Opal Copper Coil Amulet', p:"59.19", u:"saa-akhu-lemurian-golden-heart-fire-opal-gemstone-copper-coil-amulet"},
-      {n:"7 Rays Amulet: Ethiopian Opal · Antique Royal Cubit Copper Coil", p:"89.42", u:"7-rays-amulet-ethiopian-opal-gemstone-antique-royal-cubit-copper-coil"},
-      {n:'"9 Rays" Ethiopian Opal Welo Gem Specimen · Copper Spiral Coil', p:"125.99", u:"9-rays-ethiopian-opal-welo-gemstone-specimen-and-copper-coil-talisman"},
-      {n:"Cosmic Sunrise Amulet: Ethiopian Rough Gemstone · Copper Coil", p:"106.19", u:"cosmic-sunrise-amulet-ethiopian-rough-gemstone-copper-coil"},
-      {n:"Alcyeon Rays Ethiopian Opal Gemstone Copper Coil Amulet", p:"97.77", u:"alcyeon-rays-ethiopian-opal-gemstone-copper-coil-amulet", out:true},
-      {n:"Opollia Auric Fire Talisman: Ethiopian Opal · Antique Copper Coil", p:"104.49", u:"ithika-talisman-ethiopian-opal-gemstone-antique-copper-coil", out:true},
-      {n:"Blue Spirit Flame Opallia Talisman: Opal · Antique Copper Coil", p:"99.53", u:"blue-spirit-flame-opallia-talisman-opal-gemstone-antique-copper-coil", out:true},
-      {n:'"Auric Fire Amulet" · Ethiopian Opal · Royal Cubit Copper Coil', p:"193.99", u:"quasar-waves-amulet-ethiopian-opal-gemstone-royal-cubit-copper-coil", out:true},
-      {n:"Vega 9 Rays Amulet: Lemurian Golden Ethiopian Opal · Antique Copper", p:"112.77", u:"vega-9-rays-amulet-lemurian-golden-ethiopian-opal-gem-antique-copper-coil", out:true},
-      {n:"Eyes of Regulus Amulet: Ethiopian Golden Fire Opal · Royal Cubit Coil", p:"250.90", u:"eyes-of-regulus-amulet-ethiopian-fire-opal-gemstone-royal-cubit-copper-coil", out:true},
-      {n:"Saa - Ka Talisman: Lemurian Golden Fire Opal · Gold Copper Coil", p:"107.63", u:"saa-akhu-talisman-lemurian-golden-fire-opal-gold-copper-coil-dolmen-ignited", out:true},
-      {n:'"Saa- Akhu" Golden Heart Fire Opal · Golden Copper Coil Amulet', p:"110.49", u:"saa-akhu-golden-heart-fire-opal-golden-copper-coil-amulet", out:true},
-      {n:'"Saa Akhu" Talisman: Ethiopian Opal Welo Specimen · Royal Cubit Copper', p:"188.78", u:"saa-akhu-talisman-ethiopian-opal-welo-gemstone-specimen-royal-cubit-copper", out:true},
-      {n:"Jovian Aurora Amulet: Ethiopian Opal · Silver Copper Coil", p:"99.99", u:"alcyeon-rays-amulet-ethiopian-natural-gemstone-silver-copper-coil", out:true},
-    ]
-  },
-  {
-    id:"black", num:"III", title:"Black Opal · Midnight Aurora", tint:"black",
-    note:"Smoked and black-body opal where the flashes go electric — teal, violet and blue arcing across a near-black stone, mostly on silvered copper.",
-    items:[
-      {n:"Midnight Aurora Amulet: Black Opal · Silver Copper Coil", p:"118.99", u:"midnight-aurora-9-rays-amulet-black-opal-gemstone-silver-copper-coil"},
-      {n:"Midnight Aurora Amulet: Black Smoked Ethiopian Opal · Copper Coil", p:"109.01", u:"midnight-aurora-amulet-black-smoked-ethiopian-opal-natural-gem-copper-coil"},
-      {n:"Jovian Aurora Amulet: Black Opal · Royal Sacred Cubit Silver Coil", p:"110.59", u:"chiron-streams-amulet-black-opal-gemstone-royal-cubit-silver-copper-coil"},
-      {n:'"Midnight Aurora Amulet" Black Opal · Copper Coil', p:"98.63", u:"midnight-aurora-amulet-black-opal-natural-gemstone-copper-coil", out:true},
-      {n:"Midnight Cosmic Rays Amulet · Black Smoked Ethiopian Opal", p:"122.54", u:"midnight-aurora-amulet-black-smoked-ethiopian-opal-natural-gemstone-amulet", out:true},
-      {n:"Streams of Lyra Talisman: Black Smoked Opal · Royal Cubit Coil", p:"145.91", u:"aurora-of-dawn-talisman-black-smoked-opal-gemstone-royal-cubit-copper-coil", out:true},
-    ]
-  },
-  {
-    id:"matrix", num:"IV", title:"Fire Matrix Opal · Carved", tint:"ember",
-    note:"The showpieces — Mexican fire-matrix opal in rhyolite, carved into scarabs and skulls. Deep ember bodies veined with molten orange. Collector-grade, limited, and moving fast.",
-    items:[
-      {n:"Solar Fire Matrix Scarab Stone: Fire Matrix Opal Rhyolite Gem Scarab Skull", p:"171.99", u:"solar-fire-matrix-scarab-amulet-fire-matrix-opal-rhyolite-gem-scarab-skull"},
-      {n:"Solar Flame Matrix Gemstone Skull Amulet: Fire Matrix Rhyolite Opal · Dolmen", p:"288.99", u:"spirit-flame-gemstone-skull-amulet-fire-matrix-rhyolite-opal-mexico", out:true},
-      {n:"Lions Gate Ignited Fire Matrix Rhyolite Opal Gemstone Skull — Ltd 2025", p:"335.83", u:"lions-gate-ignited-fire-matrix-rhyolite-opal-gemstone-skull-limited-edition-2025", out:true},
-    ]
-  },
-  {
-    id:"opalite", num:"V", title:"Opalite", tint:"opalite",
-    note:"The milky, moonlit cousin — a soft blue-white glow on a waxed hemp cord. Easygoing everyday wear.",
-    items:[
-      {n:"Opalite Cube · Adjustable Waxed Hemp Rope Necklace", p:"43.69", u:"opalite-and-adjustable-waxed-hemp-rope-necklace"},
-    ]
-  },
-];
-
-/* per-type opal palettes -> CSS vars */
-const TINTS = {
-  pink:   {o1:"#ff9ecb",o2:"#c79bff",o3:"#8fe6d6",o4:"#ffd7b0", blend:"normal"},
-  fire:   {o1:"#ffd36b",o2:"#ff8a5b",o3:"#58e0b0",o4:"#6aa8ff", blend:"normal"},
-  black:  {o1:"#4be0c9",o2:"#6a90ff",o3:"#b17dff",o4:"#ff6fae", blend:"screen"},
-  ember:  {o1:"#ff8a3c",o2:"#ff4d5f",o3:"#ffd15c",o4:"#c2451f", blend:"screen"},
-  opalite:{o1:"#e4edff",o2:"#cdc1ff",o3:"#c3ebe3",o4:"#ffdcef", blend:"normal"},
-};
-const DARKBODY = {black:true, ember:true};
+const IMG = f => `https://static.wixstatic.com/media/${f}/v1/fill/w_640,h_800,al_c,q_80,enc_auto/file.jpg`;
 const BASE = "https://www.themysticalspiralstore.com/product-page/";
 
+const COLLECTIONS = [
+  { id:"pink", num:"I", title:"Peruvian Pink Opal Towers",
+    note:"Soft, matte rose towers hand-carved from raw Andean pink opal — the gentle, sub-30-dollar way into the collection.",
+    items:[
+      {n:"Peruvian Pink Opal Tower (1.33 oz)", p:"24.69", img:"f91caa_3f1ae6c403f640d5ad5b12b6865a6d4b~mv2.jpg", u:"peruvian-pink-opal-tower-1-33-oz"},
+      {n:"Peruvian Pink Opal Tower (1.35 oz)", p:"26.59", img:"f91caa_116d6046bd674bf993e67be763411131~mv2.jpg", u:"peruvian-pink-opal-tower"},
+    ]},
+  { id:"fire", num:"II", title:"Ethiopian Fire Opal Talismans",
+    note:"The heart of the vault: Welo opal set in hand-wound copper coils, each named for a star or constellation — amber bodies that throw green and blue fire in the light.",
+    items:[
+      {n:"Opallia Auric Fire Talisman · Antique Copper Coil", p:"117.29", img:"f91caa_5b76e05f36a44d269b3a9e00786181c0~mv2.jpg", u:"opallia-auric-fire-talisman-ethiopian-opal-gemstone-antique-copper-coil"},
+      {n:"Opollia Auric Fire Talisman · Antique Copper Coil", p:"95.10", img:"f91caa_5b5c4c6d38764eac8f1ea42a60eff515~mv2.jpg", u:"opollia-auric-fire-talisman-ethiopian-opal-gemstone-antique-copper-coil"},
+      {n:"Lemurian Golden Fire Opollia Talisman · Copper Coil", p:"95.72", img:"f91caa_09db9b028a84473e8311ba9fc0e4ee06~mv2.jpg", u:"lemurian-golden-fire-opollia-talisman-opal-gemstone-antique-copper-coil"},
+      {n:'"Nine Rays" Ethiopian Opal Copper Coil Amulet', p:"109.99", img:"f91caa_6fc464bfa42d4ed496d85ec6f9a2a9f4f003.jpg", u:"9-rays-ethiopian-opal-gemstone-copper-coil-amulet"},
+      {n:"Opallia Pulsar Fire Talisman · Royal Cubit Coil", p:"76.99", img:"f91caa_03cd0937c09a4b48b6d1a2290f8b5933~mv2.jpg", u:"opallia-pulsar-fire-talisman-ethiopian-opal-gemstone-royal-cubit-copper-coil"},
+      {n:"Opollia Blue Spirit Fire Talisman · Antique Copper Coil", p:"113.00", img:"f91caa_33d463541fb04915a9f9bfc1a20b0cd5~mv2.jpg", u:"opollia-blue-spirit-fire-talisman-ethiopian-opal-gemstone-antique-copper-coil"},
+      {n:"Pulse of Andromeda Amulet · Royal Cubit Coil", p:"87.81", img:"f91caa_5f6ad27944d9497a88127d994c6f04c4~mv2.jpg", u:"pulse-of-andromeda-amulet-ethiopian-opal-gemstone-royal-cubit-copper-coil"},
+      {n:"Streams of Cygnus Talisman · Specimen / Royal Cubit", p:"169.80", img:"f91caa_5c44b76e536442ef8a18afd338d7e7a4~mv2.jpg", u:"streams-of-cygnus-talisman-ethiopian-opal-gemstone-specimen-royal-cubit-coil"},
+      {n:"Pulse of Pleiades Amulet · Antique Royal Cubit", p:"186.00", img:"f91caa_2c3a5a8b52ad4cd1beb0a3997db033d9~mv2.jpg", u:"pulse-of-pleiades-amulet-ethiopian-opal-gemstone-antique-royal-cubit-copper"},
+      {n:'"Saa - Akhu" Lemurian Golden Heart Fire Opal Amulet', p:"59.19", img:"f91caa_d2a6b7377f28453bb9a0c1de4c41f02e~mv2.jpg", u:"saa-akhu-lemurian-golden-heart-fire-opal-gemstone-copper-coil-amulet"},
+      {n:"7 Rays Amulet · Antique Royal Cubit Copper Coil", p:"89.42", img:"f91caa_cd387b125455409eafde1960b4fa6467~mv2.jpg", u:"7-rays-amulet-ethiopian-opal-gemstone-antique-royal-cubit-copper-coil"},
+      {n:'"9 Rays" Welo Gem Specimen · Copper Spiral Coil', p:"125.99", img:"f91caa_0dfc3422145a4dc689959f51cf5d7bb7~mv2.jpg", u:"9-rays-ethiopian-opal-welo-gemstone-specimen-and-copper-coil-talisman"},
+      {n:"Cosmic Sunrise Amulet · Ethiopian Rough / Copper Coil", p:"106.19", img:"f91caa_3d7d82a28d19428ca15b0a6422fed010~mv2.jpg", u:"cosmic-sunrise-amulet-ethiopian-rough-gemstone-copper-coil"},
+    ]},
+  { id:"black", num:"III", title:"Black Opal · Midnight Aurora",
+    note:"Smoked, black-body opal where the flashes go electric — teal, violet and blue arcing across a near-black stone, set in silvered copper.",
+    items:[
+      {n:"Midnight Aurora Amulet · Black Opal / Silver Copper Coil", p:"118.99", img:"f91caa_b6366e5b6f564a0a86540f3124dbd6a2~mv2.jpg", u:"midnight-aurora-9-rays-amulet-black-opal-gemstone-silver-copper-coil"},
+      {n:"Midnight Aurora Amulet · Black Smoked Ethiopian Opal", p:"109.01", img:"f91caa_e8b7e409b8304fb78cc3be4d285dc4e4~mv2.jpg", u:"midnight-aurora-amulet-black-smoked-ethiopian-opal-natural-gem-copper-coil"},
+      {n:"Jovian Aurora Amulet · Black Opal / Royal Sacred Cubit", p:"110.59", img:"f91caa_37e3c575425745ffbce93f9d92abb4bf~mv2.jpg", u:"chiron-streams-amulet-black-opal-gemstone-royal-cubit-silver-copper-coil"},
+    ]},
+  { id:"matrix", num:"IV", title:"Fire Matrix Opal · Carved",
+    note:"The showpiece — Mexican fire-matrix opal in its mother rhyolite, master-carved into a scarab skull with a molten-orange core.",
+    items:[
+      {n:"Solar Fire Matrix Scarab Stone · Rhyolite Opal Skull", p:"171.99", img:"f91caa_75fd665568ab49e1bb196e00bb7584d0~mv2.jpg", u:"solar-fire-matrix-scarab-amulet-fire-matrix-opal-rhyolite-gem-scarab-skull"},
+    ]},
+  { id:"opalite", num:"V", title:"Opalite",
+    note:"The milky, moonlit cousin — a soft blue-white glow on a waxed hemp cord. Easygoing everyday wear.",
+    items:[
+      {n:"Opalite Cube · Adjustable Waxed Hemp Rope Necklace", p:"43.69", low:true, img:"f91caa_6ce06528697d4b80984494f1f78cb7c7~mv2.jpg", u:"opalite-and-adjustable-waxed-hemp-rope-necklace"},
+    ]},
+];
+
+const ARCHIVE = [
+  {n:"Opollia Auric Fire Talisman · Antique Copper Coil", p:"104.49", u:"ithika-talisman-ethiopian-opal-gemstone-antique-copper-coil"},
+  {n:"Blue Spirit Flame Opallia Talisman · Antique Copper Coil", p:"99.53", u:"blue-spirit-flame-opallia-talisman-opal-gemstone-antique-copper-coil"},
+  {n:"Solar Flame Matrix Skull Amulet · Rhyolite Opal", p:"288.99", u:"spirit-flame-gemstone-skull-amulet-fire-matrix-rhyolite-opal-mexico"},
+  {n:"Lions Gate Ignited Fire Matrix Opal Skull · Ltd 2025", p:"335.83", u:"lions-gate-ignited-fire-matrix-rhyolite-opal-gemstone-skull-limited-edition-2025"},
+  {n:"Alcyeon Rays Ethiopian Opal Copper Coil Amulet", p:"97.77", u:"alcyeon-rays-ethiopian-opal-gemstone-copper-coil-amulet"},
+  {n:'"Midnight Aurora Amulet" · Black Opal / Copper Coil', p:"98.63", u:"midnight-aurora-amulet-black-opal-natural-gemstone-copper-coil"},
+  {n:"Jovian Aurora Amulet · Ethiopian Opal / Silver Copper", p:"99.99", u:"alcyeon-rays-amulet-ethiopian-natural-gemstone-silver-copper-coil"},
+  {n:"Midnight Cosmic Rays Amulet · Black Smoked Opal", p:"122.54", u:"midnight-aurora-amulet-black-smoked-ethiopian-opal-natural-gemstone-amulet"},
+  {n:'"Auric Fire Amulet" · Ethiopian Opal Royal Cubit', p:"193.99", u:"quasar-waves-amulet-ethiopian-opal-gemstone-royal-cubit-copper-coil"},
+  {n:'"Saa- Akhu" Golden Heart Fire Opal · Gold Copper Coil', p:"110.49", u:"saa-akhu-golden-heart-fire-opal-golden-copper-coil-amulet"},
+  {n:'"Saa Akhu" Talisman · Welo Specimen / Royal Cubit', p:"188.78", u:"saa-akhu-talisman-ethiopian-opal-welo-gemstone-specimen-royal-cubit-copper"},
+  {n:"Streams of Lyra Talisman · Black Smoked Opal", p:"145.91", u:"aurora-of-dawn-talisman-black-smoked-opal-gemstone-royal-cubit-copper-coil"},
+  {n:"Vega 9 Rays Amulet · Lemurian Golden Ethiopian Opal", p:"112.77", u:"vega-9-rays-amulet-lemurian-golden-ethiopian-opal-gem-antique-copper-coil"},
+  {n:"Eyes of Regulus Amulet · Golden Fire Opal Royal Cubit", p:"250.90", u:"eyes-of-regulus-amulet-ethiopian-fire-opal-gemstone-royal-cubit-copper-coil"},
+  {n:"Saa - Ka Talisman · Lemurian Golden Fire Opal / Gold Coil", p:"107.63", u:"saa-akhu-talisman-lemurian-golden-fire-opal-gold-copper-coil-dolmen-ignited"},
+];
+
 const app = document.getElementById("app");
-let gi = 0;
+const inStockCount = COLLECTIONS.reduce((s,c)=>s+c.items.length,0);
+document.getElementById("heroStat").textContent =
+  `${inStockCount} available now · ${inStockCount + ARCHIVE.length} opal pieces curated`;
 
 COLLECTIONS.forEach(col=>{
-  const t = TINTS[col.tint];
-  const inStock = col.items.filter(i=>!i.out).length;
   const sec = document.createElement("section");
-  sec.className="coll reveal";
-  sec.id=col.id;
-
+  sec.className="coll reveal"; sec.id=col.id;
   sec.innerHTML = `
     <div class="coll-head">
       <div>
@@ -400,74 +300,72 @@ COLLECTIONS.forEach(col=>{
         <p class="note">${col.note}</p>
       </div>
       <span class="rule"></span>
-      <div class="tally">${col.items.length} pieces<br>${inStock} in stock</div>
+      <div class="tally">${col.items.length} available</div>
     </div>
-    <div class="grid"></div>
-  `;
-
+    <div class="grid"></div>`;
   const grid = sec.querySelector(".grid");
   col.items.forEach(it=>{
-    gi++;
-    const ang = (gi*47)%360;
-    const px = 18 + (gi*29)%64;
-    const py = 16 + (gi*37)%60;
-    const dark = DARKBODY[col.tint] ? 1 : 0;
-    const a = document.createElement("article");
+    const a=document.createElement("article");
     a.className="card reveal";
-    a.style.setProperty("--o1",t.o1);
-    a.style.setProperty("--o2",t.o2);
-    a.style.setProperty("--o3",t.o3);
-    a.style.setProperty("--o4",t.o4);
-    a.style.setProperty("--ang",ang+"deg");
-    a.style.setProperty("--px",px+"%");
-    a.style.setProperty("--py",py+"%");
-    a.style.setProperty("--blend",t.blend);
-
-    a.innerHTML = `
-      <div class="gem" style="${dark?'background:#050414':''}">
-        <div class="darken" style="${dark?'opacity:1':'opacity:.5'}"></div>
-        <i></i>
-        <span class="badge ${it.out?'out':''}">${it.out?'Sold out':'Available'}</span>
+    a.innerHTML=`
+      <div class="shot">
+        <img loading="lazy" src="${IMG(it.img)}" alt="${it.n.replace(/"/g,'')}">
+        <div class="seam"></div>
+        ${it.low?'<span class="badge low">Low stock</span>':''}
       </div>
       <div class="card-body">
         <h3>${it.n}</h3>
         <div class="meta">
           <span class="price"><span class="cur">$</span>${it.p}</span>
-          <span class="go">${it.out?'View':'Get it'}<span class="arw">→</span></span>
+          <span class="go">Get it <span class="arw">→</span></span>
         </div>
       </div>
-      <a class="stretch" href="${BASE}${it.u}" target="_blank" rel="noopener" aria-label="${it.out?'View':'Buy'} ${it.n.replace(/"/g,'')} on The Mystical Spiral Store"></a>
-    `;
+      <a class="stretch" href="${BASE}${it.u}" target="_blank" rel="noopener" aria-label="Buy ${it.n.replace(/"/g,'')} on The Mystical Spiral Store"></a>`;
     grid.appendChild(a);
   });
-
   app.appendChild(sec);
 });
 
-/* chip -> smooth scroll + active state */
-document.querySelectorAll(".chip").forEach(c=>{
-  c.addEventListener("click",()=>{
-    const el=document.getElementById(c.dataset.to);
-    if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
-  });
+const arch=document.createElement("section");
+arch.className="archive reveal"; arch.id="archive";
+arch.innerHTML=`
+  <div class="coll-head">
+    <div>
+      <div class="num">VI</div>
+      <h2>The Archive · Sold Out</h2>
+      <p class="note">One-of-a-kind pieces that have already found homes. Kept here for reference — occasionally a restock or a twin appears.</p>
+    </div>
+    <span class="rule"></span>
+    <div class="tally">${ARCHIVE.length} pieces</div>
+  </div>
+  <div class="arch-grid"></div>`;
+const ag=arch.querySelector(".arch-grid");
+ARCHIVE.forEach((it,i)=>{
+  const row=document.createElement("a");
+  row.className="arch-row";
+  row.href=BASE+it.u; row.target="_blank"; row.rel="noopener";
+  row.style.setProperty("--a",((i*53)%360)+"deg");
+  row.innerHTML=`<span class="arch-dot"></span><span class="an">${it.n}</span><span class="ap">$${it.p}</span>`;
+  ag.appendChild(row);
+});
+app.appendChild(arch);
+
+document.querySelectorAll(".shot img").forEach(img=>{
+  if(img.complete) img.classList.add("loaded");
+  img.addEventListener("load",()=>img.classList.add("loaded"));
+  img.addEventListener("error",()=>{img.style.display="none";});
 });
 
-/* reveal on scroll */
-const io = new IntersectionObserver((es)=>{
-  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
-},{threshold:.08});
+document.querySelectorAll(".chip").forEach(c=>{
+  c.addEventListener("click",()=>{const el=document.getElementById(c.dataset.to); if(el) el.scrollIntoView({behavior:"smooth",block:"start"});});
+});
+
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}})},{threshold:.06});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
-/* active chip based on section in view */
 const chips=[...document.querySelectorAll(".chip")];
-const secObs=new IntersectionObserver((es)=>{
-  es.forEach(e=>{
-    if(e.isIntersecting){
-      chips.forEach(c=>c.classList.toggle("on",c.dataset.to===e.target.id));
-    }
-  });
-},{rootMargin:"-45% 0px -50% 0px"});
-document.querySelectorAll("section.coll").forEach(s=>secObs.observe(s));
+const secObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){chips.forEach(c=>c.classList.toggle("on",c.dataset.to===e.target.id));}})},{rootMargin:"-45% 0px -50% 0px"});
+document.querySelectorAll("section.coll, section.archive").forEach(s=>secObs.observe(s));
 </script>
 </body>
 </html>
