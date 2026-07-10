@@ -250,6 +250,70 @@
   .card-featured:hover .card-emoji { opacity: 0.2; transform: translateY(-50%) scale(1.08); }
 
   /* ══════════════════════════════
+     NEWSSTAND TEASER
+  ══════════════════════════════ */
+  .newsstand-teaser {
+    display: block; text-decoration: none; position: relative; overflow: hidden;
+    border-radius: 14px; border: 1px solid rgba(0,240,255,0.22);
+    background:
+      radial-gradient(620px 220px at 86% -30%, rgba(255,45,155,0.10), transparent 70%),
+      linear-gradient(135deg, rgba(0,240,255,0.06) 0%, rgba(192,84,252,0.04) 45%, rgba(0,0,0,0) 75%);
+    padding: 2rem 2rem 1.9rem;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  }
+  .newsstand-teaser::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,240,255,0.6), rgba(255,45,155,0.5), rgba(255,210,80,0.5), transparent);
+    background-size: 200% 100%; animation: nsSlide 6s linear infinite;
+  }
+  @keyframes nsSlide { 0% { background-position: 0 0; } 100% { background-position: 200% 0; } }
+  .newsstand-teaser:hover {
+    transform: translateY(-3px); border-color: rgba(0,240,255,0.5);
+    box-shadow: 0 8px 44px rgba(0,240,255,0.12), 0 2px 12px rgba(0,0,0,0.45);
+  }
+  .newsstand-teaser .ns-eyebrow {
+    font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cyan);
+    margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .newsstand-teaser .ns-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--cyan); opacity: 0.5; }
+  .newsstand-teaser .ns-title {
+    font-family: 'VT323', monospace; font-size: clamp(2rem, 6vw, 2.8rem); letter-spacing: 0.06em;
+    line-height: 1.1; color: #fff; margin-bottom: 0.55rem;
+  }
+  .newsstand-teaser .ns-title b { color: var(--pink); font-weight: normal; }
+  .newsstand-teaser .ns-desc {
+    font-size: 0.95rem; line-height: 1.9; color: rgba(200,180,255,0.5);
+    max-width: 540px; letter-spacing: 0.05em; margin-bottom: 1.1rem;
+  }
+  .ns-rack { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.2rem; }
+  .ns-spine {
+    font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.82); padding: 0.4rem 0.7rem; border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.03);
+    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .ns-spine:nth-child(2) { transform: rotate(1deg); }
+  .ns-spine:nth-child(3) { transform: rotate(-1deg); }
+  .ns-spine:nth-child(4) { transform: rotate(1.5deg); }
+  .newsstand-teaser:hover .ns-spine { transform: translateY(-2px) rotate(-1.5deg); }
+  .ns-spine.more { color: var(--gold); border-color: rgba(255,210,80,0.35); background: rgba(255,210,80,0.06); }
+  .newsstand-teaser .ns-cta {
+    display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); transition: gap 0.18s;
+  }
+  .newsstand-teaser:hover .ns-cta { gap: 0.8rem; }
+  .newsstand-teaser .ns-emoji {
+    position: absolute; right: 1.8rem; top: 50%; transform: translateY(-50%);
+    font-size: 4.5rem; opacity: 0.12; pointer-events: none; transition: opacity 0.22s, transform 0.22s;
+  }
+  .newsstand-teaser:hover .ns-emoji { opacity: 0.2; transform: translateY(-50%) scale(1.08) rotate(-4deg); }
+  @media (max-width: 600px) {
+    .newsstand-teaser { padding: 1.4rem 1.25rem; }
+    .newsstand-teaser .ns-emoji { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .newsstand-teaser::before { animation: none; } }
+
+  /* ══════════════════════════════
      CARD GRID
   ══════════════════════════════ */
   .card-grid {
@@ -795,6 +859,24 @@
     <div class="card-desc">A cosmic confection of sweetness from across the galaxy — where aliens love ice cream and every dessert is a little bit magic. 🍦👽✨</div>
     <div class="card-cta">Enter the broadcast <span>&rarr;</span></div>
     <div class="card-emoji">🍦</div>
+  </a>
+
+  <!-- ── THE NEWSSTAND ── -->
+  <div class="section-label"><span>The Newsstand</span></div>
+
+  <a class="newsstand-teaser" href="https://magickmica.github.io/aliens/newsstand.html">
+    <div class="ns-eyebrow">Now Stocking · Nine Issues</div>
+    <div class="ns-title">The Intergalactic <b>Newsstand</b></div>
+    <div class="ns-desc">Every transmission on one glowing rack — cosmic desserts, pyramid-powered stellar drives, coastal Y3K dispatches, ancient goddesses and more. Step right up and flip through the whole collection. 🛸📰✨</div>
+    <div class="ns-rack">
+      <span class="ns-spine">Galactic Dessert</span>
+      <span class="ns-spine">Cosmic Stellar Drive</span>
+      <span class="ns-spine">Stargazer</span>
+      <span class="ns-spine">Rhode Island Beach Life</span>
+      <span class="ns-spine more">+ nine on the stand</span>
+    </div>
+    <div class="ns-cta">Browse the newsstand <span>&rarr;</span></div>
+    <div class="ns-emoji">🛸</div>
   </a>
 
   <!-- ── Y3K MAGAZINE ── -->
