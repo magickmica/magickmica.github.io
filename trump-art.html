@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magick Mica TV — Trump Art · The Comedy Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Yellowtail&family=Barlow+Condensed:wght@500;600;700;800&family=Karla:ital,wght@0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --space:#160A2B; --plum:#3A1B4D; --dusk:#6B2E7E;
+    --pink:#FF7AC8; --hotpink:#FF4FA3; --mint:#5FE8D0;
+    --butter:#FFE066; --lav:#B79CFF; --cyan:#4EE1FF; --cream:#FFF6FB;
+    --display:'Shrikhand',cursive; --script:'Yellowtail',cursive;
+    --head:'Barlow Condensed',sans-serif; --body:'Karla',sans-serif; --mono:'Space Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    color:var(--cream); font-family:var(--body); font-size:1.05rem; line-height:1.65; overflow-x:hidden; min-height:100vh;
+    background:linear-gradient(180deg, var(--space) 0%, var(--space) 28%, var(--plum) 60%, var(--dusk) 84%, #A0447E 100%);
+  }
+  ::selection{background:var(--pink);color:var(--space);}
+  .stars{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 12%, #fff 60%, transparent),
+      radial-gradient(1px 1px at 32% 44%, var(--pink) 60%, transparent),
+      radial-gradient(1.5px 1.5px at 56% 22%, var(--mint) 60%, transparent),
+      radial-gradient(1px 1px at 74% 56%, #fff 60%, transparent),
+      radial-gradient(2px 2px at 88% 8%, var(--butter) 60%, transparent),
+      radial-gradient(1px 1px at 20% 66%, var(--lav) 60%, transparent),
+      radial-gradient(1.4px 1.4px at 44% 5%, #fff 60%, transparent),
+      radial-gradient(1px 1px at 94% 38%, var(--cyan) 60%, transparent);
+    opacity:.6;animation:tw 6s ease-in-out infinite alternate;
+    mask-image:linear-gradient(#000 60%, transparent 95%);
+    -webkit-mask-image:linear-gradient(#000 60%, transparent 95%);
+  }
+  @keyframes tw{from{opacity:.4}to{opacity:.8}}
+  main{position:relative;z-index:1;}
+
+  header{text-align:center;padding:3.6rem 1.25rem 1.6rem;}
+  .ticker{font-family:var(--mono);font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--mint);margin-bottom:1.6rem;display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap;}
+  .ticker .dot{color:var(--hotpink);}
+  .sign{display:inline-block;border:3px solid var(--pink);border-radius:1.6rem;padding:1.4rem 2.2rem 1.7rem;box-shadow:0 0 24px rgba(255,122,200,.5), inset 0 0 24px rgba(255,122,200,.2);background:rgba(22,10,43,.55);backdrop-filter:blur(3px);}
+  .sign h1{font-family:var(--display);font-size:clamp(2.1rem,7vw,4rem);line-height:1;color:var(--cream);text-shadow:0 0 18px rgba(255,122,200,.55);}
+  .sign .script{font-family:var(--script);font-size:clamp(1.1rem,3.2vw,1.6rem);color:var(--butter);display:block;margin-top:.35rem;text-shadow:0 0 14px rgba(255,224,102,.45);}
+  .disclaimer{display:inline-block;margin-top:1.3rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lav);border:1px solid rgba(183,156,255,.5);border-radius:999px;padding:.5rem 1.1rem;}
+
+  .intro{max-width:44rem;margin:1.8rem auto 0;padding:0 1.4rem;text-align:center;opacity:.92;}
+  .intro em{color:var(--pink);font-style:normal;}
+
+  .gallery{max-width:60rem;margin:2.4rem auto 0;padding:0 1.4rem;display:flex;flex-direction:column;gap:1.8rem;}
+
+  .frame-card{
+    display:grid;grid-template-columns:minmax(0,260px) 1fr;gap:1.6rem;align-items:center;text-decoration:none;color:inherit;
+    border:2px solid rgba(183,156,255,.28);border-radius:1.3rem;padding:1.4rem;
+    background:linear-gradient(120deg, rgba(255,122,200,.08), rgba(183,156,255,.08), rgba(95,232,208,.06));
+    transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  }
+  .frame-card:hover{transform:translateY(-4px);border-color:rgba(255,122,200,.6);box-shadow:0 16px 40px -14px rgba(0,0,0,.6), 0 0 34px -8px rgba(255,122,200,.45);}
+  .frame-card:nth-child(2){grid-template-columns:1fr minmax(0,260px);}
+  .frame-card:nth-child(2) .plate{order:2;}
+
+  .frame{position:relative;border-radius:.6rem;overflow:hidden;border:6px solid var(--butter);box-shadow:0 0 0 2px rgba(0,0,0,.4), 0 10px 26px -8px rgba(0,0,0,.7);background:#1B0B33;aspect-ratio:1/1;}
+  .frame-card:nth-child(2) .frame{border-color:var(--mint);}
+  .frame-card:nth-child(3) .frame{border-color:var(--lav);}
+  .frame img{width:100%;height:100%;object-fit:cover;display:block;}
+  .frame .num{position:absolute;left:.5rem;bottom:.5rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;background:rgba(22,10,43,.82);color:var(--cream);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:.28rem .6rem;}
+
+  .plate .date{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mint);}
+  .plate h2{font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.03em;font-size:clamp(1.3rem,3.2vw,1.7rem);line-height:1.02;color:var(--cream);margin:.3rem 0 .35rem;}
+  .plate .sub{font-family:var(--script);font-size:1.15rem;color:var(--butter);margin-bottom:.5rem;}
+  .plate .desc{font-size:.95rem;opacity:.9;margin-bottom:.9rem;}
+  .plate .cta{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--space);background:var(--pink);border-radius:999px;padding:.55rem 1.1rem;transition:gap .18s;}
+  .frame-card:hover .cta{gap:.85rem;}
+  .plate .ext{display:block;margin-top:.5rem;font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,246,251,.5);}
+
+  footer{text-align:center;padding:3rem 1.4rem 3.6rem;margin-top:1.4rem;}
+  .shelf{max-width:56rem;margin:0 auto 2.2rem;height:12px;border-radius:999px;background:linear-gradient(90deg, transparent, rgba(255,224,102,.5), rgba(255,122,200,.6), rgba(95,232,208,.5), transparent);box-shadow:0 0 24px rgba(255,122,200,.35);}
+  footer .note{max-width:40rem;margin:0 auto 1.4rem;font-size:.9rem;opacity:.8;font-style:italic;}
+  footer a.btn{display:inline-block;margin:.3rem .4rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;color:var(--cyan);border:1.5px solid var(--cyan);border-radius:999px;padding:.55rem 1.2rem;transition:background .2s,color .2s;}
+  footer a.btn:hover{background:var(--cyan);color:var(--space);}
+  footer a.btn.pink{color:var(--pink);border-color:var(--pink);}
+  footer a.btn.pink:hover{background:var(--pink);color:var(--space);}
+  footer .motto{font-family:var(--display);font-size:1.05rem;margin:1.4rem 0 .5rem;color:var(--cream);text-shadow:0 0 14px rgba(255,122,200,.5);}
+  footer .small{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,246,251,.7);}
+
+  @media (max-width:640px){
+    .frame-card,.frame-card:nth-child(2){grid-template-columns:1fr;text-align:center;}
+    .frame-card:nth-child(2) .plate{order:0;}
+    .frame{max-width:280px;margin:0 auto;}
+    .plate .cta{margin:0 auto;}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+<main>
+
+  <header>
+    <div class="ticker">
+      <span>The Comedy Collection</span><span class="dot">✦</span>
+      <span>Smiles &amp; giggles over doomscrolling</span><span class="dot">✦</span>
+      <span>Fresh on Substack</span>
+    </div>
+    <div class="sign">
+      <h1>Trump Art</h1>
+      <span class="script">a magick mica parody gallery</span>
+    </div>
+    <div class="disclaimer">✦ Parody &amp; satire · comedy art, not real events ✦</div>
+  </header>
+
+  <p class="intro">A little backstory: this series started as a way to turn news-cycle stress into something joyful. Instead of <em>mad, sad, or negative</em>, Magick Mica went straight to comedy — absurd, glittery, cosmic parody art. Here are three of the big collections. Tap any frame to view the full post on Substack.</p>
+
+  <section class="gallery">
+
+    <!-- 1 -->
+    <a class="frame-card" href="https://magickmica.substack.com/p/fun-donald-trump-ballroom-satire" target="_blank" rel="noopener">
+      <div class="frame plate-frame">
+        <img src="https://substack-post-media.s3.amazonaws.com/public/images/bd2f74d3-64dd-4218-b3fe-58742c91285d_1200x1200.png" alt="Ballroom parody art collection cover" loading="lazy">
+        <span class="num">No. 1 · Nov 2025</span>
+      </div>
+      <div class="plate">
+        <span class="date">November 2025</span>
+        <h2>Fun Donald Trump Ballroom Satire · Part 1</h2>
+        <p class="sub">Ballroom parody images in one hugeee post</p>
+        <p class="desc">The one that kicked off the whole series — a giant wrap-up of ballroom-themed parody pieces, complete with a surprise Robin Hood cameo and a run of Halloween-in-the-ballroom bits.</p>
+        <span class="cta">View on Substack →</span>
+        <span class="ext">Opens on magickmica.substack.com</span>
+      </div>
+    </a>
+
+    <!-- 2 -->
+    <a class="frame-card" href="https://magickmica.substack.com/p/trumps-neon-painting-session" target="_blank" rel="noopener">
+      <div class="frame">
+        <img src="https://substack-post-media.s3.amazonaws.com/public/images/98e7aa94-9009-4250-a342-ea2f4385747a_1200x1200.png" alt="Neon painting session parody art cover" loading="lazy">
+        <span class="num">No. 2 · Dec 2025</span>
+      </div>
+      <div class="plate">
+        <span class="date">December 2025</span>
+        <h2>Trump's Neon Painting Session</h2>
+        <p class="sub">Splashes of color everywhere</p>
+        <p class="desc">An absurdist "painting is healing" bit — rainbow found, neon chosen, a whole gallery of glow-soaked canvas creations. Pure color-drenched silliness.</p>
+        <span class="cta">View on Substack →</span>
+        <span class="ext">Opens on magickmica.substack.com</span>
+      </div>
+    </a>
+
+    <!-- 3 -->
+    <a class="frame-card" href="https://magickmica.substack.com/p/trump-parody-pics-mega-post" target="_blank" rel="noopener">
+      <div class="frame">
+        <img src="https://substack-post-media.s3.amazonaws.com/public/images/51bc3d7a-7e79-4e3d-8708-b56814a419ea_600x600.gif" alt="Mega parody collection animated cover" loading="lazy">
+        <span class="num">No. 3 · May 2026</span>
+      </div>
+      <div class="plate">
+        <span class="date">May 2026</span>
+        <h2>Trump Parody Pics MEGA Post</h2>
+        <p class="sub">The Trump collection · Lincoln joins in</p>
+        <p class="desc">The big one: surreal glittercore politics, alternate-history chaos and cosmic luxury — including the running "Trump &amp; Lincoln" bathroom-redesign gags. The deeper you scroll, the weirder it gets.</p>
+        <span class="cta">View on Substack →</span>
+        <span class="ext">Opens on magickmica.substack.com</span>
+      </div>
+    </a>
+
+  </section>
+
+  <footer>
+    <div class="shelf" aria-hidden="true"></div>
+    <p class="note">Everything here is comedy and parody art — created for laughs and self-expression, not to depict real events or statements. Not affiliated with or endorsed by any real person.</p>
+    <a class="btn" href="newsstand.html">← Back to the Newsstand</a>
+    <a class="btn pink" href="https://magickmica.substack.com/s/trump-art/" target="_blank" rel="noopener">More Trump Art on Substack ↗</a>
+    <p class="motto">Melt down. Tune in. Space out.</p>
+    <p class="small">Magick Mica TV ✨🍦👽 · For entertainment across all known dimensions</p>
+  </footer>
+
+</main>
+</body>
+</html>
