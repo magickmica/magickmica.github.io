@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Quartz Vault · Magick Mica TV Recommends</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#08071a;
+    --milk:#ece9ff;
+    --muted:#9a95c8;
+    --muted-dim:#6f6a99;
+    --line:rgba(180,170,255,.14);
+    --line-strong:rgba(180,170,255,.30);
+    --card:rgba(255,255,255,.03);
+    --card-hi:rgba(255,255,255,.055);
+    --sp-teal:#46e5c8;--sp-blue:#5a8bff;--sp-violet:#b17dff;--sp-pink:#ff6fae;--sp-amber:#ffc46b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--void);color:var(--milk);
+    font-family:"Space Grotesk",system-ui,sans-serif;line-height:1.55;
+    overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(60% 45% at 80% 4%, rgba(90,139,255,.15), transparent 60%),
+      radial-gradient(55% 40% at 10% 20%, rgba(177,125,255,.13), transparent 62%),
+      radial-gradient(70% 55% at 50% 108%, rgba(70,229,200,.09), transparent 60%),
+      var(--void);
+  }
+  .grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;
+    background-image:radial-gradient(rgba(255,255,255,.9) .5px, transparent .5px);background-size:3px 3px}
+  .wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
+  .eyebrow{font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);font-weight:500}
+
+  header{position:relative;z-index:1;padding:32px 0 4px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .sigil{width:34px;height:34px;border-radius:50%;flex:none;
+    background:conic-gradient(from 210deg,var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber),var(--sp-teal));
+    box-shadow:0 0 0 1px var(--line-strong),0 0 22px rgba(140,120,255,.45);animation:spin 18s linear infinite}
+  .brand-name{font-family:"Fraunces",serif;font-weight:600;font-size:1.05rem;letter-spacing:.02em}
+  .brand-name b{font-weight:900}
+
+  .hero{position:relative;z-index:1;padding:80px 0 56px;text-align:center}
+  .hero .kicker{margin-bottom:26px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:900;
+    font-size:clamp(3.2rem,11vw,8rem);line-height:.9;letter-spacing:-.025em}
+  .hero h1 .shine{
+    background:linear-gradient(100deg,var(--sp-pink),var(--sp-amber),var(--sp-teal),var(--sp-blue),var(--sp-violet));
+    background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:driftfill 9s ease-in-out infinite}
+  .hero p.lede{max-width:600px;margin:28px auto 0;color:var(--muted);font-size:1.06rem}
+  .hero p.lede b{color:var(--milk);font-weight:500}
+  .spectrum-rule{width:min(360px,70vw);height:2px;margin:38px auto 0;border-radius:2px;
+    background:linear-gradient(90deg,transparent,var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber),transparent)}
+  .hero .stat{margin-top:22px;font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted-dim)}
+
+  .navbar{position:sticky;top:0;z-index:20;margin-top:44px;backdrop-filter:blur(14px);
+    background:linear-gradient(var(--void),rgba(8,7,26,.72));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .navbar .wrap{display:flex;gap:10px;align-items:center;overflow-x:auto;padding-top:14px;padding-bottom:14px;scrollbar-width:none}
+  .navbar .wrap::-webkit-scrollbar{display:none}
+  .navbar .lbl{font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);flex:none;margin-right:6px}
+  .chip{flex:none;font-size:.82rem;padding:7px 15px;border-radius:100px;border:1px solid var(--line-strong);
+    color:var(--muted);transition:.25s;white-space:nowrap;cursor:pointer;background:transparent;font-family:inherit}
+  .chip:hover,.chip.on{color:var(--void);background:var(--milk);border-color:var(--milk)}
+
+  section.coll{padding:72px 0 0}
+  .coll-head{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:32px}
+  .coll-head .num{font-family:"Fraunces",serif;font-style:italic;font-weight:400;color:var(--muted);font-size:1.05rem}
+  .coll-head h2{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.9rem,4.4vw,3rem);letter-spacing:-.015em;line-height:1.02;margin:4px 0 12px}
+  .coll-head .note{max-width:560px;color:var(--muted);font-size:.98rem}
+  .coll-head .rule{height:1px;flex:1 1 100px;background:var(--line);align-self:center;min-width:50px}
+  .coll-head .tally{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-dim);flex:none;white-space:nowrap}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+
+  .card{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    background:var(--card);transition:.3s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column}
+  .card::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:16px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+  .card:hover{transform:translateY(-6px);border-color:var(--line-strong);background:var(--card-hi);
+    box-shadow:0 22px 50px rgba(30,20,70,.55)}
+  .card:focus-within{outline:2px solid var(--sp-blue);outline-offset:2px}
+
+  .shot{position:relative;aspect-ratio:4/5;overflow:hidden;
+    background:
+      radial-gradient(60% 60% at 35% 30%, rgba(90,139,255,.25), transparent 60%),
+      radial-gradient(60% 60% at 70% 70%, rgba(255,111,174,.2), transparent 60%),
+      #0c0a20;}
+  .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    transition:transform .5s cubic-bezier(.2,.7,.2,1);opacity:0}
+  .shot img.loaded{opacity:1}
+  .card:hover .shot img{transform:scale(1.05)}
+  .shot::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(to top, rgba(8,7,26,.55), transparent 42%)}
+  .shot .seam{position:absolute;left:0;right:0;bottom:0;height:2px;z-index:2;
+    background:linear-gradient(90deg,var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber));opacity:.85}
+
+  .badge{position:absolute;z-index:5;top:12px;left:12px;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+    padding:5px 9px;border-radius:100px;font-weight:500;background:rgba(8,7,26,.66);
+    border:1px solid var(--line-strong);color:var(--milk);backdrop-filter:blur(4px)}
+  .badge.low{color:#ffdd9e;border-color:rgba(255,196,107,.45)}
+
+  .card-body{padding:15px 16px 17px;display:flex;flex-direction:column;gap:11px;flex:1}
+  .card h3{font-family:"Fraunces",serif;font-weight:500;font-size:1rem;line-height:1.22;letter-spacing:-.01em}
+  .card .meta{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .price{font-weight:700;font-size:1.06rem}
+  .price .cur{color:var(--muted);font-weight:400;font-size:.78rem;margin-right:1px}
+  .go{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:6px;transition:.2s}
+  .card:hover .go{color:var(--milk)}
+  .go .arw{transition:transform .25s}
+  .card:hover .go .arw{transform:translateX(3px)}
+  .stretch{position:absolute;inset:0;z-index:4}
+
+  section.archive{padding:80px 0 0}
+  .arch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+  .arch-row{display:flex;align-items:center;gap:14px;padding:13px 16px;border:1px solid var(--line);border-radius:12px;
+    background:rgba(255,255,255,.015);transition:.25s;position:relative}
+  .arch-row:hover{border-color:var(--line-strong);background:rgba(255,255,255,.04)}
+  .arch-dot{width:26px;height:26px;border-radius:7px;flex:none;
+    background:conic-gradient(from var(--a,200deg),var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber),var(--sp-teal));
+    filter:saturate(.85) brightness(.8);opacity:.7}
+  .arch-row .an{flex:1;font-size:.86rem;line-height:1.3;color:var(--muted)}
+  .arch-row:hover .an{color:var(--milk)}
+  .arch-row .ap{font-size:.82rem;color:var(--muted-dim);white-space:nowrap;text-decoration:line-through}
+
+  .outro{margin-top:96px;padding:70px 0;border-top:1px solid var(--line);text-align:center}
+  .outro h2{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.8rem,5vw,2.8rem);letter-spacing:-.015em}
+  .outro p{color:var(--muted);max-width:540px;margin:16px auto 0}
+  .storebtn{display:inline-flex;align-items:center;gap:10px;margin-top:30px;padding:14px 26px;border-radius:100px;
+    background:var(--milk);color:var(--void);font-weight:700;font-size:.9rem;transition:.25s}
+  .storebtn:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(150,130,255,.35)}
+  footer{position:relative;z-index:1;padding:40px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem}
+  footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  .disclaimer{max-width:700px;line-height:1.6;font-size:.76rem;margin-top:18px;color:var(--muted-dim)}
+
+  .reveal{opacity:0;transform:translateY(18px)}
+  .reveal.in{opacity:1;transform:none;transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1)}
+
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes driftfill{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+  @media (max-width:640px){
+    .hero{padding:52px 0 40px}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+    .card h3{font-size:.9rem}
+    .arch-grid{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;scroll-behavior:auto}
+    .reveal{opacity:1;transform:none}
+    .shot img{transition:opacity .3s}
+  }
+
+  /* more curations */
+  .xsection{max-width:1200px;margin:0 auto;padding:40px 0 10px}
+  .xgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:8px}
+  .xlink{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:16px;text-decoration:none;
+    border:1px solid var(--line-strong);background:var(--card);color:var(--milk);transition:.25s}
+  .xlink:hover{background:var(--card-hi);transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.35)}
+  .xicon{font-size:1.6rem;flex:none;line-height:1}
+  .xtxt{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+  .xtxt b{font-family:"Fraunces",serif;font-weight:600;font-size:1rem}
+  .xtxt em{font-style:normal;font-size:.78rem;color:var(--muted)}
+  .xarw{color:var(--muted);transition:.25s;flex:none}
+  .xlink:hover .xarw{transform:translateX(4px);color:var(--milk)}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<header>
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <div class="brand">
+      <div class="sigil"></div>
+      <div class="brand-name">Magick&nbsp;Mica&nbsp;<b>TV</b></div>
+    </div>
+    <nav style="display:flex;gap:10px;flex-wrap:wrap">
+      <a class="chip" href="https://magickmica.github.io/" style="text-decoration:none">← Home</a>
+      <a class="chip" href="https://magickmica.github.io/aliens/newsstand.html" style="text-decoration:none">Newsstand</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow kicker">Curated Picks · The Mystical Spiral Store</div>
+    <h1>The <span class="shine">Quartz</span> Vault</h1>
+    <p class="lede">Quartz is <b>piezoelectric</b> — squeeze it and it makes light. Raw crystal in every form: Herkimer diamonds, phantom free forms, spirit-flame clusters, hand-carved towers and skulls. All dolmen-ignited.</p>
+    <div class="spectrum-rule"></div>
+    <div class="stat" id="heroStat"></div>
+  </div>
+</div>
+
+<nav class="navbar" id="nav">
+  <div class="wrap">
+    <span class="lbl">Jump to</span>
+    <button class="chip" data-to="herkimer">Herkimer Diamonds</button>
+    <button class="chip" data-to="clusters">Clusters &amp; Specimens</button>
+    <button class="chip" data-to="forms">Free Forms &amp; Wands</button>
+    <button class="chip" data-to="carved">Towers &amp; Skulls</button>
+    <button class="chip" data-to="archive">More From the Drop</button>
+  </div>
+</nav>
+
+<main class="wrap" id="app"></main>
+
+<div class="outro">
+  <div class="wrap">
+    <h2>See the whole quartz drop</h2>
+    <p>These pieces are one-of-a-kind and move fast. Browse the full, live collection at the source — dozens more pieces than fit here.</p>
+    <a class="storebtn" href="https://www.themysticalspiralstore.com/search?q=quartz" target="_blank" rel="noopener">
+      Shop all quartz at The Mystical Spiral Store <span>↗</span>
+    </a>
+  </div>
+</div>
+
+
+<!-- ============ MORE CURATIONS ============ -->
+<section class="xsection reveal">
+  <div class="wrap">
+    <div class="coll-head">
+      <div>
+        <div class="num">✦</div>
+        <h2>More Curations</h2>
+        <p class="note">Other shelves in the Magick Mica TV collection — each one hand-picked from The Mystical Spiral Store.</p>
+      </div>
+      <span class="rule"></span>
+    </div>
+    <div class="xgrid">
+      <a class="xlink" href="opal-vault.html">
+        <span class="xicon" style="color:#ff6fae">◈</span>
+        <span class="xtxt"><b>The Opal Vault</b><em>Play-of-color fire</em></span>
+        <span class="xarw">→</span>
+      </a>
+      <a class="xlink" href="labradorite-vault.html">
+        <span class="xicon" style="color:#5a8bff">✦</span>
+        <span class="xtxt"><b>The Labradorite Vault</b><em>Peacock flash in grey stone</em></span>
+        <span class="xarw">→</span>
+      </a>
+      <a class="xlink" href="watermelon-vault.html">
+        <span class="xicon" style="color:#46e5c8">🍉</span>
+        <span class="xtxt"><b>The Watermelon Vault</b><em>Pink heart, green rind</em></span>
+        <span class="xarw">→</span>
+      </a>
+      <a class="xlink" href="copper-jewelry.html">
+        <span class="xicon" style="color:#ffc46b">🌀</span>
+        <span class="xtxt"><b>The Copper Workshop</b><em>Hand-wound sacred cubit coils</em></span>
+        <span class="xarw">→</span>
+      </a>
+      <a class="xlink" href="quartz-amulets.html">
+        <span class="xicon" style="color:#ece9ff">⚡</span>
+        <span class="xtxt"><b>Quartz Amulets</b><em>Copper-wound light</em></span>
+        <span class="xarw">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">
+      <div class="sigil" style="width:26px;height:26px"></div>
+      <span>Magick Mica TV — quartz curation</span>
+    </div>
+    <span>Photos, prices &amp; stock from the store at time of curation</span>
+  </div>
+  <div class="wrap">
+    <p class="disclaimer">Magick Mica TV curates and links to products sold by The Mystical Spiral Store; all sales, shipping, and fulfillment are handled by the store. Product images are the store's own. Prices and availability change — the store page is the source of truth. Descriptions of crystal or gemstone properties reflect traditional metaphysical lore, shared for interest, not as medical or factual claims.</p>
+  </div>
+</footer>
+
+<script>
+const IMG = f => `https://static.wixstatic.com/media/${f}/v1/fill/w_640,h_800,al_c,q_80,enc_auto/file.jpg`;
+const BASE = "https://www.themysticalspiralstore.com/product-page/";
+
+const COLLECTIONS = [
+  { id:"herkimer", num:"I", title:"Herkimer Diamonds · New York",
+    note:"Hand-sourced doubly-terminated Herkimer quartz from New York — 'pure solidified light,' some with rare petroleum deposits glowing inside.",
+    items:[
+      {n:"Herkimer Diamond Quartz Package · (2) Diamonds + Free AAA Mini", p:"45.59", img:"f91caa_c9c5e5b708fe490daebae7b468802e21~mv2.jpg", u:"herkimer-diamond-quartz"},
+    ]},
+  { id:"clusters", num:"II", title:"Clusters & Specimens",
+    note:"Ethically hand-sourced crystal in its natural form — candle-flame Spirit Quartz, golden healers, Himalayan clusters and amethyst geodes, all dolmen-ignited.",
+    items:[
+      {n:"Spirit (Flame) Quartz Cluster · S. Africa / Dolmen Ignited", p:"47.77", img:"f91caa_42b912897d904fbb909e7217435ce354~mv2.jpg", u:"spirit-quartz-cluster-specimen-ignited"},
+      {n:"Brasil AAA Quartz Cluster Specimen · Dolmen Ignited", p:"97.00", img:"f91caa_45a9dc928cee452f8221e8a65df0e908~mv2.jpg", u:"brasil-aaa-quartz-cluster-specimen-dolmen-ignited"},
+      {n:"Iron Oxide Golden Healer Quartz Cluster · One of a Kind", p:"44.62", img:"f91caa_7e67b72daa92454fb899e82068c5ced3~mv2.jpg", u:"iron-oxide-golden-healer-quartz-cluster-specimen-dolmen-imprinted"},
+      {n:"AAA Himalayan Quartz Cluster Specimen (2.10 oz)", p:"73.98", img:"f91caa_25dcb318be4e483297505144a27ef876~mv2.jpg", u:"aaa-himalayan-quartz-cluster-specimen"},
+      {n:"AAA Golden Healer Quartz Drusy Cluster (Brasil) w/ Stand", p:"69.99", img:"f91caa_1de3efe8998c4482bad9061b7135bde8~mv2.jpg", u:"aaa-golden-healer-quartz-drusy-cluster-specimen-brasil"},
+      {n:"AAA Amethyst Geode Cluster · Dolmen Imprinted", p:"47.99", img:"f91caa_7fc3932196794826b6beffdb6ec48527~mv2.jpg", u:"aaa-amethyst-geode-cluster-dolmen-imprinted"},
+    ]},
+  { id:"forms", num:"III", title:"Free Forms & Wands",
+    note:"Statement crystal — phantom-veiled Brasilian clear quartz and a very rare Himalayan enhydro laser wand with a water bubble sealed inside.",
+    items:[
+      {n:"AAA Brasil Clear Quartz (Phantoms) · Large Free Form", p:"88.88", img:"f91caa_1dfa07609ffd411598cdf448b05a8781~mv2.jpg", u:"aaa-brasil-clear-quartz-phantoms-large-free-form"},
+      {n:"Lemurian Enhydro Quartz Record Keeper Laser Wand", p:"179.72", img:"f91caa_fc1bb18343a3421fb3568e2c00a85c11~mv2.jpg", u:"lemurian-enhydro-quartz-record-keeper-laser-point-wand-thought-generator"},
+    ]},
+  { id:"carved", num:"IV", title:"Towers & Crystal Skulls",
+    note:"Hand-carved in-house — strawberry quartz towers and high-altitude Himalayan rainbow quartz skulls.",
+    items:[
+      {n:"Natural Strawberry Quartz Tower + Free Mini Cube", p:"35.55", img:"f91caa_539de75cec9f44248bf6f5ba2f3a3c75f003.jpg", u:"natural-strawberry-quartz-tower-and-cube"},
+      {n:"Himalayan Rainbow Quartz Crystal Skull · Hand Carved", p:"33.33", img:"f91caa_a25b148f61f54c45aeffea27bf43d586~mv2.jpg", u:"himalayan-rainbow-quartz-crystal-skull"},
+    ]},
+];
+
+const ARCHIVE = [
+  {n:"AAA Hand Sourced Herkimer Diamond Quartz (New York)", p:"18.95", u:"aaa-hand-sourced-herkimer-diamond-quartz-new-york"},
+  {n:"Hand Sourced AAA Herkimer Light Smokey Quartz (New York)", p:"44.00", u:"hand-sourced-aaa-herkimer-diamond-quartz-new-york-1"},
+  {n:"AAA Natural Smokey Elestial Quartz Gem Raw Specimen (Brasil)", p:"95.77", u:"aaa-natural-smokey-quartz-gem-rough-specimen-brasil"},
+  {n:"Dolmen Charged Rare AAA Pineapple Quartz Free Form", p:"54.18", u:"dolmen-charged-rare-pineapple-quartz-free-form-gem"},
+  {n:"Aura Quartz Angel Druzy Large Specimen (12.21 oz)", p:"69.99", u:"aura-quartz-angle-druzy-specimen-12-21-oz"},
+  {n:"Cubed Pyrite and Quartz Specimen", p:"69.59", u:"cubed-pyrite-and-quartz-specimen"},
+  {n:"Pyrite Cube / Quartz / Dolomite Specimen (7.68 oz)", p:"117.99", u:"pyrite-cube-quartz-dolomite-natural-specimen-ignited"},
+  {n:"Blue Kyanite / Quartz Large Specimen (10.55 oz)", p:"169.30", u:"blue-kyanite-quartz-large-specimen-dolmen-imprint"},
+  {n:"AAA Lemurian Quartz & Gold Muscovite Specimen", p:"254.75", u:"aaa-lemurian-quartz-and-gold-muscovite-specimen-dolmen-imprinted"},
+  {n:"Himalayan Rainbow Quartz Skull · 2026 Ltd / Lions Gate Ignited", p:"33.33", u:"himalayan-rainbow-quartz-crystal-skull-2025-limited-edition-lions-gate-ignited"},
+  {n:"Himalayan Rainbow Smokey Quartz Gem Skull · Master Carved 2026 Ltd", p:"199.75", u:"aaa-himalayan-light-smokey-quartz-gem-master-carved-2025-limited-edition-skull"},
+];
+
+const app = document.getElementById("app");
+const inStockCount = COLLECTIONS.reduce((s,c)=>s+c.items.length,0);
+document.getElementById("heroStat").textContent =
+  `${inStockCount} available now · ${inStockCount + ARCHIVE.length} quartz pieces curated`;
+
+COLLECTIONS.forEach(col=>{
+  const sec = document.createElement("section");
+  sec.className="coll reveal"; sec.id=col.id;
+  sec.innerHTML = `
+    <div class="coll-head">
+      <div>
+        <div class="num">${col.num}</div>
+        <h2>${col.title}</h2>
+        <p class="note">${col.note}</p>
+      </div>
+      <span class="rule"></span>
+      <div class="tally">${col.items.length} available</div>
+    </div>
+    <div class="grid"></div>`;
+  const grid = sec.querySelector(".grid");
+  col.items.forEach(it=>{
+    const a=document.createElement("article");
+    a.className="card reveal";
+    a.innerHTML=`
+      <div class="shot">
+        <img loading="lazy" src="${IMG(it.img)}" alt="${it.n.replace(/"/g,'')}">
+        <div class="seam"></div>
+        ${it.low?'<span class="badge low">Low stock</span>':''}
+      </div>
+      <div class="card-body">
+        <h3>${it.n}</h3>
+        <div class="meta">
+          <span class="price"><span class="cur">$</span>${it.p}</span>
+          <span class="go">Get it <span class="arw">→</span></span>
+        </div>
+      </div>
+      <a class="stretch" href="${BASE}${it.u}" target="_blank" rel="noopener" aria-label="Buy ${it.n.replace(/"/g,'')} on The Mystical Spiral Store"></a>`;
+    grid.appendChild(a);
+  });
+  app.appendChild(sec);
+});
+
+const arch=document.createElement("section");
+arch.className="archive reveal"; arch.id="archive";
+arch.innerHTML=`
+  <div class="coll-head">
+    <div>
+      <div class="num">VI</div>
+      <h2>More From the Drop</h2>
+      <p class="note">157 quartz pieces live at the store — here are a few more quick links, all in stock at time of curation.</p>
+    </div>
+    <span class="rule"></span>
+    <div class="tally">${ARCHIVE.length} pieces</div>
+  </div>
+  <div class="arch-grid"></div>`;
+const ag=arch.querySelector(".arch-grid");
+ARCHIVE.forEach((it,i)=>{
+  const row=document.createElement("a");
+  row.className="arch-row";
+  row.href=BASE+it.u; row.target="_blank"; row.rel="noopener";
+  row.style.setProperty("--a",((i*53)%360)+"deg");
+  row.innerHTML=`<span class="arch-dot"></span><span class="an">${it.n}</span><span class="ap">${it.p==="—"?"price on page":"$"+it.p}</span>`;
+  ag.appendChild(row);
+});
+app.appendChild(arch);
+
+document.querySelectorAll(".shot img").forEach(img=>{
+  if(img.complete) img.classList.add("loaded");
+  img.addEventListener("load",()=>img.classList.add("loaded"));
+  img.addEventListener("error",()=>{img.style.display="none";});
+});
+
+document.querySelectorAll(".chip").forEach(c=>{
+  c.addEventListener("click",()=>{const el=document.getElementById(c.dataset.to); if(el) el.scrollIntoView({behavior:"smooth",block:"start"});});
+});
+
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}})},{threshold:.06});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+
+const chips=[...document.querySelectorAll(".chip")];
+const secObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){chips.forEach(c=>c.classList.toggle("on",c.dataset.to===e.target.id));}})},{rootMargin:"-45% 0px -50% 0px"});
+document.querySelectorAll("section.coll, section.archive").forEach(s=>secObs.observe(s));
+</script>
+</body>
+</html>
