@@ -46,6 +46,65 @@
   /* ── layout wrapper ── */
   .page { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 0 1.25rem 4rem; }
 
+
+  /* ══════════════════════════════
+     WONDERLAND WEEKLY — die-cut blow-in
+  ══════════════════════════════ */
+  .ww-blowin {
+    position: relative; display: flex; align-items: flex-end; gap: 1.75rem;
+    text-decoration: none; border-radius: 14px;
+    margin-top: 5.5rem; padding: 2rem 2rem 1.9rem;
+    border: 1px solid rgba(255,45,155,0.28);
+    background:
+      radial-gradient(circle at 1px 1px, rgba(255,45,155,0.14) 1px, transparent 1.7px) 0 0 / 10px 10px,
+      radial-gradient(620px 240px at 88% -30%, rgba(255,210,80,0.10), transparent 70%),
+      linear-gradient(135deg, rgba(255,45,155,0.08) 0%, rgba(192,132,252,0.05) 50%, rgba(0,0,0,0) 78%);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  }
+  .ww-blowin:hover {
+    transform: translateY(-3px); border-color: rgba(255,45,155,0.6);
+    box-shadow: 0 8px 44px rgba(255,45,155,0.16), 0 2px 12px rgba(0,0,0,0.45);
+  }
+  .ww-cutout { flex: 0 0 auto; width: clamp(130px, 20vw, 190px); margin: -6.5rem 0 -1.9rem; }
+  .ww-cutout img {
+    width: 100%; display: block;
+    filter: drop-shadow(0 14px 30px rgba(0,0,0,0.6)) drop-shadow(0 0 20px rgba(255,45,155,0.32));
+    transition: transform 0.25s ease;
+  }
+  .ww-blowin:hover .ww-cutout img { transform: translateY(-6px) rotate(-1.5deg); }
+  .ww-cover { flex: 1 1 auto; min-width: 0; }
+  .ww-flash {
+    display: inline-block; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--deep); background: var(--lime); padding: 0.25rem 0.55rem;
+    border-radius: 3px; transform: rotate(-2deg); margin-bottom: 0.75rem;
+  }
+  .ww-masthead {
+    font-family: 'VT323', monospace; font-size: clamp(2rem, 6vw, 2.8rem);
+    letter-spacing: 0.06em; line-height: 1.05; color: #fff; margin-bottom: 0.25rem;
+  }
+  .ww-masthead b { color: var(--pink); font-weight: normal; }
+  .ww-issue {
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(200,180,255,0.45); margin-bottom: 1rem;
+  }
+  .ww-lines { list-style: none; margin-bottom: 1.2rem; }
+  .ww-lines li {
+    font-size: 0.78rem; line-height: 1.6; letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.8); padding-left: 1rem; position: relative; margin-bottom: 0.3rem;
+  }
+  .ww-lines li::before { content: '✦'; position: absolute; left: 0; top: 0.15rem; font-size: 0.6rem; color: var(--pink); }
+  .ww-lines b { color: var(--gold); font-weight: normal; }
+  .ww-cta {
+    display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); transition: gap 0.18s;
+  }
+  .ww-blowin:hover .ww-cta { gap: 0.8rem; }
+  @media (max-width: 620px) {
+    .ww-blowin { flex-direction: column; align-items: center; text-align: center; gap: 0.75rem; padding-top: 1.5rem; }
+    .ww-cutout { margin: -6rem 0 0; }
+    .ww-lines li { text-align: left; }
+  }
+
   /* ══════════════════════════════
      HERO
   ══════════════════════════════ */
@@ -877,6 +936,27 @@
     </div>
     <div class="ns-cta">Browse the newsstand <span>&rarr;</span></div>
     <div class="ns-emoji">🛸</div>
+  </a>
+
+  <!-- ── WONDERLAND WEEKLY ── -->
+  <div class="section-label"><span>On the Cover</span></div>
+
+  <a class="ww-blowin" href="https://magickmica.github.io/alice/wonderland-weekly-expanded.html">
+    <div class="ww-cutout">
+      <img src="alice-girl-cutout.png" alt="Alice, cover star of Wonderland Weekly" loading="lazy" />
+    </div>
+    <div class="ww-cover">
+      <span class="ww-flash">Expanded Edition · $9.99</span>
+      <div class="ww-masthead">Wonderland <b>Weekly &hearts;</b></div>
+      <div class="ww-issue">Summer 2026 · Vol. 12 · Issue 24</div>
+      <ul class="ww-lines">
+        <li><b>Exclusive:</b> Alice &amp; The Cat, unfiltered</li>
+        <li>Curiouser &amp; curiouser — the gossip column</li>
+        <li>Tea leaf horoscopes &amp; the Cheshire glow-up</li>
+        <li>Take the quiz: which character are you?</li>
+      </ul>
+      <span class="ww-cta">Read the issue <span>&rarr;</span></span>
+    </div>
   </a>
 
   <!-- ── Y3K MAGAZINE ── -->
