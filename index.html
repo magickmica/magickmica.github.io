@@ -46,65 +46,6 @@
   /* ── layout wrapper ── */
   .page { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 0 1.25rem 4rem; }
 
-
-  /* ══════════════════════════════
-     WONDERLAND WEEKLY — die-cut blow-in
-  ══════════════════════════════ */
-  .ww-blowin {
-    position: relative; display: flex; align-items: flex-end; gap: 1.75rem;
-    text-decoration: none; border-radius: 14px;
-    margin-top: 5.5rem; padding: 2rem 2rem 1.9rem;
-    border: 1px solid rgba(255,45,155,0.28);
-    background:
-      radial-gradient(circle at 1px 1px, rgba(255,45,155,0.14) 1px, transparent 1.7px) 0 0 / 10px 10px,
-      radial-gradient(620px 240px at 88% -30%, rgba(255,210,80,0.10), transparent 70%),
-      linear-gradient(135deg, rgba(255,45,155,0.08) 0%, rgba(192,132,252,0.05) 50%, rgba(0,0,0,0) 78%);
-    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
-  }
-  .ww-blowin:hover {
-    transform: translateY(-3px); border-color: rgba(255,45,155,0.6);
-    box-shadow: 0 8px 44px rgba(255,45,155,0.16), 0 2px 12px rgba(0,0,0,0.45);
-  }
-  .ww-cutout { flex: 0 0 auto; width: clamp(130px, 20vw, 190px); margin: -6.5rem 0 -1.9rem; }
-  .ww-cutout img {
-    width: 100%; display: block;
-    filter: drop-shadow(0 14px 30px rgba(0,0,0,0.6)) drop-shadow(0 0 20px rgba(255,45,155,0.32));
-    transition: transform 0.25s ease;
-  }
-  .ww-blowin:hover .ww-cutout img { transform: translateY(-6px) rotate(-1.5deg); }
-  .ww-cover { flex: 1 1 auto; min-width: 0; }
-  .ww-flash {
-    display: inline-block; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--deep); background: var(--lime); padding: 0.25rem 0.55rem;
-    border-radius: 3px; transform: rotate(-2deg); margin-bottom: 0.75rem;
-  }
-  .ww-masthead {
-    font-family: 'VT323', monospace; font-size: clamp(2rem, 6vw, 2.8rem);
-    letter-spacing: 0.06em; line-height: 1.05; color: #fff; margin-bottom: 0.25rem;
-  }
-  .ww-masthead b { color: var(--pink); font-weight: normal; }
-  .ww-issue {
-    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
-    color: rgba(200,180,255,0.45); margin-bottom: 1rem;
-  }
-  .ww-lines { list-style: none; margin-bottom: 1.2rem; }
-  .ww-lines li {
-    font-size: 0.78rem; line-height: 1.6; letter-spacing: 0.04em;
-    color: rgba(255,255,255,0.8); padding-left: 1rem; position: relative; margin-bottom: 0.3rem;
-  }
-  .ww-lines li::before { content: '✦'; position: absolute; left: 0; top: 0.15rem; font-size: 0.6rem; color: var(--pink); }
-  .ww-lines b { color: var(--gold); font-weight: normal; }
-  .ww-cta {
-    display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem;
-    letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); transition: gap 0.18s;
-  }
-  .ww-blowin:hover .ww-cta { gap: 0.8rem; }
-  @media (max-width: 620px) {
-    .ww-blowin { flex-direction: column; align-items: center; text-align: center; gap: 0.75rem; padding-top: 1.5rem; }
-    .ww-cutout { margin: -6rem 0 0; }
-    .ww-lines li { text-align: left; }
-  }
-
   /* ══════════════════════════════
      HERO
   ══════════════════════════════ */
@@ -308,6 +249,165 @@
   }
   .card-featured:hover .card-emoji { opacity: 0.2; transform: translateY(-50%) scale(1.08); }
 
+
+
+  /* ══════════════════════════════
+     INCOMING TRANSMISSION (Herkimer)
+  ══════════════════════════════ */
+  .tx-wrap { margin: 3.4rem 0 3.6rem; }
+  .tx-label {
+    display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.4rem;
+    font-size: 0.78rem; letter-spacing: 0.34em; text-transform: uppercase; color: #9fd8ff;
+  }
+  .tx-label::after { content:''; flex:1; height:1px; background: linear-gradient(90deg, rgba(159,216,255,0.5), transparent); }
+  .tx-live {
+    display:inline-flex; align-items:center; gap:0.4rem;
+    font-size:0.62rem; letter-spacing:0.22em; color:#fff;
+    border:1px solid #9fd8ff; border-radius:999px; padding:0.25rem 0.7rem;
+    background: rgba(159,216,255,0.08);
+  }
+  .tx-live i { width:7px; height:7px; border-radius:50%; background:#9fd8ff; box-shadow:0 0 8px #9fd8ff; animation: txBlink 1.1s steps(1) infinite; }
+  @keyframes txBlink { 0%,60% {opacity:1} 61%,100% {opacity:0.15} }
+
+  .tx-set { display:block; text-decoration:none; position:relative; }
+  .tx-screen {
+    position:relative; overflow:hidden; border-radius:18px;
+    border: 2.5px solid #9fd8ff;
+    background:
+      radial-gradient(120% 140% at 80% 50%, rgba(159,216,255,0.18), transparent 55%),
+      #05040f;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset, 0 14px 44px -16px rgba(159,216,255,0.55);
+    padding: 2.1rem 1.8rem 1.9rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .tx-set:hover .tx-screen { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 20px 60px -16px rgba(159,216,255,0.7), 0 0 34px -4px rgba(159,216,255,0.5); }
+  .tx-noise { position:absolute; inset:-50%; z-index:1; pointer-events:none; opacity:0.10;
+    background-image:
+      repeating-radial-gradient(circle at 17% 32%, #fff 0 0.6px, transparent 0.6px 4px),
+      repeating-radial-gradient(circle at 73% 64%, #9fd8ff 0 0.5px, transparent 0.5px 3px),
+      repeating-radial-gradient(circle at 44% 81%, #fff 0 0.5px, transparent 0.5px 5px);
+    animation: txStatic 0.42s steps(4) infinite; }
+  @keyframes txStatic {
+    0% { transform: translate(0,0) } 25% { transform: translate(-2%,1.5%) }
+    50% { transform: translate(1.5%,-2%) } 75% { transform: translate(-1%,-1%) } 100% { transform: translate(2%,2%) } }
+  .tx-scan { position:absolute; inset:0; z-index:2; pointer-events:none;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0 1px, transparent 1px 3px); mix-blend-mode:multiply; }
+  .tx-roll { position:absolute; left:0; right:0; height:64px; z-index:2; pointer-events:none;
+    background: linear-gradient(180deg, transparent, rgba(159,216,255,0.12), transparent);
+    animation: txRoll 4.5s linear infinite; }
+  @keyframes txRoll { 0% { top:-70px } 100% { top:110% } }
+
+  .tx-inner { position:relative; z-index:3; display:flex; align-items:center; gap:1.6rem; flex-wrap:wrap; }
+  .tx-gem { flex:none; width:110px; height:110px; border-radius:14px; overflow:hidden; border:1.5px solid rgba(159,216,255,0.6);
+    box-shadow: 0 0 22px -4px rgba(159,216,255,0.6); transform: rotate(-2.5deg); }
+  .tx-gem img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.05); }
+  .tx-copy { flex:1; min-width: 15rem; }
+  .tx-chan { display:block; font-family:'VT323', monospace; font-size:1rem; letter-spacing:0.14em; color:#9fd8ff; text-shadow:0 0 8px rgba(159,216,255,0.8); margin-bottom:0.35rem; }
+  .tx-title { display:block; font-family:'VT323', monospace; font-size: clamp(1.9rem, 4.5vw, 3rem); line-height:0.95; color:#fff; position:relative; animation: txGlitch 3.2s infinite; }
+  @keyframes txGlitch {
+    0%, 91%, 100% { text-shadow: 0 0 12px rgba(159,216,255,0.7); transform: none; }
+    92% { text-shadow: -2px 0 #ff2d9b, 2px 0 #00f0ff; transform: translateX(1px); }
+    94% { text-shadow: 2px 0 #ff2d9b, -2px 0 #00f0ff; transform: translateX(-1.5px) skewX(-2deg); }
+    96% { text-shadow: -1.5px 0 #ff2d9b, 1.5px 0 #00f0ff; transform: translateX(0.5px); }
+  }
+  .tx-sub { display:block; margin-top:0.55rem; font-size:0.86rem; letter-spacing:0.06em; color: rgba(200,225,255,0.68); line-height:1.7; max-width:34rem; }
+  .tx-cta { flex:none; display:inline-flex; align-items:center; gap:0.5rem;
+    font-size:0.74rem; letter-spacing:0.24em; text-transform:uppercase; color:#05040f;
+    background:#9fd8ff; border-radius:999px; padding:0.85rem 1.5rem; white-space:nowrap;
+    box-shadow: 0 8px 26px -8px rgba(159,216,255,0.8); transition: gap 0.2s ease; }
+  .tx-set:hover .tx-cta { gap:0.9rem; }
+  @media (max-width: 640px) { .tx-inner { gap:1.1rem } .tx-gem { width:84px; height:84px } }
+  @media (prefers-reduced-motion: reduce) { .tx-noise, .tx-roll, .tx-title, .tx-live i { animation: none !important } }
+
+  /* ══════════════════════════════
+     THE VAULTS (curated shop · TV sets)
+  ══════════════════════════════ */
+  .vault-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.3rem; margin-bottom: 2.5rem;
+  }
+  .vault-tv { text-decoration: none; display: block; transition: transform 0.25s ease; }
+  .vault-tv:hover { transform: translateY(-5px); }
+  /* antennae */
+  .tv-antenna { position: relative; height: 26px; margin: 0 auto; width: 90px; }
+  .tv-antenna::before, .tv-antenna::after {
+    content: ''; position: absolute; bottom: 0; left: 50%; width: 2.5px; height: 26px;
+    background: var(--vc); border-radius: 2px; transform-origin: bottom center;
+  }
+  .tv-antenna::before { transform: rotate(-32deg); }
+  .tv-antenna::after  { transform: rotate(26deg); }
+  .tv-antenna .tip-l, .tv-antenna .tip-r {
+    position: absolute; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--vc); box-shadow: 0 0 8px var(--vc); top: -2px;
+  }
+  .tv-antenna .tip-l { left: calc(50% - 18px); }
+  .tv-antenna .tip-r { left: calc(50% + 10px); }
+  /* body */
+  .tv-body {
+    border: 2.5px solid var(--vc); border-radius: 16px; overflow: hidden;
+    background: #0d0820;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset, 0 12px 34px -14px var(--vglow);
+    transition: box-shadow 0.25s ease;
+  }
+  .vault-tv:hover .tv-body { box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 16px 44px -12px var(--vglow), 0 0 30px -6px var(--vglow); }
+  /* screen */
+  .tv-screen { position: relative; aspect-ratio: 4/3; overflow: hidden; background: #000; }
+  .tv-screen img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.35s ease; filter: saturate(1.05);
+  }
+  .vault-tv:hover .tv-screen img { transform: scale(1.06); }
+  .tv-screen::before { /* scanlines */
+    content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.16) 0 1px, transparent 1px 3px);
+    mix-blend-mode: multiply;
+  }
+  .tv-screen::after { /* glass glare */
+    content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    background: radial-gradient(90% 60% at 30% 12%, rgba(255,255,255,0.14), transparent 55%);
+  }
+  .tv-chan {
+    position: absolute; top: 0.55rem; right: 0.6rem; z-index: 4;
+    font-family: 'VT323', monospace; font-size: 0.95rem; letter-spacing: 0.08em;
+    color: var(--vc); text-shadow: 0 0 6px var(--vc); animation: chanBlink 2.6s steps(1) infinite;
+  }
+  @keyframes chanBlink { 0%, 88% { opacity: 1 } 92% { opacity: 0.25 } 96% { opacity: 1 } }
+  .tv-onair {
+    position: absolute; bottom: 0.55rem; left: 0.6rem; z-index: 4;
+    font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #fff; background: rgba(13,8,32,0.72); border: 1px solid var(--vc);
+    border-radius: 999px; padding: 0.22rem 0.55rem; backdrop-filter: blur(2px);
+  }
+  .tv-onair::before { content: '●'; color: var(--vc); margin-right: 0.35rem; animation: chanBlink 1.8s steps(1) infinite; }
+  /* control panel */
+  .tv-panel {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
+    padding: 0.75rem 0.95rem; border-top: 1.5px solid var(--vc);
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+  }
+  .tv-label { min-width: 0; text-align: left; }
+  .tv-name { font-family: 'VT323', monospace; font-size: 1.4rem; letter-spacing: 0.05em; color: #fff; line-height: 1; }
+  .tv-tag { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--vc); margin-top: 0.25rem; }
+  .tv-knobs { display: flex; gap: 0.45rem; flex: none; }
+  .tv-knobs i {
+    width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--vc);
+    position: relative; opacity: 0.85;
+  }
+  .tv-knobs i::after {
+    content: ''; position: absolute; top: 1px; left: 50%; width: 1.5px; height: 4px;
+    background: var(--vc); transform: translateX(-50%);
+  }
+  .tv-knobs i:nth-child(2)::after { transform: translateX(-50%) rotate(65deg); transform-origin: bottom; }
+  .vault-tv:hover .tv-knobs i:first-child::after { transform: translateX(-50%) rotate(120deg); transform-origin: bottom; transition: transform .3s; }
+  .tv-enter {
+    display: block; text-align: center; margin-top: 0.6rem;
+    font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--vc);
+  }
+  .vault-note {
+    text-align: center; font-size: 0.78rem; letter-spacing: 0.06em;
+    color: rgba(200,180,255,0.35); margin: -1.4rem 0 2.4rem;
+  }
+  .vault-note a { color: rgba(200,180,255,0.6); }
   /* ══════════════════════════════
      NEWSSTAND TEASER
   ══════════════════════════════ */
@@ -938,27 +1038,6 @@
     <div class="ns-emoji">🛸</div>
   </a>
 
-  <!-- ── WONDERLAND WEEKLY ── -->
-  <div class="section-label"><span>On the Cover</span></div>
-
-  <a class="ww-blowin" href="https://magickmica.github.io/alice/wonderland-weekly-expanded.html">
-    <div class="ww-cutout">
-      <img src="alice-girl-cutout.png" alt="Alice, cover star of Wonderland Weekly" loading="lazy" />
-    </div>
-    <div class="ww-cover">
-      <span class="ww-flash">Expanded Edition · $9.99</span>
-      <div class="ww-masthead">Wonderland <b>Weekly &hearts;</b></div>
-      <div class="ww-issue">Summer 2026 · Vol. 12 · Issue 24</div>
-      <ul class="ww-lines">
-        <li><b>Exclusive:</b> Alice &amp; The Cat, unfiltered</li>
-        <li>Curiouser &amp; curiouser — the gossip column</li>
-        <li>Tea leaf horoscopes &amp; the Cheshire glow-up</li>
-        <li>Take the quiz: which character are you?</li>
-      </ul>
-      <span class="ww-cta">Read the issue <span>&rarr;</span></span>
-    </div>
-  </a>
-
   <!-- ── Y3K MAGAZINE ── -->
   <div class="section-label"><span>Y3K Magazine</span></div>
 
@@ -1047,7 +1126,7 @@
 
     <a class="card v-purple" href="https://magickmica.github.io/mags/mags/index.html">
       <span class="card-icon">✨</span>
-      <div class="card-name">Mags</div>
+      <div class="card-name">Cosmic Mags</div>
       <div class="card-hint">The hub within the hub. Stories, moments, and magic gathered in one place.</div>
       <div class="card-link-label">Tune in →</div>
     </a>
@@ -1060,6 +1139,148 @@
     </a>
 
   </div>
+
+  <!-- ── INCOMING TRANSMISSION · HERKIMER ── -->
+  <div class="tx-wrap">
+    <div class="tx-label"><span>Incoming Transmission</span><span class="tx-live"><i></i>Live · CH 07</span></div>
+    <a class="tx-set" href="https://magickmica.github.io/herkimer-vault.html">
+      <div class="tx-screen">
+        <div class="tx-noise" aria-hidden="true"></div>
+        <div class="tx-scan" aria-hidden="true"></div>
+        <div class="tx-roll" aria-hidden="true"></div>
+        <div class="tx-inner">
+          <span class="tx-gem"><img src="https://static.wixstatic.com/media/f91caa_c9c5e5b708fe490daebae7b468802e21~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Herkimer diamond quartz" loading="lazy"></span>
+          <span class="tx-copy">
+            <span class="tx-chan">▚▞ SIGNAL DETECTED · UPSTATE NEW YORK ▞▚</span>
+            <span class="tx-title">The Herkimer Vault</span>
+            <span class="tx-sub">Pure solidified light — doubly-terminated diamonds mined in Herkimer County, some with ancient water &amp; glowing petroleum sealed inside. 23 pieces, live now. 💠</span>
+          </span>
+          <span class="tx-cta">Tune In →</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- ── THE VAULTS ── -->
+  <div class="section-label"><span>The Vaults</span></div>
+
+  <div class="vault-grid">
+    <a class="vault-tv" href="https://magickmica.github.io/opal-vault.html" style="--vc:#ff6fae;--vglow:rgba(255,111,174,0.4)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img src="https://static.wixstatic.com/media/f91caa_b6366e5b6f564a0a86540f3124dbd6a2~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Midnight Aurora black opal amulet" loading="lazy">
+          <span class="tv-chan">CH 01</span>
+          <span class="tv-onair">On Air</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">The Opal Vault</div>
+            <div class="tv-tag">Play of Colour</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Enter the vault &rarr;</span>
+    </a>
+
+    <a class="vault-tv" href="https://magickmica.github.io/labradorite-vault.html" style="--vc:#5a8bff;--vglow:rgba(90,139,255,0.4)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img src="https://static.wixstatic.com/media/f91caa_022601183b9749ad9be2a356c633d543~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Golden fire labradorite heart" loading="lazy">
+          <span class="tv-chan">CH 02</span>
+          <span class="tv-onair">On Air</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">Labradorite Vault</div>
+            <div class="tv-tag">The Flash Within</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Enter the vault &rarr;</span>
+    </a>
+
+    <a class="vault-tv" href="https://magickmica.github.io/watermelon-vault.html" style="--vc:#46e5c8;--vglow:rgba(70,229,200,0.4)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img src="https://static.wixstatic.com/media/f91caa_f1482dfa04cf4aefadd757aadbf1a92f~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Watermelon tourmaline specimen" loading="lazy">
+          <span class="tv-chan">CH 03</span>
+          <span class="tv-onair">On Air</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">Watermelon Vault</div>
+            <div class="tv-tag">Pink Heart · Green Rind</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Enter the vault &rarr;</span>
+    </a>
+
+    <a class="vault-tv" href="https://magickmica.github.io/copper-jewelry.html" style="--vc:#ffc46b;--vglow:rgba(255,196,107,0.4)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img src="https://static.wixstatic.com/media/f91caa_27488b7420dd4bdc81a115dad39a7757~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Shungite H.E.A.L. shield in copper coil" loading="lazy">
+          <span class="tv-chan">CH 04</span>
+          <span class="tv-onair">On Air</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">Copper Workshop</div>
+            <div class="tv-tag">Sacred Cubit Coils</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Enter the vault &rarr;</span>
+    </a>
+    <a class="vault-tv" href="https://magickmica.github.io/quartz-vault.html" style="--vc:#b17dff;--vglow:rgba(177,125,255,0.4)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img src="https://static.wixstatic.com/media/f91caa_1dfa07609ffd411598cdf448b05a8781~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Phantom clear quartz free form" loading="lazy">
+          <span class="tv-chan">CH 05</span>
+          <span class="tv-onair">On Air</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">Quartz Vault</div>
+            <div class="tv-tag">Raw Crystal Light</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Enter the vault &rarr;</span>
+    </a>
+
+    <a class="vault-tv" href="https://magickmica.github.io/quartz-amulets.html" style="--vc:#ece9ff;--vglow:rgba(236,233,255,0.35)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img src="https://static.wixstatic.com/media/f91caa_946611a656af4732ba9338c926c6f15b~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Rose quartz 432 Hz copper H.E.A.L. shield" loading="lazy">
+          <span class="tv-chan">CH 06</span>
+          <span class="tv-onair">On Air</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">Quartz Amulets</div>
+            <div class="tv-tag">Copper-Wound Light</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Enter the vault &rarr;</span>
+    </a>
+
+  </div>
+
+  <p class="vault-note">Hand-picked crystals, gemstones &amp; copper — curated by Magick Mica TV, sold by <a href="https://www.themysticalspiralstore.com" target="_blank" rel="noopener">The Mystical Spiral Store</a>.</p>
 
   <!-- ── SUBSTACK ARCHIVE ── -->
   <div class="section-label"><span>Substack Archive</span></div>
