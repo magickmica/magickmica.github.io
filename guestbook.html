@@ -3,380 +3,326 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>✦ I WUZ HERE — Magick Mica's Guestbook ✦</title>
+<title>Magick Mica TV — The Cosmic Guestbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Yellowtail&family=Barlow+Condensed:wght@500;600;700;800&family=Karla:ital,wght@0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Press+Start+2P&display=swap');
-
-  :root {
-    --holo1: #ff6ef7;
-    --holo2: #6ef7ff;
-    --holo3: #f7ff6e;
-    --holo4: #6effa0;
-    --holo5: #ff9d6e;
-    --dark: #05010f;
-    --panel: rgba(20, 5, 40, 0.85);
+  :root{
+    --space:#160A2B; --plum:#3A1B4D; --dusk:#6B2E7E;
+    --pink:#FF7AC8; --hotpink:#FF4FA3; --mint:#5FE8D0;
+    --butter:#FFE066; --lav:#B79CFF; --cyan:#4EE1FF; --cream:#FFF6FB;
+    --display:'Shrikhand',cursive; --script:'Yellowtail',cursive;
+    --head:'Barlow Condensed',sans-serif; --body:'Karla',sans-serif; --mono:'Space Mono',monospace;
   }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--dark);
-    color: #e0d0ff;
-    font-family: 'Share Tech Mono', monospace;
-    min-height: 100vh;
-    overflow-x: hidden;
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    color:var(--cream); font-family:var(--body); font-size:1.05rem; line-height:1.65;
+    overflow-x:hidden; min-height:100vh;
+    background:linear-gradient(180deg, var(--space) 0%, var(--space) 30%, var(--plum) 62%, var(--dusk) 84%, #A0447E 100%);
   }
-
-  #stars {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background:
-      radial-gradient(ellipse at 20% 30%, rgba(110,239,255,0.04) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 70%, rgba(255,110,247,0.04) 0%, transparent 60%),
-      var(--dark);
-  }
-  #stars::before {
-    content: '';
-    position: absolute; inset: 0;
+  ::selection{background:var(--pink);color:var(--space);}
+  .stars{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
     background-image:
-      radial-gradient(1px 1px at 10% 20%, #fff8 0%, transparent 100%),
-      radial-gradient(1px 1px at 30% 60%, #fff6 0%, transparent 100%),
-      radial-gradient(1px 1px at 50% 10%, #fff9 0%, transparent 100%),
-      radial-gradient(1px 1px at 70% 40%, #fff7 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 15% 85%, var(--holo1) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 45% 55%, var(--holo2) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 75% 25%, var(--holo3) 0%, transparent 100%);
-    animation: twinkle 4s infinite alternate;
+      radial-gradient(1.5px 1.5px at 12% 12%, #fff 60%, transparent),
+      radial-gradient(1px 1px at 32% 44%, var(--pink) 60%, transparent),
+      radial-gradient(1.5px 1.5px at 56% 22%, var(--mint) 60%, transparent),
+      radial-gradient(1px 1px at 74% 56%, #fff 60%, transparent),
+      radial-gradient(2px 2px at 88% 8%, var(--butter) 60%, transparent),
+      radial-gradient(1px 1px at 20% 66%, var(--lav) 60%, transparent),
+      radial-gradient(1.4px 1.4px at 44% 5%, #fff 60%, transparent),
+      radial-gradient(1px 1px at 94% 38%, var(--cyan) 60%, transparent),
+      radial-gradient(1.2px 1.2px at 6% 34%, var(--mint) 60%, transparent);
+    opacity:.65;animation:twinkle 6s ease-in-out infinite alternate;
+    mask-image:linear-gradient(#000 55%, transparent 92%);
+    -webkit-mask-image:linear-gradient(#000 55%, transparent 92%);
   }
-  @keyframes twinkle { from { opacity: 0.4 } to { opacity: 1 } }
+  @keyframes twinkle{from{opacity:.4}to{opacity:.8}}
+  main{position:relative;z-index:1;}
 
-  body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 1; pointer-events: none;
-    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+  header{text-align:center;padding:4rem 1.25rem 2rem;}
+  .ticker{
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--mint);margin-bottom:1.8rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
   }
+  .ticker .dot{color:var(--hotpink);}
+  .sign{
+    display:inline-block;border:3px solid var(--pink);border-radius:1.6rem;padding:1.6rem 2.4rem 1.9rem;
+    box-shadow:0 0 24px rgba(255,122,200,.5), inset 0 0 24px rgba(255,122,200,.22);
+    background:rgba(22,10,43,.55);backdrop-filter:blur(3px);
+  }
+  .sign h1{font-family:var(--display);font-size:clamp(2.2rem,7vw,4.4rem);line-height:1;color:var(--cream);text-shadow:0 0 18px rgba(255,122,200,.55);}
+  .sign .script{font-family:var(--script);font-size:clamp(1.2rem,3.4vw,1.7rem);color:var(--butter);display:block;margin-top:.4rem;text-shadow:0 0 14px rgba(255,224,102,.45);}
+  .tagline{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lav);margin-top:1.4rem;}
 
-  .holo-bar {
-    height: 5px;
-    background: linear-gradient(90deg, var(--holo1), var(--holo2), var(--holo3), var(--holo4), var(--holo5), var(--holo1));
-    background-size: 300% 100%;
-    animation: holo-slide 3s linear infinite;
-    position: relative; z-index: 10;
-  }
-  @keyframes holo-slide { 0%{background-position:0%} 100%{background-position:300%} }
+  .wrap{max-width:52rem;margin:0 auto;padding:0 1.4rem;}
 
-  .blink { animation: blink 1.1s steps(1) infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
+  /* sign-the-book card */
+  .book-form{
+    border:2px solid var(--pink);border-radius:1.4rem;padding:1.7rem 1.6rem;margin-top:1rem;
+    background:linear-gradient(120deg, rgba(255,122,200,.12), rgba(183,156,255,.1), rgba(95,232,208,.08));
+  }
+  .book-form h2{font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:1.5rem;color:var(--pink);margin-bottom:.3rem;}
+  .book-form p.small{font-size:.9rem;opacity:.85;margin-bottom:1.1rem;}
+  .field{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1rem;}
+  .field label{font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mint);}
+  input,textarea{
+    font-family:var(--body);font-size:1rem;color:var(--cream);
+    background:rgba(0,0,0,.28);border:1.5px solid rgba(183,156,255,.4);border-radius:.7rem;padding:.7rem .8rem;
+    transition:border-color .2s, box-shadow .2s;resize:vertical;
+  }
+  input:focus,textarea:focus{outline:none;border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,122,200,.18);}
+  textarea{min-height:5rem;}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+  .row{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;justify-content:space-between;}
+  .btn{
+    font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:1rem;cursor:pointer;
+    color:var(--space);background:var(--pink);border:none;border-radius:999px;padding:.7rem 1.6rem;
+    box-shadow:0 0 22px rgba(255,122,200,.45);transition:transform .18s, box-shadow .18s, opacity .18s;
+  }
+  .btn:hover:not(:disabled){transform:translateY(-2px) rotate(-1deg);}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+  .count{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--lav);}
+  .status{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;margin-top:.8rem;min-height:1.1em;}
+  .status.err{color:var(--hotpink);} .status.ok{color:var(--mint);}
 
-  header {
-    position: relative; z-index: 5;
-    text-align: center;
-    padding: 3rem 1rem 1.8rem;
-    border-bottom: 2px solid rgba(255,110,247,0.25);
-  }
-  .site-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.8rem, 6vw, 3.4rem);
-    font-weight: 900;
-    letter-spacing: 0.04em;
-    background: linear-gradient(135deg, var(--holo1) 0%, var(--holo3) 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 0 20px rgba(255,110,247,0.5));
-  }
-  .site-sub {
-    font-family: 'VT323', monospace;
-    font-size: 1.15rem;
-    color: var(--holo2);
-    letter-spacing: 0.2em;
-    margin-top: 0.5rem;
-    text-shadow: 0 0 10px #6ef7ff;
-  }
-  .nav-links {
-    margin-top: 1.3rem;
-    display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap;
-  }
-  .nav-links a {
-    font-family: 'VT323', monospace;
-    font-size: 1.05rem;
-    color: var(--holo3);
-    text-decoration: none;
-    letter-spacing: 0.12em;
-    border: 1px solid var(--holo3);
-    padding: 0.2rem 0.7rem;
-    transition: all 0.2s;
-  }
-  .nav-links a:hover { background: var(--holo3); color: #000; box-shadow: 0 0 12px var(--holo3); }
-
-  .gb-wrap {
-    position: relative; z-index: 5;
-    max-width: 800px; margin: 2.5rem auto; padding: 0 1.2rem;
+  .shelf{
+    max-width:56rem;margin:2.4rem auto 1.6rem;height:12px;border-radius:999px;
+    background:linear-gradient(90deg, transparent, rgba(255,224,102,.5), rgba(255,122,200,.6), rgba(95,232,208,.5), transparent);
+    box-shadow:0 0 24px rgba(255,122,200,.35);
   }
 
-  .gb-intro {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-family: 'VT323', monospace;
-    font-size: 1.1rem;
-    color: rgba(220,200,255,0.7);
-    line-height: 1.6;
+  .entries{display:flex;flex-direction:column;gap:1rem;padding-bottom:1rem;}
+  .entry{
+    border-left:5px solid var(--pink);border-radius:.9rem;padding:1rem 1.2rem;
+    background:rgba(255,255,255,.04);border-top:1px solid rgba(255,255,255,.06);
+    animation:pop .4s ease;
   }
+  @keyframes pop{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  .entry:nth-child(4n+1){border-left-color:var(--pink);}
+  .entry:nth-child(4n+2){border-left-color:var(--mint);}
+  .entry:nth-child(4n+3){border-left-color:var(--butter);}
+  .entry:nth-child(4n+4){border-left-color:var(--lav);}
+  .entry .who{font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.03em;font-size:1.15rem;}
+  .entry .when{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;color:var(--lav);opacity:.85;}
+  .entry .msg{margin-top:.35rem;white-space:pre-wrap;word-break:break-word;}
+  .empty{text-align:center;opacity:.75;font-style:italic;padding:2rem 0;}
 
-  .guestbook-panel {
-    background: var(--panel);
-    border: 2px solid var(--holo1);
-    box-shadow: 0 0 30px rgba(255,110,247,0.25);
-    padding: 1.8rem;
-  }
-  .guestbook-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 900;
-    text-align: center;
-    background: linear-gradient(135deg, var(--holo1), var(--holo3));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.3rem;
-  }
-  .guestbook-sub {
-    text-align: center;
-    font-family: 'VT323', monospace;
-    font-size: 1.05rem;
-    color: var(--holo2);
-    letter-spacing: 0.1em;
-    margin-bottom: 1.4rem;
-  }
-  .gb-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.8rem;
-    margin-bottom: 1.8rem;
-  }
-  .gb-form textarea { grid-column: 1 / -1; }
-  .gb-form input, .gb-form textarea {
-    background: rgba(110,239,255,0.05);
-    border: 1px solid var(--holo2);
-    color: #fff;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.95rem;
-    padding: 0.7rem;
-    outline: none;
-    resize: vertical;
-  }
-  .gb-form textarea { min-height: 80px; }
-  .gb-form input::placeholder, .gb-form textarea::placeholder { color: rgba(255,255,255,0.3); }
-  .gb-submit {
-    grid-column: 1 / -1;
-    font-family: 'VT323', monospace;
-    font-size: 1.15rem;
-    letter-spacing: 0.15em;
-    background: var(--holo1);
-    color: #000;
-    border: none;
-    padding: 0.7rem;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: all 0.2s;
-  }
-  .gb-submit:hover { box-shadow: 0 0 20px var(--holo1); }
-  .gb-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-  .gb-status {
-    text-align: center;
-    font-family: 'VT323', monospace;
-    font-size: 1rem;
-    color: var(--holo4);
-    min-height: 1.3rem;
-    margin-bottom: 0.6rem;
-  }
+  /* setup notice (only shows if not configured) */
+  .setup{border:2px dashed var(--butter);border-radius:1.4rem;padding:1.6rem;margin-top:1rem;background:rgba(255,224,102,.06);}
+  .setup h2{font-family:var(--head);font-weight:800;text-transform:uppercase;color:var(--butter);font-size:1.3rem;margin-bottom:.6rem;}
+  .setup ol{margin:.6rem 0 .6rem 1.2rem;} .setup li{margin-bottom:.5rem;}
+  .setup code, pre{font-family:var(--mono);font-size:.8rem;}
+  pre{background:rgba(0,0,0,.4);border:1px solid rgba(183,156,255,.3);border-radius:.7rem;padding:.9rem;overflow:auto;margin:.6rem 0;color:var(--cyan);}
+  a{color:var(--pink);}
 
-  .gb-count {
-    text-align: center;
-    font-family: 'VT323', monospace;
-    font-size: 1rem;
-    color: var(--holo3);
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-  }
+  footer{text-align:center;padding:2.6rem 1.4rem 3.4rem;}
+  footer .motto{font-family:var(--display);font-size:1.1rem;margin-bottom:.6rem;color:var(--cream);text-shadow:0 0 14px rgba(255,122,200,.5);}
+  footer .small{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,246,251,.75);}
+  footer a.back{display:inline-block;margin-bottom:1.2rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--cyan);border:1.5px solid var(--cyan);border-radius:999px;padding:.5rem 1.1rem;}
 
-  .gb-entries { display: flex; flex-direction: column; gap: 0.9rem; }
-  .gb-entry {
-    background: rgba(0,0,0,0.3);
-    border-left: 3px solid var(--holo3);
-    padding: 0.8rem 1rem;
-  }
-  .gb-entry-name {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--holo3);
-  }
-  .gb-entry-date {
-    font-family: 'VT323', monospace;
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.35);
-    margin-left: 0.5rem;
-  }
-  .gb-entry-msg {
-    font-size: 0.88rem;
-    color: rgba(220,200,255,0.85);
-    margin-top: 0.35rem;
-    line-height: 1.55;
-    white-space: pre-wrap;
-  }
-  .gb-empty {
-    text-align: center;
-    font-family: 'VT323', monospace;
-    color: rgba(255,255,255,0.3);
-    padding: 2rem;
-  }
-
-  footer {
-    position: relative; z-index: 5;
-    text-align: center;
-    padding: 2rem;
-    font-family: 'VT323', monospace;
-    font-size: 1rem;
-    letter-spacing: 0.15em;
-    color: rgba(200,180,255,0.35);
-    border-top: 1px solid rgba(255,110,247,0.1);
-  }
-  footer a { color: var(--holo1); text-decoration: none; }
+  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
 </style>
 </head>
 <body>
+<div class="stars" aria-hidden="true"></div>
+<main>
 
-<div id="stars"></div>
-<div class="holo-bar"></div>
-
-<header>
-  <div class="site-title">✦ I WUZ HERE ✦</div>
-  <div class="site-sub"><span class="blink">✧</span> sign my guestbook before you go <span class="blink">✧</span></div>
-  <nav class="nav-links">
-    <a href="blog.html">✦ BLOG HOME ✦</a>
-    <a href="articles.html">📰 ARTICLES</a>
-    <a href="notes.html">📝 NOTES ARCHIVE</a>
-    <a href="https://magickmica.substack.com" target="_blank">📺 SUBSCRIBE</a>
-  </nav>
-</header>
-
-<div class="gb-wrap">
-  <div class="gb-intro">
-    Welcome, traveler ✨ Leave a little trace that you passed through this cosmic corner of the internet. Where are you from? What brought you here? Say hi! 🌙
-  </div>
-
-  <div class="guestbook-panel">
-    <div class="guestbook-title">✦ SIGN THE GUESTBOOK ✦</div>
-    <div class="guestbook-sub">est. 2025 ✧ leave your mark</div>
-
-    <div class="gb-form">
-      <input id="gbName" type="text" placeholder="your name *" maxlength="40" />
-      <input id="gbLocation" type="text" placeholder="where you're visiting from (optional)" maxlength="60" />
-      <textarea id="gbMessage" placeholder="leave a little message... ✨" maxlength="500"></textarea>
-      <button class="gb-submit" id="gbSubmit">✦ SIGN THE GUESTBOOK ✦</button>
+  <header>
+    <div class="ticker">
+      <span>Signed across all dimensions</span><span class="dot">✦</span>
+      <span>Leave a transmission</span><span class="dot">✦</span>
+      <span>No login required</span>
     </div>
-    <div class="gb-status" id="gbStatus"></div>
-
-    <div class="gb-count" id="gbCount"></div>
-    <div class="gb-entries" id="gbEntries">
-      <div class="gb-empty">Loading entries...</div>
+    <div class="sign">
+      <h1>The Guestbook</h1>
+      <span class="script">leave your mark, earthling</span>
     </div>
-  </div>
-</div>
+    <p class="tagline">◉ Sign the cosmic book · everyone can see it</p>
+  </header>
 
-<footer>
-  ✦ MAGICK MICA'S GUESTBOOK ✦ &nbsp;|&nbsp;
-  <a href="https://magickmica.substack.com">Subscribe on Substack</a>
-</footer>
+  <section class="wrap">
+    <!-- SIGN THE BOOK -->
+    <form class="book-form" id="bookForm" autocomplete="off">
+      <h2>Sign the book ✍️</h2>
+      <p class="small">Say hi, drop a message, or leave a little magic. Visible to all visitors.</p>
+      <div class="field">
+        <label for="name">Your name / alias</label>
+        <input id="name" name="name" maxlength="40" placeholder="e.g. Zilly from Zeta-9" required>
+      </div>
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" maxlength="500" placeholder="Beam something down…" required></textarea>
+      </div>
+      <!-- honeypot: humans won't fill this -->
+      <div class="hp" aria-hidden="true"><label>Leave blank<input id="website" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="row">
+        <button class="btn" id="submitBtn" type="submit">Sign it →</button>
+        <span class="count"><span id="cnt">0</span>/500</span>
+      </div>
+      <div class="status" id="status" role="status"></div>
+    </form>
+
+    <!-- SETUP NOTICE (auto-hides once configured) -->
+    <div class="setup" id="setupNotice" hidden>
+      <h2>⚙️ One-time setup to go live</h2>
+      <p class="small">Right now this book isn't connected to a database yet, so messages can't be shared. Do this once (all free):</p>
+      <ol>
+        <li>Make a free account at <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a> → <strong>New project</strong>.</li>
+        <li>Open <strong>SQL Editor</strong>, paste and run this:
+<pre>create table guestbook (
+  id bigint generated always as identity primary key,
+  name text not null,
+  message text not null,
+  created_at timestamptz default now()
+);
+alter table guestbook enable row level security;
+create policy "anyone can read"  on guestbook for select using (true);
+create policy "anyone can sign"  on guestbook for insert with check (
+  char_length(name) between 1 and 40
+  and char_length(message) between 1 and 500
+);</pre>
+        </li>
+        <li>Go to <strong>Project Settings → API</strong> (or the <em>Connect</em> dialog). Copy your <strong>Project URL</strong> and your <strong>publishable / anon public key</strong>.</li>
+        <li>Open this HTML file and paste them into the <code>CONFIG</code> block near the bottom (<code>SUPABASE_URL</code> and <code>SUPABASE_KEY</code>). Save &amp; re-upload.</li>
+      </ol>
+      <p class="small">That's it — after that, anyone who signs will show up for everyone. (The publishable key is safe to put in the page; your data stays protected by the policies above.)</p>
+    </div>
+
+    <div class="shelf" aria-hidden="true"></div>
+
+    <div class="entries" id="entries">
+      <div class="empty" id="loading">Loading transmissions…</div>
+    </div>
+  </section>
+
+  <footer>
+    <a class="back" href="newsstand.html">← Back to the Newsstand</a>
+    <p class="motto">Melt down. Tune in. Space out.</p>
+    <p class="small">Magick Mica TV ✨🍦👽 · For entertainment across all known dimensions</p>
+  </footer>
+
+</main>
 
 <script>
-const GUESTBOOK_API = 'https://jsonblob.com/api/jsonBlob/019ee5c3-aef6-743c-bd61-a8b46ed69448';
+  /* ==========================================================
+     CONFIG — paste your two Supabase values here, then save.
+     (Leave as-is to see the setup instructions.)
+     ========================================================== */
+  const CONFIG = {
+    SUPABASE_URL: "https://vuxoetumdhmpcnobcklv.supabase.co",   // e.g. https://abcd1234.supabase.co
+    SUPABASE_KEY: "sb_publishable_LwdE5VkL2DtqIVV0mlD6eg_IgUCWjXr", // publishable (sb_publishable_...) or anon public key
+    TABLE: "guestbook"
+  };
+  /* ========================================================== */
 
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
+  const $ = (id) => document.getElementById(id);
+  const configured =
+    CONFIG.SUPABASE_URL.startsWith("http") &&
+    CONFIG.SUPABASE_KEY.length > 20 &&
+    !CONFIG.SUPABASE_KEY.startsWith("YOUR_");
 
-async function loadGuestbook() {
-  try {
-    const res = await fetch(GUESTBOOK_API);
-    const entries = await res.json();
-    renderGuestbook(Array.isArray(entries) ? entries : []);
-  } catch (e) {
-    renderGuestbook([]);
+  const base = () => CONFIG.SUPABASE_URL.replace(/\/+$/, "") + "/rest/v1/" + CONFIG.TABLE;
+  const headers = {
+    "apikey": CONFIG.SUPABASE_KEY,
+    "Authorization": "Bearer " + CONFIG.SUPABASE_KEY,
+    "Content-Type": "application/json"
+  };
+
+  function fmt(ts){
+    if(!ts) return "";
+    const d = new Date(ts);
+    return d.toLocaleString(undefined,{month:"short",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit"});
   }
-}
+  function esc(s){ return (s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
-function renderGuestbook(entries) {
-  const entriesDiv = document.getElementById('gbEntries');
-  const countDiv = document.getElementById('gbCount');
-  countDiv.textContent = entries.length ? `◈ ${entries.length} message${entries.length!==1?'s':''} signed so far` : '';
-  if (!entries.length) {
-    entriesDiv.innerHTML = '<div class="gb-empty">✦ No entries yet — be the first to sign! ✦</div>';
-    return;
-  }
-  entriesDiv.innerHTML = '';
-  entries.slice().reverse().forEach(e => {
-    const div = document.createElement('div');
-    div.className = 'gb-entry';
-    const dateStr = new Date(e.ts).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
-    div.innerHTML = `
-      <span class="gb-entry-name">✦ ${escapeHtml(e.name)}${e.location ? ' · ' + escapeHtml(e.location) : ''}</span>
-      <span class="gb-entry-date">${dateStr}</span>
-      <div class="gb-entry-msg">${escapeHtml(e.message)}</div>
-    `;
-    entriesDiv.appendChild(div);
-  });
-}
-
-document.getElementById('gbSubmit').addEventListener('click', async () => {
-  const name = document.getElementById('gbName').value.trim();
-  const location = document.getElementById('gbLocation').value.trim();
-  const message = document.getElementById('gbMessage').value.trim();
-  const status = document.getElementById('gbStatus');
-  const btn = document.getElementById('gbSubmit');
-
-  if (!name || !message) {
-    status.textContent = '✦ Please fill in your name and a message! ✦';
-    status.style.color = 'var(--holo1)';
-    return;
+  function render(rows){
+    const box = $("entries");
+    if(!rows.length){ box.innerHTML = '<div class="empty">No signatures yet — be the first to leave one. ✨</div>'; return; }
+    box.innerHTML = rows.map(r => `
+      <div class="entry">
+        <div class="row">
+          <span class="who">${esc(r.name)}</span>
+          <span class="when">${fmt(r.created_at)}</span>
+        </div>
+        <div class="msg">${esc(r.message)}</div>
+      </div>`).join("");
   }
 
-  btn.disabled = true;
-  status.textContent = 'Signing...';
-  status.style.color = 'var(--holo2)';
+  async function load(){
+    if(!configured) return;
+    try{
+      const res = await fetch(base() + "?select=name,message,created_at&order=created_at.desc&limit=300", { headers });
+      if(!res.ok) throw new Error("Read failed ("+res.status+")");
+      render(await res.json());
+    }catch(e){
+      $("entries").innerHTML = '<div class="empty">Couldn\'t load the book. Check your setup / connection.</div>';
+      console.error(e);
+    }
+  }
 
-  try {
-    let entries = [];
-    try {
-      const res = await fetch(GUESTBOOK_API);
-      const data = await res.json();
-      if (Array.isArray(data)) entries = data;
-    } catch (e) { /* start fresh if fetch fails */ }
-
-    entries.push({ name, location, message, ts: Date.now() });
-    if (entries.length > 300) entries = entries.slice(-300);
-
-    await fetch(GUESTBOOK_API, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(entries)
+  async function sign(name, message){
+    const res = await fetch(base(), {
+      method:"POST",
+      headers:{ ...headers, "Prefer":"return=representation" },
+      body: JSON.stringify({ name, message })
     });
-
-    renderGuestbook(entries);
-
-    document.getElementById('gbName').value = '';
-    document.getElementById('gbLocation').value = '';
-    document.getElementById('gbMessage').value = '';
-    status.textContent = '✦ Thanks for signing! ✦';
-    status.style.color = 'var(--holo4)';
-  } catch (e) {
-    status.textContent = 'Something went wrong — please try again!';
-    status.style.color = 'var(--holo1)';
+    if(!res.ok){
+      const t = await res.text().catch(()=> "");
+      throw new Error("Couldn't save ("+res.status+"). "+t.slice(0,120));
+    }
+    return (await res.json())[0];
   }
-  btn.disabled = false;
-});
 
-loadGuestbook();
+  // character counter
+  $("message").addEventListener("input", e => { $("cnt").textContent = e.target.value.length; });
+
+  // form submit
+  $("bookForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const status = $("status"); status.className = "status"; status.textContent = "";
+
+    if(!configured){
+      status.className = "status err";
+      status.textContent = "Not connected yet — see the setup steps below. ⬇";
+      return;
+    }
+    if($("website").value){ return; } // honeypot tripped → silently ignore
+
+    const name = $("name").value.trim();
+    const message = $("message").value.trim();
+    if(!name || !message){ status.className="status err"; status.textContent="Add a name and a message."; return; }
+
+    const btn = $("submitBtn"); btn.disabled = true; const label = btn.textContent; btn.textContent = "Sending…";
+    try{
+      const row = await sign(name, message);
+      // optimistic: prepend right away
+      const box = $("entries");
+      if(box.querySelector(".empty")) box.innerHTML = "";
+      const div = document.createElement("div");
+      div.className = "entry";
+      div.innerHTML = `<div class="row"><span class="who">${esc(row?.name||name)}</span><span class="when">${fmt(row?.created_at||new Date().toISOString())}</span></div><div class="msg">${esc(row?.message||message)}</div>`;
+      box.prepend(div);
+      $("message").value = ""; $("cnt").textContent = "0";
+      status.className = "status ok"; status.textContent = "Signed! Thanks for beaming in. 💫";
+    }catch(err){
+      status.className = "status err"; status.textContent = err.message;
+      console.error(err);
+    }finally{
+      btn.disabled = false; btn.textContent = label;
+    }
+  });
+
+  // boot
+  if(!configured){
+    $("setupNotice").hidden = false;
+    $("loading").textContent = "Connect the book to start collecting signatures.";
+  }else{
+    load();
+    setInterval(load, 20000); // refresh so new signatures from others appear
+  }
 </script>
 </body>
 </html>
