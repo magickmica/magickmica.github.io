@@ -1020,6 +1020,186 @@
     <div class="card-emoji">🍦</div>
   </a>
 
+  <!-- ── TONIGHT'S GAME SHOW · QUIZ TV ── -->
+  <style>
+    .qz-wrap { margin: 3.4rem 0 3.6rem; }
+    .qz-label {
+      display:flex; align-items:center; gap:0.7rem; margin-bottom:1.4rem;
+      font-size:0.78rem; letter-spacing:0.34em; text-transform:uppercase; color:#ff9ad0;
+    }
+    .qz-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg, rgba(255,45,155,0.5), transparent); }
+    .qz-live {
+      display:inline-flex; align-items:center; gap:0.4rem;
+      font-size:0.62rem; letter-spacing:0.22em; color:#fff;
+      border:1px solid #ff2d9b; border-radius:999px; padding:0.25rem 0.7rem;
+      background:rgba(255,45,155,0.1);
+    }
+    .qz-live i { width:7px; height:7px; border-radius:50%; background:#ff2d9b; box-shadow:0 0 8px #ff2d9b; animation:qzBlink 1.1s steps(1) infinite; }
+    @keyframes qzBlink { 0%,60%{opacity:1} 61%,100%{opacity:0.15} }
+
+    .qz-set { display:block; text-decoration:none; position:relative; max-width:860px; margin:0 auto; transition:transform .25s ease; }
+    .qz-set:hover { transform:translateY(-5px); }
+    /* antennae */
+    .qz-antenna { position:relative; height:32px; margin:0 auto; width:110px; }
+    .qz-antenna::before, .qz-antenna::after {
+      content:''; position:absolute; bottom:0; left:50%; width:3px; height:32px;
+      background:#ff2d9b; border-radius:2px; transform-origin:bottom center;
+    }
+    .qz-antenna::before { transform:rotate(-33deg); }
+    .qz-antenna::after { transform:rotate(27deg); }
+    .qz-antenna .qz-tip-l, .qz-antenna .qz-tip-r {
+      position:absolute; width:9px; height:9px; border-radius:50%;
+      background:#00f0ff; box-shadow:0 0 10px #00f0ff; top:-3px;
+      animation:qzBlink 2.2s steps(1) infinite;
+    }
+    .qz-antenna .qz-tip-l { left:calc(50% - 24px); }
+    .qz-antenna .qz-tip-r { left:calc(50% + 14px); animation-delay:1.1s; }
+    /* body */
+    .qz-body {
+      border:3px solid #ff2d9b; border-radius:18px; overflow:hidden; background:#0d0820;
+      box-shadow:0 0 0 1px rgba(255,255,255,0.05) inset, 0 14px 40px -14px rgba(255,45,155,0.45);
+      transition:box-shadow .25s ease;
+    }
+    .qz-set:hover .qz-body { box-shadow:0 0 0 1px rgba(255,255,255,0.08) inset, 0 18px 50px -12px rgba(255,45,155,0.55), 0 0 34px -6px rgba(0,240,255,0.35); }
+    /* marquee bulb strip */
+    .qz-marquee { height:12px; background:#160a2c; border-bottom:1.5px solid rgba(255,45,155,0.5); position:relative; overflow:hidden; }
+    .qz-marquee::before {
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(circle 3px at 10px 6px, #ffd250 98%, transparent), radial-gradient(circle 3px at 34px 6px, #ff2d9b 98%, transparent), radial-gradient(circle 3px at 58px 6px, #00f0ff 98%, transparent);
+      background-size:72px 12px; background-repeat:repeat-x;
+      animation:qzChase 0.9s steps(3) infinite;
+    }
+    @keyframes qzChase { to { background-position:72px 0; } }
+    /* screen */
+    .qz-screen { position:relative; overflow:hidden; background:radial-gradient(120% 130% at 50% 20%, #1c0f38 0%, #0a0518 70%); padding:2.4rem 1.8rem 2.1rem; text-align:center; }
+    .qz-screen::before { /* scanlines */
+      content:''; position:absolute; inset:0; z-index:5; pointer-events:none;
+      background:repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 1px, transparent 1px 3px);
+      mix-blend-mode:multiply;
+    }
+    .qz-screen::after { /* glass glare */
+      content:''; position:absolute; inset:0; z-index:6; pointer-events:none;
+      background:radial-gradient(90% 60% at 30% 10%, rgba(255,255,255,0.12), transparent 55%);
+    }
+    .qz-noise { position:absolute; inset:-50%; z-index:1; pointer-events:none; opacity:0.09;
+      background-image:repeating-conic-gradient(rgba(255,255,255,0.6) 0% 0.0001%, transparent 0.0002% 0.05%);
+      animation:qzNoise 0.4s steps(4) infinite;
+    }
+    @keyframes qzNoise { 0%{transform:translate(0,0)} 25%{transform:translate(-2%,1%)} 50%{transform:translate(1%,-2%)} 75%{transform:translate(-1%,2%)} 100%{transform:translate(2%,-1%)} }
+    .qz-roll { position:absolute; left:0; right:0; height:70px; z-index:2; pointer-events:none;
+      background:linear-gradient(180deg, transparent, rgba(0,240,255,0.06), transparent);
+      animation:qzRoll 5.5s linear infinite;
+    }
+    @keyframes qzRoll { from{top:-70px} to{top:110%} }
+    /* floating suits */
+    .qz-suits { position:absolute; inset:0; z-index:2; pointer-events:none; }
+    .qz-suits span {
+      position:absolute; font-size:1.1rem; opacity:0.16;
+      animation:qzFloat 7s ease-in-out infinite;
+    }
+    .qz-suits span:nth-child(1){ left:6%;  top:18%; color:#ff2d9b; }
+    .qz-suits span:nth-child(2){ left:14%; top:64%; color:#00f0ff; animation-delay:1.4s; }
+    .qz-suits span:nth-child(3){ right:8%;  top:22%; color:#a3ff57; animation-delay:2.8s; }
+    .qz-suits span:nth-child(4){ right:15%; top:68%; color:#c084fc; animation-delay:4.2s; }
+    .qz-suits span:nth-child(5){ left:48%;  top:8%;  color:#ffd250; animation-delay:5.6s; }
+    @keyframes qzFloat { 0%,100%{transform:translateY(0) rotate(-8deg)} 50%{transform:translateY(-14px) rotate(10deg)} }
+    /* screen content */
+    .qz-inner { position:relative; z-index:4; }
+    .qz-chan {
+      position:absolute; top:0.8rem; right:1rem; z-index:7;
+      font-family:'VT323', monospace; font-size:1.1rem; letter-spacing:0.08em;
+      color:#ff2d9b; text-shadow:0 0 8px #ff2d9b; animation:qzBlink 2.6s steps(1) infinite;
+    }
+    .qz-eyebrow {
+      font-size:0.72rem; letter-spacing:0.4em; text-transform:uppercase;
+      color:#a3ff57; margin-bottom:0.9rem;
+    }
+    .qz-title {
+      font-family:'VT323', monospace; font-size:clamp(2.1rem, 6.5vw, 3.4rem);
+      line-height:1.05; letter-spacing:0.05em; margin-bottom:0.4rem;
+      background:linear-gradient(90deg, #ff2d9b, #ffd250, #00f0ff, #ff2d9b);
+      background-size:300% auto;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      animation:qzShimmer 4.5s linear infinite;
+    }
+    @keyframes qzShimmer { to { background-position:300% center; } }
+    .qz-sub {
+      font-size:0.85rem; letter-spacing:0.14em; line-height:1.9;
+      color:rgba(200,180,255,0.55); max-width:480px; margin:0 auto 1.4rem;
+    }
+    /* contestant podium row */
+    .qz-cast { display:flex; justify-content:center; gap:0.55rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+    .qz-cast span {
+      font-size:1.7rem; line-height:1; padding:0.5rem 0.65rem;
+      border:1.5px solid rgba(255,45,155,0.25); border-radius:10px;
+      background:rgba(255,45,155,0.05);
+      animation:qzSpot 4s ease-in-out infinite;
+    }
+    .qz-cast span:nth-child(2){ animation-delay:0.8s; }
+    .qz-cast span:nth-child(3){ animation-delay:1.6s; }
+    .qz-cast span:nth-child(4){ animation-delay:2.4s; }
+    .qz-cast span:nth-child(5){ animation-delay:3.2s; }
+    @keyframes qzSpot {
+      0%,18%,100% { transform:translateY(0); border-color:rgba(255,45,155,0.25); box-shadow:none; }
+      8% { transform:translateY(-7px); border-color:#00f0ff; box-shadow:0 0 18px rgba(0,240,255,0.5); }
+    }
+    .qz-cta {
+      display:inline-flex; align-items:center; gap:0.6rem;
+      font-family:'VT323', monospace; font-size:1.35rem; letter-spacing:0.12em;
+      color:#060011; background:#a3ff57; border-radius:8px; padding:0.5rem 1.5rem;
+      box-shadow:0 0 22px rgba(163,255,87,0.4);
+      transition:box-shadow .2s, transform .2s;
+    }
+    .qz-set:hover .qz-cta { box-shadow:0 0 34px rgba(163,255,87,0.7); transform:scale(1.04); }
+    /* control panel */
+    .qz-panel {
+      display:flex; align-items:center; justify-content:space-between; gap:0.8rem;
+      padding:0.8rem 1.1rem; border-top:2px solid #ff2d9b;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+    }
+    .qz-name { font-family:'VT323', monospace; font-size:1.5rem; letter-spacing:0.05em; color:#fff; line-height:1; text-align:left; }
+    .qz-tag { font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase; color:#ff2d9b; margin-top:0.3rem; text-align:left; }
+    .qz-knobs { display:flex; gap:0.45rem; flex:none; }
+    .qz-knobs i { width:13px; height:13px; border-radius:50%; border:1.5px solid #ff2d9b; position:relative; opacity:0.85; }
+    .qz-knobs i::after { content:''; position:absolute; top:1px; left:50%; width:1.5px; height:4px; background:#ff2d9b; transform:translateX(-50%); }
+    .qz-knobs i:nth-child(2)::after { transform:translateX(-50%) rotate(65deg); transform-origin:bottom; }
+    .qz-set:hover .qz-knobs i:first-child::after { transform:translateX(-50%) rotate(120deg); transform-origin:bottom; transition:transform .3s; }
+    @media (max-width:560px){ .qz-screen{ padding:1.8rem 1rem 1.6rem; } .qz-cast span{ font-size:1.4rem; } }
+    @media (prefers-reduced-motion: reduce){
+      .qz-noise,.qz-roll,.qz-title,.qz-live i,.qz-marquee::before,.qz-suits span,.qz-cast span,.qz-chan,.qz-antenna .qz-tip-l,.qz-antenna .qz-tip-r { animation:none !important; }
+    }
+  </style>
+
+  <div class="qz-wrap">
+    <div class="qz-label"><span>Tonight's Game Show</span><span class="qz-live"><i></i>Live · CH ♥</span></div>
+    <a class="qz-set" href="https://magickmica.github.io/which-character-are-you.html">
+      <div class="qz-antenna"><span class="qz-tip-l"></span><span class="qz-tip-r"></span></div>
+      <div class="qz-body">
+        <div class="qz-marquee" aria-hidden="true"></div>
+        <div class="qz-screen">
+          <div class="qz-noise" aria-hidden="true"></div>
+          <div class="qz-roll" aria-hidden="true"></div>
+          <div class="qz-suits" aria-hidden="true"><span>♥</span><span>♠</span><span>♦</span><span>♣</span><span>✦</span></div>
+          <span class="qz-chan">CH ♥</span>
+          <div class="qz-inner">
+            <div class="qz-eyebrow">▚▞ Studio Audience Live · Wonderland Broadcasting ▞▚</div>
+            <div class="qz-title">Which Wonderland<br>Character Are You?</div>
+            <p class="qz-sub">Five contestants wait behind the curtain — the clock-chasing rabbit, the mad hatter, the grinning cat, the queen herself. Step up to the podium and find out who's been you all along.</p>
+            <div class="qz-cast" aria-hidden="true"><span>🐰</span><span>🎩</span><span>😼</span><span>👑</span><span>🐛</span></div>
+            <span class="qz-cta">Take the Quiz →</span>
+          </div>
+        </div>
+        <div class="qz-panel">
+          <div>
+            <div class="qz-name">The Wonderland Quiz</div>
+            <div class="qz-tag">Personality Broadcast · 100% Curiouser</div>
+          </div>
+          <div class="qz-knobs" aria-hidden="true"><i></i><i></i></div>
+        </div>
+      </div>
+    </a>
+  </div>
+
   <!-- ── THE NEWSSTAND ── -->
   <div class="section-label"><span>The Newsstand</span></div>
 
@@ -1176,7 +1356,7 @@
         <div class="tv-panel">
           <div class="tv-label">
             <div class="tv-name">The Opal Vault</div>
-            <div class="tv-tag">Play of Colour</div>
+            <div class="tv-tag">Play of Color</div>
           </div>
           <div class="tv-knobs"><i></i><i></i></div>
         </div>
