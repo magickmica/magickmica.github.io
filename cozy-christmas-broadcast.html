@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cozy Christmas Broadcast — Magick Mica TV Holiday Special</title>
+<meta name="description" content="Three holiday transmissions in one — blurry dreamscapes, a live yule log channel, snow day frequencies, and glowing holiday beverages. Magick Mica TV.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Yellowtail&family=Barlow+Condensed:wght@500;600;700;800&family=Karla:ital,wght@0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  :root{
+    --midnight:#0B0620;
+    --plum:#2B1240;
+    --pine:#0E2A1F;
+    --pinedeep:#071A12;
+    --emberdusk:#3A1420;
+    --hotpink:#FF4FA3;
+    --pink:#FF7AC8;
+    --cherry:#FF4757;
+    --ember:#FF8A3C;
+    --mint:#5FE8D0;
+    --butter:#FFE066;
+    --lav:#B79CFF;
+    --cyan:#4EE1FF;
+    --cream:#FFF6FB;
+    --display:'Shrikhand', cursive;
+    --script:'Yellowtail', cursive;
+    --head:'Barlow Condensed', sans-serif;
+    --body:'Karla', sans-serif;
+    --mono:'Space Mono', monospace;
+    --crt:'VT323', monospace;
+  }
+  body{
+    color:var(--cream);
+    font-family:var(--body);
+    font-size:1.05rem;line-height:1.65;
+    overflow-x:hidden;
+    background:linear-gradient(180deg,
+      var(--midnight) 0%,
+      var(--plum) 18%,
+      var(--emberdusk) 34%,
+      var(--plum) 48%,
+      var(--midnight) 60%,
+      #12233B 72%,
+      var(--pinedeep) 84%,
+      var(--pine) 100%);
+    min-height:100vh;
+  }
+  ::selection{background:var(--cherry);color:var(--cream);}
+
+  /* ---------- grain ---------- */
+  body::after{
+    content:'';position:fixed;inset:0;z-index:60;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity:.4;mix-blend-mode:overlay;
+  }
+
+  /* ---------- distant stars ---------- */
+  .stars{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 12%, #fff 60%, transparent),
+      radial-gradient(1px 1px at 32% 44%, var(--pink) 60%, transparent),
+      radial-gradient(1.5px 1.5px at 56% 22%, var(--mint) 60%, transparent),
+      radial-gradient(1px 1px at 74% 56%, #fff 60%, transparent),
+      radial-gradient(2px 2px at 88% 8%, var(--butter) 60%, transparent),
+      radial-gradient(1px 1px at 20% 66%, var(--lav) 60%, transparent),
+      radial-gradient(1.4px 1.4px at 44% 5%, #fff 60%, transparent),
+      radial-gradient(1px 1px at 94% 38%, var(--cyan) 60%, transparent);
+    opacity:.55;animation:twinkle 6s ease-in-out infinite alternate;
+    mask-image:linear-gradient(#000 45%, transparent 90%);
+    -webkit-mask-image:linear-gradient(#000 45%, transparent 90%);
+  }
+  @keyframes twinkle{from{opacity:.35}to{opacity:.7}}
+
+  /* ---------- snow canvas ---------- */
+  #snow{position:fixed;inset:0;z-index:50;pointer-events:none;}
+
+  main{position:relative;z-index:2;}
+
+  /* ══════════════════════════════════════
+     CHRISTMAS LIGHTS — swagged C9 string
+  ══════════════════════════════════════ */
+  .light-string{
+    position:relative;z-index:5;height:64px;overflow:visible;
+    pointer-events:none;
+  }
+  .light-string svg{display:block;width:100%;height:64px;overflow:visible;}
+  .wire{fill:none;stroke:#1d3a2a;stroke-width:2;}
+  .bulb{transform-box:fill-box;transform-origin:center;}
+  .bulb ellipse{filter:drop-shadow(0 0 6px currentColor) drop-shadow(0 0 14px currentColor);}
+  .bulb .cap{fill:#2b4d38;}
+  @keyframes bulbGlow{
+    0%,100%{opacity:1;}
+    50%{opacity:.35;}
+  }
+  .b1{color:var(--cherry);}  .b1 ellipse{fill:var(--cherry);animation:bulbGlow 2.1s ease-in-out infinite;}
+  .b2{color:var(--butter);}  .b2 ellipse{fill:var(--butter);animation:bulbGlow 2.7s .4s ease-in-out infinite;}
+  .b3{color:var(--mint);}    .b3 ellipse{fill:var(--mint);animation:bulbGlow 2.3s .9s ease-in-out infinite;}
+  .b4{color:var(--hotpink);} .b4 ellipse{fill:var(--hotpink);animation:bulbGlow 3.1s .2s ease-in-out infinite;}
+  .b5{color:var(--cyan);}    .b5 ellipse{fill:var(--cyan);animation:bulbGlow 2.5s 1.3s ease-in-out infinite;}
+  .b6{color:var(--lav);}     .b6 ellipse{fill:var(--lav);animation:bulbGlow 2.9s .7s ease-in-out infinite;}
+
+  .divider-lights{margin:4.5rem auto 0;max-width:1100px;padding:0 1rem;}
+
+  /* ---------- header ---------- */
+  header{text-align:center;padding:1.6rem 1.25rem 2.6rem;position:relative;}
+  .ticker{
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--mint);margin-bottom:2.1rem;
+    display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  }
+  .ticker .dot{color:var(--cherry);}
+  .onair{
+    display:inline-flex;align-items:center;gap:.5rem;
+    font-family:var(--crt);font-size:1.05rem;letter-spacing:.2em;
+    color:var(--cherry);border:1.5px solid var(--cherry);border-radius:.4rem;
+    padding:.15rem .8rem;margin-bottom:1.4rem;
+    box-shadow:0 0 14px rgba(255,71,87,.45), inset 0 0 10px rgba(255,71,87,.18);
+    animation:onairblink 1.6s steps(2,end) infinite;
+  }
+  @keyframes onairblink{50%{opacity:.55}}
+  .sign{
+    display:inline-block;border:3px solid var(--cherry);border-radius:1.6rem;
+    padding:1.7rem 2.6rem 2rem;
+    box-shadow:0 0 26px rgba(255,71,87,.45), inset 0 0 26px rgba(255,138,60,.18);
+    background:rgba(20,8,20,.55);backdrop-filter:blur(3px);
+  }
+  .sign h1{
+    font-family:var(--display);
+    font-size:clamp(2.2rem, 7.5vw, 4.8rem);line-height:1.05;
+    background:linear-gradient(100deg,#ffd9d9, var(--cherry) 22%, var(--butter) 46%, var(--mint) 72%, #ffd9d9);
+    background-size:220% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 0 18px rgba(255,138,60,.5));
+    animation:holo 8s linear infinite;
+  }
+  @keyframes holo{to{background-position:220% 0;}}
+  .sign .script{
+    font-family:var(--script);
+    font-size:clamp(1.5rem, 4.6vw, 2.7rem);
+    color:var(--mint);text-shadow:0 0 14px rgba(95,232,208,.7);
+    display:block;margin-top:.2rem;transform:rotate(-2.5deg);
+  }
+  .tagline{margin-top:1.5rem;color:var(--lav);font-style:italic;}
+  .snowline{margin-top:.9rem;color:var(--cyan);font-size:.95rem;letter-spacing:.05em;opacity:.85;}
+
+  /* ---------- channel guide ---------- */
+  .guide{max-width:760px;margin:2.6rem auto 0;padding:0 1.25rem;}
+  .guide-label{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--butter);text-align:center;margin-bottom:.9rem;
+  }
+  .guide a{
+    display:flex;align-items:baseline;gap:1rem;
+    text-decoration:none;color:var(--cream);
+    border:1px solid rgba(255,246,251,.12);border-radius:.8rem;
+    padding:.7rem 1.1rem;margin-bottom:.55rem;
+    background:rgba(255,246,251,.03);
+    transition:transform .18s ease, border-color .18s ease, background .18s ease;
+    font-family:var(--head);font-size:1.15rem;letter-spacing:.04em;
+  }
+  .guide a:hover{transform:translateX(6px);border-color:var(--hotpink);background:rgba(255,79,163,.08);}
+  .guide .ch{
+    font-family:var(--crt);font-size:1.1rem;color:var(--butter);min-width:4.4rem;
+    text-shadow:0 0 8px rgba(255,224,102,.5);
+  }
+  .guide .desc{margin-left:auto;font-family:var(--mono);font-size:.66rem;color:var(--lav);letter-spacing:.12em;text-transform:uppercase;text-align:right;}
+
+  /* ---------- shared section chrome ---------- */
+  section{position:relative;padding:4.5rem 1.25rem 1rem;}
+  .wrap{max-width:1100px;margin:0 auto;}
+  .ch-badge{
+    display:inline-flex;align-items:center;gap:.55rem;
+    font-family:var(--crt);font-size:1.05rem;letter-spacing:.18em;
+    color:var(--midnight);background:var(--butter);
+    border-radius:.45rem;padding:.12rem .75rem;
+    box-shadow:0 0 16px rgba(255,224,102,.5);
+    margin-bottom:1rem;
+  }
+  .ch-badge .live{width:.55rem;height:.55rem;border-radius:50%;background:var(--cherry);animation:onairblink 1.4s steps(2,end) infinite;}
+  h2.section-title{
+    font-family:var(--display);
+    font-size:clamp(1.9rem, 5.5vw, 3.4rem);line-height:1.1;
+    margin-bottom:.4rem;
+  }
+  .section-sub{
+    font-family:var(--script);font-size:clamp(1.3rem, 3.4vw, 2rem);
+    transform:rotate(-1.5deg);display:inline-block;margin-bottom:1.4rem;
+  }
+  .section-note{max-width:640px;color:rgba(255,246,251,.82);margin-bottom:2.4rem;}
+  .stamp{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--lav);margin-bottom:1.6rem;
+  }
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+<canvas id="snow" aria-hidden="true"></canvas>
+
+<main>
+
+<!-- ═══ rooftop light string ═══ -->
+<div class="light-string" aria-hidden="true">
+  <svg viewBox="0 0 1200 64" preserveAspectRatio="none">
+    <path class="wire" d="M0,8 Q100,46 200,10 Q300,46 400,10 Q500,46 600,10 Q700,46 800,10 Q900,46 1000,10 Q1100,46 1200,8"/>
+  </svg>
+</div>
+
+<header>
+  <div class="ticker">
+    <span>❄ Holiday Frequency Locked</span><span class="dot">●</span>
+    <span>Magick Mica TV</span><span class="dot">●</span>
+    <span>Est. Broadcast: December, Forever</span>
+  </div>
+  <div class="onair">◉ ON AIR — ALL NIGHT</div><br>
+  <div class="sign">
+    <h1>The Cozy Christmas<br>Broadcast</h1>
+    <span class="script">a Magick Mica TV holiday special</span>
+  </div>
+  <p class="tagline">Three transmissions, one warm signal — blurry dreams, a crackling fire, falling snow &amp; glowing mugs. ✦</p>
+  <p class="snowline">⋆꙳•❅‧*₊⋆☃︎‧*❆₊⋆⋆꙳•̩̩͙❅*̩̩͙‧͙ ‧͙*̩̩͙❆ ͙͛ ˚₊⋆</p>
+
+  <nav class="guide" aria-label="Channel guide">
+    <div class="guide-label">✦ Tonight's Channel Guide ✦</div>
+    <a href="#blurry"><span class="ch">CH 01</span> Dreaming of a Blurry Christmas <span class="desc">Fog &amp; Grain</span></a>
+    <a href="#fireplace"><span class="ch">CH 🔥</span> The Yule Log Channel <span class="desc">Live Fire</span></a>
+    <a href="#cozy"><span class="ch">CH 02</span> Just a Cozy Fun Christmas Holiday <span class="desc">Sparkle &amp; Glitter</span></a>
+    <a href="#snowday"><span class="ch">CH ❄</span> Snow Day Frequency <span class="desc">Heavy Flurries</span></a>
+    <a href="#beverages"><span class="ch">CH 03</span> Holiday Beverages <span class="desc">Steam &amp; Neon</span></a>
+  </nav>
+</header>
+<style>
+  /* ══════════════════════════════════════
+     CH 01 — BLURRY CHRISTMAS
+  ══════════════════════════════════════ */
+  #blurry .section-title{
+    color:var(--pink);
+    text-shadow:0 0 26px rgba(255,122,200,.45);
+  }
+  #blurry .section-sub{color:var(--lav);text-shadow:0 0 12px rgba(183,156,255,.6);}
+  .fog-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:1.6rem;
+  }
+  .fog-card{
+    position:relative;border-radius:1.2rem;overflow:hidden;
+    border:1px solid rgba(255,122,200,.22);
+    background:linear-gradient(160deg, rgba(255,122,200,.08), rgba(95,232,208,.05) 55%, rgba(183,156,255,.08));
+    box-shadow:0 6px 30px rgba(0,0,0,.4);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .fog-card:hover{
+    transform:translateY(-5px) rotate(-.4deg);
+    border-color:rgba(255,122,200,.55);
+    box-shadow:0 14px 44px rgba(255,122,200,.22), 0 4px 16px rgba(0,0,0,.5);
+  }
+  .fog-card img{
+    display:block;width:100%;aspect-ratio:1/1;object-fit:cover;
+    filter:saturate(1.05);
+  }
+  .fog-card figcaption{
+    padding:1rem 1.15rem 1.2rem;
+    font-size:.92rem;line-height:1.55;color:rgba(255,246,251,.85);font-style:italic;
+  }
+  .fog-card .fog-title{
+    display:block;font-style:normal;
+    font-family:var(--head);font-weight:700;font-size:1.12rem;letter-spacing:.05em;
+    color:var(--pink);margin-bottom:.3rem;
+  }
+  .fog-card::after{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 60% at 50% 0%, rgba(255,246,251,.10), transparent 55%);
+  }
+
+  /* ══════════════════════════════════════
+     CH 🔥 — FIREPLACE
+  ══════════════════════════════════════ */
+  #fireplace{
+    background:
+      radial-gradient(900px 420px at 50% 78%, rgba(255,138,60,.16), transparent 70%),
+      linear-gradient(180deg, transparent, rgba(30,10,8,.55) 30%, rgba(30,10,8,.55) 85%, transparent);
+    padding-bottom:3rem;
+  }
+  #fireplace .section-title{color:var(--ember);text-shadow:0 0 26px rgba(255,138,60,.5);}
+  #fireplace .section-sub{color:var(--butter);text-shadow:0 0 12px rgba(255,224,102,.55);}
+
+  .hearth-stage{
+    position:relative;max-width:720px;margin:0 auto;
+  }
+  /* mantel + garland */
+  .mantel{
+    position:relative;z-index:3;height:34px;border-radius:.5rem .5rem .2rem .2rem;
+    background:linear-gradient(180deg,#6b3a24,#4a2617 70%,#331a0f);
+    box-shadow:0 6px 14px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,224,102,.15);
+  }
+  .garland{
+    position:absolute;left:-6px;right:-6px;top:20px;height:56px;z-index:4;pointer-events:none;
+  }
+  .garland svg{width:100%;height:56px;overflow:visible;display:block;}
+  .garland .vine{fill:none;stroke:#1c4a30;stroke-width:9;stroke-linecap:round;filter:drop-shadow(0 3px 3px rgba(0,0,0,.4));}
+  .garland .vine2{fill:none;stroke:#276b44;stroke-width:4;stroke-dasharray:2 7;}
+  .glight{transform-box:fill-box;transform-origin:center;}
+  .glight circle{filter:drop-shadow(0 0 5px currentColor) drop-shadow(0 0 11px currentColor);}
+
+  /* stockings */
+  .stocking{
+    position:absolute;top:30px;z-index:5;width:52px;height:74px;pointer-events:none;
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,.5));
+    animation:stockingSway 5s ease-in-out infinite alternate;
+    transform-origin:top center;
+  }
+  @keyframes stockingSway{from{transform:rotate(-2deg)}to{transform:rotate(2.5deg)}}
+  .stocking svg{width:100%;height:100%;}
+  .stk-1{left:9%;}
+  .stk-2{left:26%;animation-delay:1.2s;}
+  .stk-3{right:24%;animation-delay:.6s;}
+  .stk-4{right:8%;animation-delay:1.8s;}
+
+  /* brick surround */
+  .fire-surround{
+    position:relative;z-index:2;
+    border-radius:0 0 1.1rem 1.1rem;
+    padding:26px 26px 22px;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 2px, transparent 2px 26px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,.18) 0 2px, transparent 2px 54px),
+      linear-gradient(180deg,#7a3b2a,#5d2a1e 60%,#48201a);
+    box-shadow:0 18px 60px rgba(0,0,0,.55), inset 0 0 40px rgba(0,0,0,.35);
+  }
+  .firebox{
+    position:relative;overflow:hidden;
+    height:min(46vw, 330px);
+    border-radius:.9rem .9rem .5rem .5rem;
+    background:radial-gradient(140% 120% at 50% 100%, #2a0d06 0%, #160604 55%, #0a0303 100%);
+    box-shadow:inset 0 0 60px rgba(0,0,0,.9), inset 0 -20px 50px rgba(255,110,40,.22);
+  }
+  .firebox::before{ /* inner arch shadow */
+    content:'';position:absolute;inset:0;pointer-events:none;z-index:6;
+    box-shadow:inset 0 14px 30px rgba(0,0,0,.8);
+    border-radius:inherit;
+  }
+  #embers{position:absolute;inset:0;z-index:5;pointer-events:none;}
+
+  .logs{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);z-index:2;width:72%;max-width:360px;}
+  .log{
+    position:relative;height:26px;border-radius:14px;
+    background:linear-gradient(180deg,#5a3320,#3a1f12);
+    box-shadow:inset 0 3px 4px rgba(255,180,120,.18), inset 0 -4px 6px rgba(0,0,0,.6);
+  }
+  .log::before,.log::after{
+    content:'';position:absolute;top:50%;width:16px;height:16px;border-radius:50%;
+    transform:translateY(-50%);
+    background:radial-gradient(circle,#c98a55 0%,#7a4526 45%,#3a1f12 100%);
+  }
+  .log::before{left:-2px;} .log::after{right:-2px;}
+  .log+.log{margin-top:-10px;}
+  .log:nth-child(1){transform:rotate(-4deg);width:88%;}
+  .log:nth-child(2){transform:rotate(3deg);margin-left:10%;width:86%;}
+
+  /* flames */
+  .flames{
+    position:absolute;left:50%;bottom:16px;transform:translateX(-50%);
+    width:64%;max-width:300px;height:78%;z-index:3;
+    filter:blur(6px) contrast(1.25) saturate(1.2);
+  }
+  .flame{
+    position:absolute;bottom:0;border-radius:50% 50% 42% 42% / 70% 70% 30% 30%;
+    mix-blend-mode:screen;
+    transform-origin:50% 100%;
+  }
+  .f-back{
+    left:6%;width:88%;height:92%;
+    background:radial-gradient(50% 68% at 50% 78%, #ff5a1f 0%, rgba(200,40,10,.75) 45%, transparent 72%);
+    animation:flick 1.9s ease-in-out infinite alternate;
+  }
+  .f-mid{
+    left:16%;width:68%;height:76%;
+    background:radial-gradient(50% 66% at 50% 80%, #ff9e2c 0%, rgba(255,110,30,.85) 42%, transparent 70%);
+    animation:flick 1.4s .25s ease-in-out infinite alternate;
+  }
+  .f-core{
+    left:30%;width:40%;height:56%;
+    background:radial-gradient(50% 66% at 50% 84%, #ffe28a 0%, #ffb23e 45%, transparent 72%);
+    animation:flick 1.05s .1s ease-in-out infinite alternate;
+  }
+  .f-wisp{
+    left:40%;width:20%;height:88%;
+    background:radial-gradient(50% 60% at 50% 86%, rgba(255,220,150,.9) 0%, rgba(255,140,50,.5) 45%, transparent 70%);
+    animation:wisp 2.6s ease-in-out infinite;
+    opacity:.8;
+  }
+  @keyframes flick{
+    0%{transform:scaleY(1) scaleX(1) rotate(-1.5deg);}
+    30%{transform:scaleY(1.12) scaleX(.94) rotate(1deg);}
+    60%{transform:scaleY(.94) scaleX(1.05) rotate(-1deg);}
+    100%{transform:scaleY(1.18) scaleX(.9) rotate(1.6deg);}
+  }
+  @keyframes wisp{
+    0%,100%{transform:scaleY(1) translateX(0);}
+    35%{transform:scaleY(1.25) translateX(-6px);}
+    70%{transform:scaleY(.9) translateX(7px);}
+  }
+  .fireglow{
+    position:absolute;left:50%;bottom:-30px;transform:translateX(-50%);
+    width:130%;height:70%;z-index:1;pointer-events:none;
+    background:radial-gradient(55% 60% at 50% 100%, rgba(255,130,40,.5), transparent 70%);
+    animation:glowpulse 2.2s ease-in-out infinite alternate;
+  }
+  @keyframes glowpulse{from{opacity:.75}to{opacity:1}}
+
+  .hearth-floor{
+    position:relative;z-index:2;height:20px;margin:0 -14px;
+    border-radius:0 0 .8rem .8rem;
+    background:linear-gradient(180deg,#3c2a24,#241713);
+    box-shadow:0 14px 34px rgba(255,120,40,.18), 0 8px 18px rgba(0,0,0,.55);
+  }
+
+  .hearth-caption{
+    text-align:center;margin-top:1.6rem;
+    font-family:var(--crt);font-size:1.15rem;letter-spacing:.12em;color:var(--butter);
+    text-shadow:0 0 10px rgba(255,224,102,.4);
+  }
+  .crackle-row{text-align:center;margin-top:1.1rem;}
+  .crackle-btn{
+    font-family:var(--mono);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ember);background:rgba(255,138,60,.08);
+    border:1.5px solid rgba(255,138,60,.55);border-radius:2rem;
+    padding:.6rem 1.5rem;cursor:pointer;
+    transition:background .2s ease, box-shadow .2s ease, color .2s ease;
+  }
+  .crackle-btn:hover{background:rgba(255,138,60,.16);box-shadow:0 0 18px rgba(255,138,60,.35);}
+  .crackle-btn[aria-pressed="true"]{color:var(--midnight);background:var(--ember);box-shadow:0 0 22px rgba(255,138,60,.6);}
+  .crackle-hint{font-size:.8rem;color:rgba(255,246,251,.55);margin-top:.5rem;}
+</style>
+
+<!-- ═══════════ CH 01 · BLURRY CHRISTMAS ═══════════ -->
+<section id="blurry">
+  <div class="wrap">
+    <span class="ch-badge"><span class="live"></span> CH 01 · NOW SHOWING</span>
+    <h2 class="section-title">Dreaming of a Blurry Christmas</h2><br>
+    <span class="section-sub">nobody said it was going to be like this… 😶‍🌫</span>
+    <p class="stamp">First transmitted Dec 08, 2025 · Fun Image Sets · Signal slightly out of focus, on purpose</p>
+    <p class="section-note">Cozy, blurry, grainy Christmas aesthetics to hop into — airbrushed fog, twinkling grain, and pastel halos. Squint a little. It helps.</p>
+
+    <div class="fog-grid">
+      <figure class="fog-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!KsHj!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcde655fb-3ab1-4d5b-8a47-0ca7669446fb_600x600.png" alt="Dreamlike Christmas tree village in pink and mint fog" loading="lazy">
+        <figcaption><span class="fog-title">Dreamlike Tree Village</span>Softly blurred pines around glowing cottages, immersed in pink and mint fog. Lights twinkle as tiny dots of airbrushed grain beneath a lavender mist sky.</figcaption>
+      </figure>
+      <figure class="fog-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!4AR0!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6f192fea-17e8-4d28-97b5-6ac53bfe0517_600x600.png" alt="Grainy glow reindeer silhouette" loading="lazy">
+        <figcaption><span class="fog-title">Grainy Glow Reindeer</span>A minimal, airbrushed reindeer with soft blurred edges fading into pastel light — a faint iridescent halo glimmering around its antlers like mist.</figcaption>
+      </figure>
+      <figure class="fog-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!ksdu!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe81ede30-752b-40fd-bc7a-24c5d9651281_600x600.png" alt="Snow globe with glowing miniature cabin" loading="lazy">
+        <figcaption><span class="fog-title">Snow Globe Cabin Glow</span>A softly glowing snow globe with hazy reflections — inside, a miniature North Pole cottage glows under falling sparkles and a rainbow-grain rim.</figcaption>
+      </figure>
+      <figure class="fog-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!ji68!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbd7a4cca-82d7-4950-adbb-f4d745eeedc8_600x600.png" alt="Soft focus gingerbread person" loading="lazy">
+        <figcaption><span class="fog-title">Grainy Gingerbread Person</span>A soft-focus cookie with airbrushed icing glowing at the edges, dusted in grainy sugar texture and wrapped in a pastel fog halo.</figcaption>
+      </figure>
+      <figure class="fog-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!ALta!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1f8dcdaf-4f76-432a-b09d-74a2d4d98a10_800x800.png" alt="Blurry Santa portrait silhouette" loading="lazy">
+        <figcaption><span class="fog-title">Blurry Santa Portrait</span>Fuzzy white beard, glowing red hat, golden glasses — rendered in dreamy grain blur with warm halo light, like a spotlight through frost.</figcaption>
+      </figure>
+      <figure class="fog-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!NRoR!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb5733634-a6ee-456a-a66b-2da49ff160c5_800x800.png" alt="Santa's workshop with glowing windows" loading="lazy">
+        <figcaption><span class="fog-title">Santa's Workshop Glow House</span>Airbrushed red siding, a mint roof dusted in glowing snow, golden halos radiating from the windows into the pink fog.</figcaption>
+      </figure>
+      <figure class="fog-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!aq7Y!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F89a100d7-78b3-4a42-a67b-759d49bc9b9b_800x800.png" alt="Glowing envelope sealed with red wax" loading="lazy">
+        <figcaption><span class="fog-title">Frosty Letter to Santa</span>A glowing envelope with a hazy red wax stamp, its edges fading into misty snow blur while faint sparkles drift around it.</figcaption>
+      </figure>
+      <figure class="fog-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!xVJs!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc84de194-2e67-47f3-842a-96966a7bf57c_800x800.png" alt="North Pole signpost in pastel snow" loading="lazy">
+        <figcaption><span class="fog-title">North Pole Signpost Glow</span>Fuzzy airbrushed candy stripes and a wooden sign in glowing white script, standing in a dreamy halo of pink, mint, and lavender fog.</figcaption>
+      </figure>
+      <figure class="fog-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!BbjD!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F21d1abda-1da2-4cf9-bd49-a0682539285b_800x800.png" alt="Second dreamlike tree village scene" loading="lazy">
+        <figcaption><span class="fog-title">Tree Village · Second Signal</span>The village again, tuned to a different frequency — snow glowing faintly beneath the lavender mist as the lights fade into dreamy halos.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<div class="light-string divider-lights" aria-hidden="true">
+  <svg viewBox="0 0 1100 64" preserveAspectRatio="none">
+    <path class="wire" d="M0,10 Q137,46 275,12 Q412,46 550,12 Q687,46 825,12 Q962,46 1100,10"/>
+  </svg>
+</div>
+
+<!-- ═══════════ CH 🔥 · YULE LOG CHANNEL ═══════════ -->
+<section id="fireplace">
+  <div class="wrap" style="text-align:center;">
+    <span class="ch-badge"><span class="live"></span> CH 🔥 · LIVE FEED</span>
+    <h2 class="section-title">The Yule Log Channel</h2><br>
+    <span class="section-sub">broadcasting warmth in every timeline</span>
+    <p class="section-note" style="margin-left:auto;margin-right:auto;text-align:center;">Pull up a blanket. The fire has been burning since the early internet and refuses to buffer. Embers rise, stockings sway, and the garland lights hum their little carol.</p>
+
+    <div class="hearth-stage">
+      <div class="stocking stk-1"><svg viewBox="0 0 52 74"><path d="M12 4 h26 v10 h-26 z" fill="#fff6fb"/><path d="M14 14 h22 v28 c0 4 14 6 14 18 c0 8-7 12-15 12 c-10 0-21-7-21-18 z" fill="#FF4757"/><circle cx="26" cy="66" r="5" fill="#fff6fb" opacity=".9"/></svg></div>
+      <div class="stocking stk-2"><svg viewBox="0 0 52 74"><path d="M12 4 h26 v10 h-26 z" fill="#fff6fb"/><path d="M14 14 h22 v28 c0 4 14 6 14 18 c0 8-7 12-15 12 c-10 0-21-7-21-18 z" fill="#5FE8D0"/><circle cx="26" cy="66" r="5" fill="#fff6fb" opacity=".9"/></svg></div>
+      <div class="stocking stk-3"><svg viewBox="0 0 52 74"><path d="M12 4 h26 v10 h-26 z" fill="#fff6fb"/><path d="M14 14 h22 v28 c0 4 14 6 14 18 c0 8-7 12-15 12 c-10 0-21-7-21-18 z" fill="#FF4FA3"/><circle cx="26" cy="66" r="5" fill="#fff6fb" opacity=".9"/></svg></div>
+      <div class="stocking stk-4"><svg viewBox="0 0 52 74"><path d="M12 4 h26 v10 h-26 z" fill="#fff6fb"/><path d="M14 14 h22 v28 c0 4 14 6 14 18 c0 8-7 12-15 12 c-10 0-21-7-21-18 z" fill="#FFE066"/><circle cx="26" cy="66" r="5" fill="#fff6fb" opacity=".9"/></svg></div>
+
+      <div class="mantel"></div>
+      <div class="garland" aria-hidden="true">
+        <svg viewBox="0 0 720 56" preserveAspectRatio="none">
+          <path class="vine" d="M0,6 Q90,44 180,10 Q270,46 360,10 Q450,46 540,10 Q630,44 720,6"/>
+          <path class="vine2" d="M0,6 Q90,44 180,10 Q270,46 360,10 Q450,46 540,10 Q630,44 720,6"/>
+          <g class="glight b1"><circle cx="52" cy="24" r="4" fill="currentColor"><animate attributeName="opacity" values="1;.3;1" dur="2.2s" repeatCount="indefinite"/></circle></g>
+          <g class="glight b2"><circle cx="128" cy="30" r="4" fill="currentColor"><animate attributeName="opacity" values=".4;1;.4" dur="2.6s" repeatCount="indefinite"/></circle></g>
+          <g class="glight b3"><circle cx="216" cy="26" r="4" fill="currentColor"><animate attributeName="opacity" values="1;.35;1" dur="2s" repeatCount="indefinite"/></circle></g>
+          <g class="glight b4"><circle cx="300" cy="31" r="4" fill="currentColor"><animate attributeName="opacity" values=".5;1;.5" dur="2.9s" repeatCount="indefinite"/></circle></g>
+          <g class="glight b5"><circle cx="392" cy="29" r="4" fill="currentColor"><animate attributeName="opacity" values="1;.3;1" dur="2.4s" repeatCount="indefinite"/></circle></g>
+          <g class="glight b6"><circle cx="474" cy="30" r="4" fill="currentColor"><animate attributeName="opacity" values=".4;1;.4" dur="2.1s" repeatCount="indefinite"/></circle></g>
+          <g class="glight b1"><circle cx="560" cy="27" r="4" fill="currentColor"><animate attributeName="opacity" values="1;.4;1" dur="2.7s" repeatCount="indefinite"/></circle></g>
+          <g class="glight b3"><circle cx="648" cy="28" r="4" fill="currentColor"><animate attributeName="opacity" values=".5;1;.5" dur="2.3s" repeatCount="indefinite"/></circle></g>
+        </svg>
+      </div>
+
+      <div class="fire-surround">
+        <div class="firebox">
+          <div class="fireglow"></div>
+          <div class="logs"><div class="log"></div><div class="log"></div></div>
+          <div class="flames" aria-hidden="true">
+            <div class="flame f-back"></div>
+            <div class="flame f-mid"></div>
+            <div class="flame f-core"></div>
+            <div class="flame f-wisp"></div>
+          </div>
+          <canvas id="embers"></canvas>
+        </div>
+      </div>
+      <div class="hearth-floor"></div>
+    </div>
+
+    <p class="hearth-caption">▚▞ YULE FEED · 100% SIGNAL · 0% BUFFERING ▞▚</p>
+    <div class="crackle-row">
+      <button class="crackle-btn" id="crackleBtn" aria-pressed="false">🔥 Turn on the crackle</button>
+      <p class="crackle-hint">Fireplace ambience, conjured live in your browser. No files, just magic.</p>
+    </div>
+  </div>
+</section>
+<style>
+  /* ══════════════════════════════════════
+     CH 02 — COZY FUN HOLIDAY
+  ══════════════════════════════════════ */
+  #cozy .section-title{color:var(--butter);text-shadow:0 0 26px rgba(255,224,102,.45);}
+  #cozy .section-sub{color:var(--pink);text-shadow:0 0 12px rgba(255,122,200,.6);}
+
+  .cozy-hero{
+    display:grid;grid-template-columns:1.25fr 1fr;gap:1.6rem;margin-bottom:1.6rem;
+  }
+  @media(max-width:760px){.cozy-hero{grid-template-columns:1fr;}}
+  .glass-card{
+    position:relative;border-radius:1.2rem;overflow:hidden;
+    border:1px solid rgba(255,224,102,.25);
+    background:rgba(255,246,251,.04);
+    box-shadow:0 8px 34px rgba(0,0,0,.45);
+    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .glass-card:hover{transform:translateY(-5px);border-color:rgba(255,224,102,.6);box-shadow:0 14px 44px rgba(255,224,102,.16),0 4px 16px rgba(0,0,0,.5);}
+  .glass-card img{display:block;width:100%;height:100%;object-fit:cover;}
+  .glass-card .cap{
+    position:absolute;left:0;right:0;bottom:0;
+    padding:1.6rem 1.15rem .85rem;
+    background:linear-gradient(180deg, transparent, rgba(11,6,32,.85));
+    font-family:var(--head);font-weight:700;font-size:1.1rem;letter-spacing:.06em;
+    color:var(--cream);text-shadow:0 1px 6px rgba(0,0,0,.6);
+  }
+  .cozy-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:1.4rem;margin-bottom:2.6rem;
+  }
+  .cozy-grid .glass-card{aspect-ratio:1/1.08;}
+
+  .homage{
+    display:grid;grid-template-columns:minmax(220px,340px) 1fr;gap:2rem;align-items:center;
+    border:1.5px dashed rgba(255,71,87,.5);border-radius:1.3rem;
+    padding:1.8rem;margin:2.8rem 0;
+    background:
+      radial-gradient(circle at 1px 1px, rgba(255,71,87,.13) 1px, transparent 1.8px) 0 0 / 12px 12px,
+      linear-gradient(135deg, rgba(255,71,87,.07), rgba(255,224,102,.05));
+  }
+  @media(max-width:700px){.homage{grid-template-columns:1fr;}}
+  .homage img{width:100%;border-radius:1rem;display:block;box-shadow:0 8px 28px rgba(0,0,0,.5);}
+  .homage h3{
+    font-family:var(--display);font-size:1.7rem;color:var(--cherry);
+    text-shadow:0 0 16px rgba(255,71,87,.4);margin-bottom:.6rem;
+  }
+  .homage p{color:rgba(255,246,251,.85);margin-bottom:.8rem;}
+  .homage .mono-tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--butter);}
+
+  .sub-head{
+    font-family:var(--head);font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    font-size:1.3rem;margin:2.6rem 0 .4rem;color:var(--mint);
+  }
+  .sub-note{color:rgba(255,246,251,.7);font-style:italic;margin-bottom:1.4rem;max-width:560px;}
+
+  /* haunted sub-panel */
+  .haunted{
+    border-radius:1.4rem;padding:2.2rem 1.8rem;margin-top:3rem;
+    border:1px solid rgba(183,156,255,.35);
+    background:
+      radial-gradient(700px 260px at 20% 0%, rgba(183,156,255,.14), transparent 70%),
+      linear-gradient(160deg,#120a24,#1c0f2e 60%,#0d0618);
+    box-shadow:inset 0 0 50px rgba(0,0,0,.6), 0 10px 40px rgba(0,0,0,.5);
+  }
+  .haunted .sub-head{color:var(--lav);margin-top:0;
+    text-shadow:0 0 14px rgba(183,156,255,.55);
+  }
+  .haunted .glass-card{border-color:rgba(183,156,255,.3);}
+  .haunted .glass-card:hover{border-color:rgba(183,156,255,.65);box-shadow:0 14px 44px rgba(183,156,255,.18),0 4px 16px rgba(0,0,0,.5);}
+
+  /* ══════════════════════════════════════
+     CH ❄ — SNOW DAY
+  ══════════════════════════════════════ */
+  #snowday{
+    padding-top:5.5rem;padding-bottom:5rem;
+    background:
+      radial-gradient(1000px 420px at 50% 0%, rgba(78,225,255,.14), transparent 70%),
+      linear-gradient(180deg, transparent, rgba(14,32,54,.65) 25%, rgba(14,32,54,.65) 80%, transparent);
+  }
+  #snowday .wrap{max-width:820px;text-align:center;}
+  #snowday .section-title{color:var(--cyan);text-shadow:0 0 26px rgba(78,225,255,.5);}
+  #snowday .section-sub{color:var(--cream);text-shadow:0 0 12px rgba(255,255,255,.5);}
+  .frost-panel{
+    position:relative;border-radius:1.6rem;
+    padding:2.6rem 2rem 2.4rem;margin-top:1.4rem;
+    border:1.5px solid rgba(255,255,255,.35);
+    background:rgba(210,235,255,.07);
+    backdrop-filter:blur(6px);
+    box-shadow:inset 0 0 40px rgba(190,230,255,.12), 0 10px 40px rgba(0,0,0,.4);
+    overflow:hidden;
+  }
+  .frost-panel::before{ /* frost corners */
+    content:'';position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+    background:
+      radial-gradient(180px 120px at 0% 0%, rgba(255,255,255,.22), transparent 70%),
+      radial-gradient(180px 120px at 100% 0%, rgba(200,240,255,.18), transparent 70%),
+      radial-gradient(220px 140px at 0% 100%, rgba(200,240,255,.16), transparent 70%),
+      radial-gradient(220px 140px at 100% 100%, rgba(255,255,255,.2), transparent 70%);
+  }
+  .weather-board{
+    display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin:1.8rem 0 1.4rem;
+  }
+  .weather-chip{
+    font-family:var(--crt);font-size:1.2rem;letter-spacing:.1em;
+    color:var(--cyan);border:1.5px solid rgba(78,225,255,.5);border-radius:.6rem;
+    padding:.5rem 1.1rem;background:rgba(78,225,255,.06);
+    text-shadow:0 0 10px rgba(78,225,255,.5);
+  }
+  .weather-chip b{color:var(--cream);font-weight:400;}
+  .snow-quote{
+    font-family:var(--script);font-size:clamp(1.4rem,3.6vw,2rem);color:var(--cream);
+    text-shadow:0 0 16px rgba(255,255,255,.4);margin-top:.6rem;transform:rotate(-1.5deg);
+  }
+  .snow-divider{color:var(--cyan);letter-spacing:.1em;margin-top:1.4rem;opacity:.8;font-size:.95rem;}
+</style>
+
+<div class="light-string divider-lights" aria-hidden="true">
+  <svg viewBox="0 0 1100 64" preserveAspectRatio="none">
+    <path class="wire" d="M0,10 Q137,46 275,12 Q412,46 550,12 Q687,46 825,12 Q962,46 1100,10"/>
+  </svg>
+</div>
+
+<!-- ═══════════ CH 02 · COZY FUN HOLIDAY ═══════════ -->
+<section id="cozy">
+  <div class="wrap">
+    <span class="ch-badge"><span class="live"></span> CH 02 · NOW SHOWING</span>
+    <h2 class="section-title">Just a Cozy Fun Christmas Holiday</h2><br>
+    <span class="section-sub">sparkly, glittery, snowy magical vibes</span>
+    <p class="stamp">First transmitted Dec 18, 2025 · Fun Image Sets · Glitter levels: unsafe (in a good way)</p>
+    <p class="section-note">Virtual decorated shiny Christmas trees for everyone — and if you keep scrolling, a haunted set for those who are into that style. 👻</p>
+
+    <div class="cozy-hero">
+      <figure class="glass-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!LQFd!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8e8ad795-4913-4d94-ab42-76d16cc73761_1200x1232.png" alt="Virtual decorated shiny Christmas trees" loading="lazy">
+        <figcaption class="cap">✨ Shiny Trees, For Everyone</figcaption>
+      </figure>
+      <figure class="glass-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!VFcc!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9a2f0182-3419-4273-bdfa-bb544617eb90_1200x1200.png" alt="Glam Elf" loading="lazy">
+        <figcaption class="cap">💄 Glam Elf</figcaption>
+      </figure>
+    </div>
+
+    <div class="cozy-hero">
+      <figure class="glass-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!EsBb!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd8de63a8-78d2-47b2-8ab2-1f7d3ef3f785_1200x1575.png" alt="Snowy North Pole workshop" loading="lazy">
+        <figcaption class="cap">🏔 Snowy North Pole Workshop</figcaption>
+      </figure>
+      <figure class="glass-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!zAaN!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3ef8640d-aa72-43db-a6f6-1323bd38156a_1008x1008.png" alt="Snow globe workshop" loading="lazy">
+        <figcaption class="cap">🔮 Snow Globe Workshop</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sub-head">✦ Mini Gallery · Christmas Objects</h3>
+    <p class="sub-note">Little treasures caught mid-sparkle.</p>
+    <div class="cozy-grid">
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!bX-m!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6e9365af-936b-44dc-ac17-23f405b45cd9_1200x1543.png" alt="Christmas object art 1" loading="lazy"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!3UcZ!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc047193b-4929-4f91-9d73-c32508a7b6ad_1200x1187.png" alt="Christmas object art 2" loading="lazy"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!RJox!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffc051102-1044-4e6f-8775-3eb1a1549c31_1119x1267.png" alt="Christmas object art 3" loading="lazy"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!1T2F!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa79441f4-385b-4880-8610-2cfc9abc3000_1200x1702.png" alt="Christmas object art 4" loading="lazy"></figure>
+    </div>
+
+    <div class="homage">
+      <img src="https://substackcdn.com/image/fetch/$s_!0X0p!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5018038d-7450-4152-84cf-768d0b4893e2_800x848.png" alt="Patch's Candy Canes" loading="lazy">
+      <div>
+        <span class="mono-tag">🍬 In Homage · Santa Claus The Movie (1985)</span>
+        <h3>Patch's Candy Canes</h3>
+        <p>Created to represent a well-loved magical Christmas movie. As a kid, every year I couldn't wait to see it on TV — the magical ingredient in these treats that made you float with a few licks. Ahh, the memories.</p>
+        <p style="font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--mint);">SIDE EFFECTS MAY INCLUDE: FLOATING ✦ NOSTALGIA ✦ SECOND HELPINGS</p>
+      </div>
+    </div>
+
+    <h3 class="sub-head">🍪 Gingerbread Cookies</h3>
+    <p class="sub-note">More cookies will be added to this list as they escape from ovens all over the world and beyond.</p>
+    <div class="cozy-grid">
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!HKUG!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4a5ea502-b246-4c48-97b5-2e7bd9b0ea1e_1200x1156.png" alt="Gingerbread cookies 1" loading="lazy"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!LTr_!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F06d770a4-ab4c-4bf8-bf58-2f7d350c39e2_407x544.png" alt="Gingerbread cookies 2" loading="lazy"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!1a_U!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6b32d11b-803e-403f-b39d-9d15c1905cca_1200x892.png" alt="Gingerbread cookies 3" loading="lazy"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!Vn84!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F29451544-6ae3-48ca-920a-431432eaf051_400x508.png" alt="Gingerbread cookies 4" loading="lazy"></figure>
+    </div>
+
+    <h3 class="sub-head">🍰 Now Time For a Tasty Treat…</h3>
+    <div class="cozy-hero" style="grid-template-columns:minmax(0,640px);justify-content:center;">
+      <figure class="glass-card">
+        <img src="https://substackcdn.com/image/fetch/$s_!4vWs!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbb5f9970-f748-439b-8a05-f758f35968c5_1200x1200.png" alt="A tasty holiday treat" loading="lazy">
+      </figure>
+    </div>
+
+    <div class="haunted">
+      <h3 class="sub-head">👻 For Those Who Have the Spooky Vibes…</h3>
+      <p class="sub-note">A haunted set, tuned to the channel between channels.</p>
+      <div class="cozy-grid">
+        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!ZRhC!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff7b3985f-1221-432b-b041-dfd010198e1f_1200x1200.png" alt="Haunted Christmas art 1" loading="lazy"><figcaption class="cap">Haunted Christmas</figcaption></figure>
+        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!GcW3!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F221eb55a-1721-4883-9152-428f9e639df9_675x1092.png" alt="Haunted Christmas art 2" loading="lazy"><figcaption class="cap">Haunted Christmas</figcaption></figure>
+        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!0wtR!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F300204a3-6386-43d6-a794-f6fc5479fda2_554x631.png" alt="Angel" loading="lazy"><figcaption class="cap">Angel</figcaption></figure>
+        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!Beg5!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa7f4696d-cc1e-4b13-b375-10b428273d31_840x840.png" alt="Star" loading="lazy"><figcaption class="cap">Star</figcaption></figure>
+        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!XORW!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe9b55da1-de9f-42c5-8013-953cb9b03b39_840x840.png" alt="Wreath" loading="lazy"><figcaption class="cap">Wreath</figcaption></figure>
+        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!ing_!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F43ea9c7a-de6d-4ad0-9f81-165fa178a23a_1200x1200.png" alt="Stocking" loading="lazy"><figcaption class="cap">Stocking</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CH ❄ · SNOW DAY ═══════════ -->
+<section id="snowday">
+  <div class="wrap">
+    <span class="ch-badge"><span class="live"></span> CH ❄ · HEAVY FLURRIES</span>
+    <h2 class="section-title">Snow Day Frequency</h2><br>
+    <span class="section-sub">school of magic: cancelled. wonder: in session.</span>
+    <div class="frost-panel">
+      <p style="color:rgba(255,246,251,.9);max-width:560px;margin:0 auto;">You've tuned into the quietest channel on the dial. Watch the flurries thicken while you're here — the wind picks up on this frequency, and every flake is broadcast live from somewhere north of everything.</p>
+      <div class="weather-board">
+        <span class="weather-chip">📍 <b>NORTH POLE</b></span>
+        <span class="weather-chip">🌡 <b>−12°</b> &amp; COZY</span>
+        <span class="weather-chip">❄ SNOW: <b>100%</b></span>
+        <span class="weather-chip">🧣 SCARF INDEX: <b>MAX</b></span>
+      </div>
+      <p class="snow-quote">stay inside, watch it fall, sip something warm…</p>
+      <p class="snow-divider">⋆꙳•❅‧*₊⋆☃︎‧*❆₊⋆⋆꙳•̩̩͙❅*̩̩͙‧͙ ‧͙*̩̩͙❆ ͙͛ ˚₊⋆</p>
+    </div>
+  </div>
+</section>
+<style>
+  /* ══════════════════════════════════════
+     CH 03 — HOLIDAY BEVERAGES
+  ══════════════════════════════════════ */
+  #beverages{padding-bottom:3rem;}
+  #beverages .section-title{color:var(--mint);text-shadow:0 0 26px rgba(95,232,208,.5);}
+  #beverages .section-sub{color:var(--butter);text-shadow:0 0 12px rgba(255,224,102,.6);}
+  .bev-layout{
+    display:grid;grid-template-columns:minmax(260px,440px) 1fr;gap:2.2rem;align-items:start;
+  }
+  @media(max-width:820px){.bev-layout{grid-template-columns:1fr;}}
+  .bev-hero{
+    position:relative;border-radius:1.3rem;overflow:hidden;
+    border:1.5px solid rgba(95,232,208,.4);
+    box-shadow:0 0 30px rgba(95,232,208,.18), 0 10px 40px rgba(0,0,0,.5);
+  }
+  .bev-hero img{display:block;width:100%;}
+  .bev-hero .steam{
+    position:absolute;left:0;right:0;top:-10px;height:60px;pointer-events:none;
+    background:
+      radial-gradient(40px 26px at 30% 60%, rgba(255,255,255,.16), transparent 70%),
+      radial-gradient(46px 30px at 60% 40%, rgba(255,255,255,.12), transparent 70%),
+      radial-gradient(34px 24px at 78% 65%, rgba(255,255,255,.14), transparent 70%);
+    filter:blur(4px);animation:steamdrift 5s ease-in-out infinite alternate;
+  }
+  @keyframes steamdrift{from{transform:translateY(4px);opacity:.7}to{transform:translateY(-8px);opacity:1}}
+
+  .menu-board{
+    border-radius:1.3rem;padding:1.9rem 1.7rem;
+    border:2px solid rgba(255,224,102,.4);
+    background:
+      radial-gradient(circle at 1px 1px, rgba(255,224,102,.10) 1px, transparent 1.8px) 0 0 / 11px 11px,
+      linear-gradient(160deg, rgba(255,224,102,.06), rgba(95,232,208,.05) 60%, rgba(255,79,163,.06));
+    box-shadow:inset 0 0 30px rgba(0,0,0,.35), 0 10px 36px rgba(0,0,0,.4);
+  }
+  .menu-board h3{
+    font-family:var(--script);font-size:2rem;color:var(--butter);
+    text-shadow:0 0 14px rgba(255,224,102,.5);margin-bottom:.2rem;transform:rotate(-1.5deg);
+  }
+  .menu-board .menu-sub{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--mint);margin-bottom:1.4rem;
+  }
+  .menu-item{
+    display:flex;align-items:baseline;gap:.8rem;
+    padding:.75rem 0;border-bottom:1px dashed rgba(255,246,251,.18);
+  }
+  .menu-item:last-of-type{border-bottom:none;}
+  .menu-item .name{
+    font-family:var(--head);font-weight:700;font-size:1.18rem;letter-spacing:.05em;
+    color:var(--cream);white-space:nowrap;
+  }
+  .menu-item .dots{flex:1;border-bottom:2px dotted rgba(255,246,251,.25);transform:translateY(-4px);}
+  .menu-item .price{font-family:var(--crt);font-size:1.1rem;color:var(--hotpink);text-shadow:0 0 8px rgba(255,79,163,.5);white-space:nowrap;}
+  .menu-desc{font-size:.88rem;color:rgba(255,246,251,.7);font-style:italic;margin:.15rem 0 .35rem;}
+  .menu-cta{
+    display:inline-block;margin-top:1.5rem;text-decoration:none;
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--midnight);background:var(--mint);
+    border-radius:2rem;padding:.7rem 1.5rem;
+    box-shadow:0 0 20px rgba(95,232,208,.45);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .menu-cta:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(95,232,208,.7);}
+
+  /* ---------- footer ---------- */
+  footer{
+    position:relative;z-index:2;text-align:center;
+    padding:4.5rem 1.25rem 3.5rem;
+  }
+  .footer-links{
+    display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1.6rem 0 2rem;
+  }
+  .footer-links a{
+    text-decoration:none;color:var(--cream);
+    font-family:var(--head);font-size:1.05rem;letter-spacing:.05em;
+    border:1px solid rgba(255,246,251,.2);border-radius:2rem;
+    padding:.55rem 1.3rem;background:rgba(255,246,251,.04);
+    transition:border-color .2s ease, background .2s ease, transform .2s ease;
+  }
+  .footer-links a:hover{border-color:var(--hotpink);background:rgba(255,79,163,.1);transform:translateY(-2px);}
+  .footer-sign{
+    font-family:var(--script);font-size:1.9rem;color:var(--pink);
+    text-shadow:0 0 14px rgba(255,122,200,.6);transform:rotate(-2deg);display:inline-block;
+  }
+  .footer-fine{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,246,251,.5);margin-top:1.4rem;}
+  .signoff{
+    font-family:var(--crt);font-size:1.15rem;letter-spacing:.14em;color:var(--mint);
+    margin-top:2rem;text-shadow:0 0 10px rgba(95,232,208,.5);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+    #snow,#embers{display:none;}
+  }
+</style>
+
+<div class="light-string divider-lights" aria-hidden="true">
+  <svg viewBox="0 0 1100 64" preserveAspectRatio="none">
+    <path class="wire" d="M0,10 Q137,46 275,12 Q412,46 550,12 Q687,46 825,12 Q962,46 1100,10"/>
+  </svg>
+</div>
+
+<!-- ═══════════ CH 03 · HOLIDAY BEVERAGES ═══════════ -->
+<section id="beverages">
+  <div class="wrap">
+    <span class="ch-badge"><span class="live"></span> CH 03 · STEAMING HOT</span>
+    <h2 class="section-title">Holiday Beverages</h2><br>
+    <span class="section-sub">the mug never spills, never runs dry ☕</span>
+    <p class="stamp">First transmitted Dec 10, 2025 · Fun Image Sets · ☃︎🎅🎄❄️☃️🎁🦌</p>
+    <p class="section-note">Last stop on the dial: the all-night cocoa counter. Every cup poured under neon, every marshmallow hand-floated.</p>
+
+    <div class="bev-layout">
+      <div class="bev-hero">
+        <div class="steam" aria-hidden="true"></div>
+        <img src="https://substackcdn.com/image/fetch/$s_!RXe7!,w_1300,h_650,c_fill,f_auto,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6d0ef63-d3a1-4422-b86c-75cafe1b0e00_1200x1200.png" alt="Holiday Beverages cover art" loading="lazy">
+      </div>
+
+      <div class="menu-board">
+        <h3>Tonight's Pour List</h3>
+        <p class="menu-sub">Served warm · Refills infinite · Payment in good cheer</p>
+
+        <div class="menu-item"><span class="name">☕ Midnight Cocoa</span><span class="dots"></span><span class="price">2 CHEERS</span></div>
+        <p class="menu-desc">Deep chocolate under a snowdrift of whipped cream, dusted with star-grain sprinkles.</p>
+
+        <div class="menu-item"><span class="name">🍬 Peppermint Static</span><span class="dots"></span><span class="price">3 CHEERS</span></div>
+        <p class="menu-desc">Candy-cane swirl with a fizzy mint crackle — tune in and sip between channels.</p>
+
+        <div class="menu-item"><span class="name">🥛 North Pole Nog</span><span class="dots"></span><span class="price">2 CHEERS</span></div>
+        <p class="menu-desc">Thick, nutmeg-dusted, and rumored to be Santa's pre-flight fuel.</p>
+
+        <div class="menu-item"><span class="name">🍎 Cider on the Dial</span><span class="dots"></span><span class="price">2 CHEERS</span></div>
+        <p class="menu-desc">Mulled apple warmth with cinnamon antennae, broadcast piping hot.</p>
+
+        <div class="menu-item"><span class="name">✨ The Glow-Up Latte</span><span class="dots"></span><span class="price">4 CHEERS</span></div>
+        <p class="menu-desc">Golden foam, glitter-safe shimmer, and a halo of steam you can almost wear.</p>
+
+        <a class="menu-cta" href="https://magickmicaart.substack.com/p/holiday-beverages">▸ Pour the full menu on Substack</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="light-string" aria-hidden="true" style="max-width:900px;margin:0 auto 2rem;">
+    <svg viewBox="0 0 900 64" preserveAspectRatio="none">
+      <path class="wire" d="M0,10 Q112,46 225,12 Q337,46 450,12 Q562,46 675,12 Q787,46 900,10"/>
+    </svg>
+  </div>
+  <span class="footer-sign">thanks for tuning in ✦</span>
+  <div class="footer-links">
+    <a href="https://magickmicaart.substack.com/p/dreaming-of-a-blurry-christmas">📡 Blurry Christmas — original post</a>
+    <a href="https://magickmicaart.substack.com/p/just-a-cozy-fun-christmas-holiday">📡 Cozy Fun Holiday — original post</a>
+    <a href="https://magickmicaart.substack.com/p/holiday-beverages">📡 Holiday Beverages — original post</a>
+  </div>
+  <div class="footer-links">
+    <a href="https://magickmica.github.io/">📺 Back to Magick Mica TV</a>
+    <a href="https://magickmicaart.substack.com/">✉️ Subscribe on Substack</a>
+  </div>
+  <p class="signoff">▚▞ THIS CONCLUDES TONIGHT'S HOLIDAY BROADCAST · SIGNAL WILL RESUME AT SNOWFALL ▞▚</p>
+  <p class="footer-fine">© Magick Mica TV · All Transmissions Reserved · Where Magic Meets the Pixel</p>
+</footer>
+
+</main>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ═══ SNOW ═══ */
+  var canvas = document.getElementById('snow');
+  var snowSection = document.getElementById('snowday');
+  if (canvas && !reduce){
+    var ctx = canvas.getContext('2d');
+    var W, H, flakes = [], BASE = 90, MAXX = 260;
+    var intensity = 0;         // 0..1 — rises inside the Snow Day section
+    var wind = 0, windTarget = 0, gustTimer = 0;
+
+    function size(){
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', size); size();
+
+    function makeFlake(fromTop){
+      var depth = Math.random();               // 0 far … 1 near
+      return {
+        x: Math.random()*W,
+        y: fromTop ? -8 : Math.random()*H,
+        r: .8 + depth*2.6,
+        vy: .35 + depth*1.15,
+        drift: Math.random()*1.4 - .7,
+        phase: Math.random()*Math.PI*2,
+        wob: .4 + Math.random()*1.1,
+        o: .35 + depth*.55,
+        depth: depth
+      };
+    }
+    for (var i=0;i<BASE;i++) flakes.push(makeFlake(false));
+
+    function snowSectionVisibility(){
+      if(!snowSection) return 0;
+      var r = snowSection.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var visible = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+      var frac = Math.max(0, Math.min(1, visible / Math.min(vh, r.height)));
+      return frac;
+    }
+
+    function tick(){
+      // ramp intensity toward how visible the snow-day section is
+      var target = snowSectionVisibility();
+      intensity += (target - intensity)*.03;
+
+      // gusty wind while in the blizzard
+      gustTimer--;
+      if (gustTimer <= 0){
+        windTarget = (Math.random()*2 - 1) * (0.4 + intensity*2.4);
+        gustTimer = 90 + Math.random()*160;
+      }
+      wind += (windTarget - wind)*.015;
+
+      // population control
+      var want = Math.round(BASE + (MAXX-BASE)*intensity);
+      while (flakes.length < want) flakes.push(makeFlake(true));
+      if (flakes.length > want) flakes.length = want;
+
+      ctx.clearRect(0,0,W,H);
+      ctx.fillStyle = '#fff';
+      for (var i=0;i<flakes.length;i++){
+        var f = flakes[i];
+        f.phase += .02*f.wob;
+        f.y += f.vy * (1 + intensity*1.2);
+        f.x += f.drift + Math.sin(f.phase)*.5 + wind*(0.4+f.depth);
+        if (f.y > H+10){ flakes[i] = makeFlake(true); continue; }
+        if (f.x > W+12) f.x = -12; else if (f.x < -12) f.x = W+12;
+        ctx.globalAlpha = f.o * (0.75 + intensity*.35);
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(tick);
+    }
+    tick();
+  }
+
+  /* ═══ EMBERS ═══ */
+  var ec = document.getElementById('embers');
+  if (ec && !reduce){
+    var ectx = ec.getContext('2d');
+    var eW, eH, sparks = [];
+    function esize(){
+      var box = ec.parentElement.getBoundingClientRect();
+      eW = ec.width = Math.max(1, box.width);
+      eH = ec.height = Math.max(1, box.height);
+    }
+    window.addEventListener('resize', esize); esize();
+
+    var COLORS = ['#ffb23e','#ff8a3c','#ffe28a','#ff6b4a'];
+    function spark(){
+      return {
+        x: eW*0.5 + (Math.random()*eW*0.36 - eW*0.18),
+        y: eH - 18 - Math.random()*20,
+        r: .7 + Math.random()*1.8,
+        vy: .5 + Math.random()*1.1,
+        vx: Math.random()*.7 - .35,
+        life: 1,
+        decay: .004 + Math.random()*.009,
+        c: COLORS[(Math.random()*COLORS.length)|0]
+      };
+    }
+    function etick(){
+      esize && null;
+      ectx.clearRect(0,0,eW,eH);
+      if (sparks.length < 34 && Math.random() < .45) sparks.push(spark());
+      for (var i=sparks.length-1;i>=0;i--){
+        var s = sparks[i];
+        s.y -= s.vy; s.x += s.vx + Math.sin(s.y*.05)*.3;
+        s.life -= s.decay;
+        if (s.life <= 0 || s.y < -6){ sparks.splice(i,1); continue; }
+        ectx.globalAlpha = Math.max(0, s.life)*.9;
+        ectx.fillStyle = s.c;
+        ectx.beginPath();
+        ectx.arc(s.x, s.y, s.r*s.life+0.3, 0, Math.PI*2);
+        ectx.fill();
+      }
+      ectx.globalAlpha = 1;
+      requestAnimationFrame(etick);
+    }
+    etick();
+  }
+
+  /* ═══ CRACKLE — WebAudio fireplace ambience ═══ */
+  var btn = document.getElementById('crackleBtn');
+  var audioCtx = null, master = null, popTimer = null, running = false;
+  function startCrackle(){
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    audioCtx.resume && audioCtx.resume();
+    master = audioCtx.createGain();
+    master.gain.value = 0;
+    master.connect(audioCtx.destination);
+    master.gain.linearRampToValueAtTime(.5, audioCtx.currentTime + 1.2);
+
+    // low roaring bed: brown-ish noise through a lowpass
+    var len = audioCtx.sampleRate * 2;
+    var buf = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+    var d = buf.getChannelData(0), last = 0;
+    for (var i=0;i<len;i++){
+      var white = Math.random()*2-1;
+      last = (last + .02*white) / 1.02;
+      d[i] = last * 3.2;
+    }
+    var bed = audioCtx.createBufferSource();
+    bed.buffer = buf; bed.loop = true;
+    var lp = audioCtx.createBiquadFilter();
+    lp.type = 'lowpass'; lp.frequency.value = 420; lp.Q.value = .4;
+    var bedGain = audioCtx.createGain(); bedGain.gain.value = .5;
+    bed.connect(lp); lp.connect(bedGain); bedGain.connect(master);
+    bed.start();
+    master._bed = bed;
+
+    // random pops & snaps
+    function pop(){
+      if (!running) return;
+      var t = audioCtx.currentTime;
+      var dur = .02 + Math.random()*.05;
+      var plen = Math.max(1, (audioCtx.sampleRate*dur)|0);
+      var pbuf = audioCtx.createBuffer(1, plen, audioCtx.sampleRate);
+      var pd = pbuf.getChannelData(0);
+      for (var i=0;i<plen;i++){
+        pd[i] = (Math.random()*2-1) * Math.pow(1 - i/plen, 2.2);
+      }
+      var src = audioCtx.createBufferSource();
+      src.buffer = pbuf;
+      var bp = audioCtx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.frequency.value = 900 + Math.random()*2600;
+      bp.Q.value = 1.1;
+      var g = audioCtx.createGain();
+      g.gain.value = .18 + Math.random()*.5;
+      src.connect(bp); bp.connect(g); g.connect(master);
+      src.start(t);
+      popTimer = setTimeout(pop, 60 + Math.random()*420);
+    }
+    running = true;
+    pop();
+  }
+  function stopCrackle(){
+    running = false;
+    if (popTimer) clearTimeout(popTimer);
+    if (master){
+      try{
+        master.gain.linearRampToValueAtTime(0, audioCtx.currentTime + .5);
+        var m = master;
+        setTimeout(function(){
+          try{ m._bed && m._bed.stop(); m.disconnect(); }catch(e){}
+        }, 600);
+      }catch(e){}
+      master = null;
+    }
+  }
+  if (btn){
+    btn.addEventListener('click', function(){
+      var on = btn.getAttribute('aria-pressed') === 'true';
+      if (on){ stopCrackle(); btn.setAttribute('aria-pressed','false'); btn.textContent = '🔥 Turn on the crackle'; }
+      else { startCrackle(); btn.setAttribute('aria-pressed','true'); btn.textContent = '🔇 Hush the fire'; }
+    });
+  }
+
+  /* ═══ bulbs on the light strings — place along each wire path ═══ */
+  document.querySelectorAll('.light-string svg').forEach(function(svg){
+    var path = svg.querySelector('.wire');
+    if (!path || !path.getTotalLength) return;
+    var L = path.getTotalLength();
+    var n = Math.max(8, Math.round(L/95));
+    var classes = ['b1','b2','b3','b4','b5','b6'];
+    for (var i=1;i<n;i++){
+      var pt = path.getPointAtLength(L*i/n);
+      var g = document.createElementNS('http://www.w3.org/2000/svg','g');
+      g.setAttribute('class','bulb '+classes[i%6]);
+      var cap = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      cap.setAttribute('x', pt.x-2); cap.setAttribute('y', pt.y);
+      cap.setAttribute('width', 4); cap.setAttribute('height', 4);
+      cap.setAttribute('class','cap');
+      var b = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+      b.setAttribute('cx', pt.x); b.setAttribute('cy', pt.y+9);
+      b.setAttribute('rx', 4); b.setAttribute('ry', 6);
+      g.appendChild(cap); g.appendChild(b);
+      svg.appendChild(g);
+    }
+  });
+})();
+</script>
+</body>
+</html>
