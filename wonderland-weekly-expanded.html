@@ -422,6 +422,7 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
   <div class="nav-progress-line" id="nav-progress"></div>
   <a class="nav-logo" data-target="top">WW ♥</a>
   <div class="nav-links" id="nav-links">
+    <a class="nav-print" data-target="printables" data-section="printables"><span class="nav-icon">🖨️</span> Printables</a>
     <a data-target="cover"      data-section="cover">      <span class="nav-icon">✦</span> Cover Story</a>
     <a data-target="deep-dive"  data-section="deep-dive">  <span class="nav-icon">🔍</span> Deep Dive</a>
     <a data-target="gossip"     data-section="gossip">     <span class="nav-icon">💬</span> Gossip</a>
@@ -1255,9 +1256,24 @@ footer p{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.2em;colo
   }
   .ww-shop-foot a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,245,255,.4);}
   .ww-shop-foot a:hover{color:var(--yellow);border-bottom-color:var(--yellow);}
+
+  /* anchor offset so the sticky nav does not cover the heading */
+  #printables{scroll-margin-top:90px;}
+  /* highlighted nav pill */
+  .nav-print{
+    color:#000 !important;
+    background:linear-gradient(90deg,var(--hot-pink),var(--yellow));
+    border-radius:999px;font-weight:700;
+    box-shadow:0 0 12px rgba(255,45,120,.5);
+    animation:shimmer 2.6s ease-in-out infinite;
+  }
+  .nav-print:hover,.nav-print.active{
+    animation:none;color:#000 !important;
+    box-shadow:0 0 22px rgba(255,210,0,.8);
+  }
 </style>
 
-<div class="ww-shop">
+<div class="ww-shop" id="printables">
   <div class="divider">
     <span class="divider-line"></span>
     <span class="divider-text">Print It Yourself</span>
@@ -1539,7 +1555,7 @@ startQuiz();
 
 // ── NAV: ACTIVE SECTION & SCROLL PROGRESS ────────────────
 (function(){
-  const sectionIds = ['cover','deep-dive','gossip','beauty','quiz','horoscope','fashion','food','listicle','letters'];
+  const sectionIds = ['cover','deep-dive','gossip','beauty','quiz','horoscope','fashion','food','listicle','letters','printables'];
   const navEl      = document.getElementById('sticky-nav');
   const progEl     = document.getElementById('nav-progress');
   const links      = document.querySelectorAll('.nav-links a[data-section]');
