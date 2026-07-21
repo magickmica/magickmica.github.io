@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Impossible Broadcast — a Magick Mica TV Wonder Special</title>
+<meta name="description" content="Three transmissions where time misbehaves — Nothing Is Late, The Department of Impossible Things, and Enchanted Realms. Office hours: whenever someone chooses wonder instead of certainty.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Yellowtail&family=Barlow+Condensed:wght@500;600;700;800&family=Karla:ital,wght@0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  :root{
+    --void:#0A1220;
+    --teal:#0E2E33;
+    --plum:#2A1240;
+    --bureau:#1A1430;
+    --forest:#12291C;
+    --hotpink:#FF4FA3;
+    --pink:#FF7AC8;
+    --mint:#5FE8D0;
+    --gold:#F5C044;
+    --manila:#F2DFB0;
+    --lav:#B79CFF;
+    --cyan:#4EE1FF;
+    --rose:#FFB3C7;
+    --cream:#FFF6FB;
+    --display:'Shrikhand', cursive;
+    --script:'Yellowtail', cursive;
+    --head:'Barlow Condensed', sans-serif;
+    --body:'Karla', sans-serif;
+    --mono:'Space Mono', monospace;
+    --crt:'VT323', monospace;
+    --holo:linear-gradient(100deg,#ffd1f0,var(--hotpink) 18%,var(--gold) 38%,var(--mint) 58%,var(--cyan) 76%,var(--lav) 90%,#ffd1f0);
+  }
+  body{
+    color:var(--cream);
+    font-family:var(--body);
+    font-size:1.05rem;line-height:1.65;
+    overflow-x:hidden;
+    background:linear-gradient(180deg,
+      var(--void) 0%,
+      var(--teal) 14%,
+      var(--plum) 30%,
+      var(--bureau) 46%,
+      #241A38 60%,
+      var(--plum) 72%,
+      var(--forest) 88%,
+      #0D1F14 100%);
+    min-height:100vh;
+  }
+  ::selection{background:var(--mint);color:var(--void);}
+
+  body::after{
+    content:'';position:fixed;inset:0;z-index:60;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity:.38;mix-blend-mode:overlay;
+  }
+
+  .stars{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 12%, #fff 60%, transparent),
+      radial-gradient(1px 1px at 32% 44%, var(--pink) 60%, transparent),
+      radial-gradient(1.5px 1.5px at 56% 22%, var(--mint) 60%, transparent),
+      radial-gradient(1px 1px at 74% 56%, #fff 60%, transparent),
+      radial-gradient(2px 2px at 88% 8%, var(--gold) 60%, transparent),
+      radial-gradient(1px 1px at 20% 66%, var(--lav) 60%, transparent),
+      radial-gradient(1.4px 1.4px at 44% 5%, #fff 60%, transparent),
+      radial-gradient(1px 1px at 94% 38%, var(--cyan) 60%, transparent);
+    opacity:.55;animation:twinkle 6s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{from{opacity:.35}to{opacity:.7}}
+
+  /* fireflies + time-sparks canvas */
+  #motes{position:fixed;inset:0;z-index:50;pointer-events:none;}
+
+  main{position:relative;z-index:2;}
+
+  .marquee{
+    position:relative;z-index:5;overflow:hidden;white-space:nowrap;
+    border-bottom:1px solid rgba(95,232,208,.3);
+    background:rgba(10,18,32,.6);
+    font-family:var(--crt);font-size:1.15rem;letter-spacing:.14em;
+    color:var(--mint);padding:.35rem 0;
+    text-shadow:0 0 10px rgba(95,232,208,.5);
+  }
+  .marquee span{display:inline-block;padding-left:100%;animation:marq 30s linear infinite;}
+  @keyframes marq{to{transform:translateX(-100%);}}
+
+  header{text-align:center;padding:3.2rem 1.25rem 2.6rem;position:relative;}
+  .ticker{
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:2rem;
+    display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  }
+  .ticker .dot{color:var(--hotpink);}
+  .onair{
+    display:inline-flex;align-items:center;gap:.5rem;
+    font-family:var(--crt);font-size:1.05rem;letter-spacing:.2em;
+    color:var(--mint);border:1.5px solid var(--mint);border-radius:.4rem;
+    padding:.15rem .8rem;margin-bottom:1.4rem;
+    box-shadow:0 0 14px rgba(95,232,208,.45), inset 0 0 10px rgba(95,232,208,.18);
+    animation:onairblink 1.6s steps(2,end) infinite;
+  }
+  @keyframes onairblink{50%{opacity:.55}}
+
+  /* backwards clock */
+  .impossible-clock{
+    width:110px;height:110px;margin:0 auto 1.4rem;position:relative;
+    border-radius:50%;
+    border:3px solid var(--gold);
+    background:radial-gradient(circle at 35% 30%, #241a38, #12091f 70%);
+    box-shadow:0 0 24px rgba(245,192,68,.35), inset 0 0 18px rgba(0,0,0,.7);
+  }
+  .impossible-clock .tick{
+    position:absolute;left:50%;top:4px;width:2px;height:8px;background:rgba(255,246,251,.5);
+    transform-origin:50% 51px;
+  }
+  .impossible-clock .hand{
+    position:absolute;left:50%;bottom:50%;transform-origin:50% 100%;
+    border-radius:2px;
+  }
+  .hand.hh{width:4px;height:26px;margin-left:-2px;background:var(--gold);box-shadow:0 0 8px rgba(245,192,68,.6);}
+  .hand.mm{width:3px;height:38px;margin-left:-1.5px;background:var(--mint);box-shadow:0 0 8px rgba(95,232,208,.6);}
+  .hand.ss{width:1.5px;height:44px;margin-left:-.75px;background:var(--hotpink);box-shadow:0 0 8px rgba(255,79,163,.7);}
+  .impossible-clock .pin{
+    position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;
+    border-radius:50%;background:var(--cream);
+  }
+  .clock-caption{
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--lav);margin-bottom:1.6rem;
+  }
+
+  .sign{
+    position:relative;display:inline-block;
+    border:3px solid var(--cyan);border-radius:1.6rem;
+    padding:1.7rem 2.6rem 2rem;overflow:hidden;
+    box-shadow:0 0 26px rgba(78,225,255,.45), inset 0 0 26px rgba(255,79,163,.15);
+    background:rgba(10,16,30,.55);backdrop-filter:blur(3px);
+  }
+  .sign::after{
+    content:'';position:absolute;top:-60%;left:-30%;width:34%;height:220%;
+    background:linear-gradient(105deg, transparent, rgba(255,255,255,.25), transparent);
+    transform:rotate(12deg);animation:shine 6s ease-in-out infinite;pointer-events:none;
+  }
+  @keyframes shine{0%,55%,100%{left:-40%;}80%{left:120%;}}
+  .sign h1{
+    font-family:var(--display);
+    font-size:clamp(2.2rem, 7.5vw, 4.8rem);line-height:1.05;
+    background:var(--holo);background-size:240% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 0 18px rgba(78,225,255,.5));
+    animation:holo 8s linear infinite;
+  }
+  @keyframes holo{to{background-position:240% 0;}}
+  .sign .script{
+    font-family:var(--script);
+    font-size:clamp(1.5rem, 4.6vw, 2.7rem);
+    color:var(--mint);text-shadow:0 0 14px rgba(95,232,208,.7);
+    display:block;margin-top:.2rem;transform:rotate(-2.5deg);
+  }
+  .tagline{margin-top:1.5rem;color:var(--lav);font-style:italic;}
+  .sparkline{margin-top:.9rem;color:var(--cyan);font-size:.95rem;letter-spacing:.08em;opacity:.85;}
+
+  .guide{max-width:780px;margin:2.6rem auto 0;padding:0 1.25rem;}
+  .guide-label{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--mint);text-align:center;margin-bottom:.9rem;
+  }
+  .guide a{
+    display:flex;align-items:baseline;gap:1rem;
+    text-decoration:none;color:var(--cream);
+    border:1px solid rgba(255,246,251,.12);border-radius:.8rem;
+    padding:.7rem 1.1rem;margin-bottom:.55rem;
+    background:rgba(255,246,251,.03);
+    transition:transform .18s ease, border-color .18s ease, background .18s ease;
+    font-family:var(--head);font-size:1.15rem;letter-spacing:.04em;
+  }
+  .guide a:hover{transform:translateX(6px);border-color:var(--mint);background:rgba(95,232,208,.07);}
+  .guide .ch{
+    font-family:var(--crt);font-size:1.1rem;color:var(--gold);min-width:4.4rem;
+    text-shadow:0 0 8px rgba(245,192,68,.5);
+  }
+  .guide .desc{margin-left:auto;font-family:var(--mono);font-size:.66rem;color:var(--lav);letter-spacing:.12em;text-transform:uppercase;text-align:right;}
+
+  section{position:relative;padding:4.5rem 1.25rem 1rem;}
+  .wrap{max-width:1100px;margin:0 auto;}
+  .ch-badge{
+    display:inline-flex;align-items:center;gap:.55rem;
+    font-family:var(--crt);font-size:1.05rem;letter-spacing:.18em;
+    color:var(--void);background:var(--mint);
+    border-radius:.45rem;padding:.12rem .75rem;
+    box-shadow:0 0 16px rgba(95,232,208,.55);
+    margin-bottom:1rem;
+  }
+  .ch-badge .live{width:.55rem;height:.55rem;border-radius:50%;background:var(--hotpink);animation:onairblink 1.4s steps(2,end) infinite;}
+  h2.section-title{
+    font-family:var(--display);
+    font-size:clamp(1.9rem, 5.5vw, 3.4rem);line-height:1.12;
+    margin-bottom:.4rem;
+  }
+  .section-sub{
+    font-family:var(--script);font-size:clamp(1.3rem, 3.4vw, 2rem);
+    transform:rotate(-1.5deg);display:inline-block;margin-bottom:1.4rem;
+  }
+  .section-note{max-width:660px;color:rgba(255,246,251,.85);margin-bottom:2.4rem;}
+  .stamp{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--lav);margin-bottom:1.6rem;
+  }
+  .holo-frame{
+    position:relative;border-radius:1.2rem;overflow:hidden;padding:4px;
+    background:var(--holo);background-size:300% 100%;
+    animation:holo 7s linear infinite;
+    box-shadow:0 12px 44px rgba(78,225,255,.2), 0 4px 16px rgba(0,0,0,.5);
+    transition:transform .25s ease;
+  }
+  .holo-frame:hover{transform:translateY(-5px) rotate(-.4deg);}
+  .holo-frame img{display:block;width:100%;border-radius:1rem;}
+  .glyph-divider{
+    text-align:center;font-size:1.3rem;letter-spacing:.5em;color:var(--mint);
+    margin:4.2rem auto 0;opacity:.85;
+    text-shadow:0 0 12px rgba(95,232,208,.5);
+  }
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+<canvas id="motes" aria-hidden="true"></canvas>
+
+<main>
+
+<div class="marquee" aria-hidden="true"><span>◈ NOW SERVING: ∞ ◈ OFFICE HOURS: WHENEVER SOMEONE CHOOSES WONDER INSTEAD OF CERTAINTY ◈ NOTHING IS LATE — EVERYTHING IS ARRIVING EXACTLY WHEN IT DECIDES IT IS READY TO REMEMBER YOU ◈ THE VEIL IS THINNEST AT DAWN AND TWILIGHT ◈ REALITY HAS ALWAYS BEEN SLIGHTLY UNFINISHED ◈ TRANSMISSION 002 COMPLETE ◈ NOW SERVING: ∞ ◈</span></div>
+
+<header>
+  <div class="ticker">
+    <span>◈ Temporal Frequency Unstable (On Purpose)</span><span class="dot">●</span>
+    <span>Magick Mica TV</span><span class="dot">●</span>
+    <span>Broadcasting From Behind The Visible World</span>
+  </div>
+  <div class="onair">◉ ON AIR — SINCE BEFORE YOUR FIRST BIRTHDAY</div>
+
+  <div class="impossible-clock" id="clock" aria-hidden="true">
+    <div class="hand hh" id="hh"></div>
+    <div class="hand mm" id="mm"></div>
+    <div class="hand ss" id="ss"></div>
+    <div class="pin"></div>
+  </div>
+  <p class="clock-caption">bureau standard time · runs backwards · occasionally hiccups · never late</p>
+
+  <div class="sign">
+    <h1>The Impossible<br>Broadcast</h1>
+    <span class="script">a Magick Mica TV wonder special</span>
+  </div>
+  <p class="tagline">Three transmissions where time forgot how to behave — a tea party pouring into yesterday, a celestial bureau that filed your childhood under "misplaced," and a fairy world steeping just behind the kettle. ◈</p>
+  <p class="sparkline">˖°.✦ 🎩 ˚₊‧ ◈ ‧₊˚ 🍄 ⋆ 🫖 ⋆ ˚₊‧ ◈ ‧₊˚ 🧚 ✦.°˖</p>
+
+  <nav class="guide" aria-label="Channel guide">
+    <div class="guide-label">✦ Tonight's Channel Guide ✦</div>
+    <a href="#nothinglate"><span class="ch">CH 🎩</span> Nothing Is Late <span class="desc">Yesterday ⇄ Tomorrow</span></a>
+    <a href="#department"><span class="ch">CH ◈</span> The Department of Impossible Things <span class="desc">Transmission 002</span></a>
+    <a href="#realms"><span class="ch">CH 🧚</span> Enchanted Realms · July 2026 <span class="desc">Slow Magic</span></a>
+  </nav>
+</header>
+<style>
+  /* ══════════════════════════════════════
+     CH 🎩 — NOTHING IS LATE
+  ══════════════════════════════════════ */
+  #nothinglate{
+    background:
+      radial-gradient(900px 400px at 50% 12%, rgba(78,225,255,.12), transparent 70%);
+  }
+  #nothinglate .section-title{color:var(--cyan);text-shadow:0 0 26px rgba(78,225,255,.5);}
+  #nothinglate .section-sub{color:var(--rose);text-shadow:0 0 12px rgba(255,179,199,.6);}
+
+  .teaparty{
+    position:relative;max-width:860px;margin:0 auto;
+    border-radius:1.6rem;overflow:hidden;
+    border:1.5px solid rgba(78,225,255,.35);
+    background:
+      linear-gradient(180deg, rgba(10,18,32,.3), rgba(14,46,51,.55)),
+      repeating-conic-gradient(rgba(255,246,251,.05) 0% 25%, transparent 0% 50%) 50% 0 / 64px 64px;
+    box-shadow:inset 0 0 60px rgba(0,0,0,.5), 0 14px 50px rgba(0,0,0,.45);
+    padding:2.6rem 1.8rem 2.4rem;
+    animation:roomflicker 9s linear infinite;
+  }
+  @keyframes roomflicker{
+    0%,93%,97%,100%{filter:none;}
+    94%{filter:brightness(1.5) hue-rotate(12deg);}
+    95.5%{filter:brightness(.75);}
+  }
+  .story{
+    max-width:620px;margin:0 auto;text-align:center;
+  }
+  .story p{
+    margin-bottom:1.15rem;color:rgba(255,246,251,.92);
+  }
+  .story .hatter{
+    font-family:var(--head);font-size:1.25rem;letter-spacing:.03em;
+    color:var(--cyan);text-shadow:0 0 10px rgba(78,225,255,.4);
+  }
+  .story .alice{color:var(--rose);font-style:italic;}
+  .story .aside{font-size:.92rem;color:rgba(255,246,251,.6);font-style:italic;}
+  .story .grand{
+    font-family:var(--script);font-size:clamp(1.5rem,3.6vw,2.1rem);
+    color:var(--gold);text-shadow:0 0 16px rgba(245,192,68,.5);
+    transform:rotate(-1.2deg);display:inline-block;margin:.6rem 0;
+  }
+  .sugar-row{
+    display:flex;gap:1rem;justify-content:center;margin:1.6rem 0 .4rem;
+  }
+  .sugar{
+    width:26px;height:26px;border-radius:.35rem;
+    background:linear-gradient(145deg,#fff,#e7e2f7 60%,#cfc6ec);
+    box-shadow:0 0 12px rgba(255,255,255,.5), 0 4px 8px rgba(0,0,0,.4);
+    animation:hum 2.6s ease-in-out infinite;
+  }
+  .sugar:nth-child(2){animation-delay:.5s;}
+  .sugar:nth-child(3){animation-delay:1.1s;}
+  .sugar:nth-child(4){animation-delay:1.7s;}
+  @keyframes hum{
+    0%,100%{transform:translateY(0) rotate(-3deg);}
+    50%{transform:translateY(-9px) rotate(4deg);}
+  }
+  .sugar-caption{font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--lav);text-align:center;margin-bottom:1.6rem;}
+
+  .tea-gifs{
+    display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin:2rem auto;max-width:820px;
+  }
+  @media(max-width:700px){.tea-gifs{grid-template-columns:1fr;}}
+
+  .hourglass-note{
+    max-width:560px;margin:2.2rem auto 0;text-align:center;
+    font-family:var(--crt);font-size:1.25rem;letter-spacing:.1em;color:var(--mint);
+    text-shadow:0 0 10px rgba(95,232,208,.5);
+  }
+
+  /* ══════════════════════════════════════
+     CH ◈ — DEPARTMENT OF IMPOSSIBLE THINGS
+  ══════════════════════════════════════ */
+  #department{
+    background:
+      radial-gradient(1000px 440px at 50% 6%, rgba(183,156,255,.13), transparent 70%),
+      linear-gradient(180deg, transparent, rgba(26,20,48,.6) 22%, rgba(26,20,48,.6) 84%, transparent);
+  }
+  #department .section-title{
+    background:var(--holo);background-size:240% 100%;animation:holo 7s linear infinite;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 0 22px rgba(183,156,255,.55));
+  }
+  #department .section-sub{color:var(--gold);text-shadow:0 0 12px rgba(245,192,68,.6);}
+
+  .classified{
+    display:inline-block;margin:0 0 1.6rem;
+    font-family:var(--mono);font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--hotpink);border:2.5px solid var(--hotpink);border-radius:.4rem;
+    padding:.35rem 1rem;transform:rotate(-3deg);
+    box-shadow:0 0 14px rgba(255,79,163,.3);
+    background:rgba(255,79,163,.06);
+  }
+  .now-serving{
+    display:inline-flex;align-items:center;gap:.7rem;margin-left:1rem;
+    font-family:var(--crt);font-size:1.15rem;letter-spacing:.14em;color:#7CFF6B;
+    background:#04120a;border:1.5px solid #1e5c33;border-radius:.5rem;
+    padding:.3rem .9rem;text-shadow:0 0 8px rgba(124,255,107,.6);
+    transform:rotate(1.5deg);
+  }
+  .dept-intro{
+    max-width:640px;color:rgba(255,246,251,.88);margin-bottom:2rem;
+    font-family:var(--head);font-size:1.28rem;line-height:1.75;letter-spacing:.02em;
+  }
+  .dept-intro .em{color:var(--lav);text-shadow:0 0 10px rgba(183,156,255,.4);}
+
+  /* file folders */
+  .files-label{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--gold);margin:2.4rem 0 1rem;
+  }
+  .files{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-bottom:2.6rem;
+  }
+  .file{
+    position:relative;cursor:pointer;user-select:none;
+    border-radius:.7rem .7rem .9rem .9rem;
+    transition:transform .2s ease;
+  }
+  .file:hover{transform:translateY(-4px) rotate(-.5deg);}
+  .file .tab{
+    display:inline-block;
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;
+    color:#4a3c1a;background:var(--manila);
+    border-radius:.5rem .5rem 0 0;padding:.3rem .9rem .2rem;margin-left:1rem;
+    box-shadow:0 -2px 6px rgba(0,0,0,.25);
+  }
+  .file .folder{
+    position:relative;border-radius:.6rem;
+    background:linear-gradient(180deg,#f7e7bf,#e8d29a 70%,#d9c184);
+    box-shadow:0 8px 26px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.5);
+    padding:1.1rem 1.2rem 1.2rem;color:#4a3c1a;
+    min-height:96px;
+  }
+  .file .folder .fname{
+    font-family:var(--head);font-weight:800;font-size:1.15rem;letter-spacing:.06em;text-transform:uppercase;
+  }
+  .file .folder .hint{
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+    color:#8a6f2e;margin-top:.5rem;
+  }
+  .file .contents{
+    display:none;
+    margin-top:.9rem;padding:1rem 1.1rem;
+    background:#fffdf4;border-radius:.4rem;border:1px solid #d9c184;
+    font-family:var(--mono);font-size:.85rem;line-height:1.7;color:#3a2f14;
+    white-space:pre-line;
+    box-shadow:inset 0 1px 4px rgba(0,0,0,.08);
+  }
+  .file.open .contents{display:block;animation:fileopen .35s ease;}
+  .file.open .hint{display:none;}
+  .file .stamped{
+    position:absolute;top:8px;right:10px;
+    font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;color:rgba(200,40,60,.75);
+    border:1.5px solid rgba(200,40,60,.6);border-radius:.25rem;padding:.08rem .4rem;
+    transform:rotate(8deg);
+  }
+  @keyframes fileopen{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
+
+  /* hallway of doors */
+  .hallway{
+    position:relative;border-radius:1.5rem;overflow:hidden;
+    padding:2.4rem 1.6rem 3rem;margin:3rem 0;
+    border:1.5px solid rgba(183,156,255,.35);
+    background:
+      linear-gradient(180deg, rgba(20,12,38,.4) 0%, rgba(30,18,52,.75) 100%),
+      repeating-conic-gradient(rgba(255,246,251,.06) 0% 25%, transparent 0% 50%) 50% 100% / 72px 72px;
+    box-shadow:inset 0 0 60px rgba(0,0,0,.55), 0 14px 50px rgba(0,0,0,.5);
+    text-align:center;
+  }
+  .hallway h3{
+    font-family:var(--display);font-size:1.7rem;color:var(--lav);
+    text-shadow:0 0 18px rgba(183,156,255,.55);margin-bottom:.3rem;
+  }
+  .hallway .hall-sub{font-family:var(--script);font-size:1.5rem;color:var(--cyan);display:block;margin-bottom:2rem;transform:rotate(-1deg);}
+  .doors{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1.4rem;max-width:860px;margin:0 auto;
+  }
+  .door{
+    cursor:pointer;user-select:none;perspective:600px;
+  }
+  .door .frame{
+    position:relative;height:190px;border-radius:1rem 1rem .3rem .3rem;
+    padding:6px;background:linear-gradient(180deg,#5b4a8a,#3a2f63);
+    box-shadow:0 10px 26px rgba(0,0,0,.5);
+  }
+  .door .panel{
+    position:absolute;inset:6px;border-radius:.8rem .8rem .2rem .2rem;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;
+    transform-origin:left center;
+    transition:transform .55s cubic-bezier(.4,1.4,.6,1);
+    backface-visibility:hidden;z-index:2;
+  }
+  .door.open .panel{transform:rotateY(-86deg);}
+  .door .num{
+    font-family:var(--crt);font-size:1.8rem;letter-spacing:.06em;color:rgba(255,255,255,.95);
+    text-shadow:0 0 10px rgba(0,0,0,.4);
+  }
+  .door .knob{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(245,192,68,.8);align-self:flex-end;margin-right:12px;}
+  .d7 .panel{background:linear-gradient(180deg,#FF9AC0,#E4568C);}
+  .d19 .panel{background:linear-gradient(180deg,#7FE8D8,#2FA893);}
+  .d33 .panel{background:linear-gradient(180deg,#B79CFF,#6C4BD8);}
+  .d42 .panel{background:linear-gradient(180deg,#3b3b4f,#191926);}
+  .door .beyond{
+    position:absolute;inset:6px;border-radius:.8rem .8rem .2rem .2rem;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    padding: .7rem;z-index:1;
+    font-size:.8rem;line-height:1.5;color:var(--cream);
+    background:
+      radial-gradient(80% 80% at 50% 30%, rgba(255,255,255,.15), transparent 60%),
+      linear-gradient(180deg,#1b0f33,#0d0720);
+  }
+  .door .beyond b{color:var(--gold);}
+  .door-label{
+    margin-top:.6rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lav);
+  }
+  .door.d42.refuse .frame{animation:refuse .45s ease;}
+  @keyframes refuse{
+    0%,100%{transform:translateX(0);}
+    20%{transform:translateX(-7px) rotate(-1deg);}
+    40%{transform:translateX(6px) rotate(1deg);}
+    60%{transform:translateX(-5px);}
+    80%{transform:translateX(4px);}
+  }
+  .d42 .num{animation:glitchnum 2.4s steps(2,end) infinite;}
+  @keyframes glitchnum{
+    0%,88%,100%{opacity:1;transform:none;}
+    90%{opacity:.4;transform:translateX(2px) skewX(8deg);}
+    94%{opacity:1;transform:translateX(-2px);}
+  }
+  .hall-status{
+    margin-top:1.6rem;font-family:var(--crt);font-size:1.1rem;letter-spacing:.1em;
+    color:var(--mint);min-height:1.6em;text-shadow:0 0 8px rgba(95,232,208,.5);
+  }
+
+  /* style report + envelope */
+  .memo{
+    max-width:560px;margin:3rem auto;
+    background:#fffdf4;color:#3a2f14;border-radius:.6rem;
+    padding:1.8rem 1.7rem;transform:rotate(-1deg);
+    box-shadow:0 14px 40px rgba(0,0,0,.5);
+    font-family:var(--mono);font-size:.88rem;line-height:1.8;
+    position:relative;
+  }
+  .memo::before{
+    content:'📎';position:absolute;top:-14px;left:24px;font-size:1.6rem;
+  }
+  .memo h4{
+    font-family:var(--head);font-weight:800;font-size:1.25rem;letter-spacing:.12em;text-transform:uppercase;
+    border-bottom:2px solid #3a2f14;padding-bottom:.4rem;margin-bottom:.9rem;
+  }
+  .memo .trend{margin-top:.9rem;font-weight:700;}
+
+  .envelope-zone{max-width:620px;margin:3rem auto 0;text-align:center;}
+  .envelope-zone .ez-label{font-family:var(--mono);font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--lav);margin-bottom:1.1rem;}
+  .envelope{
+    position:relative;width:min(320px,84vw);height:190px;margin:0 auto;cursor:pointer;user-select:none;
+    transition:transform .2s ease;
+  }
+  .envelope:hover{transform:translateY(-4px);}
+  .envelope .env-back{
+    position:absolute;inset:0;border-radius:.6rem;
+    background:linear-gradient(180deg,#f2e6c8,#e0cd9e);
+    box-shadow:0 14px 40px rgba(0,0,0,.5);
+  }
+  .envelope .flap{
+    position:absolute;left:0;right:0;top:0;height:50%;z-index:3;
+    background:linear-gradient(180deg,#e8d8ae,#d4bf8a);
+    clip-path:polygon(0 0, 100% 0, 50% 100%);
+    transform-origin:top center;
+    transition:transform .6s ease;
+    border-radius:.6rem .6rem 0 0;
+  }
+  .envelope.open .flap{transform:rotateX(168deg);z-index:1;}
+  .envelope .seal{
+    position:absolute;left:50%;top:44%;z-index:4;transform:translate(-50%,-50%);
+    width:44px;height:44px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ff8fb8, #d13b6e 65%);
+    box-shadow:0 3px 10px rgba(0,0,0,.4);
+    display:grid;place-items:center;font-size:1.1rem;
+    transition:opacity .3s ease;
+  }
+  .envelope.open .seal{opacity:0;}
+  .envelope .letter{
+    position:absolute;left:6%;right:6%;top:10%;bottom:10%;z-index:2;
+    background:#fffdf4;border-radius:.35rem;
+    display:grid;place-items:center;padding:1rem;
+    font-family:var(--mono);font-size:.92rem;line-height:1.8;color:#3a2f14;
+    text-align:center;letter-spacing:.04em;
+    transition:transform .7s ease .25s, box-shadow .7s ease .25s;
+    box-shadow:inset 0 0 10px rgba(0,0,0,.06);
+  }
+  .envelope.open .letter{transform:translateY(-58%);box-shadow:0 10px 30px rgba(0,0,0,.4);z-index:5;}
+  .env-caption{margin-top:1rem;font-family:var(--crt);font-size:1.05rem;letter-spacing:.12em;color:var(--gold);min-height:1.5em;text-shadow:0 0 8px rgba(245,192,68,.4);}
+</style>
+
+<!-- ═══════════ CH 🎩 · NOTHING IS LATE ═══════════ -->
+<section id="nothinglate">
+  <div class="wrap">
+    <span class="ch-badge"><span class="live"></span> CH 🎩 · TEA IN PROGRESS</span>
+    <h2 class="section-title">Nothing Is Late</h2><br>
+    <span class="section-sub">yesterday into tomorrow</span>
+    <p class="stamp">First transmitted Jul 05, 2026 · MagickMica Art · The tea was not tea</p>
+
+    <div class="teaparty">
+      <div class="story">
+        <p class="hatter">Mad Hatter leaned across the table where time had forgotten how to behave.</p>
+        <p>The tea was not tea. It was a liquid hourglass — shifting between seconds, spilling yesterday into tomorrow.</p>
+        <p class="hatter">"Listen carefully, Alice," he said, tapping his teacup with a spoon made of broken clock hands. "There was once a minute that escaped the pocket of the universe."</p>
+        <p class="alice">She blinked. The sugar cubes were humming.</p>
+
+        <div class="sugar-row" aria-hidden="true"><div class="sugar"></div><div class="sugar"></div><div class="sugar"></div><div class="sugar"></div></div>
+        <p class="sugar-caption">⋆ live feed: the sugar cubes, humming ⋆</p>
+
+        <p class="hatter">"This minute fell into a garden where flowers only bloomed when nobody was looking at them. And in that garden, time grew tired of being linear."</p>
+        <p class="aside">The March Hare gasped. Or maybe that was just the wind mispronouncing itself.</p>
+        <p class="alice">"So what happened to it?" Alice asked.</p>
+      </div>
+
+      <div class="tea-gifs">
+        <div class="holo-frame">
+          <img src="https://substackcdn.com/image/fetch/$s_!U5WZ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9821f242-93fe-46c4-8116-93bc75ec97f0_800x492.gif" alt="The tea party where time misbehaves — animated" loading="lazy">
+        </div>
+        <div class="holo-frame">
+          <img src="https://substackcdn.com/image/fetch/$s_!df-m!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F390eb906-edaf-449e-ab06-353253bd2f83_600x369.gif" alt="The room flickering like a neon sign in a dream — animated" loading="lazy">
+        </div>
+      </div>
+
+      <div class="story">
+        <p class="hatter">The Hatter smiled like a glitch in reality. "It learned to loop. It learned to fold. It learned that every ending is just a doorway wearing a disguise."</p>
+        <p class="aside">The teapot lifted itself slightly off the table, as if remembering flight.</p>
+        <p class="alice">"And then?" Alice whispered.</p>
+        <p class="hatter">"And then, the minute became a girl who kept forgetting she was ever time at all."</p>
+        <p class="aside">The room flickered — once, twice — like a neon sign blinking in a dream state. Alice felt it then: her own edges softening, her own story rearranging itself.</p>
+        <p class="aside">The Hatter tipped his hat, which briefly showed every version of itself it had ever been.</p>
+        <p><span class="grand">"In Wonderland, nothing is late. Everything is arriving exactly when it decides it is ready to remember you."</span></p>
+        <p class="aside">And the tea kept pouring itself into yesterday.</p>
+      </div>
+
+      <p class="hourglass-note">⌛ NOTICE: THIS SECTION MAY HAVE ALREADY HAPPENED TOMORROW ⌛</p>
+    </div>
+  </div>
+</section>
+
+<div class="glyph-divider" aria-hidden="true">◈ ✦ ◈ ✦ ◈ ✦ ◈</div>
+
+<!-- ═══════════ CH ◈ · THE DEPARTMENT ═══════════ -->
+<section id="department">
+  <div class="wrap">
+    <span class="ch-badge"><span class="live"></span> CH ◈ · TRANSMISSION 002</span>
+    <h2 class="section-title">The Department of Impossible Things</h2><br>
+    <span class="section-sub">it has been looking for you</span>
+    <p class="stamp">First transmitted Jul 20, 2026 · MagickMica Art · Delivered by accident. Or perhaps… exactly on time.</p>
+    <div>
+      <span class="classified">Classification: Glitter Level ★★★★★</span>
+      <span class="now-serving">NOW SERVING: <b id="serving">∞</b></span>
+    </div>
+
+    <p class="dept-intro" style="margin-top:1.8rem;">You may have noticed… certain ordinary objects have begun behaving… <span class="em">extraordinarily.</span> A parking lot reflecting galaxies. A shopping cart rolling toward no one. A glitter sticker that somehow survives three decades. A song from 2002 playing exactly when you needed permission to begin again.<br><br>These are not coincidences. <span class="em">These are invitations.</span></p>
+
+    <div class="cover-feature" style="display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;margin-bottom:2.4rem;">
+      <div class="holo-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!TiU7!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcef283b8-06d4-4174-a809-46aa7147841f_1376x768.jpeg" alt="The Department of Impossible Things — headquarters beyond reality" loading="lazy">
+      </div>
+      <div class="holo-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!bq7Z!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F376a31e9-0edd-4bd3-8f11-38f6ed823616_1376x768.jpeg" alt="The Receptionist of Lost Imaginations" loading="lazy">
+      </div>
+    </div>
+
+    <p class="dept-intro">The receptionist wears butterfly clips made from tiny constellations. She stamps passports using glitter. When she looks up, she smiles as if she's been expecting you <span class="em">since before your first birthday.</span> She slides a tiny card across the desk: <b style="color:var(--gold);">"WELCOME BACK. We kept your imagination safe while you were away."</b></p>
+
+    <p class="files-label">▸ THE FILING CABINETS ARE FILLED WITH IMPOSSIBLE DOCUMENTS · CLICK A FILE TO OPEN IT</p>
+    <div class="files">
+      <div class="file" tabindex="0" role="button" aria-expanded="false">
+        <span class="tab">FILE #00491</span>
+        <div class="folder">
+          <span class="stamped">VERIFIED ✓</span>
+          <div class="fname">Reason Rainbows Curve</div>
+          <div class="contents">To make sure
+straight lines
+never become
+too confident.</div>
+          <div class="hint">▸ click to open file</div>
+        </div>
+      </div>
+      <div class="file" tabindex="0" role="button" aria-expanded="false">
+        <span class="tab">FILE #12803</span>
+        <div class="folder">
+          <span class="stamped">AMENDED</span>
+          <div class="fname">Why Cats Smile At Nothing</div>
+          <div class="contents">Correction —
+
+they're smiling
+at people
+you haven't noticed yet.</div>
+          <div class="hint">▸ click to open file</div>
+        </div>
+      </div>
+      <div class="file" tabindex="0" role="button" aria-expanded="false">
+        <span class="tab">FILE #∞</span>
+        <div class="folder">
+          <span class="stamped">ONGOING</span>
+          <div class="fname">Missing Childhood</div>
+          <div class="contents">Status:
+
+Never missing.
+
+Merely misplaced
+beneath practicality.</div>
+          <div class="hint">▸ click to open file</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hallway">
+      <h3>The Hallway of Impossible Doors</h3>
+      <span class="hall-sub">every door opens into a different possibility…</span>
+      <div class="doors">
+        <div class="door d7" tabindex="0" role="button" aria-expanded="false">
+          <div class="frame">
+            <div class="beyond">a city made entirely of <b>bubblegum sunsets</b></div>
+            <div class="panel"><span class="num">№ 7</span><span class="knob"></span></div>
+          </div>
+          <div class="door-label">Door #7</div>
+        </div>
+        <div class="door d19" tabindex="0" role="button" aria-expanded="false">
+          <div class="frame">
+            <div class="beyond">an endless mall where every storefront sells <b>forgotten dreams from childhood</b></div>
+            <div class="panel"><span class="num">№ 19</span><span class="knob"></span></div>
+          </div>
+          <div class="door-label">Door #19</div>
+        </div>
+        <div class="door d33" tabindex="0" role="button" aria-expanded="false">
+          <div class="frame">
+            <div class="beyond">leads directly into <b>tomorrow's memories</b></div>
+            <div class="panel"><span class="num">№ 33</span><span class="knob"></span></div>
+          </div>
+          <div class="door-label">Door #33</div>
+        </div>
+        <div class="door d42" tabindex="0" role="button" aria-expanded="false">
+          <div class="frame">
+            <div class="beyond">▓▒░ <b>ACCESS DENIED</b> ░▒▓</div>
+            <div class="panel"><span class="num">№ 42</span><span class="knob"></span></div>
+          </div>
+          <div class="door-label">Door #42 · do not</div>
+        </div>
+      </div>
+      <p class="hall-status" id="hallStatus">psst — try a door. (even the hallway gets nervous walking past #42.)</p>
+      <div class="holo-frame" style="max-width:760px;margin:2rem auto 0;">
+        <img src="https://substackcdn.com/image/fetch/$s_!onAS!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb7e5925f-24e3-4302-85bb-e1d3751cd365_1376x768.jpeg" alt="The Hallway of Impossible Doors — Door 42 waits" loading="lazy">
+      </div>
+    </div>
+
+    <div class="cover-feature" style="display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;margin-bottom:1rem;">
+      <div class="holo-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!kr_7!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F820ff0b9-4cc3-4aa7-a6cd-d6caf1ea78d9_1376x768.jpeg" alt="The Mall Between Dimensions — shopping for forgotten dreams" loading="lazy">
+      </div>
+      <div class="holo-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!j2VS!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe13ae787-f354-413b-987d-73005c4ad778_1376x768.jpeg" alt="Alice's Teacup Terminal — where travelers disappear into possibility" loading="lazy">
+      </div>
+    </div>
+    <p class="dept-intro">Mr. Wonka occasionally visits. He never uses the front entrance — he simply appears whenever someone <span class="em">laughs hard enough to bend reality.</span> He leaves bowls of impossible candy: one flavor tastes like <i>finding yourself</i>, another like <i>the first day of summer vacation.</i> One should never be eaten unless you're prepared to remember every dream you've ever abandoned.<br><br>Alice stops by every Thursday. She insists Wonderland was never a destination. <span class="em">"It was always… a different way of looking."</span> Then she smiles, pockets a sugar cube, and disappears through a teacup. Nobody questions it anymore.</p>
+
+    <div class="memo">
+      <h4>Magick Mica Style Report</h4>
+      This Season's Essentials:<br><br>
+      ♡ Shoes that leave stardust footprints.<br>
+      ♡ Jackets lined with moonlight.<br>
+      ♡ Sunglasses capable of seeing miracles.<br>
+      ♡ Lip gloss infused with tiny galaxies.<br>
+      ♡ Confidence in holographic chrome.<br>
+      <div class="trend">Trend Forecast: Wonder is making a major comeback.</div>
+    </div>
+
+    <div class="holo-frame" style="max-width:420px;margin:0 auto 2rem;">
+      <img src="https://substackcdn.com/image/fetch/$s_!WVzO!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0ecf2208-546c-47ad-bf3e-bf4fe06c8cdb_848x1264.jpeg" alt="The Fashion Forecast of Tomorrow — a magazine spread from another dimension" loading="lazy">
+    </div>
+
+    <div class="envelope-zone">
+      <p class="ez-label">Before you leave, the receptionist hands you one final envelope · click the seal</p>
+      <div class="envelope" id="envelope" tabindex="0" role="button" aria-expanded="false">
+        <div class="letter">THE WORLD IS NOT<br>BECOMING MORE MAGICAL.<br><br>YOU ARE BECOMING<br>MORE CAPABLE<br>OF SEEING IT.</div>
+        <div class="flap"></div>
+        <div class="seal">✦</div>
+        <div class="env-back"></div>
+      </div>
+      <p class="env-caption" id="envCaption">folded carefully, as though it might change shape if exposed to daylight…</p>
+    </div>
+
+    <p class="hourglass-note" style="margin-top:2.6rem;">TRANSMISSION 002 COMPLETE · THE GLITTER UPDATE IS WORKING EXACTLY AS INTENDED · <span style="color:var(--gold);">NEXT: ◈ TRANSMISSION 003 — THE MALL BETWEEN DREAMS</span></p>
+  </div>
+</section>
+
+<div class="glyph-divider" aria-hidden="true">🍄 ⋆ ✦ ⋆ 🫖 ⋆ ✦ ⋆ 🌿</div>
+<style>
+  /* ══════════════════════════════════════
+     CH 🧚 — ENCHANTED REALMS
+  ══════════════════════════════════════ */
+  #realms{
+    background:
+      radial-gradient(1000px 440px at 50% 4%, rgba(95,232,208,.12), transparent 70%),
+      linear-gradient(180deg, transparent, rgba(18,41,28,.6) 22%, rgba(18,41,28,.6) 86%, transparent);
+    padding-bottom:3rem;
+  }
+  #realms .section-title{color:var(--mint);text-shadow:0 0 26px rgba(95,232,208,.5);}
+  #realms .section-sub{color:var(--rose);text-shadow:0 0 12px rgba(255,179,199,.6);}
+
+  .realm-lede{
+    max-width:660px;font-family:var(--head);font-size:1.3rem;line-height:1.75;
+    color:rgba(255,246,251,.92);margin-bottom:2.4rem;
+  }
+  .realm-lede .em{color:var(--mint);text-shadow:0 0 10px rgba(95,232,208,.4);}
+
+  .realm-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;align-items:center;margin-bottom:2.8rem;
+  }
+  @media(max-width:760px){.realm-grid{grid-template-columns:1fr;}}
+  .leaf-frame{
+    position:relative;border-radius:1.2rem;overflow:hidden;padding:4px;
+    background:linear-gradient(130deg,#d8ffe9,var(--mint) 30%,#2f8f74 55%,#9fe8c9 80%,#d8ffe9);
+    background-size:260% 100%;animation:holo 9s linear infinite;
+    box-shadow:0 12px 44px rgba(95,232,208,.2), 0 4px 16px rgba(0,0,0,.5);
+    transition:transform .25s ease;
+  }
+  .leaf-frame:hover{transform:translateY(-5px);}
+  .leaf-frame img{display:block;width:100%;border-radius:1rem;}
+
+  /* tea cards */
+  .tea-cards{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.6rem;margin:1.2rem 0 2.6rem;
+  }
+  .tea-card{
+    position:relative;border-radius:1.2rem;padding:2.3rem 1.6rem 1.7rem;
+    border:1.5px solid rgba(255,179,199,.4);
+    background:
+      radial-gradient(circle at 1px 1px, rgba(255,179,199,.12) 1px, transparent 1.8px) 0 0 / 11px 11px,
+      linear-gradient(160deg, rgba(255,179,199,.07), rgba(95,232,208,.05));
+    box-shadow:inset 0 0 26px rgba(0,0,0,.3), 0 10px 34px rgba(0,0,0,.4);
+    overflow:visible;
+  }
+  .tea-card .steam{
+    position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+    width:80px;height:40px;pointer-events:none;
+    background:
+      radial-gradient(16px 22px at 30% 60%, rgba(255,255,255,.35), transparent 70%),
+      radial-gradient(18px 26px at 60% 40%, rgba(255,255,255,.28), transparent 70%),
+      radial-gradient(14px 20px at 80% 60%, rgba(255,255,255,.3), transparent 70%);
+    filter:blur(4px);animation:steamrise 4s ease-in-out infinite alternate;
+  }
+  @keyframes steamrise{from{transform:translate(-50%,4px);opacity:.6}to{transform:translate(-50%,-10px);opacity:1}}
+  .tea-card h4{
+    font-family:var(--script);font-size:1.8rem;color:var(--rose);
+    text-shadow:0 0 12px rgba(255,179,199,.5);margin-bottom:.7rem;transform:rotate(-1.2deg);
+  }
+  .tea-card ul{list-style:none;margin-bottom:.9rem;}
+  .tea-card li{
+    padding:.32rem 0 .32rem 1.6rem;position:relative;color:rgba(255,246,251,.88);
+    border-bottom:1px dotted rgba(255,246,251,.14);font-size:.96rem;
+  }
+  .tea-card li::before{content:'🌸';position:absolute;left:0;font-size:.8rem;}
+  .tea-card li:last-child{border-bottom:none;}
+  .tea-card .brew{font-style:italic;color:var(--mint);font-size:.92rem;}
+
+  /* rituals */
+  .ritual-chips{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.3rem;margin-bottom:2.8rem;
+  }
+  .ritual-chip{
+    border-radius:1.1rem;padding:1.4rem 1.3rem;
+    border:1px solid rgba(95,232,208,.3);
+    background:linear-gradient(160deg, rgba(95,232,208,.06), rgba(245,192,68,.04));
+    transition:transform .22s ease, border-color .22s ease;
+  }
+  .ritual-chip:hover{transform:translateY(-4px);border-color:rgba(95,232,208,.6);}
+  .ritual-chip h5{
+    font-family:var(--head);font-weight:800;font-size:1.15rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--mint);margin-bottom:.4rem;
+  }
+  .ritual-chip p{font-size:.92rem;color:rgba(255,246,251,.82);}
+
+  /* moon strip */
+  .moon-strip{
+    border-radius:1.4rem;padding:2rem 1.6rem 1.8rem;margin-bottom:2.8rem;text-align:center;
+    border:1.5px solid rgba(183,156,255,.4);
+    background:
+      radial-gradient(700px 260px at 50% 0%, rgba(183,156,255,.13), transparent 70%),
+      linear-gradient(160deg,#171230,#1e1738 60%,#120d24);
+    box-shadow:inset 0 0 44px rgba(0,0,0,.5), 0 10px 40px rgba(0,0,0,.45);
+  }
+  .moon-strip h3{
+    font-family:var(--display);font-size:1.6rem;color:var(--lav);
+    text-shadow:0 0 16px rgba(183,156,255,.5);margin-bottom:1.4rem;
+  }
+  .moons{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1.2rem;max-width:820px;margin:0 auto;
+  }
+  .moon{
+    padding:.6rem .4rem;
+  }
+  .moon .orb{
+    width:56px;height:56px;margin:0 auto .6rem;border-radius:50%;
+    box-shadow:0 0 18px rgba(230,230,255,.35), inset -6px -6px 12px rgba(0,0,0,.5);
+    background:#E9E6FF;position:relative;overflow:hidden;
+  }
+  .moon .orb::after{content:'';position:absolute;inset:0;border-radius:50%;background:#171230;}
+  .moon.m-new .orb::after{inset:2px;}
+  .moon.m-wax .orb::after{left:-52%;}
+  .moon.m-full .orb::after{display:none;}
+  .moon.m-wane .orb::after{right:-52%;}
+  .moon .mn{font-family:var(--crt);font-size:1.05rem;letter-spacing:.1em;color:var(--lav);}
+  .moon .mp{font-family:var(--script);font-size:1.25rem;color:var(--gold);transform:rotate(-1.5deg);display:block;}
+  .moon.tonight .orb{box-shadow:0 0 26px rgba(245,192,68,.7), inset -6px -6px 12px rgba(0,0,0,.5);}
+  .moon.tonight .mn::after{content:' ← tonight';color:var(--gold);}
+
+  /* journal notes */
+  .notes-board{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-bottom:2.8rem;
+  }
+  .note{
+    position:relative;padding:1.5rem 1.3rem 1.4rem;color:#3a2f14;
+    font-family:var(--mono);font-size:.85rem;line-height:1.7;
+    background:#fdf6dd;border-radius:.35rem;
+    box-shadow:0 10px 26px rgba(0,0,0,.45);
+    transform:rotate(var(--tilt,-1.5deg));
+    transition:transform .2s ease;
+  }
+  .note:hover{transform:rotate(0deg) translateY(-4px);}
+  .note:nth-child(2){--tilt:1.6deg;background:#fde8ee;}
+  .note:nth-child(3){--tilt:-1deg;background:#e6f7ef;}
+  .note:nth-child(4){--tilt:2deg;background:#eae6fb;}
+  .note:nth-child(5){--tilt:-2.2deg;background:#fdf0e0;}
+  .note::before{
+    content:'📌';position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:1.2rem;
+  }
+  .note b{font-family:var(--head);font-size:1.05rem;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:.35rem;}
+
+  .slow-quote{
+    max-width:640px;margin:0 auto 2.8rem;text-align:center;
+    font-family:var(--script);font-size:clamp(1.5rem,3.8vw,2.2rem);line-height:1.5;
+    color:var(--mint);text-shadow:0 0 16px rgba(95,232,208,.45);transform:rotate(-1deg);
+  }
+  .slow-quote small{
+    display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--lav);margin-top:.8rem;transform:rotate(1deg);
+  }
+
+  .musicbox-row{text-align:center;margin-top:2rem;}
+  .musicbox-btn{
+    font-family:var(--mono);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--mint);background:rgba(95,232,208,.08);
+    border:1.5px solid rgba(95,232,208,.55);border-radius:2rem;
+    padding:.6rem 1.5rem;cursor:pointer;
+    transition:background .2s ease, box-shadow .2s ease, color .2s ease;
+  }
+  .musicbox-btn:hover{background:rgba(95,232,208,.16);box-shadow:0 0 18px rgba(95,232,208,.35);}
+  .musicbox-btn[aria-pressed="true"]{color:var(--void);background:var(--mint);box-shadow:0 0 22px rgba(95,232,208,.6);}
+  .musicbox-hint{font-size:.8rem;color:rgba(255,246,251,.55);margin-top:.5rem;}
+
+  footer{position:relative;z-index:2;text-align:center;padding:4rem 1.25rem 3.5rem;}
+  .footer-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1.6rem 0 2rem;}
+  .footer-links a{
+    text-decoration:none;color:var(--cream);
+    font-family:var(--head);font-size:1.05rem;letter-spacing:.05em;
+    border:1px solid rgba(255,246,251,.2);border-radius:2rem;
+    padding:.55rem 1.3rem;background:rgba(255,246,251,.04);
+    transition:border-color .2s ease, background .2s ease, transform .2s ease;
+  }
+  .footer-links a:hover{border-color:var(--mint);background:rgba(95,232,208,.1);transform:translateY(-2px);}
+  .footer-sign{
+    font-family:var(--script);font-size:1.9rem;color:var(--rose);
+    text-shadow:0 0 14px rgba(255,179,199,.6);transform:rotate(-2deg);display:inline-block;
+  }
+  .footer-fine{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,246,251,.5);margin-top:1.4rem;}
+  .signoff{
+    font-family:var(--crt);font-size:1.15rem;letter-spacing:.14em;color:var(--mint);
+    margin-top:2rem;text-shadow:0 0 10px rgba(95,232,208,.5);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+    #motes{display:none;}
+  }
+</style>
+
+<!-- ═══════════ CH 🧚 · ENCHANTED REALMS ═══════════ -->
+<section id="realms">
+  <div class="wrap">
+    <span class="ch-badge"><span class="live"></span> CH 🧚 · THE VEIL IS THIN</span>
+    <h2 class="section-title">Enchanted Realms · July 2026</h2><br>
+    <span class="section-sub">discover magic ✧ slow down ✧ live beautifully</span>
+    <p class="stamp">First transmitted Jul 09, 2026 · MagickMica TV · Read ✨ Write ✨ Create ✨ Sip ✨ Dream</p>
+
+    <div class="realm-grid">
+      <div class="leaf-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!PSkD!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2a86205c-1609-472f-80c6-6cd600a22055_1122x1402.png" alt="Enchanted Realms July 2026 cover" loading="lazy">
+      </div>
+      <p class="realm-lede">There was a time when every forest path held a story. Long before glowing screens, people pressed flowers into journals, sipped herbal teas by candlelight, and wrote letters filled with wonder. The fairy folk insist the old ways never disappeared — <span class="em">they simply carried them deeper into the hidden corners of the world.</span><br><br>A patch of wild violets in a perfect circle. A forgotten book inside a hollow tree. The scent of lavender where no lavender grows.<br><br><span class="em">The Hidden Fairy World thrives wherever beauty is created slowly and intentionally.</span></p>
+    </div>
+
+    <h3 style="font-family:var(--head);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:1.3rem;margin-bottom:.3rem;color:var(--rose);">🫖 Tea Time the Fairy Way</h3>
+    <p style="color:rgba(255,246,251,.7);font-style:italic;margin-bottom:1.6rem;max-width:600px;">To fairies, tea is a ceremony — a pause between one moment and the next, held at dawn or twilight, when the veil between worlds feels thinnest.</p>
+    <div class="tea-cards">
+      <div class="tea-card">
+        <div class="steam" aria-hidden="true"></div>
+        <h4>The Woodland Blend</h4>
+        <ul>
+          <li>Chamomile</li>
+          <li>Lavender</li>
+          <li>Lemon balm</li>
+          <li>Rose petals</li>
+        </ul>
+        <p class="brew">Steep for five minutes while watching the sky change color.</p>
+      </div>
+      <div class="tea-card">
+        <div class="steam" aria-hidden="true"></div>
+        <h4>The Moon Garden Blend</h4>
+        <ul>
+          <li>Jasmine tea</li>
+          <li>Dried butterfly pea flower</li>
+          <li>Honey</li>
+        </ul>
+        <p class="brew">Traditionally enjoyed while journaling beneath moonlight.</p>
+      </div>
+      <div class="tea-card">
+        <div class="steam" aria-hidden="true"></div>
+        <h4>The Fairy Pantry</h4>
+        <ul>
+          <li>Rose petals — for joy</li>
+          <li>Chamomile — for peace</li>
+          <li>Mint — for clarity</li>
+          <li>Lavender — for imagination</li>
+        </ul>
+        <p class="brew">Gathered on moonlit walks; the tea ritual bridges dreaming and waking.</p>
+      </div>
+    </div>
+
+    <div class="ritual-chips">
+      <div class="ritual-chip"><h5>✧ The Gratitude Stir</h5><p>Stir your tea clockwise three times while thinking of something beautiful from your day.</p></div>
+      <div class="ritual-chip"><h5>✧ The Quiet Page</h5><p>Write one sentence in your journal before taking your first sip.</p></div>
+      <div class="ritual-chip"><h5>✧ The Window Seat</h5><p>Choose a place where you can watch clouds, rain, birds, or trees while you drink.</p></div>
+    </div>
+
+    <div class="realm-grid">
+      <div class="leaf-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!Lure!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F267bed6f-4827-4b27-b0ee-1f8086e1106f_1500x1525.png" alt="Tea Time the Fairy Way" loading="lazy">
+      </div>
+      <div class="leaf-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!EoEi!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F36946497-9e3b-4b9a-81ae-dd2f7b429dd7_1200x1200.png" alt="Fairy tea gathering" loading="lazy">
+      </div>
+    </div>
+
+    <div class="moon-strip">
+      <h3>🌙 The Fairy Moon Calendar</h3>
+      <div class="moons" id="moons">
+        <div class="moon m-new" data-phase="0"><div class="orb"></div><div class="mn">NEW MOON</div><span class="mp">for dreaming</span></div>
+        <div class="moon m-wax" data-phase="1"><div class="orb"></div><div class="mn">WAXING</div><span class="mp">for creating</span></div>
+        <div class="moon m-full" data-phase="2"><div class="orb"></div><div class="mn">FULL MOON</div><span class="mp">for celebrating</span></div>
+        <div class="moon m-wane" data-phase="3"><div class="orb"></div><div class="mn">WANING</div><span class="mp">for reflecting</span></div>
+      </div>
+      <p style="margin-top:1.3rem;color:rgba(255,246,251,.7);font-style:italic;font-size:.92rem;">Fairies rarely plant gardens, craft gifts, or begin projects without consulting the moon.</p>
+    </div>
+
+    <h3 style="font-family:var(--head);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:1.3rem;margin-bottom:.3rem;color:var(--gold);">📖 Create Your Own Fairy Journal</h3>
+    <p style="color:rgba(255,246,251,.7);font-style:italic;margin-bottom:1.6rem;max-width:600px;">Some are bound in mushroom leather; others stitched from flower petals and silk thread. All serve the same purpose: preserving moments of wonder before they disappear.</p>
+    <div class="notes-board">
+      <div class="note"><b>Moon Watcher</b>Describe the moon tonight. What shape is it? What stories might it be whispering?</div>
+      <div class="note"><b>Garden Secrets</b>Choose a flower and sketch it. Imagine what fairies might use it for.</div>
+      <div class="note"><b>Tea Memories</b>Record a favorite tea blend and the feelings it creates.</div>
+      <div class="note"><b>Tiny Treasures</b>Glue in a leaf, feather, ticket stub, or pressed bloom from your adventures.</div>
+      <div class="note"><b>Dream Catalog</b>Keep a collection of unusual dreams and recurring symbols.</div>
+    </div>
+
+    <div class="realm-grid">
+      <div class="leaf-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!AoxT!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe16e9dbe-0e4a-4c2d-8c14-dd829a0e692c_1500x1778.png" alt="Create Your Own Fairy Journal" loading="lazy">
+      </div>
+      <div class="leaf-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!vbCW!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7f661580-d916-41a7-84d2-f8320a1f3ba3_1384x1040.jpeg" alt="Fairy journal spread — crooked sketches welcome" loading="lazy">
+      </div>
+    </div>
+
+    <p class="realm-lede" style="max-width:620px;"><span class="em">Remember, fairy journals are never meant to be perfect.</span> Crooked sketches. Smudged ink. Folded pages. These are signs of a life being lived. The goal isn't creating a masterpiece — the goal is noticing magick while it happens.</p>
+
+    <div class="realm-grid">
+      <div class="leaf-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!Q-UD!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Feb70f779-f802-4931-b3c3-08af3b0c338a_1200x1176.png" alt="A Fairy Cottage Library" loading="lazy">
+      </div>
+      <div class="leaf-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!zTpz!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Faba803ad-ef69-4c51-aa5d-bacc3ec56452_1500x1426.png" alt="An enchanted reading nook" loading="lazy">
+      </div>
+    </div>
+
+    <p class="slow-quote">"a flower blooms at its own pace. a story unfolds chapter by chapter. tea cools gradually. everything meaningful takes time."
+      <small>— the return of slow living · why fairy wisdom matters in 2026</small>
+    </p>
+
+    <p class="realm-lede" style="max-width:620px;">Fairies believe their greatest magic is <span class="em">attention</span> — the ability to fully experience a moment. You don't need an hour. You only need a moment. <span class="em">One page. One cup. One breath of fresh air. Magic begins there.</span></p>
+
+    <div class="musicbox-row">
+      <button class="musicbox-btn" id="musicboxBtn" aria-pressed="false">🎼 Wind the music box</button>
+      <p class="musicbox-hint">A tiny fairy music box, conjured live in your browser. Steeps slowly, like all good magic.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-sign">thanks for choosing wonder instead of certainty ✦</span>
+  <div class="footer-links">
+    <a href="https://magickmicaart.substack.com/p/nothing-is-late">📡 Nothing Is Late — original post</a>
+    <a href="https://magickmicaart.substack.com/p/the-department-of-impossible-things">📡 The Department of Impossible Things — original post</a>
+    <a href="https://magickmica.substack.com/p/enchanted-realms-july-2026">📡 Enchanted Realms — original post</a>
+  </div>
+  <div class="footer-links">
+    <a href="https://magickmica.github.io/">📺 Back to Magick Mica TV</a>
+    <a href="https://magickmica.github.io/notes.html?q=fairy">🧚 Fairy Notes Archive</a>
+    <a href="https://substack.com/@magickmica">✉️ Subscribe on Substack</a>
+    <a href="https://ko-fi.com/magickmica">☕ Support on Ko-fi</a>
+  </div>
+  <p class="signoff">▚▞ END TRANSMISSION · THE DEPARTMENT WILL FILE THIS VISIT UNDER "EXACTLY ON TIME" ▞▚</p>
+  <p class="footer-fine">© Magick Mica TV · All Transmissions Reserved · Where Magic Meets the Pixel</p>
+</footer>
+
+</main>
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ═══ MOTES — fireflies + time-sparks, denser in Enchanted Realms ═══ */
+  var canvas = document.getElementById('motes');
+  var realms = document.getElementById('realms');
+  if (canvas && !reduce){
+    var ctx = canvas.getContext('2d');
+    var W, H, motes = [], BASE = 46, MAXX = 130, intensity = 0;
+    function size(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', size); size();
+
+    var FIRE = ['#F5C044','#FFE9A8','#B7FF9C','#5FE8D0'];
+    var SPARK = ['#4EE1FF','#FF7AC8','#B79CFF','#FFFFFF'];
+    function makeMote(){
+      var firefly = Math.random() < .55 + intensity*.35;
+      return {
+        firefly: firefly,
+        x: Math.random()*W, y: Math.random()*H,
+        r: firefly ? .9+Math.random()*1.7 : .7+Math.random()*1.3,
+        vx: Math.random()*.5-.25,
+        vy: firefly ? (Math.random()*.4-.2) : (.15+Math.random()*.4),
+        phase: Math.random()*Math.PI*2,
+        tw: .4+Math.random()*1.4,
+        c: firefly ? FIRE[(Math.random()*FIRE.length)|0] : SPARK[(Math.random()*SPARK.length)|0],
+        wander: Math.random()*Math.PI*2
+      };
+    }
+    for (var i=0;i<BASE;i++) motes.push(makeMote());
+
+    function realmVis(){
+      if (!realms) return 0;
+      var r = realms.getBoundingClientRect(), vh = window.innerHeight;
+      var vis = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+      return Math.max(0, Math.min(1, vis / Math.min(vh, r.height)));
+    }
+    function tick(){
+      intensity += (realmVis() - intensity)*.03;
+      var want = Math.round(BASE + (MAXX-BASE)*intensity);
+      while (motes.length < want) motes.push(makeMote());
+      if (motes.length > want) motes.length = want;
+
+      ctx.clearRect(0,0,W,H);
+      for (var i=0;i<motes.length;i++){
+        var m = motes[i];
+        m.phase += .03*m.tw;
+        if (m.firefly){
+          m.wander += (Math.random()-.5)*.2;
+          m.x += Math.cos(m.wander)*.5 + m.vx;
+          m.y += Math.sin(m.wander)*.5 + m.vy;
+        } else {
+          m.y += m.vy; m.x += m.vx + Math.sin(m.phase*.5)*.3;
+        }
+        if (m.y > H+10) m.y = -10; if (m.y < -12) m.y = H+10;
+        if (m.x > W+10) m.x = -10; else if (m.x < -10) m.x = W+10;
+        var glow = .35 + .65*Math.abs(Math.sin(m.phase));
+        ctx.globalAlpha = glow * (m.firefly ? .9 : .6);
+        ctx.fillStyle = m.c;
+        ctx.shadowColor = m.c;
+        ctx.shadowBlur = m.firefly ? 10 : 5;
+        ctx.beginPath();
+        ctx.arc(m.x, m.y, m.r*(0.7+glow*.5), 0, Math.PI*2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+      requestAnimationFrame(tick);
+    }
+    tick();
+  }
+
+  /* ═══ BACKWARDS CLOCK ═══ */
+  var hh = document.getElementById('hh'), mm = document.getElementById('mm'), ss = document.getElementById('ss');
+  var clock = document.getElementById('clock');
+  if (clock){
+    for (var i=0;i<12;i++){
+      var t = document.createElement('div');
+      t.className = 'tick';
+      t.style.transform = 'rotate(' + (i*30) + 'deg)';
+      clock.appendChild(t);
+    }
+    if (hh && mm && ss){
+      var sAng = 0, hiccup = 0;
+      setInterval(function(){
+        if (reduce) return;
+        // runs backwards; occasionally hiccups forward
+        hiccup--;
+        if (hiccup <= 0 && Math.random() < .05){ sAng += 42; hiccup = 30; }
+        else sAng -= 6;
+        var mAng = sAng/60, hAng = mAng/12 - 60;
+        ss.style.transform = 'rotate(' + sAng + 'deg)';
+        mm.style.transform = 'rotate(' + mAng + 'deg)';
+        hh.style.transform = 'rotate(' + hAng + 'deg)';
+      }, 500);
+    }
+  }
+
+  /* ═══ NOW SERVING ticker — counts down through impossible numbers ═══ */
+  var serving = document.getElementById('serving');
+  if (serving && !reduce){
+    var vals = ['∞','∞−1','√−1','42?','NO','∞'];
+    var vi = 0;
+    setInterval(function(){ vi = (vi+1)%vals.length; serving.textContent = vals[vi]; }, 2600);
+  }
+
+  /* ═══ FILE FOLDERS ═══ */
+  document.querySelectorAll('.file').forEach(function(f){
+    function toggle(){
+      f.classList.toggle('open');
+      f.setAttribute('aria-expanded', f.classList.contains('open') ? 'true' : 'false');
+    }
+    f.addEventListener('click', toggle);
+    f.addEventListener('keydown', function(e){ if (e.key===' '||e.key==='Enter'){ e.preventDefault(); toggle(); } });
+  });
+
+  /* ═══ DOORS ═══ */
+  var hallStatus = document.getElementById('hallStatus');
+  var doorMsgs = {
+    d7:'door #7 — smells like bubblegum and golden hour. take a towel.',
+    d19:'door #19 — the mall between dimensions. your childhood is in aisle ∞.',
+    d33:'door #33 — careful: you may remember this next week.',
+  };
+  document.querySelectorAll('.door').forEach(function(d){
+    function act(){
+      if (d.classList.contains('d42')){
+        d.classList.remove('refuse'); void d.offsetWidth; d.classList.add('refuse');
+        hallStatus.textContent = 'door #42 politely refuses. even the hallway looks away.';
+        return;
+      }
+      d.classList.toggle('open');
+      var open = d.classList.contains('open');
+      d.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open){
+        var key = d.classList.contains('d7') ? 'd7' : d.classList.contains('d19') ? 'd19' : 'd33';
+        hallStatus.textContent = doorMsgs[key];
+      } else {
+        hallStatus.textContent = 'the door clicks shut. the hallway pretends nothing happened.';
+      }
+    }
+    d.addEventListener('click', act);
+    d.addEventListener('keydown', function(e){ if (e.key===' '||e.key==='Enter'){ e.preventDefault(); act(); } });
+  });
+
+  /* ═══ ENVELOPE ═══ */
+  var env = document.getElementById('envelope');
+  var envCap = document.getElementById('envCaption');
+  if (env){
+    function openEnv(){
+      var open = env.classList.toggle('open');
+      env.setAttribute('aria-expanded', open ? 'true' : 'false');
+      envCap.textContent = open
+        ? '…you read it twice. it does not change. you do.'
+        : 'folded carefully, as though it might change shape if exposed to daylight…';
+    }
+    env.addEventListener('click', openEnv);
+    env.addEventListener('keydown', function(e){ if (e.key===' '||e.key==='Enter'){ e.preventDefault(); openEnv(); } });
+  }
+
+  /* ═══ MOON CALENDAR — highlight real current phase ═══ */
+  (function(){
+    var moons = document.querySelectorAll('#moons .moon');
+    if (!moons.length) return;
+    // synodic approximation from a known new moon (Jan 6 2000, 18:14 UTC)
+    var synodic = 29.530588853;
+    var known = Date.UTC(2000,0,6,18,14)/86400000;
+    var now = Date.now()/86400000;
+    var age = ((now - known) % synodic + synodic) % synodic;
+    var idx;
+    if (age < 1.85 || age > synodic-1.85) idx = 0;          // new
+    else if (age < synodic/2 - 1.85) idx = 1;               // waxing
+    else if (age < synodic/2 + 1.85) idx = 2;               // full
+    else idx = 3;                                           // waning
+    moons[idx].classList.add('tonight');
+  })();
+
+  /* ═══ MUSIC BOX — gentle celesta loop via WebAudio ═══ */
+  var mbBtn = document.getElementById('musicboxBtn');
+  var mbCtx = null, mbMaster = null, mbTimer = null, mbOn = false, mbStep = 0;
+  // a slow lullaby figure (pentatonic-ish, music-box register)
+  var MELODY = [784, 988, 1175, 988, 1319, 1175, 988, 784, 659, 784, 988, 784, 587, 659, 784, 0];
+  function note(){
+    if (!mbOn) return;
+    var f = MELODY[mbStep % MELODY.length]; mbStep++;
+    if (f){
+      var t = mbCtx.currentTime;
+      var o = mbCtx.createOscillator(); o.type = 'sine'; o.frequency.value = f;
+      var o2 = mbCtx.createOscillator(); o2.type = 'sine'; o2.frequency.value = f*3; // bright tine partial
+      var g = mbCtx.createGain();
+      var g2 = mbCtx.createGain(); g2.gain.value = .12;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(.12, t+.01);
+      g.gain.exponentialRampToValueAtTime(.0001, t+1.8);
+      o.connect(g); o2.connect(g2); g2.connect(g);
+      g.connect(mbMaster);
+      o.start(t); o2.start(t); o.stop(t+2); o2.stop(t+2);
+    }
+    mbTimer = setTimeout(note, 430);
+  }
+  function startMB(){
+    mbCtx = mbCtx || new (window.AudioContext || window.webkitAudioContext)();
+    mbCtx.resume && mbCtx.resume();
+    mbMaster = mbCtx.createGain();
+    mbMaster.gain.value = 0;
+    mbMaster.connect(mbCtx.destination);
+    mbMaster.gain.linearRampToValueAtTime(.7, mbCtx.currentTime + .8);
+    mbOn = true; mbStep = 0;
+    note();
+  }
+  function stopMB(){
+    mbOn = false;
+    if (mbTimer) clearTimeout(mbTimer);
+    if (mbMaster){
+      try{
+        mbMaster.gain.linearRampToValueAtTime(0, mbCtx.currentTime + .6);
+        var m = mbMaster;
+        setTimeout(function(){ try{ m.disconnect(); }catch(e){} }, 700);
+      }catch(e){}
+      mbMaster = null;
+    }
+  }
+  if (mbBtn){
+    mbBtn.addEventListener('click', function(){
+      var on = mbBtn.getAttribute('aria-pressed') === 'true';
+      if (on){ stopMB(); mbBtn.setAttribute('aria-pressed','false'); mbBtn.textContent = '🎼 Wind the music box'; }
+      else { startMB(); mbBtn.setAttribute('aria-pressed','true'); mbBtn.textContent = '🔇 Let the melody rest'; }
+    });
+  }
+})();
+</script>
+</body>
+</html>
