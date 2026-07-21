@@ -336,7 +336,11 @@
     position:relative;overflow:hidden;
     height:min(46vw, 330px);
     border-radius:.9rem .9rem .5rem .5rem;
-    background:radial-gradient(140% 120% at 50% 100%, #2a0d06 0%, #160604 55%, #0a0303 100%);
+    background:
+      radial-gradient(120% 60% at 50% 0%, rgba(0,0,0,.75), transparent 55%),
+      repeating-linear-gradient(0deg, rgba(0,0,0,.4) 0 2px, transparent 2px 24px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,.32) 0 2px, transparent 2px 48px),
+      radial-gradient(140% 120% at 50% 100%, #3a1508 0%, #1d0a05 55%, #0a0303 100%);
     box-shadow:inset 0 0 60px rgba(0,0,0,.9), inset 0 -20px 50px rgba(255,110,40,.22);
   }
   .firebox::before{ /* inner arch shadow */
@@ -346,26 +350,109 @@
   }
   #embers{position:absolute;inset:0;z-index:5;pointer-events:none;}
 
-  .logs{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);z-index:2;width:72%;max-width:360px;}
+  /* ── glowing coal bed ── */
+  .coals{
+    position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+    width:80%;max-width:420px;height:32px;z-index:1;pointer-events:none;
+    border-radius:50%;
+    background:
+      radial-gradient(9px 6px at 12% 55%, #ff9a3c, transparent 70%),
+      radial-gradient(7px 5px at 26% 70%, #ffcf6a, transparent 70%),
+      radial-gradient(10px 7px at 41% 50%, #ff7a2a, transparent 70%),
+      radial-gradient(8px 6px at 56% 68%, #ffd98a, transparent 70%),
+      radial-gradient(11px 7px at 70% 52%, #ff8a3c, transparent 70%),
+      radial-gradient(7px 5px at 84% 66%, #ffc264, transparent 70%),
+      radial-gradient(70% 100% at 50% 70%, rgba(255,120,35,.8), transparent 78%);
+    filter:blur(1.5px);
+    animation:coalpulse 2.8s ease-in-out infinite alternate;
+  }
+  @keyframes coalpulse{from{opacity:.7;filter:blur(1.5px) brightness(.9);}to{opacity:1;filter:blur(1.5px) brightness(1.25);}}
+
+  /* ── iron log grate ── */
+  .grate{
+    position:absolute;left:50%;bottom:7px;transform:translateX(-50%);
+    width:64%;max-width:330px;height:34px;z-index:2;pointer-events:none;
+  }
+  .grate .bar{
+    position:absolute;left:0;right:0;top:0;height:6px;border-radius:4px;
+    background:linear-gradient(180deg,#3d3d42,#0d0d0f);
+    box-shadow:0 2px 3px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.12);
+  }
+  .grate .bar.b2{top:auto;bottom:9px;height:5px;opacity:.9;}
+  .grate .leg{
+    position:absolute;bottom:0;width:6px;height:100%;border-radius:3px;
+    background:linear-gradient(90deg,#3a3a40,#101013);
+    box-shadow:2px 0 3px rgba(0,0,0,.6);
+  }
+  .grate .leg.l{left:7%;}
+  .grate .leg.r{right:7%;}
+  .grate .leg::after{ /* curled andiron foot */
+    content:'';position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);
+    width:16px;height:7px;border-radius:50% 50% 40% 40%;
+    background:linear-gradient(180deg,#333338,#0b0b0d);
+  }
+
+  /* ── the log stack ── */
+  .logs, .logs-front{
+    position:absolute;left:50%;bottom:10px;transform:translateX(-50%);
+    width:76%;max-width:380px;height:96px;pointer-events:none;
+  }
+  .logs{z-index:2;}
+  .logs-front{z-index:4;}
   .log{
-    position:relative;height:26px;border-radius:14px;
-    background:linear-gradient(180deg,#5a3320,#3a1f12);
-    box-shadow:inset 0 3px 4px rgba(255,180,120,.18), inset 0 -4px 6px rgba(0,0,0,.6);
+    position:absolute;height:30px;border-radius:15px;
+    background:
+      radial-gradient(22px 12px at 32% 30%, rgba(0,0,0,.35), transparent 70%),
+      radial-gradient(26px 12px at 68% 75%, rgba(0,0,0,.4), transparent 70%),
+      repeating-linear-gradient(94deg, rgba(0,0,0,.22) 0 2.5px, transparent 2.5px 13px),
+      linear-gradient(180deg,#8f5c34,#5e3a20 55%,#3a2210);
+    box-shadow:
+      inset 0 4px 6px rgba(255,200,140,.3),
+      inset 0 -7px 9px rgba(0,0,0,.6),
+      0 0 20px rgba(255,130,45,.4);
   }
-  .log::before,.log::after{
-    content:'';position:absolute;top:50%;width:16px;height:16px;border-radius:50%;
+  .log::before,.log::after{ /* cut ends with growth rings */
+    content:'';position:absolute;top:50%;width:24px;height:24px;border-radius:50%;
     transform:translateY(-50%);
-    background:radial-gradient(circle,#c98a55 0%,#7a4526 45%,#3a1f12 100%);
+    background:
+      repeating-radial-gradient(circle at 46% 48%, #d9a86e 0 2px, #9a6335 2px 4.5px, #b98449 4.5px 7px),
+      radial-gradient(circle,#c98a55,#7a4526 70%);
+    box-shadow:inset 0 0 5px rgba(0,0,0,.55), inset 2px 2px 3px rgba(255,220,170,.3);
   }
-  .log::before{left:-2px;} .log::after{right:-2px;}
-  .log+.log{margin-top:-10px;}
-  .log:nth-child(1){transform:rotate(-4deg);width:88%;}
-  .log:nth-child(2){transform:rotate(3deg);margin-left:10%;width:86%;}
+  .log::before{left:-4px;} .log::after{right:-4px;}
+  .log-back{left:3%;right:3%;bottom:30px;transform:rotate(-2deg);}
+  .log-mid{left:8%;right:8%;bottom:14px;transform:rotate(1.5deg);height:32px;}
+  .log-top{
+    left:24%;width:52%;bottom:52px;height:24px;transform:rotate(4deg);
+    box-shadow:
+      inset 0 3px 4px rgba(255,200,140,.22),
+      inset 0 -6px 8px rgba(0,0,0,.6),
+      0 0 20px rgba(255,140,50,.4);
+  }
+  .log-top::before,.log-top::after{width:19px;height:19px;}
+  .logs-front .log-left{
+    left:-3%;width:60%;bottom:2px;transform:rotate(7deg);height:31px;
+  }
+  .logs-front .log-right{
+    right:-3%;width:60%;bottom:2px;transform:rotate(-8deg);height:31px;
+  }
+  /* charring where flames lick the front logs */
+  .logs-front .log::marker{content:none;}
+  .logs-front .log-left{background:
+      radial-gradient(40px 16px at 78% 20%, rgba(0,0,0,.6), transparent 70%),
+      radial-gradient(22px 12px at 30% 60%, rgba(0,0,0,.35), transparent 70%),
+      repeating-linear-gradient(94deg, rgba(0,0,0,.22) 0 2.5px, transparent 2.5px 13px),
+      linear-gradient(180deg,#8f5c34,#5e3a20 55%,#3a2210);}
+  .logs-front .log-right{background:
+      radial-gradient(40px 16px at 22% 20%, rgba(0,0,0,.6), transparent 70%),
+      radial-gradient(24px 12px at 70% 65%, rgba(0,0,0,.35), transparent 70%),
+      repeating-linear-gradient(94deg, rgba(0,0,0,.22) 0 2.5px, transparent 2.5px 13px),
+      linear-gradient(180deg,#8f5c34,#5e3a20 55%,#3a2210);}
 
   /* flames */
   .flames{
-    position:absolute;left:50%;bottom:16px;transform:translateX(-50%);
-    width:64%;max-width:300px;height:78%;z-index:3;
+    position:absolute;left:50%;bottom:34px;transform:translateX(-50%);
+    width:64%;max-width:300px;height:74%;z-index:3;
     filter:blur(6px) contrast(1.25) saturate(1.2);
   }
   .flame{
@@ -449,39 +536,39 @@
 
     <div class="fog-grid">
       <figure class="fog-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!KsHj!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcde655fb-3ab1-4d5b-8a47-0ca7669446fb_600x600.png" alt="Dreamlike Christmas tree village in pink and mint fog" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!KsHj!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcde655fb-3ab1-4d5b-8a47-0ca7669446fb_600x600.png" alt="Dreamlike Christmas tree village in pink and mint fog" loading="lazy" style="aspect-ratio:600/600;width:100%;height:auto;">
         <figcaption><span class="fog-title">Dreamlike Tree Village</span>Softly blurred pines around glowing cottages, immersed in pink and mint fog. Lights twinkle as tiny dots of airbrushed grain beneath a lavender mist sky.</figcaption>
       </figure>
       <figure class="fog-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!4AR0!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6f192fea-17e8-4d28-97b5-6ac53bfe0517_600x600.png" alt="Grainy glow reindeer silhouette" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!4AR0!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6f192fea-17e8-4d28-97b5-6ac53bfe0517_600x600.png" alt="Grainy glow reindeer silhouette" loading="lazy" style="aspect-ratio:600/600;width:100%;height:auto;">
         <figcaption><span class="fog-title">Grainy Glow Reindeer</span>A minimal, airbrushed reindeer with soft blurred edges fading into pastel light — a faint iridescent halo glimmering around its antlers like mist.</figcaption>
       </figure>
       <figure class="fog-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!ksdu!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe81ede30-752b-40fd-bc7a-24c5d9651281_600x600.png" alt="Snow globe with glowing miniature cabin" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!ksdu!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe81ede30-752b-40fd-bc7a-24c5d9651281_600x600.png" alt="Snow globe with glowing miniature cabin" loading="lazy" style="aspect-ratio:600/600;width:100%;height:auto;">
         <figcaption><span class="fog-title">Snow Globe Cabin Glow</span>A softly glowing snow globe with hazy reflections — inside, a miniature North Pole cottage glows under falling sparkles and a rainbow-grain rim.</figcaption>
       </figure>
       <figure class="fog-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!ji68!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbd7a4cca-82d7-4950-adbb-f4d745eeedc8_600x600.png" alt="Soft focus gingerbread person" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!ji68!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbd7a4cca-82d7-4950-adbb-f4d745eeedc8_600x600.png" alt="Soft focus gingerbread person" loading="lazy" style="aspect-ratio:600/600;width:100%;height:auto;">
         <figcaption><span class="fog-title">Grainy Gingerbread Person</span>A soft-focus cookie with airbrushed icing glowing at the edges, dusted in grainy sugar texture and wrapped in a pastel fog halo.</figcaption>
       </figure>
       <figure class="fog-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!ALta!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1f8dcdaf-4f76-432a-b09d-74a2d4d98a10_800x800.png" alt="Blurry Santa portrait silhouette" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!ALta!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1f8dcdaf-4f76-432a-b09d-74a2d4d98a10_800x800.png" alt="Blurry Santa portrait silhouette" loading="lazy" style="aspect-ratio:800/800;width:100%;height:auto;">
         <figcaption><span class="fog-title">Blurry Santa Portrait</span>Fuzzy white beard, glowing red hat, golden glasses — rendered in dreamy grain blur with warm halo light, like a spotlight through frost.</figcaption>
       </figure>
       <figure class="fog-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!NRoR!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb5733634-a6ee-456a-a66b-2da49ff160c5_800x800.png" alt="Santa's workshop with glowing windows" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!NRoR!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb5733634-a6ee-456a-a66b-2da49ff160c5_800x800.png" alt="Santa's workshop with glowing windows" loading="lazy" style="aspect-ratio:800/800;width:100%;height:auto;">
         <figcaption><span class="fog-title">Santa's Workshop Glow House</span>Airbrushed red siding, a mint roof dusted in glowing snow, golden halos radiating from the windows into the pink fog.</figcaption>
       </figure>
       <figure class="fog-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!aq7Y!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F89a100d7-78b3-4a42-a67b-759d49bc9b9b_800x800.png" alt="Glowing envelope sealed with red wax" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!aq7Y!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F89a100d7-78b3-4a42-a67b-759d49bc9b9b_800x800.png" alt="Glowing envelope sealed with red wax" loading="lazy" style="aspect-ratio:800/800;width:100%;height:auto;">
         <figcaption><span class="fog-title">Frosty Letter to Santa</span>A glowing envelope with a hazy red wax stamp, its edges fading into misty snow blur while faint sparkles drift around it.</figcaption>
       </figure>
       <figure class="fog-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!xVJs!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc84de194-2e67-47f3-842a-96966a7bf57c_800x800.png" alt="North Pole signpost in pastel snow" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!xVJs!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc84de194-2e67-47f3-842a-96966a7bf57c_800x800.png" alt="North Pole signpost in pastel snow" loading="lazy" style="aspect-ratio:800/800;width:100%;height:auto;">
         <figcaption><span class="fog-title">North Pole Signpost Glow</span>Fuzzy airbrushed candy stripes and a wooden sign in glowing white script, standing in a dreamy halo of pink, mint, and lavender fog.</figcaption>
       </figure>
       <figure class="fog-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!BbjD!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F21d1abda-1da2-4cf9-bd49-a0682539285b_800x800.png" alt="Second dreamlike tree village scene" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!BbjD!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F21d1abda-1da2-4cf9-bd49-a0682539285b_800x800.png" alt="Second dreamlike tree village scene" loading="lazy" style="aspect-ratio:800/800;width:100%;height:auto;">
         <figcaption><span class="fog-title">Tree Village · Second Signal</span>The village again, tuned to a different frequency — snow glowing faintly beneath the lavender mist as the lights fade into dreamy halos.</figcaption>
       </figure>
     </div>
@@ -527,12 +614,22 @@
       <div class="fire-surround">
         <div class="firebox">
           <div class="fireglow"></div>
-          <div class="logs"><div class="log"></div><div class="log"></div></div>
+          <div class="coals" aria-hidden="true"></div>
+          <div class="grate" aria-hidden="true"><span class="bar"></span><span class="bar b2"></span><span class="leg l"></span><span class="leg r"></span></div>
+          <div class="logs" aria-hidden="true">
+            <div class="log log-back"></div>
+            <div class="log log-mid"></div>
+            <div class="log log-top"></div>
+          </div>
           <div class="flames" aria-hidden="true">
             <div class="flame f-back"></div>
             <div class="flame f-mid"></div>
             <div class="flame f-core"></div>
             <div class="flame f-wisp"></div>
+          </div>
+          <div class="logs-front" aria-hidden="true">
+            <div class="log log-left"></div>
+            <div class="log log-right"></div>
           </div>
           <canvas id="embers"></canvas>
         </div>
@@ -681,22 +778,22 @@
 
     <div class="cozy-hero">
       <figure class="glass-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!LQFd!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8e8ad795-4913-4d94-ab42-76d16cc73761_1200x1232.png" alt="Virtual decorated shiny Christmas trees" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!LQFd!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8e8ad795-4913-4d94-ab42-76d16cc73761_1200x1232.png" alt="Virtual decorated shiny Christmas trees" loading="lazy" style="aspect-ratio:1200/1232;width:100%;height:auto;">
         <figcaption class="cap">✨ Shiny Trees, For Everyone</figcaption>
       </figure>
       <figure class="glass-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!VFcc!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9a2f0182-3419-4273-bdfa-bb544617eb90_1200x1200.png" alt="Glam Elf" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!VFcc!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9a2f0182-3419-4273-bdfa-bb544617eb90_1200x1200.png" alt="Glam Elf" loading="lazy" style="aspect-ratio:1200/1200;width:100%;height:auto;">
         <figcaption class="cap">💄 Glam Elf</figcaption>
       </figure>
     </div>
 
     <div class="cozy-hero">
       <figure class="glass-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!EsBb!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd8de63a8-78d2-47b2-8ab2-1f7d3ef3f785_1200x1575.png" alt="Snowy North Pole workshop" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!EsBb!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd8de63a8-78d2-47b2-8ab2-1f7d3ef3f785_1200x1575.png" alt="Snowy North Pole workshop" loading="lazy" style="aspect-ratio:1200/1575;width:100%;height:auto;">
         <figcaption class="cap">🏔 Snowy North Pole Workshop</figcaption>
       </figure>
       <figure class="glass-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!zAaN!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3ef8640d-aa72-43db-a6f6-1323bd38156a_1008x1008.png" alt="Snow globe workshop" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!zAaN!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3ef8640d-aa72-43db-a6f6-1323bd38156a_1008x1008.png" alt="Snow globe workshop" loading="lazy" style="aspect-ratio:1008/1008;width:100%;height:auto;">
         <figcaption class="cap">🔮 Snow Globe Workshop</figcaption>
       </figure>
     </div>
@@ -704,14 +801,14 @@
     <h3 class="sub-head">✦ Mini Gallery · Christmas Objects</h3>
     <p class="sub-note">Little treasures caught mid-sparkle.</p>
     <div class="cozy-grid">
-      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!bX-m!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6e9365af-936b-44dc-ac17-23f405b45cd9_1200x1543.png" alt="Christmas object art 1" loading="lazy"></figure>
-      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!3UcZ!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc047193b-4929-4f91-9d73-c32508a7b6ad_1200x1187.png" alt="Christmas object art 2" loading="lazy"></figure>
-      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!RJox!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffc051102-1044-4e6f-8775-3eb1a1549c31_1119x1267.png" alt="Christmas object art 3" loading="lazy"></figure>
-      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!1T2F!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa79441f4-385b-4880-8610-2cfc9abc3000_1200x1702.png" alt="Christmas object art 4" loading="lazy"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!bX-m!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6e9365af-936b-44dc-ac17-23f405b45cd9_1200x1543.png" alt="Christmas object art 1" loading="lazy" style="aspect-ratio:1200/1543;width:100%;height:auto;"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!3UcZ!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc047193b-4929-4f91-9d73-c32508a7b6ad_1200x1187.png" alt="Christmas object art 2" loading="lazy" style="aspect-ratio:1200/1187;width:100%;height:auto;"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!RJox!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffc051102-1044-4e6f-8775-3eb1a1549c31_1119x1267.png" alt="Christmas object art 3" loading="lazy" style="aspect-ratio:1119/1267;width:100%;height:auto;"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!1T2F!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa79441f4-385b-4880-8610-2cfc9abc3000_1200x1702.png" alt="Christmas object art 4" loading="lazy" style="aspect-ratio:1200/1702;width:100%;height:auto;"></figure>
     </div>
 
     <div class="homage">
-      <img src="https://substackcdn.com/image/fetch/$s_!0X0p!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5018038d-7450-4152-84cf-768d0b4893e2_800x848.png" alt="Patch's Candy Canes" loading="lazy">
+      <img src="https://substackcdn.com/image/fetch/$s_!0X0p!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5018038d-7450-4152-84cf-768d0b4893e2_800x848.png" alt="Patch's Candy Canes" loading="lazy" style="aspect-ratio:800/848;width:100%;height:auto;">
       <div>
         <span class="mono-tag">🍬 In Homage · Santa Claus The Movie (1985)</span>
         <h3>Patch's Candy Canes</h3>
@@ -723,16 +820,16 @@
     <h3 class="sub-head">🍪 Gingerbread Cookies</h3>
     <p class="sub-note">More cookies will be added to this list as they escape from ovens all over the world and beyond.</p>
     <div class="cozy-grid">
-      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!HKUG!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4a5ea502-b246-4c48-97b5-2e7bd9b0ea1e_1200x1156.png" alt="Gingerbread cookies 1" loading="lazy"></figure>
-      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!LTr_!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F06d770a4-ab4c-4bf8-bf58-2f7d350c39e2_407x544.png" alt="Gingerbread cookies 2" loading="lazy"></figure>
-      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!1a_U!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6b32d11b-803e-403f-b39d-9d15c1905cca_1200x892.png" alt="Gingerbread cookies 3" loading="lazy"></figure>
-      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!Vn84!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F29451544-6ae3-48ca-920a-431432eaf051_400x508.png" alt="Gingerbread cookies 4" loading="lazy"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!HKUG!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4a5ea502-b246-4c48-97b5-2e7bd9b0ea1e_1200x1156.png" alt="Gingerbread cookies 1" loading="lazy" style="aspect-ratio:1200/1156;width:100%;height:auto;"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!LTr_!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F06d770a4-ab4c-4bf8-bf58-2f7d350c39e2_407x544.png" alt="Gingerbread cookies 2" loading="lazy" style="aspect-ratio:407/544;width:100%;height:auto;"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!1a_U!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6b32d11b-803e-403f-b39d-9d15c1905cca_1200x892.png" alt="Gingerbread cookies 3" loading="lazy" style="aspect-ratio:1200/892;width:100%;height:auto;"></figure>
+      <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!Vn84!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F29451544-6ae3-48ca-920a-431432eaf051_400x508.png" alt="Gingerbread cookies 4" loading="lazy" style="aspect-ratio:400/508;width:100%;height:auto;"></figure>
     </div>
 
     <h3 class="sub-head">🍰 Now Time For a Tasty Treat…</h3>
     <div class="cozy-hero" style="grid-template-columns:minmax(0,640px);justify-content:center;">
       <figure class="glass-card">
-        <img src="https://substackcdn.com/image/fetch/$s_!4vWs!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbb5f9970-f748-439b-8a05-f758f35968c5_1200x1200.png" alt="A tasty holiday treat" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!4vWs!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbb5f9970-f748-439b-8a05-f758f35968c5_1200x1200.png" alt="A tasty holiday treat" loading="lazy" style="aspect-ratio:1200/1200;width:100%;height:auto;">
       </figure>
     </div>
 
@@ -740,12 +837,12 @@
       <h3 class="sub-head">👻 For Those Who Have the Spooky Vibes…</h3>
       <p class="sub-note">A haunted set, tuned to the channel between channels.</p>
       <div class="cozy-grid">
-        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!ZRhC!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff7b3985f-1221-432b-b041-dfd010198e1f_1200x1200.png" alt="Haunted Christmas art 1" loading="lazy"><figcaption class="cap">Haunted Christmas</figcaption></figure>
-        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!GcW3!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F221eb55a-1721-4883-9152-428f9e639df9_675x1092.png" alt="Haunted Christmas art 2" loading="lazy"><figcaption class="cap">Haunted Christmas</figcaption></figure>
-        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!0wtR!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F300204a3-6386-43d6-a794-f6fc5479fda2_554x631.png" alt="Angel" loading="lazy"><figcaption class="cap">Angel</figcaption></figure>
-        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!Beg5!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa7f4696d-cc1e-4b13-b375-10b428273d31_840x840.png" alt="Star" loading="lazy"><figcaption class="cap">Star</figcaption></figure>
-        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!XORW!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe9b55da1-de9f-42c5-8013-953cb9b03b39_840x840.png" alt="Wreath" loading="lazy"><figcaption class="cap">Wreath</figcaption></figure>
-        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!ing_!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F43ea9c7a-de6d-4ad0-9f81-165fa178a23a_1200x1200.png" alt="Stocking" loading="lazy"><figcaption class="cap">Stocking</figcaption></figure>
+        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!ZRhC!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff7b3985f-1221-432b-b041-dfd010198e1f_1200x1200.png" alt="Haunted Christmas art 1" loading="lazy" style="aspect-ratio:1200/1200;width:100%;height:auto;"><figcaption class="cap">Haunted Christmas</figcaption></figure>
+        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!GcW3!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F221eb55a-1721-4883-9152-428f9e639df9_675x1092.png" alt="Haunted Christmas art 2" loading="lazy" style="aspect-ratio:675/1092;width:100%;height:auto;"><figcaption class="cap">Haunted Christmas</figcaption></figure>
+        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!0wtR!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F300204a3-6386-43d6-a794-f6fc5479fda2_554x631.png" alt="Angel" loading="lazy" style="aspect-ratio:554/631;width:100%;height:auto;"><figcaption class="cap">Angel</figcaption></figure>
+        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!Beg5!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa7f4696d-cc1e-4b13-b375-10b428273d31_840x840.png" alt="Star" loading="lazy" style="aspect-ratio:840/840;width:100%;height:auto;"><figcaption class="cap">Star</figcaption></figure>
+        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!XORW!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe9b55da1-de9f-42c5-8013-953cb9b03b39_840x840.png" alt="Wreath" loading="lazy" style="aspect-ratio:840/840;width:100%;height:auto;"><figcaption class="cap">Wreath</figcaption></figure>
+        <figure class="glass-card"><img src="https://substackcdn.com/image/fetch/$s_!ing_!,w_720,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F43ea9c7a-de6d-4ad0-9f81-165fa178a23a_1200x1200.png" alt="Stocking" loading="lazy" style="aspect-ratio:1200/1200;width:100%;height:auto;"><figcaption class="cap">Stocking</figcaption></figure>
       </div>
     </div>
   </div>
@@ -885,7 +982,7 @@
     <div class="bev-layout">
       <div class="bev-hero">
         <div class="steam" aria-hidden="true"></div>
-        <img src="https://substackcdn.com/image/fetch/$s_!RXe7!,w_1300,h_650,c_fill,f_auto,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6d0ef63-d3a1-4422-b86c-75cafe1b0e00_1200x1200.png" alt="Holiday Beverages cover art" loading="lazy">
+        <img src="https://substackcdn.com/image/fetch/$s_!RXe7!,w_1300,h_650,c_fill,f_auto,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6d0ef63-d3a1-4422-b86c-75cafe1b0e00_1200x1200.png" alt="Holiday Beverages cover art" loading="lazy" style="aspect-ratio:1200/1200;width:100%;height:auto;">
       </div>
 
       <div class="menu-board">
