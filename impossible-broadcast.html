@@ -186,6 +186,37 @@
   }
   .guide .desc{margin-left:auto;font-family:var(--mono);font-size:.66rem;color:var(--lav);letter-spacing:.12em;text-transform:uppercase;text-align:right;}
 
+  /* featured music box row */
+  .guide a.featured{
+    position:relative;overflow:hidden;
+    border:2px solid transparent;
+    background:
+      linear-gradient(rgba(18,30,24,.92), rgba(14,34,26,.92)) padding-box,
+      linear-gradient(110deg,var(--mint),var(--gold),var(--rose),var(--lav),var(--mint)) border-box;
+    background-size:100% 100%, 300% 100%;
+    animation:featuredholo 5s linear infinite, featuredpulse 2.4s ease-in-out infinite;
+  }
+  @keyframes featuredholo{to{background-position:0 0, 300% 0;}}
+  @keyframes featuredpulse{
+    0%,100%{box-shadow:0 0 12px rgba(95,232,208,.25);}
+    50%{box-shadow:0 0 28px rgba(245,192,68,.5);}
+  }
+  .guide a.featured::after{
+    content:'';position:absolute;top:-60%;left:-30%;width:24%;height:220%;
+    background:linear-gradient(105deg, transparent, rgba(255,255,255,.22), transparent);
+    transform:rotate(12deg);animation:shine 4.5s ease-in-out infinite;pointer-events:none;
+  }
+  .guide a.featured .ch{color:var(--mint);text-shadow:0 0 10px rgba(95,232,208,.6);}
+  .guide a.featured .desc{color:var(--gold);text-shadow:0 0 8px rgba(245,192,68,.5);animation:onairblink 1.8s steps(2,end) infinite;}
+  .guide a.featured:hover{transform:translateX(6px) scale(1.015);}
+
+  /* spotlight flash when arriving at the music box from the guide */
+  .musicbox-cta.spotlight{animation:spotlightring 1.6s ease;}
+  @keyframes spotlightring{
+    0%{box-shadow:0 0 0 0 rgba(245,192,68,.75), 0 0 34px rgba(95,232,208,.22);}
+    100%{box-shadow:0 0 0 46px rgba(245,192,68,0), 0 0 34px rgba(95,232,208,.22);}
+  }
+
   section{position:relative;padding:4.5rem 1.25rem 1rem;}
   .wrap{max-width:1100px;margin:0 auto;}
   .ch-badge{
@@ -263,6 +294,7 @@
     <a href="#nothinglate"><span class="ch">CH 🎩</span> Nothing Is Late <span class="desc">Yesterday ⇄ Tomorrow</span></a>
     <a href="#department"><span class="ch">CH ◈</span> The Department of Impossible Things <span class="desc">Transmission 002</span></a>
     <a href="#realms"><span class="ch">CH 🧚</span> Enchanted Realms · July 2026 <span class="desc">Slow Magic</span></a>
+    <a href="#musicboxCta" class="featured" id="guideMusicbox"><span class="ch">CH 🎼</span> The Fairy Music Box <span class="desc">★ Wind It Up ★</span></a>
   </nav>
 </header>
 <style>
@@ -1534,6 +1566,16 @@ beneath practicality.</div>
   }
   if (mbBtn){
     var mbCta = document.getElementById('musicboxCta');
+    // guide link → spotlight the box on arrival
+    var guideMB = document.getElementById('guideMusicbox');
+    if (guideMB && mbCta){
+      guideMB.addEventListener('click', function(){
+        setTimeout(function(){
+          mbCta.classList.remove('spotlight'); void mbCta.offsetWidth;
+          mbCta.classList.add('spotlight');
+        }, 650);
+      });
+    }
     mbBtn.addEventListener('click', function(){
       var on = mbBtn.getAttribute('aria-pressed') === 'true';
       if (on){
