@@ -965,6 +965,51 @@
   }
   .tmap-col a:hover::before { animation: none; opacity: 1; transform: scale(1.35); filter: drop-shadow(0 0 6px var(--tc)); }
   .tmap-col a .ext { font-size: 0.62rem; opacity: 0.5; margin-left: 0.3rem; }
+  /* ── channel strip: theme chips in a wide grid ── */
+  .tmap-channels { position:relative; z-index:2; margin-top:2.2rem; }
+  .tmap-ch-head {
+    display:flex; align-items:center; gap:0.7rem; margin-bottom:0.9rem;
+  }
+  .tmap-ch-head span {
+    font-family:'VT323', monospace; font-size:1.05rem; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--gold); white-space:nowrap;
+    text-shadow:0 0 12px rgba(255,210,80,0.6);
+  }
+  .tmap-ch-head::before, .tmap-ch-head::after {
+    content:''; height:1px; flex:1;
+    background:linear-gradient(90deg, transparent, rgba(255,210,80,0.5), transparent);
+  }
+  .tmap-ch-grid {
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:0.55rem;
+  }
+  .tmap-chip {
+    display:flex; align-items:center; gap:0.55rem; text-decoration:none;
+    padding:0.5rem 0.7rem; border-radius:10px;
+    background:rgba(255,255,255,0.035);
+    border:1px solid rgba(255,255,255,0.08);
+    transition:background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+  }
+  .tmap-chip:hover {
+    background:rgba(255,255,255,0.08); transform:translateY(-2px);
+    border-color:var(--cc, var(--gold));
+    box-shadow:0 0 16px var(--cg, rgba(255,210,80,0.35));
+  }
+  .tmap-chip .cem { font-size:1.15rem; line-height:1; filter:drop-shadow(0 0 6px var(--cg, rgba(255,210,80,0.5))); }
+  .tmap-chip .cnm {
+    font-family:'VT323', monospace; font-size:0.98rem; letter-spacing:0.05em;
+    color:rgba(230,218,255,0.85); line-height:1.1;
+  }
+  .tmap-chip:hover .cnm { color:#fff; }
+  .tmap-chip .cno {
+    margin-left:auto; font-family:'Space Mono', monospace; font-size:0.5rem;
+    letter-spacing:0.12em; color:rgba(200,180,255,0.35);
+  }
+  @media (max-width:560px){
+    .tmap-ch-grid { grid-template-columns:1fr 1fr; gap:0.45rem; }
+    .tmap-chip { padding:0.45rem 0.5rem; gap:0.4rem; }
+    .tmap-chip .cnm { font-size:0.88rem; }
+    .tmap-chip .cno { display:none; }
+  }
   .tmap-here {
     position: relative; z-index: 2; text-align: center; margin-top: 2rem;
     font-size: 0.66rem; letter-spacing: 0.26em; text-transform: uppercase;
@@ -1384,48 +1429,70 @@
 </style>
 </head>
 <body>
-<!-- ══ SUMMER FREQUENCY SWITCH ══ -->
+<!-- ══ CHANNEL DIAL · THEME SWITCHER ══ -->
 <style>
-  .theme-switch {
-    position:fixed; bottom:1.1rem; right:1.1rem; z-index:60; text-decoration:none;
+  .chdial { position:fixed; bottom:1.1rem; right:1.1rem; z-index:60; }
+  .chdial summary { list-style:none; cursor:pointer;
     display:flex; align-items:center; gap:0.55rem;
     font-family:'VT323', monospace; font-size:1.05rem; letter-spacing:0.08em; color:#fff;
-    background:rgba(13,7,24,0.85); border:1.5px solid var(--gold); border-radius:999px;
+    background:rgba(13,7,24,0.88); border:1.5px solid var(--gold); border-radius:999px;
     padding:0.45rem 1rem 0.45rem 0.7rem;
     box-shadow:0 0 16px rgba(255,210,80,0.4);
-    animation:tsFloat 3.4s ease-in-out infinite;
-    transition:box-shadow .25s ease, border-color .25s ease;
-  }
-  .theme-switch:hover {
-    border-color:#00e0c6;
-    box-shadow:0 0 28px rgba(255,210,80,0.7), 0 0 40px rgba(0,224,198,0.3);
-    animation-play-state:paused;
-  }
-  @keyframes tsFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
-  .theme-switch .ts-sun {
-    font-size:1.3rem; display:inline-block;
-    animation:tsSpin 7s linear infinite;
-  }
-  .theme-switch:hover .ts-sun { animation-duration:1.2s; }
-  @keyframes tsSpin { to { transform:rotate(360deg); } }
-  .theme-switch .ts-label { display:flex; flex-direction:column; line-height:1.05; text-align:left; }
-  .theme-switch .ts-label small {
-    font-family:'Space Mono', monospace; font-size:0.5rem;
-    letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); opacity:0.8;
-  }
-  /* little wave that peeks out under the pill on hover */
-  .theme-switch::after {
-    content:'🌊'; position:absolute; left:50%; bottom:-6px; transform:translateX(-50%) scale(0);
-    font-size:0.8rem; transition:transform .25s ease;
-  }
-  .theme-switch:hover::after { transform:translateX(-50%) scale(1); }
-  @media (max-width:600px){ .theme-switch { font-size:0.92rem; padding:0.4rem 0.85rem 0.4rem 0.6rem; } }
-  @media (prefers-reduced-motion: reduce){ .theme-switch, .theme-switch .ts-sun { animation:none !important; } }
+    animation:chFloat 3.4s ease-in-out infinite;
+    transition:box-shadow .25s ease, border-color .25s ease; }
+  .chdial summary::-webkit-details-marker { display:none; }
+  .chdial summary:hover { border-color:var(--cyan);
+    box-shadow:0 0 28px rgba(255,210,80,0.7), 0 0 40px rgba(0,240,255,0.3); animation-play-state:paused; }
+  .chdial[open] summary { animation:none; border-color:var(--pink);
+    box-shadow:0 0 28px rgba(255,45,155,0.6); }
+  @keyframes chFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
+  .chdial .dial-ico { font-size:1.3rem; display:inline-block; animation:chWiggle 4s ease-in-out infinite; }
+  @keyframes chWiggle { 0%,88%,100% { transform:rotate(0deg); } 91% { transform:rotate(-14deg); } 95% { transform:rotate(12deg); } }
+  .chdial .dial-label { display:flex; flex-direction:column; line-height:1.05; text-align:left; }
+  .chdial .dial-label small { font-family:'Space Mono', monospace; font-size:0.5rem;
+    letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); opacity:0.8; }
+  .chdial-panel { position:absolute; bottom:calc(100% + 0.6rem); right:0;
+    width:230px; max-height:min(64vh, 460px); overflow-y:auto;
+    background:linear-gradient(160deg, #1a0e2e, #0d0718);
+    border:1.5px solid rgba(192,132,252,0.5); border-radius:16px;
+    box-shadow:0 0 30px rgba(192,132,252,0.3), 0 14px 40px rgba(0,0,0,0.6);
+    padding:0.8rem 0.65rem 0.65rem; }
+  .chdial-title { font-family:'VT323', monospace; font-size:1.05rem; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--gold); text-align:center; margin-bottom:0.55rem;
+    text-shadow:0 0 10px rgba(255,210,80,0.6); }
+  .chdial-panel a { display:flex; align-items:center; gap:0.6rem; text-decoration:none;
+    font-family:'VT323', monospace; font-size:1.02rem; letter-spacing:0.05em;
+    color:rgba(230,218,255,0.85); padding:0.4rem 0.55rem; border-radius:10px;
+    transition:background .15s ease, color .15s ease, transform .15s ease; }
+  .chdial-panel a:hover { background:rgba(255,255,255,0.07); color:#fff; transform:translateX(3px); }
+  .chdial-panel a .em { font-size:1.1rem; width:1.4rem; text-align:center; }
+  .chdial-panel a .ch { margin-left:auto; font-family:'Space Mono', monospace; font-size:0.52rem;
+    letter-spacing:0.14em; color:rgba(200,180,255,0.4); }
+  @media (max-width:600px){ .chdial-panel { width:200px; } }
+  @media (prefers-reduced-motion: reduce){ .chdial summary, .chdial .dial-ico { animation:none !important; } }
 </style>
-<a class="theme-switch" href="index-summer.html" title="Switch to the summer frequency">
-  <span class="ts-sun">☀️</span>
-  <span class="ts-label"><small>Change Channel</small>Summer Frequency</span>
-</a>
+<details class="chdial">
+  <summary title="Change the channel — pick a theme">
+    <span class="dial-ico">📺</span>
+    <span class="dial-label"><small>Change Channel</small>Pick a Frequency</span>
+  </summary>
+  <div class="chdial-panel">
+    <div class="chdial-title">📡 Channel Dial</div>
+    <a href="index-summer.html"><span class="em">☀️</span> Summer <span class="ch">CH 02</span></a>
+    <a href="index-halloween.html"><span class="em">🎃</span> Halloween <span class="ch">CH 03</span></a>
+    <a href="index-fall.html"><span class="em">🍂</span> Fall Café <span class="ch">CH 04</span></a>
+    <a href="index-candy.html"><span class="em">🍭</span> Candy Timestream <span class="ch">CH 05</span></a>
+    <a href="index-witching.html"><span class="em">🔮</span> Witching Hour <span class="ch">CH 06</span></a>
+    <a href="index-alien.html"><span class="em">🛸</span> Abduction <span class="ch">CH 07</span></a>
+    <a href="index-wonderland.html"><span class="em">🐇</span> Wonderland <span class="ch">CH 08</span></a>
+    <a href="index-vhs.html"><span class="em">📼</span> Lost Channel <span class="ch">CH 09</span></a>
+    <a href="index-sea.html"><span class="em">🌊</span> Under the Sea <span class="ch">CH 10</span></a>
+    <a href="index-dream.html"><span class="em">🌙</span> Dreamscape <span class="ch">CH 11</span></a>
+    <a href="index-cottage.html"><span class="em">🍄</span> Cottage Tea Time <span class="ch">CH 12</span></a>
+    <a href="index-arcade.html"><span class="em">🕹️</span> Arcade <span class="ch">CH 13</span></a>
+    <a href="index-winter.html"><span class="em">❄️</span> Winter Wonderland <span class="ch">CH 14</span></a>
+  </div>
+</details>
 
 <canvas id="bg"></canvas>
 
@@ -2142,6 +2209,25 @@
         <a href="/404.html">The Lost Channel</a>
       </div>
 
+    </div>
+
+    <div class="tmap-channels">
+      <div class="tmap-ch-head"><span>📺 Other Frequencies</span></div>
+      <div class="tmap-ch-grid">
+        <a class="tmap-chip" href="index-summer.html" style="--cc:#ffdd33;--cg:rgba(255,221,51,0.45)"><span class="cem">☀️</span><span class="cnm">Summer</span><span class="cno">CH 02</span></a>
+        <a class="tmap-chip" href="index-halloween.html" style="--cc:#ff7a1a;--cg:rgba(255,122,26,0.45)"><span class="cem">🎃</span><span class="cnm">Halloween</span><span class="cno">CH 03</span></a>
+        <a class="tmap-chip" href="index-fall.html" style="--cc:#ffb347;--cg:rgba(255,179,71,0.45)"><span class="cem">🍂</span><span class="cnm">Fall Café</span><span class="cno">CH 04</span></a>
+        <a class="tmap-chip" href="index-winter.html" style="--cc:#9fe8ff;--cg:rgba(159,232,255,0.45)"><span class="cem">❄️</span><span class="cnm">Winter Wonderland</span><span class="cno">CH 05</span></a>
+        <a class="tmap-chip" href="index-candy.html" style="--cc:#ff4fb8;--cg:rgba(255,79,184,0.45)"><span class="cem">🍭</span><span class="cnm">Candy Timestream</span><span class="cno">CH 06</span></a>
+        <a class="tmap-chip" href="index-witching.html" style="--cc:#b45cff;--cg:rgba(180,92,255,0.45)"><span class="cem">🔮</span><span class="cnm">Witching Hour</span><span class="cno">CH 07</span></a>
+        <a class="tmap-chip" href="index-alien.html" style="--cc:#52ff6e;--cg:rgba(82,255,110,0.45)"><span class="cem">🛸</span><span class="cnm">Abduction</span><span class="cno">CH 08</span></a>
+        <a class="tmap-chip" href="index-wonderland.html" style="--cc:#ff2440;--cg:rgba(255,36,64,0.45)"><span class="cem">🐇</span><span class="cnm">Wonderland</span><span class="cno">CH 09</span></a>
+        <a class="tmap-chip" href="index-vhs.html" style="--cc:#27e8f5;--cg:rgba(39,232,245,0.45)"><span class="cem">📼</span><span class="cnm">Lost Channel</span><span class="cno">CH 10</span></a>
+        <a class="tmap-chip" href="index-sea.html" style="--cc:#2ee6ff;--cg:rgba(46,230,255,0.45)"><span class="cem">🌊</span><span class="cnm">Under the Sea</span><span class="cno">CH 11</span></a>
+        <a class="tmap-chip" href="index-dream.html" style="--cc:#ffa8d9;--cg:rgba(255,168,217,0.45)"><span class="cem">🌙</span><span class="cnm">Dreamscape</span><span class="cno">CH 12</span></a>
+        <a class="tmap-chip" href="index-cottage.html" style="--cc:#e8899e;--cg:rgba(232,137,158,0.45)"><span class="cem">🍄</span><span class="cnm">Cottage Tea Time</span><span class="cno">CH 13</span></a>
+        <a class="tmap-chip" href="index-arcade.html" style="--cc:#39ff14;--cg:rgba(57,255,20,0.45)"><span class="cem">🕹️</span><span class="cnm">Arcade</span><span class="cno">CH 14</span></a>
+      </div>
     </div>
 
     <div class="tmap-here">Current position: <b>Magick Mica TV · Home Frequency</b></div>
