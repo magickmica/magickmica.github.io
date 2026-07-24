@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cosmic Circus Broadcast — a Magick Mica TV Spectacle</title>
+<meta name="description" content="Two transmissions under one big top — the Rise of the Cosmic Ringmaster and the Department of Impossible Things. Step into the ring of stars.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Yellowtail&family=Barlow+Condensed:wght@500;600;700;800&family=Karla:ital,wght@0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  :root{
+    --midnight:#0B0620;
+    --velvet:#2A0B2E;
+    --wine:#4A0E2E;
+    --royal:#1B0E3C;
+    --bureau:#1A1430;
+    --tentpink:#FF4FA3;
+    --pink:#FF7AC8;
+    --rose:#FFB3C7;
+    --gold:#F5C044;
+    --goldlight:#FFE9A8;
+    --mint:#5FE8D0;
+    --cyan:#4EE1FF;
+    --lav:#B79CFF;
+    --chrome:#D9E3F0;
+    --manila:#F2DFB0;
+    --cream:#FFF6FB;
+    --display:'Shrikhand', cursive;
+    --script:'Yellowtail', cursive;
+    --head:'Barlow Condensed', sans-serif;
+    --body:'Karla', sans-serif;
+    --mono:'Space Mono', monospace;
+    --crt:'VT323', monospace;
+    --holo:linear-gradient(100deg,#ffd1f0,var(--tentpink) 18%,var(--gold) 38%,var(--mint) 58%,var(--cyan) 76%,var(--lav) 90%,#ffd1f0);
+  }
+  body{
+    color:var(--cream);
+    font-family:var(--body);
+    font-size:1.05rem;line-height:1.65;
+    overflow-x:hidden;
+    background:linear-gradient(180deg,
+      var(--midnight) 0%,
+      var(--velvet) 14%,
+      var(--wine) 28%,
+      var(--velvet) 42%,
+      var(--royal) 58%,
+      var(--bureau) 74%,
+      var(--velvet) 88%,
+      #12061F 100%);
+    min-height:100vh;
+  }
+  ::selection{background:var(--gold);color:var(--velvet);}
+
+  body::after{
+    content:'';position:fixed;inset:0;z-index:60;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity:.38;mix-blend-mode:overlay;
+  }
+
+  .stars{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 12%, #fff 60%, transparent),
+      radial-gradient(1px 1px at 32% 44%, var(--pink) 60%, transparent),
+      radial-gradient(1.5px 1.5px at 56% 22%, var(--mint) 60%, transparent),
+      radial-gradient(1px 1px at 74% 56%, #fff 60%, transparent),
+      radial-gradient(2px 2px at 88% 8%, var(--gold) 60%, transparent),
+      radial-gradient(1px 1px at 20% 66%, var(--lav) 60%, transparent),
+      radial-gradient(1.4px 1.4px at 44% 5%, #fff 60%, transparent),
+      radial-gradient(1px 1px at 94% 38%, var(--cyan) 60%, transparent);
+    opacity:.6;animation:twinkle 6s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{from{opacity:.4}to{opacity:.75}}
+
+  /* roaming spotlight beams */
+  .beams{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;}
+  .beam{
+    position:absolute;top:-30%;left:50%;width:34vw;height:150vh;
+    background:linear-gradient(180deg, rgba(255,246,251,.16), rgba(255,246,251,.04) 45%, transparent 75%);
+    clip-path:polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+    transform-origin:50% 0;filter:blur(6px);mix-blend-mode:screen;
+  }
+  .beam.b1{animation:sweepA 15s ease-in-out infinite alternate;}
+  .beam.b2{left:30%;background:linear-gradient(180deg, rgba(255,79,163,.16), transparent 70%);animation:sweepB 19s 2s ease-in-out infinite alternate;}
+  .beam.b3{left:70%;background:linear-gradient(180deg, rgba(95,232,208,.14), transparent 70%);animation:sweepC 17s 1s ease-in-out infinite alternate;}
+  @keyframes sweepA{from{transform:translateX(-50%) rotate(-16deg);}to{transform:translateX(-50%) rotate(15deg);}}
+  @keyframes sweepB{from{transform:translateX(-50%) rotate(12deg);}to{transform:translateX(-50%) rotate(-18deg);}}
+  @keyframes sweepC{from{transform:translateX(-50%) rotate(-9deg);}to{transform:translateX(-50%) rotate(20deg);}}
+
+  /* glitter storm canvas */
+  #confetti{position:fixed;inset:0;z-index:50;pointer-events:none;}
+
+  main{position:relative;z-index:2;}
+
+  /* ── big top awning ── */
+  .bigtop{position:relative;z-index:6;}
+  .bigtop .canvas-stripes{
+    height:56px;
+    background:repeating-linear-gradient(96deg,
+      var(--tentpink) 0 42px, #fff2f8 42px 84px);
+    box-shadow:0 6px 22px rgba(0,0,0,.5), inset 0 -6px 12px rgba(0,0,0,.18);
+  }
+  .bigtop .scallop{
+    height:26px;margin-top:-1px;
+    background:repeating-linear-gradient(96deg, var(--tentpink) 0 42px, #fff2f8 42px 84px);
+    -webkit-mask-image:radial-gradient(circle at 21px 0, #000 20px, transparent 21px);
+    mask-image:radial-gradient(circle at 21px 0, #000 20px, transparent 21px);
+    -webkit-mask-size:42px 26px;mask-size:42px 26px;
+    -webkit-mask-repeat:repeat-x;mask-repeat:repeat-x;
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,.45));
+  }
+  /* bunting pennants */
+  .bunting{position:relative;height:40px;margin-top:2px;}
+  .bunting svg{display:block;width:100%;height:40px;overflow:visible;}
+  .bunting .cord{fill:none;stroke:rgba(245,192,68,.7);stroke-width:2;}
+  .flag{transform-origin:top center;animation:flagWave 3.2s ease-in-out infinite;}
+  @keyframes flagWave{0%,100%{transform:rotate(-3deg);}50%{transform:rotate(3deg);}}
+
+  .marquee{
+    position:relative;z-index:5;overflow:hidden;white-space:nowrap;
+    border-top:1px solid rgba(245,192,68,.3);border-bottom:1px solid rgba(245,192,68,.3);
+    background:rgba(11,6,32,.6);
+    font-family:var(--crt);font-size:1.15rem;letter-spacing:.14em;
+    color:var(--gold);padding:.35rem 0;
+    text-shadow:0 0 10px rgba(245,192,68,.5);
+  }
+  .marquee span{display:inline-block;padding-left:100%;animation:marq 28s linear infinite;}
+  @keyframes marq{to{transform:translateX(-100%);}}
+
+  header{text-align:center;padding:2.6rem 1.25rem 2.6rem;position:relative;}
+  .ticker{
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--mint);margin-bottom:1.9rem;
+    display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  }
+  .ticker .dot{color:var(--tentpink);}
+  .onair{
+    display:inline-flex;align-items:center;gap:.5rem;
+    font-family:var(--crt);font-size:1.05rem;letter-spacing:.2em;
+    color:var(--gold);border:1.5px solid var(--gold);border-radius:.4rem;
+    padding:.15rem .8rem;margin-bottom:1.4rem;
+    box-shadow:0 0 14px rgba(245,192,68,.45), inset 0 0 10px rgba(245,192,68,.18);
+    animation:onairblink 1.6s steps(2,end) infinite;
+  }
+  @keyframes onairblink{50%{opacity:.55}}
+
+  /* marquee bulb sign */
+  .sign{
+    position:relative;display:inline-block;
+    border:3px solid var(--gold);border-radius:1.6rem;
+    padding:2rem 2.8rem 2.2rem;overflow:hidden;
+    box-shadow:0 0 30px rgba(245,192,68,.45), inset 0 0 30px rgba(255,79,163,.16);
+    background:rgba(30,8,30,.6);backdrop-filter:blur(3px);
+  }
+  .sign::after{
+    content:'';position:absolute;top:-60%;left:-30%;width:32%;height:220%;
+    background:linear-gradient(105deg, transparent, rgba(255,255,255,.26), transparent);
+    transform:rotate(12deg);animation:shine 6s ease-in-out infinite;pointer-events:none;
+  }
+  @keyframes shine{0%,55%,100%{left:-40%;}80%{left:120%;}}
+  /* chasing bulbs around the sign */
+  .bulbs{position:absolute;inset:6px;pointer-events:none;}
+  .bulbs i{
+    position:absolute;width:9px;height:9px;border-radius:50%;
+    background:var(--goldlight);
+    box-shadow:0 0 8px var(--gold), 0 0 16px rgba(245,192,68,.7);
+    animation:bulbChase 1.4s linear infinite;
+  }
+  @keyframes bulbChase{0%,100%{opacity:1;transform:scale(1);}45%{opacity:.25;transform:scale(.75);}}
+  .sign h1{
+    font-family:var(--display);
+    font-size:clamp(2.1rem, 7.2vw, 4.6rem);line-height:1.05;
+    background:var(--holo);background-size:240% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 0 20px rgba(255,79,163,.5));
+    animation:holo 8s linear infinite;
+  }
+  @keyframes holo{to{background-position:240% 0;}}
+  .sign .script{
+    font-family:var(--script);
+    font-size:clamp(1.5rem, 4.6vw, 2.7rem);
+    color:var(--gold);text-shadow:0 0 14px rgba(245,192,68,.7);
+    display:block;margin-top:.2rem;transform:rotate(-2.5deg);
+  }
+  .tagline{margin-top:1.5rem;color:var(--lav);font-style:italic;}
+  .sparkline{margin-top:.9rem;color:var(--gold);font-size:.95rem;letter-spacing:.08em;opacity:.85;}
+
+  .guide{max-width:800px;margin:2.6rem auto 0;padding:0 1.25rem;}
+  .guide-label{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--gold);text-align:center;margin-bottom:.9rem;
+  }
+  .guide a{
+    display:flex;align-items:baseline;gap:1rem;
+    text-decoration:none;color:var(--cream);
+    border:1px solid rgba(255,246,251,.12);border-radius:.8rem;
+    padding:.7rem 1.1rem;margin-bottom:.55rem;
+    background:rgba(255,246,251,.03);
+    transition:transform .18s ease, border-color .18s ease, background .18s ease;
+    font-family:var(--head);font-size:1.15rem;letter-spacing:.04em;
+  }
+  .guide a:hover{transform:translateX(6px);border-color:var(--gold);background:rgba(245,192,68,.08);}
+  .guide .ch{
+    font-family:var(--crt);font-size:1.1rem;color:var(--tentpink);min-width:4.4rem;
+    text-shadow:0 0 8px rgba(255,79,163,.5);
+  }
+  .guide .desc{margin-left:auto;font-family:var(--mono);font-size:.66rem;color:var(--lav);letter-spacing:.12em;text-transform:uppercase;text-align:right;}
+
+  /* featured guide rows */
+  .guide a.featured{
+    position:relative;overflow:hidden;
+    border:2px solid transparent;
+    background:
+      linear-gradient(rgba(34,10,34,.92), rgba(26,8,30,.92)) padding-box,
+      linear-gradient(110deg,var(--gold),var(--tentpink),var(--mint),var(--lav),var(--gold)) border-box;
+    background-size:100% 100%, 300% 100%;
+    animation:featuredholo 5s linear infinite, featuredpulse 2.4s ease-in-out infinite;
+  }
+  @keyframes featuredholo{to{background-position:0 0, 300% 0;}}
+  @keyframes featuredpulse{
+    0%,100%{box-shadow:0 0 12px rgba(245,192,68,.25);}
+    50%{box-shadow:0 0 30px rgba(255,79,163,.5);}
+  }
+  .guide a.featured::after{
+    content:'';position:absolute;top:-60%;left:-30%;width:24%;height:220%;
+    background:linear-gradient(105deg, transparent, rgba(255,255,255,.22), transparent);
+    transform:rotate(12deg);animation:shine 4.5s ease-in-out infinite;pointer-events:none;
+  }
+  .guide a.featured .ch{color:var(--gold);text-shadow:0 0 10px rgba(245,192,68,.6);}
+  .guide a.featured .desc{color:var(--mint);text-shadow:0 0 8px rgba(95,232,208,.5);animation:onairblink 1.8s steps(2,end) infinite;}
+  .guide a.featured:hover{transform:translateX(6px) scale(1.015);}
+
+  section{position:relative;padding:4.5rem 1.25rem 1rem;}
+  .wrap{max-width:1100px;margin:0 auto;}
+  .ch-badge{
+    display:inline-flex;align-items:center;gap:.55rem;
+    font-family:var(--crt);font-size:1.05rem;letter-spacing:.18em;
+    color:var(--velvet);background:var(--gold);
+    border-radius:.45rem;padding:.12rem .75rem;
+    box-shadow:0 0 16px rgba(245,192,68,.55);
+    margin-bottom:1rem;
+  }
+  .ch-badge .live{width:.55rem;height:.55rem;border-radius:50%;background:var(--tentpink);animation:onairblink 1.4s steps(2,end) infinite;}
+  h2.section-title{
+    font-family:var(--display);
+    font-size:clamp(1.9rem, 5.5vw, 3.4rem);line-height:1.12;
+    margin-bottom:.4rem;
+  }
+  .section-sub{
+    font-family:var(--script);font-size:clamp(1.3rem, 3.4vw, 2rem);
+    transform:rotate(-1.5deg);display:inline-block;margin-bottom:1.4rem;
+  }
+  .section-note{max-width:660px;color:rgba(255,246,251,.85);margin-bottom:2.4rem;}
+  .stamp{
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--lav);margin-bottom:1.6rem;
+  }
+  .holo-frame{
+    position:relative;border-radius:1.2rem;overflow:hidden;padding:4px;
+    background:var(--holo);background-size:300% 100%;
+    animation:holo 7s linear infinite;
+    box-shadow:0 12px 44px rgba(255,79,163,.2), 0 4px 16px rgba(0,0,0,.5);
+    transition:transform .25s ease;
+  }
+  .holo-frame:hover{transform:translateY(-5px) rotate(-.4deg);}
+  .holo-frame img{display:block;width:100%;border-radius:1rem;}
+  .glyph-divider{
+    text-align:center;font-size:1.3rem;letter-spacing:.5em;color:var(--gold);
+    margin:4.2rem auto 0;opacity:.85;
+    text-shadow:0 0 12px rgba(245,192,68,.5);
+  }
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+<div class="beams" aria-hidden="true"><div class="beam b1"></div><div class="beam b2"></div><div class="beam b3"></div></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<main>
+
+<div class="bigtop" aria-hidden="true">
+  <div class="canvas-stripes"></div>
+  <div class="scallop"></div>
+  <div class="bunting">
+    <svg viewBox="0 0 1200 40" preserveAspectRatio="none">
+      <path class="cord" d="M0,6 Q300,26 600,8 Q900,26 1200,6"/>
+    </svg>
+  </div>
+</div>
+
+<div class="marquee" aria-hidden="true"><span>🎪 STEP RIGHT UP ✦ THE COSMIC CIRCUS IS IN TOWN ✦ ONE NIGHT ONLY, EVERY NIGHT ✦ THE SPOTLIGHT FORMS AROUND HER ✦ WHY NOT GLOW LOUDER? ✦ NOW SERVING: ∞ ✦ THE DEPARTMENT OF IMPOSSIBLE THINGS HAS BEEN LOOKING FOR YOU ✦ YOU ARE THE MAIN CHARACTER OF A UNIVERSE YOU CREATED 🎪</span></div>
+
+<header>
+  <div class="ticker">
+    <span>🎟 Admission: One Act of Imagination</span><span class="dot">●</span>
+    <span>Magick Mica TV</span><span class="dot">●</span>
+    <span>Broadcasting From Beneath The Big Top</span>
+  </div>
+  <div class="onair">◉ ON AIR — THE SHOW NEVER CLOSES</div><br>
+  <div class="sign">
+    <div class="bulbs" id="bulbs"></div>
+    <h1>The Cosmic Circus<br>Broadcast</h1>
+    <span class="script">a Magick Mica TV spectacle</span>
+  </div>
+  <p class="tagline">Two transmissions under one big top — a ringmaster crowned in nebula silk, and a celestial bureau that filed your imagination for safekeeping. ✦</p>
+  <p class="sparkline">˖°.✦ 🎪 ˚₊‧ ★ ‧₊˚ 🎠 ⋆ ◈ ⋆ ˚₊‧ ★ ‧₊˚ 🎩 ✦.°˖</p>
+
+  <nav class="guide" aria-label="Channel guide">
+    <div class="guide-label">✦ Tonight's Programme ✦</div>
+    <a href="#ringmaster"><span class="ch">CH 01</span> The Rise of the Cosmic Ringmaster <span class="desc">Circus of Light</span></a>
+    <a href="#carousel" class="featured" id="guideCarousel"><span class="ch">CH 🎠</span> The Cosmic Carousel <span class="desc">★ Take a Ride ★</span></a>
+    <a href="#department"><span class="ch">CH ◈</span> The Department of Impossible Things <span class="desc">Transmission 002</span></a>
+    <a href="#calliope" class="featured" id="guideCalliope"><span class="ch">CH 🎵</span> The Cosmic Calliope <span class="desc">★ Play It ★</span></a>
+  </nav>
+</header>
+<style>
+  /* ══════════════════════════════════════
+     CH 01 — THE COSMIC RINGMASTER
+  ══════════════════════════════════════ */
+  #ringmaster .section-title{
+    background:linear-gradient(100deg,#fff0f7,var(--tentpink) 28%,var(--gold) 54%,var(--rose) 78%,#fff0f7);
+    background-size:220% 100%;animation:holo 7s linear infinite;
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 0 22px rgba(255,79,163,.5));
+  }
+  #ringmaster .section-sub{color:var(--mint);text-shadow:0 0 12px rgba(95,232,208,.6);}
+
+  .ring-hero{
+    display:grid;grid-template-columns:1.05fr 1fr;gap:2rem;align-items:center;margin-bottom:2.8rem;
+  }
+  @media(max-width:820px){.ring-hero{grid-template-columns:1fr;}}
+  .ring-lede{
+    font-family:var(--head);font-size:1.34rem;line-height:1.75;letter-spacing:.02em;
+    color:rgba(255,246,251,.92);
+  }
+  .ring-lede .em{color:var(--gold);text-shadow:0 0 10px rgba(245,192,68,.4);}
+  .ring-lede .neon{color:var(--tentpink);text-shadow:0 0 12px rgba(255,79,163,.5);}
+
+  /* ticket-stub trend lists */
+  .ticket{
+    position:relative;border-radius:1rem;padding:1.6rem 1.5rem 1.5rem;
+    background:
+      radial-gradient(circle at 1px 1px, rgba(245,192,68,.10) 1px, transparent 1.8px) 0 0 / 11px 11px,
+      linear-gradient(160deg, rgba(255,79,163,.08), rgba(245,192,68,.05));
+    border:1.5px dashed rgba(245,192,68,.55);
+    box-shadow:inset 0 0 26px rgba(0,0,0,.3), 0 10px 32px rgba(0,0,0,.42);
+  }
+  .ticket::before,.ticket::after{
+    content:'';position:absolute;top:50%;width:22px;height:22px;border-radius:50%;
+    background:var(--velvet);transform:translateY(-50%);
+    box-shadow:inset 0 0 8px rgba(0,0,0,.6);
+  }
+  .ticket::before{left:-11px;} .ticket::after{right:-11px;}
+  .ticket h4{
+    font-family:var(--head);font-weight:800;font-size:1.05rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:.9rem;text-align:center;
+    text-shadow:0 0 10px rgba(245,192,68,.4);
+  }
+  .ticket ul{list-style:none;}
+  .ticket li{
+    padding:.42rem 0 .42rem 1.7rem;position:relative;color:rgba(255,246,251,.9);
+    border-bottom:1px dotted rgba(255,246,251,.16);font-size:.98rem;
+  }
+  .ticket li:last-child{border-bottom:none;}
+  .ticket li::before{content:'★';position:absolute;left:0;color:var(--tentpink);font-size:.8rem;}
+  .ticket .stub{
+    text-align:center;margin-top:1rem;padding-top:.7rem;border-top:1px dashed rgba(245,192,68,.4);
+    font-family:var(--mono);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--lav);
+  }
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;align-items:center;margin-bottom:2.8rem;}
+  @media(max-width:760px){.two-col{grid-template-columns:1fr;}}
+  .three-up{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.5rem;margin-bottom:2.8rem;}
+
+  .act{
+    border-radius:1.3rem;padding:1.9rem 1.7rem;margin-bottom:2.6rem;
+    border:1px solid rgba(255,79,163,.28);
+    background:linear-gradient(160deg, rgba(255,79,163,.07), rgba(183,156,255,.05) 55%, rgba(95,232,208,.05));
+    box-shadow:0 8px 32px rgba(0,0,0,.42);
+  }
+  .act h3{
+    font-family:var(--display);font-size:clamp(1.4rem,3.6vw,2rem);color:var(--gold);
+    text-shadow:0 0 16px rgba(245,192,68,.45);margin-bottom:.2rem;
+  }
+  .act .act-sub{
+    font-family:var(--script);font-size:1.5rem;color:var(--rose);
+    display:block;margin-bottom:1.1rem;transform:rotate(-1deg);
+  }
+  .act p{color:rgba(255,246,251,.88);margin-bottom:.9rem;}
+  .act p:last-child{margin-bottom:0;}
+  .act .kicker{color:var(--mint);font-style:italic;}
+
+  .ring-quote{
+    position:relative;max-width:740px;margin:3rem auto;text-align:center;
+    font-family:var(--script);font-size:clamp(1.5rem,4vw,2.4rem);line-height:1.45;
+    color:var(--cream);transform:rotate(-1deg);
+    text-shadow:0 0 20px rgba(255,79,163,.45);
+  }
+  .ring-quote small{
+    display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--gold);margin-top:.9rem;transform:rotate(1deg);
+  }
+  .spotlight-line{
+    text-align:center;margin:2.4rem auto;
+    font-family:var(--head);font-weight:800;font-size:clamp(1.1rem,3vw,1.6rem);
+    letter-spacing:.28em;text-transform:uppercase;color:var(--goldlight);
+    text-shadow:0 0 24px rgba(245,192,68,.7);
+    animation:spotPulse 3.4s ease-in-out infinite;
+  }
+  @keyframes spotPulse{0%,100%{opacity:.6;letter-spacing:.28em;}50%{opacity:1;letter-spacing:.34em;}}
+
+  /* ══════════════════════════════════════
+     CH 🎠 — THE COSMIC CAROUSEL
+  ══════════════════════════════════════ */
+  #carousel{
+    background:
+      radial-gradient(1000px 420px at 50% 0%, rgba(245,192,68,.14), transparent 70%),
+      linear-gradient(180deg, transparent, rgba(74,14,46,.5) 22%, rgba(74,14,46,.5) 84%, transparent);
+    overflow:hidden;
+  }
+  #carousel .section-title{color:var(--gold);text-shadow:0 0 26px rgba(245,192,68,.5);}
+  #carousel .section-sub{color:var(--rose);text-shadow:0 0 12px rgba(255,179,199,.6);}
+  .carousel-stage{
+    position:relative;max-width:940px;margin:0 auto;
+    padding-top:1rem;
+  }
+  /* carousel canopy */
+  .canopy{
+    position:relative;height:74px;margin:0 auto .4rem;width:min(88%,700px);
+    background:conic-gradient(from 180deg at 50% 100%,
+      var(--tentpink) 0 12.5%, #fff2f8 12.5% 25%,
+      var(--tentpink) 25% 37.5%, #fff2f8 37.5% 50%,
+      var(--tentpink) 50% 62.5%, #fff2f8 62.5% 75%,
+      var(--tentpink) 75% 87.5%, #fff2f8 87.5% 100%);
+    clip-path:polygon(50% 0, 100% 100%, 0 100%);
+    filter:drop-shadow(0 6px 12px rgba(0,0,0,.5));
+  }
+  .canopy-top{
+    position:absolute;left:50%;top:-26px;transform:translateX(-50%);
+    font-size:1.6rem;color:var(--gold);
+    text-shadow:0 0 14px rgba(245,192,68,.9);
+    animation:starTurn 6s linear infinite;
+  }
+  @keyframes starTurn{to{transform:translateX(-50%) rotate(360deg);}}
+  .canopy-frill{
+    height:18px;width:min(88%,700px);margin:-2px auto 0;
+    background:repeating-linear-gradient(96deg, var(--tentpink) 0 34px, #fff2f8 34px 68px);
+    -webkit-mask-image:radial-gradient(circle at 17px 0, #000 16px, transparent 17px);
+    mask-image:radial-gradient(circle at 17px 0, #000 16px, transparent 17px);
+    -webkit-mask-size:34px 18px;mask-size:34px 18px;
+    -webkit-mask-repeat:repeat-x;mask-repeat:repeat-x;
+    filter:drop-shadow(0 3px 4px rgba(0,0,0,.45));
+  }
+  .carousel-viewport{
+    position:relative;height:clamp(260px,42vw,380px);
+    perspective:1100px;margin-top:1.4rem;
+  }
+  .carousel-ring{
+    position:absolute;left:50%;top:50%;width:0;height:0;
+    transform-style:preserve-3d;
+    transition:transform .9s cubic-bezier(.4,1.1,.5,1);
+  }
+  .horse{
+    position:absolute;width:clamp(140px,20vw,190px);
+    left:calc(clamp(140px,20vw,190px) / -2);
+    top:calc(clamp(200px,29vw,262px) / -2);
+    border-radius:.9rem;overflow:hidden;padding:3px;
+    background:linear-gradient(140deg,var(--gold),var(--tentpink),var(--mint),var(--gold));
+    box-shadow:0 14px 34px rgba(0,0,0,.55);
+    backface-visibility:hidden;
+  }
+  .horse img{display:block;width:100%;height:clamp(194px,28vw,256px);object-fit:cover;border-radius:.7rem;}
+  .horse .plate{
+    position:absolute;left:0;right:0;bottom:0;
+    padding:1.1rem .5rem .4rem;
+    background:linear-gradient(180deg,transparent,rgba(11,6,32,.9));
+    font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--goldlight);text-align:center;
+  }
+  /* brass pole */
+  .horse::after{
+    content:'';position:absolute;left:50%;top:-14px;width:5px;height:calc(100% + 28px);
+    transform:translateX(-50%);z-index:-1;
+    background:linear-gradient(90deg,#8a6a2a,#ffe9a8 45%,#c99a3a);
+    border-radius:3px;box-shadow:0 0 8px rgba(245,192,68,.5);
+  }
+  .carousel-controls{
+    display:flex;gap:1rem;justify-content:center;align-items:center;margin-top:1.6rem;flex-wrap:wrap;
+  }
+  .car-btn{
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--velvet);background:linear-gradient(110deg,var(--gold),var(--rose));
+    border:none;border-radius:2rem;padding:.7rem 1.5rem;cursor:pointer;
+    box-shadow:0 0 20px rgba(245,192,68,.4);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .car-btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(255,179,199,.6);}
+  .car-spin[aria-pressed="true"]{background:linear-gradient(110deg,var(--mint),var(--cyan));}
+  .car-caption{
+    text-align:center;margin-top:1.1rem;min-height:1.6em;
+    font-family:var(--crt);font-size:1.2rem;letter-spacing:.1em;color:var(--gold);
+    text-shadow:0 0 10px rgba(245,192,68,.5);
+  }
+  .carousel-stage.spotlight{animation:stageRing 1.6s ease;}
+  @keyframes stageRing{
+    0%{filter:drop-shadow(0 0 0 rgba(245,192,68,.9));}
+    100%{filter:drop-shadow(0 0 46px rgba(245,192,68,0));}
+  }
+</style>
+
+<!-- ═══════════ CH 01 · THE COSMIC RINGMASTER ═══════════ -->
+<section id="ringmaster">
+  <div class="wrap">
+    <span class="ch-badge"><span class="live"></span> CH 01 · NOW SHOWING</span>
+    <h2 class="section-title">The Rise of the Cosmic Ringmaster</h2><br>
+    <span class="section-sub">circus of light — where fantasy meets fearlessness</span>
+    <p class="stamp">First transmitted Jun 18, 2026 · MagickMica Art · Cosmic Circus Summer 2026 · ✨👑🎪</p>
+
+    <div class="ring-hero">
+      <div class="holo-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!WIvq!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc663504b-3c9a-44d3-8f88-57ae35af20ee_1200x1200.png" alt="Circus of Light — cosmic carnival under galaxy skies" loading="lazy" style="aspect-ratio:1200/1200;width:100%;height:auto;">
+      </div>
+      <p class="ring-lede">Step into a world where imagination has no limits. Summer 2026 is all about <span class="neon">bold beauty, cosmic glamour,</span> and the magic that lives inside every dream.<br><br>Forget "clean girl" minimalism. This season isn't about perfection — <span class="em">it's about radiance.</span></p>
+    </div>
+
+    <div class="three-up">
+      <div class="ticket">
+        <h4>This Season's Fantasy Revival</h4>
+        <ul>
+          <li>Galaxy-infused beauty looks</li>
+          <li>Glittercore couture</li>
+          <li>Cosmic interiors</li>
+          <li>Surreal dream spaces</li>
+          <li>The return of maximalist magic</li>
+        </ul>
+        <div class="stub">Admit One ✦ Summer 2026</div>
+      </div>
+      <div class="ticket">
+        <h4>Trend Report</h4>
+        <ul>
+          <li>Crystal shimmer skin</li>
+          <li>Reflective chrome eyes</li>
+          <li>Holographic gloss</li>
+          <li>Nebula-inspired palettes</li>
+          <li>Luminous "dream lighting" looks</li>
+        </ul>
+        <div class="stub">Stardust State of Mind</div>
+      </div>
+      <div class="ticket">
+        <h4>Featured Worlds</h4>
+        <ul>
+          <li>Interdimensional circuses</li>
+          <li>Celestial gardens</li>
+          <li>Holographic mansions</li>
+          <li>Surreal dream hotels</li>
+          <li>Infinite carnival realms</li>
+        </ul>
+        <div class="stub">Portals &amp; Parades ✦ No Return Ticket</div>
+      </div>
+    </div>
+
+    <div class="act">
+      <h3>✨ Stardust State of Mind</h3>
+      <span class="act-sub">your glow era starts now</span>
+      <div class="two-col">
+        <div>
+          <p>Makeup that reflects galaxies. Skin that shines like starlight. This summer, beauty is about self-expression, not perfection.</p>
+          <p>The new beauty codes are luminous and surreal: chrome-flecked eyelids, crystal shimmer skin, pastel nebula blush, and lips glazed like holographic candy.</p>
+          <p class="kicker">But beneath the glitter is something deeper. The Stardust State of Mind is about becoming visible to yourself again — dressing like your inner universe deserves a spotlight, wearing colors that feel emotional, turning fantasy into identity.</p>
+        </div>
+        <div class="holo-frame">
+          <img src="https://substackcdn.com/image/fetch/$s_!HEF9!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F45347411-f39f-4e67-8dde-2e08deca4c45_1500x1500.png" alt="Stardust State of Mind — galaxy beauty look" loading="lazy" style="aspect-ratio:1500/1500;width:100%;height:auto;">
+        </div>
+      </div>
+    </div>
+
+    <div class="act">
+      <h3>👑 The Rise of the Cosmic Ringmaster</h3>
+      <span class="act-sub">the new icon of fantasy fashion</span>
+      <div class="two-col">
+        <div class="holo-frame">
+          <img src="https://substackcdn.com/image/fetch/$s_!Emo4!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F893d9e9a-7061-453e-b60c-e18be21397b6_1200x663.png" alt="The Cosmic Ringmaster in chrome corsetry and nebula silk" loading="lazy" style="aspect-ratio:1200/663;width:100%;height:auto;">
+        </div>
+        <div>
+          <p>Every era creates its own archetype. The 2020s had the minimalist muse. But Summer 2026 belongs to someone far more theatrical: <span class="kicker">the Cosmic Ringmaster.</span></p>
+          <p>She's part pop star, part magician, part queen of another dimension — draped in nebula silk and chrome corsetry, surrounded by carnival lights and planetary halos. She represents a new kind of confidence: one built from <i>imagination</i> instead of approval.</p>
+        </div>
+      </div>
+      <div class="three-up" style="margin-top:1.6rem;margin-bottom:1rem;">
+        <div class="ticket">
+          <h4>Her Regalia</h4>
+          <ul>
+            <li>Chrome corsetry</li>
+            <li>Nebula silk</li>
+            <li>Jewel-encrusted hats</li>
+            <li>Saturn rings of light</li>
+          </ul>
+          <div class="stub">Backstage Pass</div>
+        </div>
+        <div class="ticket">
+          <h4>On The Runway</h4>
+          <ul>
+            <li>Holographic tailoring</li>
+            <li>Jewel-encrusted accessories</li>
+            <li>Circus-inspired silhouettes</li>
+            <li>Dramatic capes &amp; celestial textures</li>
+          </ul>
+          <div class="stub">Exaggerated Glamour, Reinstated</div>
+        </div>
+        <div class="holo-frame">
+          <img src="https://substackcdn.com/image/fetch/$s_!BBKD!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F87aa5631-ce0e-4db6-bcca-c0f26431adb6_333x353.png" alt="The spotlight forms around her" loading="lazy" style="aspect-ratio:333/353;width:100%;height:auto;">
+        </div>
+      </div>
+      <p class="spotlight-line">The spotlight forms around her.</p>
+      <p class="ring-quote">"The real power isn't the outfit. It's the energy."
+        <small>✦ The Cosmic Ringmaster ✦</small>
+      </p>
+      <div class="two-col">
+        <div class="holo-frame">
+          <img src="https://substackcdn.com/image/fetch/$s_!ZXXk!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbc0148e8-f15d-49e4-b201-3e09c775a191_1563x1563.png" alt="She creates worlds impossible to ignore" loading="lazy" style="aspect-ratio:1563/1563;width:100%;height:auto;">
+        </div>
+        <div>
+          <p class="ring-lede" style="font-size:1.5rem;">The Cosmic Ringmaster <span class="neon">doesn't ask to be seen.</span><br><br>She creates worlds <span class="em">impossible to ignore.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <p class="ring-quote">"She steps into the ring of stars — not to perform, but to remind the cosmos who taught it how to spin."
+      <small>✦ Cosmic Circus, Summer 2026 ✦</small>
+    </p>
+    <div class="holo-frame" style="max-width:900px;margin:0 auto 2.8rem;">
+      <img src="https://substackcdn.com/image/fetch/$s_!4aev!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcf4421df-7440-4a9c-bb55-fe69cafa66a7_2200x1215.png" alt="The ring of stars" loading="lazy" style="aspect-ratio:2200/1215;width:100%;height:auto;">
+    </div>
+
+    <div class="act">
+      <h3>🎪 The Digital Circus Mansion</h3>
+      <span class="act-sub">inside the internet's newest fantasy obsession</span>
+      <div class="two-col">
+        <div>
+          <p>A velvet mansion glowing with galaxies. A fireplace burning cosmic fire instead of flame. Circus tents unfolding beneath crystal chandeliers.</p>
+          <p>Online creators are transforming old-world elegance into immersive fantasy: Victorian staircases wrapped in neon lights, checkerboard halls opening into portals, cosmic observatories hidden behind velvet curtains.</p>
+          <p class="kicker">The appeal lies in contradiction — luxury and chaos, nostalgia and futurism, glamour and dream logic. And somewhere inside the mansion, the circus is always waiting.</p>
+        </div>
+        <div class="holo-frame">
+          <img src="https://substackcdn.com/image/fetch/$s_!mhKc!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8bcd5735-f59d-40aa-8ef0-fe7564509e3d_1254x1254.png" alt="The Digital Circus Mansion" loading="lazy" style="aspect-ratio:1254/1254;width:100%;height:auto;">
+        </div>
+      </div>
+      <div class="ticket" style="margin-top:1.6rem;max-width:520px;">
+        <h4>Inside The Estate</h4>
+        <ul>
+          <li>Celestial throne halls</li>
+          <li>Infinite mirrored corridors</li>
+          <li>Glittering observatories</li>
+          <li>Portal gardens</li>
+          <li>Cosmic carousel ballrooms</li>
+        </ul>
+        <div class="stub">Guest Wing ✦ Ask For The Velvet Key</div>
+      </div>
+    </div>
+
+    <div class="act">
+      <h3>✨ The Glittercore Revival</h3>
+      <span class="act-sub">why maximalism is back</span>
+      <div class="two-col">
+        <div class="holo-frame">
+          <img src="https://substackcdn.com/image/fetch/$s_!Ss7r!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F952713f1-f42f-48f9-b12c-eadad94f8b91_333x329.png" alt="Glittercore revival" loading="lazy" style="aspect-ratio:333/329;width:100%;height:auto;">
+        </div>
+        <div>
+          <p>After years of muted tones and carefully curated restraint, a new generation is reclaiming spectacle. Glittercore is no longer just a visual trend — <span class="kicker">it's emotional maximalism.</span></p>
+          <p>It's not about chaos. It's about <b style="color:var(--gold);">permission</b>: permission to glow brighter, dress louder, dream bigger, and build realities that feel magical again.</p>
+          <p class="kicker">The message is simple: life is difficult enough already. Why not make it beautiful? Why not glow louder?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="act">
+      <h3>🌠 Portals, Parades &amp; Other Dimensions</h3>
+      <span class="act-sub">the fantasy spaces redefining digital art</span>
+      <div class="two-col">
+        <div>
+          <p>Instead of medieval castles or dystopian futures, artists are creating emotionally immersive dreamscapes: infinite circus gardens, celestial hotels, glowing carnival realms, and interdimensional mansions suspended in space.</p>
+          <p>One of the defining visual themes of 2026 is the <b style="color:var(--gold);">portal</b> — symbolic gateways into alternate realities filled with color, wonder, and transformation.</p>
+          <p class="kicker">In digital art spaces, fantasy is no longer escapism. It's worldbuilding for the soul.</p>
+        </div>
+        <div class="holo-frame">
+          <img src="https://substackcdn.com/image/fetch/$s_!zYzm!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2dca17c5-a1b2-42d8-b6cd-242d96481590_1200x663.png" alt="Portals, parades and other dimensions" loading="lazy" style="aspect-ratio:1200/663;width:100%;height:auto;">
+        </div>
+      </div>
+    </div>
+
+    <div class="act">
+      <h3>🎠 Circus of Light</h3>
+      <span class="act-sub">where fantasy meets fearlessness</span>
+      <div class="two-col">
+        <div class="holo-frame">
+          <img src="https://substackcdn.com/image/fetch/$s_!x0vs!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F783f4c3c-1cf7-4c1e-8673-6b42282e32a1_542x359.png" alt="Circus of Light" loading="lazy" style="aspect-ratio:542/359;width:100%;height:auto;">
+        </div>
+        <div>
+          <p>There's a reason the circus keeps returning in modern fantasy. <span class="kicker">It represents transformation.</span> A place where ordinary rules dissolve beneath lights, music, illusion, and spectacle — where identity becomes performance, and performance becomes freedom.</p>
+          <p>Pink holographic tents beneath galaxy skies. Floating carousel horses made of starlight. Glitter storms drifting through celestial gardens.</p>
+          <p class="kicker">This summer's fantasy movement isn't trying to imitate reality. It's trying to enchant it.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="ring-quote">"You are the main character of a universe you created."
+      <small>✦ Cosmic Circus — Summer 2026 ✦ Are you ready? ✦</small>
+    </p>
+    <div class="holo-frame" style="max-width:860px;margin:0 auto;">
+      <img src="https://substackcdn.com/image/fetch/$s_!lzL-!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd2470801-c803-4760-a67d-9797ebdca8fe_1536x1024.png" alt="Cosmic Circus Summer 2026" loading="lazy" style="aspect-ratio:1536/1024;width:100%;height:auto;">
+    </div>
+  </div>
+</section>
+
+<div class="glyph-divider" aria-hidden="true">★ ✦ ★ ✦ ★ ✦ ★</div>
+
+<!-- ═══════════ CH 🎠 · THE COSMIC CAROUSEL ═══════════ -->
+<section id="carousel">
+  <div class="wrap" style="text-align:center;">
+    <span class="ch-badge"><span class="live"></span> CH 🎠 · RIDE IN PROGRESS</span>
+    <h2 class="section-title">The Cosmic Carousel</h2><br>
+    <span class="section-sub">floating horses made of starlight</span>
+    <p class="section-note" style="margin-left:auto;margin-right:auto;">Every horse on this carousel is a doorway. It turns on its own — or take the reins and step through whichever world calls you.</p>
+
+    <div class="carousel-stage" id="carouselStage">
+      <div class="canopy" aria-hidden="true"><span class="canopy-top">★</span></div>
+      <div class="canopy-frill" aria-hidden="true"></div>
+
+      <div class="carousel-viewport">
+        <div class="carousel-ring" id="carouselRing">
+          <figure class="horse">
+            <img src="https://substackcdn.com/image/fetch/$s_!WIvq!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc663504b-3c9a-44d3-8f88-57ae35af20ee_1200x1200.png" alt="Circus of Light" loading="lazy">
+            <figcaption class="plate">Circus of Light</figcaption>
+          </figure>
+          <figure class="horse">
+            <img src="https://substackcdn.com/image/fetch/$s_!ZXXk!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbc0148e8-f15d-49e4-b201-3e09c775a191_1563x1563.png" alt="The Ringmaster" loading="lazy">
+            <figcaption class="plate">The Ringmaster</figcaption>
+          </figure>
+          <figure class="horse">
+            <img src="https://substackcdn.com/image/fetch/$s_!mhKc!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8bcd5735-f59d-40aa-8ef0-fe7564509e3d_1254x1254.png" alt="The Circus Mansion" loading="lazy">
+            <figcaption class="plate">The Circus Mansion</figcaption>
+          </figure>
+          <figure class="horse">
+            <img src="https://substackcdn.com/image/fetch/$s_!HEF9!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F45347411-f39f-4e67-8dde-2e08deca4c45_1500x1500.png" alt="Stardust State of Mind" loading="lazy">
+            <figcaption class="plate">Stardust State of Mind</figcaption>
+          </figure>
+          <figure class="horse">
+            <img src="https://substackcdn.com/image/fetch/$s_!zYzm!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2dca17c5-a1b2-42d8-b6cd-242d96481590_1200x663.png" alt="Portals and Parades" loading="lazy">
+            <figcaption class="plate">Portals &amp; Parades</figcaption>
+          </figure>
+          <figure class="horse">
+            <img src="https://substackcdn.com/image/fetch/$s_!lzL-!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd2470801-c803-4760-a67d-9797ebdca8fe_1536x1024.png" alt="Cosmic Circus Summer 2026" loading="lazy">
+            <figcaption class="plate">Cosmic Circus '26</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="carousel-controls">
+        <button class="car-btn" id="carPrev" aria-label="Previous horse">◂ back</button>
+        <button class="car-btn car-spin" id="carSpin" aria-pressed="true">❚❚ pause the ride</button>
+        <button class="car-btn" id="carNext" aria-label="Next horse">forward ▸</button>
+      </div>
+      <p class="car-caption" id="carCaption">now boarding: Circus of Light</p>
+    </div>
+  </div>
+</section>
+
+<div class="glyph-divider" aria-hidden="true">◈ ✦ ◈ ✦ ◈</div>
+<style>
+  /* ══════════════════════════════════════
+     CH ◈ — DEPARTMENT OF IMPOSSIBLE THINGS
+  ══════════════════════════════════════ */
+  #department{
+    background:
+      radial-gradient(1000px 440px at 50% 6%, rgba(183,156,255,.13), transparent 70%),
+      linear-gradient(180deg, transparent, rgba(26,20,48,.6) 22%, rgba(26,20,48,.6) 84%, transparent);
+  }
+  #department .section-title{
+    background:var(--holo);background-size:240% 100%;animation:holo 7s linear infinite;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 0 22px rgba(183,156,255,.55));
+  }
+  #department .section-sub{color:var(--gold);text-shadow:0 0 12px rgba(245,192,68,.6);}
+
+  .classified{
+    display:inline-block;margin:0 0 1.6rem;
+    font-family:var(--mono);font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--tentpink);border:2.5px solid var(--tentpink);border-radius:.4rem;
+    padding:.35rem 1rem;transform:rotate(-3deg);
+    box-shadow:0 0 14px rgba(255,79,163,.3);
+    background:rgba(255,79,163,.06);
+  }
+  .now-serving{
+    display:inline-flex;align-items:center;gap:.7rem;margin-left:1rem;
+    font-family:var(--crt);font-size:1.15rem;letter-spacing:.14em;color:#7CFF6B;
+    background:#04120a;border:1.5px solid #1e5c33;border-radius:.5rem;
+    padding:.3rem .9rem;text-shadow:0 0 8px rgba(124,255,107,.6);
+    transform:rotate(1.5deg);
+  }
+  .dept-intro{
+    max-width:640px;color:rgba(255,246,251,.88);margin-bottom:2rem;
+    font-family:var(--head);font-size:1.28rem;line-height:1.75;letter-spacing:.02em;
+  }
+  .dept-intro .em{color:var(--lav);text-shadow:0 0 10px rgba(183,156,255,.4);}
+
+  .files-label{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--gold);margin:2.4rem 0 1rem;
+  }
+  .files{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-bottom:2.6rem;}
+  .file{position:relative;cursor:pointer;user-select:none;border-radius:.7rem;transition:transform .2s ease;}
+  .file:hover{transform:translateY(-4px) rotate(-.5deg);}
+  .file .tab{
+    display:inline-block;
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;
+    color:#4a3c1a;background:var(--manila);
+    border-radius:.5rem .5rem 0 0;padding:.3rem .9rem .2rem;margin-left:1rem;
+    box-shadow:0 -2px 6px rgba(0,0,0,.25);
+  }
+  .file .folder{
+    position:relative;border-radius:.6rem;
+    background:linear-gradient(180deg,#f7e7bf,#e8d29a 70%,#d9c184);
+    box-shadow:0 8px 26px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.5);
+    padding:1.1rem 1.2rem 1.2rem;color:#4a3c1a;min-height:96px;
+  }
+  .file .folder .fname{font-family:var(--head);font-weight:800;font-size:1.15rem;letter-spacing:.06em;text-transform:uppercase;}
+  .file .folder .hint{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:#8a6f2e;margin-top:.5rem;}
+  .file .contents{
+    display:none;margin-top:.9rem;padding:1rem 1.1rem;
+    background:#fffdf4;border-radius:.4rem;border:1px solid #d9c184;
+    font-family:var(--mono);font-size:.85rem;line-height:1.7;color:#3a2f14;
+    white-space:pre-line;box-shadow:inset 0 1px 4px rgba(0,0,0,.08);
+  }
+  .file.open .contents{display:block;animation:fileopen .35s ease;}
+  .file.open .hint{display:none;}
+  .file .stamped{
+    position:absolute;top:8px;right:10px;
+    font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;color:rgba(200,40,60,.75);
+    border:1.5px solid rgba(200,40,60,.6);border-radius:.25rem;padding:.08rem .4rem;transform:rotate(8deg);
+  }
+  @keyframes fileopen{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
+
+  .hallway{
+    position:relative;border-radius:1.5rem;overflow:hidden;
+    padding:2.4rem 1.6rem 3rem;margin:3rem 0;
+    border:1.5px solid rgba(183,156,255,.35);
+    background:
+      linear-gradient(180deg, rgba(20,12,38,.4) 0%, rgba(30,18,52,.75) 100%),
+      repeating-conic-gradient(rgba(255,246,251,.06) 0% 25%, transparent 0% 50%) 50% 100% / 72px 72px;
+    box-shadow:inset 0 0 60px rgba(0,0,0,.55), 0 14px 50px rgba(0,0,0,.5);
+    text-align:center;
+  }
+  .hallway h3{font-family:var(--display);font-size:1.7rem;color:var(--lav);text-shadow:0 0 18px rgba(183,156,255,.55);margin-bottom:.3rem;}
+  .hallway .hall-sub{font-family:var(--script);font-size:1.5rem;color:var(--cyan);display:block;margin-bottom:2rem;transform:rotate(-1deg);}
+  .doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1.4rem;max-width:860px;margin:0 auto;}
+  .door{cursor:pointer;user-select:none;perspective:600px;}
+  .door .frame{
+    position:relative;height:190px;border-radius:1rem 1rem .3rem .3rem;
+    padding:6px;background:linear-gradient(180deg,#5b4a8a,#3a2f63);
+    box-shadow:0 10px 26px rgba(0,0,0,.5);
+  }
+  .door .panel{
+    position:absolute;inset:6px;border-radius:.8rem .8rem .2rem .2rem;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;
+    transform-origin:left center;transition:transform .55s cubic-bezier(.4,1.4,.6,1);
+    backface-visibility:hidden;z-index:2;
+  }
+  .door.open .panel{transform:rotateY(-86deg);}
+  .door .num{font-family:var(--crt);font-size:1.8rem;letter-spacing:.06em;color:rgba(255,255,255,.95);text-shadow:0 0 10px rgba(0,0,0,.4);}
+  .door .knob{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(245,192,68,.8);align-self:flex-end;margin-right:12px;}
+  .d7 .panel{background:linear-gradient(180deg,#FF9AC0,#E4568C);}
+  .d19 .panel{background:linear-gradient(180deg,#7FE8D8,#2FA893);}
+  .d33 .panel{background:linear-gradient(180deg,#B79CFF,#6C4BD8);}
+  .d42 .panel{background:linear-gradient(180deg,#3b3b4f,#191926);}
+  .door .beyond{
+    position:absolute;inset:6px;border-radius:.8rem .8rem .2rem .2rem;
+    display:flex;align-items:center;justify-content:center;text-align:center;padding:.7rem;z-index:1;
+    font-size:.8rem;line-height:1.5;color:var(--cream);
+    background:
+      radial-gradient(80% 80% at 50% 30%, rgba(255,255,255,.15), transparent 60%),
+      linear-gradient(180deg,#1b0f33,#0d0720);
+  }
+  .door .beyond b{color:var(--gold);}
+  .door-label{margin-top:.6rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lav);}
+  .door.d42.refuse .frame{animation:refuse .45s ease;}
+  @keyframes refuse{
+    0%,100%{transform:translateX(0);}
+    20%{transform:translateX(-7px) rotate(-1deg);}
+    40%{transform:translateX(6px) rotate(1deg);}
+    60%{transform:translateX(-5px);}
+    80%{transform:translateX(4px);}
+  }
+  .d42 .num{animation:glitchnum 2.4s steps(2,end) infinite;}
+  @keyframes glitchnum{
+    0%,88%,100%{opacity:1;transform:none;}
+    90%{opacity:.4;transform:translateX(2px) skewX(8deg);}
+    94%{opacity:1;transform:translateX(-2px);}
+  }
+  .hall-status{
+    margin-top:1.6rem;font-family:var(--crt);font-size:1.1rem;letter-spacing:.1em;
+    color:var(--mint);min-height:1.6em;text-shadow:0 0 8px rgba(95,232,208,.5);
+  }
+
+  .memo{
+    max-width:560px;margin:3rem auto;
+    background:#fffdf4;color:#3a2f14;border-radius:.6rem;
+    padding:1.8rem 1.7rem;transform:rotate(-1deg);
+    box-shadow:0 14px 40px rgba(0,0,0,.5);
+    font-family:var(--mono);font-size:.88rem;line-height:1.8;position:relative;
+  }
+  .memo::before{content:'📎';position:absolute;top:-14px;left:24px;font-size:1.6rem;}
+  .memo h4{
+    font-family:var(--head);font-weight:800;font-size:1.25rem;letter-spacing:.12em;text-transform:uppercase;
+    border-bottom:2px solid #3a2f14;padding-bottom:.4rem;margin-bottom:.9rem;
+  }
+  .memo .trend{margin-top:.9rem;font-weight:700;}
+
+  .envelope-zone{max-width:620px;margin:3rem auto 0;text-align:center;}
+  .envelope-zone .ez-label{font-family:var(--mono);font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--lav);margin-bottom:1.1rem;}
+  .envelope{position:relative;width:min(320px,84vw);height:190px;margin:0 auto;cursor:pointer;user-select:none;transition:transform .2s ease;}
+  .envelope:hover{transform:translateY(-4px);}
+  .envelope .env-back{position:absolute;inset:0;border-radius:.6rem;background:linear-gradient(180deg,#f2e6c8,#e0cd9e);box-shadow:0 14px 40px rgba(0,0,0,.5);}
+  .envelope .flap{
+    position:absolute;left:0;right:0;top:0;height:50%;z-index:3;
+    background:linear-gradient(180deg,#e8d8ae,#d4bf8a);
+    clip-path:polygon(0 0, 100% 0, 50% 100%);
+    transform-origin:top center;transition:transform .6s ease;border-radius:.6rem .6rem 0 0;
+  }
+  .envelope.open .flap{transform:rotateX(168deg);z-index:1;}
+  .envelope .seal{
+    position:absolute;left:50%;top:44%;z-index:4;transform:translate(-50%,-50%);
+    width:44px;height:44px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ff8fb8, #d13b6e 65%);
+    box-shadow:0 3px 10px rgba(0,0,0,.4);
+    display:grid;place-items:center;font-size:1.1rem;transition:opacity .3s ease;
+  }
+  .envelope.open .seal{opacity:0;}
+  .envelope .letter{
+    position:absolute;left:6%;right:6%;top:10%;bottom:10%;z-index:2;
+    background:#fffdf4;border-radius:.35rem;display:grid;place-items:center;padding:1rem;
+    font-family:var(--mono);font-size:.92rem;line-height:1.8;color:#3a2f14;
+    text-align:center;letter-spacing:.04em;
+    transition:transform .7s ease .25s, box-shadow .7s ease .25s;
+    box-shadow:inset 0 0 10px rgba(0,0,0,.06);
+  }
+  .envelope.open .letter{transform:translateY(-58%);box-shadow:0 10px 30px rgba(0,0,0,.4);z-index:5;}
+  .env-caption{margin-top:1rem;font-family:var(--crt);font-size:1.05rem;letter-spacing:.12em;color:var(--gold);min-height:1.5em;text-shadow:0 0 8px rgba(245,192,68,.4);}
+  .transmission-note{
+    max-width:600px;margin:2.6rem auto 0;text-align:center;
+    font-family:var(--crt);font-size:1.2rem;letter-spacing:.1em;color:var(--mint);
+    text-shadow:0 0 10px rgba(95,232,208,.5);
+  }
+</style>
+
+<!-- ═══════════ CH ◈ · THE DEPARTMENT ═══════════ -->
+<section id="department">
+  <div class="wrap">
+    <span class="ch-badge"><span class="live"></span> CH ◈ · TRANSMISSION 002</span>
+    <h2 class="section-title">The Department of Impossible Things</h2><br>
+    <span class="section-sub">it has been looking for you</span>
+    <p class="stamp">First transmitted Jul 20, 2026 · MagickMica Art · Delivered by accident. Or perhaps… exactly on time.</p>
+    <div>
+      <span class="classified">Classification: Glitter Level ★★★★★</span>
+      <span class="now-serving">NOW SERVING: <b id="serving">∞</b></span>
+    </div>
+
+    <p class="dept-intro" style="margin-top:1.8rem;">You may have noticed… certain ordinary objects have begun behaving… <span class="em">extraordinarily.</span> A parking lot reflecting galaxies. A shopping cart rolling toward no one. A glitter sticker that somehow survives three decades. A song from 2002 playing exactly when you needed permission to begin again.<br><br>These are not coincidences. <span class="em">These are invitations.</span></p>
+
+    <div class="two-col">
+      <div class="holo-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!TiU7!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcef283b8-06d4-4174-a809-46aa7147841f_1376x768.jpeg" alt="The Department of Impossible Things — headquarters beyond reality" loading="lazy" style="aspect-ratio:1376/768;width:100%;height:auto;">
+      </div>
+      <div class="holo-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!bq7Z!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F376a31e9-0edd-4bd3-8f11-38f6ed823616_1376x768.jpeg" alt="The Receptionist of Lost Imaginations" loading="lazy" style="aspect-ratio:1376/768;width:100%;height:auto;">
+      </div>
+    </div>
+
+    <p class="dept-intro">The receptionist wears butterfly clips made from tiny constellations. She stamps passports using glitter. When she looks up, she smiles as if she's been expecting you <span class="em">since before your first birthday.</span> She slides a tiny card across the desk: <b style="color:var(--gold);">"WELCOME BACK. We kept your imagination safe while you were away."</b></p>
+
+    <p class="files-label">▸ THE FILING CABINETS ARE FILLED WITH IMPOSSIBLE DOCUMENTS · CLICK A FILE TO OPEN IT</p>
+    <div class="files">
+      <div class="file" tabindex="0" role="button" aria-expanded="false">
+        <span class="tab">FILE #00491</span>
+        <div class="folder">
+          <span class="stamped">VERIFIED ✓</span>
+          <div class="fname">Reason Rainbows Curve</div>
+          <div class="contents">To make sure
+straight lines
+never become
+too confident.</div>
+          <div class="hint">▸ click to open file</div>
+        </div>
+      </div>
+      <div class="file" tabindex="0" role="button" aria-expanded="false">
+        <span class="tab">FILE #12803</span>
+        <div class="folder">
+          <span class="stamped">AMENDED</span>
+          <div class="fname">Why Cats Smile At Nothing</div>
+          <div class="contents">Correction —
+
+they're smiling
+at people
+you haven't noticed yet.</div>
+          <div class="hint">▸ click to open file</div>
+        </div>
+      </div>
+      <div class="file" tabindex="0" role="button" aria-expanded="false">
+        <span class="tab">FILE #∞</span>
+        <div class="folder">
+          <span class="stamped">ONGOING</span>
+          <div class="fname">Missing Childhood</div>
+          <div class="contents">Status:
+
+Never missing.
+
+Merely misplaced
+beneath practicality.</div>
+          <div class="hint">▸ click to open file</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hallway">
+      <h3>The Hallway of Impossible Doors</h3>
+      <span class="hall-sub">every door opens into a different possibility…</span>
+      <div class="doors">
+        <div class="door d7" tabindex="0" role="button" aria-expanded="false">
+          <div class="frame">
+            <div class="beyond">a city made entirely of <b>bubblegum sunsets</b></div>
+            <div class="panel"><span class="num">№ 7</span><span class="knob"></span></div>
+          </div>
+          <div class="door-label">Door #7</div>
+        </div>
+        <div class="door d19" tabindex="0" role="button" aria-expanded="false">
+          <div class="frame">
+            <div class="beyond">an endless mall where every storefront sells <b>forgotten dreams from childhood</b></div>
+            <div class="panel"><span class="num">№ 19</span><span class="knob"></span></div>
+          </div>
+          <div class="door-label">Door #19</div>
+        </div>
+        <div class="door d33" tabindex="0" role="button" aria-expanded="false">
+          <div class="frame">
+            <div class="beyond">leads directly into <b>tomorrow's memories</b></div>
+            <div class="panel"><span class="num">№ 33</span><span class="knob"></span></div>
+          </div>
+          <div class="door-label">Door #33</div>
+        </div>
+        <div class="door d42" tabindex="0" role="button" aria-expanded="false">
+          <div class="frame">
+            <div class="beyond">▓▒░ <b>ACCESS DENIED</b> ░▒▓</div>
+            <div class="panel"><span class="num">№ 42</span><span class="knob"></span></div>
+          </div>
+          <div class="door-label">Door #42 · do not</div>
+        </div>
+      </div>
+      <p class="hall-status" id="hallStatus">psst — try a door. (even the hallway gets nervous walking past #42.)</p>
+      <div class="holo-frame" style="max-width:760px;margin:2rem auto 0;">
+        <img src="https://substackcdn.com/image/fetch/$s_!onAS!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb7e5925f-24e3-4302-85bb-e1d3751cd365_1376x768.jpeg" alt="The Hallway of Impossible Doors — Door 42 waits" loading="lazy" style="aspect-ratio:1376/768;width:100%;height:auto;">
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="holo-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!kr_7!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F820ff0b9-4cc3-4aa7-a6cd-d6caf1ea78d9_1376x768.jpeg" alt="The Mall Between Dimensions" loading="lazy" style="aspect-ratio:1376/768;width:100%;height:auto;">
+      </div>
+      <div class="holo-frame">
+        <img src="https://substackcdn.com/image/fetch/$s_!j2VS!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe13ae787-f354-413b-987d-73005c4ad778_1376x768.jpeg" alt="Alice's Teacup Terminal" loading="lazy" style="aspect-ratio:1376/768;width:100%;height:auto;">
+      </div>
+    </div>
+    <p class="dept-intro">Mr. Wonka occasionally visits. He never uses the front entrance — he simply appears whenever someone <span class="em">laughs hard enough to bend reality.</span> He leaves bowls of impossible candy: one flavor tastes like <i>finding yourself</i>, another like <i>the first day of summer vacation.</i><br><br>Alice stops by every Thursday. She insists Wonderland was never a destination. <span class="em">"It was always… a different way of looking."</span> Then she smiles, pockets a sugar cube, and disappears through a teacup. Nobody questions it anymore.</p>
+
+    <div class="memo">
+      <h4>Magick Mica Style Report</h4>
+      This Season's Essentials:<br><br>
+      ♡ Shoes that leave stardust footprints.<br>
+      ♡ Jackets lined with moonlight.<br>
+      ♡ Sunglasses capable of seeing miracles.<br>
+      ♡ Lip gloss infused with tiny galaxies.<br>
+      ♡ Confidence in holographic chrome.<br>
+      <div class="trend">Trend Forecast: Wonder is making a major comeback.</div>
+    </div>
+
+    <div class="holo-frame" style="max-width:420px;margin:0 auto 2rem;">
+      <img src="https://substackcdn.com/image/fetch/$s_!WVzO!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0ecf2208-546c-47ad-bf3e-bf4fe06c8cdb_848x1264.jpeg" alt="The Fashion Forecast of Tomorrow" loading="lazy" style="aspect-ratio:848/1264;width:100%;height:auto;">
+    </div>
+
+    <div class="envelope-zone">
+      <p class="ez-label">Before you leave, the receptionist hands you one final envelope · click the seal</p>
+      <div class="envelope" id="envelope" tabindex="0" role="button" aria-expanded="false">
+        <div class="letter">THE WORLD IS NOT<br>BECOMING MORE MAGICAL.<br><br>YOU ARE BECOMING<br>MORE CAPABLE<br>OF SEEING IT.</div>
+        <div class="flap"></div>
+        <div class="seal">✦</div>
+        <div class="env-back"></div>
+      </div>
+      <p class="env-caption" id="envCaption">folded carefully, as though it might change shape if exposed to daylight…</p>
+    </div>
+
+    <p class="transmission-note">TRANSMISSION 002 COMPLETE · THE GLITTER UPDATE IS WORKING EXACTLY AS INTENDED</p>
+  </div>
+</section>
+
+<div class="glyph-divider" aria-hidden="true">🎵 ✦ ★ ✦ 🎵</div>
+<style>
+  /* ══════════════════════════════════════
+     CH 🎵 — THE COSMIC CALLIOPE (CTA)
+  ══════════════════════════════════════ */
+  #calliope{padding-bottom:2rem;}
+  .calliope-cta{
+    max-width:600px;margin:0 auto;text-align:center;
+    border-radius:1.6rem;padding:2.6rem 1.8rem 2.4rem;position:relative;overflow:hidden;
+    border:2px solid transparent;
+    background:
+      linear-gradient(160deg,#2b0a2c,#3d0f30 60%,#240a26) padding-box,
+      linear-gradient(120deg,var(--gold),var(--tentpink),var(--mint),var(--lav),var(--gold)) border-box;
+    box-shadow:0 0 34px rgba(245,192,68,.22), inset 0 0 50px rgba(0,0,0,.45), 0 16px 50px rgba(0,0,0,.5);
+  }
+  .calliope-cta h3{
+    font-family:var(--script);font-size:clamp(1.8rem,4.5vw,2.5rem);color:var(--gold);
+    text-shadow:0 0 16px rgba(245,192,68,.55);transform:rotate(-1.5deg);margin-bottom:.2rem;
+  }
+  .calliope-cta .cal-sub{
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--mint);margin-bottom:1.8rem;display:block;
+  }
+  /* the organ */
+  .organ{position:relative;width:230px;height:170px;margin:0 auto 1.6rem;}
+  .organ .star{
+    position:absolute;left:50%;top:-6px;transform:translateX(-50%);
+    font-size:1.5rem;color:var(--gold);z-index:4;
+    text-shadow:0 0 14px rgba(245,192,68,.9);
+    transition:opacity .5s ease;opacity:.5;
+  }
+  .calliope-cta.playing .organ .star{opacity:1;animation:starTurn 4s linear infinite;}
+  .organ .pipes{
+    position:absolute;left:50%;bottom:74px;transform:translateX(-50%);
+    display:flex;align-items:flex-end;gap:6px;z-index:2;
+  }
+  .organ .pipe{
+    width:14px;border-radius:7px 7px 2px 2px;
+    background:linear-gradient(180deg,#ffeec2,#d9a93f 45%,#8a6a2a);
+    box-shadow:inset -2px 0 3px rgba(0,0,0,.35), 0 0 10px rgba(245,192,68,.3);
+    transition:transform .18s ease;
+    transform-origin:bottom center;
+  }
+  .organ .pipe.p1{height:44px;} .organ .pipe.p2{height:62px;} .organ .pipe.p3{height:78px;}
+  .organ .pipe.p4{height:90px;} .organ .pipe.p5{height:76px;} .organ .pipe.p6{height:58px;} .organ .pipe.p7{height:40px;}
+  .calliope-cta.playing .organ .pipe{animation:pipeBounce 1.05s ease-in-out infinite;}
+  .organ .pipe.p2{animation-delay:.12s !important;} .organ .pipe.p3{animation-delay:.24s !important;}
+  .organ .pipe.p4{animation-delay:.36s !important;} .organ .pipe.p5{animation-delay:.48s !important;}
+  .organ .pipe.p6{animation-delay:.6s !important;} .organ .pipe.p7{animation-delay:.72s !important;}
+  @keyframes pipeBounce{0%,100%{transform:scaleY(1);}50%{transform:scaleY(1.14);}}
+  .organ .cabinet{
+    position:absolute;left:0;right:0;bottom:0;height:76px;z-index:3;
+    border-radius:.7rem;
+    background:
+      repeating-linear-gradient(96deg, var(--tentpink) 0 22px, #fff2f8 22px 44px);
+    box-shadow:inset 0 -8px 16px rgba(0,0,0,.35), 0 10px 26px rgba(0,0,0,.5);
+    border:3px solid var(--gold);
+  }
+  .organ .cabinet .keys{
+    position:absolute;left:10px;right:10px;bottom:9px;height:20px;
+    background:repeating-linear-gradient(90deg,#fffdf6 0 9px,#241a2e 9px 12px);
+    border-radius:.2rem;box-shadow:inset 0 2px 4px rgba(0,0,0,.35);
+  }
+  .organ .cabinet .plate{
+    position:absolute;left:50%;top:9px;transform:translateX(-50%);
+    font-family:var(--script);font-size:1.05rem;color:var(--velvet);
+    text-shadow:0 1px 0 rgba(255,255,255,.5);white-space:nowrap;
+  }
+  .organ .steam{
+    position:absolute;bottom:150px;font-size:1rem;opacity:0;z-index:1;
+    color:rgba(255,255,255,.85);
+  }
+  .calliope-cta.playing .steam{animation:steamPuff 2.8s ease-in infinite;}
+  .steam.s1{left:24%;animation-delay:.2s !important;}
+  .steam.s2{left:50%;animation-delay:1.1s !important;}
+  .steam.s3{left:74%;animation-delay:2s !important;}
+  @keyframes steamPuff{
+    0%{opacity:0;transform:translateY(0) scale(.6);}
+    18%{opacity:.85;}
+    100%{opacity:0;transform:translateY(-70px) scale(1.5);}
+  }
+  .calliope-btn{
+    display:inline-flex;align-items:center;gap:.7rem;
+    font-family:var(--head);font-weight:800;font-size:1.25rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--velvet);border:none;border-radius:3rem;cursor:pointer;
+    padding:1rem 2.4rem;position:relative;
+    background:linear-gradient(110deg,var(--gold),var(--rose) 45%,var(--mint) 85%);
+    background-size:200% 100%;
+    box-shadow:0 0 26px rgba(245,192,68,.45), 0 8px 24px rgba(0,0,0,.4);
+    transition:transform .18s ease, box-shadow .18s ease;
+    animation:ctapulse 2.6s ease-in-out infinite, holo 6s linear infinite;
+  }
+  .calliope-btn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 0 40px rgba(255,79,163,.6), 0 12px 30px rgba(0,0,0,.45);}
+  .calliope-btn:active{transform:translateY(0) scale(.98);}
+  @keyframes ctapulse{
+    0%,100%{box-shadow:0 0 22px rgba(245,192,68,.4), 0 8px 24px rgba(0,0,0,.4);}
+    50%{box-shadow:0 0 44px rgba(245,192,68,.7), 0 8px 24px rgba(0,0,0,.4);}
+  }
+  .calliope-btn[aria-pressed="true"]{background:linear-gradient(110deg,var(--lav),var(--tentpink));}
+  .calliope-hint{font-size:.82rem;color:rgba(255,246,251,.6);margin-top:.9rem;font-style:italic;}
+  .calliope-cta.spotlight{animation:spotlightring 1.6s ease;}
+  @keyframes spotlightring{
+    0%{box-shadow:0 0 0 0 rgba(245,192,68,.75), 0 0 34px rgba(245,192,68,.22);}
+    100%{box-shadow:0 0 0 46px rgba(245,192,68,0), 0 0 34px rgba(245,192,68,.22);}
+  }
+
+  footer{position:relative;z-index:2;text-align:center;padding:4rem 1.25rem 2.5rem;}
+  .footer-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1.6rem 0 2rem;}
+  .footer-links a{
+    text-decoration:none;color:var(--cream);
+    font-family:var(--head);font-size:1.05rem;letter-spacing:.05em;
+    border:1px solid rgba(255,246,251,.2);border-radius:2rem;
+    padding:.55rem 1.3rem;background:rgba(255,246,251,.04);
+    transition:border-color .2s ease, background .2s ease, transform .2s ease;
+  }
+  .footer-links a:hover{border-color:var(--gold);background:rgba(245,192,68,.1);transform:translateY(-2px);}
+  .footer-sign{
+    font-family:var(--script);font-size:1.9rem;color:var(--rose);
+    text-shadow:0 0 14px rgba(255,179,199,.6);transform:rotate(-2deg);display:inline-block;
+  }
+  .footer-fine{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,246,251,.5);margin-top:1.4rem;}
+  .signoff{
+    font-family:var(--crt);font-size:1.15rem;letter-spacing:.14em;color:var(--gold);
+    margin-top:2rem;text-shadow:0 0 10px rgba(245,192,68,.5);
+  }
+  .disclaimer{
+    max-width:560px;margin:1.6rem auto 0;font-size:.82rem;font-style:italic;
+    color:rgba(255,246,251,.45);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+    #confetti{display:none;}
+  }
+</style>
+
+<!-- ═══════════ CH 🎵 · THE COSMIC CALLIOPE ═══════════ -->
+<section id="calliope">
+  <div class="wrap">
+    <div class="calliope-cta" id="calliopeCta">
+      <h3>The Cosmic Calliope</h3>
+      <span class="cal-sub">✧ steam organ of the star circus ✧</span>
+      <div class="organ" aria-hidden="true">
+        <span class="steam s1">☁</span><span class="steam s2">☁</span><span class="steam s3">☁</span>
+        <span class="star">★</span>
+        <div class="pipes">
+          <span class="pipe p1"></span><span class="pipe p2"></span><span class="pipe p3"></span>
+          <span class="pipe p4"></span><span class="pipe p5"></span><span class="pipe p6"></span><span class="pipe p7"></span>
+        </div>
+        <div class="cabinet"><span class="plate">magick mica</span><span class="keys"></span></div>
+      </div>
+      <button class="calliope-btn" id="calliopeBtn" aria-pressed="false">▶ Start the Calliope</button>
+      <p class="calliope-hint">Pipes bounce, steam puffs, the star spins. A little circus waltz, conjured live in your browser.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-sign">thanks for stepping into the ring ✦</span>
+  <div class="footer-links">
+    <a href="https://magickmicaart.substack.com/p/the-rise-of-the-cosmic-ringmaster">📡 The Rise of the Cosmic Ringmaster — original post</a>
+    <a href="https://magickmicaart.substack.com/p/the-department-of-impossible-things">📡 The Department of Impossible Things — original post</a>
+  </div>
+  <p class="signoff">▚▞ THE BIG TOP DIMS · THE SPOTLIGHT STAYS WARM · NEXT: ◈ TRANSMISSION 003 ▞▚</p>
+  <p class="disclaimer">⋆˙⟡ Opinions, stories, and cosmic chaos shared here are for entertainment purposes only. Please don't make life decisions based solely on glitter and vibes.</p>
+  <p class="footer-fine">© Magick Mica TV · All Transmissions Reserved · Where Magic Meets the Pixel</p>
+</footer>
+
+<!-- ═════════════════════════════════════════════════════════════
+     ✦ MAGICK MICA · SITE NAV ✦
+     Universal bottom navigation for every page on the site.
+     HOW TO USE: paste this entire block just before </body>
+     on any page. All styles are scoped to .mm-nav — it won't
+     clash with any page theme.
+     The three "TV Specials" links are relative — if a page
+     lives in a subfolder (like /aliens/), change them to
+     absolute: https://magickmica.github.io/cozy-christmas-broadcast.html
+═════════════════════════════════════════════════════════════ -->
+<nav class="mm-nav" aria-label="Magick Mica site navigation">
+<style>
+  .mm-nav{
+    position:relative;z-index:20;
+    margin-top:4rem;
+    font-family:'Karla', ui-sans-serif, system-ui, sans-serif;
+    color:#FFF6FB;
+    background:
+      radial-gradient(800px 300px at 50% 0%, rgba(255,79,163,.10), transparent 70%),
+      linear-gradient(180deg,#12061F 0%, #1B0E2E 50%, #0C0416 100%);
+    border-top:1px solid rgba(255,246,251,.14);
+  }
+  .mm-nav *{margin:0;padding:0;box-sizing:border-box;}
+  .mm-nav .mm-wrap{max-width:1100px;margin:0 auto;padding:3rem 1.5rem 2.4rem;}
+  .mm-nav .mm-brand{
+    text-align:center;margin-bottom:2.2rem;
+  }
+  .mm-nav .mm-brand .mm-logo{
+    font-family:'Shrikhand', cursive;
+    font-size:clamp(1.6rem, 4.5vw, 2.3rem);line-height:1.1;
+    background:linear-gradient(100deg,#FF7AC8,#F5C044 35%,#5FE8D0 65%,#B79CFF);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 0 14px rgba(255,122,200,.4));
+    display:inline-block;
+  }
+  .mm-nav .mm-brand .mm-tag{
+    font-family:'Space Mono', monospace;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;
+    color:#B79CFF;margin-top:.4rem;
+  }
+  .mm-nav .mm-cols{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:2rem 1.6rem;margin-bottom:2.4rem;
+  }
+  .mm-nav .mm-col h4{
+    font-family:'Barlow Condensed', sans-serif;font-weight:800;
+    font-size:.95rem;letter-spacing:.22em;text-transform:uppercase;
+    color:#F5C044;margin-bottom:.8rem;
+    text-shadow:0 0 10px rgba(245,192,68,.35);
+  }
+  .mm-nav .mm-col a{
+    display:block;text-decoration:none;
+    color:rgba(255,246,251,.85);
+    font-size:.95rem;line-height:1.5;
+    padding:.32rem 0;
+    transition:color .18s ease, transform .18s ease;
+  }
+  .mm-nav .mm-col a:hover{color:#5FE8D0;transform:translateX(4px);}
+  .mm-nav .mm-col a .mm-ico{margin-right:.45rem;}
+  .mm-nav .mm-bottom{
+    border-top:1px solid rgba(255,246,251,.12);
+    padding-top:1.5rem;text-align:center;
+  }
+  .mm-nav .mm-bottom .mm-motto{
+    font-family:'Yellowtail', cursive;font-size:1.35rem;color:#FF7AC8;
+    text-shadow:0 0 12px rgba(255,122,200,.5);
+    display:inline-block;transform:rotate(-1.5deg);margin-bottom:.7rem;
+  }
+  .mm-nav .mm-bottom .mm-fine{
+    font-family:'Space Mono', monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+    color:rgba(255,246,251,.45);
+  }
+</style>
+  <div class="mm-wrap">
+    <div class="mm-brand">
+      <span class="mm-logo">Magick Mica TV</span>
+      <div class="mm-tag">where magic meets the pixel</div>
+    </div>
+    <div class="mm-cols">
+      <div class="mm-col">
+        <h4>📺 The Station</h4>
+        <a href="https://magickmica.github.io/"><span class="mm-ico">🏠</span>Magick Mica TV — Home</a>
+        <a href="https://magickmica.github.io/aliens/newsstand.html"><span class="mm-ico">👽</span>The Alien Newsstand</a>
+        <a href="https://magickmica.github.io/notes.html"><span class="mm-ico">📓</span>Notes Archive</a>
+        <a href="https://magickmica.github.io/notes.html?q=fairy"><span class="mm-ico">🧚</span>Fairy Notes</a>
+      </div>
+      <div class="mm-col">
+        <h4>✨ TV Specials</h4>
+        <a href="cozy-christmas-broadcast.html"><span class="mm-ico">🎄</span>The Cozy Christmas Broadcast</a>
+        <a href="glitter-transmission.html"><span class="mm-ico">💫</span>The Glitter Transmission</a>
+        <a href="impossible-broadcast.html"><span class="mm-ico">◈</span>The Impossible Broadcast</a>
+        <a href="cosmic-circus-broadcast.html"><span class="mm-ico">🎪</span>The Cosmic Circus Broadcast</a>
+      </div>
+      <div class="mm-col">
+        <h4>📡 Transmissions</h4>
+        <a href="https://magickmica.substack.com/"><span class="mm-ico">🛰</span>MagickMica TV on Substack</a>
+        <a href="https://magickmicaart.substack.com/"><span class="mm-ico">🎨</span>MagickMica Art on Substack</a>
+        <a href="https://substack.com/@magickmica"><span class="mm-ico">✉️</span>Subscribe / Follow</a>
+      </div>
+      <div class="mm-col">
+        <h4>💖 Support the Signal</h4>
+        <a href="https://ko-fi.com/magickmica"><span class="mm-ico">☕</span>Buy me a Ko-fi</a>
+        <a href="https://substack.com/@magickmica"><span class="mm-ico">🔁</span>Share a transmission</a>
+      </div>
+    </div>
+    <div class="mm-bottom">
+      <span class="mm-motto">magick is only a click away ✦</span>
+      <div class="mm-fine">© Magick Mica · All Transmissions Reserved</div>
+    </div>
+  </div>
+</nav>
+<!-- ═══ END MAGICK MICA SITE NAV ═══ -->
+
+</main>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ═══ MARQUEE BULBS around the sign ═══ */
+  var bulbs = document.getElementById('bulbs');
+  if (bulbs){
+    var N = 34;
+    for (var i=0;i<N;i++){
+      var b = document.createElement('i');
+      var t = i / N;
+      // walk the perimeter of the sign box
+      var x, y;
+      if (t < .25){ x = t*4*100; y = 0; }
+      else if (t < .5){ x = 100; y = (t-.25)*4*100; }
+      else if (t < .75){ x = 100 - (t-.5)*4*100; y = 100; }
+      else { x = 0; y = 100 - (t-.75)*4*100; }
+      b.style.left = 'calc(' + x + '% - 4.5px)';
+      b.style.top = 'calc(' + y + '% - 4.5px)';
+      b.style.animationDelay = (i * 0.055) + 's';
+      bulbs.appendChild(b);
+    }
+  }
+
+  /* ═══ CONFETTI / GLITTER STORM ═══ */
+  var canvas = document.getElementById('confetti');
+  if (canvas && !reduce){
+    var ctx = canvas.getContext('2d');
+    var W,H,bits=[];
+    var COLORS = ['#FF4FA3','#F5C044','#5FE8D0','#4EE1FF','#B79CFF','#FFFFFF','#FFB3C7'];
+    function size(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', size); size();
+    function make(top){
+      var conf = Math.random() < .45;      // confetti rectangles vs glitter sparks
+      return {
+        conf: conf,
+        x: Math.random()*W,
+        y: top ? -14 : Math.random()*H,
+        w: conf ? 4+Math.random()*5 : 1+Math.random()*2.2,
+        h: conf ? 7+Math.random()*8 : 1+Math.random()*2.2,
+        vy: .5 + Math.random()*1.3,
+        vx: Math.random()*.8-.4,
+        rot: Math.random()*Math.PI,
+        vr: (Math.random()-.5)*.14,
+        sway: Math.random()*Math.PI*2,
+        c: COLORS[(Math.random()*COLORS.length)|0]
+      };
+    }
+    for (var i=0;i<110;i++) bits.push(make(false));
+    function tick(){
+      ctx.clearRect(0,0,W,H);
+      for (var i=0;i<bits.length;i++){
+        var p = bits[i];
+        p.sway += .03;
+        p.y += p.vy; p.x += p.vx + Math.sin(p.sway)*.7;
+        p.rot += p.vr;
+        if (p.y > H+16){ bits[i] = make(true); continue; }
+        if (p.x > W+16) p.x = -16; else if (p.x < -16) p.x = W+16;
+        ctx.save();
+        ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+        ctx.fillStyle = p.c;
+        ctx.globalAlpha = p.conf ? .8 : (.5 + .5*Math.abs(Math.sin(p.sway*2)));
+        if (p.conf){ ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h*Math.abs(Math.cos(p.rot))); }
+        else { ctx.shadowColor = p.c; ctx.shadowBlur = 6; ctx.beginPath(); ctx.arc(0,0,p.w,0,Math.PI*2); ctx.fill(); }
+        ctx.restore();
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(tick);
+    }
+    tick();
+  }
+
+  /* ═══ COSMIC CAROUSEL ═══ */
+  var ring = document.getElementById('carouselRing');
+  if (ring){
+    var horses = Array.prototype.slice.call(ring.querySelectorAll('.horse'));
+    var n = horses.length, idx = 0, radius = 300, spinning = true, timer = null;
+    function layout(){
+      var vw = Math.min(window.innerWidth, 1000);
+      radius = vw < 620 ? 190 : vw < 860 ? 250 : 300;
+      horses.forEach(function(h, i){
+        h.style.transform = 'rotateY(' + (i * (360/n)) + 'deg) translateZ(' + radius + 'px)';
+      });
+      render();
+    }
+    function render(){
+      ring.style.transform = 'translateZ(-' + radius + 'px) rotateY(' + (-idx * (360/n)) + 'deg)';
+      var cap = document.getElementById('carCaption');
+      var name = horses[((idx % n) + n) % n].querySelector('.plate').textContent;
+      cap.textContent = 'now boarding: ' + name;
+    }
+    function go(d){ idx += d; render(); }
+    function start(){ if (timer) clearInterval(timer); timer = setInterval(function(){ go(1); }, 3400); }
+    function stop(){ if (timer) clearInterval(timer); timer = null; }
+    window.addEventListener('resize', layout);
+    layout();
+    if (!reduce) start(); else spinning = false;
+
+    document.getElementById('carNext').addEventListener('click', function(){ go(1); if (spinning) start(); });
+    document.getElementById('carPrev').addEventListener('click', function(){ go(-1); if (spinning) start(); });
+    var spinBtn = document.getElementById('carSpin');
+    spinBtn.setAttribute('aria-pressed', spinning ? 'true' : 'false');
+    spinBtn.textContent = spinning ? '❚❚ pause the ride' : '▶ start the ride';
+    spinBtn.addEventListener('click', function(){
+      spinning = !spinning;
+      spinBtn.setAttribute('aria-pressed', String(spinning));
+      spinBtn.textContent = spinning ? '❚❚ pause the ride' : '▶ start the ride';
+      if (spinning) start(); else stop();
+    });
+  }
+
+  /* ═══ NOW SERVING ticker ═══ */
+  var serving = document.getElementById('serving');
+  if (serving && !reduce){
+    var vals = ['∞','∞−1','√−1','42?','NO','∞'];
+    var vi = 0;
+    setInterval(function(){ vi = (vi+1)%vals.length; serving.textContent = vals[vi]; }, 2600);
+  }
+
+  /* ═══ FILE FOLDERS ═══ */
+  document.querySelectorAll('.file').forEach(function(f){
+    function toggle(){
+      f.classList.toggle('open');
+      f.setAttribute('aria-expanded', f.classList.contains('open') ? 'true' : 'false');
+    }
+    f.addEventListener('click', toggle);
+    f.addEventListener('keydown', function(e){ if (e.key===' '||e.key==='Enter'){ e.preventDefault(); toggle(); } });
+  });
+
+  /* ═══ DOORS ═══ */
+  var hallStatus = document.getElementById('hallStatus');
+  var doorMsgs = {
+    d7:'door #7 — smells like bubblegum and golden hour. take a towel.',
+    d19:'door #19 — the mall between dimensions. your childhood is in aisle ∞.',
+    d33:'door #33 — careful: you may remember this next week.'
+  };
+  document.querySelectorAll('.door').forEach(function(d){
+    function act(){
+      if (d.classList.contains('d42')){
+        d.classList.remove('refuse'); void d.offsetWidth; d.classList.add('refuse');
+        hallStatus.textContent = 'door #42 politely refuses. even the hallway looks away.';
+        return;
+      }
+      d.classList.toggle('open');
+      var open = d.classList.contains('open');
+      d.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open){
+        var key = d.classList.contains('d7') ? 'd7' : d.classList.contains('d19') ? 'd19' : 'd33';
+        hallStatus.textContent = doorMsgs[key];
+      } else {
+        hallStatus.textContent = 'the door clicks shut. the hallway pretends nothing happened.';
+      }
+    }
+    d.addEventListener('click', act);
+    d.addEventListener('keydown', function(e){ if (e.key===' '||e.key==='Enter'){ e.preventDefault(); act(); } });
+  });
+
+  /* ═══ ENVELOPE ═══ */
+  var env = document.getElementById('envelope');
+  var envCap = document.getElementById('envCaption');
+  if (env){
+    function openEnv(){
+      var open = env.classList.toggle('open');
+      env.setAttribute('aria-expanded', open ? 'true' : 'false');
+      envCap.textContent = open
+        ? '…you read it twice. it does not change. you do.'
+        : 'folded carefully, as though it might change shape if exposed to daylight…';
+    }
+    env.addEventListener('click', openEnv);
+    env.addEventListener('keydown', function(e){ if (e.key===' '||e.key==='Enter'){ e.preventDefault(); openEnv(); } });
+  }
+
+  /* ═══ GUIDE LINKS → spotlight the featured acts ═══ */
+  function wireGuide(linkId, targetId){
+    var link = document.getElementById(linkId), target = document.getElementById(targetId);
+    if (!link || !target) return;
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth', block:'center'});
+      var tries = 0;
+      var iv = setInterval(function(){
+        tries++;
+        var r = target.getBoundingClientRect();
+        var off = Math.abs((r.top + r.height/2) - window.innerHeight/2);
+        if (off > 60) target.scrollIntoView({behavior:'auto', block:'center'});
+        if (tries >= 4){
+          clearInterval(iv);
+          target.classList.remove('spotlight'); void target.offsetWidth;
+          target.classList.add('spotlight');
+        }
+      }, 550);
+    });
+  }
+  wireGuide('guideCarousel','carouselStage');
+  wireGuide('guideCalliope','calliopeCta');
+
+  /* ═══ THE COSMIC CALLIOPE — WebAudio steam organ waltz ═══ */
+  var calBtn = document.getElementById('calliopeBtn');
+  var calCta = document.getElementById('calliopeCta');
+  var aCtx = null, aMaster = null, calTimer = null, calOn = false, step = 0;
+  // a lilting circus waltz: melody in 3/4 over an oom-pah-pah bass
+  var MELODY = [
+    784,0,0, 988,0,0, 1175,0,0, 988,880,784,
+    880,0,0, 1047,0,0, 988,0,0, 784,0,0,
+    784,0,0, 1047,0,0, 1319,0,0, 1175,1047,988,
+    1047,0,0, 880,0,0, 784,0,0, 0,0,0
+  ];
+  var BASS = [196, 294, 294];  // oom - pah - pah
+  function beat(){
+    if (!calOn) return;
+    var t = aCtx.currentTime;
+    var m = MELODY[step % MELODY.length];
+    var b = BASS[step % 3];
+    // melody: bright square "steam whistle" with vibrato
+    if (m){
+      var o = aCtx.createOscillator(); o.type = 'square'; o.frequency.value = m;
+      var vib = aCtx.createOscillator(); vib.frequency.value = 5.5;
+      var vibG = aCtx.createGain(); vibG.gain.value = 7;
+      vib.connect(vibG); vibG.connect(o.frequency);
+      var lp = aCtx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2600;
+      var g = aCtx.createGain();
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(.055, t + .02);
+      g.gain.exponentialRampToValueAtTime(.0001, t + .42);
+      o.connect(lp); lp.connect(g); g.connect(aMaster);
+      o.start(t); vib.start(t); o.stop(t + .5); vib.stop(t + .5);
+    }
+    // oom-pah bass
+    var bo = aCtx.createOscillator(); bo.type = 'triangle'; bo.frequency.value = b;
+    var bg = aCtx.createGain();
+    var peak = (step % 3 === 0) ? .07 : .035;
+    bg.gain.setValueAtTime(0, t);
+    bg.gain.linearRampToValueAtTime(peak, t + .015);
+    bg.gain.exponentialRampToValueAtTime(.0001, t + .3);
+    bo.connect(bg); bg.connect(aMaster);
+    bo.start(t); bo.stop(t + .35);
+    step++;
+    calTimer = setTimeout(beat, 250);
+  }
+  function startCal(){
+    aCtx = aCtx || new (window.AudioContext || window.webkitAudioContext)();
+    aCtx.resume && aCtx.resume();
+    aMaster = aCtx.createGain();
+    aMaster.gain.value = 0;
+    aMaster.connect(aCtx.destination);
+    aMaster.gain.linearRampToValueAtTime(.75, aCtx.currentTime + .6);
+    calOn = true; step = 0;
+    beat();
+  }
+  function stopCal(){
+    calOn = false;
+    if (calTimer) clearTimeout(calTimer);
+    if (aMaster){
+      try{
+        aMaster.gain.linearRampToValueAtTime(0, aCtx.currentTime + .5);
+        var m = aMaster;
+        setTimeout(function(){ try{ m.disconnect(); }catch(e){} }, 600);
+      }catch(e){}
+      aMaster = null;
+    }
+  }
+  if (calBtn){
+    calBtn.addEventListener('click', function(){
+      var on = calBtn.getAttribute('aria-pressed') === 'true';
+      if (on){
+        stopCal();
+        calBtn.setAttribute('aria-pressed','false');
+        calBtn.innerHTML = '▶ Start the Calliope';
+        calCta.classList.remove('playing');
+      } else {
+        startCal();
+        calBtn.setAttribute('aria-pressed','true');
+        calBtn.innerHTML = '❚❚ Silence the Pipes';
+        calCta.classList.add('playing');
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
