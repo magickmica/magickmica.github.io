@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MAGICK MICA ✦ The Dream Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700;6..96,900&family=IBM+Plex+Mono:wght@300;400;600&family=Silkscreen:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07060e; --pearl:#ece9f7; --pearl-dim:#9d96b8;
+  --pink:#ff9be4; --cyan:#7bf1e4; --violet:#9b7bff; --gold:#ffd98a;
+  --holo:linear-gradient(115deg,var(--violet),var(--pink) 30%,var(--gold) 55%,var(--cyan) 80%,var(--violet));
+  --display:"Bodoni Moda",Didot,serif; --mono:"IBM Plex Mono",monospace;
+  --pixel:"Silkscreen",monospace; --arcade:"Orbitron",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{min-height:100dvh;background:var(--void);color:var(--pearl);font-family:var(--mono);overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:none}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+
+#sky{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 25% 12%,rgba(155,123,255,.18),transparent 55%),
+             radial-gradient(ellipse at 78% 85%,rgba(255,155,228,.14),transparent 55%),
+             radial-gradient(ellipse at 50% 50%,rgba(123,241,228,.06),transparent 75%)}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(1px 1px at 12% 22%,#fff9,transparent),radial-gradient(1px 1px at 32% 62%,#fff7,transparent),radial-gradient(1.5px 1.5px at 72% 32%,var(--gold),transparent),radial-gradient(1.5px 1.5px at 85% 68%,var(--pink),transparent),radial-gradient(1px 1px at 55% 12%,var(--cyan),transparent),radial-gradient(1px 1px at 45% 88%,#fff8,transparent);
+  animation:tw 5s infinite alternate}
+@keyframes tw{from{opacity:.4}to{opacity:.95}}
+
+.top{position:relative;z-index:3;text-align:center;padding:2rem 1rem 1rem}
+.top h1{font-family:var(--arcade);font-weight:900;font-size:clamp(1.8rem,6vw,3.4rem);letter-spacing:.04em;margin:0;
+  background:var(--holo);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 22px rgba(255,155,228,.4));animation:sh 6s linear infinite}
+@keyframes sh{to{background-position:200% center}}
+.top p{font-family:var(--pixel);font-size:.72rem;letter-spacing:.18em;color:var(--cyan);margin:.6rem 0 0;text-shadow:0 0 8px var(--cyan)}
+.top nav{margin-top:1rem;display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
+.top nav a{font-family:var(--pixel);font-size:.66rem;letter-spacing:.1em;color:var(--gold);text-decoration:none;border:1px solid var(--gold);padding:.3rem .7rem;transition:.2s}
+.top nav a:hover{background:var(--gold);color:#000;box-shadow:0 0 12px var(--gold)}
+
+.progress-wrap{position:relative;z-index:3;max-width:520px;margin:1.4rem auto 0;padding:0 1.5rem}
+.progress-track{height:8px;background:rgba(155,123,255,.15);border-radius:4px;overflow:hidden;border:1px solid rgba(155,123,255,.3)}
+.progress-fill{height:100%;width:0;background:var(--holo);background-size:200% auto;animation:sh 6s linear infinite;transition:width .6s ease}
+.progress-label{text-align:center;font-family:var(--pixel);font-size:.64rem;letter-spacing:.12em;color:var(--pearl-dim);margin-top:.5rem}
+
+.map{position:relative;z-index:2;max-width:640px;margin:1rem auto 0;aspect-ratio:1000/1400;width:100%}
+.map svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.path-line{fill:none;stroke:rgba(155,123,255,.25);stroke-width:3;stroke-dasharray:2 10;stroke-linecap:round}
+.path-done{fill:none;stroke:url(#pathgrad);stroke-width:4;stroke-linecap:round;filter:drop-shadow(0 0 6px var(--pink))}
+
+.node{position:absolute;transform:translate(-50%,-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:.4rem;width:120px}
+.node-orb{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;
+  border:2px solid rgba(155,123,255,.4);background:radial-gradient(circle at 35% 30%,#1a1430,#0a0714);transition:.35s;position:relative}
+.node-label{font-family:var(--pixel);font-size:.6rem;letter-spacing:.06em;text-align:center;color:var(--pearl-dim);line-height:1.3;text-shadow:0 1px 4px #000}
+.node[data-state="locked"] .node-orb{filter:grayscale(1) brightness(.5);opacity:.55}
+.node[data-state="locked"] .node-orb::after{content:"🔒";position:absolute;font-size:.8rem;bottom:-4px;right:-4px}
+.node[data-state="current"] .node-orb{border-color:var(--gold);box-shadow:0 0 24px var(--gold),inset 0 0 14px rgba(255,217,138,.3);animation:bob 2s infinite ease-in-out;cursor:pointer}
+.node[data-state="current"] .node-label{color:var(--gold)}
+.node[data-state="done"] .node-orb{border-color:var(--cyan);box-shadow:0 0 16px rgba(123,241,228,.5);cursor:pointer}
+.node[data-state="done"] .node-label{color:var(--cyan)}
+.node[data-state="done"] .node-orb::after{content:"✦";position:absolute;font-size:.9rem;bottom:-6px;right:-2px;color:var(--cyan)}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.traveler{position:absolute;transform:translate(-50%,-50%);z-index:5;font-size:1.8rem;transition:left 1.1s cubic-bezier(.5,0,.3,1),top 1.1s cubic-bezier(.5,0,.3,1);filter:drop-shadow(0 0 10px var(--pink));pointer-events:none}
+
+/* modal */
+.scrim{position:fixed;inset:0;z-index:20;background:rgba(4,3,10,.82);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:1.2rem}
+.scrim[data-on="true"]{display:flex;animation:fade .3s both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal{max-width:440px;width:100%;background:linear-gradient(160deg,#150f28,#0a0714);border:1px solid rgba(155,123,255,.4);border-radius:6px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 40px rgba(155,123,255,.2);animation:rise .4s cubic-bezier(.2,.8,.3,1) both}
+@keyframes rise{from{transform:translateY(24px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+.modal-head{padding:1.1rem 1.3rem .8rem;text-align:center;border-bottom:1px solid rgba(155,123,255,.2)}
+.modal-icon{font-size:2rem}
+.modal-region{font-family:var(--pixel);font-size:.66rem;letter-spacing:.14em;color:var(--cyan);margin-top:.3rem}
+.modal-name{font-family:var(--display);font-weight:900;font-size:1.4rem;margin:.2rem 0 0}
+.modal-blurb{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--pearl-dim);padding:.9rem 1.3rem 0;text-align:center}
+.artifact{padding:1.2rem 1.3rem}
+.artifact-frame{position:relative;border-radius:4px;overflow:hidden;border:1px solid rgba(155,123,255,.3);margin-bottom:.9rem}
+.artifact-frame img{width:100%;display:block;aspect-ratio:1;object-fit:cover}
+.artifact-glow{position:absolute;inset:0;box-shadow:inset 0 0 40px rgba(255,155,228,.25);pointer-events:none}
+.artifact-quote{font-family:var(--display);font-style:italic;font-size:.95rem;line-height:1.5;color:var(--pearl);text-align:center;margin:0 0 .6rem}
+.artifact-meta{font-family:var(--pixel);font-size:.62rem;letter-spacing:.1em;color:var(--gold);text-align:center}
+.modal-actions{display:flex;gap:.6rem;padding:0 1.3rem 1.3rem;flex-wrap:wrap;justify-content:center}
+.qbtn{font-family:var(--pixel);font-size:.68rem;letter-spacing:.08em;border:1px solid var(--cyan);color:var(--cyan);padding:.55rem 1rem;transition:.2s;border-radius:3px}
+.qbtn:hover{background:var(--cyan);color:#000;box-shadow:0 0 12px var(--cyan)}
+.qbtn.gold{border-color:var(--gold);color:var(--gold)}
+.qbtn.gold:hover{background:var(--gold);color:#000;box-shadow:0 0 12px var(--gold)}
+.qbtn.claim{border-color:var(--pink);color:var(--pink)}
+.qbtn.claim:hover{background:var(--pink);color:#000;box-shadow:0 0 14px var(--pink)}
+
+/* collection */
+.collection{position:relative;z-index:3;max-width:640px;margin:2.5rem auto 0;padding:0 1.5rem}
+.collection h2{font-family:var(--arcade);font-weight:700;font-size:1rem;letter-spacing:.1em;text-align:center;color:var(--violet)}
+.relic-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;margin-top:1rem}
+.relic{aspect-ratio:1;border-radius:3px;overflow:hidden;border:1px solid rgba(155,123,255,.25);background:#0a0714;display:flex;align-items:center;justify-content:center;position:relative}
+.relic img{width:100%;height:100%;object-fit:cover}
+.relic.empty{font-size:1rem;color:rgba(155,123,255,.3)}
+.relic.filled{cursor:pointer;transition:.2s}
+.relic.filled:hover{border-color:var(--cyan);box-shadow:0 0 12px rgba(123,241,228,.4);transform:scale(1.05)}
+
+/* end */
+.ending{position:relative;z-index:3;max-width:520px;margin:2.5rem auto 0;padding:1.5rem;text-align:center;border:1px solid rgba(255,217,138,.4);border-radius:6px;background:rgba(255,217,138,.05);display:none}
+.ending[data-on="true"]{display:block;animation:fade .5s both}
+.ending h2{font-family:var(--display);font-weight:900;font-size:1.6rem;color:var(--gold);margin:0 0 .5rem}
+.ending p{color:var(--pearl-dim);font-size:.9rem}
+
+.foot{position:relative;z-index:3;text-align:center;padding:3rem 1rem 2rem;font-family:var(--pixel);font-size:.62rem;letter-spacing:.12em;color:var(--pearl-dim)}
+.foot a{color:var(--pink)}
+.reset-link{margin-top:.8rem}
+.reset-link button{font-family:var(--pixel);font-size:.6rem;letter-spacing:.1em;color:var(--pearl-dim);border:1px solid rgba(155,123,255,.25);padding:.3rem .7rem}
+.reset-link button:hover{color:var(--pink);border-color:var(--pink)}
+
+@media(max-width:480px){
+  .node{width:90px}.node-orb{width:48px;height:48px;font-size:1.3rem}
+  .relic-grid{grid-template-columns:repeat(5,1fr);gap:.35rem}
+}
+</style>
+</head>
+<body>
+<div id="sky"></div><div id="stars"></div>
+
+<div class="top">
+  <h1>The Dream Quest</h1>
+  <p>✦ A JOURNEY THROUGH THE MAGICK MICA UNIVERSE ✦</p>
+  <nav>
+    <a href="arcade.html">← ARCADE</a>
+    <a href="index.html">HOME</a>
+    <a href="notes.html">NOTES</a>
+    <a href="https://magickmica.substack.com" target="_blank">SUBSCRIBE</a>
+  </nav>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+  <div class="progress-label" id="progLabel">0 of 10 realms explored</div>
+</div>
+
+<div class="map" id="map">
+  <svg viewBox="0 0 1000 1400" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="pathgrad" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0" stop-color="#9b7bff"/><stop offset="0.5" stop-color="#ff9be4"/><stop offset="1" stop-color="#7bf1e4"/>
+      </linearGradient>
+    </defs>
+    <path class="path-line" id="pathLine"/>
+    <path class="path-done" id="pathDone"/>
+  </svg>
+  <div class="traveler" id="traveler">✦</div>
+  <!-- nodes injected -->
+</div>
+
+<div class="collection">
+  <h2>✦ RELIC COLLECTION ✦</h2>
+  <div class="relic-grid" id="relicGrid"></div>
+</div>
+
+<div class="ending" id="ending">
+  <h2>✦ The Quest is Complete ✦</h2>
+  <p id="endingText"></p>
+</div>
+
+<div class="foot">
+  ✦ THE DREAM QUEST ✦ every relic is a real transmission ✦<br>
+  <a href="https://magickmica.substack.com" target="_blank">Subscribe on Substack</a> · <a href="arcade.html">More Games</a>
+  <div class="reset-link"><button id="resetBtn">↺ Restart Quest</button></div>
+</div>
+
+<!-- MODAL -->
+<div class="scrim" id="scrim">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+const QUEST = [{"key":"crystal","name":"The Crystal Caverns","icon":"💎","blurb":"Where the journey begins, deep among singing gemstones.","artifacts":[{"id":224783907,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdebc503c-be61-4a72-8741-0e28f309ce32_1200x1200.png","b":"Crystalline Coffee Time","l":24,"d":"2026-03-08"},{"id":261750943,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F05edd66f-bf25-48a0-974c-7135b4bce37a_1672x941.png","b":"PIXEL HOROSCOPE: See What the Stars Have in Store For You\n\n₊⟡ ⋆⭐☆✮⋆˙\n\n♈ ARIES Your main character energy is terrifying people this month. Keep going.\n\n♉ TAURUS ","l":18,"d":"2026-05-19"},{"id":260811235,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F12eb8c23-79cf-4cde-a1da-86c09c1553d0_1403x1121.png","b":"Prism OS \n\nWhere every color tells a story.","l":18,"d":"2026-05-18"},{"id":280410098,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffe37f27d-3a3c-4dd5-a57a-9d03611465b0_2048x2048.png","b":"“Dorothy noticed it first—the Wizard’s image freezing mid-smile across every crystal tower like reality itself was lagging.”","l":17,"d":"2026-06-21"}]},{"key":"coffee","name":"The Café at the Edge","icon":"☕","blurb":"A warm waystation between worlds. Sip, and steady yourself.","artifacts":[{"id":234062272,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa8f17e8c-c14a-4672-864a-5b6fe98da973_600x600.gif","b":"“Just a ghost trying to espresso myself into existence.”\n\n𖤓 ｡𖦹°‧ ⋆☀︎.𓍢ִ໋☕️✧˚ ༘ ⋆","l":60,"d":"2026-03-27"},{"id":226833678,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F534917e1-43db-41fe-9bbf-1981c6a4f8e7_450x450.gif","b":"Time for cosmic coffee. ☕🌌","l":26,"d":"2026-03-12"},{"id":278711185,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc2db026a-da61-44a9-be9c-7a3bd695051a_1149x1369.png","b":"👻 ̟࿔*:⋆☕Ghostlight Coffee","l":25,"d":"2026-06-18"},{"id":262071555,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6dbf1d27-fbec-4105-b144-ad0c415896ed_1200x1200.png","b":"Coffee first. Then alignment with the shimmering architecture of reality.","l":25,"d":"2026-05-20"}]},{"key":"wonderland","name":"The Wonderland Wood","icon":"🍄","blurb":"Nothing here is quite what it seems. Follow the white rabbit.","artifacts":[{"id":232645451,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fde85ab22-95a0-45cb-b537-40cc6e60596f_600x600.gif","b":"Cheshire Cat: “Tell me, Alice… which current will you follow?”\n\nAlice: “I don’t care which wave takes me—”\n\nCheshire Cat: “Then all tides are in your favor.”\n\nA","l":30,"d":"2026-03-24"},{"id":274761264,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2ed7e4b9-928f-44a2-a2fb-8cc95648ae50_1200x1513.png","b":"“Alice didn't fall down the rabbit hole. She uploaded herself to another dimension.”","l":29,"d":"2026-06-12"},{"id":253692007,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbb0e639b-a831-4824-ae6b-68afa1f9d586_1888x2249.png","b":"I followed the white rabbit,  ִֶָ𓂃 ࣪ ִֶָ🐇་༘࿐\n\nand ended up on another planet.  ༘˚⋆𐙚｡⋆𖦹.✧˚","l":21,"d":"2026-05-04"},{"id":260751360,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc07f9b07-6c1b-488d-b3d8-632dcb8cd53f_1888x2249.png","b":"Down the rabbit hole, the magic already knows you. \n\n🕳","l":20,"d":"2026-05-17"}]},{"key":"butterfly","name":"The Butterfly Grove","icon":"🦋","blurb":"Ten thousand wings carry you upward through the mist.","artifacts":[{"id":248767045,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5a9ba77f-fa0c-4775-8f64-0c272bc3bbc8_1254x1254.png","b":"“The night is softer when seen through fairy wings and stardust dreams.”","l":16,"d":"2026-04-25"},{"id":234156103,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F80280b09-e45c-4222-8728-829a0a9064ff_600x337.gif","b":"\"Neon in your glass. Wings in the air. This is couture — reinvented by the machine, reclaimed by nature.\"\n\n🦋⋆˙⟡🍷˙✧˖°📷 ༘ ⋆｡˚💜","l":15,"d":"2026-03-27"},{"id":227052997,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F31ae3f4c-b791-4d60-bc64-7941b5dd2c66_1200x1800.png","b":"Moth Queen -   🌙\n\nprompt request by Anomie Social","l":15,"d":"2026-03-13"},{"id":281494332,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1b06b39d-d72b-4cd1-929b-8d2b03cd2171_1024x1024.png","b":"Y2K Butterfly Glitch Perfume ⋆✴︎˚｡⋆\n\nPop Digital Dream \n\n✩♬₊˚.🎧⋆☾⋆⁺₊✧","l":13,"d":"2026-06-23"}]},{"key":"egypt","name":"The Golden Gate","icon":"𓂀","blurb":"Ancient guardians test those who wish to pass.","artifacts":[{"id":238984229,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F05f16ac7-9f98-466d-9543-67e516a1aadd_1200x686.png","b":"“Divinity reprogrammed: a goddess of plasma, flowing through pyramids of living light.” \n\n🔴🟠🟡🟢🔵🟣🤍☁️    @Ra Castaldo","l":20,"d":"2026-04-06"},{"id":233367359,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7d9a5a89-b391-4efc-b49c-e71af3b416eb_1080x1080.png","b":"“Where pyramids channel the cosmos, she becomes the current—divine, electric, infinite.”\n\n💜⋆✴︎˚｡⋆💚⋆˙⟡💛★💙","l":18,"d":"2026-03-26"},{"id":260546557,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7ebfd658-cc46-4bbb-a5bc-9ad720d0640e_2000x1141.png","b":"I am the pyramid reborn in light.\n\n⟁","l":12,"d":"2026-05-17"},{"id":216969769,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3a6ee585-bd7a-4c67-a8d9-cd7b9f6a97fb_1200x1200.png","b":"Tutankhamun Cosmic Energy\n\n🐪⚰️𓁈⚱️ 𓂀 𓋹","l":12,"d":"2026-02-20"}]},{"key":"angel","name":"The Angelic Heights","icon":"👼","blurb":"You rise past the clouds into radiant light.","artifacts":[{"id":228627851,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd3c91831-35bc-4c4d-92b7-23883523724f_1200x1110.png","b":"“Good heavens… must we truly endure this century? I would gladly return to the days when the greatest inconvenience was a wandering oracle or a mildly irritated","l":24,"d":"2026-03-16"},{"id":232781926,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffad472fb-29c2-4a37-8397-f0a460c747eb_480x740.gif","b":"“Heaven sent, but upgraded by the cosmos.”\n\n❤️⋆✴︎˚｡⋆ﾒ૦ﾒ૦💋⋆˙⟡💕🪄✨❤️‍🔥","l":20,"d":"2026-03-24"},{"id":219356313,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5eb9b540-4da9-4691-8326-4608da01b0f8_1200x684.png","b":"The divine feminine does not ask permission… she arrives.\n\n⋆✴︎˚｡⋆ﾒ૦ﾒ૦💋ִֶָ. ..𓂃 ࣪ ִֶ","l":20,"d":"2026-02-25"},{"id":245314443,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F41c03fec-fec2-44db-8b83-82d657847d3d_1200x639.png","b":"In my aura of pure elevation.\n\nIn my aura of sacred beauty.\n\nIn my aura of divine atmosphere.","l":19,"d":"2026-04-18"}]},{"key":"dessert","name":"The Ice Cream Nebula","icon":"🍦","blurb":"A galaxy spun from sugar and stardust.","artifacts":[{"id":231676095,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Facb26bc1-0462-4b7a-9b5e-4be99cd5bf12_600x600.gif","b":"“Not all spells need wands—some are made with sugar, sunshine, and a wooden spoon.”\n\n🥣‧₊˚ ⋅  𓐐𓎩 ‧₊˚ ⋅🍪⋆˚࿔✨","l":41,"d":"2026-03-22"},{"id":259979748,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb2543d0f-6c8f-491f-8e79-e0f7504d086d_1500x1500.png","b":"☾ “She turned darkness into glowing candy-colored magick.” ☾","l":23,"d":"2026-05-16"},{"id":290887238,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F08d03e17-e1ac-4c47-8638-fe279df93832_1024x1024.png","b":"The Last Ice Cream Before Sunrise","l":20,"d":"2026-07-08"},{"id":257059064,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9d4448a7-2b2c-49b9-8849-89d172b342e2_500x500.gif","b":"Let Them Eat Neon Frosted Cake.","l":20,"d":"2026-05-11"}]},{"key":"moon","name":"The Moon Temple","icon":"🌙","blurb":"Silver halls where dreams are kept and counted.","artifacts":[{"id":224780219,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffcb947ec-23a0-45ee-86d8-a1e7826e2e1b_1200x1200.png","b":"“She walks the shoreline like the moon walks the tide.”\n\n𓇼 ⋆.˚ 𓆉 𓆝 𓆡⋆.˚ 𓇼⋆｡𖦹 ˚ 𓇼 ˚｡⋆","l":23,"d":"2026-03-08"},{"id":236895437,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Feacfd4ec-cdf5-4fbf-bbcf-b90aad6ba328_1200x689.png","b":"“Darlin’, I don’t chase the light… I rise with the pink moon and let the world find me glowing.”\n\n💗ྀི💗ྀི💗ྀི💗ྀི💗ྀི","l":18,"d":"2026-04-02"},{"id":265306136,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F621c4728-d6c6-452b-9f2d-976fa9367523_1029x1528.png","b":"“I’m not saying I’m descended from star beings… but my aura literally glows under moonlight.”\n\n. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.","l":16,"d":"2026-05-26"},{"id":224581644,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1fa53129-7df2-4372-85af-308c020f8cba_450x450.gif","b":"“Peace flows  like moonlight on my pillow.”","l":16,"d":"2026-03-07"}]},{"key":"alien","name":"The Alien Signal","icon":"👽","blurb":"A transmission from far beyond calls you onward.","artifacts":[{"id":256084555,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F23a29faf-55aa-4027-a32c-f6a8a9beabd2_500x500.gif","b":"Aliens Love Icecream","l":20,"d":"2026-05-09"},{"id":227174492,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F479f5da4-fe05-4891-935e-28abcc9b77e2_1200x1554.png","b":"Happy Friday the 13th.  \n\n༉‧₊˚🕯️🖤❀༉‧₊˚.👻˚˖𓍢ִ໋ 🦇 ✧˚.🔮⋆🐈‍⬛\n\nLil Nebula Ghost has the coordinates to  the after life .","l":15,"d":"2026-03-13"},{"id":259409829,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8632d160-c8bc-4a3a-b401-d00945a616ee_1200x1200.png","b":"Thoughts arrived like UFO signals—distorted, glowing, impossible to ignore.","l":14,"d":"2026-05-15"},{"id":196706968,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5feb130-241c-447c-ab2f-5161c4741f5c_1200x1200.png","b":"Alien Transmissions\n\n👽📻🛸","l":14,"d":"2026-01-08"}]},{"key":"ocean","name":"The Cosmic Sea","icon":"🌊","blurb":"The final crossing — an endless shimmering tide.","artifacts":[{"id":225221489,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdf795bd8-2e9b-4281-8096-e28ddbfe0541_400x727.gif","b":"“The sea, once it casts its spell, holds one in its net of wonder forever.”\n\nJacques Cousteau","l":40,"d":"2026-03-09"},{"id":253519969,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb0cdef2a-18fa-4d32-a4f2-f62b9a83ecf4_1254x1254.png","b":"“Some dreams don’t whisper… they crash like waves. Ride them.”","l":22,"d":"2026-05-04"},{"id":245518299,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fafca791a-270b-4504-8bf2-811c886ed656_1111x1111.png","b":"“A goddess doesn’t search for power — she activates it.”\n\nִֶ⏾⋆","l":20,"d":"2026-04-18"},{"id":267615155,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F778de965-484d-4499-bc25-08bafba7aac2_1200x1200.png","b":"Welcome to Seadome Village \n\n🐟︎","l":19,"d":"2026-05-30"}]}];
+const POS = [[50, 94], [26, 84], [68, 74], [34, 64], [72, 55], [30, 46], [66, 37], [32, 28], [70, 19], [50, 8]];
+const SAVE_KEY = 'dreamquest_progress_v1';
+const noteUrl = id => `https://substack.com/@magickmica/note/c-${id}`;
+const $ = s => document.querySelector(s);
+
+// progress: index of current region (0..10). 10 = complete.
+let progress = 0;
+let claimed = {}; // regionIndex -> artifact index chosen
+try{
+  const saved = JSON.parse(localStorage.getItem(SAVE_KEY)||'{}');
+  progress = saved.progress||0; claimed = saved.claimed||{};
+}catch(e){}
+
+function save(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify({progress,claimed})); }catch(e){} }
+
+const map = $('#map');
+const traveler = $('#traveler');
+
+function nodeXY(i){ return { x: POS[i][0], y: POS[i][1] }; }
+
+// build the SVG path through all nodes
+function buildPaths(){
+  const pts = POS.map(p=>[p[0]*10, p[1]*14]); // to viewBox coords (1000x1400)
+  let d = `M ${pts[0][0]} ${pts[0][1]}`;
+  for(let i=1;i<pts.length;i++){
+    const [x0,y0]=pts[i-1], [x1,y1]=pts[i];
+    const mx=(x0+x1)/2;
+    d += ` C ${mx} ${y0}, ${mx} ${y1}, ${x1} ${y1}`;
+  }
+  $('#pathLine').setAttribute('d', d);
+  // done-path: only up to current progress
+  if(progress>0){
+    let dd = `M ${pts[0][0]} ${pts[0][1]}`;
+    const upto = Math.min(progress, pts.length-1);
+    for(let i=1;i<=upto;i++){
+      const [x0,y0]=pts[i-1], [x1,y1]=pts[i];
+      const mx=(x0+x1)/2;
+      dd += ` C ${mx} ${y0}, ${mx} ${y1}, ${x1} ${y1}`;
+    }
+    $('#pathDone').setAttribute('d', dd);
+  } else {
+    $('#pathDone').setAttribute('d','');
+  }
+}
+
+function stateOf(i){
+  if(i < progress) return 'done';
+  if(i === progress) return 'current';
+  return 'locked';
+}
+
+function renderNodes(){
+  map.querySelectorAll('.node').forEach(n=>n.remove());
+  QUEST.forEach((r,i)=>{
+    const {x,y}=nodeXY(i);
+    const node=document.createElement('div');
+    node.className='node';
+    node.dataset.state=stateOf(i);
+    node.style.left=x+'%'; node.style.top=y+'%';
+    node.innerHTML=`<div class="node-orb">${r.icon}</div><div class="node-label">${r.name}</div>`;
+    if(stateOf(i)!=='locked') node.querySelector('.node-orb').addEventListener('click',()=>openRegion(i));
+    map.appendChild(node);
+  });
+  // place traveler at current (or last) node
+  const ti = Math.min(progress, QUEST.length-1);
+  const {x,y}=nodeXY(ti);
+  traveler.style.left=x+'%'; traveler.style.top=y+'%';
+}
+
+function renderProgress(){
+  const pct = (progress/QUEST.length)*100;
+  $('#progFill').style.width=pct+'%';
+  $('#progLabel').textContent=`${progress} of ${QUEST.length} realms explored`;
+  if(progress>=QUEST.length){
+    $('#ending').dataset.on='true';
+    $('#endingText').textContent=`You've journeyed through all ${QUEST.length} realms and gathered ${Object.keys(claimed).length} relics from the archive. The universe remembers you, traveler. ✦`;
+  } else {
+    $('#ending').dataset.on='false';
+  }
+}
+
+function renderRelics(){
+  const grid=$('#relicGrid'); grid.innerHTML='';
+  QUEST.forEach((r,i)=>{
+    const relic=document.createElement('div');
+    if(claimed[i]!=null){
+      const a=r.artifacts[claimed[i]];
+      relic.className='relic filled';
+      relic.innerHTML=`<img src="${a.t}" loading="lazy" alt="${r.name} relic"/>`;
+      relic.addEventListener('click',()=>openRegion(i));
+    } else {
+      relic.className='relic empty';
+      relic.textContent=r.icon;
+    }
+    grid.appendChild(relic);
+  });
+}
+
+let activeRegion=null;
+function openRegion(i){
+  activeRegion=i;
+  const r=QUEST[i];
+  const isDone = claimed[i]!=null;
+  const modal=$('#modal');
+  if(isDone){
+    const a=r.artifacts[claimed[i]];
+    modal.innerHTML=`
+      <div class="modal-head"><div class="modal-icon">${r.icon}</div>
+        <div class="modal-region">RELIC RECOVERED</div>
+        <div class="modal-name">${r.name}</div></div>
+      <div class="artifact">
+        <div class="artifact-frame"><img src="${a.t}" alt=""/><div class="artifact-glow"></div></div>
+        ${a.b?`<p class="artifact-quote">"${esc(a.b)}"</p>`:''}
+        <div class="artifact-meta">❤ ${a.l} · ${a.d}</div>
+      </div>
+      <div class="modal-actions">
+        <a class="qbtn gold" href="${noteUrl(a.id)}" target="_blank" rel="noopener">VIEW ON SUBSTACK →</a>
+        <button class="qbtn" id="closeBtn">CLOSE</button>
+      </div>`;
+  } else {
+    // current region — show a mystery artifact to claim
+    const pick=Math.floor(Math.random()*r.artifacts.length);
+    const a=r.artifacts[pick];
+    modal.innerHTML=`
+      <div class="modal-head"><div class="modal-icon">${r.icon}</div>
+        <div class="modal-region">REALM ${i+1} OF ${QUEST.length}</div>
+        <div class="modal-name">${r.name}</div></div>
+      <div class="modal-blurb">${esc(r.blurb)}</div>
+      <div class="artifact">
+        <div class="artifact-frame"><img src="${a.t}" alt=""/><div class="artifact-glow"></div></div>
+        ${a.b?`<p class="artifact-quote">"${esc(a.b)}"</p>`:''}
+        <div class="artifact-meta">❤ ${a.l} · ${a.d}</div>
+      </div>
+      <div class="modal-actions">
+        <button class="qbtn claim" id="claimBtn">✦ CLAIM RELIC & TRAVEL ON →</button>
+      </div>`;
+    modal.querySelector('#claimBtn').addEventListener('click',()=>{
+      claimed[i]=pick;
+      progress=Math.max(progress,i+1);
+      save();
+      closeModal();
+      buildPaths(); renderNodes(); renderProgress(); renderRelics();
+      if(progress<QUEST.length){
+        // auto-open next after the traveler moves
+        setTimeout(()=>{ /* leave for user to tap */ },1200);
+      } else {
+        burst();
+      }
+    });
+  }
+  const cb=modal.querySelector('#closeBtn'); if(cb) cb.addEventListener('click',closeModal);
+  $('#scrim').dataset.on='true';
+}
+function closeModal(){ $('#scrim').dataset.on='false'; activeRegion=null; }
+$('#scrim').addEventListener('click',e=>{ if(e.target===$('#scrim')) closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// confetti burst on completion
+function burst(){
+  const colors=['#ff9be4','#7bf1e4','#ffd98a','#9b7bff','#ffffff'];
+  const c=document.createElement('canvas');
+  c.style.cssText='position:fixed;inset:0;z-index:50;pointer-events:none';
+  c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);
+  const x=c.getContext('2d');
+  let bits=[];
+  for(let i=0;i<160;i++)bits.push({x:innerWidth/2,y:innerHeight*.3,vx:(Math.random()-.5)*14,vy:(Math.random()-.5)*14-4,
+    s:Math.random()*4+2,c:colors[i%colors.length],life:1});
+  (function anim(){x.clearRect(0,0,c.width,c.height);bits=bits.filter(b=>b.life>0);
+    bits.forEach(b=>{b.x+=b.vx;b.y+=b.vy;b.vy+=.28;b.life-=.012;x.globalAlpha=Math.max(0,b.life);x.fillStyle=b.c;x.fillRect(b.x,b.y,b.s,b.s);});
+    x.globalAlpha=1;if(bits.length)requestAnimationFrame(anim);else c.remove();})();
+}
+
+$('#resetBtn').addEventListener('click',()=>{
+  if(confirm('Restart the quest? Your relics will be cleared.')){
+    progress=0;claimed={};save();buildPaths();renderNodes();renderProgress();renderRelics();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+});
+
+// init
+buildPaths();
+renderNodes();
+renderProgress();
+renderRelics();
+addEventListener('resize',()=>{ buildPaths(); });
+</script>
+</body>
+</html>
