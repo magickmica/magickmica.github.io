@@ -336,6 +336,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   <div class="jig-message" id="jigMessage"></div>
   <div class="controls">
     <button class="btn gold" id="jigNew">✦ New Puzzle</button>
+    <button class="btn" id="jigShare">🔗 Share This Puzzle</button>
     <a class="btn" id="jigView" href="#" target="_blank" rel="noopener" style="display:none">View this note →</a>
   </div>
 </section>
@@ -355,19 +356,39 @@ const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floo
 const $ = s => document.querySelector(s);
 
 /* ---------- TAB SWITCHING ---------- */
+function activateGame(g, updateHash){
+  const tab = document.querySelector(`.game-tab[data-game="${g}"]`);
+  if(!tab) return false;
+  document.querySelectorAll('.game-tab').forEach(t=>t.dataset.on = t===tab?'true':'false');
+  document.querySelectorAll('.game-panel').forEach(p=>p.dataset.on = p.dataset.panel===g?'true':'false');
+  if(g==='scratch') setTimeout(()=>{sizeCanvases();initCoating();},50);
+  if(g==='memory' && !memStarted) memNew();
+  if(g==='guess' && !guessStarted) guessNew();
+  if(g==='slots' && !slotStarted) slotInit();
+  if(g==='hunt' && !huntStarted) huntShowStart();
+  if(g==='jigsaw' && !jigStarted) jigNew();
+  if(updateHash){ try{ history.replaceState(null,'','#'+g); }catch(e){ location.hash=g; } }
+  return true;
+}
 document.querySelectorAll('.game-tab:not(.game-tab--link)').forEach(tab=>{
-  tab.addEventListener('click',()=>{
-    const g = tab.dataset.game;
-    document.querySelectorAll('.game-tab').forEach(t=>t.dataset.on = t===tab?'true':'false');
-    document.querySelectorAll('.game-panel').forEach(p=>p.dataset.on = p.dataset.panel===g?'true':'false');
-    if(g==='scratch') setTimeout(()=>{sizeCanvases();initCoating();},50);
-    if(g==='memory' && !memStarted) memNew();
-    if(g==='guess' && !guessStarted) guessNew();
-    if(g==='slots' && !slotStarted) slotInit();
-    if(g==='hunt' && !huntStarted) huntShowStart();
-    if(g==='jigsaw' && !jigStarted) jigNew();
-  });
+  tab.addEventListener('click',()=>activateGame(tab.dataset.game, true));
 });
+// deep-link: open the game named in the URL hash (e.g. arcade.html#jigsaw or #jigsaw=12345)
+function openFromHash(){
+  const raw=(location.hash||'').replace('#','');
+  const [g,val]=raw.split('=');
+  const game=(g||'').toLowerCase();
+  if(game && document.querySelector(`.game-tab[data-game="${game}"]`)){
+    activateGame(game,false);
+    // jigsaw can carry a specific note id
+    if(game==='jigsaw' && val){
+      const id=parseInt(val,10);
+      if(!isNaN(id)) jigNew(id);
+    }
+    document.querySelector('.game-tabs').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+window.addEventListener('hashchange',openFromHash);
 
 /* ================= CRYSTAL SCRATCH ================= */
 const coat=$('#coat'), sparks=$('#sparks');
@@ -722,12 +743,12 @@ $('#huntStart').addEventListener('click',huntBeginGame);
 
 /* ================= DREAM JIGSAW ================= */
 let jigStarted=false, jigSize=3, jigNote=null, jigOrder=[], jigSelected=null, jigMoves=0, jigSolved=false;
-function jigNew(){
+function jigNew(forceId){
   jigStarted=true; jigSolved=false; jigSelected=null; jigMoves=0;
   $('#jigMoves').textContent='0';
   $('#jigMessage').textContent='';
   $('#jigView').style.display='none';
-  jigNote=rand(POOL);
+  jigNote = (forceId!=null && POOL.find(n=>n.id===forceId)) || rand(POOL);
   $('#jigPeek').src=jigNote.t;
   $('#jigView').href=noteUrl(jigNote.id);
   const n=jigSize*jigSize;
@@ -788,7 +809,19 @@ document.querySelectorAll('.jig-diff').forEach(btn=>{
     jigNew();
   });
 });
-$('#jigNew').addEventListener('click',jigNew);
+$('#jigNew').addEventListener('click',()=>jigNew());
+$('#jigShare').addEventListener('click',()=>{
+  if(!jigNote) return;
+  const base=location.href.split('#')[0];
+  const link=`${base}#jigsaw=${jigNote.id}`;
+  const done=()=>{ const b=$('#jigShare'); const t=b.textContent; b.textContent='✓ Link copied!'; setTimeout(()=>b.textContent=t,1800); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(link).then(done).catch(()=>prompt('Copy this puzzle link:',link));
+  } else { prompt('Copy this puzzle link:',link); }
+});
+
+// honor deep-link hash on initial load (e.g. arcade.html#jigsaw)
+openFromHash();
 </script>
 </body>
 </html>
