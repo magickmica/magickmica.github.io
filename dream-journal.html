@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MAGICK MICA ✦ Dream Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700;6..96,900&family=IBM+Plex+Mono:wght@300;400;600&family=Silkscreen:wght@400;700&family=Orbitron:wght@400;700;900&family=Spectral:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07060e; --void2:#0d0b18; --pearl:#ece9f7; --pearl-dim:#9d96b8;
+  --pink:#ff9be4; --cyan:#7bf1e4; --violet:#9b7bff; --gold:#ffd98a;
+  --holo:linear-gradient(115deg,var(--violet),var(--pink) 30%,var(--gold) 55%,var(--cyan) 80%,var(--violet));
+  --display:"Bodoni Moda",Didot,serif; --mono:"IBM Plex Mono",monospace;
+  --pixel:"Silkscreen",monospace; --arcade:"Orbitron",sans-serif; --serif:"Spectral",serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{min-height:100dvh;background:var(--void);color:var(--pearl);font-family:var(--mono);overflow-x:hidden}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:none}
+a{color:var(--cyan)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+
+#sky{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at 25% 12%,rgba(155,123,255,.18),transparent 55%),
+             radial-gradient(ellipse at 78% 85%,rgba(255,155,228,.14),transparent 55%),
+             radial-gradient(ellipse at 50% 50%,rgba(123,241,228,.06),transparent 75%)}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(1px 1px at 12% 22%,#fff9,transparent),radial-gradient(1px 1px at 32% 62%,#fff7,transparent),radial-gradient(1.5px 1.5px at 72% 32%,var(--gold),transparent),radial-gradient(1.5px 1.5px at 85% 68%,var(--pink),transparent),radial-gradient(1px 1px at 55% 12%,var(--cyan),transparent),radial-gradient(1px 1px at 45% 88%,#fff8,transparent);
+  animation:tw 5s infinite alternate}
+@keyframes tw{from{opacity:.4}to{opacity:.95}}
+@keyframes sh{to{background-position:200% center}}
+
+.wrap{position:relative;z-index:2;max-width:920px;margin:0 auto;padding:clamp(16px,3vw,32px)}
+
+.top{text-align:center;padding:2rem 1rem 1rem}
+.top h1{font-family:var(--arcade);font-weight:900;font-size:clamp(1.8rem,6vw,3.6rem);letter-spacing:.04em;margin:0;
+  background:var(--holo);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 22px rgba(255,155,228,.4));animation:sh 6s linear infinite}
+.top p{font-family:var(--pixel);font-size:.72rem;letter-spacing:.18em;color:var(--cyan);margin:.6rem 0 0;text-shadow:0 0 8px var(--cyan)}
+.top nav{margin-top:1rem;display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
+.top nav a{font-family:var(--pixel);font-size:.66rem;letter-spacing:.1em;color:var(--gold);text-decoration:none;border:1px solid var(--gold);padding:.3rem .7rem;transition:.2s}
+.top nav a:hover{background:var(--gold);color:#000;box-shadow:0 0 12px var(--gold)}
+
+/* prompt card */
+.prompt-card{background:linear-gradient(135deg,rgba(155,123,255,.1),rgba(123,241,228,.05));border:1px solid rgba(155,123,255,.35);border-radius:8px;padding:1.4rem 1.5rem;margin:2rem 0 1.5rem;text-align:center;position:relative;overflow:hidden}
+.prompt-eyebrow{font-family:var(--pixel);font-size:.62rem;letter-spacing:.16em;color:var(--cyan);margin-bottom:.6rem}
+.prompt-text{font-family:var(--display);font-style:italic;font-size:clamp(1.1rem,3vw,1.5rem);line-height:1.4;color:var(--pearl)}
+.prompt-refresh{margin-top:.9rem;font-family:var(--pixel);font-size:.62rem;letter-spacing:.1em;color:var(--gold);border:1px solid var(--gold);padding:.35rem .8rem;border-radius:4px;transition:.2s}
+.prompt-refresh:hover{background:var(--gold);color:#000;box-shadow:0 0 10px var(--gold)}
+
+/* editor */
+.editor{background:rgba(13,11,24,.7);border:1px solid rgba(155,123,255,.3);border-radius:8px;padding:1.4rem;margin-bottom:1.5rem}
+.editor-label{font-family:var(--pixel);font-size:.62rem;letter-spacing:.14em;color:var(--pearl-dim);margin-bottom:.5rem;display:block}
+.editor input[type=text]{width:100%;background:#07060e;border:1px solid rgba(155,123,255,.3);border-radius:4px;padding:.7rem .9rem;color:var(--pearl);font-family:var(--serif);font-size:1rem;margin-bottom:1rem}
+.editor textarea{width:100%;min-height:140px;resize:vertical;background:#07060e;border:1px solid rgba(155,123,255,.3);border-radius:4px;padding:.8rem .9rem;color:var(--pearl);font-family:var(--serif);font-size:1rem;line-height:1.6}
+.editor input:focus,.editor textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 10px rgba(123,241,228,.2)}
+
+.section-mini{font-family:var(--pixel);font-size:.62rem;letter-spacing:.14em;color:var(--pearl-dim);margin:1.2rem 0 .6rem}
+.chip-row{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{font-family:var(--pixel);font-size:.66rem;letter-spacing:.06em;border:1px solid rgba(155,123,255,.35);border-radius:20px;padding:.4rem .8rem;color:var(--pearl-dim);transition:.18s;user-select:none}
+.chip:hover{border-color:var(--cyan);color:var(--pearl)}
+.chip[data-on="true"]{color:#07060e;background:var(--holo);background-size:200% auto;border-color:transparent;animation:sh 6s linear infinite}
+.sym{font-size:1rem;margin-right:.3rem}
+
+.editor-actions{display:flex;gap:.6rem;margin-top:1.3rem;flex-wrap:wrap}
+.btn{font-family:var(--pixel);font-size:.7rem;letter-spacing:.08em;border:1px solid var(--cyan);color:var(--cyan);padding:.6rem 1.2rem;border-radius:4px;transition:.2s}
+.btn:hover{background:var(--cyan);color:#000;box-shadow:0 0 12px var(--cyan)}
+.btn.gold{border-color:var(--gold);color:var(--gold)}
+.btn.gold:hover{background:var(--gold);color:#000;box-shadow:0 0 12px var(--gold)}
+.btn.ghost{border-color:rgba(155,123,255,.4);color:var(--pearl-dim)}
+.btn.ghost:hover{background:rgba(155,123,255,.2);color:var(--pearl);box-shadow:none}
+
+/* inspiration */
+.inspo{margin:2rem 0 1.5rem}
+.inspo-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.6rem}
+.inspo-title{font-family:var(--arcade);font-weight:700;font-size:.95rem;letter-spacing:.1em;color:var(--violet)}
+.inspo-card{display:flex;gap:1rem;align-items:center;background:rgba(13,11,24,.6);border:1px solid rgba(255,155,228,.25);border-radius:8px;padding:1rem;text-decoration:none;color:inherit;transition:.25s}
+.inspo-card:hover{border-color:var(--pink);box-shadow:0 0 20px rgba(255,155,228,.2);transform:translateY(-2px)}
+.inspo-card img{width:90px;height:90px;flex-shrink:0;object-fit:cover;border-radius:6px;border:1px solid rgba(155,123,255,.3)}
+.inspo-body{flex:1;min-width:0}
+.inspo-quote{font-family:var(--display);font-style:italic;font-size:.95rem;line-height:1.5;color:var(--pearl);margin-bottom:.4rem}
+.inspo-meta{font-family:var(--pixel);font-size:.6rem;letter-spacing:.1em;color:var(--gold)}
+
+/* entries */
+.entries{margin-top:2.5rem}
+.entries-head{font-family:var(--arcade);font-weight:700;font-size:1rem;letter-spacing:.1em;color:var(--cyan);text-align:center;margin-bottom:.4rem}
+.entries-sub{font-family:var(--pixel);font-size:.6rem;letter-spacing:.12em;color:var(--pearl-dim);text-align:center;margin-bottom:1.4rem}
+.entry{background:rgba(13,11,24,.7);border:1px solid rgba(155,123,255,.25);border-left:3px solid var(--violet);border-radius:6px;padding:1.1rem 1.3rem;margin-bottom:1rem;animation:rise .3s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.entry-top{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.5rem;flex-wrap:wrap}
+.entry-title{font-family:var(--display);font-weight:700;font-size:1.15rem;color:#fff}
+.entry-date{font-family:var(--pixel);font-size:.6rem;letter-spacing:.1em;color:var(--pearl-dim);flex-shrink:0}
+.entry-syms{font-size:1.1rem;margin-bottom:.5rem}
+.entry-text{font-family:var(--serif);font-size:.98rem;line-height:1.65;color:rgba(235,225,255,.9);white-space:pre-wrap}
+.entry-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.7rem}
+.entry-tag{font-family:var(--pixel);font-size:.58rem;letter-spacing:.08em;color:var(--cyan);border:1px solid rgba(123,241,228,.3);border-radius:12px;padding:.2rem .6rem}
+.entry-del{font-family:var(--pixel);font-size:.58rem;letter-spacing:.08em;color:var(--pearl-dim);border:1px solid rgba(255,110,138,.3);border-radius:4px;padding:.3rem .7rem;margin-top:.8rem;transition:.2s}
+.entry-del:hover{background:rgba(255,110,138,.2);color:#ff8ba0}
+.entries-empty{text-align:center;font-family:var(--serif);font-style:italic;color:var(--pearl-dim);padding:2rem 1rem}
+
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);z-index:100;background:var(--void2);border:1px solid var(--cyan);border-radius:6px;padding:.7rem 1.3rem;font-family:var(--pixel);font-size:.66rem;letter-spacing:.1em;color:var(--cyan);opacity:0;transition:.3s;pointer-events:none;box-shadow:0 0 20px rgba(123,241,228,.3)}
+.toast[data-on="true"]{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.foot{text-align:center;padding:3rem 1rem 2rem;font-family:var(--pixel);font-size:.62rem;letter-spacing:.12em;color:var(--pearl-dim)}
+.foot a{color:var(--pink)}
+</style>
+</head>
+<body>
+<div id="sky"></div><div id="stars"></div>
+<div class="wrap">
+
+<header class="top">
+  <h1>Dream Journal</h1>
+  <p>✦ RECORD THE VISIONS OF THE NIGHT ✦</p>
+  <nav>
+    <a href="index.html">HOME</a>
+    <a href="arcade.html">ARCADE</a>
+    <a href="notes.html">NOTES</a>
+    <a href="blog.html">BLOG</a>
+    <a href="https://magickmica.substack.com" target="_blank">SUBSCRIBE</a>
+  </nav>
+</header>
+
+<div class="prompt-card">
+  <div class="prompt-eyebrow">✦ TONIGHT'S DREAM PROMPT ✦</div>
+  <div class="prompt-text" id="promptText"></div>
+  <button class="prompt-refresh" id="promptRefresh">↻ ANOTHER PROMPT</button>
+</div>
+
+<div class="editor">
+  <label class="editor-label">DREAM TITLE</label>
+  <input type="text" id="dTitle" placeholder="Give your dream a name…" maxlength="80" />
+  <label class="editor-label">WHAT DID YOU DREAM?</label>
+  <textarea id="dText" placeholder="Describe the dream while it's still fresh… the places, the feelings, the strange logic of it all."></textarea>
+
+  <div class="section-mini">✦ DREAM SYMBOLS (tap any that appeared)</div>
+  <div class="chip-row" id="symbolRow"></div>
+
+  <div class="section-mini">✦ MOOD OF THE DREAM</div>
+  <div class="chip-row" id="moodRow"></div>
+
+  <div class="editor-actions">
+    <button class="btn gold" id="saveBtn">✦ Save Dream</button>
+    <button class="btn ghost" id="clearBtn">Clear</button>
+  </div>
+</div>
+
+<div class="inspo">
+  <div class="inspo-head">
+    <div class="inspo-title">✦ DREAM INSPIRATION</div>
+    <button class="btn ghost" id="inspoRefresh" style="padding:.4rem .9rem">↻ New</button>
+  </div>
+  <a class="inspo-card" id="inspoCard" href="#" target="_blank" rel="noopener">
+    <img id="inspoImg" alt="" />
+    <div class="inspo-body">
+      <div class="inspo-quote" id="inspoQuote"></div>
+      <div class="inspo-meta" id="inspoMeta"></div>
+    </div>
+  </a>
+</div>
+
+<div class="entries">
+  <div class="entries-head">✦ YOUR DREAM ARCHIVE ✦</div>
+  <div class="entries-sub" id="entriesCount">saved privately in this browser</div>
+  <div id="entriesList"></div>
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="foot">
+  ✦ MAGICK MICA DREAM JOURNAL ✦ your entries stay private on your device ✦<br>
+  <a href="https://magickmica.substack.com" target="_blank">Subscribe on Substack</a> · <a href="index.html">Back to site</a>
+</div>
+
+<script>
+const DREAM_POOL = [{"id":264761834,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2fcc5d7-40a3-4385-bec4-b0f3ebd02edb_896x1600.jpeg","b":"“Curiosity didn’t kill the cat — it opened a portal.”","l":54},{"id":217651659,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1d9c3452-0a5e-4fbf-ae9f-f93b350aff9f_1200x1200.png","b":"“Without music, life would be a mistake.” \n\nFriedrich Nietzsche\n\nִֶָ. ..𓆩❤️‍🔥𓆪𓂃 ࣪ ִֶָ🔥་༘࿐💥ৡ","l":52},{"id":258314262,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F36e1dba8-fa53-4bf6-afaf-0b292f7d04a1_1200x1200.png","b":"The dream was lovely, but being alive is magic.","l":47},{"id":262436664,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6468d82a-9e6d-453e-b3d2-acedf0731aaf_1200x1200.png","b":"“I was not born beneath the stars… darling, I taught them how to shimmer.”\n\n🌌","l":33},{"id":291116965,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F36e7a683-33bc-4846-82f9-ed1cec1c070d_1200x1200.png","b":"Waking up felt like entering a secret portal.","l":32},{"id":246252344,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7ed44e20-aede-42f2-99b9-90460deed2e6_1250x1250.png","b":"“Cosmic paws, cozy thoughts, and tea that tastes like dreams.”\n\n🌌♠🐈‍⬛💠🐾","l":32},{"id":221483363,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffd3d4895-c354-4221-b493-e038bb1321cb_384x592.gif","b":"“Her claws are velvet, but her spirit is solar.”\n\n💫⋆⭒˚.⋆🪐 ⋆⭒˚.⋆\n\nCosmick Cat  \n\n🐾๋࣭ ⭑⚝💜✮⋆˙≽ܫ≼","l":32},{"id":214441986,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F68ac5dbb-8513-4b6d-9c67-4bdc7ccd22d2_1200x1200.png","b":"Glow Like the Galaxy Goddess You Are.","l":32},{"id":229774322,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F589f4589-f485-4d59-bdd3-859be3e890e1_600x600.gif","b":"“Somewhere between the first sip and the last, I became a dream.”\n\n♡₊˚ 🐸・₊✧💚.✦ ݁˖🍵","l":29},{"id":276100790,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff87b3527-17ac-4275-804b-2f65e5974e27_2048x2048.jpeg","b":"“Some teas wake the body. This one woke forgotten memories from past lives.”","l":28},{"id":212219625,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F83f82526-e016-4251-ba45-d57bb5d467de_1200x686.png","b":"“She does not chase the stars; she remembers she was made of them.”","l":28},{"id":253017180,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffc2215f6-9918-4c0f-99d7-c69955e35b75_2222x2222.png","b":"The universe fits quite nicely inside a teacup, don’t you think?\n\nYours Truly,\n\nCosmick Frog ✨🐸","l":26},{"id":226833678,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F534917e1-43db-41fe-9bbf-1981c6a4f8e7_450x450.gif","b":"Time for cosmic coffee. ☕🌌","l":26},{"id":240237820,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe5665e96-d444-4ad3-a85e-8dc1299d93bf_1668x919.png","b":"“The universe pours endlessly, yet my cup receives only what my heart can hold.”","l":24},{"id":228627851,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd3c91831-35bc-4c4d-92b7-23883523724f_1200x1110.png","b":"“Good heavens… must we truly endure this century? I would gladly return to the days when the greatest inconvenience was a wandering oracle o","l":24},{"id":208130066,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2ce63838-995c-4422-b831-5089c22d515d_1200x1200.png","b":"“Soft nights make strong mornings.”","l":24},{"id":282654325,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F581771df-30ba-4387-879c-eae3f3b27202_2048x2048.jpeg","b":"The universe whispered, “It’s time.”","l":23},{"id":224780219,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffcb947ec-23a0-45ee-86d8-a1e7826e2e1b_1200x1200.png","b":"“She walks the shoreline like the moon walks the tide.”\n\n𓇼 ⋆.˚ 𓆉 𓆝 𓆡⋆.˚ 𓇼⋆｡𖦹 ˚ 𓇼 ˚｡⋆","l":23},{"id":222012874,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6e3bdc62-36ba-42d5-aad0-41714d23c550_1200x1200.png","b":"She fell into a deep deep sleep…\n\n💤🏰🌹👸🏼౨ৎ⋆˚.⋆💋","l":23},{"id":285861347,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7c9c83c0-2321-4e57-b579-9eb6d8086d76_1582x994.png","b":"The pool was never water—it was the night sky taught to flow.","l":22},{"id":253519969,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb0cdef2a-18fa-4d32-a4f2-f62b9a83ecf4_1254x1254.png","b":"“Some dreams don’t whisper… they crash like waves. Ride them.”","l":22},{"id":245343708,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcce85507-af98-4946-bce7-900a54b226da_1120x1120.png","b":"“Even ghosts need a little spirit to wake up.”\n\n𔓎","l":22},{"id":239506544,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd736efcd-27b8-4a6c-8902-a367632ad1bf_1200x1200.png","b":"“Wake slowly. The world can wait a moment.”","l":22},{"id":208256042,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb954c33f-612b-4d77-8ae0-1fae72c23521_1200x1200.png","b":"“The garden wakes when she steps through.”","l":22},{"id":256899429,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F550d9289-1636-40a4-b263-87042bfa1835_1254x1254.png","b":"Touched by Stars, Not By Noise.\n\nSee more collages at Magick Mica Art.","l":21},{"id":245604021,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff5641448-cd09-4830-82f2-ef7cff352ed0_600x338.gif","b":"If you feel a shimmer in your chest…\n\nthat’s not nostalgia—\n\nthat’s us, knocking in starlight.","l":21},{"id":233574561,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6607e5a-c58d-4590-9f04-a35aef59860f_800x451.gif","b":"“A cosmic traveler with whiskers full of starlight.”\n\n ₍^. .^₎⟆🐾 meow ⋆✴︎˚｡⋆^.🐈‍⬛","l":21},{"id":280840057,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F43648946-8e36-4653-964c-72f74bc9f7f2_2048x2048.jpeg","b":"“I asked the universe for a sign, and it sent me a flying carpet.”","l":20},{"id":258896003,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F219e3313-19a3-4196-8e30-d941bac747f2_1200x1200.png","b":"When they say slow down, they don’t mean stop— they mean stare.\n\n🌌","l":20},{"id":232168925,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbb767225-d3b7-4318-b1d8-fb67f7669bdd_500x500.gif","b":"“Sleep is where the soul repairs itself.”","l":20},{"id":227006576,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F828e2926-d279-449b-8c32-cc2ffef75f7f_600x330.gif","b":"“She blinks once—and portals open.”","l":20},{"id":225006222,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F304b5605-472c-471d-a4a7-53c94f4c0991_1200x684.png","b":"“May the stars recognize you as kin.”\n\n꧁ ༺♔ ༻ ꧂","l":20},{"id":205869744,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa545951a-7236-4fb0-a03e-d3b7d4b2e904_1500x598.png","b":"“Sleep is nature’s nurse.”\n\nGeoffrey Chaucer, The Parliament of Fowls (1382)","l":20},{"id":275283821,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0a9aa613-471b-43b1-8718-b72d1bd0fbeb_2048x2048.jpeg","b":"Every portal remembers the dreamer who opened it.\n\n⃢   ⃢⃢⃢⃢","l":19},{"id":256063697,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F16df6f70-d6f6-4985-9fa6-e17d6cae8d83_1122x1402.png","b":"System Offline.\n\nTonight I rest while the stars realign me.","l":19},{"id":245580165,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fab40f5eb-19ba-4c1d-a80e-89282031d11c_600x600.gif","b":"Float through life like you belong to another realm.","l":19},{"id":226676581,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F942e3e82-6c51-43ef-b639-610b2b57b4f4_1200x1200.png","b":"“She is made of stardust, ancient dreams, and unstoppable light.”","l":19},{"id":224574036,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd5e63bc6-e05e-49e8-aaf0-5fb33671ee4d_600x338.gif","b":"“The universe placed galaxies in my soul so I would never forget how infinite I am.”","l":19},{"id":223203775,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9f93562d-998c-4dc8-9531-d637aa589886_1200x1200.png","b":"“Cosmic by design.”\n\nੈ✩‧🌠₊˚⋆˙⟡༄˖°.🪐.:･ .✦","l":19},{"id":288858203,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6d1cfea4-7138-4ad9-be39-c6b3f7f92bbb_1023x1537.png","b":"Stay Weird. Spooky Movie Night. \n\nSummerween 2026","l":18},{"id":265736781,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fed20a408-7b4d-47f6-bc0f-00c310375a3d_1696x848.jpeg","b":"“Dorothy and Alice met in the woods where the knot-holes glowed like tiny moons and every path forgot its own ending.”","l":18},{"id":261750943,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F05edd66f-bf25-48a0-974c-7135b4bce37a_1672x941.png","b":"PIXEL HOROSCOPE: See What the Stars Have in Store For You\n\n₊⟡ ⋆⭐☆✮⋆˙\n\n♈ ARIES Your main character energy is terrifying people this month. Ke","l":18},{"id":253604482,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3d27cd84-200e-4642-bcef-01e14449ed4d_715x987.png","b":"Hey, I got some cool cosmic chores to do. Think of me when you do yours. Sparkle on.","l":18},{"id":245829616,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0a6a4ebb-9cb2-4777-ac3c-a0c7e9a19125_1200x1200.png","b":"A fairy’s wingbeat is soft—\n\nbut it can glitch an entire universe into something more beautiful.","l":18},{"id":236895437,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Feacfd4ec-cdf5-4fbf-bbcf-b90aad6ba328_1200x689.png","b":"“Darlin’, I don’t chase the light… I rise with the pink moon and let the world find me glowing.”\n\n💗ྀི💗ྀི💗ྀི💗ྀི💗ྀི","l":18},{"id":236892658,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd18f1cc4-672b-4fcd-9acd-2ee05586b4ad_1200x1200.png","b":"The Cosmic Drive","l":18},{"id":235390813,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe5af274d-c6cf-4888-bdb4-5f3889321af2_1200x1200.png","b":"“Her intuition is older than the stars and brighter than the sun.”\n\n⛧°. ⋆༺☾𖤓༻⋆. °⛧","l":18},{"id":230980097,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9acc16c5-8521-48bd-9a9c-c6c249b2114e_800x440.gif","b":"“Yes, it rushes by… until you slow it down and realize you’ve been standing in cosmic waters all along.”  🌌  @Ra Castaldo","l":18},{"id":261436787,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcc4d557c-c28c-410c-a16b-ce6e0e1ba923_1122x1402.png","b":"Dreams are portals disguised as sleep.\n\n🪄*ੈ✩‧₊˚༺☆༻*ੈ✩‧₊˚⋆.˚🦋༘⋆","l":17},{"id":255270096,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F72d4746e-e2d1-4377-9aa5-897b4ffb1a04_1122x1402.png","b":"I rise brightest 🔅 where the stars burn hottest.","l":17},{"id":229090680,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F09573b55-300b-4007-b68c-7e36ae4750bc_2396x1981.png","b":"“Running in time until time starts running with me.”\n\n⏳⊹✨ ࣪ ˖⏱ ୭˚. ᵎ✦⏲️🗺⌚","l":17},{"id":217470448,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd2011af8-cd15-4453-bc47-71e2954743c3_1200x1200.png","b":"“The universe speaks softly to those who listen with a goddess heart.”\n\n✨⏳🌌🪽💓","l":17},{"id":216972913,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F93dbf0a6-9bbb-4f03-a089-f8ad21d60bfa_1200x1200.png","b":"Celestial Purr ~ Timeline Travels with Jasmine \n\nThings are different, but the same. \n\n⌚🌌🕌","l":17},{"id":209258298,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F91afca15-072b-457e-be3d-5e8bc86e77ec_1200x1200.png","b":"“Sleep is where the soul repairs itself.”","l":17},{"id":292729008,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0b83b277-94df-4774-a774-ce28e36c2226_1535x1024.png","b":"Stardust State of Mind.","l":16},{"id":280956215,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff392c6d8-54bc-463a-9dc7-135b9fd2d8f0_2048x2048.png","b":"Every awakening is a portal. \n\n❤️‍🔥","l":16},{"id":278698680,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F108c0d66-04aa-462c-a164-2e1ac6828ac4_2048x2048.jpeg","b":"The stars rewrote my story overnight.","l":16},{"id":278179788,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F49cf2e44-dbaf-4bc8-a499-359c96e33d90_540x540.gif","b":"“If this summer gets any dreamier, I’m legally becoming a myth.”  🐬","l":16},{"id":265306136,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F621c4728-d6c6-452b-9f2d-976fa9367523_1029x1528.png","b":"“I’m not saying I’m descended from star beings… but my aura literally glows under moonlight.”\n\n. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.","l":16},{"id":264621878,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F488536f2-b8e3-4bac-87cd-a021e0f5e1f7_400x373.gif","b":"She speaks five languages, including sarcasm and celestial frequencies.\n\n. ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁.","l":16}];
+const $ = s => document.querySelector(s);
+const rand = a => a[Math.floor(Math.random()*a.length)];
+const noteUrl = id => `https://substack.com/@magickmica/note/c-${id}`;
+const SAVE_KEY = 'magickmica_dreams_v1';
+
+/* prompts */
+const PROMPTS = [
+  "Where did the dream take place? Describe the landscape.",
+  "Who appeared in your dream, and did you recognize them?",
+  "Were you flying, falling, or floating? How did it feel?",
+  "What color glowed brightest in the dream?",
+  "Did you cross any thresholds — a door, a portal, a tide?",
+  "What did the dream want you to remember?",
+  "If the dream were a message, what would it say?",
+  "What creature or companion guided you?",
+  "Did time move strangely? Faster, slower, in loops?",
+  "What were you searching for in the dream?",
+  "Was there water? What was it doing?",
+  "What emotion lingered when you woke?",
+  "Describe the strangest object you encountered.",
+  "Was the moon out? What phase was it?",
+  "If you could step back into the dream, where would you go first?",
+  "What sound do you still remember?",
+  "Did you have powers you don't have while awake?",
+  "What part of the dream felt most real?"
+];
+function newPrompt(){ $('#promptText').textContent = rand(PROMPTS); }
+$('#promptRefresh').addEventListener('click',newPrompt);
+newPrompt();
+
+/* symbols + moods */
+const SYMBOLS = [
+  ['🌙','Moon'],['🌊','Water'],['🕊️','Flight'],['🔥','Fire'],['🚪','Doorway'],
+  ['👁️','Eyes'],['🐍','Serpent'],['⭐','Stars'],['🪞','Mirror'],['🌲','Forest'],
+  ['🏛️','Ruins'],['🗝️','Key'],['🦋','Transformation'],['🕳️','Falling'],['👻','Spirits'],
+  ['🌈','Color'],['🐈','Animal'],['🏃','Chase']
+];
+const MOODS = [
+  ['✨','Wondrous'],['😌','Peaceful'],['😰','Uneasy'],['💗','Loving'],
+  ['🌫️','Foggy'],['⚡','Intense'],['🥲','Bittersweet'],['🔮','Mystical'],
+  ['😱','Frightening'],['🎠','Playful']
+];
+let selSymbols=new Set(), selMoods=new Set();
+function buildChips(row, items, sel){
+  const el=$(row); el.innerHTML='';
+  items.forEach(([sym,label])=>{
+    const chip=document.createElement('div');
+    chip.className='chip';
+    chip.innerHTML=`<span class="sym">${sym}</span>${label}`;
+    chip.addEventListener('click',()=>{
+      if(sel.has(label)){sel.delete(label);chip.dataset.on='false';}
+      else{sel.add(label);chip.dataset.on='true';}
+    });
+    el.appendChild(chip);
+  });
+}
+buildChips('#symbolRow',SYMBOLS,selSymbols);
+buildChips('#moodRow',MOODS,selMoods);
+const SYM_MAP=Object.fromEntries([...SYMBOLS,...MOODS].map(([s,l])=>[l,s]));
+
+/* inspiration */
+function newInspo(){
+  const n=rand(DREAM_POOL);
+  $('#inspoImg').src=n.t;
+  $('#inspoQuote').textContent=n.b||'✦ a wordless transmission ✦';
+  $('#inspoMeta').textContent=`❤ ${n.l} · from the archive`;
+  $('#inspoCard').href=noteUrl(n.id);
+}
+$('#inspoRefresh').addEventListener('click',e=>{e.preventDefault();newInspo();});
+newInspo();
+
+/* toast */
+let toastT;
+function toast(msg){const t=$('#toast');t.textContent=msg;t.dataset.on='true';clearTimeout(toastT);toastT=setTimeout(()=>t.dataset.on='false',2200);}
+
+/* storage */
+function loadEntries(){ try{return JSON.parse(localStorage.getItem(SAVE_KEY)||'[]');}catch(e){return [];} }
+function saveEntries(list){ try{localStorage.setItem(SAVE_KEY,JSON.stringify(list));}catch(e){toast('⚠ Could not save');} }
+
+function fmtDate(ts){
+  const d=new Date(ts);
+  return d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})+' · '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'});
+}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function renderEntries(){
+  const list=loadEntries();
+  const el=$('#entriesList');
+  $('#entriesCount').textContent = list.length ? `${list.length} dream${list.length>1?'s':''} · saved privately in this browser` : 'saved privately in this browser';
+  if(!list.length){ el.innerHTML='<div class="entries-empty">No dreams recorded yet. Your first vision awaits above. ✦</div>'; return; }
+  el.innerHTML='';
+  list.forEach(entry=>{
+    const syms=[...(entry.symbols||[]),...(entry.moods||[])].map(l=>SYM_MAP[l]||'').join(' ');
+    const tags=[...(entry.symbols||[]),...(entry.moods||[])].map(l=>`<span class="entry-tag">${esc(l)}</span>`).join('');
+    const div=document.createElement('div');
+    div.className='entry';
+    div.innerHTML=`
+      <div class="entry-top"><div class="entry-title">${esc(entry.title)||'Untitled Dream'}</div><div class="entry-date">${fmtDate(entry.ts)}</div></div>
+      ${syms?`<div class="entry-syms">${syms}</div>`:''}
+      <div class="entry-text">${esc(entry.text)}</div>
+      ${tags?`<div class="entry-tags">${tags}</div>`:''}
+      <button class="entry-del" data-id="${entry.ts}">✕ Delete</button>`;
+    div.querySelector('.entry-del').addEventListener('click',()=>{
+      if(confirm('Delete this dream entry?')){
+        saveEntries(loadEntries().filter(e=>e.ts!==entry.ts));
+        renderEntries(); toast('Dream released ✦');
+      }
+    });
+    el.appendChild(div);
+  });
+}
+
+/* save */
+$('#saveBtn').addEventListener('click',()=>{
+  const title=$('#dTitle').value.trim();
+  const text=$('#dText').value.trim();
+  if(!text){ toast('✦ Write your dream first'); $('#dText').focus(); return; }
+  const entry={ts:Date.now(),title,text,symbols:[...selSymbols],moods:[...selMoods]};
+  const list=loadEntries(); list.unshift(entry); saveEntries(list);
+  // reset
+  $('#dTitle').value=''; $('#dText').value='';
+  selSymbols.clear(); selMoods.clear();
+  document.querySelectorAll('.chip').forEach(c=>c.dataset.on='false');
+  renderEntries(); toast('✦ Dream saved to your archive');
+  newPrompt();
+});
+$('#clearBtn').addEventListener('click',()=>{
+  $('#dTitle').value=''; $('#dText').value='';
+  selSymbols.clear(); selMoods.clear();
+  document.querySelectorAll('.chip').forEach(c=>c.dataset.on='false');
+});
+
+renderEntries();
+</script>
+</body>
+</html>
