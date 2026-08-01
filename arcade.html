@@ -812,7 +812,8 @@ document.querySelectorAll('.jig-diff').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('.jig-diff').forEach(b=>b.dataset.on=b===btn?'true':'false');
     jigSize=parseInt(btn.dataset.size,10);
-    jigNew();
+    // keep the SAME image, just re-slice at the new difficulty
+    jigNew(jigNote ? jigNote.id : undefined);
   });
 });
 $('#jigNew').addEventListener('click',()=>jigNew());
