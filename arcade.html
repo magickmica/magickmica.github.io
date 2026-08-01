@@ -383,7 +383,13 @@ function openFromHash(){
     // jigsaw can carry a specific note id
     if(game==='jigsaw' && val){
       const id=parseInt(val,10);
-      if(!isNaN(id)) jigNew(id);
+      if(!isNaN(id)){
+        jigNew(id);
+        // shared puzzle: reveal the source-note link right away
+        const v=$('#jigView');
+        v.textContent='✦ See the original note →';
+        v.style.display='inline-block';
+      }
     }
     document.querySelector('.game-tabs').scrollIntoView({behavior:'smooth',block:'start'});
   }
