@@ -280,7 +280,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
     <div class="hunt-hud-box">SCORE<br><b id="huntScore">0</b></div>
     <div class="hunt-hud-box">TIME<br><b id="huntTime">15</b></div>
   </div>
-  <div class="hunt-target">
+  <div class="hunt-target" id="huntTarget" style="display:none">
     <div class="hunt-target-label">✦ FIND THIS ONE ✦</div>
     <img id="huntTargetImg" alt="target" />
   </div>
@@ -591,6 +591,7 @@ $('#slotSpin').addEventListener('click',slotSpin);
 let huntStarted=false, huntRound=1, huntScore=0, huntTimer=null, huntTimeLeft=15, huntActive=false;
 function huntShowStart(){
   $('#huntGrid').innerHTML='';
+  $('#huntTarget').style.display='none';
   $('#huntTargetImg').removeAttribute('src');
   $('#huntMessage').className='hunt-message';
   $('#huntMessage').textContent='Tap START to begin the hunt!';
@@ -609,6 +610,7 @@ function huntNextRound(){
   const count = cols*cols;
   const picks = shuffle(POOL).slice(0, count);
   const target = rand(picks);
+  $('#huntTarget').style.display='block';
   $('#huntTargetImg').src = target.t;
   const grid=$('#huntGrid');
   grid.style.gridTemplateColumns=`repeat(${cols},1fr)`;
