@@ -55,6 +55,8 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .game-tab[data-on="true"]{color:#07060e;background:var(--holo);background-size:200% auto;border-color:transparent;box-shadow:0 0 20px rgba(255,155,228,.4);animation:sh 6s linear infinite}
 .game-tab:hover{color:var(--pearl)}
 .game-tab[data-on="true"]:hover{color:#07060e}
+.game-tab--link{text-decoration:none;display:inline-flex;align-items:center;border-color:var(--gold);color:var(--gold)}
+.game-tab--link:hover{background:var(--gold);color:#07060e;box-shadow:0 0 20px rgba(255,217,138,.5)}
 
 .game-panel{display:none;animation:fade .4s ease both}
 .game-panel[data-on="true"]{display:block}
@@ -120,6 +122,62 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .guess-score{text-align:center;font-family:var(--pixel);font-size:.75rem;letter-spacing:.1em;color:var(--gold);margin-bottom:1.2rem}
 .guess-next{text-align:center;margin-top:1.2rem}
 
+/* ========== DREAM SLOTS ========== */
+.slot-machine{max-width:460px;margin:0 auto;text-align:center}
+.slot-reels{position:relative;display:flex;gap:.5rem;justify-content:center;padding:1.2rem;background:linear-gradient(160deg,#150f28,#0a0714);border:2px solid var(--gold);border-radius:8px;box-shadow:0 0 30px rgba(255,217,138,.25),inset 0 0 30px rgba(0,0,0,.5)}
+.slot-reel{width:120px;height:120px;overflow:hidden;position:relative;border:1px solid rgba(155,123,255,.4);border-radius:4px;background:#07060e}
+.slot-strip{display:flex;flex-direction:column}
+.slot-strip.spinning{transition:transform var(--dur,2s) cubic-bezier(.15,.85,.25,1)}
+.slot-cell{width:120px;height:120px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.slot-cell img{width:100%;height:100%;object-fit:cover}
+.slot-payline{position:absolute;left:.6rem;right:.6rem;top:50%;height:2px;background:var(--pink);box-shadow:0 0 10px var(--pink);transform:translateY(-50%);opacity:.5;pointer-events:none}
+.slot-reel.win{border-color:var(--gold);box-shadow:0 0 20px var(--gold);animation:pulse .5s ease}
+.slot-result{font-family:var(--display);font-style:italic;font-size:1.1rem;color:var(--pearl);min-height:1.6rem;margin:1.2rem 0}
+.slot-result.jackpot{color:var(--gold);font-weight:900;text-shadow:0 0 16px var(--gold)}
+.slot-result.pair{color:var(--cyan)}
+.slot-stats{font-family:var(--pixel);font-size:.68rem;letter-spacing:.1em;color:var(--pearl-dim);margin-top:1rem}
+.slot-stats span{color:var(--gold)}
+@media(max-width:520px){.slot-reel{width:90px;height:90px}.slot-cell{width:90px;height:90px}.slot-cell img{width:90px}}
+
+/* ========== OBJECT HUNT ========== */
+.hunt-hud{display:flex;gap:1rem;justify-content:center;margin-bottom:1.2rem}
+.hunt-hud-box{font-family:var(--pixel);font-size:.6rem;letter-spacing:.1em;color:var(--pearl-dim);text-align:center;border:1px solid rgba(155,123,255,.3);border-radius:4px;padding:.5rem .9rem;min-width:70px}
+.hunt-hud-box b{font-family:var(--arcade);font-size:1.3rem;color:var(--gold);display:block;margin-top:.2rem}
+.hunt-hud-box.warn b{color:#ff6e8a}
+.hunt-target{text-align:center;margin-bottom:1.2rem}
+.hunt-target-label{font-family:var(--pixel);font-size:.66rem;letter-spacing:.14em;color:var(--cyan);text-shadow:0 0 8px var(--cyan);margin-bottom:.5rem}
+.hunt-target img{width:96px;height:96px;object-fit:cover;border:2px solid var(--gold);border-radius:6px;box-shadow:0 0 20px rgba(255,217,138,.4)}
+.hunt-grid{display:grid;gap:.4rem;max-width:520px;margin:0 auto;justify-content:center}
+.hunt-tile{aspect-ratio:1;overflow:hidden;border:1px solid rgba(155,123,255,.25);border-radius:3px;cursor:pointer;background:#0a0714;transition:transform .12s,border-color .2s}
+.hunt-tile img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.hunt-tile:hover{border-color:var(--cyan);transform:scale(1.06);z-index:2}
+.hunt-tile.correct{border-color:var(--gold);box-shadow:0 0 16px var(--gold);animation:pulse .4s ease}
+.hunt-tile.wrong{border-color:#ff5078;animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.hunt-message{text-align:center;font-family:var(--display);font-style:italic;font-size:1.1rem;color:var(--pearl);min-height:1.6rem;margin:1.2rem 0}
+.hunt-message.win{color:var(--gold);text-shadow:0 0 14px var(--gold)}
+.hunt-message.lose{color:#ff8ba0}
+
+/* ========== DREAM JIGSAW ========== */
+.jig-controls{display:flex;gap:.5rem;justify-content:center;margin-bottom:1.4rem;flex-wrap:wrap}
+.jig-diff{font-family:var(--pixel);font-size:.66rem;letter-spacing:.08em;border:1px solid rgba(155,123,255,.4);color:var(--pearl-dim);padding:.5rem .9rem;border-radius:4px;transition:.2s}
+.jig-diff[data-on="true"]{color:#07060e;background:var(--cyan);border-color:transparent;box-shadow:0 0 12px rgba(123,241,228,.4)}
+.jig-diff:hover{color:var(--pearl)}
+.jig-diff[data-on="true"]:hover{color:#07060e}
+.jig-stage{display:flex;gap:1.2rem;justify-content:center;align-items:flex-start;flex-wrap:wrap}
+.jig-board{width:min(360px,80vw);height:min(360px,80vw);display:grid;gap:2px;background:rgba(155,123,255,.2);border:2px solid rgba(155,123,255,.4);border-radius:6px;padding:2px}
+.jig-tile{position:relative;cursor:pointer;background-size:cover;border-radius:2px;transition:transform .12s,outline .15s;outline:0 solid transparent}
+.jig-tile:hover{transform:scale(.96);z-index:2}
+.jig-tile.selected{outline:3px solid var(--gold);outline-offset:-3px;z-index:3}
+.jig-tile.locked{cursor:default}
+.jig-peek{text-align:center;flex-shrink:0}
+.jig-peek-label{font-family:var(--pixel);font-size:.6rem;letter-spacing:.14em;color:var(--pearl-dim);margin-bottom:.4rem}
+.jig-peek img{width:96px;height:96px;object-fit:cover;border:1px solid rgba(155,123,255,.4);border-radius:4px;opacity:.85}
+.jig-stats{text-align:center;font-family:var(--pixel);font-size:.7rem;letter-spacing:.1em;color:var(--pearl-dim);margin-top:1.2rem}
+.jig-stats span{color:var(--gold)}
+.jig-message{text-align:center;font-family:var(--display);font-style:italic;font-size:1.2rem;color:var(--gold);min-height:1.6rem;margin:.8rem 0;text-shadow:0 0 14px rgba(255,217,138,.4)}
+@media(max-width:520px){.jig-stage{gap:.8rem}.jig-peek img{width:70px;height:70px}}
+
 /* footer */
 .arc-foot{text-align:center;padding:3rem 1rem 2rem;font-family:var(--pixel);font-size:.65rem;letter-spacing:.12em;color:var(--pearl-dim)}
 .arc-foot a{color:var(--pink)}
@@ -134,7 +192,6 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   <div class="arc-logo">MAGICK MICA ARCADE</div>
   <div class="arc-sub">✦ DREAM GAMES · POWERED BY REAL TRANSMISSIONS ✦</div>
   <nav class="arc-nav">
-    <a href="quest.html">✦ DREAM QUEST</a>
     <a href="index.html">HOME</a>
     <a href="notes.html">NOTES</a>
     <a href="articles.html">ARTICLES</a>
@@ -147,6 +204,10 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   <button class="game-tab" data-on="true" data-game="scratch">✦ Crystal Scratch</button>
   <button class="game-tab" data-game="memory">◈ Memory Match</button>
   <button class="game-tab" data-game="guess">▣ Guess the Likes</button>
+  <button class="game-tab" data-game="slots">🎰 Dream Slots</button>
+  <button class="game-tab" data-game="hunt">🔍 Object Hunt</button>
+  <button class="game-tab" data-game="jigsaw">🧩 Jigsaw</button>
+  <a class="game-tab game-tab--link" href="quest.html">🗺 Dream Quest</a>
 </div>
 
 <!-- SCRATCH -->
@@ -207,6 +268,76 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   <div class="guess-next"><button class="btn gold" id="guessNext" style="display:none">Next Round →</button></div>
 </section>
 
+<!-- SLOTS -->
+<section class="game-panel" data-panel="slots">
+  <div class="game-intro">
+    <div class="game-title">Dream Slots</div>
+    <div class="game-desc">Pull the lever and spin three reels of real transmissions. Match all three to hit the cosmic jackpot.</div>
+  </div>
+  <div class="slot-machine">
+    <div class="slot-reels" id="slotReels">
+      <div class="slot-reel" id="reel0"><div class="slot-strip" id="strip0"></div></div>
+      <div class="slot-reel" id="reel1"><div class="slot-strip" id="strip1"></div></div>
+      <div class="slot-reel" id="reel2"><div class="slot-strip" id="strip2"></div></div>
+      <div class="slot-payline"></div>
+    </div>
+    <div class="slot-result" id="slotResult">Pull the lever to spin ✦</div>
+    <div class="controls">
+      <button class="btn gold" id="slotSpin">🎰 SPIN</button>
+      <a class="btn" id="slotView" href="#" target="_blank" rel="noopener" style="display:none">View a match →</a>
+    </div>
+    <div class="slot-stats">SPINS: <span id="slotSpins">0</span> · JACKPOTS: <span id="slotJackpots">0</span> · PAIRS: <span id="slotPairs">0</span></div>
+  </div>
+</section>
+
+<!-- OBJECT HUNT -->
+<section class="game-panel" data-panel="hunt">
+  <div class="game-intro">
+    <div class="game-title">Object Hunt</div>
+    <div class="game-desc">Find the matching transmission hidden in the grid before time runs out. Each round gets trickier.</div>
+  </div>
+  <div class="hunt-hud">
+    <div class="hunt-hud-box">ROUND<br><b id="huntRound">1</b></div>
+    <div class="hunt-hud-box">SCORE<br><b id="huntScore">0</b></div>
+    <div class="hunt-hud-box">TIME<br><b id="huntTime">15</b></div>
+  </div>
+  <div class="hunt-target" id="huntTarget" style="display:none">
+    <div class="hunt-target-label">✦ FIND THIS ONE ✦</div>
+    <img id="huntTargetImg" alt="target" />
+  </div>
+  <div class="hunt-grid" id="huntGrid"></div>
+  <div class="hunt-message" id="huntMessage"></div>
+  <div class="controls">
+    <button class="btn gold" id="huntStart">✦ START HUNT</button>
+  </div>
+</section>
+
+<!-- JIGSAW -->
+<section class="game-panel" data-panel="jigsaw">
+  <div class="game-intro">
+    <div class="game-title">Dream Jigsaw</div>
+    <div class="game-desc">A real transmission, shattered into pieces. Tap two tiles to swap them and rebuild the image.</div>
+  </div>
+  <div class="jig-controls">
+    <button class="jig-diff" data-size="3" data-on="true">EASY · 3×3</button>
+    <button class="jig-diff" data-size="4">MEDIUM · 4×4</button>
+    <button class="jig-diff" data-size="5">HARD · 5×5</button>
+  </div>
+  <div class="jig-stage">
+    <div class="jig-board" id="jigBoard"></div>
+    <div class="jig-peek">
+      <div class="jig-peek-label">TARGET</div>
+      <img id="jigPeek" alt="full image" />
+    </div>
+  </div>
+  <div class="jig-stats">MOVES: <span id="jigMoves">0</span></div>
+  <div class="jig-message" id="jigMessage"></div>
+  <div class="controls">
+    <button class="btn gold" id="jigNew">✦ New Puzzle</button>
+    <a class="btn" id="jigView" href="#" target="_blank" rel="noopener" style="display:none">View this note →</a>
+  </div>
+</section>
+
 <footer class="arc-foot">
   ✦ MAGICK MICA ARCADE ✦ every game runs on real transmissions ✦<br>
   <a href="https://magickmica.substack.com" target="_blank">Subscribe on Substack</a> · <a href="index.html">Back to site</a>
@@ -222,7 +353,7 @@ const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floo
 const $ = s => document.querySelector(s);
 
 /* ---------- TAB SWITCHING ---------- */
-document.querySelectorAll('.game-tab').forEach(tab=>{
+document.querySelectorAll('.game-tab:not(.game-tab--link)').forEach(tab=>{
   tab.addEventListener('click',()=>{
     const g = tab.dataset.game;
     document.querySelectorAll('.game-tab').forEach(t=>t.dataset.on = t===tab?'true':'false');
@@ -230,6 +361,9 @@ document.querySelectorAll('.game-tab').forEach(tab=>{
     if(g==='scratch') setTimeout(()=>{sizeCanvases();initCoating();},50);
     if(g==='memory' && !memStarted) memNew();
     if(g==='guess' && !guessStarted) guessNew();
+    if(g==='slots' && !slotStarted) slotInit();
+    if(g==='hunt' && !huntStarted) huntShowStart();
+    if(g==='jigsaw' && !jigStarted) jigNew();
   });
 });
 
@@ -403,6 +537,256 @@ function guessNew(){guessStarted=true;guessAnswered=false;$('#guessNext').style.
     $('#guessScore').textContent=guessScore;$('#guessStreak').textContent=guessStreak;
     $('#guessNext').style.display='inline-block';}));}
 $('#guessNext').addEventListener('click',guessNew);
+
+/* ================= DREAM SLOTS ================= */
+let slotStarted=false, slotSpinning=false, slotSpins=0, slotJackpots=0, slotPairs=0;
+const CELL=120, VISIBLE=1, STRIP_LEN=40;
+
+function slotStrip(idx){
+  const strip=document.getElementById('strip'+idx);
+  const items=[];
+  for(let i=0;i<STRIP_LEN;i++) items.push(rand(POOL));
+  strip._items=items;
+  strip.innerHTML=items.map(n=>`<div class="slot-cell"><img src="${n.t}" loading="lazy" onerror="this.style.opacity=0"/></div>`).join('');
+  strip.classList.remove('spinning');
+  strip.style.transform='translateY(0)';
+  return items;
+}
+function slotInit(){
+  slotStarted=true;
+  for(let i=0;i<3;i++) slotStrip(i);
+}
+function slotSpinOne(idx, finalNote, dur){
+  return new Promise(resolve=>{
+    const strip=document.getElementById('strip'+idx);
+    // rebuild a fresh strip, placing finalNote near the end
+    const items=[];
+    for(let i=0;i<STRIP_LEN-1;i++) items.push(rand(POOL));
+    items.push(finalNote);
+    strip._items=items;
+    strip.innerHTML=items.map(n=>`<div class="slot-cell"><img src="${n.t}" loading="lazy" onerror="this.style.opacity=0"/></div>`).join('');
+    strip.classList.remove('spinning');
+    strip.style.transform='translateY(0)';
+    // force reflow then animate to last cell
+    void strip.offsetHeight;
+    strip.style.setProperty('--dur', dur+'ms');
+    strip.classList.add('spinning');
+    strip.style.transform=`translateY(-${(STRIP_LEN-1)*CELL}px)`;
+    setTimeout(resolve, dur+40);
+  });
+}
+async function slotSpin(){
+  if(slotSpinning) return;
+  slotSpinning=true;
+  slotSpins++; $('#slotSpins').textContent=slotSpins;
+  $('#slotResult').className='slot-result'; $('#slotResult').textContent='Spinning…';
+  $('#slotView').style.display='none';
+  document.querySelectorAll('.slot-reel').forEach(r=>r.classList.remove('win'));
+  $('#slotSpin').disabled=true;
+
+  // decide outcome with weighted odds: ~8% jackpot, ~22% pair, else random
+  const roll=Math.random();
+  let a=rand(POOL), b=rand(POOL), c=rand(POOL);
+  if(roll<0.08){ b=a; c=a; }                        // jackpot: all three same
+  else if(roll<0.30){ b=a; while(c.id===a.id) c=rand(POOL); } // pair on 1&2
+  const finals=[a,b,c];
+
+  await Promise.all([
+    slotSpinOne(0,a,1600),
+    slotSpinOne(1,b,2100),
+    slotSpinOne(2,c,2600),
+  ]);
+
+  // evaluate
+  const ids=finals.map(n=>n.id);
+  const allSame=ids[0]===ids[1]&&ids[1]===ids[2];
+  const twoSame=ids[0]===ids[1]||ids[1]===ids[2]||ids[0]===ids[2];
+  const res=$('#slotResult');
+  if(allSame){
+    slotJackpots++; $('#slotJackpots').textContent=slotJackpots;
+    res.className='slot-result jackpot'; res.textContent='✦ JACKPOT! Three of a kind! ✦';
+    document.querySelectorAll('.slot-reel').forEach(r=>r.classList.add('win'));
+    $('#slotView').style.display='inline-block'; $('#slotView').href=noteUrl(a.id);
+    burstSlots();
+  } else if(twoSame){
+    slotPairs++; $('#slotPairs').textContent=slotPairs;
+    res.className='slot-result pair'; res.textContent='◈ A matching pair! So close ◈';
+    const matchId = ids[0]===ids[1]?ids[0]:(ids[1]===ids[2]?ids[1]:ids[0]);
+    $('#slotView').style.display='inline-block'; $('#slotView').href=noteUrl(matchId);
+  } else {
+    res.className='slot-result'; res.textContent='No match — spin again ✦';
+    $('#slotView').style.display='inline-block'; $('#slotView').href=noteUrl(a.id);
+    $('#slotView').textContent='View top reel →';
+  }
+  if(allSame||twoSame) $('#slotView').textContent='View the match →';
+  $('#slotSpin').disabled=false;
+  slotSpinning=false;
+}
+function burstSlots(){
+  const colors=['#ff9be4','#7bf1e4','#ffd98a','#9b7bff','#ffffff'];
+  const c=document.createElement('canvas');
+  c.style.cssText='position:fixed;inset:0;z-index:50;pointer-events:none';
+  c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);
+  const x=c.getContext('2d');let bits=[];
+  for(let i=0;i<140;i++)bits.push({x:innerWidth/2,y:innerHeight*.4,vx:(Math.random()-.5)*13,vy:(Math.random()-.5)*13-3,s:Math.random()*4+2,c:colors[i%colors.length],life:1});
+  (function anim(){x.clearRect(0,0,c.width,c.height);bits=bits.filter(b=>b.life>0);
+    bits.forEach(b=>{b.x+=b.vx;b.y+=b.vy;b.vy+=.28;b.life-=.012;x.globalAlpha=Math.max(0,b.life);x.fillStyle=b.c;x.fillRect(b.x,b.y,b.s,b.s);});
+    x.globalAlpha=1;if(bits.length)requestAnimationFrame(anim);else c.remove();})();
+}
+$('#slotSpin').addEventListener('click',slotSpin);
+
+/* ================= OBJECT HUNT ================= */
+let huntStarted=false, huntRound=1, huntScore=0, huntTimer=null, huntTimeLeft=15, huntActive=false;
+function huntShowStart(){
+  $('#huntGrid').innerHTML='';
+  $('#huntTarget').style.display='none';
+  $('#huntTargetImg').removeAttribute('src');
+  $('#huntMessage').className='hunt-message';
+  $('#huntMessage').textContent='Tap START to begin the hunt!';
+}
+function huntBeginGame(){
+  huntStarted=true; huntRound=1; huntScore=0;
+  $('#huntRound').textContent='1'; $('#huntScore').textContent='0';
+  $('#huntStart').style.display='none';
+  huntNextRound();
+}
+function huntNextRound(){
+  huntActive=true;
+  $('#huntMessage').className='hunt-message'; $('#huntMessage').textContent='';
+  // grid grows each round: round1=9(3x3), round2=16(4x4), round3+=25(5x5)
+  const cols = huntRound<=1?3:(huntRound===2?4:5);
+  const count = cols*cols;
+  const picks = shuffle(POOL).slice(0, count);
+  const target = rand(picks);
+  $('#huntTarget').style.display='block';
+  $('#huntTargetImg').src = target.t;
+  const grid=$('#huntGrid');
+  grid.style.gridTemplateColumns=`repeat(${cols},1fr)`;
+  const tileW = cols>=5?'88px':(cols===4?'104px':'120px');
+  grid.innerHTML='';
+  shuffle(picks).forEach(n=>{
+    const tile=document.createElement('div');
+    tile.className='hunt-tile';
+    tile.style.width=tileW;
+    tile.innerHTML=`<img src="${n.t}" loading="lazy" onerror="this.style.opacity=0"/>`;
+    tile.addEventListener('click',()=>huntPick(tile, n, target));
+    grid.appendChild(tile);
+  });
+  // timer: less time as rounds advance
+  huntTimeLeft = Math.max(6, 16 - huntRound*2);
+  $('#huntTime').textContent=huntTimeLeft;
+  $('#huntTime').parentElement.classList.remove('warn');
+  clearInterval(huntTimer);
+  huntTimer=setInterval(()=>{
+    huntTimeLeft--;
+    $('#huntTime').textContent=huntTimeLeft;
+    if(huntTimeLeft<=5) $('#huntTime').parentElement.classList.add('warn');
+    if(huntTimeLeft<=0) huntTimeout();
+  },1000);
+}
+function huntPick(tile, note, target){
+  if(!huntActive) return;
+  if(note.id===target.id){
+    huntActive=false; clearInterval(huntTimer);
+    tile.classList.add('correct');
+    const gained = 10*huntRound + huntTimeLeft;
+    huntScore += gained; $('#huntScore').textContent=huntScore;
+    $('#huntMessage').className='hunt-message win';
+    $('#huntMessage').textContent=`✦ Found it! +${gained} points ✦`;
+    huntRound++; $('#huntRound').textContent=huntRound;
+    setTimeout(huntNextRound, 1400);
+  } else {
+    tile.classList.add('wrong');
+    setTimeout(()=>tile.classList.remove('wrong'),300);
+    // small time penalty
+    huntTimeLeft=Math.max(1,huntTimeLeft-2);
+    $('#huntTime').textContent=huntTimeLeft;
+  }
+}
+function huntTimeout(){
+  huntActive=false; clearInterval(huntTimer);
+  // reveal target in grid
+  document.querySelectorAll('.hunt-tile').forEach(t=>{
+    const img=t.querySelector('img');
+    if(img && img.src===$('#huntTargetImg').src) t.classList.add('correct');
+  });
+  $('#huntMessage').className='hunt-message lose';
+  $('#huntMessage').textContent=`⏱ Time's up! You reached round ${huntRound} with ${huntScore} points.`;
+  $('#huntStart').style.display='inline-block';
+  $('#huntStart').textContent='✦ PLAY AGAIN';
+  huntStarted=false;
+}
+$('#huntStart').addEventListener('click',huntBeginGame);
+
+/* ================= DREAM JIGSAW ================= */
+let jigStarted=false, jigSize=3, jigNote=null, jigOrder=[], jigSelected=null, jigMoves=0, jigSolved=false;
+function jigNew(){
+  jigStarted=true; jigSolved=false; jigSelected=null; jigMoves=0;
+  $('#jigMoves').textContent='0';
+  $('#jigMessage').textContent='';
+  $('#jigView').style.display='none';
+  jigNote=rand(POOL);
+  $('#jigPeek').src=jigNote.t;
+  $('#jigView').href=noteUrl(jigNote.id);
+  const n=jigSize*jigSize;
+  // create solved order then shuffle (ensure not already solved)
+  jigOrder=[...Array(n).keys()];
+  do { jigOrder=shuffle(jigOrder); } while(jigOrder.every((v,i)=>v===i));
+  jigRender();
+}
+function jigRender(){
+  const board=$('#jigBoard');
+  board.style.gridTemplateColumns=`repeat(${jigSize},1fr)`;
+  board.innerHTML='';
+  const pct=100/(jigSize-1);
+  jigOrder.forEach((pieceIdx, slot)=>{
+    const tile=document.createElement('div');
+    tile.className='jig-tile'+(jigSolved?' locked':'');
+    const px=pieceIdx%jigSize, py=Math.floor(pieceIdx/jigSize);
+    tile.style.backgroundImage=`url("${jigNote.t}")`;
+    tile.style.backgroundSize=`${jigSize*100}% ${jigSize*100}%`;
+    tile.style.backgroundPosition=`${px*pct}% ${py*pct}%`;
+    if(jigSelected===slot) tile.classList.add('selected');
+    if(!jigSolved) tile.addEventListener('click',()=>jigTap(slot));
+    board.appendChild(tile);
+  });
+}
+function jigTap(slot){
+  if(jigSolved) return;
+  if(jigSelected===null){ jigSelected=slot; jigRender(); return; }
+  if(jigSelected===slot){ jigSelected=null; jigRender(); return; }
+  // swap
+  [jigOrder[jigSelected],jigOrder[slot]]=[jigOrder[slot],jigOrder[jigSelected]];
+  jigSelected=null; jigMoves++; $('#jigMoves').textContent=jigMoves;
+  // check solved
+  if(jigOrder.every((v,i)=>v===i)){
+    jigSolved=true; jigRender();
+    $('#jigMessage').textContent=`✦ Solved in ${jigMoves} moves! ✦`;
+    $('#jigView').style.display='inline-block';
+    jigBurst();
+  } else {
+    jigRender();
+  }
+}
+function jigBurst(){
+  const colors=['#ff9be4','#7bf1e4','#ffd98a','#9b7bff','#ffffff'];
+  const c=document.createElement('canvas');
+  c.style.cssText='position:fixed;inset:0;z-index:50;pointer-events:none';
+  c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);
+  const x=c.getContext('2d');let bits=[];
+  for(let i=0;i<130;i++)bits.push({x:innerWidth/2,y:innerHeight*.4,vx:(Math.random()-.5)*13,vy:(Math.random()-.5)*13-3,s:Math.random()*4+2,c:colors[i%colors.length],life:1});
+  (function anim(){x.clearRect(0,0,c.width,c.height);bits=bits.filter(b=>b.life>0);
+    bits.forEach(b=>{b.x+=b.vx;b.y+=b.vy;b.vy+=.28;b.life-=.012;x.globalAlpha=Math.max(0,b.life);x.fillStyle=b.c;x.fillRect(b.x,b.y,b.s,b.s);});
+    x.globalAlpha=1;if(bits.length)requestAnimationFrame(anim);else c.remove();})();
+}
+document.querySelectorAll('.jig-diff').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.jig-diff').forEach(b=>b.dataset.on=b===btn?'true':'false');
+    jigSize=parseInt(btn.dataset.size,10);
+    jigNew();
+  });
+});
+$('#jigNew').addEventListener('click',jigNew);
 </script>
 </body>
 </html>
