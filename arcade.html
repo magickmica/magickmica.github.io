@@ -570,14 +570,37 @@ $('#guessNext').addEventListener('click',guessNew);
 
 /* ================= DREAM SLOTS ================= */
 let slotStarted=false, slotSpinning=false, slotSpins=0, slotJackpots=0, slotPairs=0;
-const CELL=120, VISIBLE=1, STRIP_LEN=40;
+const VISIBLE=1, STRIP_LEN=40, STRIP_UNIQUE=8;
+
+/* Cell size is 120px on desktop but 90px under 520px (see the slot media
+   query). Measure it instead of hardcoding — a fixed 120 overshot the strip
+   by ~13 cells on mobile and parked the reel past the last image, so it spun
+   but showed nothing. */
+function cellH(strip){
+  const c=strip.firstElementChild;
+  return (c&&c.offsetHeight) || (strip.parentElement&&strip.parentElement.clientHeight) || 120;
+}
+
+/* Draw the filler cells from a small set of repeats so the browser fetches
+   ~8 images per reel instead of 40. 120 lazy CDN images was both slow and
+   enough for iOS to start dropping them mid-spin. */
+function stripItems(finalNote){
+  const uniq=[];
+  for(let i=0;i<STRIP_UNIQUE;i++) uniq.push(rand(POOL));
+  const items=[];
+  for(let i=0;i<STRIP_LEN-1;i++) items.push(uniq[Math.floor(Math.random()*uniq.length)]);
+  items.push(finalNote||rand(POOL));
+  return items;
+}
+function cellHTML(items){
+  return items.map(n=>`<div class="slot-cell"><img src="${n.t}" alt="" decoding="async" onerror="this.style.opacity=0"/></div>`).join('');
+}
 
 function slotStrip(idx){
   const strip=document.getElementById('strip'+idx);
-  const items=[];
-  for(let i=0;i<STRIP_LEN;i++) items.push(rand(POOL));
+  const items=stripItems(null);
   strip._items=items;
-  strip.innerHTML=items.map(n=>`<div class="slot-cell"><img src="${n.t}" loading="lazy" onerror="this.style.opacity=0"/></div>`).join('');
+  strip.innerHTML=cellHTML(items);
   strip.classList.remove('spinning');
   strip.style.transform='translateY(0)';
   return items;
@@ -586,22 +609,36 @@ function slotInit(){
   slotStarted=true;
   for(let i=0;i<3;i++) slotStrip(i);
 }
+/* Rotating the phone changes the cell size, which would strand a resting
+   reel at an offset measured for the old size. Re-park on resize. */
+let slotResizeT;
+window.addEventListener('resize',()=>{
+  if(!slotStarted||slotSpinning) return;
+  clearTimeout(slotResizeT);
+  slotResizeT=setTimeout(()=>{
+    for(let i=0;i<3;i++){
+      const strip=document.getElementById('strip'+i);
+      if(!strip||!strip._items) continue;
+      strip.classList.remove('spinning');
+      strip.style.transform=`translateY(-${(STRIP_LEN-1)*cellH(strip)}px)`;
+    }
+  },150);
+});
 function slotSpinOne(idx, finalNote, dur){
   return new Promise(resolve=>{
     const strip=document.getElementById('strip'+idx);
-    // rebuild a fresh strip, placing finalNote near the end
-    const items=[];
-    for(let i=0;i<STRIP_LEN-1;i++) items.push(rand(POOL));
-    items.push(finalNote);
+    // rebuild a fresh strip, placing finalNote at the end
+    const items=stripItems(finalNote);
     strip._items=items;
-    strip.innerHTML=items.map(n=>`<div class="slot-cell"><img src="${n.t}" loading="lazy" onerror="this.style.opacity=0"/></div>`).join('');
+    strip.innerHTML=cellHTML(items);
     strip.classList.remove('spinning');
     strip.style.transform='translateY(0)';
-    // force reflow then animate to last cell
+    // force reflow, then measure the live cell height and animate to the last cell
     void strip.offsetHeight;
+    const cell=cellH(strip);
     strip.style.setProperty('--dur', dur+'ms');
     strip.classList.add('spinning');
-    strip.style.transform=`translateY(-${(STRIP_LEN-1)*CELL}px)`;
+    strip.style.transform=`translateY(-${(STRIP_LEN-1)*cell}px)`;
     setTimeout(resolve, dur+40);
   });
 }
