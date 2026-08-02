@@ -65,7 +65,7 @@ a{color:var(--cyan)}
 <div class="wrap">
 <header class="top">
   <h1>Daily Affirmation</h1>
-  <p>✦ SCRATCH TO REVEAL TODAY'S MESSAGE ✦</p>
+  <p>✦ SCRATCH TO REVEAL YOUR MESSAGE ✦</p>
   <div class="date" id="todayDate"></div>
   <nav>
     <a href="index.html">HOME</a>
@@ -114,8 +114,7 @@ const noteUrl = id => `https://substack.com/@magickmica/note/c-${id}`;
 // today's date + deterministic daily pick
 const now = new Date();
 $('#todayDate').textContent = now.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-function dayIndex(){ const start=new Date(now.getFullYear(),0,0); return Math.floor((now-start)/86400000); }
-const dailyPick = AFFIRMATIONS[dayIndex() % AFFIRMATIONS.length];
+const dailyPick = AFFIRMATIONS[Math.floor(Math.random()*AFFIRMATIONS.length)];
 
 let state={note:null,revealed:false,isDaily:true};
 
@@ -200,10 +199,10 @@ function revealCard(skip){if(state.revealed)return;state.revealed=true;
 function loadCard(note,isDaily){state.note=note;state.revealed=false;state.isDaily=isDaily;parts=[];flash=0;
   $('#faceImg').src=note.t;$('#faceQuote').textContent=note.b||'✦ you are magic ✦';
   $('#faceStats').textContent=`❤ ${note.l} · from the archive`;
-  $('#faceEyebrow').textContent=isDaily?"✦ TODAY'S AFFIRMATION ✦":"✦ A MESSAGE FOR YOU ✦";
+  $('#faceEyebrow').textContent=isDaily?"✦ YOUR AFFIRMATION ✦":"✦ A MESSAGE FOR YOU ✦";
   $('#revealNote').dataset.on='false';$('#btnReveal').disabled=false;
   $('#hint').textContent='DRAG TO SCRATCH · 55% REVEALS THE REST';
-  $('#dailyBadge').innerHTML=isDaily?'Your affirmation refreshes each day · <b>come back tomorrow</b>':'Pull as many as your heart needs ✦';
+  $('#dailyBadge').innerHTML=isDaily?'A fresh affirmation every visit · <b>scratch as many as you like</b>':'Pull as many as your heart needs ✦';
   coat.style.opacity='1';coat.style.pointerEvents='auto';sizeCanvases();initCoating();}
 
 $('#btnMore').addEventListener('click',()=>{loadCard(AFFIRMATIONS[Math.floor(Math.random()*AFFIRMATIONS.length)],false);});
