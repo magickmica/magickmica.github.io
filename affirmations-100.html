@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>100 Affirmations &middot; Cosmic Fortune Machine &middot; MagickMica</title>
+<meta name="description" content="A random affirmation generator built from the 100 most-loved MagickMica notes. Pull the lever.">
+<meta property="og:title" content="COSMIC_FORTUNE.EXE &middot; 100 Affirmations">
+<meta property="og:description" content="Pull the lever. One affirmation at a time, from the archive.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07060e;
+  --void-lift:#100c1e;
+  --chrome:#c3c0cf;
+  --chrome-lit:#ffffff;
+  --chrome-mid:#9793a8;
+  --chrome-dim:#6b6780;
+  --chrome-dark:#141020;
+  --ink:#14101f;
+  --magenta:#ff44cc;
+  --cyan:#22e0ff;
+  --gold:#ffd166;
+  --violet:#a020f0;
+  --screen:#0a0716;
+  --pad:16px;
+}
+
+*{box-sizing:border-box}
+
+html{-webkit-text-size-adjust:100%}
+
+body{
+  margin:0;
+  padding:0 12px 56px;
+  background-color:var(--void);
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.9) 50%, transparent 50%),
+    radial-gradient(1px 1px at 74% 12%, rgba(255,255,255,.65) 50%, transparent 50%),
+    radial-gradient(1.6px 1.6px at 46% 68%, rgba(255,209,102,.85) 50%, transparent 50%),
+    radial-gradient(1px 1px at 88% 82%, rgba(34,224,255,.8) 50%, transparent 50%),
+    radial-gradient(1px 1px at 10% 88%, rgba(255,68,204,.75) 50%, transparent 50%),
+    radial-gradient(circle at 50% 0%, #1b1038 0%, transparent 62%);
+  background-size:160px 160px,160px 160px,160px 160px,160px 160px,160px 160px,100% 900px;
+  background-repeat:repeat,repeat,repeat,repeat,repeat,no-repeat;
+  color:var(--chrome);
+  font-family:"Share Tech Mono",ui-monospace,monospace;
+  font-size:15px;
+  line-height:1.5;
+}
+
+a{color:var(--cyan)}
+a:focus-visible,button:focus-visible{outline:2px dotted var(--gold);outline-offset:2px}
+
+.wrap{max-width:780px;margin:0 auto}
+
+/* ---------------------------------------------------------- marquee */
+.marquee{
+  margin:0 -12px 22px;
+  border-bottom:1px solid rgba(255,68,204,.35);
+  background:rgba(7,6,14,.75);
+  overflow:hidden;
+  white-space:nowrap;
+  font-family:"Silkscreen",monospace;
+  font-size:11px;
+  letter-spacing:.14em;
+  color:var(--magenta);
+  padding:8px 0;
+}
+.marquee span{display:inline-block;padding-left:100%;animation:slide 26s linear infinite}
+.marquee b{color:var(--gold);font-weight:400}
+@keyframes slide{to{transform:translateX(-100%)}}
+
+/* ---------------------------------------------------------- headline */
+.crown{text-align:center;margin:0 0 20px}
+.crown h1{
+  font-family:"Silkscreen",monospace;
+  font-weight:700;
+  font-size:clamp(20px,5.4vw,34px);
+  letter-spacing:.06em;
+  margin:0;
+  line-height:1.25;
+  background:linear-gradient(96deg,var(--violet),var(--magenta) 26%,var(--gold) 54%,var(--cyan) 82%,var(--violet));
+  background-size:220% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:holo 9s linear infinite;
+}
+@keyframes holo{to{background-position:220% 0}}
+.crown p{
+  margin:8px 0 0;font-size:13px;color:var(--chrome-mid);letter-spacing:.05em;
+}
+
+/* ---------------------------------------------------------- win95 window */
+.win{
+  background:var(--chrome);
+  border:2px solid;
+  border-color:var(--chrome-lit) var(--chrome-dark) var(--chrome-dark) var(--chrome-lit);
+  box-shadow:0 0 0 1px #000, 6px 6px 0 rgba(0,0,0,.55), 0 0 44px rgba(160,32,240,.28);
+  padding:3px;
+  margin:0 0 26px;
+}
+.titlebar{
+  display:flex;align-items:center;gap:8px;
+  background:linear-gradient(90deg,#2d1157,#a020f0 58%,#ff44cc);
+  padding:4px 4px 4px 7px;
+}
+.titlebar h2{
+  margin:0;flex:1;min-width:0;
+  font-family:"Silkscreen",monospace;font-weight:700;font-size:12px;
+  letter-spacing:.05em;color:#fff;
+  text-shadow:1px 1px 0 rgba(0,0,0,.5);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.tbtn{
+  width:19px;height:17px;flex:none;
+  background:var(--chrome);
+  border:2px solid;
+  border-color:var(--chrome-lit) var(--chrome-dark) var(--chrome-dark) var(--chrome-lit);
+  font-family:"Silkscreen",monospace;font-size:9px;line-height:1;color:var(--ink);
+  display:grid;place-items:center;cursor:default;padding:0;
+}
+
+.winbody{padding:var(--pad)}
+
+/* ---------------------------------------------------------- screen */
+.screen{
+  position:relative;
+  background:var(--screen);
+  border:2px solid;
+  border-color:var(--chrome-dark) var(--chrome-lit) var(--chrome-lit) var(--chrome-dark);
+  min-height:330px;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.screen::after{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:4;
+  background:repeating-linear-gradient(180deg,rgba(0,0,0,.32) 0 1px,transparent 1px 3px);
+  mix-blend-mode:multiply;opacity:.55;
+}
+
+.plate{
+  position:relative;z-index:2;
+  flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  gap:18px;padding:30px 26px;text-align:center;
+}
+
+.relic{
+  width:150px;height:150px;flex:none;
+  object-fit:cover;
+  border:2px solid;
+  border-color:var(--chrome-dim) var(--chrome-lit) var(--chrome-lit) var(--chrome-dim);
+  filter:saturate(1.15) contrast(1.06);
+  background:#1a1030;
+}
+.relic[hidden]{display:none}
+
+.fortune{
+  font-family:"Bodoni Moda",Didot,Georgia,serif;
+  font-style:italic;
+  font-weight:500;
+  font-size:clamp(20px,3.5vw,30px);
+  line-height:1.32;
+  color:#fff;
+  margin:0;
+  max-width:22ch;
+  text-wrap:balance;
+  text-shadow:0 0 22px rgba(255,68,204,.5), 0 0 60px rgba(160,32,240,.35);
+}
+.fortune::before,.fortune::after{color:var(--gold);opacity:.7}
+.fortune::before{content:"\201C"}
+.fortune::after{content:"\201D"}
+
+.stamp{
+  font-family:"Silkscreen",monospace;font-size:10px;letter-spacing:.12em;
+  color:var(--chrome-dim);
+  display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;
+}
+.stamp b{color:var(--gold);font-weight:400}
+.stamp i{color:var(--magenta);font-style:normal}
+
+/* idle state */
+.idle .fortune{color:var(--chrome-dim);text-shadow:none;font-size:clamp(17px,2.8vw,22px)}
+.idle .fortune::before,.idle .fortune::after{content:""}
+
+/* static wipe */
+.static{
+  position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;
+  background:
+    repeating-linear-gradient(180deg,
+      rgba(255,255,255,.5) 0 2px, rgba(255,68,204,.28) 2px 5px,
+      rgba(0,0,0,.85) 5px 9px, rgba(34,224,255,.3) 9px 12px);
+  background-size:100% 24px;
+}
+.tuning .static{opacity:1;animation:roll .28s steps(6) infinite}
+@keyframes roll{to{background-position:0 24px}}
+.tuning .plate{opacity:.22}
+
+/* ---------------------------------------------------------- controls */
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:var(--pad);align-items:stretch}
+
+.btn{
+  font-family:"Silkscreen",monospace;
+  font-size:12px;letter-spacing:.06em;
+  color:var(--ink);
+  background:var(--chrome);
+  border:2px solid;
+  border-color:var(--chrome-lit) var(--chrome-dark) var(--chrome-dark) var(--chrome-lit);
+  padding:11px 16px;
+  cursor:pointer;
+  min-height:44px;
+}
+.btn:active:not(:disabled){
+  border-color:var(--chrome-dark) var(--chrome-lit) var(--chrome-lit) var(--chrome-dark);
+  padding:12px 15px 10px 17px;
+}
+.btn:disabled{color:var(--chrome-dim);cursor:default}
+.btn-lever{
+  flex:1 1 260px;
+  font-size:14px;
+  background:linear-gradient(180deg,#e6c7ff,#c3a0e8 50%,#9f74d0);
+  text-shadow:0 1px 0 rgba(255,255,255,.55);
+}
+.btn-lever:hover:not(:disabled){background:linear-gradient(180deg,#f4e0ff,#d8b6f5 50%,#b088e0)}
+
+/* ---------------------------------------------------------- status bar */
+.statusbar{
+  display:flex;align-items:center;gap:10px;
+  margin:14px -3px -3px;padding:6px 8px;
+  border-top:2px solid var(--chrome-lit);
+  background:var(--chrome);
+  font-size:12px;color:var(--ink);
+}
+.sunk{
+  border:2px solid;
+  border-color:var(--chrome-dim) var(--chrome-lit) var(--chrome-lit) var(--chrome-dim);
+  padding:2px 7px;
+}
+.status-msg{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.meter{flex:none;width:118px;height:14px;background:var(--void-lift);padding:2px}
+.meter i{
+  display:block;height:100%;width:0%;
+  background-image:repeating-linear-gradient(115deg,var(--magenta) 0 7px,var(--violet) 7px 14px);
+  transition:width .45s ease;
+}
+
+/* ---------------------------------------------------------- scrapbook */
+.scrapbody{padding:12px var(--pad) var(--pad)}
+.scraplist{
+  list-style:none;margin:0;padding:8px 10px;
+  max-height:250px;overflow:auto;
+  background:#efeef4;color:var(--ink);
+  border:2px solid;
+  border-color:var(--chrome-dim) var(--chrome-lit) var(--chrome-lit) var(--chrome-dim);
+  font-size:13px;
+}
+.scraplist li{padding:5px 0;border-bottom:1px dotted #b9b6c6;display:flex;gap:9px}
+.scraplist li:last-child{border-bottom:0}
+.scraplist .no{font-family:"Silkscreen",monospace;font-size:9px;color:#6a3fa0;flex:none;padding-top:3px}
+.empty{color:#5c5870;font-style:italic}
+.scrapfoot{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+  margin-top:12px;font-size:12px;color:var(--ink);
+}
+.linky{background:none;border:0;padding:0;color:#7b2fb5;text-decoration:underline;cursor:pointer;font:inherit}
+
+/* ---------------------------------------------------------- footer junk */
+.divider{
+  height:9px;margin:30px 0 22px;
+  background-image:repeating-linear-gradient(115deg,var(--gold) 0 9px,var(--ink) 9px 18px);
+  border-top:1px solid rgba(255,255,255,.28);
+  border-bottom:1px solid rgba(0,0,0,.6);
+}
+.basement{text-align:center;font-size:12px;color:var(--chrome-dim);line-height:1.9}
+.counter{
+  display:inline-flex;gap:2px;margin:0 0 6px;
+  padding:5px;background:#000;border:2px solid;
+  border-color:var(--chrome-dark) var(--chrome-lit) var(--chrome-lit) var(--chrome-dark);
+}
+.counter span{
+  font-family:"Silkscreen",monospace;font-size:15px;
+  background:#12101c;color:var(--gold);padding:2px 4px;
+  text-shadow:0 0 8px rgba(255,209,102,.85);
+}
+.ring{
+  font-family:"Silkscreen",monospace;font-size:10px;letter-spacing:.08em;
+  margin:16px 0 10px;color:var(--chrome-mid);
+}
+.ring a{margin:0 7px;display:inline-block;padding:3px 0}
+.tiny{font-size:11px;color:#5b5772;letter-spacing:.04em}
+
+@media (max-width:560px){
+  .plate{padding:24px 16px;gap:14px}
+  .relic{width:112px;height:112px}
+  .fortune{max-width:100%}
+  .statusbar{flex-wrap:wrap}
+  .status-msg{flex:1 1 100%;order:2}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .marquee span{animation:none;padding-left:0}
+  .crown h1{animation:none}
+  .tuning .static{animation:none}
+  .meter i{transition:none}
+  *{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="marquee" aria-hidden="true"><span>
+  &#10022; WELCOME TO THE COSMIC FORTUNE MACHINE &#10022; <b>100 AFFIRMATIONS</b> HAND-PICKED FROM 4,531 NOTES &#10022;
+  PULL THE LEVER &#10022; TAKE WHAT YOU NEED &#10022; LEAVE THE REST &#10022; SIGN THE GUESTBOOK IN YOUR HEART &#10022;
+</span></div>
+
+<div class="wrap">
+
+  <header class="crown">
+    <h1>100 AFFIRMATIONS</h1>
+    <p>one at a time, at random, from the archive</p>
+  </header>
+
+  <main class="win">
+    <div class="titlebar">
+      <h2>COSMIC_FORTUNE.EXE</h2>
+      <button class="tbtn" tabindex="-1" aria-hidden="true">_</button>
+      <button class="tbtn" tabindex="-1" aria-hidden="true">&#9633;</button>
+      <button class="tbtn" tabindex="-1" aria-hidden="true">&#10005;</button>
+    </div>
+
+    <div class="winbody">
+      <div class="screen idle" id="screen">
+        <div class="static" aria-hidden="true"></div>
+        <div class="plate" aria-live="polite">
+          <img class="relic" id="relic" alt="" hidden>
+          <p class="fortune" id="fortune">The machine is warm. Pull the lever.</p>
+          <p class="stamp" id="stamp"></p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-lever" id="lever">&#10022; PULL THE LEVER &#10022;</button>
+        <button class="btn" id="copy" disabled>COPY</button>
+        <button class="btn" id="source" disabled>ORIGINAL NOTE</button>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <span class="sunk status-msg" id="status">READY</span>
+      <span class="sunk" id="tally">0 / 100</span>
+      <span class="meter sunk" aria-hidden="true"><i id="meter"></i></span>
+    </div>
+  </main>
+
+  <section class="win">
+    <div class="titlebar">
+      <h2>SCRAPBOOK.TXT</h2>
+      <button class="tbtn" tabindex="-1" aria-hidden="true">_</button>
+    </div>
+    <div class="scrapbody">
+      <ul class="scraplist" id="scrap"><li class="empty">Nothing saved yet. Pull the lever, then press KEEP.</li></ul>
+      <div class="scrapfoot">
+        <button class="btn" id="keep" disabled>&#9829; KEEP THIS ONE</button>
+        <button class="linky" id="clear">erase scrapbook</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <footer class="basement">
+    <div class="counter" id="counter" aria-label="visitor counter"></div>
+    <div>notes in the archive, and counting</div>
+
+    <nav class="ring">
+      &#10022; MAGICKMICA WEBRING &#10022;<br>
+      <a href="index.html">home</a>&middot;
+      <a href="notes.html">notes</a>&middot;
+      <a href="articles.html">magazine</a>&middot;
+      <a href="arcade.html">arcade</a>&middot;
+      <a href="quest.html">dream quest</a>&middot;
+      <a href="abundance-portal.html">portal</a>&middot;
+      <a href="affirmations.html">daily card</a>&middot;
+      <a href="dream-journal.html">journal</a>&middot;
+      <a href="minimags.html">y3k</a>
+    </nav>
+
+    <div class="tiny">
+      best viewed in Netscape Navigator 3.0 at 800&times;600 &middot; hand-coded with love &middot; MagickMica MMXXVI
+    </div>
+  </footer>
+</div>
+
+<script>
+const AFFIRMATIONS = [{"i":1,"id":242529436,"a":"You are beautiful, You are worthy, You are enough.","l":82,"d":"2026-04-13","t":""},{"i":2,"id":238967395,"a":"Abundance flows to me because I am open and ready to receive peace and freedom.","l":55,"d":"2026-04-06","t":""},{"i":3,"id":258314262,"a":"The dream was lovely, but being alive is magic.","l":47,"d":"2026-05-13","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F36e1dba8-fa53-4bf6-afaf-0b292f7d04a1_1200x1200.png"},{"i":4,"id":255867819,"a":"I don’t seek divine timing… I am divine timing.","l":43,"d":"2026-05-08","t":""},{"i":5,"id":231676095,"a":"Not all spells need wands—some are made with sugar, sunshine, and a wooden spoon.","l":41,"d":"2026-03-22","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Facb26bc1-0462-4b7a-9b5e-4be99cd5bf12_600x600.gif"},{"i":6,"id":240434259,"a":"Glow like you remember something ancient about yourself that the world hasn’t caught up to yet.","l":40,"d":"2026-04-08","t":""},{"i":7,"id":297640836,"a":"You didn't come here to fit in. You came here to activate something.","l":40,"d":"2026-07-19","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F131544c2-e136-4c5f-8427-a5213c34acdd_1122x1402.png"},{"i":8,"id":281205802,"a":"I woke up with moonlight still in my hair.","l":40,"d":"2026-06-23","t":""},{"i":9,"id":252944293,"a":"The Healing Hand is here for you… always.","l":39,"d":"2026-05-03","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F864bd0f8-d3df-4c61-9da2-7dc9d0cf6fe6_600x600.gif"},{"i":10,"id":254026780,"a":"The universe doesn’t always rush—sometimes it holds the wave steady just for you.","l":39,"d":"2026-05-05","t":""},{"i":11,"id":239541706,"a":"Carry yourself like magic is mandatory.","l":39,"d":"2026-04-07","t":""},{"i":12,"id":242676355,"a":"Be so aligned within yourself that confusion cannot comfortably exist around you.","l":39,"d":"2026-04-13","t":""},{"i":13,"id":264528286,"a":"Glow like you’ve already met your highest self and decided to never shrink again.","l":37,"d":"2026-05-24","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b29b35d-d833-426a-bea4-6c55ef3d8ea2_500x500.gif"},{"i":14,"id":243857689,"a":"I am here to honor what my spirit already knows.","l":37,"d":"2026-04-15","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F26a8124b-69cd-4847-a5fd-5e775c2169d4_1120x1120.png"},{"i":15,"id":233836605,"a":"Let it all dissolve back into source—your soul was always holy, always precious.","l":37,"d":"2026-03-27","t":""},{"i":16,"id":227965619,"a":"If life is but a dream, Alice wondered who was holding the remote.","l":35,"d":"2026-03-15","t":""},{"i":17,"id":242336644,"a":"Be rare enough to be remembered, soft enough to be loved.","l":35,"d":"2026-04-12","t":""},{"i":18,"id":239379842,"a":"Treat your peace like a sacred investment—protected, prioritized, and never negotiated.","l":34,"d":"2026-04-07","t":""},{"i":19,"id":262177002,"a":"Soul of a Warrior. Heart of a Queen. She carries ancient strength with modern magic.","l":33,"d":"2026-05-20","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F448f883c-d66a-483e-be6e-aea7a30b38ca_1254x1254.png"},{"i":20,"id":262436664,"a":"I was not born beneath the stars… darling, I taught them how to shimmer.","l":33,"d":"2026-05-20","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6468d82a-9e6d-453e-b3d2-acedf0731aaf_1200x1200.png"},{"i":21,"id":214441986,"a":"Glow Like the Galaxy Goddess You Are.","l":32,"d":"2026-02-14","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F68ac5dbb-8513-4b6d-9c67-4bdc7ccd22d2_1200x1200.png"},{"i":22,"id":246252344,"a":"Cosmic paws, cozy thoughts, and tea that tastes like dreams.","l":32,"d":"2026-04-20","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7ed44e20-aede-42f2-99b9-90460deed2e6_1250x1250.png"},{"i":23,"id":242959903,"a":"Raise your standards until your reality rises with you.","l":32,"d":"2026-04-15","t":""},{"i":24,"id":245791610,"a":"The forest still remembers you— even if you traded its whispers for glowing cities and electric skies.","l":31,"d":"2026-04-19","t":""},{"i":25,"id":234996188,"a":"I do not simply exist within this world… I drift through it, a whispered dream wrapped in light and longing.","l":30,"d":"2026-03-29","t":""},{"i":26,"id":229774322,"a":"Somewhere between the first sip and the last, I became a dream.","l":29,"d":"2026-03-18","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F589f4589-f485-4d59-bdd3-859be3e890e1_600x600.gif"},{"i":27,"id":282431680,"a":"The sun rises just to see you glow.","l":29,"d":"2026-06-25","t":""},{"i":28,"id":240103223,"a":"Love from overflow, never from absence, never from hunger.","l":29,"d":"2026-04-08","t":""},{"i":29,"id":293825137,"a":"Glow differently when you know who you are.","l":29,"d":"2026-07-13","t":""},{"i":30,"id":239349910,"a":"Speak as if your words are rare elements—measured, intentional, and never wasted.","l":28,"d":"2026-04-07","t":""},{"i":31,"id":243434012,"a":"Walk like the universe personally styled you.","l":28,"d":"2026-04-14","t":""},{"i":32,"id":212219625,"a":"She does not chase the stars; she remembers she was made of them.","l":28,"d":"2026-02-09","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F83f82526-e016-4251-ba45-d57bb5d467de_1200x686.png"},{"i":33,"id":207843415,"a":"Act like your soul is expensive.","l":28,"d":"2026-01-31","t":""},{"i":34,"id":243227688,"a":"Catch the glow, not just the wave—let the light carry you where fear won’t.","l":27,"d":"2026-04-14","t":""},{"i":35,"id":302453230,"a":"Your weirdness is proof the stars were feeling creative.","l":27,"d":"2026-07-27","t":""},{"i":36,"id":241293172,"a":"The universe doesn’t rush masterpieces… it lets them develop layers.","l":27,"d":"2026-04-10","t":""},{"i":37,"id":244066146,"a":"Slowing down isn’t falling behind, it’s letting life season you properly.","l":27,"d":"2026-04-15","t":""},{"i":38,"id":221237586,"a":"You are held by a universe that knows your name…","l":26,"d":"2026-03-01","t":""},{"i":39,"id":230358658,"a":"Between nebula clouds and glittering galaxies walks a cat made of stardust…","l":25,"d":"2026-03-19","t":""},{"i":40,"id":262870283,"a":"Make magic. Make moves. Make it count.","l":25,"d":"2026-05-21","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb7cdd7a5-77a2-4789-a46d-297baea5d4e0_1254x1254.png"},{"i":41,"id":231265926,"a":"Baking is a quiet kind of magic—warming the hands, and gently healing the heart.","l":25,"d":"2026-03-21","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4e517b2c-705c-481b-8091-8fc29bfdd9de_600x600.gif"},{"i":42,"id":291502709,"a":"Reality called, but Wonderland said you're busy shining.","l":25,"d":"2026-07-09","t":""},{"i":43,"id":286679244,"a":"Never underestimate the healing powers of ridiculous happiness.","l":25,"d":"2026-07-02","t":""},{"i":44,"id":243710350,"a":"You’re not late… you just found the slower magic.","l":25,"d":"2026-04-15","t":""},{"i":45,"id":227711430,"a":"The cup is warm, the crystals shimmer, and the day begins with quiet magic.","l":25,"d":"2026-03-14","t":""},{"i":46,"id":256665320,"a":"I don’t reach for the stars… they remember me.","l":25,"d":"2026-05-10","t":""},{"i":47,"id":240435079,"a":"Let your silence say what your energy no longer needs to explain.","l":25,"d":"2026-04-09","t":""},{"i":48,"id":246264063,"a":"Be careful what you call unproductive—your peace is doing invisible work.","l":24,"d":"2026-04-20","t":""},{"i":49,"id":240237820,"a":"The universe pours endlessly, yet my cup receives only what my heart can hold.","l":24,"d":"2026-04-10","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe5665e96-d444-4ad3-a85e-8dc1299d93bf_1668x919.png"},{"i":50,"id":228274935,"a":"In the cosmic disco of existence, every soul has a beat.","l":24,"d":"2026-03-15","t":""},{"i":51,"id":242335955,"a":"Your aura? Limited edition.","l":24,"d":"2026-04-13","t":""},{"i":52,"id":240920091,"a":"Shine quietly, but leave a trail.","l":24,"d":"2026-04-09","t":""},{"i":53,"id":237521401,"a":"If you’re reading this now, you are not behind, you are not late—you are on your own perfectly timed path.","l":24,"d":"2026-04-04","t":""},{"i":54,"id":231078710,"a":"What I build in quiet moments becomes the loudest expression of my Master Peace.","l":24,"d":"2026-03-21","t":""},{"i":55,"id":304159032,"a":"Your voice is your wand. Choose magick on purpose.","l":24,"d":"2026-07-29","t":""},{"i":56,"id":243406043,"a":"The fairies never lie — they just sparkle around the truth.","l":24,"d":"2026-04-14","t":""},{"i":57,"id":242833882,"a":"You are flowing in abundance. What is needed will soon be here.","l":24,"d":"2026-04-13","t":""},{"i":58,"id":215540489,"a":"You weren’t looking for treasure… but treasure was looking for you","l":23,"d":"2026-02-17","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F62ee49bc-1315-4b52-b4e3-8cb9abe22be6_1200x1210.png"},{"i":59,"id":259979748,"a":"She turned darkness into glowing candy-colored magick.","l":23,"d":"2026-05-16","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb2543d0f-6c8f-491f-8e79-e0f7504d086d_1500x1500.png"},{"i":60,"id":246668161,"a":"Magic isn’t gone— it just upgraded its aesthetic.","l":23,"d":"2026-04-21","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa35a3a58-5974-4bef-9c31-ebc33d3ec2ff_540x832.gif"},{"i":61,"id":216661663,"a":"Every goddess keeps an apothecary of miracles.","l":23,"d":"2026-02-19","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe28ae3dd-ed45-4516-9aad-2440cf23b308_1200x1200.png"},{"i":62,"id":262668213,"a":"My soul woke up expensive.","l":23,"d":"2026-05-21","t":""},{"i":63,"id":237522476,"a":"In the hush between sirens, magic slips through—quiet, glowing, and just a little dangerous…","l":23,"d":"2026-04-03","t":""},{"i":64,"id":224780219,"a":"She walks the shoreline like the moon walks the tide…","l":23,"d":"2026-03-08","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffcb947ec-23a0-45ee-86d8-a1e7826e2e1b_1200x1200.png"},{"i":65,"id":282654325,"a":"The universe whispered, It’s time.","l":23,"d":"2026-06-25","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F581771df-30ba-4387-879c-eae3f3b27202_2048x2048.jpeg"},{"i":66,"id":228899819,"a":"The signal hums softly: stay seated, stay quiet, stay asleep.","l":23,"d":"2026-03-17","t":""},{"i":67,"id":291778020,"a":"My aura rebooted in fairy mode.","l":23,"d":"2026-07-10","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F673346f2-e49e-4edf-968e-ffc5ebe2c35c_1254x1254.png"},{"i":68,"id":253519969,"a":"Some dreams don’t whisper… they crash like waves. Ride them.","l":22,"d":"2026-05-04","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb0cdef2a-18fa-4d32-a4f2-f62b9a83ecf4_1254x1254.png"},{"i":69,"id":235953876,"a":"Your brilliance is not fragile; it was born to survive the dark.","l":22,"d":"2026-03-31","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa6e7a2a3-5de9-48ab-99e4-66bb604d8f39_1200x684.png"},{"i":70,"id":238133237,"a":"You are not high maintenance — you are high frequency.","l":22,"d":"2026-04-04","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffad382fb-55ca-4334-9a20-eeee9d861843_1200x686.png"},{"i":71,"id":291520243,"a":"The flowers voted unanimously: you're blooming magnificently.","l":22,"d":"2026-07-09","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa35d1262-8c2d-4d71-9dc1-1d13858f5ac3_1200x1200.png"},{"i":72,"id":273774828,"a":"Perhaps the secret to peace isn't agreement. It's sharing snacks.","l":22,"d":"2026-06-10","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F764a66ad-f96e-47cc-8aff-88a4c9b9dac7_2048x2048.png"},{"i":73,"id":230812742,"a":"The forest whispered softly, you were always meant to shine here.","l":22,"d":"2026-03-20","t":""},{"i":74,"id":258497278,"a":"Overthinking drains. Stillness restores. Choose your ritual.","l":22,"d":"2026-05-13","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd9ec1127-d58a-4d83-afb8-4e7161028a64_1536x1024.png"},{"i":75,"id":218658173,"a":"I’m not stubborn. I’m Star Born…","l":22,"d":"2026-02-23","t":""},{"i":76,"id":237531248,"a":"Be the first person to like your own stuff.","l":22,"d":"2026-04-03","t":""},{"i":77,"id":242180193,"a":"Slow is where the magic seeps in. Fast just touches the surface.","l":22,"d":"2026-04-12","t":""},{"i":78,"id":238678464,"a":"Between one breath and the next, I glitched out of fear and into power.","l":21,"d":"2026-04-05","t":""},{"i":79,"id":245604021,"a":"If you feel a shimmer in your chest… that’s not nostalgia— that’s us, knocking in starlight.","l":21,"d":"2026-04-18","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff5641448-cd09-4830-82f2-ef7cff352ed0_600x338.gif"},{"i":80,"id":233574561,"a":"A cosmic traveler with whiskers full of starlight. meow.","l":21,"d":"2026-03-26","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff6607e5a-c58d-4590-9f04-a35aef59860f_800x451.gif"},{"i":81,"id":292420109,"a":"Your sparkle is far too magnificent to sit quietly in a corner.","l":21,"d":"2026-07-11","t":""},{"i":82,"id":239748130,"a":"Keep your spirit untouchable.","l":21,"d":"2026-04-07","t":""},{"i":83,"id":221980391,"a":"Frosted, flawless, and slightly interdimensional.","l":21,"d":"2026-03-02","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F013dfe3e-fb9b-4aaa-b828-8f20f559d0d4_555x555.gif"},{"i":84,"id":243150236,"a":"Your presence is luxury—don’t discount it.","l":21,"d":"2026-04-14","t":""},{"i":85,"id":262055626,"a":"Soft nights make strong mornings.","l":21,"d":"2026-05-20","t":""},{"i":86,"id":232168925,"a":"Sleep is where the soul repairs itself.","l":20,"d":"2026-03-24","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbb767225-d3b7-4318-b1d8-fb67f7669bdd_500x500.gif"},{"i":87,"id":251342458,"a":"Love is the answer.","l":20,"d":"2026-04-30","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F73a3085c-6269-4e97-ae3d-62e150f45179_1122x1402.png"},{"i":88,"id":260751360,"a":"Down the rabbit hole, the magic already knows you.","l":20,"d":"2026-05-17","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc07f9b07-6c1b-488d-b3d8-632dcb8cd53f_1888x2249.png"},{"i":89,"id":264550939,"a":"Clarity isn’t loud—it’s quiet, like finally opening your eyes.","l":20,"d":"2026-05-24","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8ca4a190-9404-4f52-9d0c-e1c19761f69b_600x600.gif"},{"i":90,"id":225006222,"a":"May the stars recognize you as kin.","l":20,"d":"2026-03-08","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F304b5605-472c-471d-a4a7-53c94f4c0991_1200x684.png"},{"i":91,"id":303389491,"a":"You’re smarter than the AI.","l":20,"d":"2026-07-28","t":""},{"i":92,"id":267157394,"a":"I rise like something rare.","l":20,"d":"2026-05-29","t":""},{"i":93,"id":238546080,"a":"Love like a goddess, not like a beggar.","l":20,"d":"2026-04-05","t":""},{"i":94,"id":294960790,"a":"Some fairies bloom from flowers. The ancient ones bloom from galaxies.","l":20,"d":"2026-07-15","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd333b029-e227-400a-991d-6b4906dc6773_1200x1200.png"},{"i":95,"id":241042947,"a":"Even as I glow, I stay grounded in who I am.","l":20,"d":"2026-04-10","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc6945ad4-5ed3-44a4-91ef-a573962270a6_1200x1200.png"},{"i":96,"id":232182698,"a":"Close your eyes — another world is waiting.","l":20,"d":"2026-03-23","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9e993941-b41e-49ba-9ed6-4de1a586a2f3_600x338.gif"},{"i":97,"id":210129798,"a":"Good night, sleep tight. Let everything soften, slow, and glow as you slip into a warm, peaceful sleep.","l":20,"d":"2026-02-05","t":""},{"i":98,"id":280840057,"a":"I asked the universe for a sign, and it sent me a flying carpet.","l":20,"d":"2026-06-22","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F43648946-8e36-4653-964c-72f74bc9f7f2_2048x2048.jpeg"},{"i":99,"id":258896003,"a":"When they say slow down, they don’t mean stop— they mean stare.","l":20,"d":"2026-05-14","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F219e3313-19a3-4196-8e30-d941bac747f2_1200x1200.png"},{"i":100,"id":258483311,"a":"Even in the shadows, my magic still glows.","l":20,"d":"2026-05-13","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2409585-d267-463d-a587-d27e3aa632ab_1122x1402.png"}];
+const ARCHIVE_COUNT = 4531;
+
+(function () {
+  'use strict';
+
+  var LS_SEEN = 'mm_fortune_seen_v1';
+  var LS_KEPT = 'mm_fortune_kept_v1';
+  var TOTAL = AFFIRMATIONS.length;
+
+  var screenEl = document.getElementById('screen');
+  var fortuneEl = document.getElementById('fortune');
+  var relicEl = document.getElementById('relic');
+  var stampEl = document.getElementById('stamp');
+  var statusEl = document.getElementById('status');
+  var tallyEl = document.getElementById('tally');
+  var meterEl = document.getElementById('meter');
+  var leverEl = document.getElementById('lever');
+  var copyEl = document.getElementById('copy');
+  var sourceEl = document.getElementById('source');
+  var keepEl = document.getElementById('keep');
+  var scrapEl = document.getElementById('scrap');
+  var clearEl = document.getElementById('clear');
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var current = null;
+  var bag = [];
+  var busy = false;
+
+  /* ------------------------------------------------ storage (best effort) */
+  function read(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) { return fallback; }
+  }
+  function write(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+
+  var seen = read(LS_SEEN, []);
+  var kept = read(LS_KEPT, []);
+
+  /* ------------------------------------------------ helpers */
+  function byId(id) {
+    for (var i = 0; i < TOTAL; i++) { if (AFFIRMATIONS[i].id === id) return AFFIRMATIONS[i]; }
+    return null;
+  }
+
+  /* replaceState throws in sandboxed origins (preview panes, srcdoc, some
+     file:// contexts). The hash is a convenience, never a requirement. */
+  function setHash(hash) {
+    try {
+      if (history.replaceState) { history.replaceState(null, '', hash); }
+    } catch (e) {}
+  }
+
+  function prettyDate(iso) {
+    var parts = String(iso).split('-');
+    var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    var m = months[parseInt(parts[1], 10) - 1] || '';
+    return m + ' ' + parseInt(parts[2], 10) + ' ' + parts[0];
+  }
+
+  function pad(n, len) {
+    var s = String(n);
+    while (s.length < len) { s = '0' + s; }
+    return s;
+  }
+
+  /* ------------------------------------------------ shuffle bag: no repeats */
+  function refillBag() {
+    var pool = AFFIRMATIONS.filter(function (a) { return seen.indexOf(a.id) === -1; });
+    if (!pool.length) { seen = []; write(LS_SEEN, seen); pool = AFFIRMATIONS.slice(); }
+    for (var i = pool.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+    }
+    bag = pool;
+  }
+
+  /* ------------------------------------------------ render */
+  function paint(item) {
+    current = item;
+    bag = bag.filter(function (b) { return b.id !== item.id; });
+    screenEl.classList.remove('idle');
+    fortuneEl.textContent = item.a;
+
+    if (item.t) {
+      relicEl.src = item.t;
+      relicEl.alt = 'Image from the original note';
+      relicEl.hidden = false;
+    } else {
+      relicEl.hidden = true;
+      relicEl.removeAttribute('src');
+    }
+
+    stampEl.innerHTML = '';
+    var no = document.createElement('span');
+    no.innerHTML = 'FORTUNE No. <b>' + pad(item.i, 3) + '</b>';
+    var likes = document.createElement('span');
+    likes.innerHTML = '<i>&#9829;</i> ' + item.l;
+    var when = document.createElement('span');
+    when.textContent = prettyDate(item.d);
+    stampEl.appendChild(no);
+    stampEl.appendChild(likes);
+    stampEl.appendChild(when);
+
+    copyEl.disabled = false;
+    sourceEl.disabled = false;
+    copyEl.textContent = 'COPY';
+    syncKeepButton();
+
+    if (seen.indexOf(item.id) === -1) { seen.push(item.id); write(LS_SEEN, seen); }
+    syncTally();
+
+    setHash('#f=' + item.id);
+    statusEl.textContent = 'FORTUNE ' + pad(item.i, 3) + ' RECEIVED';
+  }
+
+  function syncTally() {
+    var n = Math.min(seen.length, TOTAL);
+    tallyEl.textContent = n + ' / ' + TOTAL;
+    meterEl.style.width = (n / TOTAL * 100) + '%';
+    leverEl.innerHTML = n >= TOTAL
+      ? '&#10022; ALL 100 READ &middot; GO AGAIN &#10022;'
+      : '&#10022; PULL THE LEVER &#10022;';
+  }
+
+  function syncKeepButton() {
+    var saved = current && kept.some(function (k) { return k.id === current.id; });
+    keepEl.disabled = !current || saved;
+    keepEl.innerHTML = saved ? '&#9829; IN SCRAPBOOK' : '&#9829; KEEP THIS ONE';
+  }
+
+  /* ------------------------------------------------ the lever */
+  function pull() {
+    if (busy) return;
+    if (!bag.length) refillBag();
+    var next = bag.pop();
+    if (!next) return;
+
+    if (reduced) { paint(next); return; }
+
+    busy = true;
+    leverEl.disabled = true;
+    screenEl.classList.add('tuning');
+    statusEl.textContent = 'CONSULTING THE COSMOS...';
+
+    window.setTimeout(function () {
+      screenEl.classList.remove('tuning');
+      paint(next);
+      busy = false;
+      leverEl.disabled = false;
+    }, 520);
+  }
+
+  /* ------------------------------------------------ scrapbook */
+  function renderScrap() {
+    scrapEl.innerHTML = '';
+    if (!kept.length) {
+      var li = document.createElement('li');
+      li.className = 'empty';
+      li.textContent = 'Nothing saved yet. Pull the lever, then press KEEP.';
+      scrapEl.appendChild(li);
+      return;
+    }
+    kept.forEach(function (k) {
+      var li = document.createElement('li');
+      var no = document.createElement('span');
+      no.className = 'no';
+      no.textContent = pad(k.i, 3);
+      var txt = document.createElement('span');
+      txt.textContent = k.a;
+      li.appendChild(no);
+      li.appendChild(txt);
+      scrapEl.appendChild(li);
+    });
+  }
+
+  /* ------------------------------------------------ counter */
+  (function drawCounter() {
+    var box = document.getElementById('counter');
+    var digits = pad(ARCHIVE_COUNT, 8).split('');
+    digits.forEach(function (d) {
+      var cell = document.createElement('span');
+      cell.textContent = d;
+      box.appendChild(cell);
+    });
+  })();
+
+  /* ------------------------------------------------ events */
+  leverEl.addEventListener('click', pull);
+
+  copyEl.addEventListener('click', function () {
+    if (!current) return;
+    var done = function () {
+      copyEl.textContent = 'COPIED';
+      statusEl.textContent = 'COPIED TO CLIPBOARD';
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(current.a).then(done, function () {
+        statusEl.textContent = 'COPY BLOCKED BY BROWSER';
+      });
+    } else {
+      statusEl.textContent = 'COPY BLOCKED BY BROWSER';
+    }
+  });
+
+  sourceEl.addEventListener('click', function () {
+    if (!current) return;
+    window.open('https://substack.com/@magickmica/note/c-' + current.id, '_blank', 'noopener');
+  });
+
+  keepEl.addEventListener('click', function () {
+    if (!current) return;
+    if (kept.some(function (k) { return k.id === current.id; })) return;
+    kept.push({ id: current.id, i: current.i, a: current.a });
+    write(LS_KEPT, kept);
+    renderScrap();
+    syncKeepButton();
+    statusEl.textContent = 'SAVED TO SCRAPBOOK';
+  });
+
+  clearEl.addEventListener('click', function () {
+    kept = [];
+    write(LS_KEPT, kept);
+    renderScrap();
+    syncKeepButton();
+    statusEl.textContent = 'SCRAPBOOK ERASED';
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== ' ' && e.key !== 'Enter') return;
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'button' || tag === 'a' || tag === 'input' || tag === 'textarea') return;
+    e.preventDefault();
+    pull();
+  });
+
+  /* ------------------------------------------------ boot */
+  refillBag();
+  renderScrap();
+  syncTally();
+
+  var deep = /^#f=(\d+)$/.exec(window.location.hash);
+  if (deep) {
+    var shared = byId(parseInt(deep[1], 10));
+    if (shared) paint(shared);
+  }
+})();
+</script>
+</body>
+</html>
