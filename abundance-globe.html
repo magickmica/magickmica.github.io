@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Abundance Globe &middot; 100 Signs &middot; MagickMica</title>
+<meta name="description" content="Shake the snow globe. Let the glitter settle on a sign.">
+<meta property="og:title" content="The Abundance Globe &middot; MagickMica">
+<meta property="og:description" content="Shake it. See what settles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Spectral:ital,wght@0,300;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07060e;--violet:#a020f0;--magenta:#ff44cc;--gold:#ffd166;--cyan:#22e0ff;
+  --mist:#b8b0d4;--dim:#6f6890;--glow1:#a020f0;--glow2:#ff44cc;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;padding:0 18px 60px;background:var(--void);color:var(--mist);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;line-height:1.5;
+  overflow-x:hidden;
+}
+.sky{
+  position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.32;
+  background:
+    radial-gradient(115% 74% at 50% -14%, var(--glow1) 0%, transparent 58%),
+    radial-gradient(88% 58% at 86% 110%, var(--glow2) 0%, transparent 62%);
+  transition:background 1s linear;
+}
+.grain{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+  background-image:
+    radial-gradient(1px 1px at 14% 24%, rgba(255,255,255,.85) 50%, transparent 50%),
+    radial-gradient(1px 1px at 66% 44%, rgba(255,255,255,.5) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 34% 78%, rgba(255,209,102,.75) 50%, transparent 50%);
+  background-size:200px 200px,200px 200px,200px 200px;
+}
+a{color:var(--cyan)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:600px;margin:0 auto}
+header{text-align:center;padding:40px 0 14px}
+.eyebrow{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);margin:0 0 13px}
+h1{
+  font-family:"Orbitron",sans-serif;font-weight:700;
+  font-size:clamp(19px,4.6vw,30px);letter-spacing:.03em;margin:0;color:transparent;
+  background:linear-gradient(96deg,var(--violet),var(--magenta) 28%,var(--gold) 56%,var(--cyan) 84%,var(--violet));
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  animation:holo 11s linear infinite;
+}
+@keyframes holo{to{background-position:220% 0}}
+
+/* --------------------------------------------------------- globe */
+.scene{width:100%;max-width:380px;margin:26px auto 0}
+
+.globe{
+  position:relative;width:100%;aspect-ratio:1;
+  border-radius:50%;
+  overflow:hidden;
+  cursor:grab;
+  touch-action:none;
+  background:
+    radial-gradient(circle at 34% 26%, rgba(255,255,255,.20), transparent 42%),
+    radial-gradient(circle at 62% 74%, rgba(160,32,240,.30), transparent 56%),
+    radial-gradient(circle at 50% 50%, #14102a 0%, #0a0718 74%, #060411 100%);
+  box-shadow:
+    inset 0 0 60px rgba(160,32,240,.36),
+    inset -14px -18px 46px rgba(0,0,0,.72),
+    0 0 46px rgba(255,68,204,.28),
+    0 18px 44px rgba(0,0,0,.62);
+  border:1px solid rgba(255,255,255,.16);
+}
+.globe:active{cursor:grabbing}
+.globe.shaking{animation:jiggle .5s ease}
+@keyframes jiggle{
+  0%,100%{transform:translate(0,0) rotate(0)}
+  15%{transform:translate(-7px,3px) rotate(-1.4deg)}
+  35%{transform:translate(6px,-4px) rotate(1.2deg)}
+  55%{transform:translate(-5px,-2px) rotate(-.9deg)}
+  78%{transform:translate(4px,3px) rotate(.6deg)}
+}
+
+#glitter{position:absolute;inset:0;width:100%;height:100%;z-index:2}
+
+.inscription{
+  position:absolute;inset:0;z-index:3;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;padding:0;
+}
+.inscription p{
+  margin:0;width:64%;max-height:46%;overflow:hidden;text-align:center;
+  font-family:"Spectral",Georgia,serif;font-style:italic;font-weight:300;
+  color:#fff;line-height:1.36;
+  text-shadow:0 0 20px rgba(34,224,255,.55), 0 0 44px rgba(160,32,240,.5);
+  transition:opacity .4s ease;
+}
+.globe.stirred .inscription p{opacity:0}
+
+/* glass highlight sits above everything inside */
+.glass{
+  position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:50%;
+  background:
+    radial-gradient(ellipse 46% 30% at 32% 20%, rgba(255,255,255,.22), transparent 70%),
+    radial-gradient(ellipse 22% 14% at 74% 78%, rgba(255,255,255,.10), transparent 70%);
+}
+
+/* --------------------------------------------------------- base */
+.base{
+  position:relative;width:66%;margin:-8px auto 0;height:64px;
+  background:linear-gradient(180deg,#3b2a55,#1d1330 60%,#120c22);
+  border-radius:8px 8px 12px 12px;
+  box-shadow:0 14px 30px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.14);
+  clip-path:polygon(6% 0,94% 0,100% 100%,0 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+.plaque{
+  font-family:"Orbitron",sans-serif;font-size:10px;letter-spacing:.28em;
+  color:transparent;
+  background:linear-gradient(96deg,var(--gold),#fff3cf 50%,var(--gold));
+  -webkit-background-clip:text;background-clip:text;
+}
+
+/* --------------------------------------------------------- controls */
+.controls{display:flex;flex-wrap:wrap;gap:11px;justify-content:center;margin-top:26px}
+.btn{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--mist);background:transparent;
+  border:1px solid rgba(184,176,212,.34);border-radius:999px;
+  padding:12px 20px;min-height:44px;cursor:pointer;
+  transition:border-color .18s ease,color .18s ease;
+}
+.btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.btn:disabled{opacity:.34;cursor:default}
+.btn.gold{
+  color:var(--void);border:0;
+  background:linear-gradient(96deg,var(--gold),#ffe9b5 55%,var(--gold));
+  box-shadow:0 0 24px rgba(255,209,102,.3);
+}
+.btn.gold:hover{box-shadow:0 0 34px rgba(255,209,102,.5);color:var(--void)}
+.counter{font-size:11px;letter-spacing:.2em;color:var(--dim);text-align:center;margin:18px 0 0}
+.counter b{color:var(--gold);font-weight:500}
+.hint{text-align:center;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#544f70;margin:9px 0 0}
+
+.foot{text-align:center;margin-top:50px;font-size:12px;color:var(--dim)}
+.foot nav{margin:0 0 14px;line-height:2.2}
+.foot nav a{margin:0 9px;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.foot .fine{font-size:11px;color:#514c70}
+
+@media (prefers-reduced-motion:reduce){
+  h1{animation:none}
+  .globe.shaking{animation:none}
+  .sky,.inscription p{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="sky" id="sky" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">MagickMica &middot; 100 signs</p>
+    <h1>THE ABUNDANCE GLOBE</h1>
+  </header>
+
+  <main>
+    <div class="scene">
+      <div class="globe" id="globe">
+        <canvas id="glitter"></canvas>
+        <div class="inscription"><p id="signText" aria-live="polite"></p></div>
+        <div class="glass" aria-hidden="true"></div>
+      </div>
+      <div class="base" aria-hidden="true"><span class="plaque">MAGICKMICA</span></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn gold" id="shake">Shake the globe</button>
+      <button class="btn" id="copy" disabled>Copy</button>
+    </div>
+
+    <p class="counter">SIGN <b id="cur">001</b> &middot; <span id="tally">0</span> OF 100 SETTLED</p>
+    <p class="hint">shake, or drag the globe</p>
+  </main>
+
+  <footer class="foot">
+    <nav>
+      <a href="index.html">home</a>
+      <a href="abundance-portal.html">all 100</a>
+      <a href="abundance-portal-one.html">one sign</a>
+      <a href="abundance-notebook.html">the notebook</a>
+      <a href="abundance-scratch.html">scratch a sign</a>
+      <a href="abundance-oracle.html">the oracle</a>
+      <a href="notes.html">notes</a>
+      <a href="arcade.html">arcade</a>
+    </nav>
+    <p class="fine">MagickMica &middot; MMXXVI &middot; take what you need, leave the rest</p>
+  </footer>
+</div>
+
+<script>
+const SIGNS = [{"i":1,"a":"This did not find you by accident. The universe is opening a door you were always meant to walk through."},{"i":2,"a":"Your timeline just shifted. The magic you’ve been waiting for is already arriving."},{"i":3,"a":"This time is not just a month. It’s a frequency. And yours is tuned to abundance."},{"i":4,"a":"The universe whispered your name into the next chapter. Prepare for unexpected blessings."},{"i":5,"a":"You weren’t scrolling. You were summoned. A new era is loading."},{"i":6,"a":"The seeds you planted in silence are blooming into miracles you can finally see."},{"i":7,"a":"Your energy has changed, and reality is beginning to reflect the magic you carry."},{"i":8,"a":"The universe has been rearranging pieces behind the scenes. The reveal is coming."},{"i":9,"a":"Your next chapter is glowing so brightly it had to find you."},{"i":10,"a":"This message arrived because your frequency is ready for expansion."},{"i":11,"a":"Abundance isn’t chasing you. It’s remembering where you live."},{"i":12,"a":"Your dreams have been knocking. This is the month you finally answer."},{"i":13,"a":"A beautiful surprise is making its way through the cosmic doorway."},{"i":14,"a":"The universe is upgrading your reality while you’re busy becoming who you were meant to be."},{"i":15,"a":"Your manifestation window is sparkling open. Step through."},{"i":16,"a":"Your future self is smiling because everything is beginning to align."},{"i":17,"a":"The magic you thought was delayed was actually being perfected."},{"i":18,"a":"Your blessings are not lost. They are traveling through invisible galaxies to find you."},{"i":19,"a":"The universe didn’t forget you. It was preparing something bigger."},{"i":20,"a":"Your abundance era has entered the chat."},{"i":21,"a":"A cosmic plot twist is arriving with your name written in stardust."},{"i":22,"a":"You are becoming a magnet for everything that matches your soul."},{"i":23,"a":"The universe is sending you signs wrapped in glitter and impossible timing."},{"i":24,"a":"Your next level is calling. Pick up the cosmic phone."},{"i":25,"a":"You are stepping into the version of yourself who receives without fear."},{"i":26,"a":"Your energy is expensive. Your dreams are priceless."},{"i":27,"a":"The universe is opening treasure chests you didn’t even know existed."},{"i":28,"a":"Your reality is upgrading from survival mode to magical creation mode."},{"i":29,"a":"The stars are rearranging themselves around your new beginning."},{"i":30,"a":"Your quiet season is ending. Your blooming season has arrived."},{"i":31,"a":"The universe has been collecting miracles with your name on them."},{"i":32,"a":"Your abundance portal is open. Walk through with confidence."},{"i":33,"a":"What’s coming next will make you grateful you never gave up."},{"i":34,"a":"Your future is glowing brighter than your doubts."},{"i":35,"a":"A wave of unexpected joy is heading toward you."},{"i":36,"a":"Your life is becoming a masterpiece written in cosmic ink."},{"i":37,"a":"The universe is about to surprise you in ways your imagination hasn’t reached yet."},{"i":38,"a":"Your dreams are not unrealistic. They are invitations from your future self."},{"i":39,"a":"You are entering a season where things finally begin to make sense."},{"i":40,"a":"Your patience is transforming into prosperity."},{"i":41,"a":"The universe is delivering blessings with extra sparkle."},{"i":42,"a":"Your heart has been preparing for the abundance your hands are about to hold."},{"i":43,"a":"Your next miracle is already in motion."},{"i":44,"a":"The invisible work is becoming visible magic."},{"i":45,"a":"Your timeline just received a cosmic upgrade."},{"i":46,"a":"Your energy is calling in opportunities that match your highest vision."},{"i":47,"a":"The universe is opening golden doors you didn’t even know existed."},{"i":48,"a":"Your dreams are blooming beyond the limits you placed on them."},{"i":49,"a":"A magical chapter is beginning, and you are the main character."},{"i":50,"a":"Your frequency is attracting the life you once imagined."},{"i":51,"a":"Something beautiful is searching for someone exactly like you."},{"i":52,"a":"The universe is preparing a “you won’t believe this happened” moment."},{"i":53,"a":"Your next chapter feels like a wish coming true."},{"i":54,"a":"The cosmos is moving pieces into perfect alignment."},{"i":55,"a":"Your abundance story is just getting started."},{"i":56,"a":"You are becoming the person your dreams were waiting for."},{"i":57,"a":"Your manifestations are crossing dimensions to reach you."},{"i":58,"a":"The butterfly effect of your choices is about to create something magical."},{"i":59,"a":"The universe heard your heart. Now watch what happens."},{"i":60,"a":"Your glow-up is not just physical. It’s energetic."},{"i":61,"a":"You are entering a reality where receiving feels natural."},{"i":62,"a":"The stars are cheering for the version of you that never stopped believing."},{"i":63,"a":"A new frequency has unlocked. Welcome to your next era."},{"i":64,"a":"The universe is placing golden opportunities in your path."},{"i":65,"a":"Your life is becoming proof that magic exists."},{"i":66,"a":"The things you prayed for are finding their way home."},{"i":67,"a":"You are walking into a season of divine timing and beautiful surprises."},{"i":68,"a":"Your imagination was actually a preview of what’s coming."},{"i":69,"a":"The universe is about to make your dreams feel real."},{"i":70,"a":"Your abundance is expanding beyond what you thought was possible."},{"i":71,"a":"You are not behind. You are arriving exactly when the magic begins."},{"i":72,"a":"The next chapter of your story sparkles differently."},{"i":73,"a":"Your reality is responding to the frequency you’ve been becoming."},{"i":74,"a":"Your dreams have a destination. They’re heading toward you."},{"i":75,"a":"Your soul knows the way. Follow the glitter trail."},{"i":76,"a":"A cosmic shift is happening, and you are part of the magic."},{"i":77,"a":"The universe is sending confirmation in the form of perfect timing."},{"i":78,"a":"Your blessings are multiplying in unseen places."},{"i":79,"a":"Your future is brighter than anything you’ve left behind."},{"i":80,"a":"You are becoming a portal for miracles."},{"i":81,"a":"The universe is about to reveal why everything had to happen this way."},{"i":82,"a":"Your next chapter is sponsored by divine timing and infinite possibility."},{"i":83,"a":"Your dreams are activating a new reality code."},{"i":84,"a":"The universe is upgrading your life behind the scenes."},{"i":85,"a":"Your abundance frequency is loud enough for the cosmos to hear."},{"i":86,"a":"Something magical is approaching. Stay open."},{"i":87,"a":"You are entering your “everything starts working out” era."},{"i":88,"a":"The universe is matching your energy with unexpected blessings."},{"i":89,"a":"Your creativity, courage, and dreams are creating a new universe around you."},{"i":90,"a":"The next miracle may arrive disguised as a tiny spark of possibility."},{"i":91,"a":"You are becoming the person who effortlessly attracts what once felt impossible."},{"i":92,"a":"Your story is shifting from waiting to receiving."},{"i":93,"a":"The treasure you seek is already awakening inside you."},{"i":94,"a":"This season is your reminder: magic was never gone, it was gathering."},{"i":95,"a":"Your cosmic mailbox is overflowing with opportunities."},{"i":96,"a":"The universe is preparing a chapter you’ll want to reread forever."},{"i":97,"a":"Your dreams are not too big. They are simply waiting for your frequency to rise."},{"i":98,"a":"You are entering a season where your inner world becomes your outer reality."},{"i":99,"a":"The universe is about to show you what happens when you finally believe in yourself."},{"i":100,"a":"This appeared on your path because your next chapter is already glowing. Welcome to your abundance era."}];
+
+(function () {
+  'use strict';
+
+  var TOTAL = SIGNS.length;
+  var LS_SEEN = 'mm_globe_seen_v1';
+
+  var globe = document.getElementById('globe');
+  var canvas = document.getElementById('glitter');
+  var ctx = canvas.getContext('2d');
+  var textEl = document.getElementById('signText');
+  var curEl = document.getElementById('cur');
+  var tallyEl = document.getElementById('tally');
+  var shakeEl = document.getElementById('shake');
+  var copyEl = document.getElementById('copy');
+  var skyEl = document.getElementById('sky');
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var flakes = [];
+  var W = 0, H = 0, R = 0, CX = 0, CY = 0, dpr = 1;
+  var stirred = 0;          // 0 = settled, 1 = fully churned
+  var current = null;
+  var bag = [];
+  var raf = null;
+
+  var COLORS = ['#ffffff', '#ffd166', '#ff9ede', '#9fe9ff', '#d5b8ff'];
+
+  /* ------------------------------------------------ canvas sizing */
+  function resize() {
+    var rect = globe.getBoundingClientRect();
+    if (!rect.width) return;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.width = Math.round(rect.width * dpr);
+    H = canvas.height = Math.round(rect.height * dpr);
+    R = W / 2; CX = W / 2; CY = H / 2;
+    if (!flakes.length) seed();
+  }
+
+  function seed() {
+    var n = Math.round(Math.min(200, Math.max(90, W / 3.4)));
+    flakes = [];
+    for (var i = 0; i < n; i++) {
+      var a = Math.random() * Math.PI * 2;
+      var d = Math.sqrt(Math.random()) * (R * 0.9);
+      flakes.push({
+        x: CX + Math.cos(a) * d,
+        y: CY + Math.sin(a) * d,
+        vx: 0, vy: 0,
+        r: (Math.random() * 2.2 + 1.0) * dpr,
+        c: COLORS[Math.floor(Math.random() * COLORS.length)],
+        tw: Math.random() * Math.PI * 2
+      });
+    }
+    // let them fall to the floor before first paint
+    for (var s = 0; s < 320; s++) { step(1); }
+  }
+
+  /* ------------------------------------------------ physics */
+  function step(dt) {
+    var floorDamp = 0.42;
+    for (var i = 0; i < flakes.length; i++) {
+      var f = flakes[i];
+      f.vy += 0.055 * dpr * dt;              // gravity
+      f.vx += (Math.random() - 0.5) * 0.03 * dpr * stirred;
+      f.vx *= 0.978; f.vy *= 0.986;          // drag, like glitter in liquid
+      f.x += f.vx * dt; f.y += f.vy * dt;
+
+      // keep inside the sphere
+      var dx = f.x - CX, dy = f.y - CY;
+      var d = Math.sqrt(dx * dx + dy * dy);
+      var lim = R - f.r - 2 * dpr;
+      if (d > lim) {
+        var nx = dx / d, ny = dy / d;
+        f.x = CX + nx * lim; f.y = CY + ny * lim;
+        var dot = f.vx * nx + f.vy * ny;
+        f.vx = (f.vx - 2 * dot * nx) * floorDamp;
+        f.vy = (f.vy - 2 * dot * ny) * floorDamp;
+      }
+      f.tw += 0.05 * dt;
+    }
+    if (stirred > 0) { stirred = Math.max(0, stirred - 0.006 * dt); }
+  }
+
+  function paint() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < flakes.length; i++) {
+      var f = flakes[i];
+      var tw = 0.62 + 0.38 * Math.sin(f.tw);
+      ctx.globalAlpha = tw;
+      ctx.fillStyle = f.c;
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function loop() {
+    step(1);
+    paint();
+    raf = requestAnimationFrame(loop);
+  }
+
+  /* ------------------------------------------------ signs */
+  function read() {
+    try { var r = localStorage.getItem(LS_SEEN); return r ? JSON.parse(r) : []; }
+    catch (e) { return []; }
+  }
+  function write(v) { try { localStorage.setItem(LS_SEEN, JSON.stringify(v)); } catch (e) {} }
+  var seen = read();
+
+  function syncTally() { tallyEl.textContent = Math.min(seen.length, TOTAL); }
+
+  function refill() {
+    var pool = SIGNS.filter(function (s) { return seen.indexOf(s.i) === -1; });
+    if (!pool.length) pool = SIGNS.slice();
+    for (var i = pool.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+    }
+    bag = pool;
+  }
+
+  var STOPS = [['#a020f0','#ff44cc'],['#ff44cc','#ffd166'],['#ffd166','#22e0ff'],['#22e0ff','#a020f0']];
+
+  function fitText() {
+    for (var size = 22; size >= 12; size--) {
+      textEl.style.fontSize = size + 'px';
+      if (textEl.scrollHeight <= textEl.clientHeight + 1) break;
+    }
+  }
+
+  function settle(sign) {
+    current = sign;
+    textEl.textContent = sign.a;
+    curEl.textContent = ('00' + sign.i).slice(-3);
+    fitText();
+    copyEl.disabled = false;
+    copyEl.textContent = 'Copy';
+    if (seen.indexOf(sign.i) === -1) { seen.push(sign.i); write(seen); syncTally(); }
+
+    var band = Math.min(STOPS.length - 1, Math.floor(((sign.i - 1) / TOTAL) * STOPS.length));
+    skyEl.style.setProperty('--glow1', STOPS[band][0]);
+    skyEl.style.setProperty('--glow2', STOPS[band][1]);
+
+    try {
+      if (history.replaceState) { history.replaceState(null, '', '#sign-' + ('00' + sign.i).slice(-3)); }
+    } catch (e) {}
+  }
+
+  /* ------------------------------------------------ shaking */
+  var busy = false;
+
+  function kick(power) {
+    stirred = 1;
+    for (var i = 0; i < flakes.length; i++) {
+      var f = flakes[i];
+      f.vx += (Math.random() - 0.5) * 17 * power * dpr;
+      f.vy += (Math.random() - 0.88) * 26 * power * dpr;
+    }
+  }
+
+  function shake() {
+    if (busy) return;
+    busy = true;
+    if (!bag.length) refill();
+    var next = bag.pop();
+
+    globe.classList.add('stirred');
+    if (!reduced) { globe.classList.add('shaking'); }
+    kick(1);
+
+    window.setTimeout(function () { globe.classList.remove('shaking'); }, 520);
+    window.setTimeout(function () {
+      if (next) settle(next);
+      globe.classList.remove('stirred');
+      busy = false;
+    }, reduced ? 60 : 900);
+  }
+
+  shakeEl.addEventListener('click', shake);
+
+  copyEl.addEventListener('click', function () {
+    if (!current) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(current.a).then(
+        function () { copyEl.textContent = 'Copied'; },
+        function () { copyEl.textContent = 'Blocked'; });
+    } else { copyEl.textContent = 'Blocked'; }
+  });
+
+  /* drag the globe to stir it; a big enough drag counts as a shake */
+  var dragging = false, lastX = 0, lastY = 0, travel = 0;
+  globe.addEventListener('pointerdown', function (e) {
+    dragging = true; travel = 0;
+    lastX = e.clientX; lastY = e.clientY;
+    try { globe.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  globe.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    var dx = e.clientX - lastX, dy = e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    travel += Math.abs(dx) + Math.abs(dy);
+    stirred = 1;
+    for (var i = 0; i < flakes.length; i++) {
+      flakes[i].vx += dx * 0.16 * dpr * Math.random();
+      flakes[i].vy += dy * 0.16 * dpr * Math.random();
+    }
+  });
+  ['pointerup', 'pointercancel'].forEach(function (ev) {
+    globe.addEventListener(ev, function () {
+      if (!dragging) return;
+      dragging = false;
+      if (travel > 140) { shake(); }
+      travel = 0;
+    });
+  });
+
+  var rT = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(rT);
+    rT = setTimeout(function () { flakes = []; resize(); fitText(); }, 160);
+  });
+
+  /* ------------------------------------------------ boot */
+  resize();
+  syncTally();
+  refill();
+
+  var deep = /^#sign-(\d{1,3})$/.exec(window.location.hash);
+  var start = null;
+  if (deep) {
+    var n = parseInt(deep[1], 10);
+    start = SIGNS.filter(function (s) { return s.i === n; })[0] || null;
+  }
+  if (!start) { if (!bag.length) refill(); start = bag.pop(); }
+  else { bag = bag.filter(function (s) { return s.i !== start.i; }); }
+  settle(start);
+
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fitText); }
+  loop();
+})();
+</script>
+</body>
+</html>

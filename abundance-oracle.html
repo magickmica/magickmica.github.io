@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Oracle of the Two Lands &middot; 100 Signs &middot; MagickMica</title>
+<meta name="description" content="Press the eye. One of one hundred signs is carved into the cartouche.">
+<meta property="og:title" content="The Oracle of the Two Lands &middot; MagickMica">
+<meta property="og:description" content="Press the eye and read what the cartouche holds.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Egyptian+Hieroglyphs&family=Cinzel:wght@500;700&family=Spectral:ital,wght@0,300;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0b1026;        /* lapis night */
+  --night-2:#141b3d;
+  --gold:#e0b64c;
+  --gold-lit:#ffe6a6;
+  --turquoise:#3fb3a6;
+  --carnelian:#c05a3c;
+  --papyrus:#e9dcbb;
+  --sand:#c9b489;
+  --dim:#7d7ba0;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;padding:0 18px 60px;
+  background:var(--night);
+  color:var(--sand);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:15px;line-height:1.5;overflow-x:hidden;
+}
+.sky{
+  position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(120% 70% at 50% -10%, #22306b 0%, transparent 58%),
+    radial-gradient(80% 52% at 84% 106%, #4a2f1e 0%, transparent 62%);
+  opacity:.85;
+}
+.grain{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.4;
+  background-image:
+    radial-gradient(1px 1px at 16% 26%, rgba(255,230,166,.8) 50%, transparent 50%),
+    radial-gradient(1px 1px at 68% 46%, rgba(255,255,255,.5) 50%, transparent 50%),
+    radial-gradient(1.4px 1.4px at 38% 80%, rgba(224,182,76,.7) 50%, transparent 50%);
+  background-size:210px 210px,210px 210px,210px 210px;
+}
+a{color:var(--turquoise)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold-lit);outline-offset:3px}
+.wrap{max-width:640px;margin:0 auto}
+
+.glyph{font-family:"Noto Sans Egyptian Hieroglyphs","Segoe UI Historic",serif}
+
+/* ------------------------------------------------------- frieze */
+.frieze{
+  font-family:"Noto Sans Egyptian Hieroglyphs","Segoe UI Historic",serif;
+  font-size:19px;line-height:1;color:var(--gold);
+  opacity:.5;text-align:center;letter-spacing:.24em;
+  padding:18px 0;overflow:hidden;white-space:nowrap;
+  border-bottom:1px solid rgba(224,182,76,.26);
+  margin:0 -18px 30px;
+}
+.frieze.bottom{border-bottom:0;border-top:1px solid rgba(224,182,76,.26);margin:34px -18px 0}
+
+header{text-align:center;padding:4px 0 8px}
+.eyebrow{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+h1{
+  font-family:"Cinzel",Georgia,serif;font-weight:700;
+  font-size:clamp(20px,4.8vw,32px);letter-spacing:.08em;margin:0;
+  color:transparent;
+  background:linear-gradient(96deg,var(--gold),var(--gold-lit) 46%,var(--gold) 74%,#a8802b);
+  -webkit-background-clip:text;background-clip:text;
+  text-shadow:0 0 26px rgba(224,182,76,.18);
+}
+
+/* ------------------------------------------------------- cartouche */
+.shrine{display:flex;align-items:stretch;gap:14px;margin:34px 0 0;justify-content:center}
+
+/* the vertical glyph columns flanking the cartouche */
+.column{
+  font-family:"Noto Sans Egyptian Hieroglyphs","Segoe UI Historic",serif;
+  font-size:23px;line-height:1.5;color:var(--gold);opacity:.62;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  width:34px;flex:none;
+  transition:opacity .4s ease;
+}
+.consulting .column{opacity:1}
+
+.cartouche{
+  position:relative;flex:1;min-width:0;max-width:420px;
+  aspect-ratio:1.32/1;
+}
+.cartouche svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.cartouche svg .ring{
+  fill:rgba(20,27,61,.72);
+  stroke:var(--gold);stroke-width:2.4;
+  filter:drop-shadow(0 0 12px rgba(224,182,76,.4));
+  transition:stroke .4s ease,filter .4s ease;
+}
+.consulting .cartouche svg .ring{stroke:var(--gold-lit);filter:drop-shadow(0 0 26px rgba(255,230,166,.75))}
+.cartouche svg .tie{stroke:var(--gold);stroke-width:3.4;stroke-linecap:round}
+
+.carved{
+  position:absolute;inset:0;z-index:2;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;padding:12% 14%;text-align:center;pointer-events:none;
+}
+.sigil{
+  font-family:"Noto Sans Egyptian Hieroglyphs","Segoe UI Historic",serif;
+  font-size:24px;line-height:1;color:var(--gold);letter-spacing:.16em;
+  transition:opacity .35s ease;
+}
+.carved p{
+  margin:0;width:100%;max-height:58%;overflow:hidden;
+  font-family:"Spectral",Georgia,serif;font-style:italic;font-weight:300;
+  color:var(--papyrus);line-height:1.38;
+  text-shadow:0 1px 0 rgba(0,0,0,.5);
+  transition:opacity .35s ease;
+}
+.consulting .carved p,.consulting .sigil{opacity:0}
+
+.name{
+  font-family:"Cinzel",Georgia,serif;font-size:10px;letter-spacing:.3em;
+  color:var(--gold);opacity:.7;
+}
+
+/* ------------------------------------------------------- controls */
+.controls{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:30px;align-items:center}
+.eye{
+  font-family:"Noto Sans Egyptian Hieroglyphs","Segoe UI Historic",serif;
+  font-size:30px;line-height:1;
+  color:var(--night);
+  background:radial-gradient(circle at 40% 34%, var(--gold-lit), var(--gold) 62%, #a8802b);
+  border:0;border-radius:999px;
+  width:74px;height:74px;cursor:pointer;
+  box-shadow:0 0 28px rgba(224,182,76,.42);
+  transition:transform .2s ease,box-shadow .2s ease;
+  display:grid;place-items:center;padding:0;
+}
+.eye:hover{transform:translateY(-2px);box-shadow:0 0 42px rgba(224,182,76,.68)}
+.eye:disabled{opacity:.5;cursor:default;transform:none}
+
+.btn{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--sand);background:transparent;
+  border:1px solid rgba(201,180,137,.36);border-radius:999px;
+  padding:12px 20px;min-height:44px;cursor:pointer;
+  transition:border-color .18s ease,color .18s ease;
+}
+.btn:hover:not(:disabled){border-color:var(--gold-lit);color:var(--gold-lit)}
+.btn:disabled{opacity:.34;cursor:default}
+
+.tally{font-size:11px;letter-spacing:.2em;color:var(--dim);text-align:center;margin:20px 0 0}
+.tally b{color:var(--gold);font-weight:500}
+.hint{text-align:center;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#5c5a7d;margin:9px 0 0}
+
+.foot{text-align:center;margin-top:36px;font-size:12px;color:var(--dim)}
+.foot nav{margin:0 0 14px;line-height:2.2}
+.foot nav a{margin:0 9px;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.foot .fine{font-size:11px;color:#54527a}
+
+@media (max-width:560px){
+  .shrine{gap:8px}
+  .column{width:26px;font-size:19px}
+  .cartouche{aspect-ratio:1.1/1}
+  .frieze{font-size:16px;letter-spacing:.16em}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .carved p,.sigil,.column,.cartouche svg .ring{transition:none}
+  .eye:hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="frieze" id="friezeTop" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">MagickMica &middot; 100 signs</p>
+    <h1>THE ORACLE OF THE TWO LANDS</h1>
+  </header>
+
+  <main>
+    <div class="shrine" id="shrine">
+      <div class="column glyph" id="colLeft" aria-hidden="true"></div>
+
+      <div class="cartouche">
+        <svg viewBox="0 0 132 100" preserveAspectRatio="none" aria-hidden="true">
+          <rect class="ring" x="4" y="6" width="124" height="82" rx="41" ry="41"/>
+          <line class="tie" x1="10" y1="88" x2="10" y2="97"/>
+          <line class="tie" x1="122" y1="88" x2="122" y2="97"/>
+        </svg>
+        <div class="carved">
+          <span class="sigil" id="sigil"></span>
+          <p id="signText" aria-live="polite"></p>
+          <span class="name" id="signNo"></span>
+        </div>
+      </div>
+
+      <div class="column glyph" id="colRight" aria-hidden="true"></div>
+    </div>
+
+    <div class="controls">
+      <button class="eye glyph" id="ask" aria-label="Consult the oracle">&#x13080;</button>
+      <button class="btn" id="copy" disabled>Copy</button>
+    </div>
+
+    <p class="tally">SIGNS UNSEALED: <b id="tally">0</b> OF 100</p>
+    <p class="hint">press the eye of horus</p>
+  </main>
+
+  <footer class="foot">
+    <nav>
+      <a href="index.html">home</a>
+      <a href="abundance-portal.html">all 100</a>
+      <a href="abundance-portal-one.html">one sign</a>
+      <a href="abundance-notebook.html">the notebook</a>
+      <a href="abundance-scratch.html">scratch a sign</a>
+      <a href="abundance-globe.html">the globe</a>
+      <a href="notes.html">notes</a>
+      <a href="arcade.html">arcade</a>
+    </nav>
+    <p class="fine">MagickMica &middot; MMXXVI &middot; take what you need, leave the rest</p>
+  </footer>
+</div>
+
+<div class="frieze bottom" id="friezeBottom" aria-hidden="true"></div>
+
+<script>
+const SIGNS = [{"i":1,"a":"This did not find you by accident. The universe is opening a door you were always meant to walk through."},{"i":2,"a":"Your timeline just shifted. The magic you’ve been waiting for is already arriving."},{"i":3,"a":"This time is not just a month. It’s a frequency. And yours is tuned to abundance."},{"i":4,"a":"The universe whispered your name into the next chapter. Prepare for unexpected blessings."},{"i":5,"a":"You weren’t scrolling. You were summoned. A new era is loading."},{"i":6,"a":"The seeds you planted in silence are blooming into miracles you can finally see."},{"i":7,"a":"Your energy has changed, and reality is beginning to reflect the magic you carry."},{"i":8,"a":"The universe has been rearranging pieces behind the scenes. The reveal is coming."},{"i":9,"a":"Your next chapter is glowing so brightly it had to find you."},{"i":10,"a":"This message arrived because your frequency is ready for expansion."},{"i":11,"a":"Abundance isn’t chasing you. It’s remembering where you live."},{"i":12,"a":"Your dreams have been knocking. This is the month you finally answer."},{"i":13,"a":"A beautiful surprise is making its way through the cosmic doorway."},{"i":14,"a":"The universe is upgrading your reality while you’re busy becoming who you were meant to be."},{"i":15,"a":"Your manifestation window is sparkling open. Step through."},{"i":16,"a":"Your future self is smiling because everything is beginning to align."},{"i":17,"a":"The magic you thought was delayed was actually being perfected."},{"i":18,"a":"Your blessings are not lost. They are traveling through invisible galaxies to find you."},{"i":19,"a":"The universe didn’t forget you. It was preparing something bigger."},{"i":20,"a":"Your abundance era has entered the chat."},{"i":21,"a":"A cosmic plot twist is arriving with your name written in stardust."},{"i":22,"a":"You are becoming a magnet for everything that matches your soul."},{"i":23,"a":"The universe is sending you signs wrapped in glitter and impossible timing."},{"i":24,"a":"Your next level is calling. Pick up the cosmic phone."},{"i":25,"a":"You are stepping into the version of yourself who receives without fear."},{"i":26,"a":"Your energy is expensive. Your dreams are priceless."},{"i":27,"a":"The universe is opening treasure chests you didn’t even know existed."},{"i":28,"a":"Your reality is upgrading from survival mode to magical creation mode."},{"i":29,"a":"The stars are rearranging themselves around your new beginning."},{"i":30,"a":"Your quiet season is ending. Your blooming season has arrived."},{"i":31,"a":"The universe has been collecting miracles with your name on them."},{"i":32,"a":"Your abundance portal is open. Walk through with confidence."},{"i":33,"a":"What’s coming next will make you grateful you never gave up."},{"i":34,"a":"Your future is glowing brighter than your doubts."},{"i":35,"a":"A wave of unexpected joy is heading toward you."},{"i":36,"a":"Your life is becoming a masterpiece written in cosmic ink."},{"i":37,"a":"The universe is about to surprise you in ways your imagination hasn’t reached yet."},{"i":38,"a":"Your dreams are not unrealistic. They are invitations from your future self."},{"i":39,"a":"You are entering a season where things finally begin to make sense."},{"i":40,"a":"Your patience is transforming into prosperity."},{"i":41,"a":"The universe is delivering blessings with extra sparkle."},{"i":42,"a":"Your heart has been preparing for the abundance your hands are about to hold."},{"i":43,"a":"Your next miracle is already in motion."},{"i":44,"a":"The invisible work is becoming visible magic."},{"i":45,"a":"Your timeline just received a cosmic upgrade."},{"i":46,"a":"Your energy is calling in opportunities that match your highest vision."},{"i":47,"a":"The universe is opening golden doors you didn’t even know existed."},{"i":48,"a":"Your dreams are blooming beyond the limits you placed on them."},{"i":49,"a":"A magical chapter is beginning, and you are the main character."},{"i":50,"a":"Your frequency is attracting the life you once imagined."},{"i":51,"a":"Something beautiful is searching for someone exactly like you."},{"i":52,"a":"The universe is preparing a “you won’t believe this happened” moment."},{"i":53,"a":"Your next chapter feels like a wish coming true."},{"i":54,"a":"The cosmos is moving pieces into perfect alignment."},{"i":55,"a":"Your abundance story is just getting started."},{"i":56,"a":"You are becoming the person your dreams were waiting for."},{"i":57,"a":"Your manifestations are crossing dimensions to reach you."},{"i":58,"a":"The butterfly effect of your choices is about to create something magical."},{"i":59,"a":"The universe heard your heart. Now watch what happens."},{"i":60,"a":"Your glow-up is not just physical. It’s energetic."},{"i":61,"a":"You are entering a reality where receiving feels natural."},{"i":62,"a":"The stars are cheering for the version of you that never stopped believing."},{"i":63,"a":"A new frequency has unlocked. Welcome to your next era."},{"i":64,"a":"The universe is placing golden opportunities in your path."},{"i":65,"a":"Your life is becoming proof that magic exists."},{"i":66,"a":"The things you prayed for are finding their way home."},{"i":67,"a":"You are walking into a season of divine timing and beautiful surprises."},{"i":68,"a":"Your imagination was actually a preview of what’s coming."},{"i":69,"a":"The universe is about to make your dreams feel real."},{"i":70,"a":"Your abundance is expanding beyond what you thought was possible."},{"i":71,"a":"You are not behind. You are arriving exactly when the magic begins."},{"i":72,"a":"The next chapter of your story sparkles differently."},{"i":73,"a":"Your reality is responding to the frequency you’ve been becoming."},{"i":74,"a":"Your dreams have a destination. They’re heading toward you."},{"i":75,"a":"Your soul knows the way. Follow the glitter trail."},{"i":76,"a":"A cosmic shift is happening, and you are part of the magic."},{"i":77,"a":"The universe is sending confirmation in the form of perfect timing."},{"i":78,"a":"Your blessings are multiplying in unseen places."},{"i":79,"a":"Your future is brighter than anything you’ve left behind."},{"i":80,"a":"You are becoming a portal for miracles."},{"i":81,"a":"The universe is about to reveal why everything had to happen this way."},{"i":82,"a":"Your next chapter is sponsored by divine timing and infinite possibility."},{"i":83,"a":"Your dreams are activating a new reality code."},{"i":84,"a":"The universe is upgrading your life behind the scenes."},{"i":85,"a":"Your abundance frequency is loud enough for the cosmos to hear."},{"i":86,"a":"Something magical is approaching. Stay open."},{"i":87,"a":"You are entering your “everything starts working out” era."},{"i":88,"a":"The universe is matching your energy with unexpected blessings."},{"i":89,"a":"Your creativity, courage, and dreams are creating a new universe around you."},{"i":90,"a":"The next miracle may arrive disguised as a tiny spark of possibility."},{"i":91,"a":"You are becoming the person who effortlessly attracts what once felt impossible."},{"i":92,"a":"Your story is shifting from waiting to receiving."},{"i":93,"a":"The treasure you seek is already awakening inside you."},{"i":94,"a":"This season is your reminder: magic was never gone, it was gathering."},{"i":95,"a":"Your cosmic mailbox is overflowing with opportunities."},{"i":96,"a":"The universe is preparing a chapter you’ll want to reread forever."},{"i":97,"a":"Your dreams are not too big. They are simply waiting for your frequency to rise."},{"i":98,"a":"You are entering a season where your inner world becomes your outer reality."},{"i":99,"a":"The universe is about to show you what happens when you finally believe in yourself."},{"i":100,"a":"This appeared on your path because your next chapter is already glowing. Welcome to your abundance era."}];
+
+(function () {
+  'use strict';
+
+  var TOTAL = SIGNS.length;
+  var LS_SEEN = 'mm_oracle_seen_v1';
+
+  // Egyptian Hieroglyph block characters
+  var GLYPHS = ['\u{13080}','\u{132F9}','\u{13048}','\u{130E0}','\u{13183}','\u{13153}',
+                '\u{1308B}','\u{13191}','\u{1319B}','\u{13171}','\u{1310F}','\u{13100}',
+                '\u{13045}','\u{1314F}','\u{13088}','\u{130A1}','\u{1329B}','\u{131CB}',
+                '\u{13068}','\u{13091}','\u{13141}','\u{1325B}','\u{130BA}','\u{1317C}'];
+  var ANKH = '\u2625';
+
+  var shrine = document.getElementById('shrine');
+  var textEl = document.getElementById('signText');
+  var sigilEl = document.getElementById('sigil');
+  var noEl = document.getElementById('signNo');
+  var askEl = document.getElementById('ask');
+  var copyEl = document.getElementById('copy');
+  var tallyEl = document.getElementById('tally');
+  var colL = document.getElementById('colLeft');
+  var colR = document.getElementById('colRight');
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var current = null, bag = [], busy = false;
+
+  function pad(n) { return ('00' + n).slice(-3); }
+
+  /* a sign's three glyphs are derived from its number, so sign 042 always
+     carries the same sigil — the carving belongs to the sign, not the visit */
+  function sigilFor(i) {
+    var a = GLYPHS[i % GLYPHS.length];
+    var b = GLYPHS[(i * 7 + 3) % GLYPHS.length];
+    var c = GLYPHS[(i * 13 + 5) % GLYPHS.length];
+    return a + b + c;
+  }
+
+  function randomGlyphs(n) {
+    var out = '';
+    for (var i = 0; i < n; i++) { out += GLYPHS[Math.floor(Math.random() * GLYPHS.length)]; }
+    return out;
+  }
+
+  function fillColumns() {
+    colL.textContent = '';
+    colR.textContent = '';
+    for (var i = 0; i < 9; i++) {
+      var l = document.createElement('span'); l.textContent = randomGlyphs(1);
+      var r = document.createElement('span'); r.textContent = randomGlyphs(1);
+      colL.appendChild(l); colR.appendChild(r);
+    }
+  }
+
+  function fillFrieze(el) {
+    var n = 40, s = '';
+    for (var i = 0; i < n; i++) { s += randomGlyphs(1); }
+    el.textContent = s;
+  }
+
+  /* ------------------------------------------------ storage */
+  function read() {
+    try { var r = localStorage.getItem(LS_SEEN); return r ? JSON.parse(r) : []; }
+    catch (e) { return []; }
+  }
+  function write(v) { try { localStorage.setItem(LS_SEEN, JSON.stringify(v)); } catch (e) {} }
+  var seen = read();
+  function syncTally() { tallyEl.textContent = Math.min(seen.length, TOTAL); }
+
+  function refill() {
+    var pool = SIGNS.filter(function (s) { return seen.indexOf(s.i) === -1; });
+    if (!pool.length) { seen = []; write(seen); pool = SIGNS.slice(); }
+    for (var i = pool.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+    }
+    bag = pool;
+  }
+
+  function fitText() {
+    for (var size = 20; size >= 11; size--) {
+      textEl.style.fontSize = size + 'px';
+      if (textEl.scrollHeight <= textEl.clientHeight + 1) break;
+    }
+  }
+
+  function carve(sign) {
+    current = sign;
+    bag = bag.filter(function (b) { return b.i !== sign.i; });
+    textEl.textContent = sign.a;
+    sigilEl.textContent = sigilFor(sign.i);
+    noEl.textContent = ANKH + ' ' + pad(sign.i) + ' ' + ANKH;
+    fitText();
+    copyEl.disabled = false;
+    copyEl.textContent = 'Copy';
+    if (seen.indexOf(sign.i) === -1) { seen.push(sign.i); write(seen); }
+    syncTally();
+    askEl.setAttribute('aria-label', 'Consult the oracle again');
+    try {
+      if (history.replaceState) { history.replaceState(null, '', '#sign-' + pad(sign.i)); }
+    } catch (e) {}
+  }
+
+  function consult() {
+    if (busy) return;
+    if (!bag.length) refill();
+    var sign = bag.pop();
+    if (!sign) return;
+
+    if (reduced) { fillColumns(); carve(sign); return; }
+
+    busy = true;
+    askEl.disabled = true;
+    shrine.classList.add('consulting');
+
+    // the flanking columns churn while the oracle is deciding
+    var churn = setInterval(fillColumns, 90);
+    window.setTimeout(function () {
+      clearInterval(churn);
+      fillColumns();
+      shrine.classList.remove('consulting');
+      carve(sign);
+      askEl.disabled = false;
+      busy = false;
+    }, 760);
+  }
+
+  askEl.addEventListener('click', consult);
+
+  copyEl.addEventListener('click', function () {
+    if (!current) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(current.a).then(
+        function () { copyEl.textContent = 'Copied'; },
+        function () { copyEl.textContent = 'Blocked'; });
+    } else { copyEl.textContent = 'Blocked'; }
+  });
+
+  var rT = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(rT);
+    rT = setTimeout(fitText, 160);
+  });
+
+  /* ------------------------------------------------ boot */
+  fillFrieze(document.getElementById('friezeTop'));
+  fillFrieze(document.getElementById('friezeBottom'));
+  fillColumns();
+  syncTally();
+  refill();
+
+  var deep = /^#sign-(\d{1,3})$/.exec(window.location.hash);
+  var start = null;
+  if (deep) {
+    var n = parseInt(deep[1], 10);
+    start = SIGNS.filter(function (s) { return s.i === n; })[0] || null;
+  }
+  if (start) { carve(start); }
+  else {
+    textEl.textContent = 'The cartouche is empty. Press the eye and it will be carved.';
+    sigilEl.textContent = GLYPHS[0] + ANKH + GLYPHS[1];
+    noEl.textContent = '';
+    fitText();
+  }
+
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fitText); }
+})();
+</script>
+</body>
+</html>
