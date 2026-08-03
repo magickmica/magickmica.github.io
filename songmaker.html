@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cosmic Song Maker &middot; MagickMica</title>
+<meta name="description" content="Make a song in the browser and export it as a real MIDI file.">
+<meta property="og:title" content="Cosmic Song Maker &middot; MagickMica">
+<meta property="og:description" content="Tap the grid, hit play, export a .mid you can open anywhere.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Silkscreen&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07060e;--violet:#a020f0;--magenta:#ff44cc;--gold:#ffd166;--cyan:#22e0ff;
+  --mist:#b8b0d4;--dim:#6f6890;--line:rgba(184,176,212,.16);
+  --cell:#160f2b;--cell-hi:#1e1638;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;padding:0 0 60px;background:var(--void);color:var(--mist);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;line-height:1.5;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.4;
+  background:
+    radial-gradient(110% 62% at 50% -12%, #1b1038 0%, transparent 58%),
+    radial-gradient(1px 1px at 16% 26%, rgba(255,255,255,.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 68% 46%, rgba(255,209,102,.6) 50%, transparent 50%);
+  background-size:auto,200px 200px,200px 200px;
+}
+a{color:var(--cyan)}
+button:focus-visible,select:focus-visible,input:focus-visible,.cell:focus-visible{
+  outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding:0 14px}
+
+header{text-align:center;padding:30px 0 18px}
+.eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin:0 0 11px}
+h1{
+  font-family:"Orbitron",sans-serif;font-weight:700;font-size:clamp(20px,5vw,32px);
+  letter-spacing:.04em;margin:0;color:transparent;
+  background:linear-gradient(96deg,var(--violet),var(--magenta) 28%,var(--gold) 56%,var(--cyan) 84%,var(--violet));
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  animation:holo 11s linear infinite;
+}
+@keyframes holo{to{background-position:220% 0}}
+
+/* ---------------------------------------------------------- transport */
+.deck{
+  display:flex;flex-wrap:wrap;gap:9px;align-items:center;justify-content:center;
+  margin:22px 0 8px;padding:13px;border:1px solid var(--line);border-radius:13px;
+  background:rgba(16,11,32,.6);
+}
+.btn{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--mist);background:transparent;
+  border:1px solid rgba(184,176,212,.32);border-radius:999px;
+  padding:11px 15px;min-height:42px;cursor:pointer;
+  transition:border-color .16s,color .16s;
+}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.btn.play{
+  color:var(--void);border:0;min-width:104px;
+  background:linear-gradient(96deg,var(--gold),#ffe9b5 55%,var(--gold));
+  box-shadow:0 0 20px rgba(255,209,102,.3);
+}
+.btn.play[data-on="true"]{background:linear-gradient(96deg,var(--magenta),#ff9ede 55%,var(--magenta))}
+.field{display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+select,input[type=range]{
+  font-family:inherit;font-size:12px;color:var(--mist);background:#150f28;
+  border:1px solid rgba(184,176,212,.3);border-radius:8px;padding:8px 9px;min-height:38px;
+}
+input[type=range]{padding:0;width:96px;accent-color:var(--magenta)}
+#bpmOut{font-family:"Silkscreen",monospace;font-size:12px;color:var(--gold);min-width:30px}
+
+/* ---------------------------------------------------------- grid */
+.rack{margin-top:16px;border:1px solid var(--line);border-radius:13px;overflow:hidden;background:rgba(12,8,24,.72)}
+.rack h2{
+  margin:0;padding:9px 13px;font-family:"Silkscreen",monospace;font-size:10px;
+  letter-spacing:.2em;color:var(--gold);background:rgba(160,32,240,.14);
+  border-bottom:1px solid var(--line);font-weight:400;
+}
+.scroller{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.grid{display:grid;gap:3px;padding:10px;min-width:max-content}
+.row{display:grid;grid-template-columns:46px repeat(16,minmax(19px,1fr));gap:3px;align-items:center}
+.lbl{
+  font-family:"Silkscreen",monospace;font-size:8px;letter-spacing:.06em;
+  color:var(--dim);text-align:right;padding-right:5px;white-space:nowrap;
+}
+.cell{
+  aspect-ratio:1;min-height:19px;border:0;border-radius:4px;padding:0;cursor:pointer;
+  background:var(--cell);box-shadow:inset 0 0 0 1px rgba(255,255,255,.045);
+  transition:background .1s,transform .1s;
+}
+.cell:nth-child(4n+2){background:var(--cell-hi)}
+.cell[data-on="true"]{
+  background:linear-gradient(150deg,var(--magenta),var(--violet));
+  box-shadow:0 0 11px rgba(255,68,204,.6);
+}
+.drums .cell[data-on="true"]{background:linear-gradient(150deg,var(--cyan),#1a7fa8);box-shadow:0 0 11px rgba(34,224,255,.55)}
+.cell[data-beat="true"]{transform:scale(.9);box-shadow:0 0 0 2px var(--gold)}
+.cell:hover{background:#2a1f4d}
+
+.tip{text-align:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#544f70;margin:14px 0 0}
+.note{text-align:center;font-size:12px;color:var(--dim);margin:8px 0 0}
+
+.foot{text-align:center;margin-top:34px;font-size:12px;color:var(--dim)}
+.foot .fine{font-size:11px;color:#514c70}
+
+@media(max-width:560px){
+  .row{grid-template-columns:38px repeat(16,minmax(17px,1fr))}
+  .lbl{font-size:7px}
+  .deck{gap:7px;padding:10px}
+  .btn{padding:10px 12px;font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){h1{animation:none}.cell{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">MagickMica</p>
+    <h1>COSMIC SONG MAKER</h1>
+  </header>
+
+  <div class="deck">
+    <button class="btn play" id="play" data-on="false">&#9654; Play</button>
+    <span class="field">BPM <input type="range" id="bpm" min="60" max="180" value="104"><b id="bpmOut">104</b></span>
+    <span class="field">Key
+      <select id="key">
+        <option value="0">C</option><option value="2">D</option><option value="4">E</option>
+        <option value="5">F</option><option value="7" selected>G</option><option value="9">A</option>
+      </select>
+    </span>
+    <span class="field">Scale
+      <select id="scale">
+        <option value="pentMin" selected>Pentatonic Minor</option>
+        <option value="pentMaj">Pentatonic Major</option>
+        <option value="dorian">Dorian</option>
+        <option value="whole">Whole Tone</option>
+      </select>
+    </span>
+    <button class="btn" id="rand">&#10022; Surprise me</button>
+    <button class="btn" id="clear">Clear</button>
+    <button class="btn" id="midi">&#8681; Export .mid</button>
+    <button class="btn" id="share">Copy link</button>
+  </div>
+
+  <section class="rack">
+    <h2>MELODY</h2>
+    <div class="scroller"><div class="grid" id="melody"></div></div>
+  </section>
+
+  <section class="rack drums">
+    <h2>RHYTHM</h2>
+    <div class="scroller"><div class="grid" id="drums"></div></div>
+  </section>
+
+  <p class="tip">tap the squares &middot; press space to play</p>
+  <p class="note" id="status">Your song saves itself. The link carries it too.</p>
+
+  <footer class="foot">
+    <p class="fine">MagickMica &middot; MMXXVI &middot; made of stardust and square waves</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var STEPS = 16, ROWS = 15, DRUMS = 3;
+  var LS = 'mm_song_v1';
+
+  var SCALES = {
+    pentMin: [0, 3, 5, 7, 10],
+    pentMaj: [0, 2, 4, 7, 9],
+    dorian:  [0, 2, 3, 5, 7, 9, 10],
+    whole:   [0, 2, 4, 6, 8, 10]
+  };
+  var NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  var DRUMNAME = ['KICK', 'SNARE', 'HAT'];
+  var DRUMMIDI = [36, 38, 42];               // General MIDI, channel 10
+
+  var mel = [], drm = [];
+  for (var r = 0; r < ROWS; r++) { mel.push(new Array(STEPS).fill(0)); }
+  for (var d = 0; d < DRUMS; d++) { drm.push(new Array(STEPS).fill(0)); }
+
+  var melEl = document.getElementById('melody');
+  var drmEl = document.getElementById('drums');
+  var playEl = document.getElementById('play');
+  var bpmEl = document.getElementById('bpm');
+  var bpmOut = document.getElementById('bpmOut');
+  var keyEl = document.getElementById('key');
+  var scaleEl = document.getElementById('scale');
+  var statusEl = document.getElementById('status');
+
+  var melCells = [], drmCells = [];
+
+  /* ---------------------------------------------- note maths */
+  // row 0 is the top of the grid = highest pitch, so it reads like a piano roll
+  function midiFor(row) {
+    var sc = SCALES[scaleEl.value];
+    var idx = (ROWS - 1) - row;
+    var oct = Math.floor(idx / sc.length);
+    var deg = sc[idx % sc.length];
+    return 48 + parseInt(keyEl.value, 10) + deg + oct * 12;
+  }
+  function labelFor(row) {
+    var m = midiFor(row);
+    return NAMES[m % 12] + (Math.floor(m / 12) - 1);
+  }
+
+  /* ---------------------------------------------- build grids */
+  function buildGrid(host, rows, cells, isDrum) {
+    host.textContent = '';
+    cells.length = 0;
+    for (var r = 0; r < rows; r++) {
+      var row = document.createElement('div');
+      row.className = 'row';
+      var lbl = document.createElement('span');
+      lbl.className = 'lbl';
+      lbl.textContent = isDrum ? DRUMNAME[r] : labelFor(r);
+      row.appendChild(lbl);
+      var line = [];
+      for (var s = 0; s < STEPS; s++) {
+        var b = document.createElement('button');
+        b.className = 'cell';
+        b.type = 'button';
+        b.dataset.on = 'false';
+        b.dataset.r = r; b.dataset.s = s;
+        b.setAttribute('aria-label',
+          (isDrum ? DRUMNAME[r] : labelFor(r)) + ' step ' + (s + 1));
+        row.appendChild(b);
+        line.push(b);
+      }
+      cells.push(line);
+      host.appendChild(row);
+    }
+  }
+
+  function relabel() {
+    for (var r = 0; r < ROWS; r++) {
+      var lbl = melEl.children[r].querySelector('.lbl');
+      lbl.textContent = labelFor(r);
+    }
+  }
+
+  function repaint() {
+    for (var r = 0; r < ROWS; r++) {
+      for (var s = 0; s < STEPS; s++) {
+        melCells[r][s].dataset.on = mel[r][s] ? 'true' : 'false';
+      }
+    }
+    for (var d = 0; d < DRUMS; d++) {
+      for (var s2 = 0; s2 < STEPS; s2++) {
+        drmCells[d][s2].dataset.on = drm[d][s2] ? 'true' : 'false';
+      }
+    }
+  }
+
+  function onCell(e, arr, cells) {
+    var t = e.target.closest('.cell');
+    if (!t) return;
+    var r = +t.dataset.r, s = +t.dataset.s;
+    arr[r][s] = arr[r][s] ? 0 : 1;
+    t.dataset.on = arr[r][s] ? 'true' : 'false';
+    if (arr[r][s]) { preview(arr === mel ? midiFor(r) : null, arr === mel ? null : r); }
+    save();
+  }
+
+  /* ---------------------------------------------- audio */
+  var ac = null;
+  function audio() {
+    if (!ac) { ac = new (window.AudioContext || window.webkitAudioContext)(); }
+    if (ac.state === 'suspended') { ac.resume(); }
+    return ac;
+  }
+  function freq(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+
+  function voice(m, t, dur) {
+    var c = audio();
+    var g = c.createGain();
+    g.connect(c.destination);
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.17, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+
+    var o = c.createOscillator();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(freq(m), t);
+    var o2 = c.createOscillator();
+    o2.type = 'sine';
+    o2.frequency.setValueAtTime(freq(m + 12), t);
+    var g2 = c.createGain();
+    g2.gain.setValueAtTime(0.28, t);
+    o2.connect(g2); g2.connect(g);
+    o.connect(g);
+    o.start(t); o2.start(t);
+    o.stop(t + dur + 0.02); o2.stop(t + dur + 0.02);
+  }
+
+  function noise(t, dur, hz, q, vol) {
+    var c = audio();
+    var n = Math.floor(c.sampleRate * dur);
+    var buf = c.createBuffer(1, n, c.sampleRate);
+    var dat = buf.getChannelData(0);
+    for (var i = 0; i < n; i++) { dat[i] = Math.random() * 2 - 1; }
+    var src = c.createBufferSource(); src.buffer = buf;
+    var bp = c.createBiquadFilter(); bp.type = 'bandpass';
+    bp.frequency.value = hz; bp.Q.value = q;
+    var g = c.createGain();
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(bp); bp.connect(g); g.connect(c.destination);
+    src.start(t); src.stop(t + dur);
+  }
+
+  function drum(kind, t) {
+    var c = audio();
+    if (kind === 0) {                       // kick: pitch drop
+      var o = c.createOscillator(), g = c.createGain();
+      o.frequency.setValueAtTime(150, t);
+      o.frequency.exponentialRampToValueAtTime(46, t + 0.13);
+      g.gain.setValueAtTime(0.5, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.24);
+      o.connect(g); g.connect(c.destination);
+      o.start(t); o.stop(t + 0.26);
+    } else if (kind === 1) {                // snare
+      noise(t, 0.17, 1500, 0.7, 0.28);
+    } else {                                // hat
+      noise(t, 0.045, 8200, 1.6, 0.17);
+    }
+  }
+
+  function preview(m, d) {
+    var t = audio().currentTime + 0.01;
+    if (m != null) voice(m, t, 0.28); else drum(d, t);
+  }
+
+  /* ---------------------------------------------- transport */
+  var playing = false, step = 0, nextTime = 0, timer = null, lastPainted = -1;
+
+  function stepDur() { return 60 / (+bpmEl.value) / 4; }   // 16th notes
+
+  function schedule() {
+    var c = audio();
+    while (nextTime < c.currentTime + 0.12) {
+      var s = step;
+      for (var r = 0; r < ROWS; r++) {
+        if (mel[r][s]) voice(midiFor(r), nextTime, stepDur() * 1.6);
+      }
+      for (var d = 0; d < DRUMS; d++) {
+        if (drm[d][s]) drum(d, nextTime);
+      }
+      paintBeat(s, nextTime);
+      nextTime += stepDur();
+      step = (step + 1) % STEPS;
+    }
+  }
+
+  function paintBeat(s, when) {
+    var delay = Math.max(0, (when - audio().currentTime) * 1000);
+    setTimeout(function () {
+      if (!playing) return;
+      if (lastPainted >= 0) {
+        for (var r = 0; r < ROWS; r++) melCells[r][lastPainted].dataset.beat = 'false';
+        for (var d = 0; d < DRUMS; d++) drmCells[d][lastPainted].dataset.beat = 'false';
+      }
+      for (var r2 = 0; r2 < ROWS; r2++) melCells[r2][s].dataset.beat = 'true';
+      for (var d2 = 0; d2 < DRUMS; d2++) drmCells[d2][s].dataset.beat = 'true';
+      lastPainted = s;
+    }, delay);
+  }
+
+  function clearBeat() {
+    for (var r = 0; r < ROWS; r++) for (var s = 0; s < STEPS; s++) melCells[r][s].dataset.beat = 'false';
+    for (var d = 0; d < DRUMS; d++) for (var s2 = 0; s2 < STEPS; s2++) drmCells[d][s2].dataset.beat = 'false';
+    lastPainted = -1;
+  }
+
+  function start() {
+    audio();
+    playing = true; step = 0; nextTime = ac.currentTime + 0.06;
+    playEl.dataset.on = 'true';
+    playEl.innerHTML = '&#9632; Stop';
+    timer = setInterval(schedule, 25);
+  }
+  function stop() {
+    playing = false;
+    clearInterval(timer); timer = null;
+    playEl.dataset.on = 'false';
+    playEl.innerHTML = '&#9654; Play';
+    clearBeat();
+  }
+  playEl.addEventListener('click', function () { playing ? stop() : start(); });
+
+  bpmEl.addEventListener('input', function () { bpmOut.textContent = bpmEl.value; save(); });
+  keyEl.addEventListener('change', function () { relabel(); save(); });
+  scaleEl.addEventListener('change', function () { relabel(); save(); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.code !== 'Space') return;
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'button' || tag === 'select' || tag === 'input') return;
+    e.preventDefault();
+    playing ? stop() : start();
+  });
+
+  /* ---------------------------------------------- MIDI export */
+  function vlq(n) {                       // variable-length quantity
+    var out = [n & 0x7F];
+    n >>= 7;
+    while (n > 0) { out.unshift((n & 0x7F) | 0x80); n >>= 7; }
+    return out;
+  }
+  function str(s) { return s.split('').map(function (c) { return c.charCodeAt(0); }); }
+  function be32(n) { return [(n >> 24) & 255, (n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+  function be16(n) { return [(n >> 8) & 255, n & 255]; }
+
+  function chunk(id, bytes) { return str(id).concat(be32(bytes.length), bytes); }
+
+  function trackFrom(events, name) {
+    // events: {tick, data:[...]} — sort, then delta-encode
+    events.sort(function (a, b) { return a.tick - b.tick; });
+    var body = vlq(0).concat([0xFF, 0x03, name.length], str(name));
+    var last = 0;
+    events.forEach(function (ev) {
+      body = body.concat(vlq(ev.tick - last), ev.data);
+      last = ev.tick;
+    });
+    body = body.concat(vlq(0), [0xFF, 0x2F, 0x00]);
+    return chunk('MTrk', body);
+  }
+
+  function buildMidi() {
+    var TPQ = 480, TICK = TPQ / 4;          // one grid step = a 16th note
+    var us = Math.round(60000000 / (+bpmEl.value));
+
+    var tempo = chunk('MTrk', vlq(0).concat([0xFF, 0x51, 0x03, (us >> 16) & 255, (us >> 8) & 255, us & 255],
+                      vlq(0), [0xFF, 0x2F, 0x00]));
+
+    var mev = [], dev = [];
+    for (var s = 0; s < STEPS; s++) {
+      for (var r = 0; r < ROWS; r++) {
+        if (!mel[r][s]) continue;
+        var m = midiFor(r);
+        mev.push({ tick: s * TICK, data: [0x90, m, 100] });
+        mev.push({ tick: s * TICK + Math.round(TICK * 1.6), data: [0x80, m, 0] });
+      }
+      for (var d = 0; d < DRUMS; d++) {
+        if (!drm[d][s]) continue;
+        dev.push({ tick: s * TICK, data: [0x99, DRUMMIDI[d], 110] });
+        dev.push({ tick: s * TICK + 20, data: [0x89, DRUMMIDI[d], 0] });
+      }
+    }
+
+    var head = chunk('MThd', be16(1).concat(be16(3), be16(TPQ)));
+    var all = head
+      .concat(tempo)
+      .concat(trackFrom(mev, 'Melody'))
+      .concat(trackFrom(dev, 'Rhythm'));
+    return new Uint8Array(all);
+  }
+
+  document.getElementById('midi').addEventListener('click', function () {
+    var any = mel.some(function (r) { return r.some(Boolean); }) ||
+              drm.some(function (r) { return r.some(Boolean); });
+    if (!any) { statusEl.textContent = 'Nothing to export yet — tap some squares first.'; return; }
+    var blob = new Blob([buildMidi()], { type: 'audio/midi' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'magickmica-song.mid';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+    statusEl.textContent = 'Saved magickmica-song.mid — open it in any music app.';
+  });
+
+  /* ---------------------------------------------- save / share */
+  function bits() {
+    var s = '';
+    for (var r = 0; r < ROWS; r++) for (var i = 0; i < STEPS; i++) s += mel[r][i] ? '1' : '0';
+    for (var d = 0; d < DRUMS; d++) for (var j = 0; j < STEPS; j++) s += drm[d][j] ? '1' : '0';
+    return s;
+  }
+  function encode() {
+    var b = bits(), bytes = [];
+    for (var i = 0; i < b.length; i += 8) { bytes.push(parseInt(b.substr(i, 8).padEnd(8, '0'), 2)); }
+    var b64 = btoa(String.fromCharCode.apply(null, bytes))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    return b64 + '.' + bpmEl.value + '.' + keyEl.value + '.' + scaleEl.value;
+  }
+  function decode(code) {
+    try {
+      var p = code.split('.');
+      var b64 = p[0].replace(/-/g, '+').replace(/_/g, '/');
+      var raw = atob(b64);
+      var b = '';
+      for (var i = 0; i < raw.length; i++) { b += raw.charCodeAt(i).toString(2).padStart(8, '0'); }
+      var k = 0;
+      for (var r = 0; r < ROWS; r++) for (var s = 0; s < STEPS; s++) mel[r][s] = b[k++] === '1' ? 1 : 0;
+      for (var d = 0; d < DRUMS; d++) for (var s2 = 0; s2 < STEPS; s2++) drm[d][s2] = b[k++] === '1' ? 1 : 0;
+      if (p[1]) { bpmEl.value = p[1]; bpmOut.textContent = p[1]; }
+      if (p[2]) keyEl.value = p[2];
+      if (p[3] && SCALES[p[3]]) scaleEl.value = p[3];
+      return true;
+    } catch (e) { return false; }
+  }
+  function save() {
+    try { localStorage.setItem(LS, encode()); } catch (e) {}
+  }
+
+  document.getElementById('share').addEventListener('click', function () {
+    var url = location.origin + location.pathname + '#' + encode();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(
+        function () { statusEl.textContent = 'Link copied — it carries the whole song.'; },
+        function () { statusEl.textContent = 'Copy blocked by the browser.'; });
+    } else { statusEl.textContent = 'Copy blocked by the browser.'; }
+  });
+
+  document.getElementById('clear').addEventListener('click', function () {
+    for (var r = 0; r < ROWS; r++) mel[r].fill(0);
+    for (var d = 0; d < DRUMS; d++) drm[d].fill(0);
+    repaint(); save();
+    statusEl.textContent = 'Cleared. Blank sky.';
+  });
+
+  document.getElementById('rand').addEventListener('click', function () {
+    for (var r = 0; r < ROWS; r++) mel[r].fill(0);
+    for (var d = 0; d < DRUMS; d++) drm[d].fill(0);
+    // a sparse melody reads better than pure noise: one note every other step
+    for (var s = 0; s < STEPS; s += 2) {
+      if (Math.random() < 0.78) { mel[Math.floor(Math.random() * ROWS)][s] = 1; }
+    }
+    for (var k = 0; k < STEPS; k += 4) drm[0][k] = 1;          // kick on the beat
+    for (var n = 4; n < STEPS; n += 8) drm[1][n] = 1;          // snare on 2 and 4
+    for (var h = 0; h < STEPS; h += 2) if (Math.random() < 0.7) drm[2][h] = 1;
+    repaint(); save();
+    statusEl.textContent = 'A new one, out of the void.';
+  });
+
+  /* ---------------------------------------------- boot */
+  buildGrid(melEl, ROWS, melCells, false);
+  buildGrid(drmEl, DRUMS, drmCells, true);
+  melEl.addEventListener('click', function (e) { onCell(e, mel, melCells); });
+  drmEl.addEventListener('click', function (e) { onCell(e, drm, drmCells); });
+
+  var loaded = false;
+  if (location.hash.length > 2) { loaded = decode(location.hash.slice(1)); }
+  if (!loaded) {
+    try {
+      var stored = localStorage.getItem(LS);
+      if (stored) loaded = decode(stored);
+    } catch (e) {}
+  }
+  relabel();
+  repaint();
+  if (!loaded) { document.getElementById('rand').click(); }
+})();
+</script>
+<script src="mm-nav.js" defer></script>
+</body>
+</html>
