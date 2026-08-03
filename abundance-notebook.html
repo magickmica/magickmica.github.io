@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Abundance Notebook &middot; 100 Sheets &middot; MagickMica</title>
+<meta name="description" content="One hundred signs, one per notebook sheet. Turn the pages.">
+<meta property="og:title" content="The Abundance Notebook &middot; 100 Sheets">
+<meta property="og:description" content="Turn the pages. One sign per sheet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Orbitron:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07060e;
+  --violet:#a020f0;
+  --magenta:#ff44cc;
+  --gold:#ffd166;
+  --cyan:#22e0ff;
+  --mist:#b8b0d4;
+  --dim:#6f6890;
+
+  --paper:#f7f2e6;
+  --paper-edge:#e3dbc8;
+  --rule:rgba(92,120,186,.32);
+  --margin-rule:#e8879f;
+  --ink:#2f3a52;
+
+  --glow1:#a020f0;
+  --glow2:#ff44cc;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+
+body{
+  margin:0;padding:0 18px 60px;
+  background:var(--void);
+  color:var(--mist);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:15px;line-height:1.5;
+  overflow-x:hidden;
+}
+
+.sky{
+  position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.32;
+  background:
+    radial-gradient(115% 74% at 50% -14%, var(--glow1) 0%, transparent 58%),
+    radial-gradient(88% 58% at 86% 110%, var(--glow2) 0%, transparent 62%);
+  transition:background 1s linear;
+}
+.grain{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+  background-image:
+    radial-gradient(1px 1px at 14% 24%, rgba(255,255,255,.85) 50%, transparent 50%),
+    radial-gradient(1px 1px at 66% 44%, rgba(255,255,255,.5) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 34% 78%, rgba(255,209,102,.75) 50%, transparent 50%),
+    radial-gradient(1px 1px at 88% 86%, rgba(34,224,255,.65) 50%, transparent 50%);
+  background-size:200px 200px,200px 200px,200px 200px,200px 200px;
+}
+
+a{color:var(--cyan)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+.wrap{max-width:660px;margin:0 auto}
+
+/* ---------------------------------------------------------- header */
+header{text-align:center;padding:44px 0 26px}
+.eyebrow{
+  font-size:10px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--dim);margin:0 0 14px;
+}
+h1{
+  font-family:"Orbitron",sans-serif;font-weight:700;
+  font-size:clamp(20px,4.8vw,31px);letter-spacing:.03em;margin:0;
+  color:transparent;
+  background:linear-gradient(96deg,var(--violet),var(--magenta) 28%,var(--gold) 56%,var(--cyan) 84%,var(--violet));
+  background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  animation:holo 11s linear infinite;
+}
+@keyframes holo{to{background-position:220% 0}}
+
+/* ---------------------------------------------------------- notebook */
+.desk{position:relative;perspective:1700px;margin:0 auto}
+
+.book{
+  position:relative;
+  width:100%;
+  aspect-ratio:1/1.28;
+  max-height:66vh;
+  transform-style:preserve-3d;
+}
+
+/* the unturned pages stacked underneath, right edge */
+.stack{
+  position:absolute;top:8px;bottom:8px;right:-1px;
+  width:14px;border-radius:0 5px 5px 0;
+  background:
+    repeating-linear-gradient(180deg,
+      var(--paper-edge) 0 2px, rgba(255,255,255,.75) 2px 4px);
+  box-shadow:2px 2px 9px rgba(0,0,0,.5);
+  transition:width .5s ease, opacity .5s ease;
+  z-index:1;
+}
+
+.sheet{
+  position:absolute;inset:0;
+  transform-origin:left center;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  border-radius:3px 7px 7px 3px;
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(180deg, rgba(0,0,0,.05), transparent 12%),
+    repeating-linear-gradient(180deg,
+      transparent 0 33px, var(--rule) 33px 34px);
+  background-position:0 0, 0 84px;
+  box-shadow:0 16px 40px rgba(0,0,0,.55), 0 0 0 1px rgba(0,0,0,.35);
+  transition:transform .62s cubic-bezier(.42,.06,.28,1);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+/* the punched margin column + red rule */
+.sheet::before{
+  content:"";position:absolute;top:0;bottom:0;left:0;width:62px;
+  background:linear-gradient(90deg, rgba(0,0,0,.09), transparent);
+  border-right:1px solid var(--margin-rule);
+  pointer-events:none;
+}
+/* shading that deepens toward the spine as the page lifts */
+.sheet::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg, rgba(60,40,20,.22), transparent 22%);
+}
+
+.sheet.flip-fwd{transform:rotateY(-174deg)}
+.sheet.instant{transition:none}
+
+.sheet-body{
+  position:relative;z-index:2;
+  flex:1;display:flex;align-items:center;
+  padding:64px 34px 64px 84px;
+}
+.sheet-text{
+  font-family:"Caveat",cursive;
+  font-weight:500;
+  font-size:clamp(27px,5.6vw,38px);
+  line-height:34px;           /* locks the handwriting onto the ruled lines */
+  color:var(--ink);
+  margin:0;
+  text-wrap:balance;
+  transform:rotate(-.5deg);
+}
+.sheet-no{
+  position:absolute;right:26px;bottom:20px;z-index:2;
+  font-family:"Caveat",cursive;font-size:21px;color:#8d93a8;
+}
+.sheet-star{
+  position:absolute;left:20px;bottom:18px;z-index:2;
+  font-size:15px;color:var(--margin-rule);opacity:.75;
+}
+
+/* spiral binding sits above every sheet */
+.rings{
+  position:absolute;top:0;bottom:0;left:-9px;width:40px;z-index:6;
+  display:flex;flex-direction:column;justify-content:space-around;
+  padding:16px 0;pointer-events:none;
+}
+.rings i{
+  display:block;width:38px;height:11px;border-radius:999px;
+  background:linear-gradient(90deg,#cfc7e6,#8f86ad 42%,#efe9ff 62%,#6f6890);
+  box-shadow:0 2px 3px rgba(0,0,0,.55), inset 0 -1px 1px rgba(0,0,0,.35);
+}
+
+/* ---------------------------------------------------------- controls */
+.controls{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  margin:26px 0 0;flex-wrap:wrap;
+}
+.btn{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mist);background:transparent;
+  border:1px solid rgba(184,176,212,.34);border-radius:999px;
+  padding:12px 20px;min-height:44px;min-width:44px;cursor:pointer;
+  transition:border-color .18s ease,color .18s ease;
+}
+.btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.btn:disabled{opacity:.32;cursor:default}
+.btn.gold{
+  color:var(--void);border:0;
+  background:linear-gradient(96deg,var(--gold),#ffe9b5 55%,var(--gold));
+  box-shadow:0 0 24px rgba(255,209,102,.3);
+}
+.btn.gold:hover{box-shadow:0 0 34px rgba(255,209,102,.5);color:var(--void)}
+
+.counter{
+  font-size:11px;letter-spacing:.2em;color:var(--dim);
+  text-align:center;margin:16px 0 0;
+}
+.counter b{color:var(--gold);font-weight:500}
+
+.hint{
+  text-align:center;font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:#544f70;margin:10px 0 0;
+}
+
+/* ---------------------------------------------------------- foot */
+.foot{text-align:center;margin-top:52px;font-size:12px;color:var(--dim)}
+.foot nav{margin:0 0 14px;line-height:2.2}
+.foot nav a{margin:0 9px;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.foot .fine{font-size:11px;color:#514c70}
+
+@media (max-width:560px){
+  .book{aspect-ratio:1/1.3;max-height:none}
+  .sheet-body{padding:48px 22px 52px 74px}
+  .sheet::before{width:54px}
+  .rings i{width:32px;height:9px}
+  .rings{left:-7px;width:34px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  h1{animation:none}
+  .sheet{transition:none}
+  .sky,.stack{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="sky" id="sky" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">MagickMica &middot; 100 sheets</p>
+    <h1>THE ABUNDANCE NOTEBOOK</h1>
+  </header>
+
+  <main>
+    <div class="desk">
+      <div class="book" id="book">
+        <div class="stack" id="stack" aria-hidden="true"></div>
+
+        <article class="sheet" id="sheetB" aria-hidden="true">
+          <div class="sheet-body"><p class="sheet-text"></p></div>
+          <span class="sheet-star">&#10022;</span>
+          <span class="sheet-no"></span>
+        </article>
+
+        <article class="sheet" id="sheetA" aria-live="polite">
+          <div class="sheet-body"><p class="sheet-text"></p></div>
+          <span class="sheet-star">&#10022;</span>
+          <span class="sheet-no"></span>
+        </article>
+
+        <div class="rings" id="rings" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="prev">&larr; Back</button>
+      <button class="btn gold" id="next">Turn the page &rarr;</button>
+      <button class="btn" id="rand">Any sheet</button>
+    </div>
+
+    <p class="counter">SHEET <b id="cur">001</b> OF 100</p>
+    <p class="hint">arrow keys or swipe to turn</p>
+  </main>
+
+  <footer class="foot">
+    <nav>
+      <a href="index.html">home</a>
+      <a href="abundance-portal.html">all 100</a>
+      <a href="abundance-portal-one.html">one sign</a>
+      <a href="abundance-scratch.html">scratch a sign</a>
+      <a href="abundance-globe.html">the globe</a>
+      <a href="abundance-oracle.html">the oracle</a>
+      <a href="notes.html">notes</a>
+      <a href="arcade.html">arcade</a>
+    </nav>
+    <p class="fine">MagickMica &middot; MMXXVI &middot; take what you need, leave the rest</p>
+  </footer>
+</div>
+
+<script>
+const SIGNS = [{"i":1,"a":"This did not find you by accident. The universe is opening a door you were always meant to walk through."},{"i":2,"a":"Your timeline just shifted. The magic you’ve been waiting for is already arriving."},{"i":3,"a":"This time is not just a month. It’s a frequency. And yours is tuned to abundance."},{"i":4,"a":"The universe whispered your name into the next chapter. Prepare for unexpected blessings."},{"i":5,"a":"You weren’t scrolling. You were summoned. A new era is loading."},{"i":6,"a":"The seeds you planted in silence are blooming into miracles you can finally see."},{"i":7,"a":"Your energy has changed, and reality is beginning to reflect the magic you carry."},{"i":8,"a":"The universe has been rearranging pieces behind the scenes. The reveal is coming."},{"i":9,"a":"Your next chapter is glowing so brightly it had to find you."},{"i":10,"a":"This message arrived because your frequency is ready for expansion."},{"i":11,"a":"Abundance isn’t chasing you. It’s remembering where you live."},{"i":12,"a":"Your dreams have been knocking. This is the month you finally answer."},{"i":13,"a":"A beautiful surprise is making its way through the cosmic doorway."},{"i":14,"a":"The universe is upgrading your reality while you’re busy becoming who you were meant to be."},{"i":15,"a":"Your manifestation window is sparkling open. Step through."},{"i":16,"a":"Your future self is smiling because everything is beginning to align."},{"i":17,"a":"The magic you thought was delayed was actually being perfected."},{"i":18,"a":"Your blessings are not lost. They are traveling through invisible galaxies to find you."},{"i":19,"a":"The universe didn’t forget you. It was preparing something bigger."},{"i":20,"a":"Your abundance era has entered the chat."},{"i":21,"a":"A cosmic plot twist is arriving with your name written in stardust."},{"i":22,"a":"You are becoming a magnet for everything that matches your soul."},{"i":23,"a":"The universe is sending you signs wrapped in glitter and impossible timing."},{"i":24,"a":"Your next level is calling. Pick up the cosmic phone."},{"i":25,"a":"You are stepping into the version of yourself who receives without fear."},{"i":26,"a":"Your energy is expensive. Your dreams are priceless."},{"i":27,"a":"The universe is opening treasure chests you didn’t even know existed."},{"i":28,"a":"Your reality is upgrading from survival mode to magical creation mode."},{"i":29,"a":"The stars are rearranging themselves around your new beginning."},{"i":30,"a":"Your quiet season is ending. Your blooming season has arrived."},{"i":31,"a":"The universe has been collecting miracles with your name on them."},{"i":32,"a":"Your abundance portal is open. Walk through with confidence."},{"i":33,"a":"What’s coming next will make you grateful you never gave up."},{"i":34,"a":"Your future is glowing brighter than your doubts."},{"i":35,"a":"A wave of unexpected joy is heading toward you."},{"i":36,"a":"Your life is becoming a masterpiece written in cosmic ink."},{"i":37,"a":"The universe is about to surprise you in ways your imagination hasn’t reached yet."},{"i":38,"a":"Your dreams are not unrealistic. They are invitations from your future self."},{"i":39,"a":"You are entering a season where things finally begin to make sense."},{"i":40,"a":"Your patience is transforming into prosperity."},{"i":41,"a":"The universe is delivering blessings with extra sparkle."},{"i":42,"a":"Your heart has been preparing for the abundance your hands are about to hold."},{"i":43,"a":"Your next miracle is already in motion."},{"i":44,"a":"The invisible work is becoming visible magic."},{"i":45,"a":"Your timeline just received a cosmic upgrade."},{"i":46,"a":"Your energy is calling in opportunities that match your highest vision."},{"i":47,"a":"The universe is opening golden doors you didn’t even know existed."},{"i":48,"a":"Your dreams are blooming beyond the limits you placed on them."},{"i":49,"a":"A magical chapter is beginning, and you are the main character."},{"i":50,"a":"Your frequency is attracting the life you once imagined."},{"i":51,"a":"Something beautiful is searching for someone exactly like you."},{"i":52,"a":"The universe is preparing a “you won’t believe this happened” moment."},{"i":53,"a":"Your next chapter feels like a wish coming true."},{"i":54,"a":"The cosmos is moving pieces into perfect alignment."},{"i":55,"a":"Your abundance story is just getting started."},{"i":56,"a":"You are becoming the person your dreams were waiting for."},{"i":57,"a":"Your manifestations are crossing dimensions to reach you."},{"i":58,"a":"The butterfly effect of your choices is about to create something magical."},{"i":59,"a":"The universe heard your heart. Now watch what happens."},{"i":60,"a":"Your glow-up is not just physical. It’s energetic."},{"i":61,"a":"You are entering a reality where receiving feels natural."},{"i":62,"a":"The stars are cheering for the version of you that never stopped believing."},{"i":63,"a":"A new frequency has unlocked. Welcome to your next era."},{"i":64,"a":"The universe is placing golden opportunities in your path."},{"i":65,"a":"Your life is becoming proof that magic exists."},{"i":66,"a":"The things you prayed for are finding their way home."},{"i":67,"a":"You are walking into a season of divine timing and beautiful surprises."},{"i":68,"a":"Your imagination was actually a preview of what’s coming."},{"i":69,"a":"The universe is about to make your dreams feel real."},{"i":70,"a":"Your abundance is expanding beyond what you thought was possible."},{"i":71,"a":"You are not behind. You are arriving exactly when the magic begins."},{"i":72,"a":"The next chapter of your story sparkles differently."},{"i":73,"a":"Your reality is responding to the frequency you’ve been becoming."},{"i":74,"a":"Your dreams have a destination. They’re heading toward you."},{"i":75,"a":"Your soul knows the way. Follow the glitter trail."},{"i":76,"a":"A cosmic shift is happening, and you are part of the magic."},{"i":77,"a":"The universe is sending confirmation in the form of perfect timing."},{"i":78,"a":"Your blessings are multiplying in unseen places."},{"i":79,"a":"Your future is brighter than anything you’ve left behind."},{"i":80,"a":"You are becoming a portal for miracles."},{"i":81,"a":"The universe is about to reveal why everything had to happen this way."},{"i":82,"a":"Your next chapter is sponsored by divine timing and infinite possibility."},{"i":83,"a":"Your dreams are activating a new reality code."},{"i":84,"a":"The universe is upgrading your life behind the scenes."},{"i":85,"a":"Your abundance frequency is loud enough for the cosmos to hear."},{"i":86,"a":"Something magical is approaching. Stay open."},{"i":87,"a":"You are entering your “everything starts working out” era."},{"i":88,"a":"The universe is matching your energy with unexpected blessings."},{"i":89,"a":"Your creativity, courage, and dreams are creating a new universe around you."},{"i":90,"a":"The next miracle may arrive disguised as a tiny spark of possibility."},{"i":91,"a":"You are becoming the person who effortlessly attracts what once felt impossible."},{"i":92,"a":"Your story is shifting from waiting to receiving."},{"i":93,"a":"The treasure you seek is already awakening inside you."},{"i":94,"a":"This season is your reminder: magic was never gone, it was gathering."},{"i":95,"a":"Your cosmic mailbox is overflowing with opportunities."},{"i":96,"a":"The universe is preparing a chapter you’ll want to reread forever."},{"i":97,"a":"Your dreams are not too big. They are simply waiting for your frequency to rise."},{"i":98,"a":"You are entering a season where your inner world becomes your outer reality."},{"i":99,"a":"The universe is about to show you what happens when you finally believe in yourself."},{"i":100,"a":"This appeared on your path because your next chapter is already glowing. Welcome to your abundance era."}];
+
+(function () {
+  'use strict';
+
+  var TOTAL = SIGNS.length;
+  var sheetA = document.getElementById('sheetA');
+  var sheetB = document.getElementById('sheetB');
+  var stackEl = document.getElementById('stack');
+  var ringsEl = document.getElementById('rings');
+  var skyEl = document.getElementById('sky');
+  var curEl = document.getElementById('cur');
+  var prevEl = document.getElementById('prev');
+  var nextEl = document.getElementById('next');
+  var randEl = document.getElementById('rand');
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var FLIP = 640;
+
+  var front = sheetA;   // the sheet currently facing up
+  var back = sheetB;    // the sheet waiting underneath
+  var idx = 0;
+  var busy = false;
+
+  /* ------------------------------------------------ spiral binding */
+  for (var r = 0; r < 11; r++) { ringsEl.appendChild(document.createElement('i')); }
+
+  function pad(n) {
+    var s = String(n);
+    while (s.length < 3) { s = '0' + s; }
+    return s;
+  }
+
+  function setHash(hash) {
+    try {
+      if (history.replaceState) { history.replaceState(null, '', hash); }
+    } catch (e) {}
+  }
+
+  /* ------------------------------------------------ paint a sheet */
+  function draw(sheet, i) {
+    var sign = SIGNS[i];
+    if (!sign) return;
+    sheet.querySelector('.sheet-text').textContent = sign.a;
+    sheet.querySelector('.sheet-no').textContent = pad(sign.i);
+  }
+
+  /* backdrop drifts through the same spectrum as the portal's descent */
+  var STOPS = [
+    ['#a020f0', '#ff44cc'],
+    ['#ff44cc', '#ffd166'],
+    ['#ffd166', '#22e0ff'],
+    ['#22e0ff', '#a020f0']
+  ];
+  var lastBand = -1;
+
+  function chrome() {
+    curEl.textContent = pad(idx + 1);
+    prevEl.disabled = idx === 0;
+    nextEl.disabled = idx === TOTAL - 1;
+    nextEl.textContent = idx === TOTAL - 1 ? 'Last sheet' : 'Turn the page \u2192';
+
+    var remaining = (TOTAL - 1 - idx) / (TOTAL - 1);
+    stackEl.style.width = Math.max(2, remaining * 14) + 'px';
+    stackEl.style.opacity = remaining <= 0 ? 0 : 1;
+
+    var band = Math.min(STOPS.length - 1, Math.floor((idx / TOTAL) * STOPS.length));
+    if (band !== lastBand) {
+      lastBand = band;
+      skyEl.style.setProperty('--glow1', STOPS[band][0]);
+      skyEl.style.setProperty('--glow2', STOPS[band][1]);
+    }
+
+    setHash('#sheet-' + pad(idx + 1));
+  }
+
+  /* ------------------------------------------------ turning */
+  function swapRoles() {
+    var t = front; front = back; back = t;
+    front.style.zIndex = 4;
+    back.style.zIndex = 3;
+    front.removeAttribute('aria-hidden');
+    front.setAttribute('aria-live', 'polite');
+    back.setAttribute('aria-hidden', 'true');
+    back.removeAttribute('aria-live');
+  }
+
+  function turn(to, dir) {
+    if (busy || to < 0 || to >= TOTAL || to === idx) return;
+    busy = true;
+
+    if (reduced) {
+      draw(front, to);
+      idx = to; chrome(); busy = false;
+      return;
+    }
+
+    if (dir === 'next') {
+      // the incoming sheet waits underneath; the current one lifts away
+      draw(back, to);
+      back.style.zIndex = 3;
+      front.style.zIndex = 4;
+      front.classList.add('flip-fwd');
+
+      window.setTimeout(function () {
+        front.classList.add('instant');
+        front.classList.remove('flip-fwd');
+        swapRoles();
+        // reset the sheet that just turned, now waiting underneath
+        void back.offsetWidth;
+        back.classList.remove('instant');
+        idx = to; chrome(); busy = false;
+      }, FLIP);
+
+    } else {
+      // the incoming sheet swings back in from the spine, over the top
+      draw(back, to);
+      back.classList.add('instant', 'flip-fwd');
+      back.style.zIndex = 5;
+      void back.offsetWidth;
+      back.classList.remove('instant');
+      back.classList.remove('flip-fwd');
+
+      window.setTimeout(function () {
+        swapRoles();
+        idx = to; chrome(); busy = false;
+      }, FLIP);
+    }
+  }
+
+  /* ------------------------------------------------ events */
+  nextEl.addEventListener('click', function () { turn(idx + 1, 'next'); });
+  prevEl.addEventListener('click', function () { turn(idx - 1, 'prev'); });
+  randEl.addEventListener('click', function () {
+    var to = idx;
+    while (to === idx && TOTAL > 1) { to = Math.floor(Math.random() * TOTAL); }
+    turn(to, to > idx ? 'next' : 'prev');
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { turn(idx + 1, 'next'); }
+    else if (e.key === 'ArrowLeft') { turn(idx - 1, 'prev'); }
+  });
+
+  var touchX = null;
+  var book = document.getElementById('book');
+  book.addEventListener('touchstart', function (e) {
+    touchX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  book.addEventListener('touchend', function (e) {
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) < 45) return;
+    turn(dx < 0 ? idx + 1 : idx - 1, dx < 0 ? 'next' : 'prev');
+  }, { passive: true });
+
+  book.addEventListener('click', function (e) {
+    if (e.target.closest('button')) return;
+    var r = book.getBoundingClientRect();
+    if (e.clientX - r.left > r.width * 0.55) { turn(idx + 1, 'next'); }
+  });
+
+  /* ------------------------------------------------ boot */
+  front.style.zIndex = 4;
+  back.style.zIndex = 3;
+
+  var deep = /^#sheet-(\d{1,3})$/.exec(window.location.hash);
+  var start = 0;
+  if (deep) {
+    var n = parseInt(deep[1], 10);
+    if (n >= 1 && n <= TOTAL) { start = n - 1; }
+  }
+  idx = start;
+  draw(front, idx);
+  draw(back, Math.min(idx + 1, TOTAL - 1));
+  chrome();
+})();
+</script>
+</body>
+</html>
