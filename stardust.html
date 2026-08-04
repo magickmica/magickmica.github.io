@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stardust Foundry &middot; MagickMica</title>
+<meta name="description" content="Gather stardust. Build the machines that gather it for you. It keeps running while you sleep.">
+<meta property="og:title" content="Stardust Foundry &middot; MagickMica">
+<meta property="og:description" content="Tap the void. Build a foundry. Come back richer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Spectral:ital,wght@0,300;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07060e;--violet:#a020f0;--magenta:#ff44cc;--gold:#ffd166;--cyan:#22e0ff;
+  --mist:#b8b0d4;--dim:#6f6890;--panel:rgba(18,12,34,.72);--line:rgba(184,176,212,.15);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;padding:0 14px 50px;background:var(--void);color:var(--mist);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;line-height:1.5;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.42;
+  background:
+    radial-gradient(110% 62% at 50% -12%, #1d1140 0%, transparent 60%),
+    radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,.75) 50%, transparent 50%),
+    radial-gradient(1px 1px at 67% 47%, rgba(255,209,102,.6) 50%, transparent 50%),
+    radial-gradient(1.4px 1.4px at 38% 79%, rgba(34,224,255,.5) 50%, transparent 50%);
+  background-size:auto,190px 190px,190px 190px,190px 190px;
+}
+a{color:var(--cyan)}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:560px;margin:0 auto}
+
+header{text-align:center;padding:26px 0 8px}
+.eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin:0 0 10px}
+h1{
+  font-family:"Orbitron",sans-serif;font-weight:700;font-size:clamp(20px,5.2vw,30px);
+  letter-spacing:.05em;margin:0;color:transparent;
+  background:linear-gradient(96deg,var(--violet),var(--magenta) 28%,var(--gold) 58%,var(--cyan) 86%,var(--violet));
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  animation:holo 11s linear infinite;
+}
+@keyframes holo{to{background-position:220% 0}}
+
+.count{text-align:center;margin:16px 0 2px}
+.count b{
+  font-family:"Orbitron",sans-serif;font-weight:900;font-size:clamp(30px,9vw,50px);
+  color:var(--gold);text-shadow:0 0 32px rgba(255,209,102,.45);display:block;line-height:1.1;
+}
+.count span{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.rate{text-align:center;font-size:12px;color:var(--cyan);letter-spacing:.1em;margin:6px 0 0;min-height:18px}
+
+/* ------------------------------------------------------- the void */
+.tapzone{position:relative;width:min(230px,58vw);aspect-ratio:1;margin:16px auto 4px}
+.tap{
+  position:absolute;inset:0;border-radius:50%;border:0;cursor:pointer;padding:0;
+  background:
+    radial-gradient(circle at 38% 32%, rgba(255,255,255,.22), transparent 46%),
+    radial-gradient(circle at 50% 50%, #2a1550 0%, #12092a 62%, #07060e 100%);
+  box-shadow:0 0 44px rgba(160,32,240,.45), inset 0 0 40px rgba(255,68,204,.25);
+  transition:transform .09s ease;
+}
+.tap:active{transform:scale(.955)}
+.tap span{
+  font-family:"Orbitron",sans-serif;font-weight:700;font-size:12px;letter-spacing:.2em;
+  color:var(--mist);text-transform:uppercase;
+}
+.ring{
+  position:absolute;inset:-9px;border-radius:50%;pointer-events:none;
+  background:conic-gradient(from 0deg,var(--violet),var(--magenta) 26%,var(--gold) 52%,var(--cyan) 78%,var(--violet));
+  -webkit-mask:radial-gradient(circle, transparent 65%, #000 66%);
+  mask:radial-gradient(circle, transparent 65%, #000 66%);
+  animation:spin 20s linear infinite;opacity:.75;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pop{
+  position:absolute;pointer-events:none;font-family:"Orbitron",sans-serif;font-weight:700;
+  font-size:15px;color:var(--gold);text-shadow:0 0 12px rgba(255,209,102,.8);
+  animation:rise .9s ease-out forwards;
+}
+@keyframes rise{to{transform:translateY(-56px);opacity:0}}
+
+/* ------------------------------------------------------- machines */
+h2{
+  font-family:"Orbitron",sans-serif;font-size:11px;font-weight:500;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--dim);text-align:center;margin:28px 0 12px;
+}
+.shop{display:grid;gap:9px}
+.machine{
+  display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;
+  border:1px solid var(--line);border-radius:12px;padding:12px;
+  background:var(--panel);text-align:left;cursor:pointer;color:inherit;font:inherit;
+  transition:border-color .16s,opacity .16s;
+}
+.machine:hover:not(:disabled){border-color:var(--gold)}
+.machine:disabled{opacity:.44;cursor:default}
+.glyph{font-size:23px;line-height:1;text-align:center}
+.mname{font-family:"Spectral",Georgia,serif;font-size:16px;color:#fff;font-style:italic}
+.mdesc{font-size:11px;color:var(--dim);letter-spacing:.04em}
+.mown{font-size:11px;color:var(--cyan);letter-spacing:.08em}
+.cost{
+  font-family:"Orbitron",sans-serif;font-size:12px;font-weight:700;color:var(--gold);
+  white-space:nowrap;text-align:right;
+}
+.cost small{display:block;font-family:"IBM Plex Mono",monospace;font-weight:400;
+  font-size:10px;color:var(--dim);letter-spacing:.06em}
+
+.bar{display:flex;gap:9px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.btn{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mist);background:transparent;
+  border:1px solid rgba(184,176,212,.3);border-radius:999px;padding:11px 18px;
+  min-height:44px;cursor:pointer;
+}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.note{text-align:center;font-size:11px;color:var(--dim);letter-spacing:.08em;margin:14px 0 0;min-height:18px}
+
+.welcome{
+  border:1px solid var(--line);border-radius:12px;padding:13px;margin:16px 0 0;
+  background:rgba(255,209,102,.07);text-align:center;font-size:13px;color:var(--gold);
+}
+.welcome[hidden]{display:none}
+
+@media(prefers-reduced-motion:reduce){
+  h1,.ring{animation:none}
+  .pop{animation-duration:.01s}
+  .tap:active{transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">MagickMica</p>
+    <h1>STARDUST FOUNDRY</h1>
+  </header>
+
+  <div class="welcome" id="welcome" hidden></div>
+
+  <div class="count">
+    <b id="dust">0</b>
+    <span>stardust</span>
+  </div>
+  <p class="rate" id="rate"></p>
+
+  <div class="tapzone" id="zone">
+    <div class="ring" aria-hidden="true"></div>
+    <button class="tap" id="tap"><span>Gather</span></button>
+  </div>
+
+  <h2>The Foundry</h2>
+  <div class="shop" id="shop"></div>
+
+  <div class="bar">
+    <button class="btn" id="reset">Melt it all down</button>
+  </div>
+  <p class="note" id="note">It keeps running while you are away.</p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var LS = 'mm_foundry_v1';
+  var MAX_OFFLINE = 8 * 3600;        // eight hours of catch-up, at most
+
+  var MACHINES = [
+    { id: 'loom',   glyph: '\u2748', name: 'Glitter Loom',    desc: 'Spins raw void into thread',        base: 15,     rate: 0.1 },
+    { id: 'net',    glyph: '\u2604', name: 'Comet Net',       desc: 'Catches what falls past',           base: 110,    rate: 0.8 },
+    { id: 'kiln',   glyph: '\u25C8', name: 'Moon Kiln',       desc: 'Fires dust into something denser',  base: 1300,   rate: 5 },
+    { id: 'prism',  glyph: '\u25C7', name: 'Prism Array',     desc: 'Splits starlight seven ways',       base: 14000,  rate: 32 },
+    { id: 'garden', glyph: '\u273F', name: 'Nebula Garden',   desc: 'Grows slowly. Grows enormously.',   base: 160000, rate: 210 },
+    { id: 'engine', glyph: '\u2726', name: 'Wishing Engine',  desc: 'Nobody is sure how this one works', base: 2000000, rate: 1500 }
+  ];
+
+  var dustEl = document.getElementById('dust');
+  var rateEl = document.getElementById('rate');
+  var shopEl = document.getElementById('shop');
+  var noteEl = document.getElementById('note');
+  var zoneEl = document.getElementById('zone');
+  var welcomeEl = document.getElementById('welcome');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var S = { dust: 0, tapped: 0, own: {}, t: Date.now() };
+  MACHINES.forEach(function (m) { S.own[m.id] = 0; });
+
+  /* ------------------------------------------------ numbers */
+  var UNITS = ['', 'k', 'M', 'B', 'T', 'Qa', 'Qi'];
+  function fmt(n) {
+    if (n < 1000) return (n < 10 && n % 1 !== 0) ? n.toFixed(1) : String(Math.floor(n));
+    var u = 0;
+    while (n >= 1000 && u < UNITS.length - 1) { n /= 1000; u++; }
+    return (n < 10 ? n.toFixed(2) : n < 100 ? n.toFixed(1) : Math.floor(n)) + UNITS[u];
+  }
+  function costOf(m) { return Math.floor(m.base * Math.pow(1.15, S.own[m.id])); }
+  function perSec() {
+    var r = 0;
+    MACHINES.forEach(function (m) { r += S.own[m.id] * m.rate; });
+    return r;
+  }
+  function perTap() { return 1 + Math.floor(perSec() * 0.1); }
+
+  /* ------------------------------------------------ storage */
+  function save() {
+    S.t = Date.now();
+    try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) {}
+  }
+  function load() {
+    try {
+      var raw = localStorage.getItem(LS);
+      if (!raw) return;
+      var d = JSON.parse(raw);
+      if (!d || typeof d.dust !== 'number') return;
+      S.dust = d.dust; S.tapped = d.tapped || 0; S.t = d.t || Date.now();
+      MACHINES.forEach(function (m) { S.own[m.id] = (d.own && d.own[m.id]) || 0; });
+
+      // pay out for the time the tab was closed
+      var away = Math.min(MAX_OFFLINE, Math.max(0, (Date.now() - S.t) / 1000));
+      var gained = away * perSec();
+      if (gained > 1) {
+        S.dust += gained;
+        var h = Math.floor(away / 3600), m2 = Math.floor(away % 3600 / 60);
+        welcomeEl.hidden = false;
+        welcomeEl.textContent = 'The foundry ran for ' + (h ? h + 'h ' : '') + m2 +
+          'm while you were gone. It made ' + fmt(gained) + ' stardust.';
+      }
+    } catch (e) {}
+  }
+
+  /* ------------------------------------------------ shop */
+  var cards = {};
+  MACHINES.forEach(function (m) {
+    var b = document.createElement('button');
+    b.className = 'machine';
+    b.type = 'button';
+    b.innerHTML =
+      '<span class="glyph">' + m.glyph + '</span>' +
+      '<span><span class="mname">' + m.name + '</span><br>' +
+      '<span class="mdesc">' + m.desc + '</span><br>' +
+      '<span class="mown" data-own></span></span>' +
+      '<span class="cost" data-cost></span>';
+    b.addEventListener('click', function () { buy(m); });
+    shopEl.appendChild(b);
+    cards[m.id] = b;
+  });
+
+  function buy(m) {
+    var c = costOf(m);
+    if (S.dust < c) { noteEl.textContent = 'Not enough stardust yet.'; return; }
+    S.dust -= c;
+    S.own[m.id]++;
+    noteEl.textContent = 'Built a ' + m.name + '.';
+    save();
+    paint();
+  }
+
+  function paint() {
+    dustEl.textContent = fmt(S.dust);
+    var r = perSec();
+    rateEl.textContent = r > 0 ? fmt(r) + ' per second \u00b7 ' + fmt(perTap()) + ' per tap' : fmt(perTap()) + ' per tap';
+
+    MACHINES.forEach(function (m, i) {
+      var b = cards[m.id];
+      var c = costOf(m);
+      // stays hidden until it is within reach, so the list unfolds as you play
+      var prev = i === 0 ? null : MACHINES[i - 1];
+      var unlocked = i === 0 || S.own[prev.id] > 0 || S.dust >= m.base * 0.5;
+      b.style.display = unlocked ? '' : 'none';
+      b.disabled = S.dust < c;
+      b.querySelector('[data-cost]').innerHTML = fmt(c) + '<small>' + fmt(m.rate) + '/sec</small>';
+      b.querySelector('[data-own]').textContent = S.own[m.id] ? 'built \u00d7' + S.own[m.id] : '';
+    });
+  }
+
+  /* ------------------------------------------------ tapping */
+  document.getElementById('tap').addEventListener('click', function (e) {
+    var g = perTap();
+    S.dust += g;
+    S.tapped++;
+    if (!reduced) {
+      var p = document.createElement('span');
+      p.className = 'pop';
+      p.textContent = '+' + fmt(g);
+      var r = zoneEl.getBoundingClientRect();
+      p.style.left = (e.clientX - r.left - 12) + 'px';
+      p.style.top = (e.clientY - r.top - 12) + 'px';
+      zoneEl.appendChild(p);
+      setTimeout(function () { p.remove(); }, 900);
+    }
+    paint();
+  });
+
+  document.getElementById('reset').addEventListener('click', function () {
+    if (!confirm('Melt the whole foundry down and start from nothing?')) return;
+    S = { dust: 0, tapped: 0, own: {}, t: Date.now() };
+    MACHINES.forEach(function (m) { S.own[m.id] = 0; });
+    welcomeEl.hidden = true;
+    save(); paint();
+    noteEl.textContent = 'Back to the void.';
+  });
+
+  /* ------------------------------------------------ loop */
+  var last = Date.now();
+  setInterval(function () {
+    var now = Date.now();
+    var dt = Math.min(2, (now - last) / 1000);   // a tab throttled in the background
+    last = now;                                   // shouldn't award a huge lump
+    S.dust += perSec() * dt;
+    paint();
+  }, 200);
+  setInterval(save, 5000);
+  window.addEventListener('beforeunload', save);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) save(); });
+
+  load();
+  paint();
+})();
+</script>
+<!-- shared navigation, inlined so this page needs no other file -->
+<script>
+/* ============================================================
+   MAGICKMICA · SHARED NAVIGATION
+   ------------------------------------------------------------
+   Drop one line into any page, just before <\/body>:
+       <script src="mm-nav.js" defer><\/script>
+
+   Injects a sticky top bar plus a full directory drawer, so every
+   page reaches every other page. Edit the LINKS map below once and
+   the whole site updates.
+
+   Self-contained: no dependencies, all class names prefixed .mm-
+   so it cannot collide with a page's own styles. Sticky rather than
+   fixed, so it never needs body padding on pages that already have
+   their own header.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var SECTIONS = [
+    { name: 'Read', items: [
+      ['notes.html', 'Notes'],
+      ['articles.html', 'Magazine'],
+      ['blog.html', 'Blog'],
+      ['archive.html', 'Archive'],
+      ['newsstand.html', 'Newsstand'],
+      ['minimags.html', 'Y3K Magazine'],
+      ['random-note.html', 'Random Note']
+    ]},
+    { name: 'Play', items: [
+      ['arcade.html', 'Arcade'],
+      ['songmaker.html', 'Song Maker'],
+      ['daily-sigil.html', 'Daily Sigil'],
+      ['haunted-house.html', 'The Hollow House'],
+      ['stardust.html', 'Stardust Foundry'],
+      ['cosmic-echo.html', 'Cosmic Echo'],
+      ['quest.html', 'Dream Quest'],
+      ['dream-journal.html', 'Dream Journal'],
+      ['affirmations.html', 'Daily Affirmation'],
+      ['https://magickmica.github.io/oracle', 'Oracle'],
+      ['https://magickmica.github.io/musicbox/', 'Music Box']
+    ]},
+    { name: '\u2726 Signs', items: [
+      ['abundance-portal-one.html', 'The Portal'],
+      ['abundance-notebook.html', 'The Notebook'],
+      ['abundance-scratch.html', 'Scratch a Sign'],
+      ['abundance-globe.html', 'The Globe'],
+      ['abundance-oracle.html', 'The Oracle'],
+      ['affirmations-100.html', 'Fortune Machine']
+    ]},
+    { name: '\uD83D\uDC8E Crystal Vaults', items: [
+      ['herkimer-vault.html', 'Herkimer Vault'],
+      ['labradorite-vault.html', 'Labradorite Vault'],
+      ['opal-vault.html', 'Opal Vault'],
+      ['quartz-vault.html', 'Quartz Vault'],
+      ['watermelon-vault.html', 'Watermelon Vault'],
+      ['quartz-amulets.html', 'Quartz Amulets'],
+      ['copper-jewelry.html', 'Copper Jewelry']
+    ]},
+    { name: '\uD83D\uDEF8 Beyond the Signal', items: [
+      ['https://substack.com/@magickmica', 'Substack'],
+      ['https://ko-fi.com/magickmica/tiers', 'Ko-fi Memberships'],
+      ['https://www.themysticalspiralstore.com/', 'Mystical Spiral']
+    ]}
+  ];
+
+  // shown inline on wide screens; everything else lives in the drawer
+  var PRIMARY = [
+    ['index.html', 'Home'],
+    ['notes.html', 'Notes'],
+    ['articles.html', 'Magazine'],
+    ['arcade.html', 'Arcade'],
+    ['songmaker.html', 'Songs']
+  ];
+
+  var CSS = ''
+    + '.mm-bar{position:sticky;top:0;z-index:9000;display:flex;align-items:center;gap:10px;'
+    +   'padding:9px 14px;background:rgba(7,6,14,.93);backdrop-filter:blur(9px);'
+    +   '-webkit-backdrop-filter:blur(9px);border-bottom:1px solid rgba(255,68,204,.28);'
+    +   'font-family:"IBM Plex Mono",ui-monospace,monospace;}'
+    + '.mm-brand{font-family:"Orbitron","IBM Plex Mono",monospace;font-weight:700;font-size:12px;'
+    +   'letter-spacing:.14em;text-decoration:none;color:transparent;white-space:nowrap;'
+    +   'background:linear-gradient(96deg,#a020f0,#ff44cc 30%,#ffd166 60%,#22e0ff);'
+    +   '-webkit-background-clip:text;background-clip:text;}'
+    + '.mm-links{display:none;gap:4px;flex:1;min-width:0;}'
+    + '.mm-links a{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#b8b0d4;'
+    +   'text-decoration:none;padding:8px 10px;border-radius:999px;white-space:nowrap;}'
+    + '.mm-links a:hover{color:#ffd166;background:rgba(255,209,102,.1);}'
+    + '.mm-links a[aria-current="page"]{color:#ffd166;background:rgba(255,209,102,.14);}'
+    + '.mm-spacer{flex:1}'
+    + '.mm-menu{margin-left:auto;display:inline-flex;align-items:center;gap:7px;cursor:pointer;'
+    +   'font-family:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;'
+    +   'color:#07060e;background:linear-gradient(96deg,#ffd166,#ffe9b5 55%,#ffd166);'
+    +   'border:0;border-radius:999px;padding:9px 15px;min-height:38px;}'
+    + '.mm-menu:hover{box-shadow:0 0 18px rgba(255,209,102,.45)}'
+    + '.mm-menu b{display:grid;gap:3px}'
+    + '.mm-menu i{display:block;width:13px;height:2px;background:#07060e;border-radius:2px}'
+    + '.mm-drawer{position:fixed;inset:0;z-index:9500;display:none;}'
+    + '.mm-drawer[data-open="true"]{display:block}'
+    + '.mm-scrim{position:absolute;inset:0;background:rgba(4,3,10,.82);'
+    +   'backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}'
+    + '.mm-sheet{position:absolute;top:0;right:0;bottom:0;width:min(400px,88vw);'
+    +   'background:#0b0818;border-left:1px solid rgba(255,68,204,.3);'
+    +   'overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 18px 40px;'
+    +   'box-shadow:-14px 0 44px rgba(0,0,0,.6);}'
+    + '.mm-sheet-top{display:flex;align-items:center;justify-content:space-between;'
+    +   'margin-bottom:14px;position:sticky;top:0;background:#0b0818;padding:4px 0 10px;}'
+    + '.mm-close{background:transparent;border:1px solid rgba(184,176,212,.34);color:#b8b0d4;'
+    +   'border-radius:999px;width:40px;height:40px;font-size:17px;cursor:pointer;line-height:1;}'
+    + '.mm-close:hover{border-color:#ffd166;color:#ffd166}'
+    + '.mm-sec{margin:0 0 18px}'
+    + '.mm-sec h3{margin:0 0 7px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;'
+    +   'color:#6f6890;font-weight:500;font-family:inherit;}'
+    + '.mm-sec a{display:block;padding:11px 12px;margin:0 -12px;border-radius:9px;'
+    +   'font-size:14px;color:#d9d2ee;text-decoration:none;font-family:inherit;}'
+    + '.mm-sec a:hover{background:rgba(255,68,204,.13);color:#fff}'
+    + '.mm-sec a[aria-current="page"]{color:#ffd166;background:rgba(255,209,102,.12)}'
+    + '@media(min-width:900px){.mm-links{display:flex}.mm-spacer{display:none}}'
+    + '@media(prefers-reduced-motion:reduce){.mm-bar{backdrop-filter:none}}';
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+  }
+
+  var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+
+  function link(href, label) {
+    var a = el('a', null, label);
+    a.href = href;
+    if (href.toLowerCase() === here) a.setAttribute('aria-current', 'page');
+    if (/^https?:/.test(href) && href.indexOf('magickmica.github.io') === -1) {
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = label + ' \u2197';
+    }
+    return a;
+  }
+
+  function build() {
+    if (document.querySelector('.mm-bar')) return;   // never inject twice
+
+    var style = el('style');
+    style.textContent = CSS;
+    document.head.appendChild(style);
+
+    /* ---------------- bar ---------------- */
+    var bar = el('nav', 'mm-bar');
+    bar.setAttribute('aria-label', 'Site');
+
+    var brand = el('a', 'mm-brand', '\u2726 MAGICKMICA');
+    brand.href = 'index.html';
+    bar.appendChild(brand);
+
+    var links = el('div', 'mm-links');
+    PRIMARY.forEach(function (p) { links.appendChild(link(p[0], p[1])); });
+    bar.appendChild(links);
+    bar.appendChild(el('div', 'mm-spacer'));
+
+    var btn = el('button', 'mm-menu');
+    btn.type = 'button';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'mm-drawer');
+    var bars = el('b');
+    bars.appendChild(el('i')); bars.appendChild(el('i')); bars.appendChild(el('i'));
+    btn.appendChild(bars);
+    btn.appendChild(document.createTextNode('Menu'));
+    bar.appendChild(btn);
+
+    /* ---------------- drawer ---------------- */
+    var drawer = el('div', 'mm-drawer');
+    drawer.id = 'mm-drawer';
+    drawer.setAttribute('data-open', 'false');
+
+    var scrim = el('div', 'mm-scrim');
+    var sheet = el('div', 'mm-sheet');
+    sheet.setAttribute('role', 'dialog');
+    sheet.setAttribute('aria-modal', 'true');
+    sheet.setAttribute('aria-label', 'Site directory');
+
+    var top = el('div', 'mm-sheet-top');
+    var title = el('span', 'mm-brand', '\u2726 EVERYTHING');
+    var close = el('button', 'mm-close', '\u2715');
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Close menu');
+    top.appendChild(title); top.appendChild(close);
+    sheet.appendChild(top);
+
+    var home = el('div', 'mm-sec');
+    home.appendChild(link('index.html', 'Home'));
+    sheet.appendChild(home);
+
+    SECTIONS.forEach(function (sec) {
+      var box = el('div', 'mm-sec');
+      box.appendChild(el('h3', null, sec.name));
+      sec.items.forEach(function (it) { box.appendChild(link(it[0], it[1])); });
+      sheet.appendChild(box);
+    });
+
+    drawer.appendChild(scrim);
+    drawer.appendChild(sheet);
+
+    document.body.insertBefore(bar, document.body.firstChild);
+    document.body.appendChild(drawer);
+
+    /* ---------------- behaviour ---------------- */
+    var lastFocus = null;
+
+    function open() {
+      lastFocus = document.activeElement;
+      drawer.setAttribute('data-open', 'true');
+      btn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      close.focus();
+    }
+    function shut() {
+      drawer.setAttribute('data-open', 'false');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    btn.addEventListener('click', open);
+    close.addEventListener('click', shut);
+    scrim.addEventListener('click', shut);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && drawer.getAttribute('data-open') === 'true') shut();
+    });
+    // keep focus inside the sheet while it is open
+    sheet.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var f = sheet.querySelectorAll('a[href],button');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', build);
+  } else {
+    build();
+  }
+})();
+</script>
+</body>
+</html>

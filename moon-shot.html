@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Moon Shot &middot; MagickMica</title>
+<meta name="description" content="Flick the moon through the ring. Three misses and the night is over.">
+<meta property="og:title" content="Moon Shot &middot; MagickMica">
+<meta property="og:description" content="Drag back, let go, sink the moon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07060e;--violet:#a020f0;--magenta:#ff44cc;--gold:#ffd166;--cyan:#22e0ff;
+  --mist:#b8b0d4;--dim:#6f6890;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;padding:0 12px 40px;background:var(--void);color:var(--mist);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;line-height:1.5;
+  overflow-x:hidden;
+}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:520px;margin:0 auto;text-align:center}
+
+header{padding:22px 0 4px}
+.eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin:0 0 9px}
+h1{
+  font-family:"Orbitron",sans-serif;font-weight:700;font-size:clamp(20px,5.2vw,30px);
+  letter-spacing:.06em;margin:0;color:transparent;
+  background:linear-gradient(96deg,var(--violet),var(--magenta) 28%,var(--gold) 58%,var(--cyan) 86%,var(--violet));
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  animation:holo 11s linear infinite;
+}
+@keyframes holo{to{background-position:220% 0}}
+
+.scores{display:flex;justify-content:center;gap:22px;margin:14px 0 8px}
+.sc b{display:block;font-family:"Orbitron",sans-serif;font-size:24px;color:var(--gold);line-height:1.1}
+.sc span{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.sc.miss b{color:var(--magenta)}
+
+.court{
+  position:relative;width:100%;aspect-ratio:3/4;max-height:64vh;margin:0 auto;
+  border-radius:14px;overflow:hidden;touch-action:none;cursor:grab;
+  background:
+    radial-gradient(70% 44% at 50% 8%, rgba(160,32,240,.35), transparent 62%),
+    radial-gradient(1px 1px at 18% 22%, rgba(255,255,255,.75) 50%, transparent 50%),
+    radial-gradient(1px 1px at 72% 36%, rgba(255,255,255,.55) 50%, transparent 50%),
+    radial-gradient(1.4px 1.4px at 44% 62%, rgba(255,209,102,.7) 50%, transparent 50%),
+    linear-gradient(180deg,#120b26,#08060f);
+  background-size:auto,180px 180px,180px 180px,180px 180px,auto;
+  border:1px solid rgba(184,176,212,.16);
+}
+.court:active{cursor:grabbing}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+.msg{
+  position:absolute;left:0;right:0;top:38%;pointer-events:none;
+  font-family:"Orbitron",sans-serif;font-weight:900;font-size:clamp(22px,7vw,38px);
+  letter-spacing:.08em;color:var(--gold);text-shadow:0 0 26px rgba(255,209,102,.7);
+  opacity:0;transition:opacity .2s,transform .45s;
+}
+.msg[data-on="true"]{opacity:1;transform:translateY(-14px)}
+
+.bar{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.btn{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--void);border:0;border-radius:999px;
+  background:linear-gradient(96deg,var(--gold),#ffe9b5 55%,var(--gold));
+  padding:13px 24px;min-height:46px;cursor:pointer;
+}
+.btn.ghost{background:transparent;color:var(--mist);border:1px solid rgba(184,176,212,.3)}
+.hint{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#544f70;margin:12px 0 0}
+
+.veil{position:absolute;inset:0;display:none;place-items:center;background:rgba(6,4,14,.88);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:14px}
+.veil[data-on="true"]{display:grid}
+.veil h2{font-family:"Orbitron",sans-serif;font-size:20px;letter-spacing:.06em;margin:0 0 6px;color:var(--gold)}
+.veil p{margin:0 0 16px;font-size:13px;color:var(--mist)}
+
+@media(prefers-reduced-motion:reduce){h1{animation:none}.msg{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">MagickMica</p>
+    <h1>MOON SHOT</h1>
+  </header>
+
+  <div class="scores">
+    <div class="sc"><b id="score">0</b><span>sunk</span></div>
+    <div class="sc"><b id="streak">0</b><span>streak</span></div>
+    <div class="sc"><b id="best">0</b><span>best</span></div>
+    <div class="sc miss"><b id="miss">0</b><span>of 3 missed</span></div>
+  </div>
+
+  <div class="court" id="court">
+    <canvas id="cv"></canvas>
+    <div class="msg" id="msg"></div>
+    <div class="veil" id="veil">
+      <div>
+        <h2 id="endTitle">Night over</h2>
+        <p id="endText"></p>
+        <button class="btn" id="again">Shoot again</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <button class="btn ghost" id="restart">Restart</button>
+  </div>
+  <p class="hint">drag back from the moon, let go</p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var LS = 'mm_moonshot_v1';
+  var cv = document.getElementById('cv');
+  var ctx = cv.getContext('2d');
+  var court = document.getElementById('court');
+  var msgEl = document.getElementById('msg');
+  var veil = document.getElementById('veil');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var W = 0, H = 0, dpr = 1;
+  // Tuned, not guessed: for a full-power shot to rise ~60% of the court and
+  // hang ~1.4s, g = 8*rise/hang^2. The first value here was ~376x too strong
+  // and slammed the moon down before it could arc.
+  var GRAV = 2.45e-6;          // multiplied by court height -> px/ms^2
+  var ball, hoop, sparks = [], trail = [];
+  var aiming = false, aimFrom = null, aimTo = null;
+  var score = 0, streak = 0, misses = 0, over = false;
+  var scored = false, counted = false;
+
+  var best = 0;
+  try { best = parseInt(localStorage.getItem(LS), 10) || 0; } catch (e) {}
+  document.getElementById('best').textContent = best;
+
+  function resize() {
+    var r = court.getBoundingClientRect();
+    if (!r.width) return;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cv.width = Math.round(r.width * dpr);
+    H = cv.height = Math.round(r.height * dpr);
+    if (!ball) newBall(); else { ball.r = W * 0.055; }
+    placeHoop(true);
+  }
+
+  function newBall() {
+    ball = { x: W * 0.5, y: H * 0.86, vx: 0, vy: 0, r: W * 0.055, live: false, spin: 0 };
+    scored = false; counted = false; trail = [];
+  }
+
+  function placeHoop(init) {
+    var span = W * 0.5;
+    var x = init && !hoop ? W * 0.5 : W * 0.25 + Math.random() * span;
+    hoop = {
+      x: Math.max(W * 0.22, Math.min(W * 0.78, x)),
+      y: H * 0.27,
+      r: W * 0.105,               // half-width of the ring
+      rimR: W * 0.016,            // rim posts, as circles to bounce off
+      dir: Math.random() < 0.5 ? -1 : 1
+    };
+  }
+
+  // the board hangs on whichever side gives the ball the most room
+  function board() {
+    var w = W * 0.035, h = H * 0.20;
+    var right = hoop.x < W * 0.5;
+    var x = right ? hoop.x + hoop.r : hoop.x - hoop.r - w;
+    return { x: x, y: hoop.y - h * 0.78, w: w, h: h, right: right };
+  }
+
+  /* ------------------------------------------------ drawing */
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // backboard: stands behind the rim so the ring stays open from above
+    var bb = board();
+    ctx.fillStyle = 'rgba(160,32,240,.16)';
+    ctx.strokeStyle = 'rgba(184,176,212,.5)';
+    ctx.lineWidth = Math.max(1, W * 0.005);
+    ctx.beginPath(); ctx.rect(bb.x, bb.y, bb.w, bb.h); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,209,102,.45)';
+    ctx.beginPath();
+    ctx.rect(bb.x + bb.w * 0.2, hoop.y - bb.h * 0.44, bb.w * 0.6, bb.h * 0.3);
+    ctx.stroke();
+
+    // net
+    ctx.strokeStyle = 'rgba(184,176,212,.35)';
+    ctx.lineWidth = Math.max(1, W * 0.0035);
+    for (var i = 0; i <= 6; i++) {
+      var t = i / 6;
+      var sx = hoop.x - hoop.r + hoop.r * 2 * t;
+      ctx.beginPath();
+      ctx.moveTo(sx, hoop.y);
+      ctx.lineTo(hoop.x - hoop.r * 0.55 + hoop.r * 1.1 * t, hoop.y + H * 0.075);
+      ctx.stroke();
+    }
+
+    // rim
+    var g = ctx.createLinearGradient(hoop.x - hoop.r, 0, hoop.x + hoop.r, 0);
+    g.addColorStop(0, '#ff44cc'); g.addColorStop(.5, '#ffd166'); g.addColorStop(1, '#22e0ff');
+    ctx.strokeStyle = g;
+    ctx.lineWidth = hoop.rimR * 2;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(hoop.x - hoop.r, hoop.y);
+    ctx.lineTo(hoop.x + hoop.r, hoop.y);
+    ctx.stroke();
+
+    // trail
+    for (var t2 = 0; t2 < trail.length; t2++) {
+      var p = trail[t2];
+      ctx.globalAlpha = (t2 / trail.length) * 0.32;
+      ctx.fillStyle = '#ffd166';
+      ctx.beginPath(); ctx.arc(p.x, p.y, ball.r * 0.34, 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    // aim guide
+    if (aiming && aimFrom && aimTo) {
+      var v = shotVector();
+      ctx.setLineDash([W * 0.014, W * 0.02]);
+      ctx.strokeStyle = 'rgba(255,209,102,.6)';
+      ctx.lineWidth = Math.max(1, W * 0.006);
+      ctx.beginPath();
+      var px = ball.x, py = ball.y, pvx = v.vx, pvy = v.vy;
+      ctx.moveTo(px, py);
+      for (var s = 0; s < 26; s++) {
+        px += pvx * 26; py += pvy * 26; pvy += GRAV * H * 26;
+        ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // the moon
+    var mg = ctx.createRadialGradient(ball.x - ball.r * .35, ball.y - ball.r * .4, ball.r * .12,
+                                      ball.x, ball.y, ball.r);
+    mg.addColorStop(0, '#fff8e2'); mg.addColorStop(.6, '#ffd166'); mg.addColorStop(1, '#c98f28');
+    ctx.fillStyle = mg;
+    ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, 6.283); ctx.fill();
+    ctx.fillStyle = 'rgba(160,110,30,.32)';
+    ctx.beginPath(); ctx.arc(ball.x + ball.r * .28, ball.y - ball.r * .2, ball.r * .17, 0, 6.283); ctx.fill();
+    ctx.beginPath(); ctx.arc(ball.x - ball.r * .22, ball.y + ball.r * .3, ball.r * .12, 0, 6.283); ctx.fill();
+
+    // sparks
+    for (var k = 0; k < sparks.length; k++) {
+      var sp = sparks[k];
+      ctx.globalAlpha = Math.max(0, sp.life / 600);
+      ctx.fillStyle = sp.c;
+      ctx.beginPath(); ctx.arc(sp.x, sp.y, sp.r, 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function shotVector() {
+    var dx = aimFrom.x - aimTo.x, dy = aimFrom.y - aimTo.y;
+    var maxPull = W * 0.42;
+    var d = Math.hypot(dx, dy);
+    if (d > maxPull) { dx *= maxPull / d; dy *= maxPull / d; }
+    var k = 0.0054;
+    return { vx: dx * k, vy: dy * k };
+  }
+
+  /* ------------------------------------------------ physics */
+  function bounceOffRim(px, py) {
+    var dx = ball.x - px, dy = ball.y - py;
+    var d = Math.hypot(dx, dy);
+    var min = ball.r + hoop.rimR;
+    if (d >= min || d === 0) return;
+    var nx = dx / d, ny = dy / d;
+    ball.x = px + nx * min;
+    ball.y = py + ny * min;
+    var dot = ball.vx * nx + ball.vy * ny;
+    ball.vx = (ball.vx - 2 * dot * nx) * 0.62;
+    ball.vy = (ball.vy - 2 * dot * ny) * 0.62;
+  }
+
+  function step(dt) {
+    if (hoop && score >= 3) {                 // the ring starts drifting once you find range
+      var sp = W * 0.00016 * Math.min(2.4, 1 + score * 0.06);
+      hoop.x += sp * hoop.dir * dt;
+      var lo = W * 0.22, hi = W * 0.78;
+      if (hoop.x < lo) { hoop.x = lo; hoop.dir = 1; }
+      if (hoop.x > hi) { hoop.x = hi; hoop.dir = -1; }
+    }
+    if (!ball.live) return;
+
+    var prevY = ball.y;
+    ball.vy += GRAV * H * dt;
+    ball.x += ball.vx * dt;
+    ball.y += ball.vy * dt;
+
+    trail.push({ x: ball.x, y: ball.y });
+    if (trail.length > 16) trail.shift();
+
+    // walls
+    if (ball.x - ball.r < 0) { ball.x = ball.r; ball.vx = -ball.vx * 0.7; }
+    if (ball.x + ball.r > W) { ball.x = W - ball.r; ball.vx = -ball.vx * 0.7; }
+
+    // backboard: a vertical board, so only its facing side rebounds
+    var bb = board();
+    if (ball.y + ball.r > bb.y && ball.y - ball.r < bb.y + bb.h &&
+        ball.x + ball.r > bb.x && ball.x - ball.r < bb.x + bb.w) {
+      if (bb.right) { ball.x = bb.x - ball.r; ball.vx = -Math.abs(ball.vx) * 0.66; }
+      else { ball.x = bb.x + bb.w + ball.r; ball.vx = Math.abs(ball.vx) * 0.66; }
+    }
+
+    bounceOffRim(hoop.x - hoop.r, hoop.y);
+    bounceOffRim(hoop.x + hoop.r, hoop.y);
+
+    // through the ring, downward, between the posts
+    if (!counted && prevY + ball.r <= hoop.y && ball.y + ball.r > hoop.y && ball.vy > 0) {
+      if (ball.x > hoop.x - hoop.r + ball.r * 0.15 && ball.x < hoop.x + hoop.r - ball.r * 0.15) {
+        counted = true; scored = true; sink();
+      }
+    }
+
+    if (ball.y - ball.r > H + H * 0.1) { settle(); }
+  }
+
+  function burst(x, y) {
+    if (reduced) return;
+    var cols = ['#ffd166', '#ff44cc', '#22e0ff', '#ffffff'];
+    for (var i = 0; i < 22; i++) {
+      sparks.push({ x: x, y: y, vx: (Math.random() - .5) * 0.6, vy: (Math.random() - .8) * 0.6,
+                    r: Math.random() * W * 0.008 + 1, life: 600, c: cols[i % cols.length] });
+    }
+  }
+
+  function flash(text) {
+    msgEl.textContent = text;
+    msgEl.dataset.on = 'true';
+    clearTimeout(flash.t);
+    flash.t = setTimeout(function () { msgEl.dataset.on = 'false'; }, 900);
+  }
+
+  function sink() {
+    score++; streak++;
+    document.getElementById('score').textContent = score;
+    document.getElementById('streak').textContent = streak;
+    if (streak > best) {
+      best = streak;
+      document.getElementById('best').textContent = best;
+      try { localStorage.setItem(LS, String(best)); } catch (e) {}
+    }
+    burst(hoop.x, hoop.y);
+    flash(streak >= 3 ? 'ON FIRE \u00d7' + streak : 'SWISH');
+  }
+
+  function settle() {
+    if (!scored) {
+      misses++; streak = 0;
+      document.getElementById('miss').textContent = misses;
+      document.getElementById('streak').textContent = 0;
+      if (misses >= 3) { finish(); return; }
+      flash('MISS');
+    }
+    placeHoop(false);
+    newBall();
+  }
+
+  function finish() {
+    over = true;
+    ball.live = false;
+    document.getElementById('endText').textContent =
+      'You sank ' + score + '. Longest streak ' + best + '.';
+    veil.dataset.on = 'true';
+  }
+
+  function reset() {
+    score = 0; streak = 0; misses = 0; over = false;
+    document.getElementById('score').textContent = 0;
+    document.getElementById('streak').textContent = 0;
+    document.getElementById('miss').textContent = 0;
+    veil.dataset.on = 'false';
+    hoop = null; placeHoop(true); newBall();
+  }
+
+  /* ------------------------------------------------ input */
+  function pt(e) {
+    var r = cv.getBoundingClientRect();
+    return { x: (e.clientX - r.left) * (W / r.width), y: (e.clientY - r.top) * (H / r.height) };
+  }
+  court.addEventListener('pointerdown', function (e) {
+    if (over || ball.live) return;
+    var p = pt(e);
+    aiming = true; aimFrom = { x: ball.x, y: ball.y }; aimTo = p;
+    try { court.setPointerCapture(e.pointerId); } catch (err) {}
+    e.preventDefault();
+  });
+  court.addEventListener('pointermove', function (e) {
+    if (!aiming) return;
+    aimTo = pt(e);
+    e.preventDefault();
+  });
+  ['pointerup', 'pointercancel'].forEach(function (ev) {
+    court.addEventListener(ev, function () {
+      if (!aiming) return;
+      aiming = false;
+      var v = shotVector();
+      if (Math.hypot(v.vx, v.vy) < 0.06) { aimFrom = aimTo = null; return; }
+      ball.vx = v.vx; ball.vy = v.vy; ball.live = true;
+      aimFrom = aimTo = null;
+    });
+  });
+
+  document.getElementById('again').addEventListener('click', reset);
+  document.getElementById('restart').addEventListener('click', reset);
+  window.addEventListener('resize', function () { resize(); });
+
+  /* ------------------------------------------------ loop */
+  var last = performance.now();
+  function loop(now) {
+    var dt = Math.min(34, now - last);
+    last = now;
+    if (!over) step(dt);
+    for (var i = sparks.length - 1; i >= 0; i--) {
+      var s = sparks[i];
+      s.x += s.vx * dt; s.y += s.vy * dt; s.vy += 0.0016 * dt; s.life -= dt;
+      if (s.life <= 0) sparks.splice(i, 1);
+    }
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  resize();
+  requestAnimationFrame(loop);
+})();
+</script>
+<!-- shared navigation, inlined so this page needs no other file -->
+<script>
+/* ============================================================
+   MAGICKMICA · SHARED NAVIGATION
+   ------------------------------------------------------------
+   Drop one line into any page, just before <\/body>:
+       <script src="mm-nav.js" defer><\/script>
+
+   Injects a sticky top bar plus a full directory drawer, so every
+   page reaches every other page. Edit the LINKS map below once and
+   the whole site updates.
+
+   Self-contained: no dependencies, all class names prefixed .mm-
+   so it cannot collide with a page's own styles. Sticky rather than
+   fixed, so it never needs body padding on pages that already have
+   their own header.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var SECTIONS = [
+    { name: 'Read', items: [
+      ['notes.html', 'Notes'],
+      ['articles.html', 'Magazine'],
+      ['blog.html', 'Blog'],
+      ['archive.html', 'Archive'],
+      ['newsstand.html', 'Newsstand'],
+      ['minimags.html', 'Y3K Magazine'],
+      ['random-note.html', 'Random Note']
+    ]},
+    { name: 'Play', items: [
+      ['arcade.html', 'Arcade'],
+      ['songmaker.html', 'Song Maker'],
+      ['daily-sigil.html', 'Daily Sigil'],
+      ['haunted-house.html', 'The Hollow House'],
+      ['stardust.html', 'Stardust Foundry'],
+      ['cosmic-echo.html', 'Cosmic Echo'],
+      ['quest.html', 'Dream Quest'],
+      ['dream-journal.html', 'Dream Journal'],
+      ['affirmations.html', 'Daily Affirmation'],
+      ['https://magickmica.github.io/oracle', 'Oracle'],
+      ['https://magickmica.github.io/musicbox/', 'Music Box']
+    ]},
+    { name: '\u2726 Signs', items: [
+      ['abundance-portal-one.html', 'The Portal'],
+      ['abundance-notebook.html', 'The Notebook'],
+      ['abundance-scratch.html', 'Scratch a Sign'],
+      ['abundance-globe.html', 'The Globe'],
+      ['abundance-oracle.html', 'The Oracle'],
+      ['affirmations-100.html', 'Fortune Machine']
+    ]},
+    { name: '\uD83D\uDC8E Crystal Vaults', items: [
+      ['herkimer-vault.html', 'Herkimer Vault'],
+      ['labradorite-vault.html', 'Labradorite Vault'],
+      ['opal-vault.html', 'Opal Vault'],
+      ['quartz-vault.html', 'Quartz Vault'],
+      ['watermelon-vault.html', 'Watermelon Vault'],
+      ['quartz-amulets.html', 'Quartz Amulets'],
+      ['copper-jewelry.html', 'Copper Jewelry']
+    ]},
+    { name: '\uD83D\uDEF8 Beyond the Signal', items: [
+      ['https://substack.com/@magickmica', 'Substack'],
+      ['https://ko-fi.com/magickmica/tiers', 'Ko-fi Memberships'],
+      ['https://www.themysticalspiralstore.com/', 'Mystical Spiral']
+    ]}
+  ];
+
+  // shown inline on wide screens; everything else lives in the drawer
+  var PRIMARY = [
+    ['index.html', 'Home'],
+    ['notes.html', 'Notes'],
+    ['articles.html', 'Magazine'],
+    ['arcade.html', 'Arcade'],
+    ['songmaker.html', 'Songs']
+  ];
+
+  var CSS = ''
+    + '.mm-bar{position:sticky;top:0;z-index:9000;display:flex;align-items:center;gap:10px;'
+    +   'padding:9px 14px;background:rgba(7,6,14,.93);backdrop-filter:blur(9px);'
+    +   '-webkit-backdrop-filter:blur(9px);border-bottom:1px solid rgba(255,68,204,.28);'
+    +   'font-family:"IBM Plex Mono",ui-monospace,monospace;}'
+    + '.mm-brand{font-family:"Orbitron","IBM Plex Mono",monospace;font-weight:700;font-size:12px;'
+    +   'letter-spacing:.14em;text-decoration:none;color:transparent;white-space:nowrap;'
+    +   'background:linear-gradient(96deg,#a020f0,#ff44cc 30%,#ffd166 60%,#22e0ff);'
+    +   '-webkit-background-clip:text;background-clip:text;}'
+    + '.mm-links{display:none;gap:4px;flex:1;min-width:0;}'
+    + '.mm-links a{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#b8b0d4;'
+    +   'text-decoration:none;padding:8px 10px;border-radius:999px;white-space:nowrap;}'
+    + '.mm-links a:hover{color:#ffd166;background:rgba(255,209,102,.1);}'
+    + '.mm-links a[aria-current="page"]{color:#ffd166;background:rgba(255,209,102,.14);}'
+    + '.mm-spacer{flex:1}'
+    + '.mm-menu{margin-left:auto;display:inline-flex;align-items:center;gap:7px;cursor:pointer;'
+    +   'font-family:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;'
+    +   'color:#07060e;background:linear-gradient(96deg,#ffd166,#ffe9b5 55%,#ffd166);'
+    +   'border:0;border-radius:999px;padding:9px 15px;min-height:38px;}'
+    + '.mm-menu:hover{box-shadow:0 0 18px rgba(255,209,102,.45)}'
+    + '.mm-menu b{display:grid;gap:3px}'
+    + '.mm-menu i{display:block;width:13px;height:2px;background:#07060e;border-radius:2px}'
+    + '.mm-drawer{position:fixed;inset:0;z-index:9500;display:none;}'
+    + '.mm-drawer[data-open="true"]{display:block}'
+    + '.mm-scrim{position:absolute;inset:0;background:rgba(4,3,10,.82);'
+    +   'backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}'
+    + '.mm-sheet{position:absolute;top:0;right:0;bottom:0;width:min(400px,88vw);'
+    +   'background:#0b0818;border-left:1px solid rgba(255,68,204,.3);'
+    +   'overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 18px 40px;'
+    +   'box-shadow:-14px 0 44px rgba(0,0,0,.6);}'
+    + '.mm-sheet-top{display:flex;align-items:center;justify-content:space-between;'
+    +   'margin-bottom:14px;position:sticky;top:0;background:#0b0818;padding:4px 0 10px;}'
+    + '.mm-close{background:transparent;border:1px solid rgba(184,176,212,.34);color:#b8b0d4;'
+    +   'border-radius:999px;width:40px;height:40px;font-size:17px;cursor:pointer;line-height:1;}'
+    + '.mm-close:hover{border-color:#ffd166;color:#ffd166}'
+    + '.mm-sec{margin:0 0 18px}'
+    + '.mm-sec h3{margin:0 0 7px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;'
+    +   'color:#6f6890;font-weight:500;font-family:inherit;}'
+    + '.mm-sec a{display:block;padding:11px 12px;margin:0 -12px;border-radius:9px;'
+    +   'font-size:14px;color:#d9d2ee;text-decoration:none;font-family:inherit;}'
+    + '.mm-sec a:hover{background:rgba(255,68,204,.13);color:#fff}'
+    + '.mm-sec a[aria-current="page"]{color:#ffd166;background:rgba(255,209,102,.12)}'
+    + '@media(min-width:900px){.mm-links{display:flex}.mm-spacer{display:none}}'
+    + '@media(prefers-reduced-motion:reduce){.mm-bar{backdrop-filter:none}}';
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+  }
+
+  var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+
+  function link(href, label) {
+    var a = el('a', null, label);
+    a.href = href;
+    if (href.toLowerCase() === here) a.setAttribute('aria-current', 'page');
+    if (/^https?:/.test(href) && href.indexOf('magickmica.github.io') === -1) {
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = label + ' \u2197';
+    }
+    return a;
+  }
+
+  function build() {
+    if (document.querySelector('.mm-bar')) return;   // never inject twice
+
+    var style = el('style');
+    style.textContent = CSS;
+    document.head.appendChild(style);
+
+    /* ---------------- bar ---------------- */
+    var bar = el('nav', 'mm-bar');
+    bar.setAttribute('aria-label', 'Site');
+
+    var brand = el('a', 'mm-brand', '\u2726 MAGICKMICA');
+    brand.href = 'index.html';
+    bar.appendChild(brand);
+
+    var links = el('div', 'mm-links');
+    PRIMARY.forEach(function (p) { links.appendChild(link(p[0], p[1])); });
+    bar.appendChild(links);
+    bar.appendChild(el('div', 'mm-spacer'));
+
+    var btn = el('button', 'mm-menu');
+    btn.type = 'button';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'mm-drawer');
+    var bars = el('b');
+    bars.appendChild(el('i')); bars.appendChild(el('i')); bars.appendChild(el('i'));
+    btn.appendChild(bars);
+    btn.appendChild(document.createTextNode('Menu'));
+    bar.appendChild(btn);
+
+    /* ---------------- drawer ---------------- */
+    var drawer = el('div', 'mm-drawer');
+    drawer.id = 'mm-drawer';
+    drawer.setAttribute('data-open', 'false');
+
+    var scrim = el('div', 'mm-scrim');
+    var sheet = el('div', 'mm-sheet');
+    sheet.setAttribute('role', 'dialog');
+    sheet.setAttribute('aria-modal', 'true');
+    sheet.setAttribute('aria-label', 'Site directory');
+
+    var top = el('div', 'mm-sheet-top');
+    var title = el('span', 'mm-brand', '\u2726 EVERYTHING');
+    var close = el('button', 'mm-close', '\u2715');
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Close menu');
+    top.appendChild(title); top.appendChild(close);
+    sheet.appendChild(top);
+
+    var home = el('div', 'mm-sec');
+    home.appendChild(link('index.html', 'Home'));
+    sheet.appendChild(home);
+
+    SECTIONS.forEach(function (sec) {
+      var box = el('div', 'mm-sec');
+      box.appendChild(el('h3', null, sec.name));
+      sec.items.forEach(function (it) { box.appendChild(link(it[0], it[1])); });
+      sheet.appendChild(box);
+    });
+
+    drawer.appendChild(scrim);
+    drawer.appendChild(sheet);
+
+    document.body.insertBefore(bar, document.body.firstChild);
+    document.body.appendChild(drawer);
+
+    /* ---------------- behaviour ---------------- */
+    var lastFocus = null;
+
+    function open() {
+      lastFocus = document.activeElement;
+      drawer.setAttribute('data-open', 'true');
+      btn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      close.focus();
+    }
+    function shut() {
+      drawer.setAttribute('data-open', 'false');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    btn.addEventListener('click', open);
+    close.addEventListener('click', shut);
+    scrim.addEventListener('click', shut);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && drawer.getAttribute('data-open') === 'true') shut();
+    });
+    // keep focus inside the sheet while it is open
+    sheet.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var f = sheet.querySelectorAll('a[href],button');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', build);
+  } else {
+    build();
+  }
+})();
+</script>
+</body>
+</html>
