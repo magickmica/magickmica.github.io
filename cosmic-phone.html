@@ -332,7 +332,6 @@ const CALLS = [
     timerEl.textContent = '';
     noteEl.textContent = '\u25CF \u25CF \u25CF';
     answerEl.disabled = false;
-    answerEl.innerHTML = '&#9742; Answer';   // reset, or it still reads "Next call"
     declineEl.disabled = false;
     copyEl.disabled = true;
     copyEl.textContent = 'Copy';
@@ -367,6 +366,7 @@ const CALLS = [
     }, 1000);
     timerEl.textContent = '\u25CF 00:00';
 
+    answerEl.textContent = '\u260E Answer';
     setTimeout(function () {
       answerEl.disabled = false;
       answerEl.textContent = 'Next call';
