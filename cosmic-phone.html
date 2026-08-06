@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Cosmic Phone &middot; MagickMica</title>
+<meta name="description" content="Your next timeline is calling. Stop sending it to voicemail.">
+<meta property="og:title" content="The Cosmic Phone &middot; MagickMica">
+<meta property="og:description" content="Your next timeline is calling. Stop sending it to voicemail.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Silkscreen&family=Spectral:ital,wght@0,300;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07060e;--violet:#a020f0;--magenta:#ff44cc;--gold:#ffd166;--cyan:#22e0ff;
+  --mist:#b8b0d4;--dim:#6f6890;
+  --shell-a:#f0e9ff;--shell-b:#b9aee0;--shell-c:#6d5f9c;
+  --lcd:#0c2a26;--lcd-lit:#7dffd4;
+  --go:#3ddc84;--no:#ff4d6d;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;padding:0 14px 50px;background:var(--void);color:var(--mist);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;line-height:1.5;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.42;
+  background:
+    radial-gradient(110% 60% at 50% -12%, #1d1140 0%, transparent 58%),
+    radial-gradient(1px 1px at 16% 26%, rgba(255,255,255,.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 68% 48%, rgba(34,224,255,.55) 50%, transparent 50%),
+    radial-gradient(1.4px 1.4px at 40% 78%, rgba(255,209,102,.6) 50%, transparent 50%);
+  background-size:auto,190px 190px,190px 190px,190px 190px;
+}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:520px;margin:0 auto;text-align:center}
+
+header{padding:24px 0 4px}
+.eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin:0 0 10px}
+h1{
+  font-family:"Orbitron",sans-serif;font-weight:700;font-size:clamp(19px,4.8vw,28px);
+  letter-spacing:.05em;margin:0;line-height:1.25;color:transparent;
+  background:linear-gradient(96deg,var(--violet),var(--magenta) 28%,var(--gold) 58%,var(--cyan) 86%,var(--violet));
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  animation:holo 11s linear infinite;
+}
+@keyframes holo{to{background-position:220% 0}}
+.sub{font-style:italic;font-family:"Spectral",Georgia,serif;color:var(--dim);margin:9px 0 0;font-size:14px}
+
+/* ---------------------------------------------------------- phone */
+.phone{
+  position:relative;width:min(290px,80vw);margin:22px auto 0;padding:14px 14px 16px;
+  border-radius:26px 26px 30px 30px;
+  background:linear-gradient(150deg,var(--shell-a),var(--shell-b) 46%,var(--shell-c));
+  box-shadow:0 18px 44px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.85),
+             inset 0 -3px 10px rgba(0,0,0,.35), 0 0 40px rgba(160,32,240,.28);
+  border:1px solid rgba(255,255,255,.5);
+}
+.antenna{
+  position:absolute;top:-26px;right:26px;width:9px;height:30px;border-radius:5px 5px 0 0;
+  background:linear-gradient(180deg,var(--shell-c),var(--shell-b));
+}
+.antenna::after{
+  content:"";position:absolute;top:-9px;left:-3px;width:15px;height:15px;border-radius:50%;
+  background:var(--magenta);box-shadow:0 0 12px var(--magenta);
+}
+.ringing .antenna::after{animation:blip .45s steps(2) infinite}
+@keyframes blip{50%{opacity:.25;box-shadow:none}}
+
+.speaker{width:56px;height:6px;border-radius:3px;background:rgba(60,45,95,.55);margin:2px auto 10px}
+
+.screen{
+  position:relative;border-radius:12px;padding:14px 12px;min-height:186px;
+  background:radial-gradient(circle at 50% 0%, #14413a, var(--lcd) 70%);
+  border:2px solid rgba(40,30,70,.75);
+  box-shadow:inset 0 0 22px rgba(0,0,0,.75), inset 0 0 40px rgba(125,255,212,.10);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  overflow:hidden;
+}
+.screen::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(180deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px);
+}
+.bars{display:flex;gap:3px;align-items:flex-end;height:14px}
+.bars i{width:4px;background:var(--lcd-lit);opacity:.28;border-radius:1px}
+.bars i:nth-child(1){height:5px}.bars i:nth-child(2){height:8px}
+.bars i:nth-child(3){height:11px}.bars i:nth-child(4){height:14px}
+.ringing .bars i{animation:sig 1s steps(1) infinite}
+.ringing .bars i:nth-child(2){animation-delay:.2s}
+.ringing .bars i:nth-child(3){animation-delay:.4s}
+.ringing .bars i:nth-child(4){animation-delay:.6s}
+@keyframes sig{0%,60%{opacity:.28}61%,100%{opacity:1}}
+
+.who{font-family:"Silkscreen",monospace;font-size:10px;letter-spacing:.16em;color:var(--lcd-lit);opacity:.85}
+.caller{font-family:"Orbitron",sans-serif;font-weight:700;font-size:17px;letter-spacing:.06em;color:#eafff7}
+.timer{font-family:"Silkscreen",monospace;font-size:10px;color:var(--lcd-lit);opacity:.7;min-height:12px}
+.msg{
+  font-family:"Spectral",Georgia,serif;font-style:italic;font-weight:300;
+  font-size:15px;line-height:1.4;color:#f2fffb;margin:0;max-height:118px;overflow:hidden;
+}
+.idle-note{font-family:"Silkscreen",monospace;font-size:9px;color:var(--lcd-lit);opacity:.55;letter-spacing:.1em}
+
+.ringing .chassis{animation:buzz .5s ease-in-out infinite}
+@keyframes buzz{
+  0%,100%{transform:translate(0,0) rotate(0)}
+  20%{transform:translate(-3px,1px) rotate(-1deg)}
+  60%{transform:translate(3px,-1px) rotate(1deg)}
+}
+
+/* keypad */
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
+.pad b{
+  font-family:"Silkscreen",monospace;font-size:11px;color:#3b2f60;text-align:center;
+  padding:7px 0;border-radius:7px;font-weight:400;
+  background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(190,178,225,.7));
+  box-shadow:0 2px 0 rgba(90,75,140,.5);
+}
+
+.calls{display:flex;gap:9px;margin-top:13px}
+.key{
+  flex:1;border:0;border-radius:999px;padding:13px 0;min-height:48px;cursor:pointer;
+  font-family:"Silkscreen",monospace;font-size:11px;letter-spacing:.08em;color:#08210f;
+  background:linear-gradient(180deg,#7ff0a8,var(--go));box-shadow:0 3px 0 #1f9c56;
+}
+.key.no{color:#2a060f;background:linear-gradient(180deg,#ff92a8,var(--no));box-shadow:0 3px 0 #c1263f}
+.key:disabled{opacity:.4;box-shadow:none;cursor:default}
+
+/* ---------------------------------------------------------- below */
+.tally{font-size:11px;letter-spacing:.18em;color:var(--dim);margin:18px 0 0}
+.tally b{color:var(--gold);font-weight:500}
+.bar{display:flex;gap:9px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.btn{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mist);background:transparent;
+  border:1px solid rgba(184,176,212,.3);border-radius:999px;padding:11px 17px;min-height:44px;cursor:pointer;
+}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.btn:disabled{opacity:.35;cursor:default}
+
+.vm{margin:26px auto 0;max-width:460px;text-align:left}
+.vm h2{
+  font-family:"Silkscreen",monospace;font-size:10px;letter-spacing:.2em;color:var(--dim);
+  text-align:center;margin:0 0 10px;font-weight:400;
+}
+.vm ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.vm li{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
+  border:1px solid rgba(184,176,212,.16);background:rgba(14,9,26,.6);font-size:13px;
+}
+.vm .dot{width:8px;height:8px;border-radius:50%;background:var(--magenta);flex:none;
+  box-shadow:0 0 8px var(--magenta)}
+.vm .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e4dcf6}
+.vm .play{
+  background:transparent;border:1px solid rgba(184,176,212,.3);color:var(--mist);
+  border-radius:999px;font-family:"IBM Plex Mono",monospace;font-size:10px;
+  padding:7px 12px;min-height:34px;cursor:pointer;letter-spacing:.1em;
+}
+.vm .play:hover{border-color:var(--gold);color:var(--gold)}
+.vm .empty{color:var(--dim);font-style:italic;justify-content:center}
+
+@media(prefers-reduced-motion:reduce){
+  h1{animation:none}
+  .ringing .chassis,.ringing .bars i,.ringing .antenna::after{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">MagickMica</p>
+    <h1>YOUR NEXT TIMELINE IS CALLING</h1>
+    <p class="sub">Stop sending it to voicemail.</p>
+  </header>
+
+  <div class="phone" id="phone">
+    <div class="antenna" aria-hidden="true"></div>
+    <div class="chassis">
+    <div class="speaker" aria-hidden="true"></div>
+
+    <div class="screen" id="screen">
+      <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <p class="who" id="who">INCOMING CALL</p>
+      <p class="caller" id="caller">THE UNIVERSE</p>
+      <p class="msg" id="msg" aria-live="polite"></p>
+      <p class="timer" id="timer"></p>
+      <p class="idle-note" id="note">&#9679; &#9679; &#9679;</p>
+    </div>
+
+    <div class="pad" aria-hidden="true">
+      <b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b><b>&#10022;</b><b>0</b><b>#</b>
+    </div>
+    </div>
+
+    <div class="calls">
+      <button class="key" id="answer">&#9742; Answer</button>
+      <button class="key no" id="decline">Voicemail</button>
+    </div>
+  </div>
+
+  <p class="tally">HEARD <b id="heard">0</b> OF <span id="total">14</span></p>
+
+  <div class="bar">
+    <button class="btn" id="copy" disabled>Copy</button>
+    <button class="btn" id="mute">Sound: on</button>
+  </div>
+
+  <section class="vm">
+    <h2>&#9993; VOICEMAIL</h2>
+    <ul id="vmList"><li class="empty">Nothing missed yet.</li></ul>
+  </section>
+</div>
+
+<script>
+const CALLS = [
+  "The universe keeps ringing. Maybe it\u2019s time to answer with wonder instead of worry.",
+  "Your next level doesn\u2019t arrive with certainty. It arrives disguised as curiosity. Pick up the cosmic phone.",
+  "Some calls change your day. Others change your timeline. Answer the cosmic one.",
+  "The stars have been trying to reach you. Your next chapter is on the other end of the line.",
+  "The version of you that already made it keeps calling from the future. Pick up the cosmic phone.",
+  "You didn\u2019t stumble onto this frequency by accident. Your next level is calling. Answer gently.",
+  "Every synchronicity is another ring. Every butterfly feeling is another voicemail. Your next level is calling.",
+  "Reality just left you a message: \u201cYour upgrade is ready.\u201d Pick up the cosmic phone.",
+  "Don\u2019t mistake comfort for home. Your soul is calling collect from another timeline.",
+  "Some doors knock. Some dreams whisper. Your next level simply keeps calling until you remember who you are.",
+  "Your next level isn\u2019t somewhere else. It\u2019s waiting on the line between fear and wonder. Pick up the cosmic phone.",
+  "The cosmos doesn\u2019t dial the wrong number. If your heart is ringing... answer it.",
+  "A better timeline has been trying to reach you all week. The signal gets stronger every time you choose wonder over fear.",
+  "You weren\u2019t made to stay on hold. The universe is calling with your next adventure."
+];
+
+(function () {
+  'use strict';
+
+  var LS_HEARD = 'mm_phone_heard_v1';
+  var LS_VM = 'mm_phone_vm_v1';
+  var LS_MUTE = 'mm_phone_mute_v1';
+
+  var phone = document.getElementById('phone');
+  var whoEl = document.getElementById('who');
+  var callerEl = document.getElementById('caller');
+  var msgEl = document.getElementById('msg');
+  var timerEl = document.getElementById('timer');
+  var noteEl = document.getElementById('note');
+  var answerEl = document.getElementById('answer');
+  var declineEl = document.getElementById('decline');
+  var copyEl = document.getElementById('copy');
+  var muteEl = document.getElementById('mute');
+  var vmList = document.getElementById('vmList');
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var state = 'ringing', current = null, bag = [], tick = null, secs = 0;
+
+  document.getElementById('total').textContent = CALLS.length;
+
+  function read(k, d) {
+    try { var r = localStorage.getItem(k); return r ? JSON.parse(r) : d; } catch (e) { return d; }
+  }
+  function write(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+
+  var heard = read(LS_HEARD, []);
+  var vm = read(LS_VM, []);
+  var muted = read(LS_MUTE, false);
+
+  function syncTally() { document.getElementById('heard').textContent = Math.min(heard.length, CALLS.length); }
+
+  /* ------------------------------------------------ ringtone */
+  var ac = null;
+  function audio() {
+    if (!ac) { ac = new (window.AudioContext || window.webkitAudioContext)(); }
+    if (ac.state === 'suspended') { ac.resume(); }
+    return ac;
+  }
+  function blip(f, t, dur, vol) {
+    var c = audio();
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(f, t);
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(vol || 0.08, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t + dur + 0.02);
+  }
+  var ringTimer = null;
+  function ringtone(on) {
+    clearInterval(ringTimer); ringTimer = null;
+    if (!on || muted) return;
+    // browsers block audio before a gesture, so the first ring is simply silent
+    var play = function () {
+      try {
+        var t = audio().currentTime;
+        blip(1046, t, .16); blip(1318, t + .18, .16);
+        blip(1046, t + .42, .16); blip(1318, t + .60, .16);
+      } catch (e) {}
+    };
+    play();
+    ringTimer = setInterval(play, 2200);
+  }
+
+  /* ------------------------------------------------ bag */
+  function refill() {
+    var pool = CALLS.map(function (a, i) { return { i: i + 1, a: a }; })
+      .filter(function (c) { return heard.indexOf(c.i) === -1; });
+    if (!pool.length) { heard = []; write(LS_HEARD, heard); syncTally();
+      pool = CALLS.map(function (a, i) { return { i: i + 1, a: a }; }); }
+    for (var i = pool.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+    }
+    bag = pool;
+  }
+
+  function fitMsg() {
+    for (var s = 16; s >= 11; s--) {
+      msgEl.style.fontSize = s + 'px';
+      if (msgEl.scrollHeight <= msgEl.clientHeight + 1) break;
+    }
+  }
+
+  /* ------------------------------------------------ states */
+  function ring(pick) {
+    state = 'ringing';
+    if (pick) { current = pick; bag = bag.filter(function (b) { return b.i !== pick.i; }); }
+    else { if (!bag.length) refill(); current = bag.pop(); }
+    phone.classList.add('ringing');
+    whoEl.textContent = 'INCOMING CALL';
+    callerEl.textContent = 'THE UNIVERSE';
+    msgEl.textContent = '';
+    timerEl.textContent = '';
+    noteEl.textContent = '\u25CF \u25CF \u25CF';
+    answerEl.disabled = false;
+    declineEl.disabled = false;
+    copyEl.disabled = true;
+    copyEl.textContent = 'Copy';
+    ringtone(true);
+  }
+
+  function answer() {
+    if (state !== 'ringing' || !current) return;
+    state = 'live';
+    phone.classList.remove('ringing');
+    ringtone(false);
+    whoEl.textContent = 'CONNECTED';
+    callerEl.textContent = 'THE UNIVERSE';
+    noteEl.textContent = '';
+    msgEl.textContent = current.a;
+    fitMsg();
+    answerEl.disabled = true;
+    declineEl.disabled = true;
+    copyEl.disabled = false;
+
+    if (heard.indexOf(current.i) === -1) { heard.push(current.i); write(LS_HEARD, heard); syncTally(); }
+    // drop it from voicemail if it was previously missed
+    var was = vm.indexOf(current.i);
+    if (was >= 0) { vm.splice(was, 1); write(LS_VM, vm); renderVm(); }
+
+    secs = 0;
+    clearInterval(tick);
+    tick = setInterval(function () {
+      secs++;
+      timerEl.textContent = '\u25CF ' + String(Math.floor(secs / 60)).padStart(2, '0') +
+                            ':' + String(secs % 60).padStart(2, '0');
+    }, 1000);
+    timerEl.textContent = '\u25CF 00:00';
+
+    answerEl.textContent = '\u260E Answer';
+    setTimeout(function () {
+      answerEl.disabled = false;
+      answerEl.textContent = 'Next call';
+      state = 'ready';
+    }, 900);
+  }
+
+  function decline() {
+    if (state !== 'ringing' || !current) return;
+    phone.classList.remove('ringing');
+    ringtone(false);
+    clearInterval(tick);
+    if (vm.indexOf(current.i) === -1) { vm.push(current.i); write(LS_VM, vm); }
+    renderVm();
+    whoEl.textContent = 'MISSED CALL';
+    callerEl.textContent = 'THE UNIVERSE';
+    msgEl.textContent = '';
+    timerEl.textContent = '';
+    noteEl.textContent = 'SENT TO VOICEMAIL';
+    state = 'ready';
+    answerEl.disabled = false;
+    answerEl.textContent = 'Next call';
+    declineEl.disabled = true;
+  }
+
+  function renderVm() {
+    vmList.textContent = '';
+    if (!vm.length) {
+      var li = document.createElement('li');
+      li.className = 'empty';
+      li.textContent = 'Nothing missed yet.';
+      vmList.appendChild(li);
+      return;
+    }
+    vm.forEach(function (i) {
+      var li = document.createElement('li');
+      var d = document.createElement('span'); d.className = 'dot';
+      var t = document.createElement('span'); t.className = 't';
+      t.textContent = 'Message ' + String(i).padStart(2, '0') + ' \u00b7 The Universe';
+      var b = document.createElement('button');
+      b.className = 'play'; b.type = 'button'; b.textContent = 'PLAY';
+      b.addEventListener('click', function () {
+        current = { i: i, a: CALLS[i - 1] };
+        state = 'ringing';
+        answer();
+      });
+      li.appendChild(d); li.appendChild(t); li.appendChild(b);
+      vmList.appendChild(li);
+    });
+  }
+
+  /* ------------------------------------------------ wiring */
+  answerEl.addEventListener('click', function () {
+    if (state === 'ringing') { answer(); }
+    else { ring(); }
+  });
+  declineEl.addEventListener('click', decline);
+
+  copyEl.addEventListener('click', function () {
+    if (!current) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(current.a).then(
+        function () { copyEl.textContent = 'Copied'; },
+        function () { copyEl.textContent = 'Blocked'; });
+    } else { copyEl.textContent = 'Blocked'; }
+  });
+
+  muteEl.addEventListener('click', function () {
+    muted = !muted;
+    write(LS_MUTE, muted);
+    muteEl.textContent = 'Sound: ' + (muted ? 'off' : 'on');
+    if (muted) { ringtone(false); }
+    else if (state === 'ringing') { ringtone(true); }
+  });
+  muteEl.textContent = 'Sound: ' + (muted ? 'off' : 'on');
+
+  window.addEventListener('resize', function () { if (msgEl.textContent) fitMsg(); });
+
+  /* ------------------------------------------------ boot */
+  syncTally();
+  renderVm();
+  refill();
+
+  var deep = /^#call=(\d{1,2})$/.exec(location.hash);
+  var pick = null;
+  if (deep) {
+    var n = parseInt(deep[1], 10);
+    if (n >= 1 && n <= CALLS.length) pick = { i: n, a: CALLS[n - 1] };
+  }
+  ring(pick);
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(function () { if (msgEl.textContent) fitMsg(); }); }
+})();
+</script>
+<script src="mm-nav.js?v=1" defer></script>
+</body>
+</html>
