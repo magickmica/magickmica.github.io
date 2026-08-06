@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Win the Morning &middot; MagickMica</title>
+<meta name="description" content="Drag the sun up over the horizon. Whatever the light brings is yours for the day.">
+<meta property="og:title" content="Win the Morning &middot; MagickMica">
+<meta property="og:description" content="Raise the sun. Take the line it brings you.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Spectral:ital,wght@0,300;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07060e;--gold:#ffd166;--amber:#ff9b45;--rose:#ff7d8a;--sky:#7fb3e8;
+  --mist:#b8b0d4;--dim:#6f6890;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;padding:0 14px 46px;background:var(--void);color:var(--mist);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;line-height:1.5;
+  overflow-x:hidden;
+}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:560px;margin:0 auto;text-align:center}
+
+header{padding:22px 0 6px}
+.eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin:0 0 9px}
+h1{
+  font-family:"Orbitron",sans-serif;font-weight:700;font-size:clamp(20px,5.2vw,30px);
+  letter-spacing:.06em;margin:0;color:transparent;
+  background:linear-gradient(96deg,#8b5cf6,var(--rose) 30%,var(--amber) 58%,var(--gold) 86%);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  animation:holo 12s linear infinite;
+}
+@keyframes holo{to{background-position:220% 0}}
+
+/* ---------------------------------------------------------- scene */
+.scene{
+  position:relative;width:100%;aspect-ratio:1/1.08;max-height:66vh;margin:16px auto 0;
+  border-radius:16px;overflow:hidden;touch-action:none;cursor:ns-resize;
+  border:1px solid rgba(184,176,212,.18);
+  box-shadow:0 14px 44px rgba(0,0,0,.55);
+}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+.line{
+  position:absolute;left:7%;right:7%;top:5%;height:22%;z-index:3;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Spectral",Georgia,serif;font-style:italic;font-weight:300;
+  font-size:clamp(17px,4vw,25px);line-height:1.4;
+  text-wrap:balance;
+  /* Cream on a risen sun measured 1.9:1 — unreadable. Deep warm ink on the
+     bright sky reads instead, lifted off the background by a pale halo. */
+  color:#33200f;
+  text-shadow:0 1px 0 rgba(255,246,224,.75), 0 0 18px rgba(255,244,214,.9),
+              0 0 44px rgba(255,232,182,.75);
+  opacity:0;transform:translateY(10px);
+  transition:opacity .8s ease,transform .8s ease;
+}
+.line[data-on="true"]{opacity:1;transform:translateY(0)}
+
+.pull{
+  position:absolute;left:0;right:0;bottom:14px;z-index:3;pointer-events:none;
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.55);
+  transition:opacity .4s;
+}
+.pull[data-hide="true"]{opacity:0}
+
+/* ---------------------------------------------------------- controls */
+.bar{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.btn{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--void);border:0;border-radius:999px;
+  background:linear-gradient(96deg,var(--gold),#ffe9b5 55%,var(--gold));
+  padding:13px 22px;min-height:46px;cursor:pointer;
+}
+.btn.ghost{background:transparent;color:var(--mist);border:1px solid rgba(184,176,212,.3)}
+.btn:disabled{opacity:.35;cursor:default}
+.tally{font-size:11px;letter-spacing:.18em;color:var(--dim);margin:16px 0 0}
+.tally b{color:var(--gold);font-weight:500}
+
+@media(prefers-reduced-motion:reduce){h1{animation:none}.line{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">MagickMica</p>
+    <h1>WIN THE MORNING</h1>
+  </header>
+
+  <div class="scene" id="scene">
+    <canvas id="cv"></canvas>
+    <p class="line" id="line"></p>
+    <p class="pull" id="pull">drag upward to raise the sun</p>
+  </div>
+
+  <div class="bar">
+    <button class="btn" id="rise">Let it rise</button>
+    <button class="btn ghost" id="again" disabled>Another morning</button>
+    <button class="btn ghost" id="copy" disabled>Copy</button>
+  </div>
+
+  <p class="tally">SUNRISE <b id="cur">1</b> &middot; <span id="seen">0</span> OF 100 SEEN</p>
+</div>
+
+<script>
+const LINES = [{"i":1,"a":"Watch me turn sunrise into a manifestation ritual."},{"i":2,"a":"I collect miracles before most people hit snooze."},{"i":3,"a":"My mornings negotiate directly with the Universe."},{"i":4,"a":"Every sunrise signs another dream into reality."},{"i":5,"a":"I don’t chase destiny. I wake up before it."},{"i":6,"a":"Watch me manifest a life that makes yesterday jealous."},{"i":7,"a":"The Universe loves an early believer."},{"i":8,"a":"I water my dreams before the world wakes up."},{"i":9,"a":"Dawn is where my magic clock starts ticking."},{"i":10,"a":"I wake up like the main character in my own prophecy."},{"i":11,"a":"My future starts brewing with the first cup of morning light."},{"i":12,"a":"I don’t rise and grind. I rise and enchant."},{"i":13,"a":"Every sunrise whispers, “Let’s make another impossible thing happen.”"},{"i":14,"a":"Watch the Universe rearrange itself while I sip my coffee."},{"i":15,"a":"My alarm clock is secretly a portal."},{"i":16,"a":"The morning belongs to the dreamers who showed up."},{"i":17,"a":"Before breakfast, I’ve already planted tomorrow’s miracles."},{"i":18,"a":"I wake up in abundance before abundance wakes up."},{"i":19,"a":"Every sunrise is another cosmic permission slip."},{"i":20,"a":"My manifestations love an early appointment."},{"i":21,"a":"Good morning to everyone except limiting beliefs."},{"i":22,"a":"I wake up louder than my doubts."},{"i":23,"a":"The first thought wins the whole adventure."},{"i":24,"a":"Sunrise is my favorite spell."},{"i":25,"a":"Watch me become everything I imagined while everyone else was sleeping."},{"i":26,"a":"Morning light looks good on future legends."},{"i":27,"a":"Every dawn is another invitation to surprise the Universe."},{"i":28,"a":"I open my eyes and possibility starts stretching."},{"i":29,"a":"The stars worked overtime while I slept."},{"i":30,"a":"I wake up ready to cash in yesterday’s intentions."},{"i":31,"a":"Watch me make impossible look like a morning routine."},{"i":32,"a":"My dreams clock in before I do."},{"i":33,"a":"The Universe answers people who answer the sunrise."},{"i":34,"a":"Every early morning carries premium magic."},{"i":35,"a":"My future self sends postcards through the sunrise."},{"i":36,"a":"I greet the day like it already said yes."},{"i":37,"a":"Manifestation loves momentum."},{"i":38,"a":"The first hour is where miracles stretch their legs."},{"i":39,"a":"Every sunrise is another chapter in my fairy tale."},{"i":40,"a":"Watch me bloom before breakfast."},{"i":41,"a":"I treat mornings like treasure chests."},{"i":42,"a":"My destiny gets excited when I wake up."},{"i":43,"a":"The Universe notices who shows up early."},{"i":44,"a":"I meet opportunity while it’s still wearing pajamas."},{"i":45,"a":"Sunrise is my favorite co-creator."},{"i":46,"a":"I wake up expecting delightful plot twists."},{"i":47,"a":"My dreams appreciate punctuality."},{"i":48,"a":"Every morning is another chance to outgrow yesterday."},{"i":49,"a":"Magic has office hours. They start at sunrise."},{"i":50,"a":"Watch me rewrite reality before lunch."},{"i":51,"a":"My coffee tastes like confidence."},{"i":52,"a":"I wake up speaking fluent abundance."},{"i":53,"a":"The dawn always knows my next chapter."},{"i":54,"a":"Every sunrise comes wrapped in possibility."},{"i":55,"a":"The Universe loves consistency dressed as magic."},{"i":56,"a":"Watch me build an empire one enchanted morning at a time."},{"i":57,"a":"I don’t wait for lucky days. I wake up and build them."},{"i":58,"a":"Morning energy is premium currency."},{"i":59,"a":"I greet the sunrise like an old magical friend."},{"i":60,"a":"My manifestations arrive early."},{"i":61,"a":"Before the world scrolls, I dream."},{"i":62,"a":"Before the noise begins, I become."},{"i":63,"a":"My mornings are sacred little launchpads."},{"i":64,"a":"Every sunrise upgrades my timeline."},{"i":65,"a":"Watch me turn discipline into fairy dust."},{"i":66,"a":"The morning writes the ending before the day begins."},{"i":67,"a":"My future loves my morning habits."},{"i":68,"a":"I wake up in alignment before I wake up online."},{"i":69,"a":"Sunrise is my favorite success coach."},{"i":70,"a":"The Universe rewards those who show up smiling."},{"i":71,"a":"Every dawn delivers another golden key."},{"i":72,"a":"My dreams know exactly where to find me."},{"i":73,"a":"Morning magic compounds daily."},{"i":74,"a":"Watch me become the proof that consistency sparkles."},{"i":75,"a":"I rise with gratitude and leave with miracles."},{"i":76,"a":"Every sunrise expands my reality."},{"i":77,"a":"I wake up with stars still stitched into my soul."},{"i":78,"a":"Destiny likes early appointments."},{"i":79,"a":"My manifestations arrive wrapped in morning light."},{"i":80,"a":"The best plot twists happen before noon."},{"i":81,"a":"Every sunrise is another vote for my future."},{"i":82,"a":"My magic is strongest before the world gets noisy."},{"i":83,"a":"I wake up and the Universe starts taking notes."},{"i":84,"a":"The first hour belongs to my highest self."},{"i":85,"a":"Watch me transform mornings into masterpieces."},{"i":86,"a":"I begin every day one belief richer."},{"i":87,"a":"Every sunrise is another cosmic green light."},{"i":88,"a":"My dreams love consistency more than perfection."},{"i":89,"a":"Morning by morning, I become undeniable."},{"i":90,"a":"The Universe and I have breakfast meetings."},{"i":91,"a":"Watch me make sunrise my superpower."},{"i":92,"a":"Every dawn moves another mountain."},{"i":93,"a":"I wake up with intention and go to bed with evidence."},{"i":94,"a":"My future self applauds every early morning."},{"i":95,"a":"The Universe keeps rewarding my first step."},{"i":96,"a":"I plant miracles at sunrise and harvest them all day."},{"i":97,"a":"Watch me manifest a life that feels like a fairy tale with receipts."},{"i":98,"a":"Every morning I choose the timeline where everything works out."},{"i":99,"a":"The day doesn’t decide my story—I do, before sunrise."},{"i":100,"a":"Watch me win the morning... then watch the Universe spend the rest of the day trying to keep up."}];
+
+(function () {
+  'use strict';
+
+  var LS = 'mm_sunrise_v1';
+  var cv = document.getElementById('cv');
+  var ctx = cv.getContext('2d');
+  var scene = document.getElementById('scene');
+  var lineEl = document.getElementById('line');
+  var pullEl = document.getElementById('pull');
+  var againEl = document.getElementById('again');
+  var copyEl = document.getElementById('copy');
+  var riseEl = document.getElementById('rise');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var W = 0, H = 0, dpr = 1;
+  var t = 0;                 // 0 = night, 1 = sun fully up
+  var revealed = false, current = null, bag = [], stars = [], anim = null;
+
+  /* the sky at five moments; everything between is interpolated */
+  var SKY = [
+    { t: 0.00, a: [5, 4, 13],    b: [11, 10, 31],   c: [20, 16, 46]  },
+    { t: 0.34, a: [16, 16, 47],  b: [42, 26, 74],   c: [74, 35, 80]  },
+    { t: 0.60, a: [42, 35, 80],  b: [122, 58, 106], c: [201, 106, 90] },
+    { t: 0.82, a: [58, 74, 122], b: [209, 121, 95], c: [255, 176, 102] },
+    { t: 1.00, a: [90, 134, 196],b: [255, 192, 122],c: [255, 224, 160] }
+  ];
+
+  function lerp(a, b, k) { return a + (b - a) * k; }
+  function mixArr(a, b, k) { return [lerp(a[0],b[0],k), lerp(a[1],b[1],k), lerp(a[2],b[2],k)]; }
+  function rgb(a) { return 'rgb(' + Math.round(a[0]) + ',' + Math.round(a[1]) + ',' + Math.round(a[2]) + ')'; }
+
+  function skyAt(v) {
+    for (var i = 0; i < SKY.length - 1; i++) {
+      if (v <= SKY[i + 1].t) {
+        var k = (v - SKY[i].t) / (SKY[i + 1].t - SKY[i].t);
+        return {
+          a: mixArr(SKY[i].a, SKY[i + 1].a, k),
+          b: mixArr(SKY[i].b, SKY[i + 1].b, k),
+          c: mixArr(SKY[i].c, SKY[i + 1].c, k)
+        };
+      }
+    }
+    var last = SKY[SKY.length - 1];
+    return { a: last.a, b: last.b, c: last.c };
+  }
+
+  function resize() {
+    var r = scene.getBoundingClientRect();
+    if (!r.width) return;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cv.width = Math.round(r.width * dpr);
+    H = cv.height = Math.round(r.height * dpr);
+    if (!stars.length) seedStars();
+    draw();
+  }
+
+  function seedStars() {
+    stars = [];
+    for (var i = 0; i < 90; i++) {
+      stars.push({
+        x: Math.random(), y: Math.random() * 0.72,
+        r: Math.random() * 1.5 + 0.4, p: Math.random() * 6.283
+      });
+    }
+  }
+
+  function draw() {
+    if (!W) return;
+    var horizon = H * 0.70;
+    var s = skyAt(t);
+
+    var g = ctx.createLinearGradient(0, 0, 0, horizon);
+    g.addColorStop(0, rgb(s.a));
+    g.addColorStop(0.55, rgb(s.b));
+    g.addColorStop(1, rgb(s.c));
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, horizon);
+
+    // stars fade as the light comes up
+    var starA = Math.max(0, 1 - t * 1.5);
+    if (starA > 0.01) {
+      for (var i = 0; i < stars.length; i++) {
+        var st = stars[i];
+        ctx.globalAlpha = starA * (0.5 + 0.5 * Math.sin(st.p + t * 6));
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(st.x * W, st.y * horizon, st.r * dpr, 0, 6.283);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    // the sun, climbing
+    var sunR = W * 0.115;
+    var sunY = lerp(horizon + sunR * 1.05, H * 0.485, t);
+    var sunCol = mixArr([255, 122, 60], [255, 240, 200], Math.min(1, t * 1.2));
+
+    var glow = ctx.createRadialGradient(W / 2, sunY, sunR * 0.4, W / 2, sunY, sunR * (3.4 + t * 2));
+    glow.addColorStop(0, 'rgba(' + Math.round(sunCol[0]) + ',' + Math.round(sunCol[1]) + ',' + Math.round(sunCol[2]) + ',' + (0.42 + t * 0.3) + ')');
+    glow.addColorStop(1, 'rgba(255,150,60,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, horizon);
+
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0, 0, W, horizon); ctx.clip();
+    ctx.fillStyle = rgb(sunCol);
+    ctx.beginPath(); ctx.arc(W / 2, sunY, sunR, 0, 6.283); ctx.fill();
+    ctx.restore();
+
+    // water, catching the sun in a column
+    var wg = ctx.createLinearGradient(0, horizon, 0, H);
+    wg.addColorStop(0, rgb(mixArr(s.c, [0, 0, 0], 0.35)));
+    wg.addColorStop(1, rgb(mixArr(s.a, [0, 0, 0], 0.55)));
+    ctx.fillStyle = wg;
+    ctx.fillRect(0, horizon, W, H - horizon);
+
+    ctx.globalAlpha = 0.30 + t * 0.34;
+    for (var y = horizon; y < H; y += Math.max(3, H * 0.014)) {
+      var wob = Math.sin(y * 0.09) * W * 0.035;
+      var wide = sunR * (0.5 + (y - horizon) / (H - horizon) * 1.5);
+      ctx.fillStyle = rgb(sunCol);
+      ctx.fillRect(W / 2 - wide / 2 + wob, y, wide, Math.max(1.4, H * 0.005));
+    }
+    ctx.globalAlpha = 1;
+
+    // headland
+    ctx.fillStyle = rgb(mixArr([8, 6, 16], [40, 26, 44], t));
+    ctx.beginPath();
+    ctx.moveTo(0, horizon);
+    ctx.quadraticCurveTo(W * 0.16, horizon - H * 0.055, W * 0.34, horizon);
+    ctx.lineTo(0, horizon);
+    ctx.closePath(); ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(W, horizon);
+    ctx.quadraticCurveTo(W * 0.86, horizon - H * 0.035, W * 0.70, horizon);
+    ctx.lineTo(W, horizon);
+    ctx.closePath(); ctx.fill();
+  }
+
+  /* ------------------------------------------------ raising */
+  function setT(v) {
+    t = Math.max(0, Math.min(1, v));
+    draw();
+    pullEl.dataset.hide = t > 0.06 ? 'true' : 'false';
+    if (t >= 1 && !revealed) reveal();
+  }
+
+  function reveal() {
+    revealed = true;
+    lineEl.textContent = current.a;
+    lineEl.dataset.on = 'true';
+    againEl.disabled = false;
+    copyEl.disabled = false;
+    copyEl.textContent = 'Copy';
+    riseEl.disabled = true;
+    mark(current.i);
+    try {
+      if (history.replaceState) history.replaceState(null, '', '#q=' + current.i);
+    } catch (e) {}
+  }
+
+  function glide() {
+    if (anim) cancelAnimationFrame(anim);
+    if (reduced) { setT(1); return; }
+    var from = t, start = performance.now(), dur = 1500 * (1 - from);
+    (function tick(now) {
+      var k = Math.min(1, (now - start) / Math.max(1, dur));
+      var e = 1 - Math.pow(1 - k, 3);
+      setT(from + (1 - from) * e);
+      if (k < 1) anim = requestAnimationFrame(tick);
+    })(performance.now());
+  }
+
+  /* ------------------------------------------------ drag */
+  var dragging = false, lastY = 0;
+  scene.addEventListener('pointerdown', function (e) {
+    if (revealed) return;
+    dragging = true; lastY = e.clientY;
+    try { scene.setPointerCapture(e.pointerId); } catch (err) {}
+    e.preventDefault();
+  });
+  scene.addEventListener('pointermove', function (e) {
+    if (!dragging || revealed) return;
+    var r = scene.getBoundingClientRect();
+    setT(t + (lastY - e.clientY) / (r.height * 0.72));
+    lastY = e.clientY;
+    e.preventDefault();
+  });
+  ['pointerup', 'pointercancel'].forEach(function (ev) {
+    scene.addEventListener(ev, function () { dragging = false; });
+  });
+
+  /* ------------------------------------------------ lines */
+  function read() {
+    try { return JSON.parse(localStorage.getItem(LS)) || []; } catch (e) { return []; }
+  }
+  function write(v) { try { localStorage.setItem(LS, JSON.stringify(v)); } catch (e) {} }
+  var seen = read();
+  function mark(i) {
+    if (seen.indexOf(i) === -1) { seen.push(i); write(seen); }
+    document.getElementById('seen').textContent = Math.min(seen.length, LINES.length);
+  }
+
+  function refill() {
+    var pool = LINES.filter(function (l) { return seen.indexOf(l.i) === -1; });
+    if (!pool.length) { seen = []; write(seen); pool = LINES.slice(); }
+    for (var i = pool.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+    }
+    bag = pool;
+  }
+
+  function nextLine(pick) {
+    if (pick) { current = pick; bag = bag.filter(function (b) { return b.i !== pick.i; }); }
+    else { if (!bag.length) refill(); current = bag.pop(); }
+    document.getElementById('cur').textContent = current.i;
+  }
+
+  function newMorning() {
+    revealed = false;
+    lineEl.dataset.on = 'false';
+    againEl.disabled = true;
+    copyEl.disabled = true;
+    riseEl.disabled = false;
+    seedStars();
+    nextLine();
+    setT(0);
+  }
+
+  riseEl.addEventListener('click', glide);
+  againEl.addEventListener('click', newMorning);
+  copyEl.addEventListener('click', function () {
+    if (!current) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(current.a).then(
+        function () { copyEl.textContent = 'Copied'; },
+        function () { copyEl.textContent = 'Blocked'; });
+    } else { copyEl.textContent = 'Blocked'; }
+  });
+  window.addEventListener('resize', resize);
+
+  /* ------------------------------------------------ boot */
+  refill();
+  document.getElementById('seen').textContent = Math.min(seen.length, LINES.length);
+  var deep = /^#q=(\d{1,3})$/.exec(window.location.hash);
+  var pick = null;
+  if (deep) {
+    var n = parseInt(deep[1], 10);
+    pick = LINES.filter(function (l) { return l.i === n; })[0] || null;
+  }
+  nextLine(pick);
+  resize();
+})();
+</script>
+<script src="mm-nav.js?v=1" defer></script>
+</body>
+</html>
