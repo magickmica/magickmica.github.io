@@ -133,6 +133,11 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   // hang ~1.4s, g = 8*rise/hang^2. The first value here was ~376x too strong
   // and slammed the moon down before it could arc.
   var GRAV = 2.45e-6;          // multiplied by court height -> px/ms^2
+  // Full-power launch speed, multiplied by court height -> px/ms.
+  // Raise it to make the ring easier to reach, lower it to make shots harder.
+  // 0.00235 lets a shot score from about 78% pull upward; 0.00205 is the
+  // stricter old desktop feel, where you needed nearly a full pull every time.
+  var SHOT = 0.00235;
   var ball, hoop, sparks = [], trail = [];
   var aiming = false, aimFrom = null, aimTo = null;
   var score = 0, streak = 0, misses = 0, over = false;
@@ -263,11 +268,24 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 
   function shotVector() {
     var dx = aimFrom.x - aimTo.x, dy = aimFrom.y - aimTo.y;
-    var maxPull = W * 0.42;
     var d = Math.hypot(dx, dy);
-    if (d > maxPull) { dx *= maxPull / d; dy *= maxPull / d; }
-    var k = 0.0054;
-    return { vx: dx * k, vy: dy * k };
+    if (!d) return { vx: 0, vy: 0 };
+
+    // How far you drag is measured against the SHORT side, so the pull feels
+    // the same length on any screen.
+    var maxPull = Math.min(W, H) * 0.42;
+    var power = Math.min(1, d / maxPull);
+
+    // But launch speed has to scale with court HEIGHT, because gravity does
+    // (GRAV * H). Speed used to scale with width, which quietly made the game
+    // unwinnable whenever the court got tall and narrow: on a 3:4 phone court a
+    // full-power, perfectly vertical shot only just reached rim height with
+    // zero speed left, so nothing could ever drop through. Desktop was capped
+    // by max-height:64vh to a squarer 0.9:1, which is why it played fine there.
+    // Tied to H, the required pull is now identical on phone and desktop.
+    var vmax = H * SHOT;
+
+    return { vx: (dx / d) * power * vmax, vy: (dy / d) * power * vmax };
   }
 
   /* ------------------------------------------------ physics */
