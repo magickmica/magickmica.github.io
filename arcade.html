@@ -49,16 +49,47 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .arc-nav a:hover{background:var(--gold);color:#000;box-shadow:0 0 12px var(--gold)}
 
 /* game selector */
+.tab-rail{position:relative}
+.rail-arrow{display:none}
+.rail-hint{display:none}
 .game-tabs{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:2rem 0 1.5rem}
 /* phones: one swipeable strip. Wrapping put 8 tabs on 6 rows and pushed the
-   game 692px down an 820px screen. */
+   game 692px down an 820px screen. Edge fades + arrows + a hint make it obvious
+   that the strip keeps going. */
 @media(max-width:760px){
+  .tab-rail{margin:1rem -1rem .5rem}
+  .tab-rail--go{margin-top:.2rem}
   .game-tabs{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;justify-content:flex-start;
-    margin:1rem -1rem .9rem;padding:.25rem 1rem .5rem;scroll-snap-type:x proximity;
+    margin:0;padding:.25rem 1rem .5rem;scroll-snap-type:x proximity;
     -webkit-overflow-scrolling:touch;scrollbar-width:none;}
   .game-tabs::-webkit-scrollbar{display:none}
   .game-tab{flex:0 0 auto;scroll-snap-align:center;font-size:.72rem;padding:.6rem .85rem}
-  .game-tabs--go{margin-top:.2rem}
+
+  /* fade the edge that still has hidden buttons behind it */
+  .tab-rail::before,.tab-rail::after{content:"";position:absolute;top:0;bottom:0;width:48px;
+    pointer-events:none;z-index:3;opacity:0;transition:opacity .25s}
+  .tab-rail::before{left:0;background:linear-gradient(90deg,var(--void) 25%,rgba(7,6,14,0))}
+  .tab-rail::after{right:0;background:linear-gradient(270deg,var(--void) 25%,rgba(7,6,14,0))}
+  .tab-rail[data-more-left="true"]::before{opacity:1}
+  .tab-rail[data-more-right="true"]::after{opacity:1}
+
+  /* tap targets for people who don't think to swipe */
+  .rail-arrow{display:grid;place-items:center;position:absolute;top:50%;
+    transform:translateY(-50%);width:32px;height:32px;padding:0;border-radius:50%;z-index:4;
+    background:rgba(13,11,24,.94);border:1px solid rgba(255,217,138,.55);color:var(--gold);
+    font-family:var(--arcade);font-size:1rem;font-weight:700;line-height:1;
+    opacity:0;pointer-events:none;transition:opacity .25s;box-shadow:0 0 14px rgba(0,0,0,.75)}
+  .rail-arrow--prev{left:3px}
+  .rail-arrow--next{right:3px}
+  .tab-rail[data-more-left="true"] .rail-arrow--prev{opacity:1;pointer-events:auto}
+  .tab-rail[data-more-right="true"] .rail-arrow--next{opacity:1;pointer-events:auto}
+
+  .rail-hint{display:block;text-align:center;font-family:var(--pixel);font-size:.58rem;
+    letter-spacing:.16em;color:var(--pearl-dim);margin:0 0 1rem;transition:opacity .5s}
+  .rail-hint[data-hide="true"]{opacity:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .tab-rail::before,.tab-rail::after,.rail-arrow,.rail-hint{transition:none}
 }
 .game-tab{font-family:var(--arcade);font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;
   border:1px solid rgba(155,123,255,.4);padding:.6rem 1.1rem;color:var(--pearl-dim);transition:.2s;border-radius:var(--radius)}
@@ -203,27 +234,37 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   <div class="arc-sub">✦ DREAM GAMES · POWERED BY REAL TRANSMISSIONS ✦</div>
 </header>
 
-<div class="game-tabs">
-  <button class="game-tab" data-on="true" data-game="scratch">✦ Crystal Scratch</button>
-  <button class="game-tab" data-game="memory">◈ Memory Match</button>
-  <button class="game-tab" data-game="guess">▣ Guess the Likes</button>
-  <button class="game-tab" data-game="slots">🎰 Dream Slots</button>
-  <button class="game-tab" data-game="hunt">🔍 Object Hunt</button>
-  <button class="game-tab" data-game="jigsaw">🧩 Jigsaw</button>
+<div class="tab-rail">
+  <div class="game-tabs">
+    <button class="game-tab" data-on="true" data-game="scratch">✦ Crystal Scratch</button>
+    <button class="game-tab" data-game="memory">◈ Memory Match</button>
+    <button class="game-tab" data-game="guess">▣ Guess the Likes</button>
+    <button class="game-tab" data-game="slots">🎰 Dream Slots</button>
+    <button class="game-tab" data-game="hunt">🔍 Object Hunt</button>
+    <button class="game-tab" data-game="jigsaw">🧩 Jigsaw</button>
+  </div>
+  <button class="rail-arrow rail-arrow--prev" type="button" data-dir="prev" aria-label="Show previous games">‹</button>
+  <button class="rail-arrow rail-arrow--next" type="button" data-dir="next" aria-label="Show more games">›</button>
 </div>
 
-<div class="game-tabs game-tabs--go">
-  <a class="game-tab game-tab--link" href="daily-sigil.html">✦ Daily Sigil</a>
-  <a class="game-tab game-tab--link" href="haunted-house.html">🏚 The Hollow House</a>
-  <a class="game-tab game-tab--link" href="stardust.html">❈ Stardust Foundry</a>
-  <a class="game-tab game-tab--link" href="cosmic-echo.html">◈ Cosmic Echo</a>
-  <a class="game-tab game-tab--link" href="moon-shot.html">🌕 Moon Shot</a>
-  <a class="game-tab game-tab--link" href="blender.html">⚗ The Astral Blender</a>
-  <a class="game-tab game-tab--link" href="quest.html">🗺 Dream Quest</a>
-  <a class="game-tab game-tab--link" href="affirmations.html">💫 Daily Affirmation</a>
-  <a class="game-tab game-tab--link" href="songmaker.html">🎵 Song Maker</a>
-  <a class="game-tab game-tab--link" href="abundance-portal-one.html">✦ The Portal</a>
+<div class="tab-rail tab-rail--go">
+  <div class="game-tabs game-tabs--go">
+    <a class="game-tab game-tab--link" href="daily-sigil.html">✦ Daily Sigil</a>
+    <a class="game-tab game-tab--link" href="haunted-house.html">🏚 The Hollow House</a>
+    <a class="game-tab game-tab--link" href="stardust.html">❈ Stardust Foundry</a>
+    <a class="game-tab game-tab--link" href="cosmic-echo.html">◈ Cosmic Echo</a>
+    <a class="game-tab game-tab--link" href="moon-shot.html">🌕 Moon Shot</a>
+    <a class="game-tab game-tab--link" href="blender.html">⚗ The Astral Blender</a>
+    <a class="game-tab game-tab--link" href="quest.html">🗺 Dream Quest</a>
+    <a class="game-tab game-tab--link" href="affirmations.html">💫 Daily Affirmation</a>
+    <a class="game-tab game-tab--link" href="songmaker.html">🎵 Song Maker</a>
+    <a class="game-tab game-tab--link" href="abundance-portal-one.html">✦ The Portal</a>
+  </div>
+  <button class="rail-arrow rail-arrow--prev" type="button" data-dir="prev" aria-label="Show previous links">‹</button>
+  <button class="rail-arrow rail-arrow--next" type="button" data-dir="next" aria-label="Show more links">›</button>
 </div>
+
+<p class="rail-hint">◂ SWIPE EACH ROW FOR MORE ▸</p>
 
 <!-- SCRATCH -->
 <section class="game-panel" data-on="true" data-panel="scratch">
@@ -390,6 +431,46 @@ function activateGame(g, updateHash){
 document.querySelectorAll('.game-tab:not(.game-tab--link)').forEach(tab=>{
   tab.addEventListener('click',()=>activateGame(tab.dataset.game, true));
 });
+
+/* ---------- SWIPEABLE TAB RAILS ----------
+   On phones the two button rows are horizontal strips. Show a fade + arrow on
+   whichever side still has hidden buttons so it reads as scrollable.        */
+(function(){
+  const rails = Array.from(document.querySelectorAll('.tab-rail'));
+  const hint  = document.querySelector('.rail-hint');
+  if(!rails.length) return;
+
+  function update(rail){
+    const strip = rail.querySelector('.game-tabs');
+    if(!strip) return;
+    const max = strip.scrollWidth - strip.clientWidth;
+    rail.dataset.moreLeft  = strip.scrollLeft > 4 ? 'true' : 'false';
+    rail.dataset.moreRight = (max > 4 && strip.scrollLeft < max - 4) ? 'true' : 'false';
+  }
+  function updateAll(){ rails.forEach(update); }
+
+  rails.forEach(rail=>{
+    const strip = rail.querySelector('.game-tabs');
+    if(!strip) return;
+    strip.addEventListener('scroll',()=>{
+      update(rail);
+      if(hint) hint.dataset.hide = 'true';   // they've figured it out
+    },{passive:true});
+    rail.querySelectorAll('.rail-arrow').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const dir  = btn.dataset.dir === 'prev' ? -1 : 1;
+        const step = Math.max(160, strip.clientWidth * 0.7);
+        const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+        strip.scrollBy({left:dir*step, behavior: smooth ? 'smooth' : 'auto'});
+      });
+    });
+  });
+
+  updateAll();
+  window.addEventListener('resize', updateAll);
+  window.addEventListener('orientationchange', ()=>setTimeout(updateAll,250));
+  setTimeout(updateAll, 400);   // after fonts settle and widths are final
+})();
 // deep-link: open the game named in the URL hash (e.g. arcade.html#jigsaw or #jigsaw=12345)
 function openFromHash(){
   const raw=(location.hash||'').replace('#','');
@@ -948,6 +1029,7 @@ openFromHash();
     ]},
     { name: '\uD83D\uDEF8 Beyond the Signal', items: [
       ['https://substack.com/@magickmica', 'Substack'],
+      ['https://ko-fi.com/magickmica/tip', '\u2726 Tip Jar'],
       ['https://ko-fi.com/magickmica/tiers', 'Ko-fi Memberships'],
       ['https://www.themysticalspiralstore.com/', 'Mystical Spiral']
     ]}
@@ -977,6 +1059,15 @@ openFromHash();
     + '.mm-links a:hover{color:#ffd166;background:rgba(255,209,102,.1);}'
     + '.mm-links a[aria-current="page"]{color:#ffd166;background:rgba(255,209,102,.14);}'
     + '.mm-spacer{flex:1}'
+    + '.mm-star{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;'
+    +   'width:38px;height:38px;border-radius:999px;text-decoration:none;font-size:17px;'
+    +   'line-height:1;color:#ffd166;border:1px solid rgba(255,209,102,.5);'
+    +   'background:rgba(255,209,102,.09);margin-left:auto;}'
+    + '.mm-star + .mm-menu{margin-left:8px}'
+    + '.mm-star span{animation:mm-twinkle 2.8s ease-in-out infinite;display:block}'
+    + '.mm-star:hover{background:#ffd166;color:#07060e;box-shadow:0 0 18px rgba(255,209,102,.55)}'
+    + '@keyframes mm-twinkle{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.15);opacity:1}}'
+    + '@media(prefers-reduced-motion:reduce){.mm-star span{animation:none}}'
     + '.mm-menu{margin-left:auto;display:inline-flex;align-items:center;gap:7px;cursor:pointer;'
     +   'font-family:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;'
     +   'color:#07060e;background:linear-gradient(96deg,#ffd166,#ffe9b5 55%,#ffd166);'
@@ -1047,6 +1138,16 @@ openFromHash();
     PRIMARY.forEach(function (p) { links.appendChild(link(p[0], p[1])); });
     bar.appendChild(links);
     bar.appendChild(el('div', 'mm-spacer'));
+
+    /* star -> Ko-fi tip jar */
+    var star = el('a', 'mm-star');
+    star.href = 'https://ko-fi.com/magickmica/tip';
+    star.target = '_blank';
+    star.rel = 'noopener';
+    star.title = 'Leave a tip on Ko-fi';
+    star.setAttribute('aria-label', 'Leave a tip on Ko-fi');
+    star.appendChild(el('span', null, '\u2726'));
+    bar.appendChild(star);
 
     var btn = el('button', 'mm-menu');
     btn.type = 'button';
