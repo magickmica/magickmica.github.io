@@ -1,0 +1,2513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magick Mica TV — All Transmissions</title>
+<meta name="description" content="Where Magic Meets the Pixel — the official hub for Magick Mica TV broadcasts, stories, and the Mystical Spiral Store.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink:   #ff2d9b;
+    --cyan:   #00f0ff;
+    --lime:   #a3ff57;
+    --purple: #c084fc;
+    --gold:   #ffd250;
+    --teal:   #00c8b4;
+    --deep:   #07000f;
+    --surface: rgba(255,255,255,0.03);
+    --border:  rgba(255,255,255,0.07);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    min-height: 100vh;
+    background: var(--deep);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+  }
+
+  /* ── canvas bg ── */
+  #bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+  /* ── grain ── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.35; mix-blend-mode: overlay;
+  }
+
+  /* ── layout wrapper ── */
+  .page { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 0 1.25rem 4rem; }
+
+
+  /* ══════════════════════════════
+     WONDERLAND WEEKLY — die-cut blow-in
+  ══════════════════════════════ */
+  .ww-blowin {
+    position: relative; display: flex; align-items: flex-end; gap: 1.75rem;
+    text-decoration: none; border-radius: 14px;
+    margin-top: 5.5rem; padding: 2rem 2rem 1.9rem;
+    border: 1px solid rgba(255,45,155,0.28);
+    background:
+      radial-gradient(circle at 1px 1px, rgba(255,45,155,0.14) 1px, transparent 1.7px) 0 0 / 10px 10px,
+      radial-gradient(620px 240px at 88% -30%, rgba(255,210,80,0.10), transparent 70%),
+      linear-gradient(135deg, rgba(255,45,155,0.08) 0%, rgba(192,132,252,0.05) 50%, rgba(0,0,0,0) 78%);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  }
+  .ww-blowin:hover {
+    transform: translateY(-3px); border-color: rgba(255,45,155,0.6);
+    box-shadow: 0 8px 44px rgba(255,45,155,0.16), 0 2px 12px rgba(0,0,0,0.45);
+  }
+  .ww-cutout { flex: 0 0 auto; width: clamp(130px, 20vw, 190px); margin: -6.5rem 0 -1.9rem; }
+  .ww-cutout img {
+    width: 100%; display: block;
+    filter: drop-shadow(0 14px 30px rgba(0,0,0,0.6)) drop-shadow(0 0 20px rgba(255,45,155,0.32));
+    transition: transform 0.25s ease;
+  }
+  .ww-blowin:hover .ww-cutout img { transform: translateY(-6px) rotate(-1.5deg); }
+  .ww-cover { flex: 1 1 auto; min-width: 0; }
+  .ww-flash {
+    display: inline-block; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--deep); background: var(--lime); padding: 0.25rem 0.55rem;
+    border-radius: 3px; transform: rotate(-2deg); margin-bottom: 0.75rem;
+  }
+  .ww-masthead {
+    font-family: 'VT323', monospace; font-size: clamp(2rem, 6vw, 2.8rem);
+    letter-spacing: 0.06em; line-height: 1.05; color: #fff; margin-bottom: 0.25rem;
+  }
+  .ww-masthead b { color: var(--pink); font-weight: normal; }
+  .ww-issue {
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(200,180,255,0.45); margin-bottom: 1rem;
+  }
+  .ww-lines { list-style: none; margin-bottom: 1.2rem; }
+  .ww-lines li {
+    font-size: 0.78rem; line-height: 1.6; letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.8); padding-left: 1rem; position: relative; margin-bottom: 0.3rem;
+  }
+  .ww-lines li::before { content: '✦'; position: absolute; left: 0; top: 0.15rem; font-size: 0.6rem; color: var(--pink); }
+  .ww-lines b { color: var(--gold); font-weight: normal; }
+  .ww-cta {
+    display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); transition: gap 0.18s;
+  }
+  .ww-blowin:hover .ww-cta { gap: 0.8rem; }
+  @media (max-width: 620px) {
+    .ww-blowin { flex-direction: column; align-items: center; text-align: center; gap: 0.75rem; padding-top: 1.5rem; }
+    .ww-cutout { margin: -6rem 0 0; }
+    .ww-lines li { text-align: left; }
+  }
+
+  /* ══════════════════════════════
+     HERO
+  ══════════════════════════════ */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3.5rem 0 2.5rem;
+    text-align: center;
+    position: relative;
+  }
+
+  /* live badge */
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(163,255,87,0.7);
+    background: rgba(163,255,87,0.06);
+    border: 1px solid rgba(163,255,87,0.2);
+    border-radius: 100px;
+    padding: 0.3rem 0.85rem;
+    margin-bottom: 1.6rem;
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 8px var(--lime);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  /* TV icon */
+  .hero-tv {
+    font-size: 3.2rem;
+    margin-bottom: 0.6rem;
+    display: block;
+    animation: tvFloat 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px rgba(192,84,252,0.5));
+  }
+  @keyframes tvFloat {
+    0%,100% { transform: translateY(0); filter: drop-shadow(0 0 10px rgba(255,45,155,0.5)); }
+    50%      { transform: translateY(-8px); filter: drop-shadow(0 0 18px rgba(0,240,255,0.5)); }
+  }
+
+  /* logo */
+  .hero-logo {
+    width: min(70vw, 420px);
+    height: auto;
+    display: block;
+    margin: 0 auto 0.5rem;
+    filter: drop-shadow(0 0 30px rgba(255,110,247,0.35)) drop-shadow(0 0 60px rgba(110,239,255,0.15));
+    animation: logo-glow 4s ease-in-out infinite;
+  }
+  @keyframes logo-glow {
+    0%, 100% { filter: drop-shadow(0 0 30px rgba(255,110,247,0.35)) drop-shadow(0 0 60px rgba(110,239,255,0.15)); }
+    50% { filter: drop-shadow(0 0 45px rgba(255,110,247,0.55)) drop-shadow(0 0 80px rgba(110,239,255,0.25)); }
+  }
+  .hero-title {
+    font-family: 'VT323', monospace;
+    font-size: clamp(3rem, 10vw, 5.5rem);
+    letter-spacing: 0.1em;
+    line-height: 1;
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--lime), var(--cyan), var(--pink));
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s linear infinite;
+    margin-bottom: 0.4rem;
+  }
+  @keyframes shimmer { to { background-position: 300% center; } }
+
+  .hero-tagline {
+    font-size: 0.95rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(200,180,255,0.4);
+    margin-bottom: 1rem;
+  }
+  .hero-tagline em {
+    color: rgba(163,255,87,0.6);
+    font-style: normal;
+    margin: 0 0.3rem;
+  }
+
+  .hero-divider {
+    width: 100%;
+    max-width: 420px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(192,84,252,0.4), rgba(0,240,255,0.4), transparent);
+    margin: 0.5rem auto 0;
+  }
+
+  /* ══════════════════════════════
+     SECTION LABELS
+  ══════════════════════════════ */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 2.8rem 0 1.1rem;
+  }
+  .section-label span {
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(200,180,255,0.35);
+    white-space: nowrap;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(180,100,255,0.2), transparent);
+  }
+
+  /* ══════════════════════════════
+     FEATURED CARD
+  ══════════════════════════════ */
+  .card-featured {
+    display: block;
+    text-decoration: none;
+    position: relative;
+    border-radius: 14px;
+    border: 1px solid rgba(163,255,87,0.18);
+    background: linear-gradient(135deg, rgba(163,255,87,0.05) 0%, rgba(0,0,0,0) 60%);
+    overflow: hidden;
+    padding: 2rem 2rem 1.75rem;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  }
+  .card-featured::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(163,255,87,0.5), rgba(0,240,255,0.4), transparent);
+  }
+  .card-featured:hover {
+    transform: translateY(-3px);
+    border-color: rgba(163,255,87,0.45);
+    box-shadow: 0 8px 40px rgba(163,255,87,0.1), 0 2px 12px rgba(0,0,0,0.4);
+  }
+  .card-featured .card-eyebrow {
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .card-featured .card-eyebrow::before {
+    content: '';
+    width: 20px; height: 1px;
+    background: var(--lime);
+    opacity: 0.5;
+  }
+  .card-featured .card-title {
+    font-family: 'VT323', monospace;
+    font-size: clamp(2rem, 6vw, 2.8rem);
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 0.6rem;
+  }
+  .card-featured .card-desc {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: rgba(200,180,255,0.5);
+    max-width: 520px;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.2rem;
+  }
+  .card-featured .card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+    transition: gap 0.18s;
+  }
+  .card-featured:hover .card-cta { gap: 0.8rem; }
+  .card-featured .card-emoji {
+    position: absolute;
+    right: 1.75rem; top: 50%;
+    transform: translateY(-50%);
+    font-size: 4rem;
+    opacity: 0.12;
+    pointer-events: none;
+    transition: opacity 0.22s, transform 0.22s;
+  }
+  .card-featured:hover .card-emoji { opacity: 0.2; transform: translateY(-50%) scale(1.08); }
+
+
+
+  /* ══════════════════════════════
+     INCOMING TRANSMISSION (Herkimer)
+  ══════════════════════════════ */
+  .tx-wrap { margin: 3.4rem 0 3.6rem; }
+  .tx-label {
+    display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.4rem;
+    font-size: 0.78rem; letter-spacing: 0.34em; text-transform: uppercase; color: #9fd8ff;
+  }
+  .tx-label::after { content:''; flex:1; height:1px; background: linear-gradient(90deg, rgba(159,216,255,0.5), transparent); }
+  .tx-live {
+    display:inline-flex; align-items:center; gap:0.4rem;
+    font-size:0.62rem; letter-spacing:0.22em; color:#fff;
+    border:1px solid #9fd8ff; border-radius:999px; padding:0.25rem 0.7rem;
+    background: rgba(159,216,255,0.08);
+  }
+  .tx-live i { width:7px; height:7px; border-radius:50%; background:#9fd8ff; box-shadow:0 0 8px #9fd8ff; animation: txBlink 1.1s steps(1) infinite; }
+  @keyframes txBlink { 0%,60% {opacity:1} 61%,100% {opacity:0.15} }
+
+  .tx-set { display:block; text-decoration:none; position:relative; }
+  .tx-screen {
+    position:relative; overflow:hidden; border-radius:18px;
+    border: 2.5px solid #9fd8ff;
+    background:
+      radial-gradient(120% 140% at 80% 50%, rgba(159,216,255,0.18), transparent 55%),
+      #05040f;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset, 0 14px 44px -16px rgba(159,216,255,0.55);
+    padding: 2.1rem 1.8rem 1.9rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .tx-set:hover .tx-screen { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 20px 60px -16px rgba(159,216,255,0.7), 0 0 34px -4px rgba(159,216,255,0.5); }
+  .tx-noise { position:absolute; inset:-50%; z-index:1; pointer-events:none; opacity:0.10;
+    background-image:
+      repeating-radial-gradient(circle at 17% 32%, #fff 0 0.6px, transparent 0.6px 4px),
+      repeating-radial-gradient(circle at 73% 64%, #9fd8ff 0 0.5px, transparent 0.5px 3px),
+      repeating-radial-gradient(circle at 44% 81%, #fff 0 0.5px, transparent 0.5px 5px);
+    animation: txStatic 0.42s steps(4) infinite; }
+  @keyframes txStatic {
+    0% { transform: translate(0,0) } 25% { transform: translate(-2%,1.5%) }
+    50% { transform: translate(1.5%,-2%) } 75% { transform: translate(-1%,-1%) } 100% { transform: translate(2%,2%) } }
+  .tx-scan { position:absolute; inset:0; z-index:2; pointer-events:none;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0 1px, transparent 1px 3px); mix-blend-mode:multiply; }
+  .tx-roll { position:absolute; left:0; right:0; height:64px; z-index:2; pointer-events:none;
+    background: linear-gradient(180deg, transparent, rgba(159,216,255,0.12), transparent);
+    animation: txRoll 4.5s linear infinite; }
+  @keyframes txRoll { 0% { top:-70px } 100% { top:110% } }
+
+  .tx-inner { position:relative; z-index:3; display:flex; align-items:center; gap:1.6rem; flex-wrap:wrap; }
+  .tx-gem { flex:none; width:110px; height:110px; border-radius:14px; overflow:hidden; border:1.5px solid rgba(159,216,255,0.6);
+    box-shadow: 0 0 22px -4px rgba(159,216,255,0.6); transform: rotate(-2.5deg); }
+  .tx-gem img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.05); }
+  .tx-copy { flex:1; min-width: 15rem; }
+  .tx-chan { display:block; font-family:'VT323', monospace; font-size:1rem; letter-spacing:0.14em; color:#9fd8ff; text-shadow:0 0 8px rgba(159,216,255,0.8); margin-bottom:0.35rem; }
+  .tx-title { display:block; font-family:'VT323', monospace; font-size: clamp(1.9rem, 4.5vw, 3rem); line-height:0.95; color:#fff; position:relative; animation: txGlitch 3.2s infinite; }
+  @keyframes txGlitch {
+    0%, 91%, 100% { text-shadow: 0 0 12px rgba(159,216,255,0.7); transform: none; }
+    92% { text-shadow: -2px 0 #ff2d9b, 2px 0 #00f0ff; transform: translateX(1px); }
+    94% { text-shadow: 2px 0 #ff2d9b, -2px 0 #00f0ff; transform: translateX(-1.5px) skewX(-2deg); }
+    96% { text-shadow: -1.5px 0 #ff2d9b, 1.5px 0 #00f0ff; transform: translateX(0.5px); }
+  }
+  .tx-sub { display:block; margin-top:0.55rem; font-size:0.86rem; letter-spacing:0.06em; color: rgba(200,225,255,0.68); line-height:1.7; max-width:34rem; }
+  .tx-cta { flex:none; display:inline-flex; align-items:center; gap:0.5rem;
+    font-size:0.74rem; letter-spacing:0.24em; text-transform:uppercase; color:#05040f;
+    background:#9fd8ff; border-radius:999px; padding:0.85rem 1.5rem; white-space:nowrap;
+    box-shadow: 0 8px 26px -8px rgba(159,216,255,0.8); transition: gap 0.2s ease; }
+  .tx-set:hover .tx-cta { gap:0.9rem; }
+  @media (max-width: 640px) { .tx-inner { gap:1.1rem } .tx-gem { width:84px; height:84px } }
+  @media (prefers-reduced-motion: reduce) { .tx-noise, .tx-roll, .tx-title, .tx-live i { animation: none !important } }
+
+  /* ══════════════════════════════
+     THE VAULTS (curated shop · TV sets)
+  ══════════════════════════════ */
+  .vault-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.3rem; margin-bottom: 2.5rem;
+  }
+  .vault-tv { text-decoration: none; display: block; transition: transform 0.25s ease; }
+  .vault-tv:hover { transform: translateY(-5px); }
+  /* antennae */
+  .tv-antenna { position: relative; height: 26px; margin: 0 auto; width: 90px; }
+  .tv-antenna::before, .tv-antenna::after {
+    content: ''; position: absolute; bottom: 0; left: 50%; width: 2.5px; height: 26px;
+    background: var(--vc); border-radius: 2px; transform-origin: bottom center;
+  }
+  .tv-antenna::before { transform: rotate(-32deg); }
+  .tv-antenna::after  { transform: rotate(26deg); }
+  .tv-antenna .tip-l, .tv-antenna .tip-r {
+    position: absolute; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--vc); box-shadow: 0 0 8px var(--vc); top: -2px;
+  }
+  .tv-antenna .tip-l { left: calc(50% - 18px); }
+  .tv-antenna .tip-r { left: calc(50% + 10px); }
+  /* body */
+  .tv-body {
+    border: 2.5px solid var(--vc); border-radius: 16px; overflow: hidden;
+    background: #0d0820;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset, 0 12px 34px -14px var(--vglow);
+    transition: box-shadow 0.25s ease;
+  }
+  .vault-tv:hover .tv-body { box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 16px 44px -12px var(--vglow), 0 0 30px -6px var(--vglow); }
+  /* screen */
+  .tv-screen { position: relative; aspect-ratio: 4/3; overflow: hidden; background: #000; }
+  .tv-screen img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.35s ease; filter: saturate(1.05);
+  }
+  .vault-tv:hover .tv-screen img { transform: scale(1.06); }
+  .tv-screen::before { /* scanlines */
+    content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.16) 0 1px, transparent 1px 3px);
+    mix-blend-mode: multiply;
+  }
+  .tv-screen::after { /* glass glare */
+    content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    background: radial-gradient(90% 60% at 30% 12%, rgba(255,255,255,0.14), transparent 55%);
+  }
+  .tv-chan {
+    position: absolute; top: 0.55rem; right: 0.6rem; z-index: 4;
+    font-family: 'VT323', monospace; font-size: 0.95rem; letter-spacing: 0.08em;
+    color: var(--vc); text-shadow: 0 0 6px var(--vc); animation: chanBlink 2.6s steps(1) infinite;
+  }
+  @keyframes chanBlink { 0%, 88% { opacity: 1 } 92% { opacity: 0.25 } 96% { opacity: 1 } }
+  .tv-onair {
+    position: absolute; bottom: 0.55rem; left: 0.6rem; z-index: 4;
+    font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #fff; background: rgba(13,8,32,0.72); border: 1px solid var(--vc);
+    border-radius: 999px; padding: 0.22rem 0.55rem; backdrop-filter: blur(2px);
+  }
+  .tv-onair::before { content: '●'; color: var(--vc); margin-right: 0.35rem; animation: chanBlink 1.8s steps(1) infinite; }
+  /* control panel */
+  .tv-panel {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
+    padding: 0.75rem 0.95rem; border-top: 1.5px solid var(--vc);
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+  }
+  .tv-label { min-width: 0; text-align: left; }
+  .tv-name { font-family: 'VT323', monospace; font-size: 1.4rem; letter-spacing: 0.05em; color: #fff; line-height: 1; }
+  .tv-tag { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--vc); margin-top: 0.25rem; }
+  .tv-knobs { display: flex; gap: 0.45rem; flex: none; }
+  .tv-knobs i {
+    width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--vc);
+    position: relative; opacity: 0.85;
+  }
+  .tv-knobs i::after {
+    content: ''; position: absolute; top: 1px; left: 50%; width: 1.5px; height: 4px;
+    background: var(--vc); transform: translateX(-50%);
+  }
+  .tv-knobs i:nth-child(2)::after { transform: translateX(-50%) rotate(65deg); transform-origin: bottom; }
+  .vault-tv:hover .tv-knobs i:first-child::after { transform: translateX(-50%) rotate(120deg); transform-origin: bottom; transition: transform .3s; }
+  .tv-enter {
+    display: block; text-align: center; margin-top: 0.6rem;
+    font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--vc);
+  }
+  .vault-note {
+    text-align: center; font-size: 0.78rem; letter-spacing: 0.06em;
+    color: rgba(200,180,255,0.35); margin: -1.4rem 0 2.4rem;
+  }
+  .vault-note a { color: rgba(200,180,255,0.6); }
+
+  /* ══════════════════════════════
+     KO-FI MEMBERSHIP TRANSMISSIONS
+     (two incoming broadcasts)
+  ══════════════════════════════ */
+  .kofi-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem; margin-bottom: 1rem; max-width: 640px; margin-left: auto; margin-right: auto;
+  }
+  .kofi-tv .tv-screen img { animation: kofiTune 7s ease-in-out infinite; }
+  @keyframes kofiTune {
+    0%, 100% { filter: saturate(1.05); transform: translateX(0); }
+    3%  { filter: saturate(1.4) hue-rotate(8deg); transform: translateX(-2px); }
+    4%  { filter: saturate(0.8); transform: translateX(2px); }
+    5%  { filter: saturate(1.05); transform: translateX(0); }
+    47% { filter: saturate(1.05); transform: translateX(0); }
+    48% { filter: saturate(1.5) hue-rotate(-10deg); transform: translateX(3px); }
+    49% { filter: saturate(1.05); transform: translateX(0); }
+  }
+  /* rolling static sweep over the screen */
+  .kofi-tv .tv-screen .kofi-static {
+    position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0.14;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+    animation: kofiStatic 0.5s steps(3) infinite;
+    mix-blend-mode: screen;
+  }
+  @keyframes kofiStatic {
+    0% { transform: translateY(0); } 50% { transform: translateY(-4px); } 100% { transform: translateY(3px); }
+  }
+  /* horizontal sync bar drifting down */
+  .kofi-tv .tv-screen .kofi-syncbar {
+    position: absolute; left: 0; right: 0; height: 14%; z-index: 2; pointer-events: none;
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.10), transparent);
+    animation: kofiSync 5.5s linear infinite;
+  }
+  @keyframes kofiSync {
+    0% { top: -16%; } 100% { top: 108%; }
+  }
+  .kofi-tv .tv-signal {
+    position: absolute; top: 0.55rem; left: 0.6rem; z-index: 4;
+    font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #fff; background: rgba(13,8,32,0.72); border: 1px solid var(--vc);
+    border-radius: 999px; padding: 0.22rem 0.55rem; backdrop-filter: blur(2px);
+  }
+  .kofi-tv .tv-signal::before {
+    content: '▲'; color: var(--vc); margin-right: 0.35rem; font-size: 0.55rem;
+    display: inline-block; animation: kofiPing 1.4s ease-in-out infinite;
+  }
+  @keyframes kofiPing { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+  /* big broadcast call-to-action */
+  .kofi-cta {
+    display: block; text-decoration: none; text-align: center;
+    position: relative; overflow: hidden;
+    max-width: 640px; margin: 0.4rem auto 2.6rem;
+    padding: 1.5rem 1.5rem 1.6rem;
+    border-radius: 16px;
+    border: 2px solid rgba(255,138,216,0.55);
+    background:
+      radial-gradient(420px 180px at 20% 0%, rgba(255,138,216,0.14), transparent 70%),
+      radial-gradient(420px 180px at 80% 100%, rgba(255,210,80,0.12), transparent 70%),
+      linear-gradient(160deg, #241536 0%, #150c26 60%, #0d0718 100%);
+    box-shadow: 0 0 24px rgba(255,138,216,0.25), 0 12px 40px rgba(0,0,0,0.5);
+    animation: kofiCtaPulse 2.8s ease-in-out infinite;
+    transition: transform 0.22s ease;
+  }
+  .kofi-cta:hover { transform: translateY(-3px) scale(1.01); animation-play-state: paused;
+    box-shadow: 0 0 40px rgba(255,138,216,0.5), 0 0 60px rgba(255,210,80,0.25), 0 14px 44px rgba(0,0,0,0.55);
+  }
+  @keyframes kofiCtaPulse {
+    0%, 100% { box-shadow: 0 0 18px rgba(255,138,216,0.22), 0 12px 40px rgba(0,0,0,0.5); border-color: rgba(255,138,216,0.45); }
+    50%      { box-shadow: 0 0 34px rgba(255,138,216,0.45), 0 0 22px rgba(255,210,80,0.25), 0 12px 40px rgba(0,0,0,0.5); border-color: rgba(255,210,80,0.65); }
+  }
+  .kofi-cta::before { /* scanlines, keep it on-brand */
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 1px, transparent 1px 3px);
+    mix-blend-mode: multiply;
+  }
+  .kofi-cta-live {
+    display: inline-block; font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: #fff; border: 1px solid #ff8ad8; border-radius: 999px;
+    padding: 0.28rem 0.75rem; margin-bottom: 0.75rem;
+    background: rgba(13,8,32,0.7);
+  }
+  .kofi-cta-live::before { content: '●'; color: #ff5aa9; margin-right: 0.4rem; animation: kofiPing 1.2s steps(1) infinite; }
+  .kofi-cta-title {
+    font-family: 'VT323', monospace;
+    font-size: clamp(1.9rem, 5.5vw, 2.7rem);
+    line-height: 1; letter-spacing: 0.05em; color: #fff;
+    text-shadow: 0 0 14px rgba(255,138,216,0.8), 0 0 30px rgba(255,138,216,0.35);
+    margin-bottom: 0.5rem;
+  }
+  .kofi-cta-title .gold { color: var(--gold); text-shadow: 0 0 14px rgba(255,210,80,0.8), 0 0 30px rgba(255,210,80,0.35); }
+  .kofi-cta-sub {
+    font-size: 0.82rem; letter-spacing: 0.08em; line-height: 1.6;
+    color: rgba(230,215,255,0.8); max-width: 46ch; margin: 0 auto 1.05rem;
+  }
+  .kofi-cta-btn {
+    display: inline-block; font-family: 'VT323', monospace;
+    font-size: 1.35rem; letter-spacing: 0.1em; color: #0d0718;
+    background: linear-gradient(90deg, #ff8ad8, #ffd250);
+    border-radius: 999px; padding: 0.5rem 1.6rem 0.55rem;
+    box-shadow: 0 0 18px rgba(255,138,216,0.55), 0 4px 14px rgba(0,0,0,0.4);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .kofi-cta:hover .kofi-cta-btn { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,210,80,0.75), 0 4px 16px rgba(0,0,0,0.45); }
+  .kofi-cta-url {
+    display: block; margin-top: 0.7rem;
+    font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(200,180,255,0.5);
+  }
+
+  /* ══════════════════════════════
+     NEWSSTAND TEASER
+  ══════════════════════════════ */
+  .newsstand-teaser {
+    display: block; text-decoration: none; position: relative; overflow: hidden;
+    border-radius: 14px; border: 1px solid rgba(0,240,255,0.22);
+    background:
+      radial-gradient(620px 220px at 86% -30%, rgba(255,45,155,0.10), transparent 70%),
+      linear-gradient(135deg, rgba(0,240,255,0.06) 0%, rgba(192,84,252,0.04) 45%, rgba(0,0,0,0) 75%);
+    padding: 2rem 2rem 1.9rem;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  }
+  .newsstand-teaser::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,240,255,0.6), rgba(255,45,155,0.5), rgba(255,210,80,0.5), transparent);
+    background-size: 200% 100%; animation: nsSlide 6s linear infinite;
+  }
+  @keyframes nsSlide { 0% { background-position: 0 0; } 100% { background-position: 200% 0; } }
+  .newsstand-teaser:hover {
+    transform: translateY(-3px); border-color: rgba(0,240,255,0.5);
+    box-shadow: 0 8px 44px rgba(0,240,255,0.12), 0 2px 12px rgba(0,0,0,0.45);
+  }
+  .newsstand-teaser .ns-eyebrow {
+    font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cyan);
+    margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .newsstand-teaser .ns-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--cyan); opacity: 0.5; }
+  .newsstand-teaser .ns-title {
+    font-family: 'VT323', monospace; font-size: clamp(2rem, 6vw, 2.8rem); letter-spacing: 0.06em;
+    line-height: 1.1; color: #fff; margin-bottom: 0.55rem;
+  }
+  .newsstand-teaser .ns-title b { color: var(--pink); font-weight: normal; }
+  .newsstand-teaser .ns-desc {
+    font-size: 0.95rem; line-height: 1.9; color: rgba(200,180,255,0.5);
+    max-width: 540px; letter-spacing: 0.05em; margin-bottom: 1.1rem;
+  }
+  .ns-rack { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.2rem; }
+  .ns-spine {
+    font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.82); padding: 0.4rem 0.7rem; border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.03);
+    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .ns-spine:nth-child(2) { transform: rotate(1deg); }
+  .ns-spine:nth-child(3) { transform: rotate(-1deg); }
+  .ns-spine:nth-child(4) { transform: rotate(1.5deg); }
+  .newsstand-teaser:hover .ns-spine { transform: translateY(-2px) rotate(-1.5deg); }
+  .ns-spine.more { color: var(--gold); border-color: rgba(255,210,80,0.35); background: rgba(255,210,80,0.06); }
+  .newsstand-teaser .ns-cta {
+    display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); transition: gap 0.18s;
+  }
+  .newsstand-teaser:hover .ns-cta { gap: 0.8rem; }
+  .newsstand-teaser .ns-emoji {
+    position: absolute; right: 1.8rem; top: 50%; transform: translateY(-50%);
+    font-size: 4.5rem; opacity: 0.12; pointer-events: none; transition: opacity 0.22s, transform 0.22s;
+  }
+  .newsstand-teaser:hover .ns-emoji { opacity: 0.2; transform: translateY(-50%) scale(1.08) rotate(-4deg); }
+  @media (max-width: 600px) {
+    .newsstand-teaser { padding: 1.4rem 1.25rem; }
+    .newsstand-teaser .ns-emoji { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .newsstand-teaser::before { animation: none; } }
+
+  /* ══════════════════════════════
+     CARD GRID
+  ══════════════════════════════ */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.9rem;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    border-radius: 12px;
+    border: 1px solid var(--card-border, rgba(255,255,255,0.07));
+    background: var(--card-bg, rgba(255,255,255,0.02));
+    padding: 1.4rem 1.4rem 1.25rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--card-glow, transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .card:hover { transform: translateY(-3px); }
+  .card:hover::before { opacity: 1; }
+
+  .card-icon { font-size: 1.6rem; margin-bottom: 0.75rem; line-height: 1; }
+  .card-name {
+    font-family: 'VT323', monospace;
+    font-size: 1.65rem;
+    letter-spacing: 0.06em;
+    line-height: 1.15;
+    color: var(--card-color, #fff);
+    margin-bottom: 0.4rem;
+  }
+  .card-hint {
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--card-muted, rgba(200,180,255,0.3));
+    margin-bottom: auto;
+    padding-bottom: 1rem;
+    line-height: 1.8;
+  }
+  .card-link-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--card-color, rgba(200,180,255,0.4));
+    opacity: 0.5;
+    transition: opacity 0.18s;
+  }
+  .card:hover .card-link-label { opacity: 1; }
+
+  /* color variants */
+  .card.v-purple {
+    --card-bg: rgba(192,84,252,0.05);
+    --card-border: rgba(192,84,252,0.18);
+    --card-color: var(--purple);
+    --card-muted: rgba(192,84,252,0.4);
+    --card-glow: linear-gradient(135deg, rgba(192,84,252,0.06), transparent);
+  }
+  .card.v-purple:hover { border-color: rgba(192,84,252,0.45); box-shadow: 0 6px 30px rgba(192,84,252,0.1); }
+
+  .card.v-gold {
+    --card-bg: rgba(255,210,80,0.04);
+    --card-border: rgba(255,210,80,0.18);
+    --card-color: var(--gold);
+    --card-muted: rgba(255,210,80,0.4);
+    --card-glow: linear-gradient(135deg, rgba(255,210,80,0.05), transparent);
+  }
+  .card.v-gold:hover { border-color: rgba(255,210,80,0.45); box-shadow: 0 6px 30px rgba(255,210,80,0.1); }
+
+  .card.v-teal {
+    --card-bg: rgba(0,200,180,0.04);
+    --card-border: rgba(0,200,180,0.18);
+    --card-color: var(--teal);
+    --card-muted: rgba(0,200,180,0.4);
+    --card-glow: linear-gradient(135deg, rgba(0,200,180,0.05), transparent);
+  }
+  .card.v-teal:hover { border-color: rgba(0,200,180,0.45); box-shadow: 0 6px 30px rgba(0,200,180,0.1); }
+
+  .card.v-cyan {
+    --card-bg: rgba(0,240,255,0.04);
+    --card-border: rgba(0,240,255,0.15);
+    --card-color: var(--cyan);
+    --card-muted: rgba(0,240,255,0.4);
+    --card-glow: linear-gradient(135deg, rgba(0,240,255,0.05), transparent);
+  }
+  .card.v-cyan:hover { border-color: rgba(0,240,255,0.45); box-shadow: 0 6px 30px rgba(0,240,255,0.1); }
+
+  .card.v-pink {
+    --card-bg: rgba(255,45,155,0.04);
+    --card-border: rgba(255,45,155,0.18);
+    --card-color: var(--pink);
+    --card-muted: rgba(255,45,155,0.4);
+    --card-glow: linear-gradient(135deg, rgba(255,45,155,0.05), transparent);
+  }
+  .card.v-pink:hover { border-color: rgba(255,45,155,0.45); box-shadow: 0 6px 30px rgba(255,45,155,0.1); }
+
+  /* external badge */
+  .ext-badge {
+    position: absolute;
+    top: 0.85rem; right: 0.85rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(200,180,255,0.25);
+    border: 1px solid rgba(200,180,255,0.12);
+    border-radius: 4px;
+    padding: 0.15rem 0.4rem;
+  }
+
+  /* ══════════════════════════════
+     THE TRANSMISSION MAP (footer nav)
+  ══════════════════════════════ */
+  .tmap {
+    position: relative; overflow: hidden;
+    margin-top: 4rem; padding: 2.6rem 1.8rem 2.4rem;
+    border-radius: 20px;
+    border: 1px solid rgba(192,132,252,0.28);
+    background:
+      radial-gradient(600px 260px at 15% 0%, rgba(255,45,155,0.10), transparent 65%),
+      radial-gradient(600px 260px at 85% 100%, rgba(0,240,255,0.10), transparent 65%),
+      linear-gradient(160deg, #14092b 0%, #0b0420 55%, #07000f 100%);
+    box-shadow: 0 0 30px rgba(192,132,252,0.12), inset 0 0 60px rgba(0,0,0,0.4);
+  }
+  /* aurora shimmer drifting through the map */
+  .tmap::before {
+    content: ''; position: absolute; inset: -40%; pointer-events: none; z-index: 0;
+    background: conic-gradient(from 0deg,
+      transparent 0 18%, rgba(255,45,155,0.07) 24%, transparent 32%,
+      rgba(0,240,255,0.07) 46%, transparent 55%,
+      rgba(255,210,80,0.06) 68%, transparent 78%,
+      rgba(192,132,252,0.07) 90%, transparent 100%);
+    animation: tmapAurora 26s linear infinite;
+  }
+  @keyframes tmapAurora { to { transform: rotate(360deg); } }
+  /* scanlines over everything */
+  .tmap::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 3;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.14) 0 1px, transparent 1px 3px);
+  }
+  /* shooting stars streaking across */
+  .tmap-shooter {
+    position: absolute; z-index: 1; pointer-events: none;
+    width: 130px; height: 1.5px; border-radius: 999px;
+    background: linear-gradient(90deg, transparent, #fff, transparent);
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.8));
+    opacity: 0; transform: rotate(-24deg);
+    animation: tmapShoot 9s linear infinite;
+  }
+  .tmap-shooter.s2 { animation-delay: 4.5s; animation-duration: 11s; transform: rotate(-16deg);
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent); }
+  @keyframes tmapShoot {
+    0%, 88% { opacity: 0; left: -12%; top: 12%; }
+    89% { opacity: 1; }
+    96% { opacity: 1; left: 104%; top: 62%; }
+    97%, 100% { opacity: 0; left: 104%; top: 62%; }
+  }
+  .tmap-head { position: relative; z-index: 2; text-align: center; margin-bottom: 2rem; }
+  .tmap-kicker {
+    display: inline-block; font-size: 0.6rem; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--cyan); border: 1px solid rgba(0,240,255,0.4); border-radius: 999px;
+    padding: 0.3rem 0.85rem; margin-bottom: 0.8rem;
+    text-shadow: 0 0 10px rgba(0,240,255,0.6); background: rgba(7,0,15,0.5);
+  }
+  .tmap-kicker::before { content: '◉ '; color: var(--pink); animation: kofiPing 1.6s ease-in-out infinite; }
+  .tmap-title {
+    font-family: 'VT323', monospace;
+    font-size: clamp(2rem, 6vw, 3rem); line-height: 1; letter-spacing: 0.06em;
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan), var(--gold));
+    background-size: 250% 100%;
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    animation: tmapHolo 7s ease-in-out infinite;
+    filter: drop-shadow(0 0 14px rgba(192,132,252,0.5));
+  }
+  @keyframes tmapHolo { 0%,100% { background-position: 0% 0; } 50% { background-position: 100% 0; } }
+  .tmap-sub {
+    margin-top: 0.4rem; font-size: 0.74rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(200,180,255,0.4);
+  }
+  .tmap-grid {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.8rem 1.6rem;
+  }
+  .tmap-col { min-width: 0; }
+  .tmap-col-title {
+    font-family: 'VT323', monospace; font-size: 1.05rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--tc, var(--purple));
+    text-shadow: 0 0 12px var(--tg, rgba(192,132,252,0.6));
+    padding-bottom: 0.5rem; margin-bottom: 0.7rem; position: relative;
+  }
+  .tmap-col-title::after { /* constellation line under each header */
+    content: ''; position: absolute; left: 0; bottom: 0; height: 1px; width: 100%;
+    background: linear-gradient(90deg, var(--tc, var(--purple)), transparent);
+    box-shadow: 0 0 8px var(--tg, rgba(192,132,252,0.6));
+  }
+  .tmap-col a {
+    display: block; text-decoration: none;
+    font-size: 0.82rem; letter-spacing: 0.06em; line-height: 1.4;
+    color: rgba(225,214,255,0.72); padding: 0.28rem 0 0.28rem 1.15rem;
+    position: relative; transition: color 0.18s ease, transform 0.18s ease, text-shadow 0.18s ease;
+  }
+  .tmap-col a::before { /* twinkling star bullet */
+    content: '✦'; position: absolute; left: 0; top: 0.28rem;
+    color: var(--tc, var(--purple)); font-size: 0.7rem;
+    animation: tmapTwinkle 2.6s ease-in-out infinite;
+  }
+  .tmap-col a:nth-child(2)::before { animation-delay: 0.3s; }
+  .tmap-col a:nth-child(3)::before { animation-delay: 0.9s; }
+  .tmap-col a:nth-child(4)::before { animation-delay: 1.4s; }
+  .tmap-col a:nth-child(5)::before { animation-delay: 0.6s; }
+  .tmap-col a:nth-child(6)::before { animation-delay: 1.9s; }
+  .tmap-col a:nth-child(7)::before { animation-delay: 1.1s; }
+  .tmap-col a:nth-child(8)::before { animation-delay: 2.2s; }
+  @keyframes tmapTwinkle {
+    0%, 100% { opacity: 0.45; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+  .tmap-col a:hover {
+    color: #fff; transform: translateX(4px);
+    text-shadow: 0 0 12px var(--tg, rgba(192,132,252,0.8));
+  }
+  .tmap-col a:hover::before { animation: none; opacity: 1; transform: scale(1.35); filter: drop-shadow(0 0 6px var(--tc)); }
+  .tmap-col a .ext { font-size: 0.62rem; opacity: 0.5; margin-left: 0.3rem; }
+  /* ── channel strip: theme chips in a wide grid ── */
+  .tmap-channels { position:relative; z-index:2; margin-top:2.2rem; }
+  .tmap-ch-head {
+    display:flex; align-items:center; gap:0.7rem; margin-bottom:0.9rem;
+  }
+  .tmap-ch-head span {
+    font-family:'VT323', monospace; font-size:1.05rem; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--gold); white-space:nowrap;
+    text-shadow:0 0 12px rgba(255,210,80,0.6);
+  }
+  .tmap-ch-head::before, .tmap-ch-head::after {
+    content:''; height:1px; flex:1;
+    background:linear-gradient(90deg, transparent, rgba(255,210,80,0.5), transparent);
+  }
+  .tmap-ch-grid {
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:0.55rem;
+  }
+  .tmap-chip {
+    display:flex; align-items:center; gap:0.55rem; text-decoration:none;
+    padding:0.5rem 0.7rem; border-radius:10px;
+    background:rgba(255,255,255,0.035);
+    border:1px solid rgba(255,255,255,0.08);
+    transition:background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+  }
+  .tmap-chip:hover {
+    background:rgba(255,255,255,0.08); transform:translateY(-2px);
+    border-color:var(--cc, var(--gold));
+    box-shadow:0 0 16px var(--cg, rgba(255,210,80,0.35));
+  }
+  .tmap-chip .cem { font-size:1.15rem; line-height:1; filter:drop-shadow(0 0 6px var(--cg, rgba(255,210,80,0.5))); }
+  .tmap-chip .cnm {
+    font-family:'VT323', monospace; font-size:0.98rem; letter-spacing:0.05em;
+    color:rgba(230,218,255,0.85); line-height:1.1;
+  }
+  .tmap-chip:hover .cnm { color:#fff; }
+  .tmap-chip .cno {
+    margin-left:auto; font-family:'Space Mono', monospace; font-size:0.5rem;
+    letter-spacing:0.12em; color:rgba(200,180,255,0.35);
+  }
+  @media (max-width:560px){
+    .tmap-ch-grid { grid-template-columns:1fr 1fr; gap:0.45rem; }
+    .tmap-chip { padding:0.45rem 0.5rem; gap:0.4rem; }
+    .tmap-chip .cnm { font-size:0.88rem; }
+    .tmap-chip .cno { display:none; }
+  }
+  .tmap-here {
+    position: relative; z-index: 2; text-align: center; margin-top: 2rem;
+    font-size: 0.66rem; letter-spacing: 0.26em; text-transform: uppercase;
+    color: rgba(200,180,255,0.35);
+  }
+  .tmap-here b {
+    color: var(--lime); font-weight: normal;
+    text-shadow: 0 0 10px rgba(163,255,87,0.7);
+  }
+  .tmap-here b::before {
+    content: '◉ '; animation: tmapPulseDot 1.6s ease-in-out infinite; display: inline-block;
+  }
+  @keyframes tmapPulseDot { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+  @media (max-width: 560px) {
+    .tmap { padding: 2rem 1.2rem 1.9rem; }
+    .tmap-grid { grid-template-columns: 1fr 1fr; gap: 1.4rem 1.2rem; }
+  }
+
+  /* ══════════════════════════════
+     FOOTER
+  ══════════════════════════════ */
+  .hub-footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    text-align: center;
+  }
+  .footer-brand {
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .footer-copy {
+    font-size: 0.78rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(200,180,255,0.18);
+  }
+  .footer-404 {
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    color: rgba(200,180,255,0.2);
+    margin-top: 0.2rem;
+  }
+  .footer-404 a {
+    color: rgba(192,84,252,0.4);
+    text-decoration: none;
+    transition: color 0.18s;
+  }
+  .footer-404 a:hover { color: var(--purple); }
+
+  /* ── floating particles ── */
+  .particle {
+    position: fixed; pointer-events: none; z-index: 0;
+    border-radius: 50%;
+    animation: drift linear infinite;
+    opacity: 0;
+  }
+  @keyframes drift {
+    0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    5%   { opacity: 1; }
+    95%  { opacity: 0.3; }
+    100% { transform: translateY(-30px) rotate(540deg); opacity: 0; }
+  }
+
+  /* ── responsive ── */
+  @media (max-width: 520px) {
+    .card-featured { padding: 1.4rem 1.25rem; }
+    .card-featured .card-emoji { display: none; }
+    .hero-title { letter-spacing: 0.04em; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  /* ── RANDOM NOTE MINI TV ── */
+  .mtv-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    margin: 0 auto 1.5rem;
+    max-width: 380px;
+  }
+  .mtv-set {
+    width: 100%;
+    background: linear-gradient(160deg, #2a1f3d 0%, #1a1228 60%, #100a1c 100%);
+    border-radius: 22px;
+    padding: 18px 18px 14px;
+    position: relative;
+    box-shadow:
+      0 20px 50px rgba(0,0,0,0.6),
+      0 0 0 2px rgba(255,255,255,0.04) inset,
+      0 0 35px rgba(255,110,247,0.15);
+  }
+  .mtv-brand {
+    position: absolute; top: 7px; left: 22px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.25);
+  }
+  .mtv-screen-wrap {
+    border-radius: 14px;
+    background: #000;
+    border: 8px solid #0d0815;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+  }
+  .mtv-screen {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 40%, #1c0f2e 0%, #0a0514 75%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.9rem;
+    text-align: center;
+  }
+  .mtv-screen::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
+    pointer-events: none;
+  }
+  .mtv-scanlines {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.25) 0px, transparent 1px, transparent 3px);
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    z-index: 3;
+  }
+  .mtv-flicker {
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,0.02);
+    pointer-events: none;
+    animation: mtv-flicker-kf 2.5s infinite;
+    z-index: 2;
+  }
+  @keyframes mtv-flicker-kf {
+    0%, 92%, 100% { opacity: 0; }
+    94% { opacity: 0.6; }
+    96% { opacity: 0.1; }
+  }
+  .mtv-note {
+    position: relative; z-index: 1;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    animation: mtv-fade-kf 0.4s ease;
+    cursor: pointer;
+  }
+  @keyframes mtv-fade-kf {
+    from { opacity: 0; filter: brightness(2.5); transform: scale(1.03); }
+    to { opacity: 1; filter: brightness(1); transform: scale(1); }
+  }
+  .mtv-note-img {
+    flex: 0 1 auto;
+    max-width: 100%;
+    max-height: 65%;
+    min-height: 0;
+    object-fit: contain;
+    border: 1px solid rgba(255,110,247,0.3);
+    box-shadow: 0 0 14px rgba(255,110,247,0.25);
+  }
+  .mtv-note.portrait-img .mtv-note-img {
+    max-height: 48%;
+  }
+  .mtv-note.portrait-img .mtv-note-text {
+    -webkit-line-clamp: 1;
+  }
+  .mtv-note-text {
+    flex: 0 1 auto;
+    min-height: 0;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(0.62rem, 2.4vw, 0.82rem);
+    color: #f0e8ff;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    text-shadow: 0 0 6px rgba(110,239,255,0.3);
+    overflow: hidden;
+    padding: 0 0.3rem;
+  }
+  .mtv-note.has-img .mtv-note-text {
+    font-size: clamp(0.55rem, 1.8vw, 0.7rem);
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+  .mtv-note:not(.has-img) .mtv-note-text {
+    -webkit-line-clamp: 7;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+  .mtv-note-meta {
+    font-family: 'VT323', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: #f7ff6e;
+    text-shadow: 0 0 6px #f7ff6e;
+  }
+  .mtv-static {
+    position: absolute; inset: 0;
+    z-index: 4;
+    display: none;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0px, transparent 1px, transparent 2px, rgba(255,255,255,0.06) 3px),
+      repeating-radial-gradient(circle at 20% 30%, rgba(255,255,255,0.12) 0, transparent 2%),
+      repeating-radial-gradient(circle at 70% 60%, rgba(255,255,255,0.1) 0, transparent 1.5%);
+    background-size: 100% 4px, 6px 6px, 5px 5px;
+    animation: mtv-noise-kf 0.4s steps(2) infinite;
+  }
+  .mtv-static.active { display: block; }
+  @keyframes mtv-noise-kf {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(-2%, 1%); }
+    50% { transform: translate(2%, -1%); }
+    75% { transform: translate(-1%, -2%); }
+    100% { transform: translate(1%, 2%); }
+  }
+  .mtv-controls {
+    margin-top: 12px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .mtv-unit { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
+  .mtv-knob {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #4a3a66, #1a1228 70%);
+    border: 2px solid rgba(255,110,247,0.4);
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5), 0 0 12px rgba(255,110,247,0.15);
+    transition: box-shadow 0.2s;
+    padding: 0;
+  }
+  .mtv-knob:hover { box-shadow: 0 3px 8px rgba(0,0,0,0.5), 0 0 18px rgba(255,110,247,0.45); }
+  .mtv-knob::after {
+    content: '';
+    position: absolute; top: 5px; left: 50%;
+    width: 2px; height: 10px;
+    background: #ff6ef7;
+    box-shadow: 0 0 4px #ff6ef7;
+    transform: translateX(-50%);
+  }
+  .mtv-knob.spin::after { animation: mtv-spin-kf 0.18s linear; }
+  @keyframes mtv-spin-kf {
+    from { transform: translateX(-50%) rotate(0deg); }
+    to { transform: translateX(-50%) rotate(360deg); }
+  }
+  .mtv-led {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #6effa0;
+    box-shadow: 0 0 8px #6effa0;
+    flex-shrink: 0;
+    align-self: center;
+    margin-bottom: 14px;
+    animation: mtv-led-kf 2s infinite;
+  }
+  @keyframes mtv-led-kf { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .mtv-switch {
+    width: 42px; height: 22px;
+    border-radius: 12px;
+    background: #0d0815;
+    border: 2px solid rgba(110,239,255,0.35);
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .mtv-switch-nub {
+    position: absolute; top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: linear-gradient(160deg, #6e6080, #2a1f3d);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    transition: transform 0.25s, background 0.25s;
+  }
+  .mtv-switch.on {
+    border-color: #6ef7ff;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6), 0 0 14px rgba(110,239,255,0.4);
+  }
+  .mtv-switch.on .mtv-switch-nub {
+    transform: translateX(20px);
+    background: linear-gradient(160deg, #6ef7ff, #1a8a99);
+  }
+  .mtv-label {
+    font-family: 'VT323', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .mtv-pink { color: #ff6ef7; text-shadow: 0 0 6px rgba(255,110,247,0.5); }
+  .mtv-cyan { color: #6ef7ff; text-shadow: 0 0 6px rgba(110,239,255,0.5); }
+
+  /* ── Y3K MAGAZINE SECTION ── */
+  .mag-section {
+    position: relative; z-index: 5;
+    max-width: 900px; margin: 0 auto 1.5rem;
+    padding: 0 1.2rem;
+    display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+  }
+  .mag-intro {
+    font-family: 'VT323', monospace;
+    font-size: 1rem; letter-spacing: 0.15em;
+    color: rgba(200,180,255,0.5);
+    text-align: center; text-transform: uppercase;
+  }
+  .mag-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    width: 100%;
+  }
+  .mag-card {
+    text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+    background: rgba(18,6,32,0.7);
+    border: 1px solid rgba(255,110,247,0.25);
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .mag-card:hover {
+    border-color: #ff6ef7;
+    box-shadow: 0 0 22px rgba(255,110,247,0.3);
+    transform: translateY(-4px);
+  }
+  .mag-card-cover {
+    position: relative;
+    aspect-ratio: 1/1; overflow: hidden;
+    background: linear-gradient(135deg, rgba(255,110,247,0.1), rgba(110,239,255,0.1));
+  }
+  .mag-card-cover img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.4s;
+  }
+  .mag-card:hover .mag-card-cover img { transform: scale(1.08); }
+  .mag-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(7,2,15,0.9) 100%);
+  }
+  .mag-card-count {
+    position: absolute; bottom: 6px; left: 8px;
+    font-family: 'VT323', monospace; font-size: 0.75rem;
+    letter-spacing: 0.1em; color: #f7ff6e;
+    text-shadow: 0 0 6px #f7ff6e;
+  }
+  .mag-card-label {
+    padding: 0.6rem 0.8rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700; font-size: 0.78rem;
+    color: #fff; line-height: 1.3;
+  }
+  .mag-hub-link {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.15rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #0a0518;
+    text-decoration: none;
+    background: linear-gradient(135deg, #ff6ef7, #f7ff6e, #6ef7ff);
+    background-size: 200% 100%;
+    border: none;
+    padding: 1rem 2.5rem;
+    margin-top: 0.5rem;
+    border-radius: 4px;
+    box-shadow: 0 0 25px rgba(255,110,247,0.45), 0 0 45px rgba(110,239,255,0.2);
+    transition: all 0.3s;
+    animation: hub-shimmer 4s linear infinite;
+    text-align: center;
+  }
+  @keyframes hub-shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  .mag-hub-link:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 0 35px rgba(255,110,247,0.7), 0 0 65px rgba(110,239,255,0.35);
+  }
+  @media (max-width: 600px) {
+    .mag-hub-link { font-size: 0.95rem; padding: 0.85rem 1.5rem; }
+  }
+
+  .mtv-full-link {
+    font-family: 'VT323', monospace;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    color: #f7ff6e;
+    text-decoration: none;
+    border: 1px solid #f7ff6e;
+    padding: 0.4rem 1.1rem;
+    transition: all 0.2s;
+  }
+  .mtv-full-link:hover { background: #f7ff6e; color: #000; box-shadow: 0 0 14px #f7ff6e; }
+
+
+  /* ══════════════════════════════
+     CHANNEL GUIDE (sticky jump nav)
+  ══════════════════════════════ */
+  .guide {
+    position: sticky; top: 0; z-index: 40;
+    margin: 0 -1.25rem 2.4rem; padding: 0.5rem 1.25rem;
+    background: rgba(7,0,15,0.82);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .guide-rail {
+    display: flex; gap: 0.4rem; overflow-x: auto;
+    scrollbar-width: none; -ms-overflow-style: none;
+    max-width: 900px; margin: 0 auto;
+  }
+  .guide-rail::-webkit-scrollbar { display: none; }
+  .guide a {
+    flex: 0 0 auto; text-decoration: none;
+    display: inline-flex; align-items: baseline; gap: 0.45rem;
+    font-family: 'VT323', monospace; font-size: 1.05rem; letter-spacing: 0.08em;
+    color: rgba(230,218,255,0.72);
+    padding: 0.35rem 0.85rem; border-radius: 999px;
+    border: 1px solid transparent;
+    transition: color .18s ease, border-color .18s ease, background .18s ease;
+  }
+  .guide a .gch {
+    font-family: 'Space Mono', monospace; font-size: 0.5rem;
+    letter-spacing: 0.16em; color: rgba(200,180,255,0.38);
+  }
+  .guide a:hover, .guide a:focus-visible {
+    color: #fff; border-color: rgba(255,45,155,0.5);
+    background: rgba(255,45,155,0.08);
+  }
+  .guide a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+  html { scroll-padding-top: 4.5rem; }
+  @media (max-width: 600px) { .guide a { font-size: 0.98rem; padding: 0.3rem 0.7rem; } }
+
+  /* ══════════════════════════════
+     FEATURED — COMPACT GRID
+  ══════════════════════════════ */
+  .feat-grid {
+    display: grid; gap: 0.9rem;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    margin-bottom: 1.4rem;
+  }
+  .card-featured.is-compact { padding: 1.15rem 1.25rem 1.05rem; }
+  .card-featured.is-compact .card-eyebrow {
+    font-size: 0.58rem; letter-spacing: 0.22em; margin-bottom: 0.4rem;
+  }
+  .card-featured.is-compact .card-eyebrow::before { width: 12px; }
+  .card-featured.is-compact .card-title {
+    font-size: 1.45rem; margin-bottom: 0.35rem;
+  }
+  .card-featured.is-compact .card-desc {
+    font-size: 0.78rem; line-height: 1.65; margin-bottom: 0.7rem;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-featured.is-compact .card-cta {
+    font-size: 0.68rem; letter-spacing: 0.16em;
+  }
+  .card-featured.is-compact .card-emoji {
+    font-size: 2.4rem; right: 1rem; opacity: 0.1;
+  }
+
+  /* ══════════════════════════════
+     BUY ME A STAR (one-time tip)
+  ══════════════════════════════ */
+  .star-tip {
+    position: relative; display: flex; align-items: center; gap: 1.6rem;
+    margin-top: 1.4rem; padding: 1.9rem 2rem;
+    text-decoration: none; border-radius: 16px; overflow: hidden;
+    border: 1px solid rgba(255,210,80,0.3);
+    background:
+      radial-gradient(680px 260px at 12% -40%, rgba(255,210,80,0.14), transparent 70%),
+      linear-gradient(135deg, rgba(255,210,80,0.07) 0%, rgba(192,132,252,0.05) 55%, rgba(0,0,0,0) 82%);
+    transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+  }
+  .star-tip:hover {
+    transform: translateY(-3px); border-color: rgba(255,210,80,0.65);
+    box-shadow: 0 10px 44px rgba(255,210,80,0.16), 0 2px 12px rgba(0,0,0,0.45);
+  }
+  .star-tip:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+  .star-sky { position: absolute; inset: 0; pointer-events: none; }
+  .star-sky i {
+    position: absolute; left: var(--x); top: var(--y);
+    width: 3px; height: 3px; border-radius: 50%;
+    background: var(--gold); box-shadow: 0 0 8px var(--gold);
+    animation: starTwinkle 3.2s ease-in-out infinite; animation-delay: var(--d);
+  }
+  @keyframes starTwinkle { 0%,100% { opacity: .2; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.25); } }
+  .star-glyph {
+    flex: 0 0 auto; font-size: 5rem; line-height: 1; color: var(--gold);
+    text-shadow: 0 0 22px rgba(255,210,80,0.6);
+    transition: transform .3s ease;
+  }
+  .star-tip:hover .star-glyph { transform: rotate(-14deg) scale(1.12); }
+  .star-tip { gap: 1.9rem; }
+  .star-copy { display: flex; flex-direction: column; min-width: 0; }
+  .star-kicker {
+    font-size: 0.58rem; letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--gold); opacity: 0.85; margin-bottom: 0.45rem;
+  }
+  .star-title {
+    font-family: 'VT323', monospace; font-size: clamp(1.8rem, 5vw, 2.5rem);
+    line-height: 1.05; letter-spacing: 0.05em; color: #fff; margin-bottom: 0.45rem;
+  }
+  .star-title b { color: var(--gold); font-weight: 400; }
+  .star-sub {
+    font-size: 0.85rem; line-height: 1.8; letter-spacing: 0.04em;
+    color: rgba(200,180,255,0.55); max-width: 460px; margin-bottom: 1rem;
+  }
+  .star-btn {
+    align-self: flex-start;
+    font-family: 'VT323', monospace; font-size: 1.15rem; letter-spacing: 0.12em;
+    color: #140b00; background: var(--gold); border-radius: 8px;
+    padding: 0.35rem 1.15rem; box-shadow: 0 0 22px rgba(255,210,80,0.35);
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .star-tip:hover .star-btn { box-shadow: 0 0 34px rgba(255,210,80,0.7); transform: scale(1.04); }
+  @media (max-width: 620px) {
+    .star-tip { flex-direction: column; align-items: flex-start; gap: 0.9rem; padding: 1.5rem 1.3rem; }
+    .star-glyph { font-size: 2.8rem; }
+  }
+
+  /* ══════════════════════════════
+     MOTION / ACCESSIBILITY FLOOR
+  ══════════════════════════════ */
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--cyan); outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  </style>
+</head>
+<body>
+<!-- ══ CHANNEL DIAL · THEME SWITCHER ══ -->
+<style>
+  .chdial { position:fixed; bottom:1.1rem; right:1.1rem; z-index:60; }
+  .chdial summary { list-style:none; cursor:pointer;
+    display:flex; align-items:center; gap:0.55rem;
+    font-family:'VT323', monospace; font-size:1.05rem; letter-spacing:0.08em; color:#fff;
+    background:rgba(13,7,24,0.88); border:1.5px solid var(--gold); border-radius:999px;
+    padding:0.45rem 1rem 0.45rem 0.7rem;
+    box-shadow:0 0 16px rgba(255,210,80,0.4);
+    animation:chFloat 3.4s ease-in-out infinite;
+    transition:box-shadow .25s ease, border-color .25s ease; }
+  .chdial summary::-webkit-details-marker { display:none; }
+  .chdial summary:hover { border-color:var(--cyan);
+    box-shadow:0 0 28px rgba(255,210,80,0.7), 0 0 40px rgba(0,240,255,0.3); animation-play-state:paused; }
+  .chdial[open] summary { animation:none; border-color:var(--pink);
+    box-shadow:0 0 28px rgba(255,45,155,0.6); }
+  @keyframes chFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
+  .chdial .dial-ico { font-size:1.3rem; display:inline-block; animation:chWiggle 4s ease-in-out infinite; }
+  @keyframes chWiggle { 0%,88%,100% { transform:rotate(0deg); } 91% { transform:rotate(-14deg); } 95% { transform:rotate(12deg); } }
+  .chdial .dial-label { display:flex; flex-direction:column; line-height:1.05; text-align:left; }
+  .chdial .dial-label small { font-family:'Space Mono', monospace; font-size:0.5rem;
+    letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); opacity:0.8; }
+  .chdial-panel { position:absolute; bottom:calc(100% + 0.6rem); right:0;
+    width:230px; max-height:min(64vh, 460px); overflow-y:auto;
+    background:linear-gradient(160deg, #1a0e2e, #0d0718);
+    border:1.5px solid rgba(192,132,252,0.5); border-radius:16px;
+    box-shadow:0 0 30px rgba(192,132,252,0.3), 0 14px 40px rgba(0,0,0,0.6);
+    padding:0.8rem 0.65rem 0.65rem; }
+  .chdial-title { font-family:'VT323', monospace; font-size:1.05rem; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--gold); text-align:center; margin-bottom:0.55rem;
+    text-shadow:0 0 10px rgba(255,210,80,0.6); }
+  .chdial-panel a { display:flex; align-items:center; gap:0.6rem; text-decoration:none;
+    font-family:'VT323', monospace; font-size:1.02rem; letter-spacing:0.05em;
+    color:rgba(230,218,255,0.85); padding:0.4rem 0.55rem; border-radius:10px;
+    transition:background .15s ease, color .15s ease, transform .15s ease; }
+  .chdial-panel a:hover { background:rgba(255,255,255,0.07); color:#fff; transform:translateX(3px); }
+  .chdial-panel a .em { font-size:1.1rem; width:1.4rem; text-align:center; }
+  .chdial-panel a .ch { margin-left:auto; font-family:'Space Mono', monospace; font-size:0.52rem;
+    letter-spacing:0.14em; color:rgba(200,180,255,0.4); }
+  @media (max-width:600px){ .chdial-panel { width:200px; } }
+  @media (prefers-reduced-motion: reduce){ .chdial summary, .chdial .dial-ico { animation:none !important; } }
+</style>
+<details class="chdial">
+  <summary title="Change the channel — pick a theme">
+    <span class="dial-ico">📺</span>
+    <span class="dial-label"><small>Change Channel</small>Pick a Frequency</span>
+  </summary>
+  <div class="chdial-panel">
+    <div class="chdial-title">📡 Channel Dial</div>
+    <a href="index-summer.html"><span class="em">☀️</span> Summer <span class="ch">CH 02</span></a>
+    <a href="index-halloween.html"><span class="em">🎃</span> Halloween <span class="ch">CH 03</span></a>
+    <a href="index-fall.html"><span class="em">🍂</span> Fall Café <span class="ch">CH 04</span></a>
+    <a href="index-candy.html"><span class="em">🍭</span> Candy Timestream <span class="ch">CH 05</span></a>
+    <a href="index-witching.html"><span class="em">🔮</span> Witching Hour <span class="ch">CH 06</span></a>
+    <a href="index-alien.html"><span class="em">🛸</span> Abduction <span class="ch">CH 07</span></a>
+    <a href="index-wonderland.html"><span class="em">🐇</span> Wonderland <span class="ch">CH 08</span></a>
+    <a href="index-vhs.html"><span class="em">📼</span> Lost Channel <span class="ch">CH 09</span></a>
+    <a href="index-sea.html"><span class="em">🌊</span> Under the Sea <span class="ch">CH 10</span></a>
+    <a href="index-dream.html"><span class="em">🌙</span> Dreamscape <span class="ch">CH 11</span></a>
+    <a href="index-cottage.html"><span class="em">🍄</span> Cottage Tea Time <span class="ch">CH 12</span></a>
+    <a href="arcade.html"><span class="em">🕹️</span> Arcade <span class="ch">CH 13</span></a>
+    <a href="index-winter.html"><span class="em">❄️</span> Winter Wonderland <span class="ch">CH 14</span></a>
+  </div>
+</details>
+
+<canvas id="bg"></canvas>
+
+<div class="page">
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      Now Broadcasting
+    </div>
+    <img decoding="async" fetchpriority="high" class="hero-logo" src="magick-mica-tv-logo.png" alt="Magick Mica TV" />
+    <h1 class="hero-title" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Magick Mica TV</h1>
+    <p class="hero-tagline"><em>✦</em> Where Magic Meets the Pixel <em>✦</em></p>
+    <div class="hero-divider"></div>
+  </header>
+
+
+  <!-- ── CHANNEL GUIDE ── -->
+  <nav class="guide" aria-label="Jump to section">
+    <div class="guide-rail">
+      <a href="#featured"><span>Featured</span><span class="gch">NOW</span></a>
+      <a href="#watch"><span>Watch</span><span class="gch">LIVE</span></a>
+      <a href="#read"><span>Read</span><span class="gch">PRESS</span></a>
+      <a href="#channels"><span>Channels</span><span class="gch">ALL</span></a>
+      <a href="#shop"><span>Shop</span><span class="gch">VAULT</span></a>
+      <a href="#support"><span>Support</span><span class="gch">★</span></a>
+    </div>
+  </nav>
+
+  <!-- ── FEATURED ── -->
+  <div class="section-label" id="featured"><span>Featured Transmissions</span></div>
+
+    <a class="card-featured" href="https://magickmica.github.io/arcade.html">
+    <div class="card-eyebrow">Now Playing</div>
+    <div class="card-title">✦ The Magick Mica Arcade ✦</div>
+    <div class="card-desc">Seven dream games built from real transmissions — scratch crystal cards, solve jigsaws, hunt hidden notes, spin the dream slots, and journey through the map-based Dream Quest. Every game runs on genuine notes and art. 🎮🌌</div>
+    <div class="card-cta">Enter the arcade <span>&rarr;</span></div>
+    <div class="card-emoji">🕹️</div>
+  </a>
+
+  <div class="feat-grid">
+    <a class="card-featured is-compact" href="https://magickmica.github.io/oracle">
+    <div class="card-eyebrow">Now Interactive</div>
+    <div class="card-title">The Cosmic Crystal Oracle</div>
+    <div class="card-desc">Think of a yes or no question, touch the crystal, and let the universe answer. Ancient starlight, modern pixels. 🔮✦</div>
+    <div class="card-cta">Consult the oracle <span>&rarr;</span></div>
+    <div class="card-emoji">🔮</div>
+  </a>
+    <a class="card-featured is-compact" href="https://magickmica.github.io/musicbox/">
+    <div class="card-eyebrow">Now Interactive</div>
+    <div class="card-title">The Cosmic Music Box</div>
+    <div class="card-desc">Open the box and let it play — dreamy melodies and shimmering tones drift through the stars. A little sound-sanctuary for your cosmic wandering. 🎵✦</div>
+    <div class="card-cta">Open the music box <span>&rarr;</span></div>
+    <div class="card-emoji">🎵</div>
+  </a>
+    <a class="card-featured is-compact" href="https://magickmica.github.io/cosmic-circus-broadcast.html">
+    <div class="card-eyebrow">New Broadcast</div>
+    <div class="card-title">The Cosmic Circus Broadcast</div>
+    <div class="card-desc">Step right up to the greatest show in the galaxy — starlit acrobats, nebula ringmasters, and wonders under a big top spun from stardust. 🎪✨🎠</div>
+    <div class="card-cta">Enter the broadcast <span>&rarr;</span></div>
+    <div class="card-emoji">🎪</div>
+  </a>
+    <a class="card-featured is-compact" href="https://magickmica.github.io/cozy-christmas-broadcast.html">
+    <div class="card-eyebrow">Seasonal Broadcast</div>
+    <div class="card-title">The Cozy Christmas Broadcast</div>
+    <div class="card-desc">Twinkling lights, warm cocoa, and a soft snowfall of holiday magic — a cozy cosmic transmission to wrap you up for the season. 🎄✦❄️</div>
+    <div class="card-cta">Enter the broadcast <span>&rarr;</span></div>
+    <div class="card-emoji">🎄</div>
+  </a>
+    <a class="card-featured is-compact" href="https://magickmica.github.io/glitter-transmission.html">
+    <div class="card-eyebrow">New Broadcast</div>
+    <div class="card-title">The Glitter Transmission</div>
+    <div class="card-desc">A shimmering signal straight from the rainbow pool — holographic waters, glitter frequencies, and a broadcast that sparkles all the way through. 💖🌈✨</div>
+    <div class="card-cta">Enter the broadcast <span>&rarr;</span></div>
+    <div class="card-emoji">✨</div>
+  </a>
+    <a class="card-featured is-compact" href="https://magickmica.github.io/aliens/galactic-dessert-issue.html">
+    <div class="card-eyebrow">Main Broadcast</div>
+    <div class="card-title">The Galactic Dessert Issue</div>
+    <div class="card-desc">A cosmic confection of sweetness from across the galaxy — where aliens love ice cream and every dessert is a little bit magic. 🍦👽✨</div>
+    <div class="card-cta">Enter the broadcast <span>&rarr;</span></div>
+    <div class="card-emoji">🍦</div>
+  </a>
+  </div>
+
+  <!-- ── TONIGHT'S GAME SHOW · QUIZ TV ── -->
+  <style>
+    .qz-wrap { margin: 2.6rem 0 2.8rem; }
+    .qz-label {
+      display:flex; align-items:center; gap:0.7rem; margin-bottom:1.4rem;
+      font-size:0.78rem; letter-spacing:0.34em; text-transform:uppercase; color:#ff9ad0;
+    }
+    .qz-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg, rgba(255,45,155,0.5), transparent); }
+    .qz-live {
+      display:inline-flex; align-items:center; gap:0.4rem;
+      font-size:0.62rem; letter-spacing:0.22em; color:#fff;
+      border:1px solid #ff2d9b; border-radius:999px; padding:0.25rem 0.7rem;
+      background:rgba(255,45,155,0.1);
+    }
+    .qz-live i { width:7px; height:7px; border-radius:50%; background:#ff2d9b; box-shadow:0 0 8px #ff2d9b; animation:qzBlink 1.1s steps(1) infinite; }
+    @keyframes qzBlink { 0%,60%{opacity:1} 61%,100%{opacity:0.15} }
+
+    .qz-set { display:block; text-decoration:none; position:relative; max-width:460px; margin:0 auto; transition:transform .25s ease; }
+    .qz-set:hover { transform:translateY(-5px); }
+    /* antennae */
+    .qz-antenna { position:relative; height:22px; margin:0 auto; width:80px; }
+    .qz-antenna::before, .qz-antenna::after {
+      content:''; position:absolute; bottom:0; left:50%; width:2.5px; height:22px;
+      background:#ff2d9b; border-radius:2px; transform-origin:bottom center;
+    }
+    .qz-antenna::before { transform:rotate(-33deg); }
+    .qz-antenna::after { transform:rotate(27deg); }
+    .qz-antenna .qz-tip-l, .qz-antenna .qz-tip-r {
+      position:absolute; width:9px; height:9px; border-radius:50%;
+      background:#00f0ff; box-shadow:0 0 10px #00f0ff; top:-3px;
+      animation:qzBlink 2.2s steps(1) infinite;
+    }
+    .qz-antenna .qz-tip-l { left:calc(50% - 18px); }
+    .qz-antenna .qz-tip-r { left:calc(50% + 10px); animation-delay:1.1s; }
+    /* body */
+    .qz-body {
+      border:3px solid #ff2d9b; border-radius:18px; overflow:hidden; background:#0d0820;
+      box-shadow:0 0 0 1px rgba(255,255,255,0.05) inset, 0 14px 40px -14px rgba(255,45,155,0.45);
+      transition:box-shadow .25s ease;
+    }
+    .qz-set:hover .qz-body { box-shadow:0 0 0 1px rgba(255,255,255,0.08) inset, 0 18px 50px -12px rgba(255,45,155,0.55), 0 0 34px -6px rgba(0,240,255,0.35); }
+    /* marquee bulb strip */
+    .qz-marquee { height:9px; background:#160a2c; border-bottom:1.5px solid rgba(255,45,155,0.5); position:relative; overflow:hidden; }
+    .qz-marquee::before {
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(circle 3px at 10px 6px, #ffd250 98%, transparent), radial-gradient(circle 3px at 34px 6px, #ff2d9b 98%, transparent), radial-gradient(circle 3px at 58px 6px, #00f0ff 98%, transparent);
+      background-size:72px 12px; background-repeat:repeat-x;
+      animation:qzChase 0.9s steps(3) infinite;
+    }
+    @keyframes qzChase { to { background-position:72px 0; } }
+    /* screen */
+    .qz-screen { position:relative; overflow:hidden; background:radial-gradient(120% 130% at 50% 20%, #1c0f38 0%, #0a0518 70%); padding:1.4rem 1.2rem 1.3rem; text-align:center; }
+    .qz-screen::before { /* scanlines */
+      content:''; position:absolute; inset:0; z-index:5; pointer-events:none;
+      background:repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 1px, transparent 1px 3px);
+      mix-blend-mode:multiply;
+    }
+    .qz-screen::after { /* glass glare */
+      content:''; position:absolute; inset:0; z-index:6; pointer-events:none;
+      background:radial-gradient(90% 60% at 30% 10%, rgba(255,255,255,0.12), transparent 55%);
+    }
+    .qz-noise { position:absolute; inset:-50%; z-index:1; pointer-events:none; opacity:0.09;
+      background-image:repeating-conic-gradient(rgba(255,255,255,0.6) 0% 0.0001%, transparent 0.0002% 0.05%);
+      animation:qzNoise 0.4s steps(4) infinite;
+    }
+    @keyframes qzNoise { 0%{transform:translate(0,0)} 25%{transform:translate(-2%,1%)} 50%{transform:translate(1%,-2%)} 75%{transform:translate(-1%,2%)} 100%{transform:translate(2%,-1%)} }
+    .qz-roll { position:absolute; left:0; right:0; height:70px; z-index:2; pointer-events:none;
+      background:linear-gradient(180deg, transparent, rgba(0,240,255,0.06), transparent);
+      animation:qzRoll 5.5s linear infinite;
+    }
+    @keyframes qzRoll { from{top:-70px} to{top:110%} }
+    /* floating suits */
+    .qz-suits { position:absolute; inset:0; z-index:2; pointer-events:none; }
+    .qz-suits span {
+      position:absolute; font-size:0.85rem; opacity:0.16;
+      animation:qzFloat 7s ease-in-out infinite;
+    }
+    .qz-suits span:nth-child(1){ left:6%;  top:18%; color:#ff2d9b; }
+    .qz-suits span:nth-child(2){ left:14%; top:64%; color:#00f0ff; animation-delay:1.4s; }
+    .qz-suits span:nth-child(3){ right:8%;  top:22%; color:#a3ff57; animation-delay:2.8s; }
+    .qz-suits span:nth-child(4){ right:15%; top:68%; color:#c084fc; animation-delay:4.2s; }
+    .qz-suits span:nth-child(5){ left:48%;  top:8%;  color:#ffd250; animation-delay:5.6s; }
+    @keyframes qzFloat { 0%,100%{transform:translateY(0) rotate(-8deg)} 50%{transform:translateY(-14px) rotate(10deg)} }
+    /* screen content */
+    .qz-inner { position:relative; z-index:4; }
+    .qz-chan {
+      position:absolute; top:0.55rem; right:0.75rem; z-index:7;
+      font-family:'VT323', monospace; font-size:0.9rem; letter-spacing:0.08em;
+      color:#ff2d9b; text-shadow:0 0 8px #ff2d9b; animation:qzBlink 2.6s steps(1) infinite;
+    }
+    .qz-eyebrow {
+      font-size:0.58rem; letter-spacing:0.3em; text-transform:uppercase;
+      color:#a3ff57; margin-bottom:0.55rem;
+    }
+    .qz-title {
+      font-family:'VT323', monospace; font-size:clamp(1.5rem, 4.5vw, 2.1rem);
+      line-height:1.05; letter-spacing:0.05em; margin-bottom:0.35rem;
+      background:linear-gradient(90deg, #ff2d9b, #ffd250, #00f0ff, #ff2d9b);
+      background-size:300% auto;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      animation:qzShimmer 4.5s linear infinite;
+    }
+    @keyframes qzShimmer { to { background-position:300% center; } }
+    .qz-sub {
+      font-size:0.72rem; letter-spacing:0.1em; line-height:1.65;
+      color:rgba(200,180,255,0.55); max-width:320px; margin:0 auto 0.85rem;
+    }
+    /* contestant podium row */
+    .qz-cast { display:flex; justify-content:center; gap:0.4rem; flex-wrap:wrap; margin-bottom:0.9rem; }
+    .qz-cast span {
+      font-size:1.15rem; line-height:1; padding:0.32rem 0.42rem;
+      border:1.5px solid rgba(255,45,155,0.25); border-radius:10px;
+      background:rgba(255,45,155,0.05);
+      animation:qzSpot 4s ease-in-out infinite;
+    }
+    .qz-cast span:nth-child(2){ animation-delay:0.8s; }
+    .qz-cast span:nth-child(3){ animation-delay:1.6s; }
+    .qz-cast span:nth-child(4){ animation-delay:2.4s; }
+    .qz-cast span:nth-child(5){ animation-delay:3.2s; }
+    @keyframes qzSpot {
+      0%,18%,100% { transform:translateY(0); border-color:rgba(255,45,155,0.25); box-shadow:none; }
+      8% { transform:translateY(-7px); border-color:#00f0ff; box-shadow:0 0 18px rgba(0,240,255,0.5); }
+    }
+    .qz-cta {
+      display:inline-flex; align-items:center; gap:0.6rem;
+      font-family:'VT323', monospace; font-size:1.1rem; letter-spacing:0.12em;
+      color:#060011; background:#a3ff57; border-radius:8px; padding:0.38rem 1.1rem;
+      box-shadow:0 0 22px rgba(163,255,87,0.4);
+      transition:box-shadow .2s, transform .2s;
+    }
+    .qz-set:hover .qz-cta { box-shadow:0 0 34px rgba(163,255,87,0.7); transform:scale(1.04); }
+    /* control panel */
+    .qz-panel {
+      display:flex; align-items:center; justify-content:space-between; gap:0.8rem;
+      padding:0.55rem 0.9rem; border-top:2px solid #ff2d9b;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+    }
+    .qz-name { font-family:'VT323', monospace; font-size:1.15rem; letter-spacing:0.05em; color:#fff; line-height:1; text-align:left; }
+    .qz-tag { font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase; color:#ff2d9b; margin-top:0.3rem; text-align:left; }
+    .qz-knobs { display:flex; gap:0.45rem; flex:none; }
+    .qz-knobs i { width:13px; height:13px; border-radius:50%; border:1.5px solid #ff2d9b; position:relative; opacity:0.85; }
+    .qz-knobs i::after { content:''; position:absolute; top:1px; left:50%; width:1.5px; height:4px; background:#ff2d9b; transform:translateX(-50%); }
+    .qz-knobs i:nth-child(2)::after { transform:translateX(-50%) rotate(65deg); transform-origin:bottom; }
+    .qz-set:hover .qz-knobs i:first-child::after { transform:translateX(-50%) rotate(120deg); transform-origin:bottom; transition:transform .3s; }
+    @media (max-width:560px){ .qz-screen{ padding:1.2rem 0.9rem 1.1rem; } .qz-cast span{ font-size:1rem; } }
+    @media (prefers-reduced-motion: reduce){
+      .qz-noise,.qz-roll,.qz-title,.qz-live i,.qz-marquee::before,.qz-suits span,.qz-cast span,.qz-chan,.qz-antenna .qz-tip-l,.qz-antenna .qz-tip-r { animation:none !important; }
+    }
+  </style>
+
+  <div class="qz-wrap">
+    <div class="qz-label" id="watch"><span>Tonight's Game Show</span><span class="qz-live"><i></i>Live · CH ♥</span></div>
+    <a class="qz-set" href="https://magickmica.github.io/which-character-are-you.html">
+      <div class="qz-antenna"><span class="qz-tip-l"></span><span class="qz-tip-r"></span></div>
+      <div class="qz-body">
+        <div class="qz-marquee" aria-hidden="true"></div>
+        <div class="qz-screen">
+          <div class="qz-noise" aria-hidden="true"></div>
+          <div class="qz-roll" aria-hidden="true"></div>
+          <div class="qz-suits" aria-hidden="true"><span>♥</span><span>♠</span><span>♦</span><span>♣</span><span>✦</span></div>
+          <span class="qz-chan">CH ♥</span>
+          <div class="qz-inner">
+            <div class="qz-eyebrow">▚▞ Studio Audience Live · Wonderland Broadcasting ▞▚</div>
+            <div class="qz-title">Which Wonderland<br>Character Are You?</div>
+            <p class="qz-sub">Five contestants wait behind the curtain. Step up to the podium and find out who's been you all along.</p>
+            <div class="qz-cast" aria-hidden="true"><span>🐰</span><span>🎩</span><span>😼</span><span>👑</span><span>🐛</span></div>
+            <span class="qz-cta">Take the Quiz →</span>
+          </div>
+        </div>
+        <div class="qz-panel">
+          <div>
+            <div class="qz-name">The Wonderland Quiz</div>
+            <div class="qz-tag">Personality Broadcast · 100% Curiouser</div>
+          </div>
+          <div class="qz-knobs" aria-hidden="true"><i></i><i></i></div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- ── RANDOM NOTE TV (embedded mini player) ── -->
+  <div class="section-label"><span>Random Note TV</span></div>
+
+  <div class="mtv-wrap">
+    <div class="mtv-set">
+      <div class="mtv-brand">MAGICKVISION™</div>
+      <div class="mtv-screen-wrap">
+        <div class="mtv-screen" id="mtvScreen">
+          <div class="mtv-note" id="mtvNote"></div>
+        </div>
+        <div class="mtv-static" id="mtvStatic"></div>
+        <div class="mtv-scanlines"></div>
+        <div class="mtv-flicker"></div>
+      </div>
+      <div class="mtv-controls">
+        <div class="mtv-unit">
+          <button class="mtv-knob" id="mtvChannelBtn" aria-label="Change channel">
+            <span class="mtv-knob-ticks"></span>
+          </button>
+          <span class="mtv-label mtv-pink">Change Channel</span>
+        </div>
+        <div class="mtv-led"></div>
+        <div class="mtv-unit">
+          <button class="mtv-switch" id="mtvAutoBtn" aria-label="Toggle auto-rotate">
+            <span class="mtv-switch-nub"></span>
+          </button>
+          <span class="mtv-label mtv-cyan">Auto-Rotate</span>
+        </div>
+      </div>
+    </div>
+    <a class="mtv-full-link" href="https://magickmica.github.io/random-note.html">📺 Open Full Random Note TV →</a>
+  </div>
+
+  <!-- ── THE NEWSSTAND ── -->
+  <div class="section-label" id="read"><span>The Newsstand</span></div>
+
+  <a class="newsstand-teaser" href="https://magickmica.github.io/aliens/newsstand.html">
+    <div class="ns-eyebrow">Now Stocking · Nine Issues</div>
+    <div class="ns-title">The Intergalactic <b>Newsstand</b></div>
+    <div class="ns-desc">Every transmission on one glowing rack — cosmic desserts, pyramid-powered stellar drives, coastal Y3K dispatches, ancient goddesses and more. Step right up and flip through the whole collection. 🛸📰✨</div>
+    <div class="ns-rack">
+      <span class="ns-spine">Galactic Dessert</span>
+      <span class="ns-spine">Cosmic Stellar Drive</span>
+      <span class="ns-spine">Stargazer</span>
+      <span class="ns-spine">Rhode Island Beach Life</span>
+      <span class="ns-spine more">+ nine on the stand</span>
+    </div>
+    <div class="ns-cta">Browse the newsstand <span>&rarr;</span></div>
+    <div class="ns-emoji">🛸</div>
+  </a>
+
+  <!-- ── WONDERLAND WEEKLY ── -->
+  <div class="section-label"><span>On the Cover</span></div>
+
+  <a class="ww-blowin" href="https://magickmica.github.io/alice/wonderland-weekly-expanded.html">
+    <div class="ww-cutout">
+      <img src="wonderland-weekly-cutout.png" width="294" height="640" loading="lazy" decoding="async" alt="Alice, cover star of Wonderland Weekly" />
+    </div>
+    <div class="ww-cover">
+      <span class="ww-flash">Expanded Edition · $9.99</span>
+      <div class="ww-masthead">Wonderland <b>Weekly &hearts;</b></div>
+      <div class="ww-issue">Summer 2026 · Vol. 12 · Issue 24</div>
+      <ul class="ww-lines">
+        <li><b>Exclusive:</b> Alice &amp; The Cat, unfiltered</li>
+        <li>Curiouser &amp; curiouser — the gossip column</li>
+        <li>Tea leaf horoscopes &amp; the Cheshire glow-up</li>
+        <li>Take the quiz: which character are you?</li>
+      </ul>
+      <span class="ww-cta">Read the issue <span>&rarr;</span></span>
+    </div>
+  </a>
+
+  <!-- ── Y3K MAGAZINE ── -->
+  <div class="section-label"><span>Y3K Magazine</span></div>
+
+  <div class="mag-section">
+    <div class="mag-intro">Missed a week? Every transmission, archived by date.</div>
+    <div class="mag-grid">
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-07-27.html">
+      <div class="mag-card-cover">
+        <img decoding="async" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbbd4dec1-3f7c-4fd5-97c0-12f208f5dbc2_900x900.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">183 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jul 27–Aug 2</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-07-20.html">
+      <div class="mag-card-cover">
+        <img decoding="async" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F28789c1a-1972-4955-8061-5b454c79ce80_1536x1024.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">46 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jul 20–Jul 26</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-07-13.html">
+      <div class="mag-card-cover">
+        <img decoding="async" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F131544c2-e136-4c5f-8427-a5213c34acdd_1122x1402.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">157 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jul 13–Jul 19</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-07-06.html">
+      <div class="mag-card-cover">
+        <img decoding="async" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F36e7a683-33bc-4846-82f9-ed1cec1c070d_1200x1200.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">91 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jul 6–Jul 12</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-06-29.html">
+      <div class="mag-card-cover">
+        <img decoding="async" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5c6817c-99d6-4ae3-8fee-29051dc78e5f_2048x2048.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">142 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jun 29–Jul 5</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-06-22.html">
+      <div class="mag-card-cover">
+        <img decoding="async" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F581771df-30ba-4387-879c-eae3f3b27202_2048x2048.jpeg" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">124 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jun 22–Jun 28</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-06-15.html">
+      <div class="mag-card-cover">
+        <img decoding="async" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc2db026a-da61-44a9-be9c-7a3bd695051a_1149x1369.png" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">122 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jun 15–Jun 21</div>
+    </a>
+    <a class="mag-card" href="https://magickmica.github.io/week-2026-06-08.html">
+      <div class="mag-card-cover">
+        <img decoding="async" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3eb46464-75f2-4ebb-abaa-d2ecb789386a_2048x2048.jpeg" loading="lazy" onerror="this.parentElement.classList.add('no-img')" />
+        <div class="mag-card-overlay"></div>
+        <div class="mag-card-count">191 NOTES</div>
+      </div>
+      <div class="mag-card-label">Jun 8–Jun 14</div>
+    </a>
+    </div>
+    <a class="mag-hub-link" href="https://magickmica.github.io/minimags.html">✦ Browse All Weekly &amp; Monthly Issues ✦</a>
+  </div>
+
+  <!-- ── SUBSTACK ARCHIVE ── -->
+  <div class="section-label"><span>Substack Archive</span></div>
+
+  <div class="card-grid">
+
+    <a class="card v-pink" href="https://magickmica.github.io/blog.html">
+      <span class="card-icon">✦</span>
+      <div class="card-name">The Blog</div>
+      <div class="card-hint">A cosmic corner of the internet. Posts, sidebar curiosities, and the occasional surprise.</div>
+      <div class="card-link-label">Read the blog →</div>
+    </a>
+
+    <a class="card v-cyan" href="https://magickmica.github.io/notes.html">
+      <span class="card-icon">📝</span>
+      <div class="card-name">Notes Archive</div>
+      <div class="card-hint">Every transmission, never lost. Search thousands of notes by date, mood, or media.</div>
+      <div class="card-link-label">Browse the notes →</div>
+    </a>
+
+    <a class="card v-gold" href="https://magickmica.github.io/articles.html">
+      <span class="card-icon">📰</span>
+      <div class="card-name">Article Archive</div>
+      <div class="card-hint">The full magazine. Every newsletter issue from Magick Mica TV and Magick Mica Art, in one place.</div>
+      <div class="card-link-label">Read the archive →</div>
+    </a>
+
+  </div>
+
+  <!-- ── CHANNELS ── -->
+  <div class="section-label" id="channels"><span>All Channels</span></div>
+
+  <div class="card-grid">
+
+    <a class="card v-gold" href="https://magickmica.github.io/alice/alice-ufo-message.html">
+      <span class="card-icon">🛸</span>
+      <div class="card-name">Alice — UFO Message</div>
+      <div class="card-hint">Signals from beyond the looking glass. Transmissions that came from somewhere else entirely.</div>
+      <div class="card-link-label">Open channel →</div>
+    </a>
+
+    <a class="card v-purple" href="https://magickmica.github.io/mags/mags/index.html">
+      <span class="card-icon">✨</span>
+      <div class="card-name">Cosmic Mags</div>
+      <div class="card-hint">The hub within the hub. Stories, moments, and magic gathered in one place.</div>
+      <div class="card-link-label">Tune in →</div>
+    </a>
+
+    <a class="card v-teal" href="https://magickmica.github.io/mags/mags/rhode-island-beach-life.html">
+      <span class="card-icon">🌊</span>
+      <div class="card-name">Rhode Island Beach Life</div>
+      <div class="card-hint">Salt, sand, and a certain kind of light. The ocean transmissions.</div>
+      <div class="card-link-label">Go there →</div>
+    </a>
+
+  </div>
+
+  <!-- ── INCOMING TRANSMISSION · HERKIMER ── -->
+  <div class="section-label" id="shop"><span>The Signal Shop</span></div>
+
+  <div class="tx-wrap">
+    <div class="tx-label"><span>Incoming Transmission</span><span class="tx-live"><i></i>Live · CH 07</span></div>
+    <a class="tx-set" href="https://magickmica.github.io/herkimer-vault.html">
+      <div class="tx-screen">
+        <div class="tx-noise" aria-hidden="true"></div>
+        <div class="tx-scan" aria-hidden="true"></div>
+        <div class="tx-roll" aria-hidden="true"></div>
+        <div class="tx-inner">
+          <span class="tx-gem"><img decoding="async" src="https://static.wixstatic.com/media/f91caa_c9c5e5b708fe490daebae7b468802e21~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Herkimer diamond quartz" loading="lazy"></span>
+          <span class="tx-copy">
+            <span class="tx-chan">▚▞ SIGNAL DETECTED · UPSTATE NEW YORK ▞▚</span>
+            <span class="tx-title">The Herkimer Vault</span>
+            <span class="tx-sub">Pure solidified light — doubly-terminated diamonds mined in Herkimer County, some with ancient water &amp; glowing petroleum sealed inside. 23 pieces, live now. 💠</span>
+          </span>
+          <span class="tx-cta">Tune In →</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- ── THE VAULTS ── -->
+  <div class="section-label"><span>The Vaults</span></div>
+
+  <div class="vault-grid">
+    <a class="vault-tv" href="https://magickmica.github.io/opal-vault.html" style="--vc:#ff6fae;--vglow:rgba(255,111,174,0.4)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img decoding="async" src="https://static.wixstatic.com/media/f91caa_b6366e5b6f564a0a86540f3124dbd6a2~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Midnight Aurora black opal amulet" loading="lazy">
+          <span class="tv-chan">CH 01</span>
+          <span class="tv-onair">On Air</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">The Opal Vault</div>
+            <div class="tv-tag">Play of Color</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Enter the vault &rarr;</span>
+    </a>
+
+    <a class="vault-tv" href="https://magickmica.github.io/labradorite-vault.html" style="--vc:#5a8bff;--vglow:rgba(90,139,255,0.4)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img decoding="async" src="https://static.wixstatic.com/media/f91caa_022601183b9749ad9be2a356c633d543~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Golden fire labradorite heart" loading="lazy">
+          <span class="tv-chan">CH 02</span>
+          <span class="tv-onair">On Air</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">Labradorite Vault</div>
+            <div class="tv-tag">The Flash Within</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Enter the vault &rarr;</span>
+    </a>
+
+    <a class="vault-tv" href="https://magickmica.github.io/watermelon-vault.html" style="--vc:#46e5c8;--vglow:rgba(70,229,200,0.4)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img decoding="async" src="https://static.wixstatic.com/media/f91caa_f1482dfa04cf4aefadd757aadbf1a92f~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Watermelon tourmaline specimen" loading="lazy">
+          <span class="tv-chan">CH 03</span>
+          <span class="tv-onair">On Air</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">Watermelon Vault</div>
+            <div class="tv-tag">Pink Heart · Green Rind</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Enter the vault &rarr;</span>
+    </a>
+
+    <a class="vault-tv" href="https://magickmica.github.io/copper-jewelry.html" style="--vc:#ffc46b;--vglow:rgba(255,196,107,0.4)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img decoding="async" src="https://static.wixstatic.com/media/f91caa_27488b7420dd4bdc81a115dad39a7757~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Shungite H.E.A.L. shield in copper coil" loading="lazy">
+          <span class="tv-chan">CH 04</span>
+          <span class="tv-onair">On Air</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">Copper Workshop</div>
+            <div class="tv-tag">Sacred Cubit Coils</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Enter the vault &rarr;</span>
+    </a>
+    <a class="vault-tv" href="https://magickmica.github.io/quartz-vault.html" style="--vc:#b17dff;--vglow:rgba(177,125,255,0.4)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img decoding="async" src="https://static.wixstatic.com/media/f91caa_1dfa07609ffd411598cdf448b05a8781~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Phantom clear quartz free form" loading="lazy">
+          <span class="tv-chan">CH 05</span>
+          <span class="tv-onair">On Air</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">Quartz Vault</div>
+            <div class="tv-tag">Raw Crystal Light</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Enter the vault &rarr;</span>
+    </a>
+
+    <a class="vault-tv" href="https://magickmica.github.io/quartz-amulets.html" style="--vc:#ece9ff;--vglow:rgba(236,233,255,0.35)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img decoding="async" src="https://static.wixstatic.com/media/f91caa_946611a656af4732ba9338c926c6f15b~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Rose quartz 432 Hz copper H.E.A.L. shield" loading="lazy">
+          <span class="tv-chan">CH 06</span>
+          <span class="tv-onair">On Air</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">Quartz Amulets</div>
+            <div class="tv-tag">Copper-Wound Light</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Enter the vault &rarr;</span>
+    </a>
+
+  </div>
+
+  <p class="vault-note">Hand-picked crystals, gemstones &amp; copper — curated by Magick Mica TV, sold by <a href="https://www.themysticalspiralstore.com" target="_blank" rel="noopener">The Mystical Spiral Store</a>.</p>
+
+  <!-- ── MEMBERSHIP TRANSMISSIONS (Ko-fi tiers) ── -->
+  <div class="section-label" id="support"><span>Support the Signal</span></div>
+
+  <div class="kofi-grid">
+
+    <a class="vault-tv kofi-tv" href="https://ko-fi.com/magickmica/tiers" target="_blank" rel="noopener" style="--vc:#ff8ad8;--vglow:rgba(255,138,216,0.4)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img decoding="async" src="cosmic-cofee-member.png" alt="Cosmic Coffee membership tier — holographic ghost sipping coffee" loading="lazy">
+          <span class="kofi-static"></span>
+          <span class="kofi-syncbar"></span>
+          <span class="tv-signal">Signal Locked</span>
+          <span class="tv-chan">CH ☕</span>
+          <span class="tv-onair">Now Streaming</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">Cosmic Coffee</div>
+            <div class="tv-tag">Monthly Member Tier</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Tune in on Ko-fi &rarr;</span>
+    </a>
+
+    <a class="vault-tv kofi-tv" href="https://ko-fi.com/magickmica/tiers" target="_blank" rel="noopener" style="--vc:#ffd250;--vglow:rgba(255,210,80,0.4)">
+      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
+      <div class="tv-body">
+        <div class="tv-screen">
+          <img decoding="async" src="starseed-explorer-tier.png" alt="Starseed Explorer membership tier — cosmic goddess, pyramid, and UFO" loading="lazy">
+          <span class="kofi-static"></span>
+          <span class="kofi-syncbar"></span>
+          <span class="tv-signal">Signal Locked</span>
+          <span class="tv-chan">CH ✦</span>
+          <span class="tv-onair">Now Streaming</span>
+        </div>
+        <div class="tv-panel">
+          <div class="tv-label">
+            <div class="tv-name">Starseed Explorer</div>
+            <div class="tv-tag">Monthly Member Tier</div>
+          </div>
+          <div class="tv-knobs"><i></i><i></i></div>
+        </div>
+      </div>
+      <span class="tv-enter">Tune in on Ko-fi &rarr;</span>
+    </a>
+
+  </div>
+
+  <a class="kofi-cta" href="https://ko-fi.com/magickmica/tiers" target="_blank" rel="noopener">
+    <span class="kofi-cta-live">Live Broadcast · Members Only Frequencies</span>
+    <div class="kofi-cta-title">JOIN THE <span class="gold">TRANSMISSION</span></div>
+    <div class="kofi-cta-sub">Two channels. One signal. Pick <strong>Cosmic Coffee ☕</strong> or <strong>Starseed Explorer ✦</strong> and unlock the members-only broadcast.</div>
+    <span class="kofi-cta-btn">▸ TUNE IN ON KO-FI</span>
+    <span class="kofi-cta-url">ko-fi.com/magickmica/tiers</span>
+  </a>
+
+  <!-- ── BUY ME A STAR (one-time tip) ── -->
+  <a class="star-tip" href="https://ko-fi.com/magickmica/tip" target="_blank" rel="noopener">
+    <span class="star-sky" aria-hidden="true">
+      <i style="--x:12%;--y:28%;--d:0s"></i><i style="--x:31%;--y:66%;--d:1.1s"></i>
+      <i style="--x:54%;--y:19%;--d:2.2s"></i><i style="--x:73%;--y:58%;--d:0.6s"></i>
+      <i style="--x:88%;--y:33%;--d:1.7s"></i>
+    </span>
+    <span class="star-glyph" aria-hidden="true">★</span>
+    <span class="star-copy">
+      <span class="star-kicker">No subscription · One-time signal boost</span>
+      <span class="star-title">Buy Me a <b>Star</b></span>
+      <span class="star-sub">Toss a star into the transmission. It keeps the broadcast running, the vaults stocked, and the coffee cosmic.</span>
+      <span class="star-btn">★ Send a Star</span>
+    </span>
+  </a>
+
+  <!-- ── EXTENDED UNIVERSE ── -->
+  <div class="section-label"><span>Extended Universe</span></div>
+
+  <div class="card-grid">
+
+    <a class="card v-cyan" href="https://substack.com/@magickmica" target="_blank" rel="noopener">
+      <span class="ext-badge">External ↗</span>
+      <span class="card-icon">📡</span>
+      <div class="card-name">Substack</div>
+      <div class="card-hint">The written word. Subscribe to receive transmissions direct to your inbox.</div>
+      <div class="card-link-label">substack.com/@magickmica</div>
+    </a>
+
+    <a class="card v-pink" href="https://www.themysticalspiralstore.com/" target="_blank" rel="noopener">
+      <span class="ext-badge">External ↗</span>
+      <span class="card-icon">🌀</span>
+      <div class="card-name">Mystical Spiral Store</div>
+      <div class="card-hint">Objects that carry the signal. Curated artifacts for the curious and the cosmic.</div>
+      <div class="card-link-label">themysticalspiralstore.com</div>
+    </a>
+
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <!-- ── THE TRANSMISSION MAP ── -->
+  <nav class="tmap" aria-label="Site map">
+    <span class="tmap-shooter"></span>
+    <span class="tmap-shooter s2"></span>
+
+    <div class="tmap-head">
+      <span class="tmap-kicker">Navigation Signal Acquired</span>
+      <div class="tmap-title">THE TRANSMISSION MAP</div>
+      <div class="tmap-sub">Every channel · Every frequency · One sky</div>
+    </div>
+
+    <div class="tmap-grid">
+
+      <div class="tmap-col" style="--tc:var(--pink);--tg:rgba(255,45,155,0.6)">
+        <div class="tmap-col-title">📡 Broadcasts</div>
+        <a href="https://magickmica.github.io/oracle">The Cosmic Crystal Oracle</a>
+        <a href="https://magickmica.github.io/glitter-transmission.html">The Glitter Transmission</a>
+        <a href="https://magickmica.github.io/aliens/galactic-dessert-issue.html">Galactic Dessert Issue</a>
+        <a href="https://magickmica.github.io/random-note.html">Random Note TV</a>
+        <a href="https://magickmica.github.io/alice/alice-ufo-message.html">Alice's UFO Message</a>
+        <a href="https://magickmica.github.io/which-character-are-you.html">Character Quiz Show</a>
+      </div>
+
+      <div class="tmap-col" style="--tc:var(--cyan);--tg:rgba(0,240,255,0.6)">
+        <div class="tmap-col-title">📰 Reading Room</div>
+        <a href="https://magickmica.github.io/alice/wonderland-weekly-expanded.html">Wonderland Weekly</a>
+        <a href="https://magickmica.github.io/aliens/newsstand.html">Intergalactic Newsstand</a>
+        <a href="https://magickmica.github.io/minimags.html">Mini Mags</a>
+        <a href="https://magickmica.github.io/blog.html">The Blog</a>
+        <a href="https://magickmica.github.io/articles.html">Articles</a>
+        <a href="https://magickmica.github.io/notes.html">Notes Archive</a>
+      </div>
+
+      <div class="tmap-col" style="--tc:var(--gold);--tg:rgba(255,210,80,0.6)">
+        <div class="tmap-col-title">💎 Crystal Vaults</div>
+        <a href="https://magickmica.github.io/herkimer-vault.html">Herkimer Vault</a>
+        <a href="https://magickmica.github.io/labradorite-vault.html">Labradorite Vault</a>
+        <a href="https://magickmica.github.io/opal-vault.html">Opal Vault</a>
+        <a href="https://magickmica.github.io/quartz-vault.html">Quartz Vault</a>
+        <a href="https://magickmica.github.io/watermelon-vault.html">Watermelon Vault</a>
+        <a href="https://magickmica.github.io/quartz-amulets.html">Quartz Amulets</a>
+        <a href="https://magickmica.github.io/copper-jewelry.html">Copper Jewelry</a>
+      </div>
+
+      <div class="tmap-col" style="--tc:var(--purple);--tg:rgba(192,132,252,0.6)">
+        <div class="tmap-col-title">🛸 Beyond the Signal</div>
+        <a href="https://substack.com/@magickmica" target="_blank" rel="noopener">Substack <span class="ext">↗</span></a>
+        <a href="https://ko-fi.com/magickmica/tiers" target="_blank" rel="noopener">Ko-fi Memberships <span class="ext">↗</span></a>
+        <a href="https://www.themysticalspiralstore.com" target="_blank" rel="noopener">Mystical Spiral Store <span class="ext">↗</span></a>
+      </div>
+
+      <div class="tmap-col" style="--tc:var(--lime);--tg:rgba(163,255,87,0.6)">
+        <div class="tmap-col-title">♥ Support &amp; Strays</div>
+        <a href="https://ko-fi.com/magickmica/tip" target="_blank" rel="noopener">Buy Me a Star <span class="ext">↗</span></a>
+        <a href="https://ko-fi.com/magickmica/tiers" target="_blank" rel="noopener">Membership Tiers <span class="ext">↗</span></a>
+        <a href="/404.html">The Lost Channel</a>
+      </div>
+
+    </div>
+
+    <div class="tmap-channels">
+      <div class="tmap-ch-head"><span>📺 Other Frequencies</span></div>
+      <div class="tmap-ch-grid">
+        <a class="tmap-chip" href="index-summer.html" style="--cc:#ffdd33;--cg:rgba(255,221,51,0.45)"><span class="cem">☀️</span><span class="cnm">Summer</span><span class="cno">CH 02</span></a>
+        <a class="tmap-chip" href="index-halloween.html" style="--cc:#ff7a1a;--cg:rgba(255,122,26,0.45)"><span class="cem">🎃</span><span class="cnm">Halloween</span><span class="cno">CH 03</span></a>
+        <a class="tmap-chip" href="index-fall.html" style="--cc:#ffb347;--cg:rgba(255,179,71,0.45)"><span class="cem">🍂</span><span class="cnm">Fall Café</span><span class="cno">CH 04</span></a>
+        <a class="tmap-chip" href="index-winter.html" style="--cc:#9fe8ff;--cg:rgba(159,232,255,0.45)"><span class="cem">❄️</span><span class="cnm">Winter Wonderland</span><span class="cno">CH 05</span></a>
+        <a class="tmap-chip" href="index-candy.html" style="--cc:#ff4fb8;--cg:rgba(255,79,184,0.45)"><span class="cem">🍭</span><span class="cnm">Candy Timestream</span><span class="cno">CH 06</span></a>
+        <a class="tmap-chip" href="index-witching.html" style="--cc:#b45cff;--cg:rgba(180,92,255,0.45)"><span class="cem">🔮</span><span class="cnm">Witching Hour</span><span class="cno">CH 07</span></a>
+        <a class="tmap-chip" href="index-alien.html" style="--cc:#52ff6e;--cg:rgba(82,255,110,0.45)"><span class="cem">🛸</span><span class="cnm">Abduction</span><span class="cno">CH 08</span></a>
+        <a class="tmap-chip" href="index-wonderland.html" style="--cc:#ff2440;--cg:rgba(255,36,64,0.45)"><span class="cem">🐇</span><span class="cnm">Wonderland</span><span class="cno">CH 09</span></a>
+        <a class="tmap-chip" href="index-vhs.html" style="--cc:#27e8f5;--cg:rgba(39,232,245,0.45)"><span class="cem">📼</span><span class="cnm">Lost Channel</span><span class="cno">CH 10</span></a>
+        <a class="tmap-chip" href="index-sea.html" style="--cc:#2ee6ff;--cg:rgba(46,230,255,0.45)"><span class="cem">🌊</span><span class="cnm">Under the Sea</span><span class="cno">CH 11</span></a>
+        <a class="tmap-chip" href="index-dream.html" style="--cc:#ffa8d9;--cg:rgba(255,168,217,0.45)"><span class="cem">🌙</span><span class="cnm">Dreamscape</span><span class="cno">CH 12</span></a>
+        <a class="tmap-chip" href="index-cottage.html" style="--cc:#e8899e;--cg:rgba(232,137,158,0.45)"><span class="cem">🍄</span><span class="cnm">Cottage Tea Time</span><span class="cno">CH 13</span></a>
+        <a class="tmap-chip" href="arcade.html" style="--cc:#39ff14;--cg:rgba(57,255,20,0.45)"><span class="cem">🕹️</span><span class="cnm">Arcade</span><span class="cno">CH 14</span></a>
+        <a class="tmap-chip" href="https://magickmica.github.io/musicbox/" style="--cc:#7bf1e4;--cg:rgba(123,241,228,0.45)"><span class="cem">🎵</span><span class="cnm">Music Box</span><span class="cno">CH 15</span></a>
+        <a class="tmap-chip" href="https://magickmica.github.io/cosmic-circus-broadcast.html" style="--cc:#ff9be4;--cg:rgba(255,155,228,0.45)"><span class="cem">🎪</span><span class="cnm">Cosmic Circus</span><span class="cno">CH 16</span></a>
+        <a class="tmap-chip" href="https://magickmica.github.io/cozy-christmas-broadcast.html" style="--cc:#ff5a5a;--cg:rgba(255,90,90,0.45)"><span class="cem">🎄</span><span class="cnm">Cozy Christmas</span><span class="cno">CH 17</span></a>
+      </div>
+    </div>
+
+    <div class="tmap-here">Current position: <b>Magick Mica TV · Home Frequency</b></div>
+  </nav>
+
+  <footer class="hub-footer">
+    <div class="footer-brand">Magick Mica TV</div>
+    <div class="footer-copy">© Magick Mica TV · All Transmissions Reserved</div>
+  </footer>
+
+</div><!-- /page -->
+
+<script>
+/* ── starfield ── */
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const c = document.getElementById('bg');
+  const ctx = c.getContext('2d', { alpha: true });
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  let W, H, stars = [], neb = null, raf = null;
+  const cols = ['#fff','rgba(192,84,252,0.9)','rgba(0,240,255,0.8)','rgba(255,45,155,0.7)','rgba(163,255,87,0.7)'];
+
+  function resize(){
+    W = innerWidth; H = innerHeight;
+    c.width = W * dpr; c.height = H * dpr;
+    c.style.width = W + 'px'; c.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // nebula gradients are static — bake them once per resize, not per frame
+    neb = document.createElement('canvas');
+    neb.width = W; neb.height = H;
+    const n = neb.getContext('2d');
+    const g1 = n.createRadialGradient(W*0.2, H*0.15, 0, W*0.2, H*0.15, W*0.35);
+    g1.addColorStop(0,'rgba(192,84,252,0.04)'); g1.addColorStop(1,'transparent');
+    n.fillStyle = g1; n.fillRect(0,0,W,H);
+    const g2 = n.createRadialGradient(W*0.8, H*0.6, 0, W*0.8, H*0.6, W*0.3);
+    g2.addColorStop(0,'rgba(0,240,255,0.03)'); g2.addColorStop(1,'transparent');
+    n.fillStyle = g2; n.fillRect(0,0,W,H);
+  }
+
+  function mkStars(){
+    stars = [];
+    // capped so huge displays don't pay a 1000+ star per-frame cost
+    const n = Math.min(Math.floor((W*H)/6000), 320);
+    for(let i=0;i<n;i++) stars.push({
+      x: Math.random()*W, y: Math.random()*H,
+      r: Math.random()*1.3+0.2,
+      a: Math.random(), da: (Math.random()-0.5)*0.005,
+      col: cols[Math.floor(Math.random()*cols.length)]
+    });
+  }
+
+  function paint(twinkle){
+    ctx.clearRect(0,0,W,H);
+    if (neb) ctx.drawImage(neb, 0, 0);
+    for (let i=0;i<stars.length;i++){
+      const s = stars[i];
+      if (twinkle){
+        s.a += s.da;
+        if(s.a<=0||s.a>=1) s.da*=-1;
+      }
+      ctx.globalAlpha = s.a * 0.9;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle = s.col; ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function loop(){ paint(true); raf = requestAnimationFrame(loop); }
+  function stop(){ if (raf) { cancelAnimationFrame(raf); raf = null; } }
+  function play(){ if (!raf && !reduce) loop(); }
+
+  resize(); mkStars();
+  if (reduce) { paint(false); } else { loop(); }
+
+  // don't burn battery on a backgrounded tab
+  document.addEventListener('visibilitychange', () => document.hidden ? stop() : play());
+
+  let t;
+  addEventListener('resize', () => {
+    clearTimeout(t);
+    t = setTimeout(() => { resize(); mkStars(); if (reduce) paint(false); }, 150);
+  });
+})();
+
+/* ── floating particles ── */
+(function(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cols=['rgba(255,45,155,0.5)','rgba(0,240,255,0.4)','rgba(163,255,87,0.4)','rgba(192,84,252,0.5)','rgba(255,210,80,0.4)'];
+  for(let i=0;i<20;i++){
+    const p = document.createElement('div');
+    p.className='particle';
+    const sz = Math.random()*3+1.5;
+    p.style.cssText=[
+      `width:${sz}px`,`height:${sz}px`,
+      `background:${cols[Math.floor(Math.random()*cols.length)]}`,
+      `left:${Math.random()*100}vw`,
+      `animation-duration:${Math.random()*22+14}s`,
+      `animation-delay:${Math.random()*18}s`
+    ].join(';');
+    document.body.appendChild(p);
+  }
+})();
+</script>
+
+<script>
+const MTV_NOTES = [{"d":"2026-04-13","l":82,"r":6,"id":242529436,"b":"You are beautiful, You are worthy, You are enough.\n\n𖤓","c":["queen"]},{"d":"2026-03-27","l":60,"r":16,"id":234062272,"b":"“Just a ghost trying to espresso myself into existence.”\n\n𖤓 ｡𖦹°‧ ⋆☀︎.𓍢ִ໋☕️✧˚ ༘ ⋆","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa8f17e8c-c14a-4672-864a-5b6fe98da973_600x600.gif"},{"d":"2026-02-17","l":60,"r":12,"id":215718429,"b":"“Every version of me was practice for the miracle I am now.”\n\n✨⋆✴︎˚｡⋆ ⊹₊🪄⊹₊⟡⋆💫","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2acf2e4d-ef35-4489-8c93-b2e4fa0cdcdd_1200x1409.png"},{"d":"2026-04-06","l":55,"r":6,"id":238967395,"b":"Abundance flows to me because I am open and ready to receive peace and freedom.\n\n💚"},{"d":"2026-05-25","l":54,"r":13,"id":264761834,"b":"“Curiosity didn’t kill the cat — it opened a portal.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2fcc5d7-40a3-4385-bec4-b0f3ebd02edb_896x1600.jpeg","c":["animals"]},{"d":"2026-03-21","l":53,"r":13,"id":230977692,"b":"“Midnight wasn’t the end of her story… it was the doorway to a thousand untold ones.”\n\n👗🪄🕛⋆.˚🦋༘⋆❤︎","m":"3I01fFd4sBZC5Fu01RT4kJc8Da8XWuJ002nkM00FO3cZFUY","c":["gothic"]},{"d":"2026-02-21","l":52,"r":5,"id":217651659,"b":"“Without music, life would be a mistake.” \n\nFriedrich Nietzsche\n\nִֶָ. ..𓆩❤️‍🔥𓆪𓂃 ࣪ ִֶָ🔥་༘࿐💥ৡ","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1d9c3452-0a5e-4fbf-ae9f-f93b350aff9f_1200x1200.png"},{"d":"2026-04-07","l":49,"r":19,"id":239392252,"b":"“Rest is not a reward. It’s a requirement.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F74d5d26f-0088-4ef9-aed2-19ccb3e640df_1200x663.png"},{"d":"2026-05-13","l":47,"r":5,"id":258314262,"b":"The dream was lovely, but being alive is magic.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F36e1dba8-fa53-4bf6-afaf-0b292f7d04a1_1200x1200.png"},{"d":"2026-05-27","l":45,"r":10,"id":265733318,"b":"“Like, if Edgar Allan Poe had a shopping addiction.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5d600b71-025a-44a0-a1df-7e929f8c29cb_1024x1536.png"},{"d":"2026-07-29","l":43,"r":8,"id":303920180,"b":"Never apologize for bringing glitter to the end of the world."},{"d":"2026-05-08","l":43,"r":4,"id":255867819,"b":"I don’t seek divine timing… I am divine timing. \n\n❦"},{"d":"2026-04-16","l":42,"r":10,"id":244449031,"b":"Make them wonder how you became this divine.","m":"MFVvlp4pBQfvRFwR2zzxVXj00SUgcIfZCwZwWdcO3bF00"},{"d":"2026-03-19","l":42,"r":8,"id":230067338,"b":"🌿✨“The forest does not make noise when it creates legends—it whispers, and those who listen become them.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fec68691b-ab7f-486d-8605-8a2876b47a77_800x440.gif"},{"d":"2026-02-27","l":42,"r":9,"id":220498486,"b":"“Nature always wears the colors of the spirit.”\n\nRalph Waldo Emerson\n\n💦⟡ ݁₊ .🤍🌊☁️⟡ ݁₊ .🌿🍃✨️","m":"gVm3w0083Hd00UOcSOkB3hgBpaCIlZlM9eQFIb02ftqAME"},{"d":"2026-05-07","l":41,"r":10,"id":255251188,"b":"“Maybe humanity was softer when we danced under \n\nconstellations instead of algorithms.” \n\n—📼VHS Crystal Goddess .𖢻 ݁ ˖:","m":"lceuN6wnjv6jbdIe02bfQuuSwFhS9FBIG6bg7nHipVKg","c":["egypt","cosmic","y2k"]},{"d":"2026-05-05","l":41,"r":7,"id":254020646,"b":"I don’t follow roads, I bend them.\n\n💖🍁⭐☘️💎🪻 No Place Like Me.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F704ee90c-084e-4778-9731-439cf30fc665_1888x1888.png"},{"d":"2026-03-22","l":41,"r":5,"id":231676095,"b":"“Not all spells need wands—some are made with sugar, sunshine, and a wooden spoon.”\n\n🥣‧₊˚ ⋅  𓐐𓎩 ‧₊˚ ⋅🍪⋆˚࿔✨","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Facb26bc1-0462-4b7a-9b5e-4be99cd5bf12_600x600.gif","c":["gothic","food"]},{"d":"2026-07-19","l":40,"r":5,"id":297640836,"b":"You didn't come here to fit in. You came here to activate something.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F131544c2-e136-4c5f-8427-a5213c34acdd_1122x1402.png"},{"d":"2026-06-23","l":40,"r":3,"id":281205802,"b":"I woke up with moonlight still in my hair.\n\n⏾"},{"d":"2026-04-08","l":40,"r":8,"id":240434259,"b":"Glow like you remember something ancient about yourself that the world hasn’t caught up to yet.","c":["queen"]},{"d":"2026-03-09","l":40,"r":7,"id":225221489,"b":"“The sea, once it casts its spell, holds one in its net of wonder forever.”\n\nJacques Cousteau","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdf795bd8-2e9b-4281-8096-e28ddbfe0541_400x727.gif","c":["gothic"]},{"d":"2026-05-05","l":39,"r":4,"id":254026780,"b":"The universe doesn’t always rush—sometimes it holds the wave steady just for you. ✨🌊","c":["cosmic"]},{"d":"2026-05-03","l":39,"r":5,"id":252944293,"b":"The Healing Hand is here for you… always.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F864bd0f8-d3df-4c61-9da2-7dc9d0cf6fe6_600x600.gif"},{"d":"2026-04-13","l":39,"r":0,"id":242676355,"b":"Be so aligned within yourself that confusion cannot comfortably exist around you.","c":["queen"]},{"d":"2026-04-07","l":39,"r":4,"id":239541706,"b":"Carry yourself like magic is mandatory."},{"d":"2026-05-24","l":37,"r":7,"id":264528286,"b":"Glow like you’ve already met your highest self and decided to never shrink again.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b29b35d-d833-426a-bea4-6c55ef3d8ea2_500x500.gif","c":["queen"]},{"d":"2026-04-15","l":37,"r":7,"id":243857689,"b":"”I am here to honor what my spirit already knows.”\n\n࿔","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F26a8124b-69cd-4847-a5fd-5e775c2169d4_1120x1120.png"},{"d":"2026-03-27","l":37,"r":6,"id":233836605,"b":"“Let it all dissolve back into source—your soul was always holy, always precious.”\n\n⭐────────✨➜❤️────୨ৎ────💖｡ ₊°༺❤︎༻°₊ ｡","m":"POvQz02YFf00i5WnNX2TU3kVgwKUKCBJAbbB5AIAJDbLk"},{"d":"2026-05-27","l":35,"r":8,"id":265909733,"b":"🌊 “Water never argues with the rock. It simply keeps moving.”"},{"d":"2026-05-07","l":35,"r":4,"id":255421725,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb7337b58-4931-4b8f-9956-152048ea59d2_1024x1536.png"},{"d":"2026-04-12","l":35,"r":5,"id":242336644,"b":"Be rare enough to be remembered, soft enough to be loved."},{"d":"2026-03-15","l":35,"r":10,"id":227965619,"b":"“If life is but a dream, Alice wondered who was holding the remote.”","m":"OUdHtP8w5tz00So1f02022sOg02H02DIbcTmKdvGQdq2T029A","c":["wonderland"]},{"d":"2026-03-04","l":35,"r":6,"id":223025779,"b":"“Galactic feminine rising.”\n\n⋆.ೃ࿔*:･࿔‧ ֶָ֢˚˖𐦍˖˚ֶָ֢ ‧࿔₊⊹𓇢𓆸","m":"kNhVJQ3LbwFL3ZYXQ6jxkX2nSR962eHgm8jSNq3XA3Q"},{"d":"2026-04-13","l":34,"r":7,"id":242479152,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F61414c94-1a52-447c-b99e-bb6673ee236e_600x600.gif"},{"d":"2026-04-07","l":34,"r":4,"id":239379842,"b":"Treat your peace like a sacred investment—protected, prioritized, and never negotiated."},{"d":"2026-04-06","l":34,"r":1,"id":239305010,"b":"I really want to say a deep thank you to everyone who likes and comments, and even if you just like to look, you are welcome here."},{"d":"2026-02-23","l":34,"r":8,"id":218586015,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F075496f6-f19e-4574-99e3-60c88b1cd9e2_761x740.png"},{"d":"2026-06-12","l":33,"r":6,"id":274957602,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3eb46464-75f2-4ebb-abaa-d2ecb789386a_2048x2048.jpeg"},{"d":"2026-05-20","l":33,"r":6,"id":262436664,"b":"“I was not born beneath the stars… darling, I taught them how to shimmer.”\n\n🌌","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6468d82a-9e6d-453e-b3d2-acedf0731aaf_1200x1200.png","c":["cosmic","queen"]},{"d":"2026-05-20","l":33,"r":8,"id":262177002,"b":"Soul of a Warrior.  Heart of a Queen. \n\nShe carries ancient strength with modern magic. \n\n𖧶","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F448f883c-d66a-483e-be6e-aea7a30b38ca_1254x1254.png","c":["queen"]},{"d":"2026-05-15","l":33,"r":5,"id":259619647,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd03f7ab4-ca06-4590-ac4d-12e366081a18_1312x1206.png"},{"d":"2026-05-15","l":33,"r":5,"id":259405966,"b":"SMILE.    Move those muscle cheeks!","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9e682857-9902-46ed-9792-6423f16685ec_1200x1200.png"},{"d":"2026-05-14","l":33,"r":5,"id":258951160,"b":"Treat Your Energy Like Royalty.  🜲","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2fe8bfa7-5a8e-48bf-9e58-35dbd2d9b4ec_1254x1254.png"},{"d":"2026-04-05","l":33,"r":7,"id":238707102,"b":"“I don’t obey the broadcast… I rewrite the frequency.”\n\n₊˚⊹♡﹌﹌﹌﹌﹌☆⋆｡𖦹°‧★❯❯❯❯﹌﹌﹌⟢ ˙ᵕ˙","m":"tkgyYOqzqI1D7YxudnI3DES6TUMsjeyAQij02s3lnoDI"},{"d":"2026-03-15","l":33,"r":4,"id":228226059,"b":"“In this little floating kitchen, the coffee pours forever—yet the cup remains perfectly full, as if the universe understands balance.”\n\n☕︎˙✧✨˖°☕ ༘ ⋆｡˚‧✨ ‧₊˚ ⋅⋆☕︎ ˖","m":"gv6GBgb1UFmh01Yemk00xPXa6IPs1K00F3TMWJShCg8ZYo","c":["cosmic","food"]},{"d":"2026-03-02","l":33,"r":4,"id":222094517,"b":"Dino Dragonfly Neon World\n\n🦖˚ ༘ ⋆｡˚ 🦕✧ ˚ ༘ ⋆｡˚ 🌿≽༏≼","m":"ojIjkYRz2Lv1ER9i6Gs25J3rJ02B8OFlNMfHX3BrNZRg","c":["animals"]},{"d":"2026-01-22","l":33,"r":5,"id":203282967,"b":"Too Fine for the Frame","m":"ZU01nou7ktWl01c7GlAhQ02cg6ywaWyczTmD8xS02wj7RhE"},{"d":"2026-07-09","l":32,"r":4,"id":291116965,"b":"Waking up felt like entering a secret portal.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F36e7a683-33bc-4846-82f9-ed1cec1c070d_1200x1200.png"},{"d":"2026-04-20","l":32,"r":3,"id":246252344,"b":"“Cosmic paws, cozy thoughts, and tea that tastes like dreams.”\n\n🌌♠🐈‍⬛💠🐾","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7ed44e20-aede-42f2-99b9-90460deed2e6_1250x1250.png","c":["cosmic"]},{"d":"2026-04-15","l":32,"r":1,"id":242959903,"b":"Raise your standards until your reality rises with you.\n\n၊၊||၊"},{"d":"2026-03-01","l":32,"r":5,"id":221483363,"b":"“Her claws are velvet, but her spirit is solar.”\n\n💫⋆⭒˚.⋆🪐 ⋆⭒˚.⋆\n\nCosmick Cat  \n\n🐾๋࣭ ⭑⚝💜✮⋆˙≽ܫ≼","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffd3d4895-c354-4221-b493-e038bb1321cb_384x592.gif","c":["cosmic","gothic","animals"]},{"d":"2026-02-14","l":32,"r":8,"id":214441986,"b":"Glow Like the Galaxy Goddess You Are.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F68ac5dbb-8513-4b6d-9c67-4bdc7ccd22d2_1200x1200.png","c":["egypt","cosmic","queen"]},{"d":"2026-02-05","l":32,"r":1,"id":210514569,"b":"🥠 I just opened my fortune cookie. 🥠\n\n\n\nIt reads: 👀\n\n\n\nTomorrow will be a day of healing and renewal.\n\n\n\n👍 Ok. I’ll take it.  😊","c":["food"]},{"d":"2026-07-27","l":31,"r":4,"id":302455010,"b":"The wisest people still stop to watch clouds.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbbd4dec1-3f7c-4fd5-97c0-12f208f5dbc2_900x900.png"},{"d":"2026-04-29","l":31,"r":7,"id":250763811,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd44836e9-fbf1-4563-b8c8-1469e5862114_1555x1555.png"},{"d":"2026-04-19","l":31,"r":2,"id":245791610,"b":"The forest still remembers you—\n\neven if you traded its whispers for glowing cities and electric skies.\n\n𖠰","c":["queen"]},{"d":"2026-03-28","l":31,"r":10,"id":234661864,"b":"“At 12:12, she didn’t wake from sleep—she woke from illusion, and the whole kingdom shimmered back to life.”\n\nᶻ 𝗓 𐰁 .ᐟ🏰𓍢ִ໋࿆🌷͙֒✧˚ ༘⚜️ ⋆｡˚♡🪡","m":"58MoqcHbYOgmVIjl3veG3OgbMKtp76F9xPyMITgLjVM","c":["queen"]},{"d":"2026-03-29","l":30,"r":9,"id":234996188,"b":"“I do not simply exist within this world… I drift through it, a whispered dream wrapped in light and longing.”\n\n🪄‧₊˚ ☁️⋅♡🪐༘⋆🔮☾🌳𖤓🌌","m":"dzQJAjSt5mPgoFE6FfRfaKzt00DmwY0143o1TJv1C00UuY"},{"d":"2026-03-28","l":30,"r":7,"id":234811228,"b":"\"I didn’t wake up in a new world…I stayed, and watched this one transform around me.\"","m":"qvTUSM02e5QOXXpcZPe86RXpedxy02VMLM1dyUfqIiSP00"},{"d":"2026-03-24","l":30,"r":7,"id":232645451,"b":"Cheshire Cat: “Tell me, Alice… which current will you follow?”\n\nAlice: “I don’t care which wave takes me—”\n\nCheshire Cat: “Then all tides are in your favor.”\n\nAlice: “—so long as I don’t drift forever.”\n\nCheshire Cat: “Drift long enough… and even the ocean delivers you somewhere.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fde85ab22-95a0-45cb-b537-40cc6e60596f_600x600.gif","c":["wonderland","animals"]},{"d":"2026-03-23","l":30,"r":6,"id":232258254,"b":"“Wings made of starlight……  Fairy portal open.”\n\n˚˖𓍢ִ໋🧚🏻₊˚ʚ 🪷 ₊˚⋆.˚🦋༘⋆𓂃 ࣪˖ ִֶָ🧚‍♀️*˖˚ֶָ֢ ‧࿔","m":"g8cctxtgOZr7gd6tm4LX92Apgh00202sovVAPNh00x3MdM","c":["cosmic","animals"]},{"d":"2026-02-16","l":30,"r":9,"id":215322331,"b":"“A goddess does not chase trends,  she creates timelines.”\n\n.˳·˖✶𓆩𓁺𓆪✶˖·˳.🎞️｡ ₊༺❤︎༻°₊ ｡⭐11:11","m":"lfI02EyTaQSaUoG5HJuoESiEwk023fmwdIcNE3NlOsiRE","c":["egypt"]},{"d":"2026-02-11","l":30,"r":2,"id":213136875,"b":"“I celebrate myself, and sing myself.”\n\nWalt Whitman\n\nﾒ𝟶ﾒ𝟶\n\n❄️💎❅💙","m":"24MXEiZ7ADY77U3ipAwk5A7oVzfbYlDmH5iZwyxuxAg"},{"d":"2026-07-26","l":29,"r":5,"id":302165896,"b":"LOVE. 💖💜","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F28789c1a-1972-4955-8061-5b454c79ce80_1536x1024.png"},{"d":"2026-07-13","l":29,"r":3,"id":293825137,"b":"Glow differently when you know who you are."},{"d":"2026-06-25","l":29,"r":5,"id":282431680,"b":"The sun rises just to see you glow.\n\n✴︎"},{"d":"2026-06-12","l":29,"r":6,"id":274761264,"b":"“Alice didn't fall down the rabbit hole. She uploaded herself to another dimension.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2ed7e4b9-928f-44a2-a2fb-8cc95648ae50_1200x1513.png","c":["wonderland","animals"]},{"d":"2026-05-22","l":29,"r":4,"id":263461283,"b":"Don’t be like the rest of them, Darling. ♡","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2f45614b-3d22-4834-bf8f-660ded8937b1_1550x1846.png"},{"d":"2026-04-08","l":29,"r":5,"id":240103223,"b":"Love from overflow, never from absence, never from hunger."},{"d":"2026-03-20","l":29,"r":6,"id":230818806,"b":"“When I open up my sleepy eyes… the cosmos purrs back at me.”\n\n⋆.˚🌕. ݁₊ ⊹🌌 . ݁˖ . ݁⋆⭒˚.⋆🪐 ⋆⭒˚.⋆🌍.𖥔 ݁ ˖🌠","m":"KEK1WI024heof12cCvRo501Sm62bfLVVmacHTjcmcm4bE"},{"d":"2026-03-18","l":29,"r":14,"id":229774322,"b":"“Somewhere between the first sip and the last, I became a dream.”\n\n♡₊˚ 🐸・₊✧💚.✦ ݁˖🍵","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F589f4589-f485-4d59-bdd3-859be3e890e1_600x600.gif"},{"d":"2026-02-25","l":29,"r":4,"id":219460726,"b":"“Courage is resistance to fear, mastery of fear—not absence of fear.”\n\nMark Twain","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9a7b08dd-a846-4b25-b135-28ee0861dd1a_1200x2104.png"},{"d":"2026-07-12","l":28,"r":4,"id":292780367,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F921c2a6d-b9d9-46bf-b289-781a335b0e50_1500x1500.png"},{"d":"2026-07-10","l":28,"r":5,"id":291830452,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3625c1f5-1171-4f69-b82a-cebab36849fe_1024x1024.png"},{"d":"2026-06-14","l":28,"r":7,"id":276100790,"b":"“Some teas wake the body. This one woke forgotten memories from past lives.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff87b3527-17ac-4275-804b-2f65e5974e27_2048x2048.jpeg"},{"d":"2026-04-14","l":28,"r":3,"id":243434012,"b":"Walk like the universe personally styled you.\n\n𓃮","c":["cosmic"]},{"d":"2026-04-07","l":28,"r":4,"id":239349910,"b":"Speak as if your words are rare elements—measured, intentional, and never wasted."},{"d":"2026-03-03","l":28,"r":10,"id":222516239,"b":"“The cosmos bends for the soul who trusts its own orbit.”\n\n⋆✴︎˚｡🌠⋆✨💫★⭐️💗🪄✨ \n\nhttps://substack.com/@magickmica/note/c-222421387?r=1hebq8&utm_source=notes-share-action&utm_medium=web","m":"CukK3R02ri00keNjAMc5902BC2EMYlnGs1YocN2FP01BBao","c":["cosmic"]},{"d":"2026-02-28","l":28,"r":3,"id":221183368,"b":"“Glow like you were handcrafted by starlight.”\n\n🪄✨⋆✴︎˚｡⋆⭐࿐ ࿔*:･ﾟ🌌★","m":"jKlaY3SdNozbVewRF4hIKZrCZgfgA4kvaz8M9jvigo00","c":["cosmic","queen"]},{"d":"2026-02-28","l":28,"r":6,"id":220913716,"b":"“I paint flowers so they will not die.”\n\n🌺Frida Kahlo","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6181c019-23e6-4575-a9b3-519eefac9889_1200x1738.png"},{"d":"2026-02-09","l":28,"r":3,"id":212219625,"b":"“She does not chase the stars; she remembers she was made of them.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F83f82526-e016-4251-ba45-d57bb5d467de_1200x686.png","c":["cosmic"]},{"d":"2026-02-06","l":28,"r":4,"id":210623786,"b":"“She is proof that gentleness can rule empires.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F971534c4-0c26-468e-b681-6c9ee5f58928_1200x1200.png"},{"d":"2026-01-31","l":28,"r":2,"id":207843415,"b":"Act like your soul is expensive."},{"d":"2026-07-29","l":27,"r":1,"id":304103907,"b":"Some call it fate. I call it excellent navigation."},{"d":"2026-07-27","l":27,"r":3,"id":302453230,"b":"Your weirdness is proof the stars were feeling creative."},{"d":"2026-07-14","l":27,"r":3,"id":294557848,"b":"Always compliment mysterious strangers. \n\nThey may be time travelers."},{"d":"2026-07-13","l":27,"r":4,"id":293539487,"b":"I woke up smiling before the world even noticed."},{"d":"2026-07-12","l":27,"r":3,"id":293122029,"b":"If you’re reading this now, the carousel of galaxies has paused just long enough for you to remember—you are royalty in a realm that hasn’t fully revealed itself yet."},{"d":"2026-05-08","l":27,"r":7,"id":255967514,"b":"Your ticket to Dreamland…….. \n\n*more to come later","m":"zO4fjciKvdfGg1baroPZpWno00klOOKCCALThQq1F6qA"},{"d":"2026-05-02","l":27,"r":3,"id":252660967,"b":"Pretty.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F91c74609-6dd4-4b84-9cf0-a15e5696c681_1368x768.png","c":["queen"]},{"d":"2026-04-15","l":27,"r":1,"id":244066146,"b":"Slowing down isn’t falling behind, it’s letting life season you properly.\n\n⋆˚✿"},{"d":"2026-04-14","l":27,"r":7,"id":243227688,"b":"“Catch the glow, not just the wave—let the light carry you where fear won’t.”","m":"8NUtxPTooKD39vJsxTMLJgoboYI9EhIiUSQXvbIOwLs","c":["animals","queen"]},{"d":"2026-04-10","l":27,"r":2,"id":241293172,"b":"The universe doesn’t rush masterpieces… it lets them develop layers.\n\n☰","c":["cosmic","art"]},{"d":"2026-03-21","l":27,"r":10,"id":231311985,"b":"“Step right up — this train don’t follow maps… only magick.”\n\n🔮⋆.˚ ☾⭒.˚🌙⋆✴︎˚｡💜⋆✨💫⭐️⋆˙⟡💖🪶📜🌕ִֶָ☾♡","m":"sgWVTwluauymKkc02zhk3JJV5i2QDaJRHtiMq01khNnGw"},{"d":"2026-03-01","l":27,"r":4,"id":221601484,"b":"🥠 Today’s fortune cookie reads:\n\nRemember to celebrate small victories.","c":["food"]},{"d":"2026-06-17","l":26,"r":5,"id":277894940,"b":"I woke up feeling like a miracle in motion.\n\n𓀤𓀥"},{"d":"2026-06-02","l":26,"r":7,"id":269060278,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F23456183-fc95-421d-a054-2b98c7a2aa4e_1200x1200.png"},{"d":"2026-05-28","l":26,"r":5,"id":266745655,"b":"“The return of the old web is really the return of imagination.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Feb542166-dec8-4e06-b71b-2b03fb72dec3_1254x1254.png"},{"d":"2026-05-10","l":26,"r":3,"id":256786900,"b":"ᕼᗩᑭᑭY Mother’s Day \n\n𖤓"},{"d":"2026-05-03","l":26,"r":3,"id":253017180,"b":"The universe fits quite nicely inside a teacup, don’t you think?\n\nYours Truly,\n\nCosmick Frog ✨🐸","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffc2215f6-9918-4c0f-99d7-c69955e35b75_2222x2222.png","c":["cosmic"]},{"d":"2026-04-28","l":26,"r":2,"id":250557936,"b":"Fairy logic only.\n\n⋆.ೃ𐦍*:･⋆𐦍.ೃ࿔*:･","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb16c965a-21f8-4cfd-b70c-f45d32ad7ff6_1200x1200.png","c":["animals"]},{"d":"2026-04-09","l":26,"r":4,"id":240620654,"b":"“Not lost—just gently swaying through timelines.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F90ffdc8c-ed6b-436b-897c-55cb27c95f55_1440x2160.jpeg"},{"d":"2026-04-08","l":26,"r":2,"id":240031808,"b":"“She stirs her tea the way she stirs her energy — slowly, gently, with intention.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F074b1f02-2b7d-4518-98a6-1be45cfaf4a7_1200x1200.png","c":["animals"]},{"d":"2026-03-28","l":26,"r":10,"id":234399638,"b":"▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄","m":"6LPdedy3tJ1RBMPDl3ixW02ijMH502KtfqROI1aSWb02qA"},{"d":"2026-03-17","l":26,"r":5,"id":229373552,"b":"“You are never walking alone—wings you cannot see are lifting you forward. We’ve got this.”\n\n⋆✴︎˚｡⋆ @Eve Solara ⋆✴︎˚｡⋆","m":"tGV02A7dZxhQ86008x1Woa01aV001dspV63kL5UHnK7Ze8s"},{"d":"2026-03-12","l":26,"r":6,"id":226833678,"b":"Time for cosmic coffee. ☕🌌","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F534917e1-43db-41fe-9bbf-1981c6a4f8e7_450x450.gif","c":["cosmic","food"]},{"d":"2026-03-09","l":26,"r":3,"id":225362465,"b":"“Enter rooms like destiny invited you.”","m":"VjsPO02Otk6naSGq028ouIdcmGZJSvAFx6KYJyIynuggQ"},{"d":"2026-03-01","l":26,"r":4,"id":221237586,"b":"“You are held by a universe that knows your name.”\n\n⋆⭒˚.⋆🔭.𖥔 ݁ ˖🛸── .✦⋆⭒˚.⋆🪐 ⋆⭒˚.⋆","m":"v1Bqolxb1jCfTjz2sKwt7UY32102ilXOJZ501pAx37u028","c":["cosmic"]},{"d":"2026-02-19","l":26,"r":7,"id":216699086,"b":"“Sometimes things fall apart so that better things can fall together.”\n\nMarilyn Monroe  💋","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4f0728ed-8cac-46cb-830d-87399fc8e25f_1200x1641.png"},{"d":"2026-07-09","l":25,"r":4,"id":291502709,"b":"Reality called, but Wonderland said you're busy shining."},{"d":"2026-07-08","l":25,"r":5,"id":290805440,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F73bf51fd-386f-4ca9-aa95-098cc82dbc6a_1254x1254.png"},{"d":"2026-07-02","l":25,"r":3,"id":286679244,"b":"Never underestimate the healing powers of ridiculous happiness."},{"d":"2026-06-18","l":25,"r":6,"id":278711185,"b":"👻 ̟࿔*:⋆☕Ghostlight Coffee","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_424,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc2db026a-da61-44a9-be9c-7a3bd695051a_1149x1369.png","v":false},{"d":"2026-06-15","l":25,"r":5,"id":276924261,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b44bfbc-ba9f-4bc6-b54f-e4a36a5968b5_2048x2048.jpeg"},{"d":"2026-06-14","l":25,"r":5,"id":275869878,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F68ac10df-c54e-4d09-a82d-dcda17510cd8_1122x1402.png"},{"d":"2026-05-21","l":25,"r":6,"id":262870283,"b":"Make magic. Make moves. Make it count.\n\n⋆｡ﾟ🌊｡⏾⋆","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb7cdd7a5-77a2-4789-a46d-297baea5d4e0_1254x1254.png"},{"d":"2026-05-20","l":25,"r":4,"id":262071555,"b":"Coffee first. Then alignment with the shimmering architecture of reality.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6dbf1d27-fbec-4105-b144-ad0c415896ed_1200x1200.png","c":["food","queen"]},{"d":"2026-05-10","l":25,"r":2,"id":256665320,"b":"I don’t reach for the stars… they remember me.\n\n✷","c":["cosmic"]},{"d":"2026-05-03","l":25,"r":1,"id":253173665,"b":"“I slipped through a fracture in the sky and found you.”\n\nཐི༏ཋྀ.𓂃 ࣪˖ ִֶָ🧚‍♀️*˖˚ֶָ֢ ‧࿔✦ ݁˖🧚🏻‍♀️✨⋆✴︎˚｡⋆🍄˖᯽ ݁˖","m":"TwTJeLHlP7jmN2OGHhPoaDvSQ1017orwzJxNH6p2T7O8"},{"d":"2026-04-15","l":25,"r":3,"id":243710350,"b":"You’re not late… you just found the slower magic.\n\n❅"},{"d":"2026-04-13","l":25,"r":4,"id":242746491,"b":"“She didn’t rush her routine—she enchanted it.”\n\n⊹₊⟡⋆˗ˏˋ☕ˎˊ˗⊹₊⟡⋆🏠","m":"TDwg6GCMpPMR6uTrL6o51FxJWnOPRyGKFhw2PsN3Mhs"},{"d":"2026-04-11","l":25,"r":4,"id":241738156,"b":"Just Trust Yourself ⋆˙⟡🌹 @Eve Solara","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa11b3c7f-2496-4310-9d9f-dc52e69039e9_1500x855.png"},{"d":"2026-04-09","l":25,"r":1,"id":240435079,"b":"Let your silence say what your energy no longer needs to explain."},{"d":"2026-04-07","l":25,"r":4,"id":239541304,"b":"Be priceless, not popular."},{"d":"2026-03-23","l":25,"r":7,"id":231905702,"b":"\"The all-seeing eye does not sleep—it rings the alarm inside your soul until you remember who you are.\"\n\n👁️𖹭𓏲ּ𝄢𓂁𓂄🧿👁‍🗨(˶ᵔ ᵕ ᵔ˶)𓂀𓁹 𓁹𓁹‿𓁹","m":"302wNF3D4G2ikfnZXFSX02VP8LzdMWr9KbrmTNEF02etVI"},{"d":"2026-03-21","l":25,"r":6,"id":231265926,"b":"“Baking is a quiet kind of magic—warming the hands, and gently healing the heart.”\n\nฅ՞•ﻌ•՞ฅ  💗","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4e517b2c-705c-481b-8091-8fc29bfdd9de_600x600.gif"},{"d":"2026-03-19","l":25,"r":8,"id":230358658,"b":"“Between nebula clouds and glittering galaxies walks a cat made of stardust.”\n\n🐈‍⬛‧₊˚ ☁️⋅♡🪐༘⋆‧₊˚ ✶⋆.˚⋆.˚ ☾⭒.˚⭒˚.⋆⭒🖤⃝🪐⭒˚.⋆⭒","m":"VsJDXtYZLvx5bPRuBJv3TH00UtjGsNPX01RYKp4YTIa2Q","c":["cosmic","animals"]},{"d":"2026-03-14","l":25,"r":3,"id":227711430,"b":"“The cup is warm, the crystals shimmer, and the day begins with quiet magic.”\n\n☕⋆✴︎˚｡⋆✨🪄★⋆˙⟡🔥","m":"Zkek0102Z32YrxYVM1yChGIl4C9iMab00pe00u00EZYF9sx00","c":["queen"]},{"d":"2026-03-09","l":25,"r":2,"id":225158161,"b":"Feeling 💚🌈💰🍀🍀𝓁𝓊𝒸𝓀𝓎🍀","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F90a838c5-8fc3-494d-a21d-8dbfbf1124df_1200x1455.png"},{"d":"2026-03-08","l":25,"r":3,"id":224743536,"b":"Lost an hour. I have my tea to warm me up.\n\nI see a lot of don’t forget to drink water reminders.\n\nWell, try having warm herbal tea instead. Dip into it. Start like a kid at a dinner table. Get a semi hot cup of tea and put a spoon or two of sugar in it. Swirl it around. Take your time… take a sip. Your belly will love you. \n\n⋆˚࿔🫖‧₊˚ ⋅ ☕︎ 𓎩 ‧₊˚ ⋅","c":["cosmic","food"]},{"d":"2026-01-28","l":25,"r":5,"id":206516145,"b":"Venus Power Moves\n\n🤍☁️🌿🍃✨️","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc40a0af5-da18-4893-b1ee-a319dadea046_1200x1200.png"},{"d":"2026-07-29","l":24,"r":1,"id":304159032,"b":"Your voice is your wand. \n\n๋࣭ ⭑🪄⋆.˚\n\nChoose magick on purpose."},{"d":"2026-06-11","l":24,"r":6,"id":274173209,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4a8cc298-d34f-4139-806e-85269c922418_1539x1022.png"},{"d":"2026-06-05","l":24,"r":6,"id":271161538,"t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9792308b-5a35-4e3c-baa2-6b9b431fb39d_834x834.png"},{"d":"2026-05-18","l":24,"r":3,"id":261091655,"b":"The ancients did not build monuments… they built frequencies.\n\n𓂀 𓋹","m":"U2AlQOznxY6UWv41relyDMnCkAoEfd9Bt8aHBwhpIxw"},{"d":"2026-05-16","l":24,"r":3,"id":259992452,"b":"I just made some hot tea myself, with extra maple syrup.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5ff97b3e-4e52-45cf-b24c-cc5701a10e50_1200x1200.png"},{"d":"2026-05-16","l":24,"r":5,"id":259835471,"b":"11:11","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b59332c-d2a7-48b6-8752-11d58379acd4_1254x1254.png"},{"d":"2026-05-14","l":24,"r":5,"id":258812511,"b":"What if the world remembered the sky instead of the screen?\n\n✴︎"},{"d":"2026-04-20","l":24,"r":5,"id":246264063,"b":"Be careful what you call “unproductive”—your peace is doing invisible work.\n\n𖡎"},{"d":"2026-04-19","l":24,"r":4,"id":245918636,"b":"Hi, I didn’t trip… I chose to fall into something curious.","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F74602fc3-5330-4096-b619-2be7c511c0dd_540x832.gif"},{"d":"2026-04-14","l":24,"r":1,"id":243406043,"b":"“The fairies never lie — they just sparkle around the truth.”\n\n𖧧","m":"0026402Foy9AWHsu3kD9RxOcDYE01JqLXZ5vIilDBNW012w","c":["queen"]},{"d":"2026-04-14","l":24,"r":2,"id":243345241,"b":"Protect your sparkle like it’s top secret.\n\n🕵🏻","c":["queen"]},{"d":"2026-04-13","l":24,"r":1,"id":242833882,"b":"You are flowing in abundance. What is needed will soon be here."},{"d":"2026-04-13","l":24,"r":3,"id":242335955,"b":"Your aura? Limited edition.\n\n✰"},{"d":"2026-04-10","l":24,"r":5,"id":240237820,"b":"“The universe pours endlessly, yet my cup receives only what my heart can hold.”","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe5665e96-d444-4ad3-a85e-8dc1299d93bf_1668x919.png","c":["cosmic"]},{"d":"2026-04-09","l":24,"r":2,"id":240920091,"b":"Shine quietly, but leave a trail.\n\n𓂀"},{"d":"2026-04-04","l":24,"r":2,"id":237521401,"b":"If you’re reading this now, you are not behind, you are not late—you are on your own perfectly timed path.\n\n🌠"},{"d":"2026-04-03","l":24,"r":5,"id":237602562,"b":"“Romanticize your divinity.”\n\n🏝️🦜🥥🌿🌴˚.⋆☁️🌳 🦍🌴🐒˚˖𓍢ִ໋🍃","t":"https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fedf96362-571e-4b2e-a02b-3c9e97e5b933_1200x1200.png"},{"d":"2026-03-21","l":24,"r":2,"id":231078710,"b":"What I build in quiet moments becomes the loudest expression of my Master Peace. 🏁"}];
+let mtvAutoInterval = null;
+
+function mtvEscapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function mtvPickNote() {
+  return MTV_NOTES[Math.floor(Math.random() * MTV_NOTES.length)];
+}
+
+function mtvIsPortrait(url) {
+  const m = url.match(/_(\d+)x(\d+)/);
+  if (!m) return false;
+  const w = parseInt(m[1], 10), h = parseInt(m[2], 10);
+  return h > w * 1.15;
+}
+
+function mtvShowNote(note) {
+  const container = document.getElementById('mtvNote');
+  let html = '';
+  if (note.t) {
+    html += `<img decoding="async" class="mtv-note-img" src="${note.t}" loading="lazy" onerror="this.style.display='none'" />`;
+  }
+  if (note.b) {
+    html += `<div class="mtv-note-text">${mtvEscapeHtml(note.b)}</div>`;
+  } else if (!note.t) {
+    html += `<div class="mtv-note-text">✦ static ✦</div>`;
+  }
+  html += `<div class="mtv-note-meta">❤ ${note.l} &nbsp; ↩ ${note.r}</div>`;
+  container.innerHTML = html;
+  container.classList.toggle('has-img', !!note.t);
+  container.classList.toggle('portrait-img', !!(note.t && mtvIsPortrait(note.t)));
+
+  const noteUrl = `https://substack.com/@magickmica/note/c-${note.id}`;
+  container.onclick = () => window.open(noteUrl, '_blank', 'noopener');
+}
+
+function mtvChangeChannel() {
+  const staticEl = document.getElementById('mtvStatic');
+  const knob = document.getElementById('mtvChannelBtn');
+  knob.classList.remove('spin');
+  void knob.offsetWidth;
+  knob.classList.add('spin');
+  staticEl.classList.add('active');
+  setTimeout(() => {
+    mtvShowNote(mtvPickNote());
+    staticEl.classList.remove('active');
+  }, 180);
+}
+
+document.getElementById('mtvChannelBtn').addEventListener('click', mtvChangeChannel);
+
+document.getElementById('mtvAutoBtn').addEventListener('click', (e) => {
+  const sw = e.currentTarget;
+  if (mtvAutoInterval) {
+    clearInterval(mtvAutoInterval);
+    mtvAutoInterval = null;
+    sw.classList.remove('on');
+  } else {
+    mtvAutoInterval = setInterval(mtvChangeChannel, 6000);
+    sw.classList.add('on');
+  }
+});
+
+mtvShowNote(mtvPickNote());
+</script>
+</body>
+</html>
