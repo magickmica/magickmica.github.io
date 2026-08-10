@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Comet Rally &middot; MagickMica</title>
+<meta name="description" content="Ping pong against the void. Keep the comet in play and the sky keeps burning.">
+<meta property="og:title" content="Comet Rally &middot; MagickMica">
+<meta property="og:description" content="Slide, volley, survive. First to seven takes the night.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07060e;--violet:#a020f0;--magenta:#ff44cc;--gold:#ffd166;--cyan:#22e0ff;
+  --mist:#b8b0d4;--dim:#6f6890;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;padding:0 12px 40px;background:var(--void);color:var(--mist);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;line-height:1.5;
+  overflow-x:hidden;
+}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:520px;margin:0 auto;text-align:center}
+
+header{padding:22px 0 4px}
+.eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin:0 0 9px}
+h1{
+  font-family:"Orbitron",sans-serif;font-weight:700;font-size:clamp(20px,5.2vw,30px);
+  letter-spacing:.06em;margin:0;color:transparent;
+  background:linear-gradient(96deg,var(--violet),var(--magenta) 28%,var(--gold) 58%,var(--cyan) 86%,var(--violet));
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  animation:holo 11s linear infinite;
+}
+@keyframes holo{to{background-position:220% 0}}
+
+/* scoreboard: the void's score sits above the court, yours below it,
+   mirroring where the two paddles actually are */
+.tally{display:flex;align-items:center;justify-content:center;gap:14px;margin:16px 0 8px}
+.tally b{font-family:"Orbitron",sans-serif;font-size:26px;line-height:1;color:var(--gold)}
+.tally .who{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.tally .vs{font-size:10px;letter-spacing:.2em;color:#3d3857}
+.tally .void b{color:var(--magenta)}
+.side{display:flex;flex-direction:column;gap:3px;min-width:74px}
+
+/* The court keeps a true 3:4 no matter the screen. Locking BOTH sides means the
+   ball, paddles and speeds land in the same place on a phone and a laptop —
+   the trap Moon Shot fell into was letting the shape change underneath the physics. */
+.court{
+  position:relative;width:min(100%, calc(58vh * 3 / 4));aspect-ratio:3/4;margin:0 auto;
+  border-radius:14px;overflow:hidden;touch-action:none;cursor:none;
+  background:
+    radial-gradient(60% 40% at 50% 50%, rgba(160,32,240,.22), transparent 70%),
+    radial-gradient(1px 1px at 18% 22%, rgba(255,255,255,.75) 50%, transparent 50%),
+    radial-gradient(1px 1px at 72% 36%, rgba(255,255,255,.55) 50%, transparent 50%),
+    radial-gradient(1.4px 1.4px at 44% 62%, rgba(255,209,102,.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 30% 82%, rgba(34,224,255,.6) 50%, transparent 50%),
+    linear-gradient(180deg,#0e0920,#08060f);
+  background-size:auto,180px 180px,180px 180px,180px 180px,180px 180px,auto;
+  border:1px solid rgba(184,176,212,.16);
+}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+/* the rally glow: the court itself catches fire the longer the ball stays alive */
+.court::after{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:14px;
+  box-shadow:inset 0 0 var(--glow,0px) rgba(255,209,102,.55);
+  transition:box-shadow .25s ease;
+}
+
+.msg{
+  position:absolute;left:0;right:0;top:44%;pointer-events:none;
+  font-family:"Orbitron",sans-serif;font-weight:900;font-size:clamp(20px,6.4vw,34px);
+  letter-spacing:.08em;color:var(--gold);text-shadow:0 0 26px rgba(255,209,102,.7);
+  opacity:0;transition:opacity .2s,transform .45s;
+}
+.msg[data-on="true"]{opacity:1;transform:translateY(-10px)}
+
+.veil{position:absolute;inset:0;display:none;place-items:center;background:rgba(6,4,14,.88);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:14px;padding:18px}
+.veil[data-on="true"]{display:grid}
+.veil h2{font-family:"Orbitron",sans-serif;font-size:20px;letter-spacing:.06em;margin:0 0 6px;color:var(--gold)}
+.veil p{margin:0 0 16px;font-size:13px;color:var(--mist)}
+
+.bar{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.btn{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--void);border:0;border-radius:999px;
+  background:linear-gradient(96deg,var(--gold),#ffe9b5 55%,var(--gold));
+  padding:13px 24px;min-height:46px;cursor:pointer;
+}
+.btn.ghost{background:transparent;color:var(--mist);border:1px solid rgba(184,176,212,.3)}
+.meta{display:flex;justify-content:center;gap:18px;margin:12px 0 0;font-size:10px;
+  letter-spacing:.14em;text-transform:uppercase;color:#544f70}
+.meta b{color:var(--cyan);font-weight:500}
+.hint{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#544f70;margin:10px 0 0}
+
+@media(prefers-reduced-motion:reduce){
+  h1{animation:none}.msg{transition:none}.court::after{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">MagickMica</p>
+    <h1>COMET RALLY</h1>
+  </header>
+
+  <div class="tally">
+    <div class="side void"><b id="scoreVoid">0</b><span class="who">the void</span></div>
+    <span class="vs">first to 7</span>
+    <div class="side"><b id="scoreYou">0</b><span class="who">you</span></div>
+  </div>
+
+  <div class="court" id="court">
+    <canvas id="cv"></canvas>
+    <div class="msg" id="msg"></div>
+    <div class="veil" id="veil">
+      <div>
+        <h2 id="endTitle">Night over</h2>
+        <p id="endText"></p>
+        <button class="btn" id="again">Play again</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="meta">
+    <span>rally <b id="rally">0</b></span>
+    <span>longest <b id="best">0</b></span>
+  </div>
+  <p class="hint">slide to move &middot; tap to serve</p>
+
+  <div class="bar">
+    <button class="btn ghost" id="restart">Restart</button>
+    <a class="btn ghost" href="arcade.html" style="text-decoration:none;display:inline-flex;align-items:center">Back to arcade</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var LS = 'mm_cometrally_v1';
+  var cv    = document.getElementById('cv');
+  var ctx   = cv.getContext('2d');
+  var court = document.getElementById('court');
+  var msgEl = document.getElementById('msg');
+  var veil  = document.getElementById('veil');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var W = 0, H = 0, dpr = 1;
+
+  /* ---------------------------------------------------------------- tuning
+     Every speed below is a fraction of court HEIGHT per millisecond, and the
+     court is locked to 3:4 in CSS. So one set of numbers plays identically on
+     a phone and a desktop — no screen shape can quietly change the difficulty. */
+  var TARGET   = 7;          // points to win
+  var BALL_V0  = 0.00085;    // serve speed
+  var BALL_VMAX= 0.00280;    // ceiling — a long rally gets genuinely fast
+  var BALL_STEP= 1.065;      // speed-up per paddle hit, so rallies resolve
+  var AI_V0    = 0.00050;    // how fast the void can slide at 0-0
+  var AI_VMAX  = 0.00085;
+  var MIN_VY   = 0.62;       // keep the ball travelling up/down, never sideways-stuck
+
+  var ball, you, ai, sparks = [], rings = [], trail = [];
+  var youScore = 0, voidScore = 0, rally = 0, best = 0;
+  var over = false, serving = true, serveTo = 1, serveAt = 0;
+  var pointerX = null;
+
+  try { best = parseInt(localStorage.getItem(LS), 10) || 0; } catch (e) {}
+  document.getElementById('best').textContent = best;
+
+  function resize() {
+    var r = court.getBoundingClientRect();
+    if (!r.width) return;
+    var oldW = W, oldH = H;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cv.width  = Math.round(r.width  * dpr);
+    H = cv.height = Math.round(r.height * dpr);
+    if (oldW && oldH && ball) {                 // carry the rally across a rotation
+      var sx = W / oldW, sy = H / oldH;
+      ball.x *= sx; ball.y *= sy;
+      ball.vx *= sy; ball.vy *= sy;             // speeds are height-based, so scale by height
+      ball.speed *= sy;
+      you.x *= sx; ai.x *= sx;
+      trail = [];
+    }
+    layout();
+  }
+
+  function layout() {
+    var pw = W * 0.26, ph = H * 0.016;
+    you = you || { x: W * 0.5, w: pw, h: ph, y: 0, vx: 0 };
+    ai  = ai  || { x: W * 0.5, w: pw * 0.86, h: ph, y: 0, err: 0 };
+    you.w = pw;      you.h = ph;      you.y = H * 0.905;
+    ai.w  = pw*0.86; ai.h  = ph;      ai.y  = H * 0.075;
+    you.x = clamp(you.x, you.w / 2, W - you.w / 2);
+    ai.x  = clamp(ai.x,  ai.w  / 2, W - ai.w  / 2);
+    if (!ball) resetBall(1); else ball.r = W * 0.030;
+  }
+
+  function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+
+  function resetBall(dir) {
+    ball = { x: W * 0.5, y: H * 0.5, vx: 0, vy: 0, r: W * 0.030, speed: H * BALL_V0 };
+    serving = true; serveTo = dir; serveAt = performance.now(); trail = [];
+  }
+
+  function serve() {
+    var ang = (Math.random() * 0.5 - 0.25);            // a little sideways lean
+    var s = ball.speed;
+    ball.vx = Math.sin(ang) * s;
+    ball.vy = Math.cos(ang) * s * serveTo;
+    serving = false;
+  }
+
+  /* ------------------------------------------------------------- drawing */
+  function roundRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y,     x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x,     y + h, r);
+    ctx.arcTo(x,     y + h, x,     y,     r);
+    ctx.arcTo(x,     y,     x + w, y,     r);
+    ctx.closePath();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // halfway line
+    ctx.strokeStyle = 'rgba(184,176,212,.16)';
+    ctx.lineWidth = Math.max(1, W * 0.004);
+    ctx.setLineDash([W * 0.03, W * 0.03]);
+    ctx.beginPath(); ctx.moveTo(0, H * 0.5); ctx.lineTo(W, H * 0.5); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // hit ripples
+    for (var i = 0; i < rings.length; i++) {
+      var rg = rings[i];
+      ctx.globalAlpha = Math.max(0, rg.life / 420) * 0.5;
+      ctx.strokeStyle = rg.c;
+      ctx.lineWidth = Math.max(1, W * 0.006);
+      ctx.beginPath(); ctx.arc(rg.x, rg.y, rg.r, 0, 6.283); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+
+    // the void's paddle
+    ctx.fillStyle = 'rgba(255,68,204,.9)';
+    ctx.shadowColor = 'rgba(255,68,204,.75)'; ctx.shadowBlur = W * 0.05;
+    roundRect(ai.x - ai.w / 2, ai.y - ai.h / 2, ai.w, ai.h, ai.h / 2); ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // your paddle, holo-lit like the site's headline
+    var g = ctx.createLinearGradient(you.x - you.w / 2, 0, you.x + you.w / 2, 0);
+    g.addColorStop(0, '#a020f0'); g.addColorStop(.4, '#ffd166'); g.addColorStop(1, '#22e0ff');
+    ctx.fillStyle = g;
+    ctx.shadowColor = 'rgba(255,209,102,.7)'; ctx.shadowBlur = W * 0.05;
+    roundRect(you.x - you.w / 2, you.y - you.h / 2, you.w, you.h, you.h / 2); ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // comet tail
+    for (var t = 0; t < trail.length; t++) {
+      var p = trail[t];
+      ctx.globalAlpha = (t / trail.length) * 0.38;
+      ctx.fillStyle = '#ffd166';
+      ctx.beginPath(); ctx.arc(p.x, p.y, ball.r * (0.25 + 0.5 * t / trail.length), 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    // the comet
+    var bg = ctx.createRadialGradient(ball.x - ball.r * .3, ball.y - ball.r * .3, ball.r * .1,
+                                      ball.x, ball.y, ball.r);
+    bg.addColorStop(0, '#fffdf3'); bg.addColorStop(.55, '#ffd166'); bg.addColorStop(1, '#c98f28');
+    ctx.fillStyle = bg;
+    ctx.shadowColor = 'rgba(255,209,102,.8)'; ctx.shadowBlur = W * 0.06;
+    ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r, 0, 6.283); ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // sparks
+    for (var k = 0; k < sparks.length; k++) {
+      var sp = sparks[k];
+      ctx.globalAlpha = Math.max(0, sp.life / 520);
+      ctx.fillStyle = sp.c;
+      ctx.beginPath(); ctx.arc(sp.x, sp.y, sp.r, 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  /* ------------------------------------------------------------- physics */
+  function burst(x, y, cols) {
+    if (reduced) return;
+    for (var i = 0; i < 14; i++) {
+      sparks.push({ x: x, y: y, vx: (Math.random() - .5) * 0.5, vy: (Math.random() - .5) * 0.5,
+                    r: Math.random() * W * 0.008 + 1, life: 520, c: cols[i % cols.length] });
+    }
+  }
+  function ripple(x, y, c) { rings.push({ x: x, y: y, r: W * 0.02, life: 420, c: c }); }
+
+  function flash(text) {
+    msgEl.textContent = text;
+    msgEl.dataset.on = 'true';
+    clearTimeout(flash.t);
+    flash.t = setTimeout(function () { msgEl.dataset.on = 'false'; }, 850);
+  }
+
+  function setGlow() {
+    // the court brightens as the rally grows — capped so it never blinds
+    var g = Math.min(26, rally * 2.2);
+    court.style.setProperty('--glow', g.toFixed(1) + 'px');
+  }
+
+  // bounce off a paddle, with the contact point steering the angle
+  function paddleHit(pad, dirY) {
+    var offset = (ball.x - pad.x) / (pad.w / 2);        // -1 .. 1
+    offset = clamp(offset, -1, 1);
+    ball.speed = Math.min(H * BALL_VMAX, ball.speed * BALL_STEP);
+
+    var ang = offset * 0.95;                            // radians off vertical
+    var vy = Math.cos(ang), vx = Math.sin(ang);
+    if (Math.abs(vy) < MIN_VY) {                        // never let it go sideways
+      vy = MIN_VY * (vy < 0 ? -1 : 1);
+      vx = Math.sqrt(Math.max(0, 1 - vy * vy)) * (vx < 0 ? -1 : 1);
+    }
+    ball.vy = Math.abs(vy) * ball.speed * dirY;
+    ball.vx = vx * ball.speed;
+    ball.y  = pad.y + (pad.h / 2 + ball.r) * dirY;
+
+    rally++;
+    document.getElementById('rally').textContent = rally;
+    if (rally > best) {
+      best = rally;
+      document.getElementById('best').textContent = best;
+      try { localStorage.setItem(LS, String(best)); } catch (e) {}
+    }
+    setGlow();
+    ripple(ball.x, ball.y, dirY < 0 ? '#ffd166' : '#ff44cc');
+    burst(ball.x, ball.y, dirY < 0 ? ['#ffd166', '#fffdf3'] : ['#ff44cc', '#a020f0']);
+    if (rally === 10) flash('TEN');
+    if (rally === 20) flash('TWENTY');
+  }
+
+  function point(toYou) {
+    if (toYou) { youScore++; document.getElementById('scoreYou').textContent = youScore; }
+    else       { voidScore++; document.getElementById('scoreVoid').textContent = voidScore; }
+    flash(toYou ? 'YOUR POINT' : 'VOID SCORES');
+    rally = 0;
+    document.getElementById('rally').textContent = 0;
+    setGlow();
+    if (youScore >= TARGET || voidScore >= TARGET) return finish();
+    resetBall(toYou ? -1 : 1);   // serve toward whoever just conceded
+  }
+
+  function finish() {
+    over = true;
+    var won = youScore > voidScore;
+    document.getElementById('endTitle').textContent = won ? 'You held the night' : 'The void takes it';
+    document.getElementById('endText').textContent =
+      youScore + ' – ' + voidScore + ' \u00b7 longest rally ' + best;
+    veil.dataset.on = 'true';
+  }
+
+  function step(dt, now) {
+    // your paddle follows the pointer, with a little inertia so it feels weighty
+    if (pointerX !== null) {
+      var target = clamp(pointerX, you.w / 2, W - you.w / 2);
+      var move = (target - you.x) * Math.min(1, dt / 55);
+      you.vx = move / dt;
+      you.x += move;
+    } else { you.vx = 0; }
+
+    // the void tracks the ball, faster as the match tightens, and always a
+    // beat behind so it can be beaten
+    var lead = Math.min(1, (youScore + voidScore) / (TARGET * 1.2));
+    var aiSpeed = H * (AI_V0 + (AI_VMAX - AI_V0) * lead);
+    var aim = ball.vy < 0 ? ball.x + (ai.err || 0) : W * 0.5;   // idles home between volleys
+    var d = aim - ai.x;
+    var stepMax = aiSpeed * dt;
+    ai.x += clamp(d, -stepMax, stepMax);
+    ai.x = clamp(ai.x, ai.w / 2, W - ai.w / 2);
+
+    for (var i = rings.length - 1; i >= 0; i--) {
+      rings[i].r += W * 0.0009 * dt; rings[i].life -= dt;
+      if (rings[i].life <= 0) rings.splice(i, 1);
+    }
+    for (var k = sparks.length - 1; k >= 0; k--) {
+      var s = sparks[k];
+      s.x += s.vx * dt; s.y += s.vy * dt; s.life -= dt;
+      if (s.life <= 0) sparks.splice(k, 1);
+    }
+
+    if (serving) {
+      ball.x = W * 0.5; ball.y = H * 0.5;
+      if (now - serveAt > 850) serve();
+      return;
+    }
+
+    var prevY = ball.y;
+    ball.x += ball.vx * dt;
+    ball.y += ball.vy * dt;
+
+    trail.push({ x: ball.x, y: ball.y });
+    if (trail.length > 14) trail.shift();
+
+    // side walls
+    if (ball.x - ball.r < 0)  { ball.x = ball.r;     ball.vx = Math.abs(ball.vx); ripple(0, ball.y, '#22e0ff'); }
+    if (ball.x + ball.r > W)  { ball.x = W - ball.r; ball.vx = -Math.abs(ball.vx); ripple(W, ball.y, '#22e0ff'); }
+
+    // paddles — tested as a swept crossing of the paddle face, not an overlap,
+    // so a fast comet can never step straight through a thin bat in one frame
+    var youFace = you.y - you.h / 2;
+    if (ball.vy > 0 && prevY + ball.r <= youFace && ball.y + ball.r > youFace &&
+        ball.x > you.x - you.w / 2 - ball.r * 0.6 && ball.x < you.x + you.w / 2 + ball.r * 0.6) {
+      paddleHit(you, -1);
+      ball.vx += clamp(you.vx * 0.28, -ball.speed * 0.45, ball.speed * 0.45);  // your swipe adds english
+      ai.err = (Math.random() - 0.5) * ai.w * 0.7;   // the void re-reads the ball, imperfectly
+    }
+    var aiFace = ai.y + ai.h / 2;
+    if (ball.vy < 0 && prevY - ball.r >= aiFace && ball.y - ball.r < aiFace &&
+        ball.x > ai.x - ai.w / 2 - ball.r * 0.6 && ball.x < ai.x + ai.w / 2 + ball.r * 0.6) {
+      paddleHit(ai, 1);
+    }
+
+    // past a paddle = a point
+    if (ball.y - ball.r > H)      point(false);
+    else if (ball.y + ball.r < 0) point(true);
+  }
+
+  /* --------------------------------------------------------------- input */
+  function toCourtX(clientX) {
+    var r = cv.getBoundingClientRect();
+    return (clientX - r.left) * (W / r.width);
+  }
+  function onMove(e) { pointerX = toCourtX(e.clientX); e.preventDefault(); }
+
+  court.addEventListener('pointerdown', function (e) {
+    if (over) return;
+    pointerX = toCourtX(e.clientX);
+    try { court.setPointerCapture(e.pointerId); } catch (err) {}
+    if (serving) serveAt = Math.min(serveAt, performance.now() - 850);  // tap to serve early
+    e.preventDefault();
+  });
+  court.addEventListener('pointermove', onMove);
+  ['pointerup', 'pointercancel'].forEach(function (ev) {
+    court.addEventListener(ev, function () { pointerX = null; });
+  });
+
+  // keyboard, for anyone on a laptop without a trackpad handy
+  var keys = {};
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { keys[e.key] = true; e.preventDefault(); }
+    if (e.key === ' ' && serving) serveAt = Math.min(serveAt, performance.now() - 850);
+  });
+  window.addEventListener('keyup', function (e) { keys[e.key] = false; });
+
+  document.getElementById('again').addEventListener('click', reset);
+  document.getElementById('restart').addEventListener('click', reset);
+  window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', function () { setTimeout(resize, 250); });
+
+  function reset() {
+    youScore = 0; voidScore = 0; rally = 0; over = false;
+    document.getElementById('scoreYou').textContent = 0;
+    document.getElementById('scoreVoid').textContent = 0;
+    document.getElementById('rally').textContent = 0;
+    setGlow();
+    veil.dataset.on = 'false';
+    sparks = []; rings = [];
+    resetBall(1);
+  }
+
+  /* ---------------------------------------------------------------- loop */
+  var last = performance.now();
+  function loop(now) {
+    var dt = Math.min(34, now - last);
+    last = now;
+
+    if (keys.ArrowLeft || keys.ArrowRight) {              // keys override pointer
+      var kv = H * 0.0012 * dt * ((keys.ArrowRight ? 1 : 0) - (keys.ArrowLeft ? 1 : 0));
+      you.x = clamp(you.x + kv, you.w / 2, W - you.w / 2);
+      you.vx = kv / dt;
+      pointerX = null;
+    }
+
+    if (!over) step(dt, now);
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  resize();
+  setGlow();
+  requestAnimationFrame(loop);
+})();
+</script>
+
+<script>
+/* ============================================================
+   MAGICKMICA · SHARED NAVIGATION
+   ------------------------------------------------------------
+   Drop one line into any page, just before <\/body>:
+       <script src="mm-nav.js" defer><\/script>
+
+   Injects a sticky top bar plus a full directory drawer, so every
+   page reaches every other page. Edit the LINKS map below once and
+   the whole site updates.
+
+   Self-contained: no dependencies, all class names prefixed .mm-
+   so it cannot collide with a page's own styles. Sticky rather than
+   fixed, so it never needs body padding on pages that already have
+   their own header.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var SECTIONS = [
+    { name: 'Read', items: [
+      ['notes.html', 'Notes'],
+      ['articles.html', 'Magazine'],
+      ['blog.html', 'Blog'],
+      ['archive.html', 'Archive'],
+      ['newsstand.html', 'Newsstand'],
+      ['minimags.html', 'Y3K Magazine'],
+      ['random-note.html', 'Random Note']
+    ]},
+    { name: 'Play', items: [
+      ['arcade.html', 'Arcade'],
+      ['songmaker.html', 'Song Maker'],
+      ['daily-sigil.html', 'Daily Sigil'],
+      ['haunted-house.html', 'The Hollow House'],
+      ['stardust.html', 'Stardust Foundry'],
+      ['cosmic-echo.html', 'Cosmic Echo'],
+      ['moon-shot.html', 'Moon Shot'],
+      ['pong.html', 'Comet Rally'],
+      ['blender.html', 'The Astral Blender'],
+      ['quest.html', 'Dream Quest'],
+      ['dream-journal.html', 'Dream Journal'],
+      ['affirmations.html', 'Daily Affirmation'],
+      ['https://magickmica.github.io/oracle', 'Oracle'],
+      ['https://magickmica.github.io/musicbox/', 'Music Box']
+    ]},
+    { name: '\u2726 Signs', items: [
+      ['abundance-portal-one.html', 'The Portal'],
+      ['abundance-notebook.html', 'The Notebook'],
+      ['abundance-scratch.html', 'Scratch a Sign'],
+      ['abundance-globe.html', 'The Globe'],
+      ['abundance-oracle.html', 'The Oracle'],
+      ['affirmations-100.html', 'Fortune Machine']
+    ]},
+    { name: '\uD83D\uDC8E Crystal Vaults', items: [
+      ['herkimer-vault.html', 'Herkimer Vault'],
+      ['labradorite-vault.html', 'Labradorite Vault'],
+      ['opal-vault.html', 'Opal Vault'],
+      ['quartz-vault.html', 'Quartz Vault'],
+      ['watermelon-vault.html', 'Watermelon Vault'],
+      ['quartz-amulets.html', 'Quartz Amulets'],
+      ['copper-jewelry.html', 'Copper Jewelry']
+    ]},
+    { name: '\uD83D\uDEF8 Beyond the Signal', items: [
+      ['https://substack.com/@magickmica', 'Substack'],
+      ['https://ko-fi.com/magickmica/tip', '\u2726 Tip Jar'],
+      ['https://ko-fi.com/magickmica/tiers', 'Ko-fi Memberships'],
+      ['https://www.themysticalspiralstore.com/', 'Mystical Spiral']
+    ]}
+  ];
+
+  // shown inline on wide screens; everything else lives in the drawer
+  var PRIMARY = [
+    ['index.html', 'Home'],
+    ['notes.html', 'Notes'],
+    ['articles.html', 'Magazine'],
+    ['arcade.html', 'Arcade'],
+    ['songmaker.html', 'Songs']
+  ];
+
+  var CSS = ''
+    + '.mm-bar{position:sticky;top:0;z-index:9000;display:flex;align-items:center;gap:10px;'
+    +   'padding:9px 14px;background:rgba(7,6,14,.93);backdrop-filter:blur(9px);'
+    +   '-webkit-backdrop-filter:blur(9px);border-bottom:1px solid rgba(255,68,204,.28);'
+    +   'font-family:"IBM Plex Mono",ui-monospace,monospace;}'
+    + '.mm-brand{font-family:"Orbitron","IBM Plex Mono",monospace;font-weight:700;font-size:12px;'
+    +   'letter-spacing:.14em;text-decoration:none;color:transparent;white-space:nowrap;'
+    +   'background:linear-gradient(96deg,#a020f0,#ff44cc 30%,#ffd166 60%,#22e0ff);'
+    +   '-webkit-background-clip:text;background-clip:text;}'
+    + '.mm-links{display:none;gap:4px;flex:1;min-width:0;}'
+    + '.mm-links a{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#b8b0d4;'
+    +   'text-decoration:none;padding:8px 10px;border-radius:999px;white-space:nowrap;}'
+    + '.mm-links a:hover{color:#ffd166;background:rgba(255,209,102,.1);}'
+    + '.mm-links a[aria-current="page"]{color:#ffd166;background:rgba(255,209,102,.14);}'
+    + '.mm-spacer{flex:1}'
+    + '.mm-star{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;'
+    +   'width:38px;height:38px;border-radius:999px;text-decoration:none;font-size:17px;'
+    +   'line-height:1;color:#ffd166;border:1px solid rgba(255,209,102,.5);'
+    +   'background:rgba(255,209,102,.09);margin-left:auto;}'
+    + '.mm-star + .mm-menu{margin-left:8px}'
+    + '.mm-star span{animation:mm-twinkle 2.8s ease-in-out infinite;display:block}'
+    + '.mm-star:hover{background:#ffd166;color:#07060e;box-shadow:0 0 18px rgba(255,209,102,.55)}'
+    + '@keyframes mm-twinkle{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.15);opacity:1}}'
+    + '@media(prefers-reduced-motion:reduce){.mm-star span{animation:none}}'
+    + '.mm-menu{margin-left:auto;display:inline-flex;align-items:center;gap:7px;cursor:pointer;'
+    +   'font-family:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;'
+    +   'color:#07060e;background:linear-gradient(96deg,#ffd166,#ffe9b5 55%,#ffd166);'
+    +   'border:0;border-radius:999px;padding:9px 15px;min-height:38px;}'
+    + '.mm-menu:hover{box-shadow:0 0 18px rgba(255,209,102,.45)}'
+    + '.mm-menu b{display:grid;gap:3px}'
+    + '.mm-menu i{display:block;width:13px;height:2px;background:#07060e;border-radius:2px}'
+    + '.mm-drawer{position:fixed;inset:0;z-index:9500;display:none;}'
+    + '.mm-drawer[data-open="true"]{display:block}'
+    + '.mm-scrim{position:absolute;inset:0;background:rgba(4,3,10,.82);'
+    +   'backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}'
+    + '.mm-sheet{position:absolute;top:0;right:0;bottom:0;width:min(400px,88vw);'
+    +   'background:#0b0818;border-left:1px solid rgba(255,68,204,.3);'
+    +   'overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 18px 40px;'
+    +   'box-shadow:-14px 0 44px rgba(0,0,0,.6);}'
+    + '.mm-sheet-top{display:flex;align-items:center;justify-content:space-between;'
+    +   'margin-bottom:14px;position:sticky;top:0;background:#0b0818;padding:4px 0 10px;}'
+    + '.mm-close{background:transparent;border:1px solid rgba(184,176,212,.34);color:#b8b0d4;'
+    +   'border-radius:999px;width:40px;height:40px;font-size:17px;cursor:pointer;line-height:1;}'
+    + '.mm-close:hover{border-color:#ffd166;color:#ffd166}'
+    + '.mm-sec{margin:0 0 18px}'
+    + '.mm-sec h3{margin:0 0 7px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;'
+    +   'color:#6f6890;font-weight:500;font-family:inherit;}'
+    + '.mm-sec a{display:block;padding:11px 12px;margin:0 -12px;border-radius:9px;'
+    +   'font-size:14px;color:#d9d2ee;text-decoration:none;font-family:inherit;}'
+    + '.mm-sec a:hover{background:rgba(255,68,204,.13);color:#fff}'
+    + '.mm-sec a[aria-current="page"]{color:#ffd166;background:rgba(255,209,102,.12)}'
+    + '@media(min-width:900px){.mm-links{display:flex}.mm-spacer{display:none}}'
+    + '@media(prefers-reduced-motion:reduce){.mm-bar{backdrop-filter:none}}';
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+  }
+
+  var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+
+  function link(href, label) {
+    var a = el('a', null, label);
+    a.href = href;
+    if (href.toLowerCase() === here) a.setAttribute('aria-current', 'page');
+    if (/^https?:/.test(href) && href.indexOf('magickmica.github.io') === -1) {
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = label + ' \u2197';
+    }
+    return a;
+  }
+
+  function build() {
+    if (document.querySelector('.mm-bar')) return;   // never inject twice
+
+    var style = el('style');
+    style.textContent = CSS;
+    document.head.appendChild(style);
+
+    /* ---------------- bar ---------------- */
+    var bar = el('nav', 'mm-bar');
+    bar.setAttribute('aria-label', 'Site');
+
+    var brand = el('a', 'mm-brand', '\u2726 MAGICKMICA');
+    brand.href = 'index.html';
+    bar.appendChild(brand);
+
+    var links = el('div', 'mm-links');
+    PRIMARY.forEach(function (p) { links.appendChild(link(p[0], p[1])); });
+    bar.appendChild(links);
+    bar.appendChild(el('div', 'mm-spacer'));
+
+    /* star -> Ko-fi tip jar */
+    var star = el('a', 'mm-star');
+    star.href = 'https://ko-fi.com/magickmica/tip';
+    star.target = '_blank';
+    star.rel = 'noopener';
+    star.title = 'Leave a tip on Ko-fi';
+    star.setAttribute('aria-label', 'Leave a tip on Ko-fi');
+    star.appendChild(el('span', null, '\u2726'));
+    bar.appendChild(star);
+
+    var btn = el('button', 'mm-menu');
+    btn.type = 'button';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'mm-drawer');
+    var bars = el('b');
+    bars.appendChild(el('i')); bars.appendChild(el('i')); bars.appendChild(el('i'));
+    btn.appendChild(bars);
+    btn.appendChild(document.createTextNode('Menu'));
+    bar.appendChild(btn);
+
+    /* ---------------- drawer ---------------- */
+    var drawer = el('div', 'mm-drawer');
+    drawer.id = 'mm-drawer';
+    drawer.setAttribute('data-open', 'false');
+
+    var scrim = el('div', 'mm-scrim');
+    var sheet = el('div', 'mm-sheet');
+    sheet.setAttribute('role', 'dialog');
+    sheet.setAttribute('aria-modal', 'true');
+    sheet.setAttribute('aria-label', 'Site directory');
+
+    var top = el('div', 'mm-sheet-top');
+    var title = el('span', 'mm-brand', '\u2726 EVERYTHING');
+    var close = el('button', 'mm-close', '\u2715');
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Close menu');
+    top.appendChild(title); top.appendChild(close);
+    sheet.appendChild(top);
+
+    var home = el('div', 'mm-sec');
+    home.appendChild(link('index.html', 'Home'));
+    sheet.appendChild(home);
+
+    SECTIONS.forEach(function (sec) {
+      var box = el('div', 'mm-sec');
+      box.appendChild(el('h3', null, sec.name));
+      sec.items.forEach(function (it) { box.appendChild(link(it[0], it[1])); });
+      sheet.appendChild(box);
+    });
+
+    drawer.appendChild(scrim);
+    drawer.appendChild(sheet);
+
+    document.body.insertBefore(bar, document.body.firstChild);
+    document.body.appendChild(drawer);
+
+    /* ---------------- behaviour ---------------- */
+    var lastFocus = null;
+
+    function open() {
+      lastFocus = document.activeElement;
+      drawer.setAttribute('data-open', 'true');
+      btn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      close.focus();
+    }
+    function shut() {
+      drawer.setAttribute('data-open', 'false');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    btn.addEventListener('click', open);
+    close.addEventListener('click', shut);
+    scrim.addEventListener('click', shut);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && drawer.getAttribute('data-open') === 'true') shut();
+    });
+    // keep focus inside the sheet while it is open
+    sheet.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var f = sheet.querySelectorAll('a[href],button');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', build);
+  } else {
+    build();
+  }
+})();
+</script>
+</body>
+</html>
