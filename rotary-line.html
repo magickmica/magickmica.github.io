@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Rotary Line &middot; MagickMica</title>
+<meta name="description" content="Dial a number. Something has been trying to reach you.">
+<meta property="og:title" content="The Rotary Line &middot; MagickMica">
+<meta property="og:description" content="Dial a number. Reality has been responding.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Silkscreen&family=Spectral:ital,wght@0,300;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07060e;--violet:#a020f0;--magenta:#ff44cc;--gold:#ffd166;--cyan:#22e0ff;
+  --mist:#b8b0d4;--dim:#6f6890;
+  --bake-a:#2a1140;--bake-b:#170a26;--bake-c:#3d1c5c;
+  --brass:#e8c07a;--brass-d:#8a6a34;
+  --paper:#f3e9d6;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;padding:0 14px 50px;background:var(--void);color:var(--mist);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;line-height:1.5;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.44;
+  background:
+    radial-gradient(110% 60% at 50% -12%, #24124a 0%, transparent 58%),
+    radial-gradient(1px 1px at 16% 26%, rgba(255,255,255,.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 68% 48%, rgba(34,224,255,.5) 50%, transparent 50%),
+    radial-gradient(1.4px 1.4px at 40% 78%, rgba(255,209,102,.55) 50%, transparent 50%);
+  background-size:auto,190px 190px,190px 190px,190px 190px;
+}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:540px;margin:0 auto;text-align:center}
+
+header{padding:24px 0 2px}
+.eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin:0 0 10px}
+h1{
+  font-family:"Orbitron",sans-serif;font-weight:700;font-size:clamp(20px,5vw,30px);
+  letter-spacing:.05em;margin:0;line-height:1.24;color:transparent;
+  background:linear-gradient(96deg,var(--violet),var(--magenta) 28%,var(--gold) 58%,var(--cyan) 86%,var(--violet));
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  animation:holo 11s linear infinite;
+}
+@keyframes holo{to{background-position:220% 0}}
+.sub{font-family:"Spectral",Georgia,serif;font-style:italic;color:var(--dim);margin:10px 0 0;font-size:14px}
+
+/* ---------------------------------------------------------- readout */
+.readout{
+  position:relative;margin:20px auto 0;max-width:430px;
+  border:1px solid rgba(184,176,212,.2);border-radius:14px;
+  background:linear-gradient(170deg, rgba(20,13,38,.9), rgba(9,6,18,.92));
+  box-shadow:0 12px 34px rgba(0,0,0,.5), inset 0 0 30px rgba(160,32,240,.12);
+  padding:16px 16px 18px;min-height:224px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
+  overflow:hidden;
+}
+.readout::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(180deg, rgba(0,0,0,.2) 0 1px, transparent 1px 3px);
+}
+.status{
+  font-family:"Silkscreen",monospace;font-size:9px;letter-spacing:.2em;color:var(--cyan);
+  opacity:.85;min-height:11px;
+}
+.headline{
+  font-family:"Orbitron",sans-serif;font-weight:700;font-size:clamp(13px,3.2vw,16px);
+  letter-spacing:.05em;color:var(--gold);margin:0;line-height:1.3;text-wrap:balance;
+}
+.body{
+  font-family:"Spectral",Georgia,serif;font-style:italic;font-weight:300;
+  font-size:clamp(15px,3.6vw,18px);line-height:1.44;color:#fff;margin:0;
+  white-space:pre-line;text-wrap:balance;
+}
+.sysbox{
+  width:100%;border:1px solid rgba(34,224,255,.24);border-radius:8px;
+  background:rgba(6,20,26,.6);padding:8px 10px;
+  font-family:"Silkscreen",monospace;font-size:9px;line-height:1.9;
+  letter-spacing:.06em;color:#8ff0dc;text-align:left;white-space:pre-line;
+}
+.sysbox b{color:var(--gold);font-weight:400}
+.readout[data-state="idle"] .headline,
+.readout[data-state="idle"] .body,
+.readout[data-state="idle"] .sysbox{display:none}
+.readout[data-state="live"] .idle-art{display:none}
+.idle-art{font-family:"Silkscreen",monospace;font-size:11px;color:var(--dim);letter-spacing:.14em;line-height:2}
+
+/* ---------------------------------------------------------- the phone */
+.set{
+  position:relative;width:min(330px,88vw);margin:22px auto 0;padding:16px 16px 20px;
+  border-radius:22px 22px 34px 34px;
+  background:linear-gradient(158deg,var(--bake-c),var(--bake-a) 45%,var(--bake-b));
+  box-shadow:0 20px 46px rgba(0,0,0,.66), inset 0 2px 0 rgba(255,255,255,.16),
+             inset 0 -4px 14px rgba(0,0,0,.55), 0 0 44px rgba(160,32,240,.24);
+  border:1px solid rgba(255,255,255,.13);
+}
+/* handset resting across the top */
+.cradle{position:relative;height:52px;margin:0 6px 12px}
+.handset{
+  position:absolute;left:50%;top:0;transform:translateX(-50%);
+  width:100%;height:46px;
+  background:linear-gradient(180deg,#3a2258,#1c1030);
+  border-radius:14px;border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 5px 0 rgba(0,0,0,.42), inset 0 2px 0 rgba(255,255,255,.14);
+  transition:transform .45s cubic-bezier(.3,.9,.3,1);
+}
+.handset::before,.handset::after{
+  content:"";position:absolute;top:-9px;width:52px;height:26px;border-radius:12px 12px 4px 4px;
+  background:linear-gradient(180deg,#4a2c6e,#2a1844);
+  border:1px solid rgba(255,255,255,.14);
+}
+.handset::before{left:6px}
+.handset::after{right:6px}
+.lifted .handset{transform:translateX(-50%) translateY(-16px) rotate(-6deg)}
+
+.dialwrap{position:relative;width:min(258px,72vw);margin:0 auto;aspect-ratio:1}
+/* the numbers are printed on the faceplate and never move */
+.face{
+  position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 42% 34%, #45255f, #1a0e2c 72%);
+  box-shadow:inset 0 0 24px rgba(0,0,0,.7), 0 0 0 3px rgba(232,192,122,.32);
+}
+.numbers{position:absolute;inset:0;pointer-events:none}
+.numbers span{
+  position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;
+  display:grid;place-items:center;
+  font-family:"Orbitron",sans-serif;font-weight:700;font-size:15px;color:var(--brass);
+  text-shadow:0 1px 0 rgba(0,0,0,.7);
+}
+/* the finger wheel: holes cut out, rotates when dragged */
+.wheel{
+  position:absolute;inset:9%;border-radius:50%;cursor:grab;touch-action:none;
+  background:
+    radial-gradient(circle at 40% 32%, rgba(255,255,255,.20), transparent 46%),
+    conic-gradient(from 0deg, rgba(255,255,255,.09), rgba(0,0,0,.22), rgba(255,255,255,.09));
+  background-color:rgba(180,150,220,.20);
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 4px 14px rgba(0,0,0,.5), inset 0 0 20px rgba(255,255,255,.09);
+  transition:transform .05s linear;
+}
+.wheel:active{cursor:grabbing}
+.wheel.returning{transition:transform .75s cubic-bezier(.35,0,.2,1)}
+.hole{
+  position:absolute;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;
+  background:rgba(8,4,16,.86);
+  box-shadow:inset 0 3px 7px rgba(0,0,0,.85), 0 1px 0 rgba(255,255,255,.14);
+}
+.hub{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:34%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 40% 34%, var(--brass), var(--brass-d));
+  border:1px solid rgba(0,0,0,.5);
+  box-shadow:0 3px 9px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.4);
+  display:grid;place-items:center;
+  font-family:"Silkscreen",monospace;font-size:8px;color:#3a2a10;letter-spacing:.08em;
+  text-align:center;line-height:1.4;pointer-events:none;
+}
+/* the finger stop */
+.stop{
+  position:absolute;right:2%;top:50%;width:20px;height:34px;margin-top:-17px;
+  border-radius:5px;background:linear-gradient(180deg,var(--brass),var(--brass-d));
+  box-shadow:0 2px 5px rgba(0,0,0,.6);
+}
+
+.plate{
+  margin-top:14px;padding:7px;border-radius:8px;
+  background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.1);
+  font-family:"Silkscreen",monospace;font-size:9px;letter-spacing:.14em;color:var(--brass);
+}
+
+/* ---------------------------------------------------------- controls */
+.bar{display:flex;gap:9px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.btn{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mist);background:transparent;
+  border:1px solid rgba(184,176,212,.3);border-radius:999px;padding:11px 17px;
+  min-height:44px;cursor:pointer;
+}
+.btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.btn:disabled{opacity:.34;cursor:default}
+.btn.gold{color:var(--void);border:0;background:linear-gradient(96deg,var(--gold),#ffe9b5 55%,var(--gold))}
+.tally{font-size:11px;letter-spacing:.18em;color:var(--dim);margin:16px 0 0}
+.tally b{color:var(--gold);font-weight:500}
+.hint{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#544f70;margin:10px 0 0}
+
+/* ---------------------------------------------------------- directory */
+.dir{margin:26px auto 0;max-width:460px;text-align:left}
+.dir h2{
+  font-family:"Silkscreen",monospace;font-size:10px;letter-spacing:.2em;color:var(--dim);
+  text-align:center;margin:0 0 10px;font-weight:400;
+}
+.dir ol{list-style:none;margin:0;padding:0;display:grid;gap:5px;counter-reset:d}
+.dir li{display:flex}
+.dir button{
+  flex:1;display:flex;align-items:center;gap:11px;text-align:left;
+  padding:9px 12px;border-radius:9px;cursor:pointer;font:inherit;
+  border:1px solid rgba(184,176,212,.14);background:rgba(13,8,24,.6);color:#ddd5ef;
+  font-size:12.5px;min-height:42px;
+}
+.dir button:hover{border-color:var(--gold);color:#fff}
+.dir .n{
+  font-family:"Orbitron",sans-serif;font-weight:700;font-size:12px;color:var(--brass);
+  width:18px;flex:none;text-align:center;
+}
+.dir .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dir .seen{color:var(--gold);font-size:10px;flex:none}
+
+@media(prefers-reduced-motion:reduce){
+  h1{animation:none}
+  .wheel,.wheel.returning,.handset{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">MagickMica</p>
+    <h1>THE ROTARY LINE</h1>
+    <p class="sub">Reality has been responding. Dial a number.</p>
+  </header>
+
+  <div class="readout" id="readout" data-state="idle">
+    <p class="status" id="status">LINE OPEN</p>
+    <div class="idle-art" id="idleArt">
+      &#9679; &#9679; &#9679;<br>
+      DIAL 1&ndash;9 OR 0
+    </div>
+    <p class="headline" id="headline"></p>
+    <p class="body" id="body"></p>
+    <div class="sysbox" id="sysbox"></div>
+  </div>
+
+  <div class="set" id="set">
+    <div class="cradle"><div class="handset" aria-hidden="true"></div></div>
+
+    <div class="dialwrap">
+      <div class="face" aria-hidden="true"></div>
+      <div class="numbers" id="numbers" aria-hidden="true"></div>
+      <div class="wheel" id="wheel" role="group" aria-label="Rotary dial. Drag a hole clockwise to the stop."></div>
+      <div class="stop" aria-hidden="true"></div>
+      <div class="hub" aria-hidden="true">MAGICK<br>MICA</div>
+    </div>
+
+    <div class="plate">&#9742; COSMIC EXCHANGE &middot; EST. 20XX</div>
+  </div>
+
+  <p class="tally">RECEIVED <b id="heard">0</b> OF <span id="total">13</span></p>
+
+  <div class="bar">
+    <button class="btn gold" id="rand">Dial for me</button>
+    <button class="btn" id="copy" disabled>Copy</button>
+    <button class="btn" id="hang" disabled>Hang up</button>
+  </div>
+  <p class="hint">drag a hole clockwise to the gold stop</p>
+
+  <section class="dir">
+    <h2>&#9743; EXCHANGE DIRECTORY</h2>
+    <ol id="dirList"></ol>
+  </section>
+</div>
+
+<script>
+/* Thirteen transmissions, from "That Feeling Was Trying to Tell You".
+   Dial 1-9 and 0 reach the first ten; the directory reaches all thirteen. */
+const LINES = [
+  { n: 1, title: 'REALITY HAS BEEN RESPONDING',
+    body: 'Maybe the universe wasn\u2019t ignoring you.\nMaybe it was waiting for your signal to become clear.',
+    sys: 'SYSTEM MESSAGE\nIncreased synchronicity\nExpanded intuition\nReduced tolerance for false realities\n<b>UPDATE COMPLETE.</b>' },
+  { n: 2, title: 'THE VERSION OF YOU THAT REMEMBERS',
+    body: 'You didn\u2019t become someone new.\nYou remembered someone ancient.',
+    sys: 'FUTURE SELF CONNECTION: <b>88%</b>\nSynchronizing...\n<b>CONNECTION ESTABLISHED.</b>' },
+  { n: 3, title: 'THE UNIVERSE LEFT YOU A NOTE',
+    body: 'That strange feeling. That recurring number.\nThat sentence you heard at exactly the right moment.\nIt wasn\u2019t a coincidence.',
+    sys: 'COSMIC INBOX // <b>7 NEW MESSAGES</b>\nSome arrive as people.\nSome arrive as endings.' },
+  { n: 4, title: 'YOUR SOUL IS RUNNING SOMETHING',
+    body: 'You may think nothing is happening.\nBut something is quietly deleting the architecture\nof the life you have outgrown.',
+    sys: 'BACKGROUND PROCESS DETECTED\nRebuilding identity...\nReleasing old timeline...\n<b>\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2591\u2591\u2591</b>\nDo not interrupt.' },
+  { n: 5, title: 'THE MEMORY FREQUENCY',
+    body: 'You thought you were remembering.\nYou were receiving.\nSome memories are signals sent backward through time.',
+    sys: 'MEMORY ARCHIVE // SIGNAL DETECTED\nSource: Unknown\nOrigin: <b>Future</b>\nEmotional resonance: EXTREME' },
+  { n: 6, title: 'THE DOORWAY WAS A FEELING',
+    body: 'You expected light. Symbols. Stars.\nBut the doorway arrived as a feeling.\nA sudden knowing. A strange pull.',
+    sys: 'PORTAL TYPE: INTUITIVE\nLocation: <b>INSIDE YOU</b>\nAccess: follow the thing\nyou cannot logically explain.' },
+  { n: 7, title: 'YOU ARE LEAVING AN ECHO',
+    body: 'Someone you barely remember\nmay still carry a tiny piece of your existence.\nSome people don\u2019t stay. They become part of your signal.',
+    sys: 'INTERDIMENSIONAL MEMORY SCAN\nEmotional residue: POSITIVE\nInfluence: <b>PERMANENT</b>' },
+  { n: 8, title: 'REALITY UPDATE // UNKNOWN VERSION',
+    body: 'Something is changing. Not dramatically. Not yet.\nJust enough to make the old world feel slightly unfamiliar.',
+    sys: 'Version: <b>YOU ???</b>\nExpanded perception\nStrange dreams\nUnexplainable confidence\nInstall update? <b>Y</b>' },
+  { n: 9, title: 'THE THINGS YOU CAN\u2019T EXPLAIN',
+    body: 'Some experiences aren\u2019t asking to be explained.\nThey\u2019re asking to be noticed.',
+    sys: 'ANOMALY DETECTED\nScientific explanation: Pending\nMagical explanation:\n<b>You were paying attention.</b>' },
+  { n: 0, title: 'YOUR OLD TIMELINE IS LOSING SIGNAL',
+    body: 'Old conversations stop making sense.\nYou start craving a life you can\u2019t quite describe.',
+    sys: 'TIMELINE CONNECTION: <b>WEAK</b>\nAttempting reconnection...\nFAILED.\nReason: <b>You have already moved on.</b>' },
+  { n: 10, title: 'THE MAGIC WAS ALWAYS RUNNING',
+    body: 'You kept looking for the moment magic would begin.\nMaybe it wasn\u2019t something that happened to you.\nMaybe it was the operating system.',
+    sys: 'MAGIC.EXE\nStatus: <b>RUNNING</b>\nBackground activity: <b>\u221E</b>\nUser awareness: Increasing...' },
+  { n: 11, title: 'SOMEWHERE, YOU ARE ALREADY THERE',
+    body: 'There is a future version of you\nstanding inside a life you haven\u2019t reached yet.\nShe only knows that you did.',
+    sys: 'FUTURE SELF // SIGNAL RECEIVED\n<b>Keep going.</b>\nThe door gets easier to see\nonce you stop turning around.' },
+  { n: 12, title: 'CURIOSITY IS A PORTAL',
+    body: 'Curiosity looks innocent.\nBut it has destroyed entire realities.',
+    sys: 'WARNING \u00b7 may cause:\nReality expansion\nTimeline instability\nLoss of interest in ordinary explanations\n<b>Proceed anyway.</b>' }
+];
+
+(function () {
+  'use strict';
+
+  var LS = 'mm_rotary_v1';
+  var DIGITS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];   // clockwise from the stop
+
+  var wheel = document.getElementById('wheel');
+  var numbersEl = document.getElementById('numbers');
+  var readout = document.getElementById('readout');
+  var statusEl = document.getElementById('status');
+  var headEl = document.getElementById('headline');
+  var bodyEl = document.getElementById('body');
+  var sysEl = document.getElementById('sysbox');
+  var setEl = document.getElementById('set');
+  var copyEl = document.getElementById('copy');
+  var hangEl = document.getElementById('hang');
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var current = null, busy = false;
+
+  document.getElementById('total').textContent = LINES.length;
+
+  function read() { try { return JSON.parse(localStorage.getItem(LS)) || []; } catch (e) { return []; } }
+  function write(v) { try { localStorage.setItem(LS, JSON.stringify(v)); } catch (e) {} }
+  var heard = read();
+  function syncTally() {
+    document.getElementById('heard').textContent = Math.min(heard.length, LINES.length);
+    renderDir();
+  }
+
+  /* ------------------------------------------------ geometry
+     Holes run clockwise from about 60deg round to 300deg, leaving the
+     bottom-right clear for the finger stop. */
+  var START = 62, SPAN = 250;
+  function angleFor(i) { return START + (SPAN / (DIGITS.length - 1)) * i; }
+
+  function placeAll() {
+    numbersEl.textContent = '';
+    wheel.textContent = '';
+    var wr = wheel.getBoundingClientRect();
+    var R = wr.width / 2 * 0.78;
+    DIGITS.forEach(function (d, i) {
+      var a = angleFor(i) * Math.PI / 180;
+      var x = 50 + Math.cos(a) * (R / (wr.width / 2)) * 50;
+      var y = 50 + Math.sin(a) * (R / (wr.width / 2)) * 50;
+
+      var hole = document.createElement('div');
+      hole.className = 'hole';
+      hole.style.left = x + '%';
+      hole.style.top = y + '%';
+      hole.dataset.i = i;
+      wheel.appendChild(hole);
+
+      // the printed number sits slightly outside its hole, on the fixed plate
+      var lbl = document.createElement('span');
+      var lr = 0.955;
+      lbl.style.left = (50 + (x - 50) * lr * 0.92 + (Math.cos(a) * 7)) + '%';
+      lbl.style.top = (50 + (y - 50) * lr * 0.92 + (Math.sin(a) * 7)) + '%';
+      lbl.textContent = d;
+      numbersEl.appendChild(lbl);
+    });
+  }
+
+  /* ------------------------------------------------ dialling */
+  var dragging = false, lastAng = 0, rot = 0, holeIdx = -1;
+
+  function angleAt(e) {
+    var r = wheel.getBoundingClientRect();
+    return Math.atan2(e.clientY - (r.top + r.height / 2),
+                      e.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
+  }
+
+  wheel.addEventListener('pointerdown', function (e) {
+    if (busy) return;
+    var hole = e.target.closest('.hole');
+    if (!hole) return;                       // must grab a hole, like the real thing
+    dragging = true;
+    holeIdx = +hole.dataset.i;
+    lastAng = angleAt(e);
+    rot = 0;
+    wheel.classList.remove('returning');
+    try { wheel.setPointerCapture(e.pointerId); } catch (err) {}
+    e.preventDefault();
+  });
+
+  wheel.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    // Accumulate each small step instead of measuring from the start angle:
+    // a single reading can only express +-180deg, so a fast drag past half a
+    // turn would wrap and appear to go backwards.
+    var a = angleAt(e);
+    var step = a - lastAng;
+    while (step < -180) step += 360;
+    while (step > 180) step -= 360;
+    lastAng = a;
+    var limit = 350 - angleFor(holeIdx);
+    rot = Math.max(0, Math.min(limit, rot + step));   // clockwise only, stop at the finger stop
+    wheel.style.transform = 'rotate(' + rot + 'deg)';
+    e.preventDefault();
+  });
+
+  ['pointerup', 'pointercancel'].forEach(function (ev) {
+    wheel.addEventListener(ev, function () {
+      if (!dragging) return;
+      dragging = false;
+      var limit = 350 - angleFor(holeIdx);
+      var reached = rot >= limit * 0.82;     // near enough to the stop counts
+      var digit = DIGITS[holeIdx];
+      wheel.classList.add('returning');
+      wheel.style.transform = 'rotate(0deg)';
+      if (reached) {
+        clicks(rot);
+        setTimeout(function () { connect(digit); }, reduced ? 40 : 720);
+      }
+      rot = 0; holeIdx = -1;
+    });
+  });
+
+  /* ------------------------------------------------ sound */
+  var ac = null;
+  function audio() {
+    if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
+    if (ac.state === 'suspended') ac.resume();
+    return ac;
+  }
+  function tick(t, vol) {
+    try {
+      var c = audio();
+      var n = Math.floor(c.sampleRate * 0.03);
+      var buf = c.createBuffer(1, n, c.sampleRate);
+      var d = buf.getChannelData(0);
+      for (var i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+      var s = c.createBufferSource(); s.buffer = buf;
+      var f = c.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 1800; f.Q.value = 2;
+      var g = c.createGain(); g.gain.value = vol || 0.14;
+      s.connect(f); f.connect(g); g.connect(c.destination);
+      s.start(t); s.stop(t + 0.04);
+    } catch (e) {}
+  }
+  function clicks(deg) {
+    // the wheel clicks its way home, one per number passed
+    try {
+      var c = audio(), t = c.currentTime;
+      var n = Math.max(1, Math.round(deg / 28));
+      for (var i = 0; i < n; i++) tick(t + 0.06 * i, 0.12);
+    } catch (e) {}
+  }
+  function chime() {
+    try {
+      var c = audio(), t = c.currentTime;
+      [523, 659, 784].forEach(function (f, i) {
+        var o = c.createOscillator(), g = c.createGain();
+        o.type = 'sine'; o.frequency.setValueAtTime(f, t + i * 0.09);
+        g.gain.setValueAtTime(0, t + i * 0.09);
+        g.gain.linearRampToValueAtTime(0.07, t + i * 0.09 + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + i * 0.09 + 0.5);
+        o.connect(g); g.connect(c.destination);
+        o.start(t + i * 0.09); o.stop(t + i * 0.09 + 0.55);
+      });
+    } catch (e) {}
+  }
+
+  /* ------------------------------------------------ connecting */
+  function byNumber(n) {
+    for (var i = 0; i < LINES.length; i++) if (LINES[i].n === n) return LINES[i];
+    return null;
+  }
+
+  function connect(n) {
+    var line = byNumber(n);
+    if (!line) return;
+    busy = true;
+    setEl.classList.add('lifted');
+    readout.dataset.state = 'idle';
+    statusEl.textContent = 'CONNECTING' + '\u00b7\u00b7\u00b7';
+
+    setTimeout(function () {
+      current = line;
+      readout.dataset.state = 'live';
+      statusEl.textContent = 'LINE ' + (line.n === 0 ? '0' : line.n) + ' \u00b7 CONNECTED';
+      headEl.textContent = line.title;
+      bodyEl.textContent = line.body;
+      sysEl.innerHTML = line.sys;
+      copyEl.disabled = false;
+      copyEl.textContent = 'Copy';
+      hangEl.disabled = false;
+      chime();
+      if (heard.indexOf(line.n) === -1) { heard.push(line.n); write(heard); }
+      syncTally();
+      try {
+        if (history.replaceState) history.replaceState(null, '', '#line=' + line.n);
+      } catch (e) {}
+      busy = false;
+    }, reduced ? 40 : 620);
+  }
+
+  function hangUp() {
+    setEl.classList.remove('lifted');
+    readout.dataset.state = 'idle';
+    statusEl.textContent = 'LINE OPEN';
+    copyEl.disabled = true;
+    hangEl.disabled = true;
+    current = null;
+  }
+
+  hangEl.addEventListener('click', hangUp);
+  document.getElementById('rand').addEventListener('click', function () {
+    var pool = LINES.filter(function (l) { return heard.indexOf(l.n) === -1; });
+    if (!pool.length) { heard = []; write(heard); syncTally(); pool = LINES.slice(); }
+    connect(pool[Math.floor(Math.random() * pool.length)].n);
+  });
+  copyEl.addEventListener('click', function () {
+    if (!current) return;
+    var txt = current.title + '\n\n' + current.body;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(
+        function () { copyEl.textContent = 'Copied'; },
+        function () { copyEl.textContent = 'Blocked'; });
+    } else { copyEl.textContent = 'Blocked'; }
+  });
+
+  /* ------------------------------------------------ directory */
+  function renderDir() {
+    var ol = document.getElementById('dirList');
+    ol.textContent = '';
+    LINES.forEach(function (l) {
+      var li = document.createElement('li');
+      var b = document.createElement('button');
+      b.type = 'button';
+      var n = document.createElement('span'); n.className = 'n';
+      n.textContent = l.n === 0 ? '0' : l.n;
+      var t = document.createElement('span'); t.className = 't'; t.textContent = l.title;
+      var s = document.createElement('span'); s.className = 'seen';
+      s.textContent = heard.indexOf(l.n) >= 0 ? '\u2726' : '';
+      b.appendChild(n); b.appendChild(t); b.appendChild(s);
+      b.addEventListener('click', function () {
+        connect(l.n);
+        readout.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+      });
+      li.appendChild(b);
+      ol.appendChild(li);
+    });
+  }
+
+  /* ------------------------------------------------ boot */
+  placeAll();
+  window.addEventListener('resize', placeAll);
+  syncTally();
+
+  var deep = /^#line=(\d{1,2})$/.exec(location.hash);
+  if (deep) {
+    var n = parseInt(deep[1], 10);
+    if (byNumber(n)) connect(n);
+  }
+})();
+</script>
+<script src="mm-nav.js?v=1" defer></script>
+</body>
+</html>
