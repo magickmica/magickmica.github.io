@@ -468,115 +468,6 @@
   }
   .vault-note a { color: rgba(200,180,255,0.6); }
 
-  /* ══════════════════════════════
-     KO-FI MEMBERSHIP TRANSMISSIONS
-     (two incoming broadcasts)
-  ══════════════════════════════ */
-  .kofi-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem; margin-bottom: 1rem; max-width: 640px; margin-left: auto; margin-right: auto;
-  }
-  .kofi-tv .tv-screen img { animation: kofiTune 7s ease-in-out infinite; }
-  @keyframes kofiTune {
-    0%, 100% { filter: saturate(1.05); transform: translateX(0); }
-    3%  { filter: saturate(1.4) hue-rotate(8deg); transform: translateX(-2px); }
-    4%  { filter: saturate(0.8); transform: translateX(2px); }
-    5%  { filter: saturate(1.05); transform: translateX(0); }
-    47% { filter: saturate(1.05); transform: translateX(0); }
-    48% { filter: saturate(1.5) hue-rotate(-10deg); transform: translateX(3px); }
-    49% { filter: saturate(1.05); transform: translateX(0); }
-  }
-  /* rolling static sweep over the screen */
-  .kofi-tv .tv-screen .kofi-static {
-    position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0.14;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
-    animation: kofiStatic 0.5s steps(3) infinite;
-    mix-blend-mode: screen;
-  }
-  @keyframes kofiStatic {
-    0% { transform: translateY(0); } 50% { transform: translateY(-4px); } 100% { transform: translateY(3px); }
-  }
-  /* horizontal sync bar drifting down */
-  .kofi-tv .tv-screen .kofi-syncbar {
-    position: absolute; left: 0; right: 0; height: 14%; z-index: 2; pointer-events: none;
-    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.10), transparent);
-    animation: kofiSync 5.5s linear infinite;
-  }
-  @keyframes kofiSync {
-    0% { top: -16%; } 100% { top: 108%; }
-  }
-  .kofi-tv .tv-signal {
-    position: absolute; top: 0.55rem; left: 0.6rem; z-index: 4;
-    font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: #fff; background: rgba(13,8,32,0.72); border: 1px solid var(--vc);
-    border-radius: 999px; padding: 0.22rem 0.55rem; backdrop-filter: blur(2px);
-  }
-  .kofi-tv .tv-signal::before {
-    content: '▲'; color: var(--vc); margin-right: 0.35rem; font-size: 0.55rem;
-    display: inline-block; animation: kofiPing 1.4s ease-in-out infinite;
-  }
-  @keyframes kofiPing { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
-  /* big broadcast call-to-action */
-  .kofi-cta {
-    display: block; text-decoration: none; text-align: center;
-    position: relative; overflow: hidden;
-    max-width: 640px; margin: 0.4rem auto 2.6rem;
-    padding: 1.5rem 1.5rem 1.6rem;
-    border-radius: 16px;
-    border: 2px solid rgba(255,157,180,0.55);
-    background:
-      radial-gradient(420px 180px at 20% 0%, rgba(255,157,180,0.14), transparent 70%),
-      radial-gradient(420px 180px at 80% 100%, rgba(255,206,92,0.12), transparent 70%),
-      linear-gradient(160deg, #2a1230 0%, #1e0a22 60%, #180818 100%);
-    box-shadow: 0 0 24px rgba(255,157,180,0.25), 0 12px 40px rgba(0,0,0,0.5);
-    animation: kofiCtaPulse 2.8s ease-in-out infinite;
-    transition: transform 0.22s ease;
-  }
-  .kofi-cta:hover { transform: translateY(-3px) scale(1.01); animation-play-state: paused;
-    box-shadow: 0 0 40px rgba(255,157,180,0.5), 0 0 60px rgba(255,206,92,0.25), 0 14px 44px rgba(0,0,0,0.55);
-  }
-  @keyframes kofiCtaPulse {
-    0%, 100% { box-shadow: 0 0 18px rgba(255,157,180,0.22), 0 12px 40px rgba(0,0,0,0.5); border-color: rgba(255,157,180,0.45); }
-    50%      { box-shadow: 0 0 34px rgba(255,157,180,0.45), 0 0 22px rgba(255,206,92,0.25), 0 12px 40px rgba(0,0,0,0.5); border-color: rgba(255,206,92,0.65); }
-  }
-  .kofi-cta::before { /* scanlines, keep it on-brand */
-    content: ''; position: absolute; inset: 0; pointer-events: none;
-    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 1px, transparent 1px 3px);
-    mix-blend-mode: multiply;
-  }
-  .kofi-cta-live {
-    display: inline-block; font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase;
-    color: #fff; border: 1px solid #ff9db4; border-radius: 999px;
-    padding: 0.28rem 0.75rem; margin-bottom: 0.75rem;
-    background: rgba(13,8,32,0.7);
-  }
-  .kofi-cta-live::before { content: '●'; color: #ff2440; margin-right: 0.4rem; animation: kofiPing 1.2s steps(1) infinite; }
-  .kofi-cta-title {
-    font-family: 'VT323', monospace;
-    font-size: clamp(1.9rem, 5.5vw, 2.7rem);
-    line-height: 1; letter-spacing: 0.05em; color: #fff;
-    text-shadow: 0 0 14px rgba(255,157,180,0.8), 0 0 30px rgba(255,157,180,0.35);
-    margin-bottom: 0.5rem;
-  }
-  .kofi-cta-title .gold { color: var(--gold); text-shadow: 0 0 14px rgba(255,206,92,0.8), 0 0 30px rgba(255,206,92,0.35); }
-  .kofi-cta-sub {
-    font-size: 0.82rem; letter-spacing: 0.08em; line-height: 1.6;
-    color: rgba(230,215,255,0.8); max-width: 46ch; margin: 0 auto 1.05rem;
-  }
-  .kofi-cta-btn {
-    display: inline-block; font-family: 'VT323', monospace;
-    font-size: 1.35rem; letter-spacing: 0.1em; color: #180818;
-    background: linear-gradient(90deg, #ff9db4, #ffce5c);
-    border-radius: 999px; padding: 0.5rem 1.6rem 0.55rem;
-    box-shadow: 0 0 18px rgba(255,157,180,0.55), 0 4px 14px rgba(0,0,0,0.4);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-  }
-  .kofi-cta:hover .kofi-cta-btn { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,206,92,0.75), 0 4px 16px rgba(0,0,0,0.45); }
-  .kofi-cta-url {
-    display: block; margin-top: 0.7rem;
-    font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: rgba(200,180,255,0.5);
-  }
 
   /* ══════════════════════════════
      NEWSSTAND TEASER
@@ -815,6 +706,7 @@
     padding: 0.3rem 0.85rem; margin-bottom: 0.8rem;
     text-shadow: 0 0 10px rgba(111,195,255,0.6); background: rgba(7,0,15,0.5);
   }
+  @keyframes kofiPing { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
   .tmap-kicker::before { content: '◉ '; color: var(--pink); animation: kofiPing 1.6s ease-in-out infinite; }
   .tmap-title {
     font-family: 'VT323', monospace;
@@ -1337,42 +1229,24 @@
   .mtv-full-link:hover { background: #f7ff6e; color: #000; box-shadow: 0 0 14px #f7ff6e; }
 
 
+
   /* ══════════════════════════════
-     CHANNEL GUIDE (sticky jump nav)
+     LATEST TRANSMISSION — Substack link
   ══════════════════════════════ */
-  .guide {
-    position: sticky; top: 10px; z-index: 40;
-    margin: 0 -1.25rem 2.4rem; padding: 0.5rem 1.25rem;
-    background: rgba(7,0,15,0.82);
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.07);
+  .latest-post {
+    display: block; width: 100%; line-height: 0;
+    margin: 0 0 2.6rem; border-radius: 14px; overflow: hidden;
+    border: 1px solid rgba(255,157,180,0.35);
+    box-shadow: 0 0 20px rgba(255,157,180,0.15), 0 10px 34px rgba(0,0,0,0.45);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
   }
-  .guide-rail {
-    display: flex; gap: 0.4rem; overflow-x: auto;
-    scrollbar-width: none; -ms-overflow-style: none;
-    max-width: 900px; margin: 0 auto;
+  .latest-post:hover, .latest-post:focus-visible {
+    transform: translateY(-3px); border-color: rgba(255,206,92,0.65);
+    box-shadow: 0 0 34px rgba(255,157,180,0.35), 0 12px 40px rgba(0,0,0,0.5);
   }
-  .guide-rail::-webkit-scrollbar { display: none; }
-  .guide a {
-    flex: 0 0 auto; text-decoration: none;
-    display: inline-flex; align-items: baseline; gap: 0.45rem;
-    font-family: 'VT323', monospace; font-size: 1.05rem; letter-spacing: 0.08em;
-    color: rgba(230,218,255,0.72);
-    padding: 0.35rem 0.85rem; border-radius: 999px;
-    border: 1px solid transparent;
-    transition: color .18s ease, border-color .18s ease, background .18s ease;
-  }
-  .guide a .gch {
-    font-family: 'Space Mono', monospace; font-size: 0.5rem;
-    letter-spacing: 0.16em; color: rgba(200,180,255,0.38);
-  }
-  .guide a:hover, .guide a:focus-visible {
-    color: #fff; border-color: rgba(255,36,64,0.5);
-    background: rgba(255,36,64,0.08);
-  }
-  .guide a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
-  html { scroll-padding-top: 5rem; }
-  @media (max-width: 600px) { .guide a { font-size: 0.98rem; padding: 0.3rem 0.7rem; } }
+  .latest-post:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+  .latest-post img { width: 100%; height: auto; display: block; }
+  @media (prefers-reduced-motion: reduce) { .latest-post { transition: none; } }
 
   /* ══════════════════════════════
      FEATURED — COMPACT GRID
@@ -1700,18 +1574,15 @@
     <div class="hero-divider"></div>
   </header>
 
+  <!-- ── LATEST TRANSMISSION (Substack) ── -->
+  <div class="section-label" id="latest"><span>Latest Transmission</span></div>
 
-  <!-- ── CHANNEL GUIDE ── -->
-  <nav class="guide" aria-label="Jump to section">
-    <div class="guide-rail">
-      <a href="#featured"><span>Featured</span><span class="gch">NOW</span></a>
-      <a href="#watch"><span>Watch</span><span class="gch">LIVE</span></a>
-      <a href="#read"><span>Read</span><span class="gch">PRESS</span></a>
-      <a href="#channels"><span>Channels</span><span class="gch">ALL</span></a>
-      <a href="#shop"><span>Shop</span><span class="gch">VAULT</span></a>
-      <a href="#support"><span>Support</span><span class="gch">★</span></a>
-    </div>
-  </nav>
+  <a class="latest-post" href="https://magickmica.substack.com/p/that-feeling-was-trying-to-tell-you" target="_blank" rel="noopener">
+    <img src="gif-grrl-phone-3.gif" alt="Read the latest post on Substack" width="800" height="446" decoding="async">
+  </a>
+
+
+
 
   <!-- ── FEATURED ── -->
   <div class="section-label" id="featured"><span>Featured Transmissions</span></div>
@@ -2295,64 +2166,9 @@
 
   <p class="vault-note">Hand-picked crystals, gemstones &amp; copper — curated by Magick Mica TV, sold by <a href="https://www.themysticalspiralstore.com" target="_blank" rel="noopener">The Mystical Spiral Store</a>.</p>
 
-  <!-- ── MEMBERSHIP TRANSMISSIONS (Ko-fi tiers) ── -->
+
+  <!-- ── SUPPORT ── -->
   <div class="section-label" id="support"><span>Support the Signal</span></div>
-
-  <div class="kofi-grid">
-
-    <a class="vault-tv kofi-tv" href="https://ko-fi.com/magickmica/tiers" target="_blank" rel="noopener" style="--vc:#ff9db4;--vglow:rgba(255,157,180,0.4)">
-      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
-      <div class="tv-body">
-        <div class="tv-screen">
-          <img decoding="async" src="cosmic-cofee-member.png" alt="Cosmic Coffee membership tier — holographic ghost sipping coffee" loading="lazy">
-          <span class="kofi-static"></span>
-          <span class="kofi-syncbar"></span>
-          <span class="tv-signal">Signal Locked</span>
-          <span class="tv-chan">CH ☕</span>
-          <span class="tv-onair">Now Streaming</span>
-        </div>
-        <div class="tv-panel">
-          <div class="tv-label">
-            <div class="tv-name">Cosmic Coffee</div>
-            <div class="tv-tag">Monthly Member Tier</div>
-          </div>
-          <div class="tv-knobs"><i></i><i></i></div>
-        </div>
-      </div>
-      <span class="tv-enter">Tune in on Ko-fi &rarr;</span>
-    </a>
-
-    <a class="vault-tv kofi-tv" href="https://ko-fi.com/magickmica/tiers" target="_blank" rel="noopener" style="--vc:#ffce5c;--vglow:rgba(255,206,92,0.4)">
-      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
-      <div class="tv-body">
-        <div class="tv-screen">
-          <img decoding="async" src="starseed-explorer-tier.png" alt="Starseed Explorer membership tier — cosmic goddess, pyramid, and UFO" loading="lazy">
-          <span class="kofi-static"></span>
-          <span class="kofi-syncbar"></span>
-          <span class="tv-signal">Signal Locked</span>
-          <span class="tv-chan">CH ✦</span>
-          <span class="tv-onair">Now Streaming</span>
-        </div>
-        <div class="tv-panel">
-          <div class="tv-label">
-            <div class="tv-name">Starseed Explorer</div>
-            <div class="tv-tag">Monthly Member Tier</div>
-          </div>
-          <div class="tv-knobs"><i></i><i></i></div>
-        </div>
-      </div>
-      <span class="tv-enter">Tune in on Ko-fi &rarr;</span>
-    </a>
-
-  </div>
-
-  <a class="kofi-cta" href="https://ko-fi.com/magickmica/tiers" target="_blank" rel="noopener">
-    <span class="kofi-cta-live">Live Broadcast · Members Only Frequencies</span>
-    <div class="kofi-cta-title">JOIN THE <span class="gold">TRANSMISSION</span></div>
-    <div class="kofi-cta-sub">Two channels. One signal. Pick <strong>Cosmic Coffee ☕</strong> or <strong>Starseed Explorer ✦</strong> and unlock the members-only broadcast.</div>
-    <span class="kofi-cta-btn">▸ TUNE IN ON KO-FI</span>
-    <span class="kofi-cta-url">ko-fi.com/magickmica/tiers</span>
-  </a>
 
   <!-- ── BUY ME A STAR (one-time tip) ── -->
   <a class="star-tip" href="https://ko-fi.com/magickmica/tip" target="_blank" rel="noopener">
