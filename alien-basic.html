@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Alien</title>
+
+<!--
+  Save this file anywhere and double-click it. That's the whole setup.
+  It needs an internet connection the first time, because it pulls
+  three.js from a CDN (the <script type="importmap"> block below).
+
+  Want it on a page you already have? Two options:
+    1. Copy this whole file in as its own page.
+    2. Copy the <div id="stage">, the <style>, and the <script> block
+       into your existing page. The alien fills whatever box #stage is,
+       so set that box's width and height to whatever you want.
+-->
+
+<style>
+	body {
+		margin: 0;
+		min-height: 100vh;
+		display: grid;
+		place-items: center;
+		background: #e6e3de;      /* your page's background — change freely */
+		font-family: ui-sans-serif, system-ui, sans-serif;
+	}
+	#stage {
+		width: min(440px, 88vw);  /* the box the alien fills */
+		aspect-ratio: 1;
+		touch-action: none;       /* so dragging spins instead of scrolling */
+	}
+</style>
+</head>
+<body>
+
+<div id="stage"></div>
+
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.184.0/build/three.module.js" } }
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+// null = see-through canvas, so the alien sits on the page background above.
+// Or put a colour here, like '#e6e3de', to paint a studio backdrop behind it.
+const BACKGROUND = null;
+
+const TWO_PI = Math.PI * 2;
+
+/* ── the silhouette ───────────────────────────────────────────────────────
+   t runs 0 at the chin to 1 at the crown. Width is a beta curve,
+   w(t) = t^A · (1-t)^B, normalised so its peak is exactly 1.
+
+   Both ends leave with an infinite slope, which is what rounds the chin
+   and the crown off instead of spiking them, and the widest point sits at
+   exactly A/(A+B). So "how top-heavy is this skull" is one legible number
+   instead of a tuning table. A = 0.72, B = 0.3 puts it at 0.71 — high on
+   the cranium, the classic grey.
+
+   TRY THIS: set A to 0.4 and the jaw fills out into something humanoid.
+   Raise B and the skull domes harder.
+*/
+const A = 0.72;
+const B = 0.3;
+const PEAK = Math.pow(A / (A + B), A) * Math.pow(B / (A + B), B);
+const WIDTH = (t) => Math.pow(Math.max(t, 0), A) * Math.pow(Math.max(1 - t, 0), B) / PEAK;
+
+const DEPTH = (t) => 0.74 + 0.26 * Math.min(1, Math.max(0, (t - 0.15) / 0.5));
+const HEIGHT_AT = (t) => (t - 0.48) * 2.15;
+const FLAT = 0.22;   // the face is a flattened plane, not a bulge. 0 = plain egg.
+
+// One surface point. The mesh, the eyes and the mouth all go through this
+// single function, so editing the profile moves the features with the skull.
+const surfacePoint = (t, a) => {
+	const w = WIDTH(t);
+	const zn = Math.sin(a);
+	const band = Math.exp(-(((t - 0.46) / 0.42) ** 2));   // flatten the face, not the crown
+	const flat = 1 - FLAT * band * (zn > 0 ? zn * zn : 0);
+	return new THREE.Vector3(Math.cos(a) * w, HEIGHT_AT(t), zn * w * DEPTH(t) * flat);
+};
+
+const normalAt = (t, a) => {
+	const e = 1e-3;
+	const dt = surfacePoint(Math.min(1, t + e), a).sub(surfacePoint(Math.max(0, t - e), a));
+	const da = surfacePoint(t, a + e).sub(surfacePoint(t, a - e));
+	return new THREE.Vector3().crossVectors(dt, da).normalize();
+};
+
+/* ── skin ─────────────────────────────────────────────────────────────────
+   A matcap generated from an actual lighting model rather than painted
+   blobs: two lights, a wrapped diffuse term so the terminator goes soft the
+   way skin does, one tight spec, and a fresnel rim.
+   TRY THIS: change SKIN to [0.75, 0.45, 0.42] for something fleshier.
+*/
+const SKIN = [0.55, 0.63, 0.55];   // pale grey-green
+const RIM  = [0.62, 0.86, 0.90];   // cool edge light
+
+const skinMatcap = () => {
+	const S = 256;
+	const d = new Uint8Array(S * S * 4);
+	const unit = (x, y, z) => { const l = Math.hypot(x, y, z); return [x / l, y / l, z / l]; };
+	const L1 = unit(-0.42, 0.55, 0.72);        // key, upper left
+	const L2 = unit(0.66, -0.12, 0.74);        // fill, lower right
+	const H1 = unit(L1[0], L1[1], L1[2] + 1);  // half vector against the viewer
+	const enc = (v) => Math.max(0, Math.min(255, Math.round(Math.pow(Math.max(0, v), 1 / 2.2) * 255)));
+
+	for (let j = 0; j < S; j++) {
+		for (let i = 0; i < S; i++) {
+			let nx = (i / (S - 1)) * 2 - 1;
+			let ny = 1 - (j / (S - 1)) * 2;
+			const r = Math.hypot(nx, ny);
+			if (r > 1) { nx /= r; ny /= r; }   // clamp outside the disc so filtering doesn't bleed
+			const nz = Math.sqrt(Math.max(0, 1 - nx * nx - ny * ny));
+
+			const d1 = Math.max(0, (nx * L1[0] + ny * L1[1] + nz * L1[2] + 0.35) / 1.35);
+			const d2 = Math.max(0, nx * L2[0] + ny * L2[1] + nz * L2[2]);
+			const sp = Math.pow(Math.max(0, nx * H1[0] + ny * H1[1] + nz * H1[2]), 46);
+			const fr = Math.pow(1 - nz, 3.2);
+			const lum = 0.14 + 0.78 * d1 * d1 + 0.2 * d2;
+
+			const o = (j * S + i) * 4;
+			d[o]     = enc(SKIN[0] * lum + 0.5 * sp + RIM[0] * fr * 0.22);
+			d[o + 1] = enc(SKIN[1] * lum + 0.5 * sp + RIM[1] * fr * 0.22);
+			d[o + 2] = enc(SKIN[2] * lum + 0.5 * sp + RIM[2] * fr * 0.22);
+			d[o + 3] = 255;
+		}
+	}
+	const tex = new THREE.DataTexture(d, S, S);
+	tex.colorSpace = THREE.SRGBColorSpace;
+	tex.magFilter = THREE.LinearFilter;
+	tex.minFilter = THREE.LinearFilter;
+	tex.needsUpdate = true;
+	return tex;
+};
+
+function buildObject() {
+	const group = new THREE.Group();
+	const skin = new THREE.MeshMatcapMaterial({ matcap: skinMatcap() });
+
+	// ── skull ──
+	// A sphere is borrowed for its index buffer only. Its rings crowd at the
+	// equator, and that crowding shears into visible shading ripples under a
+	// steep profile — so every vertex is re-placed onto an even grid in t.
+	const WS = 220, HS = 150;
+	const g = new THREE.SphereGeometry(1, WS, HS);
+	const P = g.attributes.position;
+	for (let i = 0; i < P.count; i++) {
+		const row = Math.floor(i / (WS + 1));
+		const col = i % (WS + 1);
+		const p = surfacePoint(1 - row / HS, (col / WS) * TWO_PI);
+		P.setXYZ(i, p.x, p.y, p.z);
+	}
+	g.computeVertexNormals();
+
+	// Average normals across coincident vertices. The sphere grid splits at
+	// the wrap seam and stacks a whole row on each pole — a matcap draws
+	// every one of those splits as a hairline.
+	const N = g.attributes.normal;
+	const key = (i) => Math.round(P.getX(i) * 4000) + '_' + Math.round(P.getY(i) * 4000) + '_' + Math.round(P.getZ(i) * 4000);
+	const acc = new Map();
+	for (let i = 0; i < P.count; i++) {
+		const k = key(i);
+		const e = acc.get(k) || [0, 0, 0];
+		e[0] += N.getX(i); e[1] += N.getY(i); e[2] += N.getZ(i);
+		acc.set(k, e);
+	}
+	for (let i = 0; i < P.count; i++) {
+		const e = acc.get(key(i));
+		const l = Math.hypot(e[0], e[1], e[2]) || 1;
+		N.setXYZ(i, e[0] / l, e[1] / l, e[2] / l);
+	}
+	group.add(new THREE.Mesh(g, skin));
+
+	// Sink a feature into the skull along its own normal. The visible outline
+	// is then the INTERSECTION of the two surfaces — which is what makes the
+	// eyes read as almonds that wrap the head. Modelling that outline
+	// directly is a fight you don't need to have.
+	const inset = (mesh, t, a, depth) => {
+		const p = surfacePoint(t, a);
+		const n = normalAt(t, a);
+		mesh.position.copy(p).addScaledVector(n, -depth);
+		mesh.lookAt(p.clone().addScaledVector(n, 1));
+		return mesh;
+	};
+
+	// ── eyes ──
+	// A sphere pinched vertically toward its ends: y *= 1 - 0.62x², so the
+	// corners come to a point and the middle stays full. Almond.
+	const eyeGeo = new THREE.SphereGeometry(1, 64, 48);
+	const EP = eyeGeo.attributes.position;
+	for (let i = 0; i < EP.count; i++) {
+		const x = EP.getX(i);
+		EP.setY(i, EP.getY(i) * (1 - 0.62 * x * x));
+	}
+	eyeGeo.computeVertexNormals();
+	const eyeMat = new THREE.MeshPhysicalMaterial({
+		color: 0x07080a, roughness: 0.05, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.05,
+	});
+	for (const side of [-1, 1]) {
+		const eye = new THREE.Mesh(eyeGeo, eyeMat);
+		eye.scale.set(0.34, 0.19, 0.26);   // TRY THIS: 0.42, 0.22, 0.28 for full bug-eye
+		inset(eye, 0.53, Math.PI / 2 + side * 0.6, 0.1);
+		eye.rotateZ(side * 0.34);          // outer corners sweep up — flip the sign to invert
+		group.add(eye);
+	}
+
+	// ── mouth and nostrils ──
+	// Barely there on purpose: the eyes carry the whole face, and anything
+	// more than a hint down here reads as a cartoon.
+	const dark = new THREE.MeshStandardMaterial({ color: 0x171b19, roughness: 0.85 });
+	const slit = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 20), dark);
+	slit.scale.set(0.12, 0.016, 0.05);
+	group.add(inset(slit, 0.16, Math.PI / 2, 0.012));
+	for (const side of [-1, 1]) {
+		const n = new THREE.Mesh(new THREE.SphereGeometry(0.02, 16, 12), dark);
+		group.add(inset(n, 0.3, Math.PI / 2 + side * 0.075, 0.012));
+	}
+
+	group.rotation.set(0.02, -0.12, 0);
+	return group;
+}
+
+// Soft-panel light room — softbox planes with a radial white-to-black
+// gradient, baked into the environment. Broad soft speculars and gentle
+// falloff, rather than the flat stock room.
+const buildLightRoom = () => {
+	const room = new THREE.Scene();
+	room.background = new THREE.Color(0x8b8f93);
+	const c = document.createElement('canvas');
+	c.width = c.height = 256;
+	const ctx = c.getContext('2d');
+	const grad = ctx.createRadialGradient(128, 128, 24, 128, 128, 128);
+	grad.addColorStop(0, '#ffffff');
+	grad.addColorStop(1, '#000000');
+	ctx.fillStyle = grad;
+	ctx.fillRect(0, 0, 256, 256);
+	const tex = new THREE.CanvasTexture(c);
+	const panel = (w, h, x, y, z, intensity) => {
+		const m = new THREE.Mesh(
+			new THREE.PlaneGeometry(w, h),
+			new THREE.MeshBasicMaterial({ map: tex, color: new THREE.Color().setScalar(intensity), side: THREE.DoubleSide }),
+		);
+		m.position.set(x, y, z);
+		m.lookAt(0, 0, 0);
+		room.add(m);
+	};
+	panel(6, 4, -4, 4, 3, 3.2);        // key softbox — high, camera-left
+	panel(5, 4, 4.5, 1.5, 2.5, 1.0);   // fill — camera-right, dimmer
+	panel(6, 1.8, 0, 4.5, -4, 1.9);    // rim strip — behind, above
+	panel(6, 6, 0, -5, 1, 0.8);        // floor bounce
+	return room;
+};
+
+// ── mount it ──────────────────────────────────────────────────────────────
+const mount = document.getElementById('stage');
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: BACKGROUND === null });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(mount.clientWidth, mount.clientHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+mount.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+if (BACKGROUND !== null) scene.background = new THREE.Color(BACKGROUND);
+
+const camera = new THREE.PerspectiveCamera(34, mount.clientWidth / mount.clientHeight, 0.1, 50);
+
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(buildLightRoom(), 0.04).texture;
+const key = new THREE.DirectionalLight('#ffffff', 1.2);
+key.position.set(3, 5, 6);
+scene.add(key);
+const fill = new THREE.DirectionalLight('#dfe4e6', 0.4);
+fill.position.set(-4, -2, 4);
+scene.add(fill);
+
+// Build, recenter on the origin, frame the camera to fit — so changing the
+// profile above never means re-aiming the camera.
+const obj = buildObject();
+const bs = new THREE.Box3().setFromObject(obj).getBoundingSphere(new THREE.Sphere());
+obj.position.sub(bs.center);
+const pivot = new THREE.Group();
+pivot.add(obj);
+scene.add(pivot);
+const fitR = Math.max(bs.radius, 0.4);
+camera.position.set(0, fitR * 0.22, (fitR / Math.tan((34 * Math.PI) / 360)) * 1.55);
+camera.lookAt(0, -fitR * 0.04, 0);
+
+// backdrop: a gradient card, because a flat colour reads as a sticker
+if (BACKGROUND !== null) {
+	const shade = (hex, f) => {
+		const c2 = new THREE.Color(hex);
+		const ch = (v) => Math.min(255, Math.round(v * 255 * f));
+		return 'rgb(' + ch(c2.r) + ',' + ch(c2.g) + ',' + ch(c2.b) + ')';
+	};
+	const bc = document.createElement('canvas');
+	bc.width = bc.height = 512;
+	const bx = bc.getContext('2d');
+	const gr = bx.createRadialGradient(256, 215, 60, 256, 256, 340);
+	gr.addColorStop(0, shade(BACKGROUND, 1.07));
+	gr.addColorStop(1, shade(BACKGROUND, 0.78));
+	bx.fillStyle = gr;
+	bx.fillRect(0, 0, 512, 512);
+	const btex = new THREE.CanvasTexture(bc);
+	btex.colorSpace = THREE.SRGBColorSpace;
+	const back = new THREE.Mesh(
+		new THREE.PlaneGeometry(40, 40),
+		new THREE.MeshBasicMaterial({ map: btex, depthWrite: false, toneMapped: false }),
+	);
+	back.position.z = -6;
+	back.renderOrder = -2;
+	scene.add(back);
+}
+
+// Drag to spin, with fling momentum easing back to a slow idle turn.
+let dragging = false, lastX = 0, lastY = 0, velX = 0, velY = 0, rotX = 0.14, rotY = 0;
+mount.style.cursor = 'grab';
+mount.addEventListener('pointerdown', (e) => {
+	dragging = true; lastX = e.clientX; lastY = e.clientY; velX = 0; velY = 0;
+	mount.style.cursor = 'grabbing';
+});
+const release = () => { dragging = false; mount.style.cursor = 'grab'; };
+window.addEventListener('pointerup', release);
+window.addEventListener('pointercancel', release);
+window.addEventListener('pointermove', (e) => {
+	if (!dragging) return;
+	const dx = e.clientX - lastX, dy = e.clientY - lastY;
+	lastX = e.clientX; lastY = e.clientY;
+	rotY += dx * 0.008; rotX += dy * 0.008; velY = dx * 0.008; velX = dy * 0.008;
+	if (reduce) { pivot.rotation.x = rotX; pivot.rotation.y = rotY; renderer.render(scene, camera); }
+}, { passive: true });
+
+window.addEventListener('resize', () => {
+	if (!mount.clientWidth) return;
+	camera.aspect = mount.clientWidth / mount.clientHeight;
+	camera.updateProjectionMatrix();
+	renderer.setSize(mount.clientWidth, mount.clientHeight);
+});
+
+let t = 0;
+const frame = () => {
+	t += 0.016;
+	if (!dragging) {
+		velX *= 0.94; velY *= 0.94;
+		rotX += velX + (0.14 - rotX) * 0.035;
+		rotY += velY + (0 - rotY) * 0.035;
+	}
+	pivot.rotation.x = rotX;
+	pivot.rotation.y = rotY;
+	pivot.position.y = Math.sin(t * 0.6) * 0.05 * fitR;
+	renderer.render(scene, camera);
+	requestAnimationFrame(frame);
+};
+
+if (reduce) {
+	pivot.rotation.x = rotX;
+	pivot.rotation.y = rotY;
+	renderer.render(scene, camera);
+} else {
+	requestAnimationFrame(frame);
+}
+</script>
+</body>
+</html>
