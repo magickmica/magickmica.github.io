@@ -37,6 +37,8 @@
       ['blender.html', 'The Astral Blender'],
       ['sunrise.html', 'Win the Morning'],
       ['cosmic-phone.html', 'The Cosmic Phone'],
+      ['rotary-line.html', 'The Rotary Line'],
+      ['neon-line.html', 'The Neon Line'],
       ['transmissions.html', 'Transmissions'],
       ['quest.html', 'Dream Quest'],
       ['dream-journal.html', 'Dream Journal'],
@@ -62,8 +64,9 @@
       ['copper-jewelry.html', 'Copper Jewelry']
     ]},
     { name: '\uD83D\uDEF8 Beyond the Signal', items: [
+      ['alien.html', 'Visitor'],
+      ['ecard.html', 'Send a Visitor'],
       ['https://substack.com/@magickmica', 'Substack'],
-      ['https://ko-fi.com/magickmica/tiers', 'Ko-fi Memberships'],
       ['https://www.themysticalspiralstore.com/', 'Mystical Spiral']
     ]}
   ];
