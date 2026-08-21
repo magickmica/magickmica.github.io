@@ -66,6 +66,7 @@
       ['alien.html', 'Visitor'],
       ['ecard.html', 'Send a Visitor'],
       ['https://substack.com/@magickmica', 'Substack'],
+      ['https://ko-fi.com/magickmica/tip', 'Buy Me a Star'],
       ['https://www.themysticalspiralstore.com/', 'Mystical Spiral']
     ]}
   ];
