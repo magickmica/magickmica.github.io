@@ -575,6 +575,35 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
+
+/* signal recovery */
+.lost-cta{max-width:660px;margin:0 auto;padding:8px 20px 54px;text-align:center}
+.lost-eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+  color:#ffd166;opacity:.85;margin:0 0 14px}
+.lost-title{font-size:clamp(22px,5vw,32px);line-height:1.25;margin:0 0 12px;color:#fff}
+.lost-copy{margin:0 auto 26px;max-width:44ch;color:rgba(255,255,255,.72);
+  font-size:15px;line-height:1.6}
+.lost-btn{display:inline-flex;align-items:center;gap:10px;
+  padding:15px 28px;min-height:52px;border-radius:999px;
+  font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  color:#120a1e;text-decoration:none;
+  background:linear-gradient(96deg,#ffd166,#fff0bd 55%,#ffd166);
+  box-shadow:0 0 26px rgba(255,209,102,.4);
+  transition:transform .18s ease, box-shadow .18s ease}
+.lost-btn:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(255,209,102,.62)}
+.lost-links{display:grid;gap:12px;margin:34px auto 0;max-width:460px;text-align:left}
+.lost-link{display:flex;align-items:center;gap:14px;
+  padding:15px 16px;border-radius:14px;text-decoration:none;
+  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);
+  transition:border-color .18s ease, background .18s ease}
+.lost-link:hover{border-color:rgba(255,209,102,.6);background:rgba(255,209,102,.07)}
+.ll-ico{font-size:22px;flex:none;line-height:1}
+.ll-text{flex:1;min-width:0;display:block}
+.ll-text b{display:block;color:#fff;font-size:15px;font-weight:600}
+.ll-text em{display:block;font-style:normal;color:rgba(255,255,255,.6);
+  font-size:12.5px;margin-top:2px}
+.ll-ext{color:rgba(255,255,255,.45);flex:none;font-size:13px}
+@media(max-width:520px){.lost-cta{padding-bottom:40px}.lost-links{max-width:100%}}
 </style>
 </head>
 <body>
@@ -614,116 +643,41 @@
     <div class="hero-divider"></div>
   </header>
 
-  <!-- ── RANDOM BROADCAST ── -->
-  <div class="section-label"><span>Random Broadcast</span></div>
+  <!-- WAY BACK -->
+  <section class="lost-cta">
+    <p class="lost-eyebrow">✦ Signal recovery ✦</p>
+    <h2 class="lost-title">Let’s get you back on the map</h2>
+    <p class="lost-copy">
+      The page you wanted drifted off the dial. Everything that still exists
+      lives back at the main broadcast.
+    </p>
 
-  <a class="card-featured" href="https://magickmica.github.io/random-note.html">
-    <div class="card-eyebrow">Tune In</div>
-    <div class="card-title">Random Note TV</div>
-    <div class="card-desc">Skip the map entirely. Spin the dial and land on a random transmission pulled straight from the archive — you never know what you'll get.</div>
-    <div class="card-cta">Spin the dial <span>→</span></div>
-    <div class="card-emoji">📺</div>
-  </a>
-
-  <!-- ── WONDERLAND WEEKLY — OWN SLOT ── -->
-  <div class="section-label"><span>This Week's Episode</span></div>
-
-  <a class="card-featured accent-alt" href="https://magickmica.github.io/alice/wonderland-weekly-expanded.html">
-    <div class="card-eyebrow">Main Broadcast</div>
-    <div class="card-title">Wonderland Weekly</div>
-    <div class="card-desc">The flagship transmission — where Alice goes deeper, the rabbit hole gets stranger, and the weekly broadcast never quite looks the same twice.</div>
-    <div class="card-cta">Enter the broadcast <span>→</span></div>
-    <div class="card-emoji">🐇</div>
-  </a>
-
-  <!-- ── CHANNELS ── -->
-  <div class="section-label"><span>All Channels</span></div>
-
-  <div class="card-grid">
-
-    <a class="card v-gold" href="https://magickmica.github.io/alice/alice-ufo-message.html">
-      <span class="card-icon">🛸</span>
-      <div class="card-name">Alice — UFO Message</div>
-      <div class="card-hint">Signals from beyond the looking glass. Transmissions that came from somewhere else entirely.</div>
-      <div class="card-link-label">Open channel →</div>
+    <a class="lost-btn" href="index.html">
+      Return to Magick Mica TV <span aria-hidden="true">→</span>
     </a>
 
-    <a class="card v-purple" href="https://magickmica.github.io/mags/mags/index.html">
-      <span class="card-icon">✨</span>
-      <div class="card-name">Mags</div>
-      <div class="card-hint">The hub within the hub. Stories, moments, and magic gathered in one place.</div>
-      <div class="card-link-label">Tune in →</div>
-    </a>
+    <div class="lost-links">
+      <a class="lost-link" href="https://substack.com/@magickmica" target="_blank" rel="noopener">
+        <span class="ll-ico" aria-hidden="true">📡</span>
+        <span class="ll-text">
+          <b>Substack</b>
+          <em>Transmissions straight to your inbox</em>
+        </span>
+        <span class="ll-ext" aria-hidden="true">↗</span>
+      </a>
 
-    <a class="card v-teal" href="https://magickmica.github.io/mags/mags/rhode-island-beach-life.html">
-      <span class="card-icon">🌊</span>
-      <div class="card-name">Rhode Island Beach Life</div>
-      <div class="card-hint">Salt, sand, and a certain kind of light. The ocean transmissions.</div>
-      <div class="card-link-label">Go there →</div>
-    </a>
+      <a class="lost-link" href="https://www.themysticalspiralstore.com/" target="_blank" rel="noopener">
+        <span class="ll-ico" aria-hidden="true">🌀</span>
+        <span class="ll-text">
+          <b>Mystical Spiral Store</b>
+          <em>Objects that carry the signal</em>
+        </span>
+        <span class="ll-ext" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
 
-  </div>
-
-  <!-- ── NOTES ── -->
-  <div class="section-label"><span>Notes</span></div>
-
-  <div class="card-grid">
-
-    <a class="card v-cyan" href="https://magickmica.github.io/notes.html">
-      <span class="card-icon">📝</span>
-      <div class="card-name">Notes Archive</div>
-      <div class="card-hint">Every transmission, never lost. Search thousands of notes by date, mood, or media.</div>
-      <div class="card-link-label">Browse the notes →</div>
-    </a>
-
-  </div>
-
-  <!-- ── BLOG & ARCHIVE ── -->
-  <div class="section-label"><span>Blog &amp; Archive</span></div>
-
-  <div class="card-grid">
-
-    <a class="card v-pink" href="https://magickmica.github.io/blog.html">
-      <span class="card-icon">✦</span>
-      <div class="card-name">The Blog</div>
-      <div class="card-hint">A cosmic corner of the internet. Posts, sidebar curiosities, and the occasional surprise.</div>
-      <div class="card-link-label">Read the blog →</div>
-    </a>
-
-    <a class="card v-gold" href="https://magickmica.github.io/articles.html">
-      <span class="card-icon">📰</span>
-      <div class="card-name">Article Archive</div>
-      <div class="card-hint">The full magazine. Every newsletter issue from Magick Mica TV and Magick Mica Art, in one place.</div>
-      <div class="card-link-label">Read the archive →</div>
-    </a>
-
-  </div>
-
-  <!-- ── EXTENDED UNIVERSE ── -->
-  <div class="section-label"><span>Extended Universe</span></div>
-
-  <div class="card-grid">
-
-    <a class="card v-cyan" href="https://substack.com/@magickmica" target="_blank" rel="noopener">
-      <span class="ext-badge">External ↗</span>
-      <span class="card-icon">📡</span>
-      <div class="card-name">Substack</div>
-      <div class="card-hint">The written word. Subscribe to receive transmissions direct to your inbox.</div>
-      <div class="card-link-label">substack.com/@magickmica</div>
-    </a>
-
-    <a class="card v-pink" href="https://www.themysticalspiralstore.com/" target="_blank" rel="noopener">
-      <span class="ext-badge">External ↗</span>
-      <span class="card-icon">🌀</span>
-      <div class="card-name">Mystical Spiral Store</div>
-      <div class="card-hint">Objects that carry the signal. Curated artifacts for the curious and the cosmic.</div>
-      <div class="card-link-label">themysticalspiralstore.com</div>
-    </a>
-
-  </div>
-
-  <!-- ── FOOTER ── -->
-  <footer class="hub-footer">
+<footer class="hub-footer">
     <a class="footer-brand" href="/">Magick Mica TV</a>
     <div class="footer-copy">© Magick Mica TV · All Transmissions Reserved</div>
   </footer>
@@ -808,5 +762,6 @@
   }
 })();
 </script>
+<script src="mm-nav.js?v=2" defer></script>
 </body>
 </html>
