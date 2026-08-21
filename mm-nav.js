@@ -37,7 +37,6 @@
       ['blender.html', 'The Astral Blender'],
       ['sunrise.html', 'Win the Morning'],
       ['cosmic-phone.html', 'The Cosmic Phone'],
-      ['rotary-line.html', 'The Rotary Line'],
       ['transmissions.html', 'Transmissions'],
       ['quest.html', 'Dream Quest'],
       ['dream-journal.html', 'Dream Journal'],
