@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Magick Mica Transmissions</title>
+<meta name="description" content="Recovered files from parallel timelines. Reality is buffering.">
+<meta property="og:title" content="Magick Mica Transmissions">
+<meta property="og:description" content="Recovered files from parallel timelines.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Orbitron:wght@700;900&family=Bodoni+Moda:ital,opsz,wght@1,6..96,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3ead6;--paper-2:#e6d9bd;--ink:#231a2e;
+  --a1:#ff3fae;--a2:#22e0ff;--a3:#ffcf4d;
+  --chrome-a:#fff;--chrome-b:#b9c6e8;--chrome-c:#7d8bb8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;padding:0 0 40px;background:#0a0713;color:#efe7f7;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:15px;overflow-x:hidden;
+}
+button:focus-visible{outline:3px solid var(--a3);outline-offset:3px}
+
+.top{max-width:940px;margin:0 auto;padding:16px 14px 4px;text-align:center}
+.top p{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#8a83a8;margin:0}
+
+/* channel selector */
+.dial{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;max-width:940px;margin:14px auto 12px;padding:0 12px}
+/* the archive keeps growing; on a phone the dial becomes one swipeable strip
+   rather than five stacked rows pushing the board off the screen */
+@media(max-width:760px){
+  .dial{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;
+    scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none;padding:2px 12px 8px}
+  .dial::-webkit-scrollbar{display:none}
+  .ch{flex:0 0 auto;scroll-snap-align:center}
+}
+.ch{
+  font-family:"Silkscreen",monospace;font-size:10px;letter-spacing:.06em;
+  background:#191228;color:#a79cc4;border:2px solid #2e2447;border-radius:4px;
+  padding:9px 12px;min-height:40px;cursor:pointer;
+}
+.ch:hover{border-color:var(--a3);color:#fff}
+.ch[aria-pressed="true"]{background:var(--a1);color:#fff;border-color:#fff}
+
+.frame{width:100%;overflow:hidden;display:flex;justify-content:center}
+.board{
+  position:relative;width:900px;height:1250px;flex:none;transform-origin:top center;
+  background:
+    radial-gradient(circle at 22% 18%, var(--glow1), transparent 42%),
+    radial-gradient(circle at 78% 72%, var(--glow2), transparent 44%),
+    repeating-linear-gradient(46deg, rgba(255,255,255,.5) 0 2px, transparent 2px 5px),
+    linear-gradient(168deg, var(--paper), var(--paper-2));
+  box-shadow:0 24px 70px rgba(0,0,0,.6);
+}
+.board::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;z-index:1;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255,255,255,.95) 50%, transparent 50%),
+    radial-gradient(1px 1px at 63% 41%, var(--a1) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 37% 77%, var(--a2) 50%, transparent 50%),
+    radial-gradient(1px 1px at 86% 14%, var(--a3) 50%, transparent 50%);
+  background-size:120px 120px,90px 90px,150px 150px,110px 110px;
+}
+.board::after{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:40;
+  background:repeating-linear-gradient(180deg, rgba(0,0,0,.13) 0 1px, transparent 1px 3px);
+  mix-blend-mode:multiply;
+}
+.el{position:absolute;z-index:5}
+
+.tape{
+  position:absolute;width:104px;height:30px;z-index:30;
+  background:linear-gradient(120deg, rgba(255,255,255,.55), rgba(214,229,255,.42));
+  border-left:1px dashed rgba(255,255,255,.6);border-right:1px dashed rgba(255,255,255,.6);
+  box-shadow:0 2px 5px rgba(0,0,0,.18);
+}
+.rip{
+  position:absolute;left:0;right:0;height:16px;z-index:31;
+  background:repeating-linear-gradient(90deg, var(--paper) 0 9px, transparent 9px 17px);
+}
+
+.win{width:520px;border:3px solid #17121f;background:#cdc7dd;box-shadow:9px 9px 0 rgba(23,18,31,.72)}
+.win .tb{display:flex;align-items:center;gap:7px;padding:6px 7px;background:var(--tb)}
+.win .tb h2{flex:1;margin:0;font-family:"Silkscreen",monospace;font-size:12px;color:#fff;
+  letter-spacing:.06em;text-shadow:1px 1px 0 rgba(0,0,0,.5);overflow:hidden;white-space:nowrap}
+.win .tb i{width:17px;height:15px;background:#cdc7dd;border:2px solid;
+  border-color:#fff #3a3350 #3a3350 #fff;display:block;flex:none}
+.win .body{padding:20px 18px 22px;text-align:center}
+
+.glitch{
+  font-family:"Orbitron",sans-serif;font-weight:900;font-size:46px;letter-spacing:.02em;
+  color:#17121f;margin:0;line-height:1.05;position:relative;display:inline-block;
+}
+.glitch::before,.glitch::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%}
+.glitch::before{color:var(--a1);transform:translate(-3px,1px);mix-blend-mode:multiply}
+.glitch::after{color:var(--a2);transform:translate(3px,-1px);mix-blend-mode:multiply}
+.shaking .glitch::before{animation:jx .18s steps(2) infinite}
+.shaking .glitch::after{animation:jx .21s steps(2) infinite reverse}
+@keyframes jx{0%{transform:translate(-5px,2px)}50%{transform:translate(-1px,-2px)}100%{transform:translate(-4px,1px)}}
+
+.buffer{font-family:"Silkscreen",monospace;font-size:11px;color:#4a3f63;letter-spacing:.1em;margin:12px 0 10px}
+.progress{height:15px;border:2px solid #17121f;background:#efeaf7;padding:2px;margin:0 0 12px}
+.progress i{display:block;height:100%;width:0;
+  background:repeating-linear-gradient(90deg,var(--a1) 0 9px,var(--tbend) 9px 18px);
+  transition:width .5s ease}
+.quote{font-family:"Bodoni Moda",Didot,serif;font-style:italic;font-weight:600;
+  font-size:22px;line-height:1.3;color:#1d1526;margin:0;text-wrap:balance}
+
+.dlg{width:250px;border:3px solid #17121f;background:#d6d1e4;
+  box-shadow:6px 6px 0 rgba(23,18,31,.6);font-family:"Silkscreen",monospace}
+.dlg .tb{padding:4px 6px;font-size:9px;color:#fff;letter-spacing:.06em;display:flex}
+.dlg .tb span{flex:1}
+.dlg .bd{padding:11px 10px;font-size:10px;color:#241c33;line-height:1.7}
+.dlg .bd b{color:#0a7a54}
+.dlg .ok{display:block;margin:9px auto 0;background:#c6c0d8;border:2px solid;
+  border-color:#fff #3a3350 #3a3350 #fff;font-family:inherit;font-size:9px;
+  padding:5px 16px;color:#241c33;cursor:pointer}
+
+.receipt{width:200px;background:#fffdf6;padding:14px 13px 20px;
+  font-family:"IBM Plex Mono",monospace;font-size:10px;color:#2b2436;line-height:1.85;
+  box-shadow:4px 6px 14px rgba(0,0,0,.28)}
+.receipt::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:9px;
+  background:repeating-linear-gradient(90deg,#fffdf6 0 10px,transparent 10px 20px)}
+.receipt h4{margin:0 0 7px;font-family:"Silkscreen",monospace;font-size:10px;letter-spacing:.08em;text-align:center}
+.receipt .row{display:flex;justify-content:space-between;gap:8px}
+.receipt .paid{margin-top:9px;text-align:center;font-family:"Silkscreen",monospace;font-size:12px;
+  color:#c0182f;border:2px solid #c0182f;padding:4px;transform:rotate(-4deg)}
+
+.sticker{
+  font-family:"Silkscreen",monospace;font-size:11px;letter-spacing:.08em;
+  padding:8px 13px;border-radius:999px;color:#1a1226;
+  background:linear-gradient(112deg,var(--chrome-a),var(--chrome-b) 42%,#ffd9f2 62%,var(--chrome-c));
+  box-shadow:0 4px 0 rgba(23,18,31,.4), inset 0 1px 0 rgba(255,255,255,.9);
+  border:2px solid rgba(255,255,255,.8);
+}
+.sticker.hot{background:linear-gradient(112deg,#fff,#ffb3e2 40%,var(--a1) 78%,#96125e);color:#fff}
+.sticker.gold{background:linear-gradient(112deg,#fffbe8,#ffe694 40%,var(--a3) 78%,#c99a15)}
+
+.angel{font-family:"Orbitron",sans-serif;font-weight:900;font-size:42px;
+  color:transparent;-webkit-text-stroke:2px rgba(23,18,31,.65);
+  background:linear-gradient(120deg,var(--a1),var(--a3) 50%,var(--a2));
+  -webkit-background-clip:text;background-clip:text}
+
+.vhs{position:absolute;left:0;right:0;height:26px;z-index:35;pointer-events:none;
+  background:repeating-linear-gradient(180deg,
+    rgba(255,255,255,.4) 0 2px, rgba(255,63,174,.22) 2px 5px,
+    rgba(0,0,0,.3) 5px 8px, rgba(34,224,255,.2) 8px 11px);
+  mix-blend-mode:overlay;animation:track 7s linear infinite}
+@keyframes track{0%{top:-30px}100%{top:1260px}}
+
+.fallers{position:absolute;inset:0;z-index:6;pointer-events:none;overflow:hidden}
+.faller{position:absolute;animation:fall linear infinite}
+@keyframes fall{
+  0%{transform:translateY(-120px) rotate(0);opacity:0}
+  10%{opacity:1}100%{transform:translateY(1380px) rotate(320deg);opacity:.9}}
+
+.caption{max-width:640px;margin:18px auto 0;padding:0 18px;text-align:center;
+  font-family:"Bodoni Moda",Didot,serif;font-style:italic;
+  font-size:clamp(17px,4.4vw,22px);line-height:1.4;color:#ffe9a8;
+  text-shadow:0 0 26px rgba(255,207,77,.3)}
+.bar{display:flex;gap:10px;justify-content:center;margin:16px auto 0;flex-wrap:wrap;max-width:900px;padding:0 14px}
+.btn{font-family:"Silkscreen",monospace;font-size:11px;letter-spacing:.08em;color:#1a1226;
+  border:0;border-radius:999px;padding:13px 22px;min-height:46px;cursor:pointer;
+  background:linear-gradient(96deg,var(--a3),#fff0bd 55%,var(--a3));
+  box-shadow:0 0 22px rgba(255,207,77,.3)}
+.btn.ghost{background:transparent;color:#cbc2e0;border:1px solid rgba(203,194,224,.35);box-shadow:none}
+.hint{text-align:center;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#615a7d;margin:12px 0 0}
+
+@media(prefers-reduced-motion:reduce){
+  .vhs,.faller{animation:none}
+  .shaking .glitch::before,.shaking .glitch::after{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="top"><p>MagickMica &middot; recovered transmissions</p></div>
+<div class="dial" id="dial" role="group" aria-label="Choose a transmission"></div>
+
+<div class="frame" id="frame">
+  <div class="board" id="board"></div>
+</div>
+
+<p class="caption" id="caption"></p>
+<div class="bar">
+  <button class="btn" id="refresh">&#9654; Re-run transmission</button>
+  <button class="btn ghost" id="copy">Copy the line</button>
+</div>
+<p class="hint">tap the board to glitch it</p>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ==========================================================
+     VECTOR LIBRARY — every prop is drawn, never photographed
+     ========================================================== */
+  var V = {};
+  function chromeGrad(id) {
+    return '<linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#ffd9f2"/>' +
+      '<stop offset=".65" stop-color="#b9c6e8"/><stop offset="1" stop-color="#7d8bb8"/></linearGradient>';
+  }
+  var S = 'stroke="#17121f" stroke-width="3"';
+
+  V.butterfly = function (w, p) {
+    return svg(w, w * .8, 100, 80,
+      '<g ' + S + '>' +
+      '<path d="M48 40 C24 4 2 16 10 38 C16 56 36 56 48 40Z" fill="' + p[0] + '"/>' +
+      '<path d="M52 40 C76 4 98 16 90 38 C84 56 64 56 52 40Z" fill="' + p[1] + '"/>' +
+      '<path d="M48 42 C30 62 16 74 26 78 C38 82 46 62 48 44Z" fill="' + p[1] + '"/>' +
+      '<path d="M52 42 C70 62 84 74 74 78 C62 82 54 62 52 44Z" fill="' + p[0] + '"/>' +
+      '<rect x="47" y="26" width="6" height="42" rx="3" fill="#17121f"/></g>' +
+      '<path d="M50 26 C46 14 40 10 34 8 M50 26 C54 14 60 10 66 8" stroke="#17121f" stroke-width="2.5" fill="none"/>');
+  };
+  V.heart = function (w, p) {
+    var id = 'c' + Math.round(Math.random() * 1e6);
+    return svg(w, w, 100, 100, '<defs>' + chromeGrad(id) + '</defs>' +
+      '<path d="M50 92 C18 68 4 52 4 34 C4 16 17 6 30 6 C39 6 46 12 50 19 C54 12 61 6 70 6 ' +
+      'C83 6 96 16 96 34 C96 52 82 68 50 92Z" fill="url(#' + id + ')" stroke="#17121f" stroke-width="4"/>');
+  };
+  V.rose = function (w, p) {
+    return svg(w, w * 1.15, 90, 104, '<g ' + S + '>' +
+      '<path d="M45 96 C45 74 45 62 45 50" fill="none"/>' +
+      '<path d="M45 74 C28 70 22 58 26 50 C36 50 44 60 45 74Z" fill="#7dffc4"/>' +
+      '<circle cx="45" cy="34" r="26" fill="' + p[0] + '"/>' +
+      '<circle cx="45" cy="34" r="17" fill="' + p[1] + '"/>' +
+      '<circle cx="45" cy="34" r="8" fill="#ffd0ec"/></g>');
+  };
+  V.saturn = function (w, p) {
+    var id = 'sat' + Math.round(Math.random() * 1e6);
+    return svg(w, w * .75, 150, 112,
+      '<defs><linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0" stop-color="' + p[2] + '"/><stop offset=".5" stop-color="' + p[0] + '"/>' +
+      '<stop offset="1" stop-color="' + p[1] + '"/></linearGradient></defs>' +
+      '<ellipse cx="75" cy="58" rx="70" ry="18" fill="none" stroke="url(#' + id + ')" stroke-width="6"/>' +
+      '<circle cx="75" cy="54" r="30" fill="url(#' + id + ')" stroke="#17121f" stroke-width="3"/>' +
+      '<ellipse cx="75" cy="58" rx="70" ry="18" fill="none" stroke="#17121f" stroke-width="2" opacity=".5"/>');
+  };
+  V.ufo = function (w, p) {
+    var id = 'u' + Math.round(Math.random() * 1e6);
+    return svg(w, w * .75, 160, 120, '<defs>' + chromeGrad(id) + '</defs>' +
+      '<path d="M40 96 L78 44 L118 96 Z" fill="' + p[1] + '" opacity=".26"/>' +
+      '<ellipse cx="80" cy="40" rx="52" ry="15" fill="url(#' + id + ')" stroke="#17121f" stroke-width="3"/>' +
+      '<path d="M56 33 A28 20 0 0 1 104 33" fill="' + p[0] + '" stroke="#17121f" stroke-width="3"/>' +
+      '<circle cx="58" cy="44" r="4" fill="' + p[2] + '"/><circle cx="80" cy="47" r="4" fill="#7dffc4"/>' +
+      '<circle cx="102" cy="44" r="4" fill="' + p[0] + '"/>');
+  };
+  V.cash = function (w, p) {
+    return svg(w, w * .65, 230, 150,
+      '<g ' + S + '>' +
+      '<rect x="8" y="96" width="150" height="40" rx="3" fill="#a9e5b8"/>' +
+      '<rect x="26" y="60" width="150" height="40" rx="3" fill="#8fdaa4"/>' +
+      '<rect x="44" y="24" width="150" height="40" rx="3" fill="#a9e5b8"/>' +
+      '<rect x="60" y="24" width="26" height="40" fill="' + p[0] + '"/>' +
+      '<rect x="42" y="60" width="26" height="40" fill="' + p[2] + '"/>' +
+      '<rect x="24" y="96" width="26" height="40" fill="' + p[1] + '"/></g>' +
+      '<g fill="none" stroke="#17121f" stroke-width="2">' +
+      '<circle cx="130" cy="44" r="11"/><circle cx="112" cy="80" r="11"/><circle cx="94" cy="116" r="11"/></g>');
+  };
+  V.card = function (w, p) {
+    var id = 'k' + Math.round(Math.random() * 1e6);
+    return svg(w, w * .64, 220, 140,
+      '<defs><linearGradient id="b' + id + '" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0" stop-color="#2a2438"/><stop offset=".55" stop-color="#0d0a15"/>' +
+      '<stop offset="1" stop-color="#3b2f4e"/></linearGradient>' + chromeGrad(id) + '</defs>' +
+      '<rect x="6" y="14" width="205" height="120" rx="11" fill="url(#b' + id + ')" stroke="#17121f" stroke-width="3"/>' +
+      '<rect x="22" y="46" width="42" height="31" rx="4" fill="url(#' + id + ')" stroke="#17121f" stroke-width="2"/>' +
+      '<text x="22" y="112" font-family="Orbitron,sans-serif" font-size="19" font-weight="900" fill="url(#' + id + ')">&#8734; &#8734;&#8734;&#8734;</text>' +
+      '<text x="150" y="38" font-family="Silkscreen,monospace" font-size="11" fill="' + p[0] + '">VIP</text>');
+  };
+  V.passport = function (w, p) {
+    return svg(w, w * 1.35, 100, 135,
+      '<rect x="6" y="6" width="88" height="123" rx="7" fill="#1d3a6b" ' + S + '/>' +
+      '<circle cx="50" cy="52" r="22" fill="none" stroke="' + p[2] + '" stroke-width="3"/>' +
+      '<path d="M28 52h44M50 30v44M34 38c10 8 22 8 32 0M34 66c10-8 22-8 32 0" stroke="' + p[2] + '" stroke-width="2" fill="none"/>' +
+      '<text x="50" y="100" text-anchor="middle" font-family="Silkscreen,monospace" font-size="9" fill="' + p[2] + '">PASSPORT</text>' +
+      '<text x="50" y="116" text-anchor="middle" font-family="Silkscreen,monospace" font-size="7" fill="#9fb6dd">EARTH</text>');
+  };
+  V.ticket = function (w, p) {
+    return svg(w, w * .44, 220, 96,
+      '<path d="M8 8h204v26a14 14 0 0 0 0 28v26H8V62a14 14 0 0 0 0-28Z" fill="#fffdf3" ' + S + '/>' +
+      '<line x1="150" y1="12" x2="150" y2="84" stroke="#17121f" stroke-width="2" stroke-dasharray="5 5"/>' +
+      '<text x="22" y="40" font-family="Silkscreen,monospace" font-size="12" fill="#17121f">BOARDING</text>' +
+      '<text x="22" y="62" font-family="Silkscreen,monospace" font-size="12" fill="' + p[0] + '">ANYWHERE</text>' +
+      '<text x="166" y="52" font-family="Orbitron,sans-serif" font-size="20" font-weight="900" fill="#17121f">&#9992;</text>');
+  };
+  V.postcard = function (w, p) {
+    return svg(w, w * .7, 200, 140,
+      '<rect x="6" y="6" width="188" height="128" fill="#fffaf0" ' + S + '/>' +
+      '<rect x="16" y="16" width="100" height="108" fill="' + p[1] + '" opacity=".5" stroke="#17121f" stroke-width="2"/>' +
+      '<circle cx="52" cy="46" r="14" fill="' + p[2] + '"/>' +
+      '<path d="M16 100 Q46 74 76 100 T116 100 V124 H16Z" fill="' + p[0] + '" opacity=".75"/>' +
+      '<rect x="150" y="18" width="36" height="30" fill="none" stroke="#17121f" stroke-width="2" stroke-dasharray="3 3"/>' +
+      '<path d="M132 70h50M132 84h50M132 98h34" stroke="#17121f" stroke-width="2"/>');
+  };
+  V.palm = function (w, p) {
+    return svg(w, w * 1.2, 100, 120,
+      '<path d="M50 116 C48 88 46 70 44 52" ' + S + ' fill="none"/>' +
+      '<g ' + S + '><path d="M44 50 C22 34 8 40 6 54 C22 50 34 54 44 58Z" fill="#3fb98a"/>' +
+      '<path d="M46 48 C58 26 76 24 84 34 C68 38 56 44 48 56Z" fill="#4fd39c"/>' +
+      '<path d="M44 52 C30 66 14 72 12 84 C28 74 40 68 46 60Z" fill="#3fb98a"/>' +
+      '<path d="M48 50 C70 52 84 62 86 74 C70 64 56 60 48 58Z" fill="#4fd39c"/></g>' +
+      '<circle cx="46" cy="52" r="6" fill="' + p[2] + '" stroke="#17121f" stroke-width="2"/>');
+  };
+  V.shell = function (w, p) {
+    return svg(w, w * .9, 100, 90,
+      '<path d="M50 84 C14 84 6 46 26 20 C38 4 62 4 74 20 C94 46 86 84 50 84Z" fill="' + p[0] + '" ' + S + '/>' +
+      '<path d="M50 84 V16 M50 84 C34 66 28 42 34 20 M50 84 C66 66 72 42 66 20" ' +
+      'stroke="#17121f" stroke-width="2" fill="none"/>');
+  };
+  V.folder = function (w, p) {
+    return svg(w, w * .72, 210, 152,
+      '<path d="M8 34h70l16 18h108v92H8Z" fill="#d9c187" ' + S + '/>' +
+      '<rect x="30" y="60" width="150" height="66" fill="#fffdf3" stroke="#17121f" stroke-width="2"/>' +
+      '<rect x="42" y="72" width="92" height="9" fill="#17121f"/>' +
+      '<rect x="42" y="90" width="120" height="9" fill="#17121f"/>' +
+      '<rect x="42" y="108" width="70" height="9" fill="#17121f"/>' +
+      '<text x="150" y="52" font-family="Silkscreen,monospace" font-size="11" fill="#b0202f">CLASSIFIED</text>');
+  };
+  V.stamp = function (w, p) {
+    return svg(w, w * .55, 200, 110,
+      '<rect x="8" y="8" width="184" height="94" rx="6" fill="none" stroke="#b0202f" stroke-width="6"/>' +
+      '<rect x="20" y="20" width="160" height="70" rx="3" fill="none" stroke="#b0202f" stroke-width="2"/>' +
+      '<text x="100" y="62" text-anchor="middle" font-family="Silkscreen,monospace" font-size="20" fill="#b0202f">APPROVED</text>');
+  };
+  V.lips = function (w, p) {
+    return svg(w, w * .62, 160, 100,
+      '<path d="M80 30 C64 10 34 8 16 26 C6 36 8 48 20 58 C40 76 62 88 80 92 ' +
+      'C98 88 120 76 140 58 C152 48 154 36 144 26 C126 8 96 10 80 30Z" fill="' + p[0] + '" ' + S + '/>' +
+      '<path d="M16 34 C48 44 112 44 144 34" stroke="#17121f" stroke-width="2.5" fill="none"/>');
+  };
+  V.envelope = function (w, p) {
+    return svg(w, w * .68, 200, 136,
+      '<rect x="8" y="12" width="184" height="112" rx="5" fill="#fffaf0" ' + S + '/>' +
+      '<path d="M8 18 L100 82 L192 18" fill="none" ' + S + '/>' +
+      '<circle cx="100" cy="98" r="18" fill="' + p[0] + '" stroke="#17121f" stroke-width="3"/>' +
+      '<text x="100" y="104" text-anchor="middle" font-family="Silkscreen,monospace" font-size="12" fill="#fff">&#10084;</text>');
+  };
+  V.moon = function (w, p) {
+    var id = 'm' + Math.round(Math.random() * 1e6);
+    return svg(w, w, 100, 100, '<defs>' + chromeGrad(id) + '</defs>' +
+      '<circle cx="50" cy="50" r="42" fill="url(#' + id + ')" stroke="#17121f" stroke-width="3"/>' +
+      '<circle cx="36" cy="38" r="8" fill="#9aa8cc" opacity=".7"/>' +
+      '<circle cx="62" cy="58" r="11" fill="#9aa8cc" opacity=".55"/>' +
+      '<circle cx="56" cy="30" r="5" fill="#9aa8cc" opacity=".6"/>');
+  };
+  V.mushroom = function (w, p) {
+    return svg(w, w, 100, 100,
+      '<path d="M38 56h24v30a12 12 0 0 1-24 0Z" fill="#fff3e0" ' + S + '/>' +
+      '<path d="M8 58 C8 28 30 12 50 12 C70 12 92 28 92 58Z" fill="' + p[0] + '" ' + S + '/>' +
+      '<circle cx="30" cy="40" r="7" fill="#fff3e0"/><circle cx="58" cy="30" r="6" fill="#fff3e0"/>' +
+      '<circle cx="72" cy="48" r="5" fill="#fff3e0"/>');
+  };
+  V.star = function (w, p) {
+    return svg(w, w, 100, 100,
+      '<path d="M50 4 L60 38 L96 38 L67 58 L78 92 L50 71 L22 92 L33 58 L4 38 L40 38Z" ' +
+      'fill="' + p[2] + '" ' + S + '/>');
+  };
+  V.note = function (w, p) {
+    return svg(w, w * .52, 54, 28,
+      '<rect x="1.5" y="1.5" width="51" height="25" rx="2" fill="#a9e5b8" stroke="#17121f" stroke-width="2.5"/>' +
+      '<circle cx="27" cy="14" r="7" fill="none" stroke="#17121f" stroke-width="2"/>' +
+      '<text x="27" y="18" text-anchor="middle" font-family="Orbitron,sans-serif" font-size="9" font-weight="900" fill="#17121f">$</text>');
+  };
+  V.sparkle = function (w, p) {
+    return svg(w, w, 100, 100,
+      '<path d="M50 6 C54 34 66 46 94 50 C66 54 54 66 50 94 C46 66 34 54 6 50 C34 46 46 34 50 6Z" ' +
+      'fill="' + p[1] + '" stroke="#17121f" stroke-width="2.5"/>');
+  };
+
+  V.antenna = function (w, p) {
+    return svg(w, w * 1.1, 100, 110,
+      '<path d="M50 104 L30 44 M50 104 L70 44 M36 74h28" ' + S + ' fill="none"/>' +
+      '<circle cx="50" cy="36" r="8" fill="' + p[0] + '" ' + S + '/>' +
+      '<g fill="none" stroke="' + p[1] + '" stroke-width="4" stroke-linecap="round">' +
+      '<path d="M32 24 A24 24 0 0 1 68 24"/><path d="M22 12 A38 38 0 0 1 78 12"/></g>');
+  };
+  V.coin = function (w, p) {
+    return svg(w, w, 100, 100,
+      '<circle cx="50" cy="50" r="42" fill="' + p[2] + '" ' + S + '/>' +
+      '<circle cx="50" cy="50" r="32" fill="none" stroke="#17121f" stroke-width="2"/>' +
+      '<path d="M50 28 C54 44 58 48 72 50 C58 52 54 56 50 72 C46 56 42 52 28 50 C42 48 46 44 50 28Z" fill="#17121f"/>');
+  };
+  V.vhs = function (w, p) {
+    return svg(w, w * .62, 200, 124,
+      '<rect x="6" y="8" width="188" height="108" rx="6" fill="#2a2436" ' + S + '/>' +
+      '<rect x="26" y="26" width="148" height="46" rx="3" fill="#d7d2e4" stroke="#17121f" stroke-width="2"/>' +
+      '<circle cx="70" cy="49" r="15" fill="#17121f"/><circle cx="130" cy="49" r="15" fill="#17121f"/>' +
+      '<circle cx="70" cy="49" r="5" fill="' + p[0] + '"/><circle cx="130" cy="49" r="5" fill="' + p[1] + '"/>' +
+      '<rect x="26" y="84" width="120" height="20" fill="' + p[2] + '" stroke="#17121f" stroke-width="2"/>');
+  };
+  V.cloud = function (w, p) {
+    return svg(w, w * .68, 200, 136,
+      '<path d="M40 106 C14 106 8 84 24 74 C20 50 48 38 62 54 C70 28 112 26 120 52 ' +
+      'C148 44 172 66 160 88 C176 96 170 106 152 106Z" fill="#fff" ' + S + '/>' +
+      '<path d="M28 118 C44 112 62 112 78 118" stroke="' + p[1] + '" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+      '<path d="M120 120 C136 114 154 114 170 120" stroke="' + p[0] + '" stroke-width="4" fill="none" stroke-linecap="round"/>');
+  };
+  V.disc = function (w, p) {
+    var id = 'd' + Math.round(Math.random() * 1e6);
+    return svg(w, w, 100, 100,
+      '<defs><linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0" stop-color="' + p[0] + '"/><stop offset=".5" stop-color="' + p[2] + '"/>' +
+      '<stop offset="1" stop-color="' + p[1] + '"/></linearGradient></defs>' +
+      '<circle cx="50" cy="50" r="44" fill="url(#' + id + ')" ' + S + '/>' +
+      '<circle cx="50" cy="50" r="26" fill="none" stroke="#17121f" stroke-width="2" opacity=".5"/>' +
+      '<circle cx="50" cy="50" r="12" fill="#efeaf7" ' + S + '/>' +
+      '<circle cx="50" cy="50" r="4" fill="#17121f"/>');
+  };
+  V.icecream = function (w, p) {
+    return svg(w, w * 1.3, 100, 130,
+      '<path d="M30 58 L50 124 L70 58Z" fill="#e3b072" ' + S + '/>' +
+      '<path d="M34 60 L66 60 M40 76 L60 76" stroke="#17121f" stroke-width="2"/>' +
+      '<circle cx="38" cy="46" r="20" fill="' + p[0] + '" ' + S + '/>' +
+      '<circle cx="62" cy="46" r="20" fill="' + p[1] + '" ' + S + '/>' +
+      '<circle cx="50" cy="26" r="19" fill="' + p[2] + '" ' + S + '/>' +
+      '<circle cx="44" cy="20" r="3" fill="#17121f"/><circle cx="58" cy="30" r="3" fill="#17121f"/>');
+  };
+  V.joystick = function (w, p) {
+    return svg(w, w, 100, 100,
+      '<path d="M16 92 C16 74 84 74 84 92Z" fill="#2a2436" ' + S + '/>' +
+      '<rect x="44" y="40" width="12" height="40" rx="6" fill="#3b3350" ' + S + '/>' +
+      '<circle cx="50" cy="30" r="18" fill="' + p[0] + '" ' + S + '/>' +
+      '<circle cx="44" cy="24" r="5" fill="#fff" opacity=".6"/>' +
+      '<circle cx="26" cy="84" r="6" fill="' + p[2] + '"/><circle cx="74" cy="84" r="6" fill="' + p[1] + '"/>');
+  };
+  V.key = function (w, p) {
+    return svg(w, w * .5, 200, 100,
+      '<circle cx="40" cy="50" r="28" fill="none" stroke="' + p[2] + '" stroke-width="12"/>' +
+      '<circle cx="40" cy="50" r="28" fill="none" stroke="#17121f" stroke-width="3"/>' +
+      '<path d="M68 50 H180 M156 50 v22 M132 50 v22" stroke="' + p[2] + '" stroke-width="12" stroke-linecap="round"/>' +
+      '<path d="M68 50 H180 M156 50 v22 M132 50 v22" stroke="#17121f" stroke-width="3" fill="none"/>');
+  };
+
+  function svg(w, h, vw, vh, inner) {
+    return '<svg width="' + Math.round(w) + '" height="' + Math.round(h) + '" viewBox="0 0 ' + vw + ' ' + vh + '" aria-hidden="true">' + inner + '</svg>';
+  }
+
+  /* ==========================================================
+     THE TRANSMISSIONS — add one by adding a block here
+     ========================================================== */
+  var T = [
+  {
+    id: '050k', tab: 'TIMELINE_050K',
+    title: 'TIMELINE_050K.EXE', boot: 'REALITY IS BUFFERING...', done: 'MONTHLY INCOME UPDATED.',
+    paper: ['#f3ead6', '#e6d9bd'], pal: ['#ff3fae', '#22e0ff', '#ffcf4d'],
+    tb: ['#2c0f52', '#ff3fae'],
+    big: ['$50,000', '$88,888', '$111K', '$77,777', '$50K/MO'],
+    scramble: 'money',
+    quotes: ['Money keeps mistaking me for its favorite person.','Every month is my highest month.',
+      'The universe direct deposits miracles.','I romanticize becoming wildly wealthy.',
+      'Cash has a crush on me.','My timeline glitters with abundance.','My bank account is a portal.',
+      'Every notification is good news.','I wake up richer than yesterday.','Abundance is my aesthetic.',
+      'Luxury is my natural habitat.'],
+    dialogs: [
+      { c: ['#0c4a3a', '#12b886'], t: '&#9679; DIRECT DEPOSIT', lines: ['DEPOSIT RECEIVED', 'AMOUNT: <b>{AMT}</b>', 'FROM: THE UNIVERSE', 'STATUS: CLEARED'], ok: 'OK' },
+      { c: ['#4a0c3a', '#ff3fae'], t: '&#9679; SYSTEM', lines: ['MONTHLY INCOME UPDATED.', 'TIMELINE: <b>GLITTERING</b>'], ok: 'ACCEPT' }],
+    amounts: ['$8,888.00', '$1,111.00', '$7,777.00', '$11,111.00'],
+    receipt: { h: '&#10022; CELESTIAL LEDGER &#10022;', rows: [['MIRACLES','x999'],['LUCKY TIMING','x111'],['DOUBT','0.00'],['ROOM FOR MORE','&#8734;']], stamp: 'PAID IN FULL' },
+    stickers: [['hot','LOADING WEALTH...'],['gold','PAID IN FULL'],['','ABUNDANCE IS MY AESTHETIC'],['hot','EVERY MONTH IS MY HIGHEST']],
+    angels: ['111','888','777'],
+    pieces: ['saturn','ufo','butterfly','cash','card','heart','rose','butterfly','star','heart'],
+    faller: 'note'
+  },
+  {
+    id: 'dream', tab: 'DREAMLIFE',
+    title: 'DREAMLIFE.EXE', boot: 'RETRIEVING FUTURE PHOTOS...', done: 'ITINERARY CONFIRMED.',
+    paper: ['#eef4f2', '#d5e6e2'], pal: ['#ff7a9c', '#2fb8c6', '#ffcf4d'],
+    tb: ['#0b3a52', '#2fb8c6'],
+    big: ['GATE \u221E', 'SEAT 1A', 'ONE WAY', 'NO RETURN', 'BOARDING'],
+    scramble: 'gate',
+    quotes: ['Every passport stamp is proof that I said yes to life.',
+      'My suitcase already knows the way.','I keep getting upgraded, in every sense.',
+      'The window seat was always mine.','Somewhere warm is expecting me.',
+      'I collect coastlines like other people collect receipts.',
+      'The map opened at the right page again.'],
+    dialogs: [
+      { c: ['#0b3a52','#2fb8c6'], t: '&#9679; ITINERARY', lines: ['DESTINATION: <b>YES</b>','DEPARTS: {AMT}','CLASS: FIRST','BAGS: PACKED'], ok: 'BOARD' },
+      { c: ['#5a2a0c','#ff9b45'], t: '&#9679; PASSPORT CTRL', lines: ['STAMP APPROVED.','WELCOME <b>HOME</b>'], ok: 'ENTER' }],
+    amounts: ['SUNRISE', 'ANY DAY', 'TOMORROW', 'SOON'],
+    receipt: { h: '&#9992; TRAVEL LEDGER &#9992;', rows: [['COASTLINES','x14'],['STRANGERS MET','x88'],['REGRETS','0.00'],['HORIZON','&#8734;']], stamp: 'ALL BOARDED' },
+    stickers: [['','SAID YES TO LIFE'],['gold','FIRST CLASS ENERGY'],['hot','WISH YOU WERE HERE'],['','THE WINDOW SEAT'] ],
+    angels: ['1111','222','555'],
+    pieces: ['palm','ticket','butterfly','passport','postcard','shell','star','moon','butterfly','sparkle'],
+    faller: 'star'
+  },
+  {
+    id: 'file777', tab: 'FILE_777',
+    title: 'FILE_777 // CLASSIFIED', boot: 'DECRYPTING...', done: 'FILE UNSEALED.',
+    paper: ['#e9e2cd', '#d3c8ab'], pal: ['#b0202f', '#3f7d5c', '#e0b64c'],
+    tb: ['#2a2a17', '#6b7a3a'],
+    big: ['SUBJECT 777', 'CASE 8-8-8', 'LEVEL &#8734;', 'EYES ONLY'],
+    scramble: 'case',
+    quotes: ['Subject has begun attracting miracles.',
+      'Anomaly confirmed: everything keeps working out.',
+      'Surveillance notes: she simply decided.',
+      'Cause unknown. Effects: undeniable.',
+      'Recommend no intervention. Let her cook.',
+      'The luck field around subject is expanding.'],
+    dialogs: [
+      { c: ['#2a2a17','#6b7a3a'], t: '&#9679; FIELD REPORT', lines: ['SUBJECT: <b>777</b>','LUCK FIELD: {AMT}','THREAT: NONE','ACTION: OBSERVE'], ok: 'FILE' },
+      { c: ['#5c0f16','#b0202f'], t: '&#9679; NOTICE', lines: ['MIRACLE RATE <b>RISING</b>','CONTAINMENT: FAILED'], ok: 'NOTED' }],
+    amounts: ['EXPANDING', 'OFF SCALE', 'UNMEASURED', '+777%'],
+    receipt: { h: '&#9635; EVIDENCE LOG &#9635;', rows: [['SIGHTINGS','x777'],['COINCIDENCE','x0'],['EXPLANATION','NONE'],['STATUS','OPEN']], stamp: 'CLASSIFIED' },
+    stickers: [['','EYES ONLY'],['hot','DO NOT DEBUNK'],['gold','ANOMALY 777'],['','CONTAINMENT FAILED']],
+    angels: ['777','333','999'],
+    pieces: ['ufo','folder','stamp','saturn','butterfly','star','moon','sparkle','heart','note'],
+    faller: 'sparkle'
+  },
+  {
+    id: 'love', tab: 'LOVE.EXE',
+    title: 'LOVE.EXE', boot: 'SCANNING FREQUENCIES...', done: 'SIGNAL LOCKED.',
+    paper: ['#fdeef2', '#f3d8e2'], pal: ['#ff2f6d', '#c86bff', '#ffcf4d'],
+    tb: ['#5c0a30', '#ff2f6d'],
+    big: ['MATCH \u221E', 'SIGNAL 100%', 'FOUND YOU', 'FREQUENCY'],
+    scramble: 'pct',
+    quotes: ['Love always finds my frequency.',
+      'I am not hard to love. I am rare to find.',
+      'The right one will not need convincing.',
+      'My heart has excellent taste and infinite patience.',
+      'Somebody is already on their way.',
+      'I am the plot twist someone has been praying for.'],
+    dialogs: [
+      { c: ['#5c0a30','#ff2f6d'], t: '&#9679; INCOMING', lines: ['SIGNAL DETECTED','STRENGTH: <b>{AMT}</b>','SOURCE: SOON','STATUS: LOCKED'], ok: 'ACCEPT' },
+      { c: ['#3a0c5c','#c86bff'], t: '&#9679; DELIVERY', lines: ['ONE (1) LOVE LETTER','SENT <b>AHEAD OF TIME</b>'], ok: 'OPEN' }],
+    amounts: ['100%', '999%', 'MAX', 'RISING'],
+    receipt: { h: '&#10084; HEART LEDGER &#10084;', rows: [['BUTTERFLIES','x∞'],['SETTLING','0.00'],['PATIENCE','PAID'],['ROOM IN HEART','&#8734;']], stamp: 'SEALED' },
+    stickers: [['hot','LOVE ALWAYS FINDS ME'],['','RARE TO FIND'],['gold','SIGNAL LOCKED'],['hot','ON THEIR WAY']],
+    angels: ['222','1111','69'],
+    pieces: ['heart','rose','envelope','lips','butterfly','moon','rose','heart','sparkle','star'],
+    faller: 'heart'
+  },
+  {
+    id: 'fairy', tab: 'FAIRY MAIL',
+    title: 'FAIRY_MAIL.EXE', boot: 'OPENING THE POST...', done: 'WISH APPROVED.',
+    paper: ['#f1f6e6', '#dcead0'], pal: ['#ff86c8', '#7dd8a0', '#ffcf4d'],
+    tb: ['#1d4a2c', '#7dd8a0'],
+    big: ['APPROVED', 'WISH #7', 'GRANTED', 'STAMPED'],
+    scramble: 'wish',
+    quotes: ['The fairies already approved your wish.',
+      'Small magic counts. It counts the most, actually.',
+      'Something tiny is arranging something enormous.',
+      'Check the garden. They left you a sign.',
+      'Your wish cleared the council unanimously.',
+      'Mind the mushrooms. They are listening kindly.'],
+    dialogs: [
+      { c: ['#1d4a2c','#7dd8a0'], t: '&#9679; FAIRY POST', lines: ['WISH RECEIVED','QUEUE NO: <b>{AMT}</b>','COUNCIL: APPROVED','DELIVERY: SOON'], ok: 'THANK YOU' },
+      { c: ['#5a3a0c','#ffcf4d'], t: '&#9679; GARDEN', lines: ['A SIGN WAS <b>LEFT</b>','LOOK CLOSER'], ok: 'LOOK' }],
+    amounts: ['#7', '#111', '#3', '#88'],
+    receipt: { h: '&#10047; FAIRY LEDGER &#10047;', rows: [['WISHES','x7'],['GLITTER','SPENT'],['DOUBT','RETURNED'],['MAGIC','&#8734;']], stamp: 'APPROVED' },
+    stickers: [['','ALREADY APPROVED'],['gold','MIND THE MUSHROOMS'],['hot','SMALL MAGIC COUNTS'],['','SIGNED, THE FAIRIES']],
+    angels: ['333','777','111'],
+    pieces: ['mushroom','envelope','butterfly','rose','stamp','sparkle','mushroom','star','heart','moon'],
+    faller: 'sparkle'
+  },
+  {
+    id: 'freq', tab: 'MIRACLE_FREQ',
+    title: 'MIRACLE_FREQUENCY.EXE', boot: 'SCANNING THE BAND...', done: 'SIGNAL FOUND.',
+    paper: ['#f0eef8', '#dad6ee'], pal: ['#ff4fd8', '#4fe0ff', '#ffe14d'],
+    tb: ['#241056', '#ff4fd8'],
+    big: ['SIGNAL FOUND', '111.7 FM', 'LUCK MODE ON', 'BROADCASTING'],
+    scramble: 'freq',
+    quotes: ['Miracle incoming. Stay on this frequency.',
+      'Synchronicity detected, and it is not slowing down.',
+      'Luck mode: activated. No further action required.',
+      'Something is broadcasting from your future and it sounds delighted.',
+      'The static cleared and it was your name.',
+      'Tune to the version of today that already went well.'],
+    dialogs: [
+      { c: ['#241056','#7a3fff'], t: '&#9679; RECEIVER', lines: ['MIRACLE INCOMING...','STRENGTH: <b>{AMT}</b>','SOURCE: AHEAD','HOLD THE DIAL'], ok: 'LISTEN' },
+      { c: ['#0c4a52','#4fe0ff'], t: '&#9679; LOG', lines: ['SYNCHRONICITY <b>DETECTED</b>','COUNT RISING'], ok: 'NOTED' }],
+    amounts: ['FULL BARS', 'RISING', 'CLEAR', '111%'],
+    receipt: { h: '&#9679; SIGNAL LOG &#9679;', rows: [['SYNCS','x111'],['STATIC','GONE'],['DOUBT','JAMMED'],['RANGE','&#8734;']], stamp: 'ON AIR' },
+    stickers: [['hot','LUCK MODE: ON'],['','MIRACLE INCOMING'],['gold','SIGNAL FOUND'],['hot','STAY TUNED']],
+    angels: ['111','222','555'],
+    pieces: ['antenna','disc','butterfly','star','sparkle','heart','moon','saturn','butterfly','coin'],
+    faller: 'sparkle'
+  },
+  {
+    id: 'bank', tab: 'BUTTERFLY_BANK',
+    title: 'BUTTERFLY_BANK.EXE', boot: 'OPENING THE VAULT...', done: 'BALANCE UPDATED.',
+    paper: ['#f6efe2', '#e4d8c0'], pal: ['#ff86c8', '#5fc9a8', '#f0c34d'],
+    tb: ['#1e3a2e', '#5fc9a8'],
+    big: ['BALANCE &#8734;', 'VAULT OPEN', 'INTEREST +99%', 'ACCT 888'],
+    scramble: 'money',
+    quotes: ['My dreams are earning interest.',
+      'Everything I deposited in secret is compounding.',
+      'The vault only opens for people who kept believing.',
+      'Withdrawals unlimited. Balance somehow rising.',
+      'I bank in wishes and the rate is excellent.',
+      'Nothing I gave away was ever lost. It was invested.'],
+    dialogs: [
+      { c: ['#1e3a2e','#5fc9a8'], t: '&#9679; VAULT', lines: ['DEPOSITS CLEARED','CREATIVITY: <b>{AMT}</b>','LOVE: HELD','ADVENTURE: HELD'], ok: 'OPEN' },
+      { c: ['#5a3a0c','#f0c34d'], t: '&#9679; INTEREST', lines: ['DREAMS ARE <b>EARNING</b>','RATE: GENEROUS'], ok: 'GOOD' }],
+    amounts: ['UNLIMITED', 'OVERFLOWING', 'x999', 'GROWING'],
+    receipt: { h: '&#10022; VAULT LEDGER &#10022;', rows: [['CREATIVITY','HELD'],['LOVE','HELD'],['CONFIDENCE','HELD'],['INTEREST','&#8734;']], stamp: 'DEPOSITED' },
+    stickers: [['gold','EARNING INTEREST'],['','VAULT OPEN'],['hot','WISHES ACCEPTED HERE'],['gold','ACCOUNT 888']],
+    angels: ['888','111','333'],
+    pieces: ['key','coin','butterfly','cash','card','heart','coin','butterfly','star','sparkle'],
+    faller: 'coin'
+  },
+  {
+    id: 'vhs888', tab: 'VHS_TAPE_888',
+    title: 'VHS_TAPE_888', boot: 'TRACKING...', done: 'PLAYBACK READY.',
+    paper: ['#e8e4da', '#cfc8b8'], pal: ['#ff3f6d', '#3fd0ff', '#ffd84d'],
+    tb: ['#20202c', '#7a3fff'],
+    big: ['REC 2099', 'TAPE 888', 'PLAY &#9654;', 'TRACKING'],
+    scramble: 'case',
+    quotes: ['The day everything changed. Recorded in advance.',
+      'Footage from a year you have not lived yet, and you look happy.',
+      'The tape is worn at this part. You watched it often.',
+      'Recovered from 2099. Subject is laughing.',
+      'Every frame is a place you eventually get to.',
+      'Rewind as much as you like. It still ends well.'],
+    dialogs: [
+      { c: ['#20202c','#7a3fff'], t: '&#9679; PLAYBACK', lines: ['LABEL: <b>THE DAY</b>','EVERYTHING CHANGED','YEAR: {AMT}','TRACKING: OK'], ok: 'PLAY' },
+      { c: ['#5c0f16','#ff3f6d'], t: '&#9679; TAPE', lines: ['CONTENTS <b>IMPOSSIBLE</b>','WATCH ANYWAY'], ok: 'OK' }],
+    amounts: ['2099', '2044', '20XX', 'SOON'],
+    receipt: { h: '&#9646; TAPE INDEX &#9646;', rows: [['MANSION','00:12'],['VACATIONS','14:40'],['FRIENDSHIPS','31:07'],['ENDING','GOOD']], stamp: 'RECOVERED' },
+    stickers: [['','THE DAY EVERYTHING CHANGED'],['hot','DO NOT REWIND'],['gold','RECOVERED 2099'],['','PLEASE BE KIND']],
+    angels: ['888','999','111'],
+    pieces: ['vhs','disc','butterfly','moon','star','saturn','sparkle','heart','vhs','ufo'],
+    faller: 'star'
+  },
+  {
+    id: 'mail', tab: 'UNIVERSE_EMAIL',
+    title: 'UNIVERSE_EMAIL.EXE', boot: 'CHECKING MAIL...', done: 'YOU HAVE MAIL.',
+    paper: ['#eef2fb', '#d8e2f4'], pal: ['#ff6fb3', '#3f8fff', '#ffd84d'],
+    tb: ['#0d2a5c', '#3f8fff'],
+    big: ['1 NEW MAIL', 'SHIPPED', 'DELIVERED', 'FROM: &#8734;'],
+    scramble: 'pct',
+    quotes: ['Congratulations. Everything you wanted has shipped.',
+      'The Universe replied, and it was a yes.',
+      'Attachment included: the rest of your life.',
+      'Sent ahead of schedule. Signed, everything.',
+      'No further action needed. It is already in transit.',
+      'Delivery attempted daily until you accept it.'],
+    dialogs: [
+      { c: ['#0d2a5c','#3f8fff'], t: '&#9679; INBOX (1)', lines: ['FROM: <b>THE UNIVERSE</b>','SUBJ: IT SHIPPED','SIZE: {AMT}','ATTACHMENTS: 4'], ok: 'READ' },
+      { c: ['#5a3a0c','#ffd84d'], t: '&#9679; ATTACHED', lines: ['DREAM HOME.ZIP','NEW TIMELINE.MOV <b>&#10003;</b>'], ok: 'SAVE' }],
+    amounts: ['HUGE', '888 MB', '&#8734; KB', 'HEAVY'],
+    receipt: { h: '&#9993; MAIL LOG &#9993;', rows: [['DREAM HOME','.ZIP'],['CONFIDENCE','.EXE'],['WEALTH','.PDF'],['TIMELINE','.MOV']], stamp: 'DELIVERED' },
+    stickers: [['','YOU HAVE MAIL'],['gold','IT SHIPPED'],['hot','FROM THE UNIVERSE'],['','NO REPLY NEEDED']],
+    angels: ['111','444','777'],
+    pieces: ['envelope','disc','butterfly','cloud','star','heart','moon','sparkle','envelope','coin'],
+    faller: 'sparkle'
+  },
+  {
+    id: 'cloud9', tab: 'CLOUD_NINE_OS',
+    title: 'CLOUD_NINE_OS', boot: 'INSTALLING...', done: 'UPDATE COMPLETE.',
+    paper: ['#f6f0fb', '#e4dcf3'], pal: ['#ffa8d8', '#8fd8ff', '#ffe9a8'],
+    tb: ['#3a2a6b', '#8fd8ff'],
+    big: ['v11.11', 'INSTALLED', 'JOY: ON', 'PEACE: ON'],
+    scramble: 'pct',
+    quotes: ['Emotional software updated. You may feel lighter.',
+      'Joy installed. Peace installed. Doubt uninstalled.',
+      'Playfulness restored to factory settings.',
+      'Self-belief patched. It was never really broken.',
+      'Running smoother than you remember.',
+      'Please restart yourself gently.'],
+    dialogs: [
+      { c: ['#3a2a6b','#8fd8ff'], t: '&#9679; INSTALLER', lines: ['&#9745; JOY','&#9745; PEACE','&#9745; CREATIVITY','PROGRESS: <b>{AMT}</b>'], ok: 'FINISH' },
+      { c: ['#5c2a4a','#ffa8d8'], t: '&#9679; NOTE', lines: ['DOUBT WAS <b>REMOVED</b>','IT WAS NOT USED'], ok: 'OK' }],
+    amounts: ['100%', 'COMPLETE', '11.11%', 'DONE'],
+    receipt: { h: '&#9729; PATCH NOTES &#9729;', rows: [['MAGIC','ADDED'],['LUCK','INCREASED'],['DOUBT','REMOVED'],['SURPRISES','ADDED']], stamp: 'INSTALLED' },
+    stickers: [['','VERSION 11.11'],['gold','DOUBT REMOVED'],['hot','MORE MAGIC ADDED'],['','RESTART GENTLY']],
+    angels: ['1111','222','333'],
+    pieces: ['cloud','heart','butterfly','moon','cloud','star','sparkle','rose','heart','disc'],
+    faller: 'heart'
+  },
+  {
+    id: 'arcade', tab: 'LUCKY_GIRL',
+    title: 'LUCKY_GIRL_ARCADE', boot: 'INSERT NOTHING...', done: 'FREE PLAY.',
+    paper: ['#efe6f8', '#d8c9ee'], pal: ['#ff2f9c', '#2fe0d0', '#ffd028'],
+    tb: ['#22065c', '#ff2f9c'],
+    big: ['HIGH SCORE', 'FREE PLAY', 'PLAYER 1', 'LEVEL 99'],
+    scramble: 'score',
+    quotes: ['Every game in here is one I already won.',
+      'Free play. No coins needed. Never was.',
+      'Confidence boss battle: cleared on the first try.',
+      'Love level 99. Wealth quest complete.',
+      'The machine is rigged in my favour and I rigged it.',
+      'New high score, and the initials are mine.'],
+    dialogs: [
+      { c: ['#22065c','#ff2f9c'], t: '&#9679; CABINET', lines: ['PLAYER 1 READY','CREDITS: <b>{AMT}</b>','MODE: FREE PLAY','WIN RATE: 100%'], ok: 'START' },
+      { c: ['#053a3a','#2fe0d0'], t: '&#9679; SCORE', lines: ['NEW <b>HIGH SCORE</b>','ENTER: MICA'], ok: 'SAVE' }],
+    amounts: ['&#8734;', '999', 'UNLIMITED', '888'],
+    receipt: { h: '&#9646; SCOREBOARD &#9646;', rows: [['WEALTH QUEST','CLEAR'],['DREAM UNLOCKER','CLEAR'],['LOVE LV 99','CLEAR'],['CONFIDENCE','BOSS DOWN']], stamp: 'FREE PLAY' },
+    stickers: [['hot','EVERY GAME WINS'],['','INSERT NOTHING'],['gold','LEVEL 99'],['hot','PLAYER 1 READY']],
+    angels: ['777','999','111'],
+    pieces: ['joystick','coin','star','disc','butterfly','heart','sparkle','joystick','moon','coin'],
+    faller: 'coin'
+  },
+  {
+    id: 'neptune', tab: 'ALIEN ICE CREAM',
+    title: 'NEPTUNE_DESSERT_PROTOCOL', boot: 'CONTACTING NEPTUNE...', done: 'ORDER DELIVERED.',
+    paper: ['#e9f3f8', '#cfe3ee'], pal: ['#ff7ac2', '#5fd8e8', '#ffd84d'],
+    tb: ['#0b3a52', '#5fd8e8'],
+    big: ['ORDER UP', '2 SCOOPS', 'DELIVERED', 'EXTRA &#10022;'],
+    scramble: 'wish',
+    quotes: ['The aliens discovered happiness tastes like ice cream.',
+      'Order received: one dream life, extra sprinkles.',
+      'Neptune reports the galaxy milkshakes are excellent.',
+      'Delivery by UFO. Do not tip. They enjoy it.',
+      'Joy comes in a cone here. Nobody knows why.',
+      'Earth human, your order has been upgraded.'],
+    dialogs: [
+      { c: ['#0b3a52','#5fd8e8'], t: '&#9679; DELIVERY', lines: ['CUSTOMER: EARTH HUMAN','ORDER: <b>{AMT}</b>','EXTRA SPRINKLES','STATUS: DELIVERED'], ok: 'ENJOY' },
+      { c: ['#5c2a4a','#ff7ac2'], t: '&#9679; NEPTUNE', lines: ['HAPPINESS = <b>DESSERT</b>','HYPOTHESIS CONFIRMED'], ok: 'AGREE' }],
+    amounts: ['1 DREAM LIFE', 'UNLIMITED JOY', '2 SCOOPS', 'THE USUAL'],
+    receipt: { h: '&#9924; ORDER SLIP &#9924;', rows: [['DREAM LIFE','x1'],['UNLIMITED JOY','x1'],['SPRINKLES','EXTRA'],['TOTAL','FREE']], stamp: 'DELIVERED' },
+    stickers: [['hot','EXTRA SPRINKLES'],['','EARTH HUMAN'],['gold','ORDER DELIVERED'],['hot','TIPPING NOT REQUIRED']],
+    angels: ['888','111','222'],
+    pieces: ['icecream','ufo','saturn','icecream','star','butterfly','moon','sparkle','heart','coin'],
+    faller: 'star'
+  }];
+
+  /* fixed composition — pieces drop into these slots in order */
+  var SLOTS = [
+    { x: 34,  y: 56,   w: 150, r: -9  },
+    { x: 700, y: 40,   w: 160, r: 7   },
+    { x: 196, y: 152,  w: 84,  r: 16  },
+    { x: 60,  y: 1000, w: 230, r: -4  },
+    { x: 640, y: 1046, w: 220, r: 9   },
+    { x: 396, y: 190,  w: 58,  r: -15 },
+    { x: 300, y: 900,  w: 76,  r: -14 },
+    { x: 660, y: 630,  w: 70,  r: -20 },
+    { x: 120, y: 700,  w: 62,  r: -7  },
+    { x: 742, y: 206,  w: 52,  r: 24  }
+  ];
+
+  var board = document.getElementById('board');
+  var frame = document.getElementById('frame');
+  var dial = document.getElementById('dial');
+  var caption = document.getElementById('caption');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cur = 0, qi = 0;
+
+  function fit() {
+    var s = Math.min(frame.clientWidth, 900) / 900;
+    board.style.transform = 'scale(' + s + ')';
+    frame.style.height = (1250 * s) + 'px';
+  }
+  window.addEventListener('resize', fit);
+
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+
+  function scrambleText(kind) {
+    var n = Math.floor(Math.random() * 900000) + 10000;
+    if (kind === 'money') return '$' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    if (kind === 'gate') return 'GATE ' + (Math.floor(Math.random() * 88) + 1);
+    if (kind === 'case') return 'CASE ' + String(n).slice(0, 3) + '-' + String(n).slice(3, 6);
+    if (kind === 'pct') return (Math.floor(Math.random() * 900) + 100) + '%';
+    if (kind === 'freq') return (Math.random() * 99 + 88).toFixed(1) + ' FM';
+    if (kind === 'score') return String(n).padStart(6, '0');
+    return '#' + String(n).slice(0, 3);
+  }
+
+  /* ---------------------------------------------- render a board */
+  function render(i) {
+    cur = i; qi = 0;
+    var t = T[i];
+    board.style.setProperty('--paper', t.paper[0]);
+    board.style.setProperty('--paper-2', t.paper[1]);
+    board.style.setProperty('--a1', t.pal[0]);
+    board.style.setProperty('--a2', t.pal[1]);
+    board.style.setProperty('--a3', t.pal[2]);
+    board.style.setProperty('--glow1', hexA(t.pal[0], .17));
+    board.style.setProperty('--glow2', hexA(t.pal[1], .15));
+    board.style.setProperty('--tb', 'linear-gradient(90deg,' + t.tb[0] + ',' + t.tb[1] + ')');
+    board.style.setProperty('--tbend', t.tb[1]);
+
+    var h = '<div class="vhs"></div><div class="fallers" id="fallers"></div>';
+
+    // scattered pieces
+    t.pieces.forEach(function (name, n) {
+      var s = SLOTS[n % SLOTS.length];
+      var fn = V[name] || V.star;
+      h += '<div class="el" style="left:' + s.x + 'px;top:' + s.y + 'px;transform:rotate(' + s.r + 'deg)">' +
+           fn(s.w, t.pal) + '</div>';
+    });
+
+    // angel numbers
+    var ap = [[62, 150, -12], [762, 470, 9], [52, 1178, -6]];
+    t.angels.forEach(function (a, n) {
+      h += '<div class="el angel" style="left:' + ap[n][0] + 'px;top:' + ap[n][1] + 'px;transform:rotate(' + ap[n][2] + 'deg)">' + a + '</div>';
+    });
+
+    // main window
+    h += '<div class="el win" style="left:190px;top:330px;transform:rotate(-2deg)">' +
+      '<div class="tb"><h2>' + t.title + '</h2><i></i><i></i><i></i></div>' +
+      '<div class="body">' +
+      '<p class="glitch" id="glitch" data-t="' + t.big[0] + '">' + t.big[0] + '</p>' +
+      '<p class="buffer" id="buffer">' + t.boot + '</p>' +
+      '<div class="progress"><i id="prog"></i></div>' +
+      '<p class="quote" id="quote">' + t.quotes[0] + '</p></div></div>';
+
+    // stickers
+    var sp = [[112, 258, -8], [604, 252, 7], [120, 872, 4], [560, 986, -6]];
+    t.stickers.forEach(function (s, n) {
+      h += '<div class="el sticker ' + s[0] + '" style="left:' + sp[n][0] + 'px;top:' + sp[n][1] +
+           'px;transform:rotate(' + sp[n][2] + 'deg)">' + s[1] + '</div>';
+    });
+
+    // dialogs
+    var dp = [[40, 612, -5], [612, 640, 6]];
+    t.dialogs.forEach(function (d, n) {
+      h += '<div class="el dlg" style="left:' + dp[n][0] + 'px;top:' + dp[n][1] + 'px;transform:rotate(' + dp[n][2] + 'deg)">' +
+        '<div class="tb" style="background:linear-gradient(90deg,' + d.c[0] + ',' + d.c[1] + ')"><span>' + d.t + '</span>&#10005;</div>' +
+        '<div class="bd">' + d.lines.join('<br>').replace('{AMT}', '<span data-amt>' + t.amounts[0] + '</span>') +
+        '<button class="ok" type="button">' + d.ok + '</button></div></div>';
+    });
+
+    // receipt
+    h += '<div class="el receipt" style="left:344px;top:624px;transform:rotate(-7deg)">' +
+      '<h4>' + t.receipt.h + '</h4>' +
+      t.receipt.rows.map(function (r) { return '<div class="row"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>'; }).join('') +
+      '<div class="paid">' + t.receipt.stamp + '</div></div>';
+
+    // paper furniture
+    h += '<div class="tape" style="left:-24px;top:44px;transform:rotate(-38deg)"></div>' +
+      '<div class="tape" style="right:-26px;top:600px;transform:rotate(34deg)"></div>' +
+      '<div class="tape" style="left:330px;top:-14px;transform:rotate(4deg)"></div>' +
+      '<div class="rip" style="top:0"></div>' +
+      '<div class="rip" style="bottom:0;transform:rotate(180deg)"></div>';
+
+    board.innerHTML = h;
+    separate();
+    clamp();
+    caption.textContent = t.quotes[0];
+    fall();
+    setTimeout(function () { document.getElementById('prog').style.width = '100%'; }, 350);
+
+    [].forEach.call(dial.children, function (b, n) {
+      b.setAttribute('aria-pressed', String(n === i));
+      if (n === i && b.scrollIntoView) {
+        try { b.scrollIntoView({ inline: 'center', block: 'nearest',
+          behavior: reduced ? 'auto' : 'smooth' }); } catch (e) {}
+      }
+    });
+  }
+
+  /* Slots were sized for wide props; a tall one in the same slot hangs off
+     the board. Measure after layout and nudge anything overhanging back in,
+     so new pieces can be added without retuning coordinates. */
+  function clamp() {
+    var br = board.getBoundingClientRect();
+    var pad = 8;
+    [].forEach.call(board.querySelectorAll('.el'), function (el) {
+      var r = el.getBoundingClientRect();
+      var dx = 0, dy = 0;
+      if (r.left < br.left + pad) dx = (br.left + pad) - r.left;
+      if (r.right > br.right - pad) dx = (br.right - pad) - r.right;
+      if (r.top < br.top + pad) dy = (br.top + pad) - r.top;
+      if (r.bottom > br.bottom - pad) dy = (br.bottom - pad) - r.bottom;
+      if (!dx && !dy) return;
+      var s = (board.getBoundingClientRect().width / 900) || 1;
+      el.style.left = (parseFloat(el.style.left || 0) + dx / s) + 'px';
+      el.style.top = (parseFloat(el.style.top || 0) + dy / s) + 'px';
+    });
+  }
+
+  /* Props may overlap freely — that is the collage. Panels carrying text
+     must not. The window holds its place; everything else is pushed out
+     along whichever axis needs the smallest move. */
+  function separate() {
+    var br = board.getBoundingClientRect();
+    var s = (br.width / 900) || 1;
+    var win = board.querySelector('.win');
+    var others = [].slice.call(board.querySelectorAll('.dlg, .receipt'));
+    if (!win) return;
+
+    function rect(el) {
+      var r = el.getBoundingClientRect();
+      return { l: (r.left - br.left) / s, t: (r.top - br.top) / s,
+               r: (r.right - br.left) / s, b: (r.bottom - br.top) / s };
+    }
+    function shove(el, a, b) {
+      var ox = Math.min(a.r, b.r) - Math.max(a.l, b.l);
+      var oy = Math.min(a.b, b.b) - Math.max(a.t, b.t);
+      if (ox <= 0 || oy <= 0) return false;
+      var pad = 14;
+      if (ox < oy) {
+        var dx = (a.l + a.r) / 2 < (b.l + b.r) / 2 ? -(ox + pad) : (ox + pad);
+        el.style.left = (parseFloat(el.style.left || 0) + dx) + 'px';
+      } else {
+        var dy = (a.t + a.b) / 2 < (b.t + b.b) / 2 ? -(oy + pad) : (oy + pad);
+        el.style.top = (parseFloat(el.style.top || 0) + dy) + 'px';
+      }
+      return true;
+    }
+
+    for (var pass = 0; pass < 6; pass++) {
+      var moved = false;
+      var wr = rect(win);
+      others.forEach(function (el) { if (shove(el, rect(el), wr)) moved = true; });
+      for (var i = 0; i < others.length; i++) {
+        for (var j = i + 1; j < others.length; j++) {
+          if (shove(others[j], rect(others[j]), rect(others[i]))) moved = true;
+        }
+      }
+      if (!moved) break;
+    }
+  }
+
+  function hexA(hex, a) {
+    var r = parseInt(hex.substr(1, 2), 16), g = parseInt(hex.substr(3, 2), 16), b = parseInt(hex.substr(5, 2), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+  }
+
+  function fall() {
+    var host = document.getElementById('fallers');
+    if (!host || reduced) return;
+    var t = T[cur];
+    for (var i = 0; i < 14; i++) {
+      var d = document.createElement('div');
+      d.className = 'faller';
+      d.style.left = (Math.random() * 850) + 'px';
+      d.style.animationDelay = (Math.random() * 9) + 's';
+      d.style.animationDuration = (8 + Math.random() * 7) + 's';
+      d.innerHTML = (V[t.faller] || V.star)(20 + Math.random() * 26, t.pal);
+      host.appendChild(d);
+    }
+  }
+
+  /* ---------------------------------------------- re-run */
+  function run() {
+    var t = T[cur];
+    qi = (qi + 1) % t.quotes.length;
+    board.classList.add('shaking');
+    var g = document.getElementById('glitch');
+    var buf = document.getElementById('buffer');
+    var prog = document.getElementById('prog');
+    buf.textContent = t.boot;
+    prog.style.width = '0%';
+
+    var target = pick(t.big), n = 0;
+    var iv = setInterval(function () {
+      g.textContent = g.dataset.t = scrambleText(t.scramble);
+      if (++n > 9) { clearInterval(iv); g.innerHTML = g.dataset.t = target; }
+    }, 70);
+
+    setTimeout(function () { prog.style.width = '100%'; }, 60);
+    setTimeout(function () {
+      board.classList.remove('shaking');
+      buf.textContent = t.done;
+      document.getElementById('quote').textContent = t.quotes[qi];
+      caption.textContent = t.quotes[qi];
+      [].forEach.call(board.querySelectorAll('[data-amt]'), function (el) {
+        el.textContent = pick(t.amounts);
+      });
+    }, reduced ? 60 : 900);
+  }
+
+  /* ---------------------------------------------- wiring */
+  T.forEach(function (t, i) {
+    var b = document.createElement('button');
+    b.className = 'ch';
+    b.type = 'button';
+    b.textContent = t.tab;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', function () { render(i); });
+    dial.appendChild(b);
+  });
+
+  document.getElementById('refresh').addEventListener('click', run);
+  board.addEventListener('click', function (e) {
+    if (e.target.closest('button')) return;
+    run();
+  });
+  document.getElementById('copy').addEventListener('click', function () {
+    var btn = this;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(caption.textContent).then(
+        function () { btn.textContent = 'Copied'; },
+        function () { btn.textContent = 'Blocked'; });
+    } else { btn.textContent = 'Blocked'; }
+  });
+
+  var deep = /^#([a-z0-9]+)$/.exec(location.hash);
+  var start = 0;
+  if (deep) { T.forEach(function (t, i) { if (t.id === deep[1]) start = i; }); }
+  render(start);
+  fit();
+})();
+</script>
+<script src="mm-nav.js?v=1" defer></script>
+</body>
+</html>
