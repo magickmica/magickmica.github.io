@@ -478,116 +478,6 @@
   .vault-note a { color: rgba(200,180,255,0.6); }
 
   /* ══════════════════════════════
-     KO-FI MEMBERSHIP TRANSMISSIONS
-     (two incoming broadcasts)
-  ══════════════════════════════ */
-  .kofi-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem; margin-bottom: 1rem; max-width: 640px; margin-left: auto; margin-right: auto;
-  }
-  .kofi-tv .tv-screen img { animation: kofiTune 7s ease-in-out infinite; }
-  @keyframes kofiTune {
-    0%, 100% { filter: saturate(1.05); transform: translateX(0); }
-    3%  { filter: saturate(1.4) hue-rotate(8deg); transform: translateX(-2px); }
-    4%  { filter: saturate(0.8); transform: translateX(2px); }
-    5%  { filter: saturate(1.05); transform: translateX(0); }
-    47% { filter: saturate(1.05); transform: translateX(0); }
-    48% { filter: saturate(1.5) hue-rotate(-10deg); transform: translateX(3px); }
-    49% { filter: saturate(1.05); transform: translateX(0); }
-  }
-  /* rolling static sweep over the screen */
-  .kofi-tv .tv-screen .kofi-static {
-    position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0.14;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
-    animation: kofiStatic 0.5s steps(3) infinite;
-    mix-blend-mode: screen;
-  }
-  @keyframes kofiStatic {
-    0% { transform: translateY(0); } 50% { transform: translateY(-4px); } 100% { transform: translateY(3px); }
-  }
-  /* horizontal sync bar drifting down */
-  .kofi-tv .tv-screen .kofi-syncbar {
-    position: absolute; left: 0; right: 0; height: 14%; z-index: 2; pointer-events: none;
-    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.10), transparent);
-    animation: kofiSync 5.5s linear infinite;
-  }
-  @keyframes kofiSync {
-    0% { top: -16%; } 100% { top: 108%; }
-  }
-  .kofi-tv .tv-signal {
-    position: absolute; top: 0.55rem; left: 0.6rem; z-index: 4;
-    font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: #fff; background: rgba(13,8,32,0.72); border: 1px solid var(--vc);
-    border-radius: 999px; padding: 0.22rem 0.55rem; backdrop-filter: blur(2px);
-  }
-  .kofi-tv .tv-signal::before {
-    content: '▲'; color: var(--vc); margin-right: 0.35rem; font-size: 0.55rem;
-    display: inline-block; animation: kofiPing 1.4s ease-in-out infinite;
-  }
-  @keyframes kofiPing { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
-  /* big broadcast call-to-action */
-  .kofi-cta {
-    display: block; text-decoration: none; text-align: center;
-    position: relative; overflow: hidden;
-    max-width: 640px; margin: 0.4rem auto 2.6rem;
-    padding: 1.5rem 1.5rem 1.6rem;
-    border-radius: 16px;
-    border: 2px solid rgba(255,194,232,0.55);
-    background:
-      radial-gradient(420px 180px at 20% 0%, rgba(255,194,232,0.14), transparent 70%),
-      radial-gradient(420px 180px at 80% 100%, rgba(255,233,176,0.12), transparent 70%),
-      linear-gradient(160deg, #231840 0%, #191030 60%, #140d28 100%);
-    box-shadow: 0 0 24px rgba(255,194,232,0.25), 0 12px 40px rgba(0,0,0,0.5);
-    animation: kofiCtaPulse 2.8s ease-in-out infinite;
-    transition: transform 0.22s ease;
-  }
-  .kofi-cta:hover { transform: translateY(-3px) scale(1.01); animation-play-state: paused;
-    box-shadow: 0 0 40px rgba(255,194,232,0.5), 0 0 60px rgba(255,233,176,0.25), 0 14px 44px rgba(0,0,0,0.55);
-  }
-  @keyframes kofiCtaPulse {
-    0%, 100% { box-shadow: 0 0 18px rgba(255,194,232,0.22), 0 12px 40px rgba(0,0,0,0.5); border-color: rgba(255,194,232,0.45); }
-    50%      { box-shadow: 0 0 34px rgba(255,194,232,0.45), 0 0 22px rgba(255,233,176,0.25), 0 12px 40px rgba(0,0,0,0.5); border-color: rgba(255,233,176,0.65); }
-  }
-  .kofi-cta::before { /* scanlines, keep it on-brand */
-    content: ''; position: absolute; inset: 0; pointer-events: none;
-    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 1px, transparent 1px 3px);
-    mix-blend-mode: multiply;
-  }
-  .kofi-cta-live {
-    display: inline-block; font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase;
-    color: #fff; border: 1px solid #ffc2e8; border-radius: 999px;
-    padding: 0.28rem 0.75rem; margin-bottom: 0.75rem;
-    background: rgba(13,8,32,0.7);
-  }
-  .kofi-cta-live::before { content: '●'; color: #ffa8d9; margin-right: 0.4rem; animation: kofiPing 1.2s steps(1) infinite; }
-  .kofi-cta-title {
-    font-family: 'VT323', monospace;
-    font-size: clamp(1.9rem, 5.5vw, 2.7rem);
-    line-height: 1; letter-spacing: 0.05em; color: #fff;
-    text-shadow: 0 0 14px rgba(255,194,232,0.8), 0 0 30px rgba(255,194,232,0.35);
-    margin-bottom: 0.5rem;
-  }
-  .kofi-cta-title .gold { color: var(--gold); text-shadow: 0 0 14px rgba(255,233,176,0.8), 0 0 30px rgba(255,233,176,0.35); }
-  .kofi-cta-sub {
-    font-size: 0.82rem; letter-spacing: 0.08em; line-height: 1.6;
-    color: rgba(230,215,255,0.8); max-width: 46ch; margin: 0 auto 1.05rem;
-  }
-  .kofi-cta-btn {
-    display: inline-block; font-family: 'VT323', monospace;
-    font-size: 1.35rem; letter-spacing: 0.1em; color: #140d28;
-    background: linear-gradient(90deg, #ffc2e8, #ffe9b0);
-    border-radius: 999px; padding: 0.5rem 1.6rem 0.55rem;
-    box-shadow: 0 0 18px rgba(255,194,232,0.55), 0 4px 14px rgba(0,0,0,0.4);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-  }
-  .kofi-cta:hover .kofi-cta-btn { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,233,176,0.75), 0 4px 16px rgba(0,0,0,0.45); }
-  .kofi-cta-url {
-    display: block; margin-top: 0.7rem;
-    font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: rgba(200,180,255,0.5);
-  }
-
-  /* ══════════════════════════════
      NEWSSTAND TEASER
   ══════════════════════════════ */
   .newsstand-teaser {
@@ -1444,6 +1334,70 @@
   </style>
 </head>
 <body>
+<style>
+  .chdial { position:fixed; bottom:1.1rem; right:1.1rem; z-index:60; }
+  .chdial summary { list-style:none; cursor:pointer;
+    display:flex; align-items:center; gap:0.55rem;
+    font-family:'VT323', monospace; font-size:1.05rem; letter-spacing:0.08em; color:#fff;
+    background:rgba(13,7,24,0.88); border:1.5px solid var(--gold); border-radius:999px;
+    padding:0.45rem 1rem 0.45rem 0.7rem;
+    box-shadow:0 0 16px rgba(255,206,92,0.4);
+    animation:chFloat 3.4s ease-in-out infinite;
+    transition:box-shadow .25s ease, border-color .25s ease; }
+  .chdial summary::-webkit-details-marker { display:none; }
+  .chdial summary:hover { border-color:var(--cyan);
+    box-shadow:0 0 28px rgba(255,206,92,0.7), 0 0 40px rgba(111,195,255,0.3); animation-play-state:paused; }
+  .chdial[open] summary { animation:none; border-color:var(--pink);
+    box-shadow:0 0 28px rgba(255,36,64,0.6); }
+  @keyframes chFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
+  .chdial .dial-ico { font-size:1.3rem; display:inline-block; animation:chWiggle 4s ease-in-out infinite; }
+  @keyframes chWiggle { 0%,88%,100% { transform:rotate(0deg); } 91% { transform:rotate(-14deg); } 95% { transform:rotate(12deg); } }
+  .chdial .dial-label { display:flex; flex-direction:column; line-height:1.05; text-align:left; }
+  .chdial .dial-label small { font-family:'Space Mono', monospace; font-size:0.5rem;
+    letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); opacity:0.8; }
+  .chdial-panel { position:absolute; bottom:calc(100% + 0.6rem); right:0;
+    width:230px; max-height:min(64vh, 460px); overflow-y:auto;
+    background:linear-gradient(160deg, #1a0e2e, #180818);
+    border:1.5px solid rgba(208,107,255,0.5); border-radius:16px;
+    box-shadow:0 0 30px rgba(208,107,255,0.3), 0 14px 40px rgba(0,0,0,0.6);
+    padding:0.8rem 0.65rem 0.65rem; }
+  .chdial-title { font-family:'VT323', monospace; font-size:1.05rem; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--gold); text-align:center; margin-bottom:0.55rem;
+    text-shadow:0 0 10px rgba(255,206,92,0.6); }
+  .chdial-panel a { display:flex; align-items:center; gap:0.6rem; text-decoration:none;
+    font-family:'VT323', monospace; font-size:1.02rem; letter-spacing:0.05em;
+    color:rgba(230,218,255,0.85); padding:0.4rem 0.55rem; border-radius:10px;
+    transition:background .15s ease, color .15s ease, transform .15s ease; }
+  .chdial-panel a:hover { background:rgba(255,255,255,0.07); color:#fff; transform:translateX(3px); }
+  .chdial-panel a .em { font-size:1.1rem; width:1.4rem; text-align:center; }
+  .chdial-panel a .ch { margin-left:auto; font-family:'Space Mono', monospace; font-size:0.52rem;
+    letter-spacing:0.14em; color:rgba(200,180,255,0.4); }
+  @media (max-width:600px){ .chdial-panel { width:200px; } }
+  @media (prefers-reduced-motion: reduce){ .chdial summary, .chdial .dial-ico { animation:none !important; } }
+</style>
+<details class="chdial">
+  <summary title="Change the channel — pick a theme">
+    <span class="dial-ico">📺</span>
+    <span class="dial-label"><small>Change Channel</small>Pick a Frequency</span>
+  </summary>
+  <div class="chdial-panel">
+    <div class="chdial-title">📡 Channel Dial</div>
+    <a href="index-summer.html"><span class="em">☀️</span> Summer <span class="ch">CH 02</span></a>
+    <a href="index-halloween.html"><span class="em">🎃</span> Halloween <span class="ch">CH 03</span></a>
+    <a href="index-fall.html"><span class="em">🍂</span> Fall Café <span class="ch">CH 04</span></a>
+    <a href="index-candy.html"><span class="em">🍭</span> Candy Timestream <span class="ch">CH 05</span></a>
+    <a href="index-witching.html"><span class="em">🔮</span> Witching Hour <span class="ch">CH 06</span></a>
+    <a href="index-alien.html"><span class="em">🛸</span> Abduction <span class="ch">CH 07</span></a>
+    <a href="index-witches.html"><span class="em">🧹</span> Witches &amp; Goblins <span class="ch">CH 08</span></a>
+    <a href="index-vhs.html"><span class="em">📼</span> Lost Channel <span class="ch">CH 09</span></a>
+    <a href="index-sea.html"><span class="em">🌊</span> Under the Sea <span class="ch">CH 10</span></a>
+    <a href="index-dream.html"><span class="em">🌙</span> Dreamscape <span class="ch">CH 11</span></a>
+    <a href="index-cottage.html"><span class="em">🍄</span> Cottage Tea Time <span class="ch">CH 12</span></a>
+    <a href="arcade.html"><span class="em">🕹️</span> Arcade <span class="ch">CH 13</span></a>
+    <a href="index-winter.html"><span class="em">❄️</span> Winter Wonderland <span class="ch">CH 14</span></a>
+  </div>
+</details>
+
 <!-- ══ DREAMSCAPE LAYER ══ -->
 <style>
   /* sleepy moon with soft halo */
@@ -1827,65 +1781,6 @@
     </div>
     <a class="mtv-full-link" href="https://magickmica.github.io/random-note.html">📺 Open Full Random Note TV →</a>
   </div>
-
-  <!-- ── MEMBERSHIP TRANSMISSIONS (Ko-fi tiers) ── -->
-  <div class="section-label"><span>Incoming Dreamy Transmissions</span></div>
-
-  <div class="kofi-grid">
-
-    <a class="vault-tv kofi-tv" href="https://ko-fi.com/magickmica/tiers" target="_blank" rel="noopener" style="--vc:#ffc2e8;--vglow:rgba(255,194,232,0.4)">
-      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
-      <div class="tv-body">
-        <div class="tv-screen">
-          <img decoding="async" src="cosmic-cofee-member.png" alt="Cosmic Coffee membership tier — holographic ghost sipping coffee" loading="lazy">
-          <span class="kofi-static"></span>
-          <span class="kofi-syncbar"></span>
-          <span class="tv-signal">Signal Locked</span>
-          <span class="tv-chan">CH ☕</span>
-          <span class="tv-onair">Now Streaming</span>
-        </div>
-        <div class="tv-panel">
-          <div class="tv-label">
-            <div class="tv-name">Cosmic Coffee</div>
-            <div class="tv-tag">Monthly Member Tier</div>
-          </div>
-          <div class="tv-knobs"><i></i><i></i></div>
-        </div>
-      </div>
-      <span class="tv-enter">Tune in on Ko-fi &rarr;</span>
-    </a>
-
-    <a class="vault-tv kofi-tv" href="https://ko-fi.com/magickmica/tiers" target="_blank" rel="noopener" style="--vc:#ffe9b0;--vglow:rgba(255,233,176,0.4)">
-      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
-      <div class="tv-body">
-        <div class="tv-screen">
-          <img decoding="async" src="starseed-explorer-tier.png" alt="Starseed Explorer membership tier — cosmic goddess, pyramid, and UFO" loading="lazy">
-          <span class="kofi-static"></span>
-          <span class="kofi-syncbar"></span>
-          <span class="tv-signal">Signal Locked</span>
-          <span class="tv-chan">CH ✦</span>
-          <span class="tv-onair">Now Streaming</span>
-        </div>
-        <div class="tv-panel">
-          <div class="tv-label">
-            <div class="tv-name">Starseed Explorer</div>
-            <div class="tv-tag">Monthly Member Tier</div>
-          </div>
-          <div class="tv-knobs"><i></i><i></i></div>
-        </div>
-      </div>
-      <span class="tv-enter">Tune in on Ko-fi &rarr;</span>
-    </a>
-
-  </div>
-
-  <a class="kofi-cta" href="https://ko-fi.com/magickmica/tiers" target="_blank" rel="noopener">
-    <span class="kofi-cta-live">Live Broadcast · Members Only Frequencies</span>
-    <div class="kofi-cta-title">JOIN THE <span class="gold">TRANSMISSION</span></div>
-    <div class="kofi-cta-sub">Two channels. One signal. Pick <strong>Cosmic Coffee ☕</strong> or <strong>Starseed Explorer ✦</strong> and unlock the members-only broadcast.</div>
-    <span class="kofi-cta-btn">▸ TUNE IN ON KO-FI</span>
-    <span class="kofi-cta-url">ko-fi.com/magickmica/tiers</span>
-  </a>
 
   <!-- ── THE NEWSSTAND ── -->
   <div class="section-label" id="read"><span>The Pillow Fort Newsstand</span></div>
