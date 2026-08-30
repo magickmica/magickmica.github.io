@@ -65,6 +65,68 @@ def read_blob(html_text, name):
         return None
 
 
+MAG_CDN = ("https://substackcdn.com/image/fetch/"
+           "$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/")
+
+
+def mag_card(href, cover, count, label):
+    img = ""
+    if cover:
+        img = (f'<img decoding="async" src="{cover}" loading="lazy" '
+               f"onerror=\"this.parentElement.classList.add('no-img')\" />")
+    return (f'    <a class="mag-card" href="{href}">\n'
+            f'      <div class="mag-card-cover">\n'
+            f'        {img}\n'
+            f'        <div class="mag-card-overlay"></div>\n'
+            f'        <div class="mag-card-count">{count} NOTES</div>\n'
+            f'      </div>\n'
+            f'      <div class="mag-card-label">{label}</div>\n'
+            f'    </a>\n')
+
+
+def rebuild_mag_grid(html_text, notes, n_cards=8):
+    """Refresh the 8-card weekly Y3K grid on index.html and every frequency
+    variant. Boundary is found by counting div depth, because the cards
+    contain nested divs - a lazy regex would close on the first one."""
+    start = html_text.find('<div class="mag-grid">')
+    if start == -1:
+        return html_text, False
+    depth = 0
+    end = None
+    for m in re.finditer(r"<div\b|</div>", html_text[start:start + 20000]):
+        if m.group(0) == "</div>":
+            depth -= 1
+            if depth == 0:
+                end = start + m.start()
+                break
+        else:
+            depth += 1
+    if end is None:
+        return html_text, False
+
+    weeks = {}
+    for n in notes:
+        d = datetime.date.fromisoformat(n["d"])
+        wk = (d - datetime.timedelta(days=d.weekday())).isoformat()
+        weeks.setdefault(wk, []).append(n)
+
+    cards = []
+    for wk in sorted(weeks, reverse=True)[:n_cards]:
+        group = weeks[wk]
+        s = datetime.date.fromisoformat(wk)
+        e = s + datetime.timedelta(days=6)
+        imgs = [x for x in group if x.get("t")]
+        cover = (sorted(imgs, key=lambda x: -(x.get("l") or 0))[0]["t"]
+                 if imgs else "")
+        label = f"{s.strftime('%b %-d')}\u2013{e.strftime('%b %-d')}"
+        cards.append(mag_card(
+            f"https://magickmica.github.io/week-{wk}.html",
+            cover, len(group), label))
+
+    body = '<div class="mag-grid">\n' + "".join(cards) + "    "
+    return html_text[:start] + body + html_text[end:], True
+
+
 def build_sidebar(notes, articles, digest_weeks):
     """blog.html sidebar structures."""
     imgs = [n for n in notes if n.get("t")]
@@ -164,6 +226,8 @@ def update_all(repo, out_dir, notes, articles, digest_weeks):
                 old = read_blob(html_text, "MTV_NOTES") or []
                 fresh = top_notes(notes, 150, False, mtv_fields)
                 payload = preserve_extra(fresh, old, "c")
+                # these pages also carry the 8-card weekly Y3K grid
+                html_text, _ = rebuild_mag_grid(html_text, notes)
             html_text, ok = inject(html_text, name, payload)
         if html_text != orig:
             with open(os.path.join(out_dir, fname), "w", encoding="utf-8") as fh:
@@ -343,3 +407,6 @@ def seo_pass(repo, out_dir):
                 fh.write(text)
             touched.append(fname)
     return touched
+
+
+# ---------------------------------------------------------------- mag-grid

@@ -100,14 +100,29 @@ sorted week list. Verified 51/51 against existing digests.
 
 ---
 
-## NEXT: THE POOLS REFACTOR (not yet done)
+## THE INDEX VARIANTS — NOW THE SIMPLE WAY (done)
 
-All 16 index variants each embed their own 150-note `MTV_NOTES` blob.
-That's why a content refresh touches 23+ files.
+The 16 index pages used to embed their own 150-note `MTV_NOTES` blob and
+their own hardcoded 8-card weekly grid. They now share two small files:
 
-**Fix:** move the shared pools into one `pools.json` and have each page
-`fetch()` it at load (same-origin on GitHub Pages, so it just works).
-Keep a small inline fallback so a failed fetch degrades gracefully.
+- **`pools.js`** — `MTV_NOTES` (150 notes) + `WEEK_CARDS` (8 weekly cards)
+- **`mm-grid.js`** — renders the weekly grid into `<div class="mag-grid">`
 
-After that, a refresh writes *one small JSON file* and the 16 index
-variants never change again — changed files drop from ~70 to about 5.
+Each page loads `pools.js` with a plain `<script src>` *before* its own
+code, so `MTV_NOTES` is there exactly when the page expects it. A plain
+include is used instead of `fetch()` on purpose: synchronous, no async
+ordering bugs, no CORS problems previewing locally.
+
+**To refresh the index pages from now on:**
+
+```bash
+python3 tools/build_pools.py <repo> _data build
+```
+
+That rewrites **`pools.js` only — one 22KB file** and all 16 pages update.
+The pages themselves never need touching again.
+
+The `--patch` flag performs the one-time surgery on the pages. It has
+already been run; you do not need it again.
+
+Each page keeps its own design completely — only the shared data moved.
