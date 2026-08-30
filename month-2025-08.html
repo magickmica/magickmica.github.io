@@ -1,547 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>✦ August 2025 ✦ Y3K Magazine</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@400;700;900&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=Share+Tech+Mono&display=swap');
-
-  :root {
-    --accent: #ff6ef7;
-    --accent2: #6ef7ff;
-    --dark: #07020f;
-    --panel: rgba(18, 6, 32, 0.88);
-    --ink: #efe6ff;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--dark);
-    color: var(--ink);
-    font-family: 'Spectral', serif;
-    overflow-x: hidden;
-  }
-
-  #stars {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background: radial-gradient(ellipse at 30% 20%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 80%, color-mix(in srgb, var(--accent2) 10%, transparent) 0%, transparent 60%),
-                var(--dark);
-  }
-  #stars::before {
-    content: ''; position: absolute; inset: 0;
-    background-image:
-      radial-gradient(1px 1px at 12% 22%, #fff9 0%, transparent 100%),
-      radial-gradient(1px 1px at 32% 62%, #fff7 0%, transparent 100%),
-      radial-gradient(1px 1px at 52% 12%, #fff8 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 75% 25%, var(--accent) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 18% 85%, var(--accent2) 0%, transparent 100%);
-    animation: twinkle 5s infinite alternate;
-  }
-  @keyframes twinkle { from { opacity: 0.35 } to { opacity: 0.9 } }
-
-  .mag-nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(7,2,15,0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-    padding: 0.9rem 1.2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 0.8rem;
-  }
-  .mag-logo {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: 1.3rem;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    text-shadow: 0 0 12px var(--accent);
-    text-decoration: none;
-  }
-  .mag-issue {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.45);
-  }
-  .mag-toc {
-    display: flex; gap: 1rem; flex-wrap: wrap;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-  }
-  .mag-toc a {
-    color: rgba(255,255,255,0.55);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .mag-toc a:hover { color: var(--accent); }
-
-  .cover-wrap {
-    position: relative;
-    height: 70vh;
-    min-height: 380px;
-    overflow: hidden;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-  }
-  .cover-img {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    filter: saturate(1.15) contrast(1.05);
-  }
-  .cover-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(7,2,15,0.1) 0%, rgba(7,2,15,0.3) 55%, rgba(7,2,15,0.97) 100%);
-  }
-  .cover-content {
-    position: relative; z-index: 2;
-    text-align: center;
-    padding: 2rem 1.5rem 2.5rem;
-    max-width: 900px;
-  }
-  .cover-eyebrow {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.85rem;
-    letter-spacing: 0.3em;
-    color: var(--accent);
-    text-shadow: 0 0 10px var(--accent);
-    margin-bottom: 0.8rem;
-  }
-  .cover-title {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: clamp(1.8rem, 6vw, 3.6rem);
-    line-height: 1.05;
-    letter-spacing: 0.01em;
-    background: linear-gradient(135deg, var(--accent) 0%, #fff 50%, var(--accent2) 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 0 25px color-mix(in srgb, var(--accent) 50%, transparent));
-  }
-  .cover-sub {
-    font-family: 'Spectral', serif;
-    font-style: italic;
-    font-size: 1.1rem;
-    color: rgba(255,255,255,0.7);
-    margin-top: 1rem;
-  }
-  .scroll-cue {
-    position: relative; z-index: 2;
-    text-align: center;
-    padding-bottom: 1.6rem;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.25em;
-    color: rgba(255,255,255,0.4);
-    animation: bob 2.2s infinite ease-in-out;
-  }
-  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
-
-  .chapter {
-    position: relative; z-index: 5;
-    max-width: 880px; margin: 0 auto;
-    padding: 4rem 1.5rem;
-    border-bottom: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
-  }
-  .chapter:last-of-type { border-bottom: none; }
-  .chapter-marker {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.25em;
-    color: rgba(255,255,255,0.35);
-    text-transform: uppercase;
-    margin-bottom: 0.6rem;
-  }
-  .chapter-eyebrow {
-    display: inline-block;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.2em;
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    padding: 0.2rem 0.7rem;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-  .chapter-title {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: clamp(1.6rem, 4.2vw, 2.5rem);
-    line-height: 1.1;
-    color: #fff;
-    margin-bottom: 1.1rem;
-  }
-  .chapter-lede {
-    font-family: 'Spectral', serif;
-    font-style: italic;
-    font-size: 1.15rem;
-    color: rgba(255,255,255,0.65);
-    margin-bottom: 1.3rem;
-    line-height: 1.6;
-  }
-  .chapter-body {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: rgba(235,225,255,0.88);
-  }
-  .quote-link, .pull-quote-link {
-    color: inherit;
-    text-decoration: none;
-    border-bottom: 1px dotted transparent;
-    transition: border-color 0.2s, opacity 0.2s;
-  }
-  .quote-link:hover, .pull-quote-link:hover {
-    border-bottom-color: currentColor;
-    opacity: 0.85;
-  }
-  .pull-quote {
-    font-family: 'Spectral', serif;
-    font-style: italic;
-    font-size: 1.4rem;
-    line-height: 1.5;
-    color: var(--accent);
-    text-align: center;
-    margin: 2rem 0;
-    padding: 0 1rem;
-    text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 40%, transparent);
-  }
-
-  .quote-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 1.1rem;
-    margin-top: 1.4rem;
-  }
-  .quote-card {
-    background: var(--panel);
-    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-    overflow: hidden;
-    text-decoration: none; color: inherit;
-    display: flex; flex-direction: column;
-    transition: all 0.25s;
-  }
-  .quote-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 30%, transparent);
-    transform: translateY(-3px);
-  }
-  .quote-card-img { aspect-ratio: 1/1; overflow: hidden; background: rgba(255,255,255,0.03); }
-  .quote-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .quote-card-body {
-    padding: 0.8rem 0.9rem;
-    font-family: 'Spectral', serif;
-    font-style: italic;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: rgba(235,225,255,0.85);
-    flex: 1;
-  }
-  .quote-card-footer {
-    padding: 0 0.9rem 0.75rem;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.72rem;
-    color: rgba(255,255,255,0.35);
-    display: flex; justify-content: space-between;
-  }
-
-  /* TIMELINE - chronological list of every note that period */
-  .timeline {
-    margin-top: 1.4rem;
-    display: flex;
-    flex-direction: column;
-  }
-  .timeline-day-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.85rem;
-    letter-spacing: 0.15em;
-    color: var(--accent);
-    text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 40%, transparent);
-    margin: 1.6rem 0 0.7rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 1px dashed color-mix(in srgb, var(--accent) 30%, transparent);
-    text-transform: uppercase;
-  }
-  .timeline-day-label:first-child { margin-top: 0; }
-  .timeline-item {
-    display: flex;
-    gap: 0.8rem;
-    text-decoration: none;
-    color: inherit;
-    padding: 0.55rem 0;
-    border-bottom: 1px solid color-mix(in srgb, var(--accent) 8%, transparent);
-    transition: background 0.15s;
-  }
-  .timeline-item:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
-  .timeline-thumb {
-    width: 44px; height: 44px;
-    flex-shrink: 0;
-    object-fit: cover;
-    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-  }
-  .timeline-thumb-placeholder {
-    width: 44px; height: 44px;
-    flex-shrink: 0;
-    background: color-mix(in srgb, var(--accent) 10%, transparent);
-    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem;
-  }
-  .timeline-content { flex: 1; min-width: 0; }
-  .timeline-text {
-    font-size: 0.88rem;
-    color: rgba(235,225,255,0.85);
-    line-height: 1.4;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-  .timeline-stats {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.72rem;
-    color: rgba(255,255,255,0.35);
-    margin-top: 0.2rem;
-  }
-
-  /* STATS GRID */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
-    margin-top: 1.4rem;
-  }
-  .stat-box {
-    background: var(--panel);
-    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-    padding: 1.1rem;
-    text-align: center;
-  }
-  .stat-num {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: 1.9rem;
-    color: var(--accent);
-    text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 40%, transparent);
-  }
-  .stat-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    color: rgba(255,255,255,0.45);
-    text-transform: uppercase;
-    margin-top: 0.3rem;
-  }
-
-  .related-articles {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.2rem;
-    margin-top: 1.4rem;
-  }
-  .related-card {
-    background: var(--panel);
-    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-    text-decoration: none; color: inherit;
-    overflow: hidden;
-    transition: all 0.2s;
-  }
-  .related-card:hover { border-color: var(--accent); box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 25%, transparent); }
-  .related-img { aspect-ratio: 16/10; overflow: hidden; background: rgba(255,255,255,0.03); }
-  .related-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .related-title {
-    padding: 0.8rem 0.9rem 0.9rem;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.35;
-  }
-
-  .closing-wrap {
-    position: relative; z-index: 5;
-    text-align: center;
-    padding: 3.5rem 1.5rem 2rem;
-  }
-  .closing-tagline {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.2rem, 2.8vw, 1.8rem);
-    font-weight: 900;
-    color: var(--accent);
-    text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 40%, transparent);
-    margin-bottom: 0.5rem;
-  }
-  .closing-sub {
-    font-family: 'Spectral', serif;
-    font-style: italic;
-    color: rgba(255,255,255,0.5);
-    font-size: 1rem;
-  }
-  .divider-row {
-    text-align: center;
-    color: color-mix(in srgb, var(--accent) 50%, transparent);
-    font-size: 1.2rem;
-    letter-spacing: 0.5em;
-    margin: 1.5rem 0;
-  }
-
-  .adjacent-nav {
-    position: relative; z-index: 5;
-    max-width: 880px; margin: 0 auto; padding: 0 1.5rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  .adj-link {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .adj-link:hover { background: var(--accent); color: #000; }
-  .adj-link.disabled { opacity: 0.25; pointer-events: none; }
-
-  footer {
-    position: relative; z-index: 5;
-    text-align: center; padding: 2rem;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.85rem; letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.3);
-    border-top: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
-  }
-  footer a { color: var(--accent); text-decoration: none; }
-
-  @media (max-width: 600px) {
-    .mag-toc { display: none; }
-  }
-</style>
-</head>
-<body>
-
-<div id="stars"></div>
-
-<nav class="mag-nav">
-  <a class="mag-logo" href="minimags.html">Y3K</a>
-  <span class="mag-issue">MONTHLY · August 2025</span>
-  <div class="mag-toc">
-    <a href="#ch1">Recap</a>
-    <a href="#ch2">Highlights</a>
-    <a href="#ch3">Words</a>
-    <a href="#ch4">Timeline</a>
-    <a href="#ch5">Stats</a>
-    <a href="#ch6">Reading</a>
-  </div>
-</nav>
-
-<div class="cover-wrap">
-  <img class="cover-img" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1bb50569-c714-4eb0-babc-8ca21684a71b_1080x1920.jpeg" alt="August 2025 cover" onerror="this.style.display='none'" />
-  <div class="cover-overlay"></div>
-  <div class="cover-content">
-    <div class="cover-eyebrow">✦ Y3K MAGAZINE ✦</div>
-    <div class="cover-title">August 2025</div>
-    <div class="cover-sub">1 notes · a month of cosmic transmissions</div>
-  </div>
-</div>
-<div class="scroll-cue">▾ SCROLL TO CATCH UP ▾</div>
-
-<section class="chapter" id="ch1">
-  <div class="chapter-marker">CHAPTER ONE · RECAP</div>
-  <span class="chapter-eyebrow">The Recap</span>
-  <h1 class="chapter-title">The Month in Review</h1>
-  <div class="chapter-body">
-    <p>This month, 1 transmission went out into the world, gathering 7 hearts and 1 restacks along the way.</p><p><a class="quote-link" href="https://substack.com/@magickmica/note/c-142613685" target="_blank" rel="noopener">“Imagine this: Somewhere across time — in the sands of ancient Egypt or a future yet to be written — another version of you exists. They’ve lived, learned, and left clues behind for you to find.
-
-What ”</a></p>
-  </div>
-</section>
-
-<section class="chapter" id="ch2">
-  <div class="chapter-marker">CHAPTER TWO · HIGHLIGHTS</div>
-  <span class="chapter-eyebrow">Highlights</span>
-  <h2 class="chapter-title">Most-Loved Transmissions</h2>
-  <p class="chapter-lede">The notes everyone couldn't stop liking.</p>
-  <div class="quote-grid">
-    <a class="quote-card" href="https://substack.com/@magickmica/note/c-142613685" target="_blank" rel="noopener">
-          <div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1bb50569-c714-4eb0-babc-8ca21684a71b_1080x1920.jpeg" loading="lazy" onerror="this.closest('.quote-card').style.display='none'" /></div>
-          <div class="quote-card-body">Imagine this: Somewhere across time — in the sands of ancient Egypt or a future yet to be written — </div>
-          <div class="quote-card-footer"><span>❤ 7</span><span>VIEW →</span></div>
-        </a>
-  </div>
-</section>
-
-<section class="chapter" id="ch3">
-  <div class="chapter-marker">CHAPTER THREE · WORDS</div>
-  <span class="chapter-eyebrow">In Their Words</span>
-  <h2 class="chapter-title">What Was Said</h2>
-  <div class="chapter-body">
-    <p>No standout text notes this period — mostly visuals!</p>
-  </div>
-  <div class="pull-quote"><a class="pull-quote-link" href="https://substack.com/@magickmica/note/c-142613685" target="_blank" rel="noopener">“Imagine this: Somewhere across time — in the sands of ancient Egypt or a future yet to be written — another version of you exists. They’ve l”</a></div>
-</section>
-
-<section class="chapter" id="ch4">
-  <div class="chapter-marker">CHAPTER FOUR · TIMELINE</div>
-  <span class="chapter-eyebrow">The Full Timeline</span>
-  <h2 class="chapter-title">Every Transmission, In Order</h2>
-  <div class="timeline">
-    <div class="timeline-day-label">Aug 6, 2025</div>
-<a class="timeline-item" href="https://substack.com/@magickmica/note/c-142613685" target="_blank" rel="noopener">
-              <img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1bb50569-c714-4eb0-babc-8ca21684a71b_1080x1920.jpeg" loading="lazy" onerror="this.outerHTML='<div class=&quot;timeline-thumb-placeholder&quot;>✨</div>'" />
-              <div class="timeline-content">
-                <div class="timeline-text">Imagine this: Somewhere across time — in the sands of ancient Egypt or a future yet to be written — another version of you exists. They’ve lived, learned, and left clues behind for you to find.
-
-What would your higher self, past or future, want you to know?</div>
-                <div class="timeline-stats">❤ 7 · ↩ 1</div>
-              </div>
-            </a>
-  </div>
-</section>
-
-<section class="chapter" id="ch5">
-  <div class="chapter-marker">CHAPTER FIVE · BY THE NUMBERS</div>
-  <span class="chapter-eyebrow">By the Numbers</span>
-  <h2 class="chapter-title">August 2025 in Stats</h2>
-  <div class="stats-grid">
-    <div class="stat-box"><div class="stat-num">1</div><div class="stat-label">Notes Posted</div></div><div class="stat-box"><div class="stat-num">7</div><div class="stat-label">Total Likes</div></div><div class="stat-box"><div class="stat-num">1</div><div class="stat-label">Total Restacks</div></div><div class="stat-box"><div class="stat-num">1</div><div class="stat-label">With Images</div></div><div class="stat-box"><div class="stat-num">Aug 6</div><div class="stat-label">Busiest Day</div></div>
-  </div>
-</section>
-
-<section class="chapter" id="ch6">
-  <div class="chapter-marker">CHAPTER SIX · RELATED READING</div>
-  <span class="chapter-eyebrow">Related Reading</span>
-  <h2 class="chapter-title">Articles From This Period</h2>
-  <div class="related-articles">
-    <p style="color:rgba(255,255,255,0.3); font-family:'Share Tech Mono',monospace; font-size:0.85rem;">No newsletter posts went out this period.</p>
-  </div>
-</section>
-
-<div class="closing-wrap">
-  <div class="closing-tagline">✦ THAT'S A WRAP ✦</div>
-  <div class="closing-sub">1 notes · a month of cosmic transmissions</div>
-  <div class="divider-row">✦ ✧ ✦ ✵ ✦ ✧ ✦</div>
-</div>
-
-<div class="adjacent-nav">
-  <span class="adj-link disabled">← Previous Month</span>
-  <a class="adj-link" href="month-2025-09.html">September →</a>
-</div>
-
-<footer>
-  ✦ <a href="https://magickmica.substack.com" target="_blank">Magick Mica TV</a> ✦ where magic meets the pixel ✦<br>
-  <a href="minimags.html">← Back to All Issues</a> &nbsp;|&nbsp;
-  <a href="blog.html">Blog Home</a>
-</footer>
-
-</body>
-</html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x2726; August 2025 &#x2726; Y3K Magazine</title>
+<meta name="description" content="1 notes from August 2025 by Magick Mica — 7 likes. Imagine this: Somewhere across time — in the ">
+<link rel="canonical" href="https://magickmica.github.io/month-2025-08.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="August 2025 ✦ Y3K Magazine">
+<meta property="og:description" content="1 notes from August 2025 by Magick Mica — 7 likes. Imagine this: Somewhere across time — in the ">
+<meta property="og:url" content="https://magickmica.github.io/month-2025-08.html">
+<meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1bb50569-c714-4eb0-babc-8ca21684a71b_1080x1920.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="August 2025 ✦ Y3K Magazine">
+<meta name="twitter:description" content="1 notes from August 2025 by Magick Mica — 7 likes. Imagine this: Somewhere across time — in the ">
+<meta name="twitter:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1bb50569-c714-4eb0-babc-8ca21684a71b_1080x1920.jpeg">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "August 2025 — Y3K Magazine", "description": "1 notes from August 2025 by Magick Mica — 7 likes. Imagine this: Somewhere across time — in the ", "url": "https://magickmica.github.io/month-2025-08.html", "isPartOf": {"@type": "WebSite", "name": "Magick Mica", "url": "https://magickmica.github.io/"}, "author": {"@type": "Person", "name": "Magick Mica", "url": "https://substack.com/@magickmica"}, "datePublished": "2025-08-01", "numberOfItems": 1, "image": "https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1bb50569-c714-4eb0-babc-8ca21684a71b_1080x1920.jpeg"}</script>
+<style>@import url('https://fonts.googleapis.com/css2?family=VT323&family=Orbitron:wght@400;700;900&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=Share+Tech+Mono&display=swap');
+:root{--accent:#ff6ef7;--accent2:#6ef7ff;--dark:#07020f;--panel:rgba(18,6,32,0.88);--ink:#efe6ff;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--ink);font-family:'Spectral',serif;overflow-x:hidden;}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 30% 20%,color-mix(in srgb,var(--accent) 10%,transparent) 0%,transparent 60%),radial-gradient(ellipse at 70% 80%,color-mix(in srgb,var(--accent2) 10%,transparent) 0%,transparent 60%),var(--dark);}
+#stars::before{content:'';position:absolute;inset:0;background-image:radial-gradient(1px 1px at 12% 22%,#fff9 0%,transparent 100%),radial-gradient(1px 1px at 32% 62%,#fff7 0%,transparent 100%),radial-gradient(1.5px 1.5px at 75% 25%,var(--accent) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 18% 85%,var(--accent2) 0%,transparent 100%);animation:twinkle 5s infinite alternate;}
+@keyframes twinkle{from{opacity:0.35}to{opacity:0.9}}
+.mag-nav{position:sticky;top:0;z-index:100;background:rgba(7,2,15,0.92);backdrop-filter:blur(8px);border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent);padding:0.9rem 1.2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;}
+.mag-logo{font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.3rem;letter-spacing:0.08em;color:var(--accent);text-shadow:0 0 12px var(--accent);text-decoration:none;}
+.mag-issue{font-family:'Share Tech Mono',monospace;font-size:0.78rem;letter-spacing:0.15em;color:rgba(255,255,255,0.45);}
+.mag-toc{display:flex;gap:1rem;flex-wrap:wrap;font-family:'Share Tech Mono',monospace;font-size:0.78rem;}
+.mag-toc a{color:rgba(255,255,255,0.55);text-decoration:none;text-transform:uppercase;transition:color 0.2s;}
+.mag-toc a:hover{color:var(--accent);}
+.cover-wrap{position:relative;height:70vh;min-height:380px;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;}
+.cover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.15) contrast(1.05);}
+.cover-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,2,15,0.1) 0%,rgba(7,2,15,0.3) 55%,rgba(7,2,15,0.97) 100%);}
+.cover-content{position:relative;z-index:2;text-align:center;padding:2rem 1.5rem 2.5rem;max-width:900px;}
+.cover-eyebrow{font-family:'Share Tech Mono',monospace;font-size:0.85rem;letter-spacing:0.3em;color:var(--accent);text-shadow:0 0 10px var(--accent);margin-bottom:0.8rem;}
+.cover-title{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(1.8rem,6vw,3.6rem);line-height:1.05;background:linear-gradient(135deg,var(--accent) 0%,#fff 50%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.cover-sub{font-family:'Spectral',serif;font-style:italic;font-size:1.1rem;color:rgba(255,255,255,0.7);margin-top:1rem;}
+.scroll-cue{position:relative;z-index:2;text-align:center;padding-bottom:1.6rem;font-family:'Share Tech Mono',monospace;font-size:0.78rem;letter-spacing:0.25em;color:rgba(255,255,255,0.4);animation:bob 2.2s infinite ease-in-out;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.chapter{position:relative;z-index:5;max-width:880px;margin:0 auto;padding:4rem 1.5rem;border-bottom:1px solid color-mix(in srgb,var(--accent) 15%,transparent);}
+.chapter:last-of-type{border-bottom:none;}
+.chapter-marker{font-family:'Share Tech Mono',monospace;font-size:0.78rem;letter-spacing:0.25em;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:0.6rem;}
+.chapter-eyebrow{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:0.78rem;letter-spacing:0.2em;color:var(--accent);border:1px solid var(--accent);padding:0.2rem 0.7rem;text-transform:uppercase;margin-bottom:1rem;}
+.chapter-title{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(1.6rem,4.2vw,2.5rem);line-height:1.1;color:#fff;margin-bottom:1.1rem;}
+.chapter-lede{font-family:'Spectral',serif;font-style:italic;font-size:1.15rem;color:rgba(255,255,255,0.65);margin-bottom:1.3rem;line-height:1.6;}
+.chapter-body{font-size:1.05rem;line-height:1.8;color:rgba(235,225,255,0.88);}
+.chapter-body p{margin-bottom:1rem;}
+.pull-quote{font-family:'Spectral',serif;font-style:italic;font-size:1.4rem;line-height:1.5;color:var(--accent);text-align:center;margin:2rem 0;padding:0 1rem;text-shadow:0 0 18px color-mix(in srgb,var(--accent) 40%,transparent);}
+.quote-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.1rem;margin-top:1.4rem;}
+.quote-card{background:var(--panel);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:all 0.25s;}
+.quote-card:hover{border-color:var(--accent);box-shadow:0 0 22px color-mix(in srgb,var(--accent) 30%,transparent);transform:translateY(-3px);}
+.quote-card-img{aspect-ratio:1/1;overflow:hidden;}
+.quote-card-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.quote-card-body{padding:0.8rem 0.9rem;font-family:'Spectral',serif;font-style:italic;font-size:0.85rem;line-height:1.5;color:rgba(235,225,255,0.85);flex:1;}
+.quote-card-footer{padding:0 0.9rem 0.75rem;font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:rgba(255,255,255,0.35);display:flex;justify-content:space-between;}
+.timeline{margin-top:1.4rem;display:flex;flex-direction:column;}
+.timeline-day-label{font-family:'Share Tech Mono',monospace;font-size:0.85rem;letter-spacing:0.15em;color:var(--accent);margin:1.6rem 0 0.7rem;padding-bottom:0.4rem;border-bottom:1px dashed color-mix(in srgb,var(--accent) 30%,transparent);text-transform:uppercase;}
+.timeline-day-label:first-child{margin-top:0;}
+.timeline-item{display:flex;gap:0.8rem;text-decoration:none;color:inherit;padding:0.55rem 0;border-bottom:1px solid color-mix(in srgb,var(--accent) 8%,transparent);transition:background 0.15s;}
+.timeline-item:hover{background:color-mix(in srgb,var(--accent) 6%,transparent);}
+.timeline-thumb{width:44px;height:44px;flex-shrink:0;object-fit:cover;border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);}
+.timeline-thumb-placeholder{width:44px;height:44px;flex-shrink:0;background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+.timeline-content{flex:1;min-width:0;}
+.timeline-text{font-size:0.88rem;color:rgba(235,225,255,0.85);line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.timeline-stats{font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:0.2rem;}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-top:1.4rem;}
+.stat-box{background:var(--panel);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);padding:1.1rem;text-align:center;}
+.stat-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.9rem;color:var(--accent);}
+.stat-label{font-family:'Share Tech Mono',monospace;font-size:0.72rem;letter-spacing:0.12em;color:rgba(255,255,255,0.45);text-transform:uppercase;margin-top:0.3rem;}
+.related-articles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;margin-top:1.4rem;}
+.related-card{background:var(--panel);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);text-decoration:none;color:inherit;overflow:hidden;transition:all 0.2s;}
+.related-card:hover{border-color:var(--accent);box-shadow:0 0 18px color-mix(in srgb,var(--accent) 25%,transparent);}
+.related-img{aspect-ratio:16/10;overflow:hidden;}
+.related-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.related-title{padding:0.8rem 0.9rem 0.9rem;font-family:'Orbitron',sans-serif;font-size:0.88rem;font-weight:700;color:#fff;line-height:1.35;}
+.closing-wrap{position:relative;z-index:5;text-align:center;padding:3.5rem 1.5rem 2rem;}
+.closing-tagline{font-family:'Orbitron',sans-serif;font-size:clamp(1.2rem,2.8vw,1.8rem);font-weight:900;color:var(--accent);margin-bottom:0.5rem;}
+.closing-sub{font-family:'Spectral',serif;font-style:italic;color:rgba(255,255,255,0.5);font-size:1rem;}
+.divider-row{text-align:center;color:color-mix(in srgb,var(--accent) 50%,transparent);font-size:1.2rem;letter-spacing:0.5em;margin:1.5rem 0;}
+.adjacent-nav{position:relative;z-index:5;max-width:880px;margin:0 auto;padding:0 1.5rem 3rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.adj-link{font-family:'Share Tech Mono',monospace;font-size:0.85rem;padding:0.5rem 1rem;border:1px solid var(--accent);color:var(--accent);text-decoration:none;transition:all 0.2s;}
+.adj-link:hover{background:var(--accent);color:#000;}
+.adj-link.disabled{opacity:0.25;pointer-events:none;}
+footer{position:relative;z-index:5;text-align:center;padding:2rem;font-family:'Share Tech Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:rgba(255,255,255,0.3);border-top:1px solid color-mix(in srgb,var(--accent) 15%,transparent);}
+footer a{color:var(--accent);text-decoration:none;}</style></head>
+<body><div id="stars"></div>
+<nav class="mag-nav"><a class="mag-logo" href="minimags.html">Y3K</a><span class="mag-issue">MONTHLY · August 2025</span>
+<div class="mag-toc"><a href="#ch1">Recap</a><a href="#ch2">Highlights</a><a href="#ch3">Words</a><a href="#ch4">Timeline</a><a href="#ch5">Stats</a><a href="#ch6">Reading</a></div></nav>
+<div class="cover-wrap"><img class="cover-img" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1bb50569-c714-4eb0-babc-8ca21684a71b_1080x1920.jpeg" alt="August 2025 — Magick Mica" onerror="this.style.display='none'" /><div class="cover-overlay"></div>
+<div class="cover-content"><div class="cover-eyebrow">&#x2726; Y3K MAGAZINE &#x2726;</div><div class="cover-title">August 2025</div>
+<div class="cover-sub">1 notes · a month of cosmic transmissions</div></div></div>
+<div class="scroll-cue">&#x25BE; SCROLL TO CATCH UP &#x25BE;</div>
+<section class="chapter" id="ch1"><div class="chapter-marker">CHAPTER ONE &middot; RECAP</div><span class="chapter-eyebrow">The Recap</span>
+<h1 class="chapter-title">The Month in Review</h1><div class="chapter-body"><p>This period, 1 transmissions went out, gathering 7 hearts and 1 restacks.</p><p><a style="color:inherit;border-bottom:1px dotted;text-decoration:none;" href="https://substack.com/@magickmica/note/c-142613685" target="_blank">“Imagine this: Somewhere across time — in the sands of ancient Egypt or a future yet to be written — another version of you exists. They’ve lived, learned, and l”</a></p></div></section>
+<section class="chapter" id="ch2"><div class="chapter-marker">CHAPTER TWO &middot; HIGHLIGHTS</div><span class="chapter-eyebrow">Highlights</span>
+<h2 class="chapter-title">Most-Loved Transmissions</h2><p class="chapter-lede">The notes everyone couldn&apos;t stop liking.</p><div class="quote-grid"><a class="quote-card" href="https://substack.com/@magickmica/note/c-142613685" target="_blank" rel="noopener"><div class="quote-card-img"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1bb50569-c714-4eb0-babc-8ca21684a71b_1080x1920.jpeg" alt="Imagine this: Somewhere across time — in the sands of ancient Egypt or a future " loading="lazy" onerror="this.closest('.quote-card').style.display='none'"/></div><div class="quote-card-body">Imagine this: Somewhere across time — in the sands of ancient Egypt or a future yet to be written — </div><div class="quote-card-footer"><span>❤ 7</span><span>VIEW →</span></div></a></div></section>
+<section class="chapter" id="ch3"><div class="chapter-marker">CHAPTER THREE &middot; WORDS</div><span class="chapter-eyebrow">In Their Words</span>
+<h2 class="chapter-title">What Was Said</h2><div class="quote-grid"></div></section>
+<section class="chapter" id="ch4"><div class="chapter-marker">CHAPTER FOUR &middot; TIMELINE</div><span class="chapter-eyebrow">The Full Timeline</span>
+<h2 class="chapter-title">Every Transmission, In Order</h2><div class="timeline"><div class="timeline-day-label">Aug 6, 2025</div><a class="timeline-item" href="https://substack.com/@magickmica/note/c-142613685" target="_blank" rel="noopener"><img class="timeline-thumb" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1bb50569-c714-4eb0-babc-8ca21684a71b_1080x1920.jpeg" alt="Imagine this: Somewhere across time — in the sands of ancient Egypt or a future " loading="lazy" onerror="this.outerHTML='&lt;div class=&quot;timeline-thumb-placeholder&quot;&gt;✨&lt;/div&gt;'" /><div class="timeline-content"><div class="timeline-text">Imagine this: Somewhere across time — in the sands of ancient Egypt or a future yet to be written — another ve</div><div class="timeline-stats">❤ 7 · ↩ 1</div></div></a></div></section>
+<section class="chapter" id="ch5"><div class="chapter-marker">CHAPTER FIVE &middot; BY THE NUMBERS</div><span class="chapter-eyebrow">By the Numbers</span>
+<h2 class="chapter-title">August 2025 in Stats</h2><div class="stats-grid"><div class="stat-box"><div class="stat-num">1</div><div class="stat-label">Notes</div></div><div class="stat-box"><div class="stat-num">7</div><div class="stat-label">Likes</div></div><div class="stat-box"><div class="stat-num">1</div><div class="stat-label">Restacks</div></div><div class="stat-box"><div class="stat-num">1</div><div class="stat-label">With Images</div></div><div class="stat-box"><div class="stat-num">Aug 6, 2025</div><div class="stat-label">Busiest Day</div></div></div></section>
+<section class="chapter" id="ch6"><div class="chapter-marker">CHAPTER SIX &middot; RELATED READING</div><span class="chapter-eyebrow">Related Reading</span>
+<h2 class="chapter-title">Articles From This Period</h2><div class="related-articles"><p style="color:rgba(255,255,255,0.3);font-family:'Share Tech Mono',monospace;">No posts this period.</p></div></section>
+<div class="closing-wrap"><div class="closing-tagline">&#x2726; THAT&apos;S A WRAP &#x2726;</div>
+<div class="closing-sub">1 notes · a month of cosmic transmissions</div>
+<div class="divider-row">&#x2726; &#x2727; &#x2726; &#x2735; &#x2726; &#x2727; &#x2726;</div></div>
+<div class="adjacent-nav"><span class="adj-link disabled">← Prev</span><a class="adj-link" href="month-2025-09.html">September →</a></div>
+<footer>&#x2726; <a href="https://magickmica.substack.com" target="_blank">Magick Mica TV</a> &#x2726; where magic meets the pixel &#x2726;<br>
+<a href="minimags.html">&larr; Back to All Issues</a> &nbsp;|&nbsp; <a href="blog.html">Blog Home</a></footer>
+</body></html>

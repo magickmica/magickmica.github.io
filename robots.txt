@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Backup bundles, not content
+Disallow: /files.zip
+
+Sitemap: https://magickmica.github.io/sitemap.xml
