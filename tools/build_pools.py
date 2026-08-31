@@ -49,7 +49,7 @@ def mtv_pool(notes, old_tags=None, n=150):
     pool = sorted(notes, key=lambda x: (-(x.get("l") or 0), -int(x["id"])))[:n]
     out = []
     for x in pool:
-        rec = {k: x[k] for k in ("d", "l", "r", "id", "b") if k in x}
+        rec = {k: x[k] for k in ("d", "l", "r", "id", "b", "t") if k in x}
         if old_tags and int(x["id"]) in old_tags:
             rec["c"] = old_tags[int(x["id"])]
         out.append(rec)

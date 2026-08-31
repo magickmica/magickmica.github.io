@@ -89,10 +89,33 @@ padding:4px 9px;border-radius:99px;border:1px solid color-mix(in srgb,var(--cyan
 letter-spacing:.14em;color:var(--gold)}
 .mag-card-label{padding:9px 11px;font-size:12px}
 .mag-card-cover.no-img{background:color-mix(in srgb,var(--purple) 22%,var(--deep))}
-#mtv{border:1px solid color-mix(in srgb,var(--cyan) 34%,transparent);border-radius:14px;padding:18px;
-background:var(--surface);min-height:132px;display:flex;flex-direction:column;justify-content:center;gap:9px}
-#mtv .body{font-size:14px;line-height:1.55}
+/* Random Note TV: a real screen, not an empty panel */
+.tv{padding:0;overflow:hidden}
+#mtv{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;
+padding:0;background:#05040c;cursor:pointer}
+#mtv .screen{position:absolute;inset:0;overflow:hidden;background:#05040c}
+#mtv .screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.92}
+#mtv .static{position:absolute;inset:-60%;opacity:.2;pointer-events:none;mix-blend-mode:screen;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
+background-size:180px 180px;animation:tvNoise .22s steps(3) infinite;transition:opacity .18s}
+@keyframes tvNoise{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}
+50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}100%{transform:translate(1%,3%)}}
+#mtv .scan{position:absolute;inset:0;pointer-events:none;
+background:repeating-linear-gradient(0deg,rgba(0,0,0,.34) 0 1px,transparent 1px 3px)}
+#mtv .sweep{position:absolute;left:0;right:0;height:64px;pointer-events:none;
+background:linear-gradient(180deg,transparent,rgba(255,255,255,.07) 45%,transparent);
+animation:tvSweep 5.5s linear infinite}
+@keyframes tvSweep{0%{top:-64px}100%{top:100%}}
+#mtv .vig{position:absolute;inset:0;pointer-events:none;
+box-shadow:inset 0 0 60px rgba(0,0,0,.75);border-radius:14px}
+#mtv .cap{position:relative;z-index:3;margin:14px;padding:12px 13px;border-radius:10px;
+background:rgba(5,4,12,.78);backdrop-filter:blur(4px);
+border:1px solid color-mix(in srgb,var(--cyan) 26%,transparent)}
+#mtv .body{font-size:13.5px;line-height:1.5}
 #mtv .meta{font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.16em;color:var(--cyan)}
+#mtv .meta+.body{margin-top:5px}
+#mtv .body+.meta{margin-top:6px}
+@media(prefers-reduced-motion:reduce){#mtv .static,#mtv .sweep{animation:none}}
 footer{margin-top:44px;padding-top:20px;border-top:1px solid color-mix(in srgb,var(--purple) 24%,transparent);
 font-size:11px;color:#8e85ad;line-height:1.9}
 footer a{color:var(--pink)}
@@ -137,17 +160,26 @@ MTV_JS = """
 (function(){
  var el=document.getElementById('mtv');
  if(!el||typeof MTV_NOTES==='undefined'||!MTV_NOTES.length)return;
+ // prefer notes that have artwork so the screen actually shows something
+ var withArt=MTV_NOTES.filter(function(n){return n.t;});
+ var pool=withArt.length>8?withArt:MTV_NOTES;
+ el.innerHTML='<div class="screen"><img alt="" /><div class="static"></div>'+
+  '<div class="scan"></div><div class="sweep"></div></div><div class="vig"></div>'+
+  '<div class="cap"><div class="meta">CH 01 \\u00b7 RANDOM NOTE TV</div>'+
+  '<div class="body"></div><div class="meta st"></div></div>';
+ var img=el.querySelector('img'), body=el.querySelector('.body'), st=el.querySelector('.st');
  function pick(){
-  var n=MTV_NOTES[Math.floor(Math.random()*MTV_NOTES.length)];
-  var b=(n.b||'').split('\\n')[0].slice(0,180);
-  el.innerHTML='<div class="meta">CH 01 \\u00b7 RANDOM NOTE TV</div>'+
-   '<div class="body"></div>'+
-   '<div class="meta">\\u2764 '+(n.l||0)+' \\u00b7 \\u21a9 '+(n.r||0)+' \\u00b7 '+(n.d||'')+'</div>';
-  el.querySelector('.body').textContent=b||'\\u2726';
+  var n=pool[Math.floor(Math.random()*pool.length)];
+  // brief burst of static as the channel changes
+  el.querySelector('.static').style.opacity='.5';
+  setTimeout(function(){el.querySelector('.static').style.opacity='';},220);
+  if(n.t){img.src=n.t;img.style.display='';}else{img.removeAttribute('src');img.style.display='none';}
+  body.textContent=(n.b||'').split('\\n')[0].slice(0,150)||'\\u2014 transmission received \\u2014';
+  st.textContent='\\u2764 '+(n.l||0)+' \\u00b7 \\u21a9 '+(n.r||0)+' \\u00b7 '+(n.d||'');
  }
+ img.addEventListener('error',function(){img.style.display='none';});
  pick();
- el.style.cursor='pointer';
- el.addEventListener('click',pick);
+ el.addEventListener('click',function(e){e.preventDefault();pick();});
  setInterval(pick,9000);
 })();
 """
@@ -197,7 +229,7 @@ def hero_tile(theme, name, img):
     """Hero carries the real Magick Mica TV logo, then the frequency name."""
     im = (f'<img src="{esc(img)}" alt="" loading="eager" onerror="this.remove()">'
           f'<div class="scrim"></div>') if img else ""
-    return (f'<a class="tile hero" href="notes.html">{im}'
+    return (f'<a class="tile hero" href="articles.html">{im}'
             f'<div class="in">'
             f'<div class="live"><b></b>Now broadcasting \u00b7 CH {theme["ch"]}</div>'
             f'<img class="hero-logo" src="magick-mica-tv-logo.png" '
