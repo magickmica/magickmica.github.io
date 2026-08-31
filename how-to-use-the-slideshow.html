@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to use the click-through slideshow</title>
+<style>
+  :root{
+    --shell:#131316;
+    --rise:#1B1B20;
+    --rule:#2C2C33;
+    --paper:#EAE8E3;
+    --muted:#83838E;
+    --lamp:#F0A500;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    padding:56px 24px 96px;
+    background:var(--shell);
+    color:var(--paper);
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:15px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .sheet{max-width:640px;margin:0 auto}
+
+  .sprockets{display:flex;gap:6px;margin-bottom:26px}
+  .sprockets span{width:14px;height:7px;border-radius:1px;background:var(--rule)}
+  .sprockets span:nth-child(3){background:var(--lamp)}
+
+  h1{
+    margin:0 0 8px;
+    font-size:30px;
+    font-weight:600;
+    letter-spacing:-.02em;
+  }
+
+  .deck{
+    margin:0 0 46px;
+    color:var(--muted);
+    font-size:15px;
+  }
+
+  h2{
+    margin:46px 0 4px;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--lamp);
+    font-weight:600;
+  }
+
+  h2 + p, h2 + ol, h2 + table, h2 + .rows{margin-top:16px}
+
+  p{margin:0 0 14px}
+
+  ol{margin:0 0 14px;padding-left:20px}
+  ol li{margin-bottom:12px}
+
+  ul{margin:0 0 14px;padding-left:20px}
+  ul li{margin-bottom:9px}
+
+  strong{font-weight:600}
+
+  kbd{
+    display:inline-block;
+    min-width:24px;
+    padding:3px 8px;
+    font:inherit;
+    font-size:12px;
+    text-align:center;
+    color:var(--paper);
+    background:var(--rise);
+    border:1px solid var(--rule);
+    border-bottom-width:2px;
+    border-radius:3px;
+    white-space:nowrap;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:0 0 14px;
+  }
+
+  td{
+    padding:11px 0;
+    border-bottom:1px solid var(--rule);
+    vertical-align:top;
+  }
+
+  td:first-child{
+    width:150px;
+    padding-right:18px;
+    white-space:nowrap;
+  }
+
+  tr:last-child td{border-bottom:none}
+
+  .note{
+    margin:22px 0 0;
+    padding:16px 18px;
+    background:var(--rise);
+    border-left:2px solid var(--lamp);
+    font-size:14px;
+  }
+
+  .note p:last-child{margin-bottom:0}
+
+  .rows > div{
+    padding:14px 0;
+    border-bottom:1px solid var(--rule);
+  }
+
+  .rows > div:last-child{border-bottom:none}
+
+  .rows b{display:block;font-weight:600;margin-bottom:3px}
+  .rows span{color:var(--muted);font-size:14px}
+
+  footer{
+    margin-top:56px;
+    padding-top:20px;
+    border-top:1px solid var(--rule);
+    font-size:12px;
+    color:var(--muted);
+  }
+
+  @media print{
+    body{background:#fff;color:#111;padding:0;font-size:11pt}
+    .sprockets span{background:#ccc}
+    .sprockets span:nth-child(3){background:#111}
+    h2{color:#111}
+    kbd{background:#f2f2f2;border-color:#bbb;color:#111}
+    td{border-bottom-color:#ddd}
+    .note{background:#f6f6f6;border-left-color:#111}
+    .rows > div{border-bottom-color:#ddd}
+    .rows span{color:#555}
+    .deck,footer{color:#555}
+    footer{border-top-color:#ddd}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="sprockets"><span></span><span></span><span></span><span></span><span></span></div>
+
+  <h1>How to use the click-through slideshow</h1>
+  <p class="deck">A picture stays on screen until you decide to move on. Nothing advances by itself, and nothing is ever uploaded — the whole thing runs on your own computer, with or without internet.</p>
+
+  <h2>Getting started</h2>
+  <ol>
+    <li><strong>Open the file.</strong> Double-click <em>click-through-slideshow.html</em>. It opens in your web browser. Keep the file somewhere easy to find, like your Desktop.</li>
+    <li><strong>Load your pictures.</strong> Click <em>Choose pictures</em> to pick individual files, or <em>Choose a folder</em> to load everything in one go. You can also drag a folder from File Explorer straight onto the window.</li>
+    <li><strong>Go full screen.</strong> Press <kbd>F</kbd>. The browser tabs and address bar disappear, leaving only your picture on a black background.</li>
+    <li><strong>Click to advance.</strong> Click anywhere on the picture for the next one. That's it.</li>
+  </ol>
+
+  <h2>Moving through pictures</h2>
+  <p>Click the picture, or press <kbd>&rarr;</kbd> or the <kbd>Space</kbd> bar, to go forward. To go back, right-click the picture or press <kbd>&larr;</kbd>.</p>
+  <p>The row of thumbnails along the bottom shows where you are. Click any thumbnail to jump straight to it — useful when someone asks about a picture you passed three slides ago.</p>
+  <p>The toolbar and thumbnails fade away after a few seconds of stillness, so your audience only sees the photo. Move the mouse and they come back.</p>
+
+  <h2>The blackout trick</h2>
+  <p>Press <kbd>B</kbd> and the screen goes completely black. Press <kbd>B</kbd> again — or just click — and your picture returns, exactly where you left it.</p>
+  <p>This is the one worth practising. When you finish talking about a picture and want the room looking at <em>you</em> instead of the screen, black it out. It beats leaving a photo hanging there or flipping to an empty slide.</p>
+
+  <h2>Every key</h2>
+  <table>
+    <tr><td><kbd>&rarr;</kbd> <kbd>Space</kbd></td><td>Next picture</td></tr>
+    <tr><td><kbd>&larr;</kbd></td><td>Previous picture</td></tr>
+    <tr><td><kbd>Home</kbd></td><td>Jump to the first picture</td></tr>
+    <tr><td><kbd>End</kbd></td><td>Jump to the last picture</td></tr>
+    <tr><td><kbd>F</kbd></td><td>Full screen on or off</td></tr>
+    <tr><td><kbd>B</kbd></td><td>Black out the screen, and bring it back</td></tr>
+    <tr><td><kbd>Esc</kbd></td><td>Leave full screen</td></tr>
+    <tr><td>Click</td><td>Next picture</td></tr>
+    <tr><td>Right-click</td><td>Previous picture</td></tr>
+  </table>
+
+  <div class="note">
+    <p>If a key does nothing, click once on the picture first. The browser sends keystrokes to whatever you clicked last, so a stray click on the toolbar can leave the keyboard pointed elsewhere.</p>
+  </div>
+
+  <h2>Putting them in order</h2>
+  <p>Pictures load in filename order, counting numbers properly — so <em>photo 2</em> comes before <em>photo 10</em>, not after it.</p>
+  <p>To rearrange, drag the thumbnails at the bottom into the order you want before you begin. If you present the same set often, it's faster to rename the files with numbers in front: <em>01 opening.jpg</em>, <em>02 the site.jpg</em>, and so on. Then the order is right every time you load the folder.</p>
+  <p>Need to add more pictures partway through? Click <em>Add more</em> in the toolbar. They join the end of the set.</p>
+
+  <h2>Before you present</h2>
+  <div class="rows">
+    <div>
+      <b>Set up the second screen first</b>
+      <span>Press <kbd>Windows</kbd> + <kbd>P</kbd> and choose Duplicate to show the same thing on your laptop and the projector, or Extend if you want the audience to see only the slideshow. Plug in and choose before you open the slideshow, not during.</span>
+    </div>
+    <div>
+      <b>Stop the screen going to sleep</b>
+      <span>Nothing kills a moment like the display dimming while you talk. In Settings &rarr; System &rarr; Power, set the screen to turn off after a good long while, or Never for the length of the talk.</span>
+    </div>
+    <div>
+      <b>Do a run-through on the actual screen</b>
+      <span>Projectors wash out dark photos badly. Click through everything once on the real equipment and swap out anything you can't make out from the back of the room.</span>
+    </div>
+    <div>
+      <b>Keep the pictures in one folder</b>
+      <span>Loading a whole folder at once is far quicker than picking files one by one, and it means the order is set by the filenames rather than by the order you clicked.</span>
+    </div>
+    <div>
+      <b>Very large photos take a moment</b>
+      <span>Straight-off-the-camera files are big. The slideshow loads the next picture ahead of time so clicking stays instant, but if you have a few hundred, give it a second after loading before you start.</span>
+    </div>
+  </div>
+
+  <h2>If something looks wrong</h2>
+  <ul>
+    <li><strong>A picture is missing.</strong> Only image files load — anything else in the folder is skipped. Video files won't appear.</li>
+    <li><strong>The order is wrong.</strong> Drag the thumbnails, or rename the files with numbers in front and load the folder again.</li>
+    <li><strong>You want to start fresh.</strong> Click <em>Start over</em> in the toolbar, or just close the tab and open the file again.</li>
+    <li><strong>Nothing happens when you click.</strong> Check whether the screen is blacked out — press <kbd>B</kbd>.</li>
+    <li><strong>The folder button doesn't work.</strong> Some browsers don't allow it. Use <em>Choose pictures</em> instead: open the folder, press <kbd>Ctrl</kbd> + <kbd>A</kbd> to select everything, then Open.</li>
+  </ul>
+
+  <footer>Your pictures are read directly from your computer and are never sent anywhere. Closing the tab clears them — the file itself doesn't store anything, so load them again next time.</footer>
+
+</div>
+</body>
+</html>
