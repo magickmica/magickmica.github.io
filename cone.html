@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cone</title>
+
+<!--
+  Save this file anywhere and double-click it.
+  Needs an internet connection the first time (three.js and the fonts come
+  from a CDN). The swirl, the waffle, the sprinkles and the jingle are all
+  generated here. No images, no audio files, no build step.
+
+  Drag to spin it. Pick a flavour. Let it melt.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;800&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+	:root {
+		--cream:  #fff1e2;   /* the sky */
+		--peach:  #ffd3bd;
+		--sorbet: #ffb8a8;
+		--mint:   #58c9a8;
+		--berry:  #ff5d7e;   /* every ON state */
+		--cocoa:  #47281f;   /* all the type */
+		--panel:  #fffaf4;
+	}
+
+	* { box-sizing: border-box; }
+
+	html, body { margin: 0; height: 100%; overflow: hidden; background: var(--cream); }
+
+	body {
+		font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+		color: var(--cocoa);
+		/* A LIGHT page, finally. Ice cream lit like a night scene looks
+		   like a prop; it wants an afternoon. The gradient runs cream at
+		   the top to sorbet at the bottom, so the cone has warm ground
+		   underneath it and cool air above. */
+		background:
+			radial-gradient(70% 48% at 50% 18%, #ffffff 0%, transparent 60%),
+			radial-gradient(120% 62% at 50% 112%, var(--sorbet) 0%, transparent 64%),
+			linear-gradient(180deg, var(--cream) 0%, var(--peach) 78%, #ffbfae 100%);
+	}
+
+	#stage { position: fixed; inset: 0; touch-action: none; cursor: grab; }
+	#stage.dragging { cursor: grabbing; }
+	#stage canvas { display: block; }
+
+	.overlay {
+		position: fixed;
+		inset: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: clamp(1.1rem, 3.5vw, 2.4rem);
+		pointer-events: none;
+	}
+
+	.masthead { max-width: 30ch; }
+
+	.title {
+		font-family: 'Big Shoulders Display', ui-sans-serif, sans-serif;
+		font-weight: 800;
+		font-size: clamp(3.6rem, 14vw, 8.5rem);
+		line-height: 0.82;
+		letter-spacing: -0.02em;
+		text-transform: uppercase;
+		margin: 0;
+	}
+
+	.standfirst {
+		margin: 0.85rem 0 0;
+		font-size: 0.9rem;
+		line-height: 1.5;
+		max-width: 26ch;
+		color: color-mix(in srgb, var(--cocoa) 62%, transparent);
+	}
+
+	/* ── console ──
+	   Light page, so the console is a frosted white card rather than a dark
+	   slab. Same shape as the other pages, opposite polarity. */
+	.console {
+		pointer-events: auto;
+		align-self: center;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: clamp(0.5rem, 2vw, 1rem);
+		padding: clamp(0.7rem, 2vw, 1rem) clamp(0.9rem, 2.5vw, 1.3rem);
+		border-radius: 16px;
+		background: color-mix(in srgb, var(--panel) 84%, transparent);
+		border: 1px solid color-mix(in srgb, var(--cocoa) 12%, transparent);
+		box-shadow: 0 18px 44px -20px color-mix(in srgb, var(--cocoa) 60%, transparent),
+		            inset 0 1px 0 #fff;
+		backdrop-filter: blur(9px);
+	}
+
+	.switch {
+		appearance: none;
+		border: 0;
+		background: none;
+		padding: 0.35rem 0.15rem;
+		display: grid;
+		justify-items: center;
+		gap: 0.5rem;
+		cursor: pointer;
+		font: inherit;
+		color: inherit;
+		border-radius: 9px;
+	}
+	.switch:focus-visible { outline: 2px solid var(--berry); outline-offset: 3px; }
+
+	.throw {
+		width: 56px;
+		height: 27px;
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--cocoa) 13%, transparent);
+		border: 1px solid color-mix(in srgb, var(--cocoa) 16%, transparent);
+		box-shadow: inset 0 2px 5px color-mix(in srgb, var(--cocoa) 24%, transparent);
+		position: relative;
+	}
+	.knob {
+		position: absolute;
+		top: 3px;
+		left: 3px;
+		width: 19px;
+		height: 19px;
+		border-radius: 50%;
+		background: linear-gradient(180deg, #ffffff, #f0e2d6);
+		box-shadow: 0 2px 4px color-mix(in srgb, var(--cocoa) 40%, transparent);
+		transition: transform 0.34s cubic-bezier(0.34, 1.7, 0.5, 1);
+	}
+	.switch[aria-pressed="true"] .knob { transform: translateX(29px); }
+	.switch[aria-pressed="true"] .throw {
+		background: var(--berry);
+		border-color: var(--berry);
+		box-shadow: inset 0 2px 5px color-mix(in srgb, var(--cocoa) 22%, transparent),
+		            0 0 14px -3px var(--berry);
+	}
+
+	.label {
+		font-family: 'Big Shoulders Display', ui-sans-serif, sans-serif;
+		font-weight: 500;
+		font-size: 0.95rem;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, var(--cocoa) 55%, transparent);
+	}
+	.switch[aria-pressed="true"] .label { color: var(--cocoa); }
+
+	/* ── flavour swatches ──
+	   The control shows the thing it does. A dropdown reading "Strawberry"
+	   would be a description of a colour; this is the colour. */
+	.flavours { display: grid; justify-items: center; gap: 0.5rem; }
+	.scoops { display: flex; gap: 0.34rem; }
+	.scoop {
+		width: 27px; height: 27px;
+		border-radius: 50%;
+		border: 2px solid transparent;
+		box-shadow: 0 2px 5px color-mix(in srgb, var(--cocoa) 30%, transparent),
+		            inset 0 -3px 6px color-mix(in srgb, var(--cocoa) 18%, transparent);
+		cursor: pointer;
+		padding: 0;
+		transition: transform 0.16s ease, border-color 0.16s ease;
+	}
+	.scoop:hover { transform: translateY(-2px); }
+	.scoop[aria-pressed="true"] {
+		border-color: var(--cocoa);
+		transform: translateY(-3px) scale(1.06);
+	}
+	.scoop:focus-visible { outline: 2px solid var(--cocoa); outline-offset: 3px; }
+
+	/* ── volume ── */
+	.vol { display: grid; justify-items: center; gap: 0.5rem; padding: 0.35rem 0.3rem; }
+	.vol input {
+		-webkit-appearance: none; appearance: none;
+		width: 70px; height: 27px; background: none; cursor: pointer; margin: 0;
+	}
+	.vol input::-webkit-slider-runnable-track {
+		height: 8px; border-radius: 999px;
+		border: 1px solid color-mix(in srgb, var(--cocoa) 16%, transparent);
+		background: linear-gradient(90deg, var(--berry) var(--fill), color-mix(in srgb, var(--cocoa) 13%, transparent) var(--fill));
+	}
+	.vol input::-moz-range-track {
+		height: 8px; border-radius: 999px;
+		border: 1px solid color-mix(in srgb, var(--cocoa) 16%, transparent);
+		background: linear-gradient(90deg, var(--berry) var(--fill), color-mix(in srgb, var(--cocoa) 13%, transparent) var(--fill));
+	}
+	.vol input::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		width: 17px; height: 17px; margin-top: -6px; border-radius: 50%;
+		background: linear-gradient(180deg, #ffffff, #f0e2d6);
+		box-shadow: 0 2px 4px color-mix(in srgb, var(--cocoa) 40%, transparent);
+	}
+	.vol input::-moz-range-thumb {
+		width: 17px; height: 17px; border: 0; border-radius: 50%;
+		background: linear-gradient(180deg, #ffffff, #f0e2d6);
+		box-shadow: 0 2px 4px color-mix(in srgb, var(--cocoa) 40%, transparent);
+	}
+	.vol input:focus-visible { outline: 2px solid var(--berry); outline-offset: 4px; }
+
+	/* ── the dock ── */
+	.dock {
+		position: fixed;
+		top: clamp(0.9rem, 3vw, 1.6rem);
+		right: clamp(0.9rem, 3vw, 1.6rem);
+		display: flex;
+		gap: 0.5rem;
+		z-index: 5;
+	}
+
+	.chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.5rem 0.8rem;
+		border-radius: 999px;
+		text-decoration: none;
+		font-family: 'Big Shoulders Display', ui-sans-serif, sans-serif;
+		font-weight: 500;
+		font-size: 0.9rem;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, var(--cocoa) 66%, transparent);
+		background: color-mix(in srgb, var(--panel) 82%, transparent);
+		border: 1px solid color-mix(in srgb, var(--cocoa) 14%, transparent);
+		backdrop-filter: blur(8px);
+		transition: color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.1s ease;
+	}
+	.chip svg { width: 18px; height: 18px; flex: none; }
+	.chip:active { transform: translateY(1px); }
+	.chip:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+	.chip.tip:hover, .chip.tip:focus-visible {
+		color: var(--berry); border-color: var(--berry);
+		box-shadow: 0 0 18px -6px var(--berry);
+	}
+	.chip.arcade:hover, .chip.arcade:focus-visible {
+		color: var(--mint); border-color: var(--mint);
+		box-shadow: 0 0 18px -6px var(--mint);
+	}
+
+	.fallback {
+		position: fixed; inset: 0; display: none; place-items: center;
+		text-align: center; padding: 2rem; line-height: 1.6;
+	}
+
+	@media (max-width: 620px) {
+		.chip span { display: none; }
+		.chip { padding: 0.6rem; }
+	}
+
+	@media (max-width: 500px) {
+		.console { gap: 0.4rem; padding: 0.6rem 0.7rem; }
+		.throw { width: 46px; }
+		.switch[aria-pressed="true"] .knob { transform: translateX(19px); }
+		.label { font-size: 0.8rem; letter-spacing: 0.1em; }
+		.standfirst { display: none; }
+		.vol input { width: 56px; }
+		.scoop { width: 24px; height: 24px; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.knob, .scoop { transition: none; }
+	}
+</style>
+</head>
+<body>
+
+<div id="stage"></div>
+
+<nav class="dock" aria-label="Elsewhere">
+	<a class="chip tip" href="https://ko-fi.com/magickmica/tip" target="_blank" rel="noopener noreferrer" title="Leave a tip on Ko-fi">
+		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true">
+			<path d="M12 2.8l2.85 5.9 6.4.95-4.63 4.55 1.1 6.4L12 17.55 6.28 20.6l1.1-6.4L2.75 9.65l6.4-.95z" />
+		</svg>
+		<span>Tip</span>
+	</a>
+	<a class="chip arcade" href="https://magickmica.github.io/arcade.html" target="_blank" rel="noopener noreferrer" title="Go to the Arcade">
+		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+			<rect x="2.4" y="7.4" width="19.2" height="9.2" rx="4.6" />
+			<path d="M7 10.6v2.8M5.6 12h2.8" />
+			<circle cx="16.1" cy="11.2" r="0.95" fill="currentColor" stroke="none" />
+			<circle cx="18.3" cy="13.4" r="0.95" fill="currentColor" stroke="none" />
+		</svg>
+		<span>Arcade</span>
+	</a>
+</nav>
+
+<div class="overlay">
+	<header class="masthead">
+		<h1 class="title">Cone</h1>
+		<p class="standfirst">Drag to spin it. Pick a flavour. Don't leave it in the sun.</p>
+	</header>
+
+	<div class="console" role="group" aria-label="Cone controls">
+		<div class="flavours">
+			<div class="scoops" id="scoops" role="group" aria-label="Flavour"></div>
+			<span class="label">Flavour</span>
+		</div>
+		<button class="switch" id="sw-sprinkles" aria-pressed="true">
+			<span class="throw"><span class="knob"></span></span>
+			<span class="label">Sprinkles</span>
+		</button>
+		<button class="switch" id="sw-melt" aria-pressed="false">
+			<span class="throw"><span class="knob"></span></span>
+			<span class="label">Melt</span>
+		</button>
+		<button class="switch" id="sw-sound" aria-pressed="false">
+			<span class="throw"><span class="knob"></span></span>
+			<span class="label">Jingle</span>
+		</button>
+		<div class="vol">
+			<input type="range" id="vol" min="0" max="100" value="70" style="--fill: 70%" aria-label="Volume" />
+			<span class="label">Volume</span>
+		</div>
+	</div>
+</div>
+
+<div class="fallback" id="fallback">
+	<p>This browser can't run WebGL, so there's no cone to be had.<br />
+	Try opening the file in Chrome, Firefox, or Safari.</p>
+</div>
+
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.184.0/build/three.module.js" } }
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+const TWO_PI = Math.PI * 2;
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ══ THE SWIRL ════════════════════════════════════════════════════════════
+   Soft serve is not a stack of scoops — it's ONE continuous surface, so
+   it's built as a parametric one rather than assembled from parts.
+
+   For a height u and an angle a, the radius is:
+
+       r = taper(u) · (1 + amp · sin(2π·coils·u − a))
+
+   The whole thing is that minus sign. Because the ripple's phase depends on
+   height and angle TOGETHER, the ridge can't sit still — it has to wind
+   around as it climbs, which is exactly what comes out of the machine
+   nozzle. Take the u out and you get vertical flutes, like a pie crust.
+
+   Everything else is trimming: a lip that mushrooms over the cone rim, and
+   a tip that leans, because a perfectly plumb swirl looks extruded rather
+   than dispensed.
+*/
+const SWIRL_H = 1.5, SWIRL_R = 0.63, COILS = 3.15, AMP = 0.115, LEAN = 0.17;
+
+const swirlPoint = (u, a, out) => {
+	const taper = SWIRL_R * Math.pow(Math.max(0, 1 - u), 0.62);
+	const lip = 1 + 0.16 * Math.exp(-Math.pow(u / 0.07, 2));    // mushrooms over the rim
+	const r = Math.max(0.004, taper * lip * (1 + AMP * Math.sin(TWO_PI * COILS * u - a)));
+	return out.set(
+		Math.cos(a) * r + LEAN * Math.pow(u, 3),
+		u * SWIRL_H,
+		Math.sin(a) * r,
+	);
+};
+
+function buildSwirlGeometry(U = 150, V = 128) {
+	const verts = new Float32Array((U + 1) * V * 3);
+	const p = new THREE.Vector3();
+	for (let i = 0; i <= U; i++) {
+		for (let j = 0; j < V; j++) {
+			swirlPoint(i / U, (j / V) * TWO_PI, p);
+			const k = (i * V + j) * 3;
+			verts[k] = p.x; verts[k + 1] = p.y; verts[k + 2] = p.z;
+		}
+	}
+	// Indices wrap in the angular direction instead of duplicating a column.
+	// A duplicated seam column would be a hairline of wrong shading straight
+	// up the swirl, and no amount of smoothing hides it.
+	const idx = [];
+	for (let i = 0; i < U; i++) {
+		for (let j = 0; j < V; j++) {
+			const j2 = (j + 1) % V;
+			const a = i * V + j, b = i * V + j2;
+			const c = (i + 1) * V + j, d = (i + 1) * V + j2;
+			idx.push(a, c, b, b, c, d);
+		}
+	}
+	const g = new THREE.BufferGeometry();
+	g.setAttribute('position', new THREE.BufferAttribute(verts, 3));
+	g.setIndex(idx);
+	g.computeVertexNormals();
+	return g;
+}
+
+/* ══ THE CONE ═════════════════════════════════════════════════════════════
+   The waffle is a bump map, not geometry. Painting the lattice as height
+   and letting the shader perturb the normals gives crisp grid shadows for
+   the price of one texture, where modelling the same grid would be tens of
+   thousands of triangles for an effect you only see as shading anyway.
+*/
+const waffleTextures = () => {
+	const S = 512;
+	const mk = () => {
+		const c = document.createElement('canvas');
+		c.width = c.height = S;
+		return [c, c.getContext('2d')];
+	};
+
+	const [bumpC, bg] = mk();
+	bg.fillStyle = '#ffffff';
+	bg.fillRect(0, 0, S, S);
+	bg.strokeStyle = '#000000';
+	bg.lineWidth = 13;
+	bg.lineCap = 'round';
+	const step = S / 7;
+	for (let d = -S; d < S * 2; d += step) {        // both diagonals = diamonds
+		bg.beginPath(); bg.moveTo(d, 0); bg.lineTo(d + S, S); bg.stroke();
+		bg.beginPath(); bg.moveTo(d, S); bg.lineTo(d + S, 0); bg.stroke();
+	}
+
+	const [colC, cg] = mk();
+	cg.fillStyle = '#d79a55';
+	cg.fillRect(0, 0, S, S);
+	// toasted unevenly — a flat tan reads as plastic
+	for (let i = 0; i < 900; i++) {
+		const x = Math.random() * S, y = Math.random() * S;
+		cg.fillStyle = `rgba(${140 + Math.random() * 60},${85 + Math.random() * 45},${35 + Math.random() * 30},${0.05 + Math.random() * 0.09})`;
+		cg.beginPath();
+		cg.arc(x, y, 6 + Math.random() * 26, 0, TWO_PI);
+		cg.fill();
+	}
+	cg.strokeStyle = 'rgba(104,58,22,0.55)';
+	cg.lineWidth = 13;
+	cg.lineCap = 'round';
+	for (let d = -S; d < S * 2; d += step) {
+		cg.beginPath(); cg.moveTo(d, 0); cg.lineTo(d + S, S); cg.stroke();
+		cg.beginPath(); cg.moveTo(d, S); cg.lineTo(d + S, 0); cg.stroke();
+	}
+
+	const bump = new THREE.CanvasTexture(bumpC);
+	const map = new THREE.CanvasTexture(colC);
+	map.colorSpace = THREE.SRGBColorSpace;
+	for (const t of [bump, map]) {
+		t.wrapS = t.wrapT = THREE.RepeatWrapping;
+		t.repeat.set(3.2, 2.2);
+	}
+	return { bump, map };
+};
+
+const CONE_H = 1.62;
+
+function buildCone() {
+	const { bump, map } = waffleTextures();
+	const mat = new THREE.MeshStandardMaterial({
+		map, bumpMap: bump, bumpScale: -2.2,       // negative: the lattice is grooves
+		roughness: 0.78, metalness: 0,
+	});
+	const cone = new THREE.Mesh(
+		new THREE.CylinderGeometry(SWIRL_R * 1.0, 0.035, CONE_H, 96, 12, true),
+		mat,
+	);
+	cone.position.y = -CONE_H / 2;
+
+	const group = new THREE.Group();
+	group.add(cone);
+
+	// the rolled rim, so the cone has a lip instead of a paper edge
+	const rim = new THREE.Mesh(
+		new THREE.TorusGeometry(SWIRL_R, 0.043, 16, 96),
+		new THREE.MeshStandardMaterial({ color: 0xc9873f, roughness: 0.7, bumpMap: bump, bumpScale: -1 }),
+	);
+	rim.rotation.x = Math.PI / 2;
+	group.add(rim);
+
+	return group;
+}
+
+/* ── sprinkles ──
+   Placed by picking real vertices off the swirl and using their normals, so
+   every one sits ON the surface at the correct angle. Scattering them in a
+   bounding box and hoping would leave half of them floating.
+*/
+const SPRINKLE_COLOURS = [0xff4d6d, 0xffd93d, 0x4ecdc4, 0xff8c42, 0xa06cd5, 0xffffff, 0x5bc0eb];
+
+function buildSprinkles(swirlGeo, count = 340) {
+	const pos = swirlGeo.attributes.position;
+	const nor = swirlGeo.attributes.normal;
+	const mesh = new THREE.InstancedMesh(
+		new THREE.CylinderGeometry(0.0135, 0.0135, 0.062, 8),
+		new THREE.MeshStandardMaterial({ roughness: 0.35, metalness: 0.05 }),
+		count,
+	);
+	const dummy = new THREE.Object3D();
+	const n = new THREE.Vector3(), tan = new THREE.Vector3(), rnd = new THREE.Vector3();
+	const col = new THREE.Color();
+
+	for (let i = 0; i < count; i++) {
+		// bias toward the upper swirl, the way they actually land
+		const v = Math.floor(Math.pow(Math.random(), 0.75) * pos.count);
+		n.fromBufferAttribute(nor, v);
+		dummy.position.fromBufferAttribute(pos, v).addScaledVector(n, 0.012);
+		rnd.set(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5);
+		tan.crossVectors(n, rnd).normalize();
+		dummy.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tan);
+		dummy.scale.setScalar(0.85 + Math.random() * 0.5);
+		dummy.updateMatrix();
+		mesh.setMatrixAt(i, dummy.matrix);
+		mesh.setColorAt(i, col.setHex(SPRINKLE_COLOURS[i % SPRINKLE_COLOURS.length]));
+	}
+	mesh.instanceMatrix.needsUpdate = true;
+	mesh.instanceColor.needsUpdate = true;
+	return mesh;
+}
+
+/* ── the cherry ── */
+function buildCherry() {
+	const g = new THREE.Group();
+	const berry = new THREE.Mesh(
+		new THREE.SphereGeometry(0.11, 32, 24),
+		new THREE.MeshPhysicalMaterial({
+			color: 0xc4142f, roughness: 0.14, clearcoat: 1, clearcoatRoughness: 0.06, metalness: 0,
+		}),
+	);
+	g.add(berry);
+	const stem = new THREE.Mesh(
+		new THREE.TorusGeometry(0.13, 0.011, 8, 32, 1.5),
+		new THREE.MeshStandardMaterial({ color: 0x4a6b30, roughness: 0.75 }),
+	);
+	stem.position.set(0.01, 0.1, 0);
+	stem.rotation.set(0, 0.4, -0.5);
+	g.add(stem);
+	return g;
+}
+
+/* ── melting ──
+   A drip rides the OUTSIDE of the cone: its radius is read off the cone's
+   own taper as it descends, so it hugs the surface all the way down instead
+   of falling through it. Each one stretches as it speeds up.
+*/
+function buildDrips(max = 14) {
+	const mat = new THREE.MeshPhysicalMaterial({
+		color: 0xffffff, roughness: 0.28, clearcoat: 0.7, sheen: 1, transmission: 0,
+	});
+	const group = new THREE.Group();
+	const drips = [];
+	for (let i = 0; i < max; i++) {
+		const m = new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 12), mat);
+		m.visible = false;
+		group.add(m);
+		drips.push({ mesh: m, y: 0, a: 0, v: 0, alive: false });
+	}
+	return { group, drips, mat };
+}
+
+const buildLightRoom = () => {
+	const room = new THREE.Scene();
+	room.background = new THREE.Color(0xffeadd);   // a bright day, not a black box
+	const c = document.createElement('canvas');
+	c.width = c.height = 256;
+	const ctx = c.getContext('2d');
+	const grad = ctx.createRadialGradient(128, 128, 24, 128, 128, 128);
+	grad.addColorStop(0, '#ffffff');
+	grad.addColorStop(1, '#000000');
+	ctx.fillStyle = grad;
+	ctx.fillRect(0, 0, 256, 256);
+	const tex = new THREE.CanvasTexture(c);
+	const panel = (w, h, x, y, z, intensity, tint) => {
+		const m = new THREE.Mesh(
+			new THREE.PlaneGeometry(w, h),
+			new THREE.MeshBasicMaterial({
+				map: tex, color: new THREE.Color(tint).multiplyScalar(intensity), side: THREE.DoubleSide,
+			}),
+		);
+		m.position.set(x, y, z);
+		m.lookAt(0, 0, 0);
+		room.add(m);
+	};
+	panel(9, 7, -5, 6, 5, 2.8, 0xffffff);   // sun, high and left
+	panel(8, 6, 6, 2, 4, 1.3, 0xfff0e2);    // fill
+	panel(9, 4, 0, 5, -6, 1.5, 0xdfeaff);   // sky rim, cool
+	panel(10, 10, 0, -6, 1, 0.9, 0xffcbb4);  // warm ground bounce
+	return room;
+};
+
+/* ══ SOUND ════════════════════════════════════════════════════════════════
+   An ice cream van, which means the melody is only half of it. The other
+   half is the SPEAKER: a horn on a roof, so everything runs through a
+   narrow band (no bass, no air), gets softly clipped, and passes through a
+   modulated delay for wow and flutter. Play the same tune clean and it's a
+   music box; play it through this and it's a van two streets away.
+
+   The tune is original — eight bars, and it loops the way they do.
+*/
+const Sfx = (() => {
+	let ctx = null, master = null, horn = null;
+	let on = false, vol = 0.7, timer = null, nextTime = 0, step = 0, beatPos = 0;
+
+	const C5 = 523.25, D5 = 587.33, E5 = 659.25, F5 = 698.46;
+	const G5 = 783.99, A5 = 880.00, C6 = 1046.50, D6 = 1174.66;
+	// [frequency, beats] — 0 is a rest
+	const TUNE = [
+		[G5, 0.5], [E5, 0.25], [F5, 0.25], [G5, 0.5], [C6, 0.5],
+		[A5, 0.5], [G5, 0.25], [F5, 0.25], [E5, 1.0],
+		[F5, 0.5], [D5, 0.25], [E5, 0.25], [F5, 0.5], [A5, 0.5],
+		[G5, 0.5], [E5, 0.5], [C5, 0.75], [0, 0.25],
+		[G5, 0.5], [C6, 0.5], [D6, 0.5], [C6, 0.5],
+		[A5, 0.75], [G5, 0.25], [E5, 1.0],
+		[F5, 0.5], [A5, 0.5], [G5, 0.5], [E5, 0.5],
+		[D5, 0.5], [F5, 0.5], [C5, 0.75], [0, 0.25],
+	];
+	const BEAT = 0.4;
+	const BARS = 16;                                 // the loop, in beats
+	const BASS = [130.81, 174.61, 130.81, 196.00];   // one per four beats
+
+	const init = () => {
+		if (ctx) return;
+		ctx = new (window.AudioContext || window.webkitAudioContext)();
+		master = ctx.createGain();
+		master.gain.value = 0;
+		master.connect(ctx.destination);
+
+		// ── the horn speaker ──
+		const hp = ctx.createBiquadFilter();
+		hp.type = 'highpass';
+		hp.frequency.value = 420;          // no bass gets out of a horn
+		const lp = ctx.createBiquadFilter();
+		lp.type = 'lowpass';
+		lp.frequency.value = 3400;         // and no air either
+		const peak = ctx.createBiquadFilter();
+		peak.type = 'peaking';
+		peak.frequency.value = 1600;
+		peak.Q.value = 1.1;
+		peak.gain.value = 7;               // the honk
+
+		const shaper = ctx.createWaveShaper();
+		const curve = new Float32Array(1024);
+		for (let i = 0; i < 1024; i++) {
+			const x = (i / 1023) * 2 - 1;
+			curve[i] = Math.tanh(x * 2.6) / Math.tanh(2.6);
+		}
+		shaper.curve = curve;
+
+		// wow and flutter: a delay line whose length wobbles, which is what
+		// a worn tape or a cheap motor actually does to pitch
+		const delay = ctx.createDelay(0.05);
+		delay.delayTime.value = 0.007;
+		[[4.4, 0.0011], [0.7, 0.0009]].forEach(([f, amt]) => {
+			const lfo = ctx.createOscillator();
+			lfo.frequency.value = f;
+			const g = ctx.createGain();
+			g.gain.value = amt;
+			lfo.connect(g).connect(delay.delayTime);
+			lfo.start();
+		});
+
+		horn = ctx.createGain();
+		horn.gain.value = 0.5;
+		horn.connect(hp).connect(peak).connect(lp).connect(shaper).connect(delay).connect(master);
+	};
+
+	// a struck tine: partials at 3.0 and 5.7, both decaying faster than the
+	// fundamental, which is what makes it a bell and not a flute
+	const tine = (f, t, dur, gain) => {
+		[[1, 1, 1], [3.0, 0.24, 0.5], [5.7, 0.1, 0.3]].forEach(([mult, amp, life]) => {
+			const o = ctx.createOscillator();
+			o.type = 'sine';
+			o.frequency.value = f * mult;
+			const g = ctx.createGain();
+			g.gain.setValueAtTime(0.0001, t);
+			g.gain.exponentialRampToValueAtTime(gain * amp, t + 0.004);
+			g.gain.exponentialRampToValueAtTime(0.0001, t + dur * life);
+			o.connect(g).connect(horn);
+			o.start(t);
+			o.stop(t + dur + 0.05);
+		});
+	};
+
+	// Scheduled ahead of the clock, not fired by setTimeout. Timers drift by
+	// tens of milliseconds and a tune played on them limps; the Web Audio
+	// clock is sample accurate, so notes get booked in advance instead.
+	const pump = () => {
+		if (!on || !ctx) return;
+		while (nextTime < ctx.currentTime + 0.35) {
+			const [f, beats] = TUNE[step % TUNE.length];
+			if (f) tine(f, nextTime, beats * BEAT * 2.4, 0.16);
+			// Counted in BEATS, not in notes. Notes have different lengths,
+			// so anything counting notes lands wherever it happens to land
+			// and the bass wanders off the downbeat within one loop.
+			if (beatPos % 4 === 0) {
+				tine(BASS[(beatPos / 4) % BASS.length], nextTime, 1.2, 0.085);
+			}
+			nextTime += beats * BEAT;
+			beatPos = (beatPos + beats) % BARS;
+			step++;
+		}
+		timer = setTimeout(pump, 90);
+	};
+
+	return {
+		wake() { init(); if (ctx.state === 'suspended') ctx.resume(); },
+		setOn(v) {
+			on = v;
+			if (!ctx) return;
+			master.gain.cancelScheduledValues(ctx.currentTime);
+			master.gain.setTargetAtTime(v ? vol : 0, ctx.currentTime, 0.3);
+			clearTimeout(timer);
+			if (v) { nextTime = ctx.currentTime + 0.1; step = 0; beatPos = 0; pump(); }
+		},
+		setVolume(v) {
+			vol = v;
+			if (ctx && on) master.gain.setTargetAtTime(vol, ctx.currentTime, 0.08);
+		},
+		click() { if (ctx) tine(D6, ctx.currentTime, 0.4, 0.14); },
+		// sprinkles landing: a scatter of tiny high ticks
+		shower() {
+			if (!ctx) return;
+			const t0 = ctx.currentTime;
+			for (let i = 0; i < 22; i++) {
+				tine(1500 + Math.random() * 2400, t0 + Math.random() * 0.45, 0.12, 0.05);
+			}
+		},
+	};
+})();
+
+/* ══ SCENE ═══════════════════════════════════════════════════════════════ */
+
+const mount = document.getElementById('stage');
+let renderer;
+try {
+	renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+} catch (err) {
+	document.getElementById('fallback').style.display = 'grid';
+	mount.style.display = 'none';
+	throw err;
+}
+
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+mount.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(36, window.innerWidth / window.innerHeight, 0.1, 100);
+
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(buildLightRoom(), 0.05).texture;
+
+scene.add(new THREE.AmbientLight(0xfff0e6, 0.5));
+const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+sun.position.set(-4, 7, 5);
+scene.add(sun);
+const bounce = new THREE.DirectionalLight(0xffc9b0, 0.5);
+bounce.position.set(3, -3, 2);
+scene.add(bounce);
+
+const cone = new THREE.Group();
+
+const swirlGeo = buildSwirlGeometry();
+/* Soft serve is translucent — light goes a little way in and comes back
+   out. SHEEN is the closest thing available without paying for real
+   subsurface scattering: it adds a soft rim of colour at grazing angles,
+   which is most of what reads as "creamy" rather than "plastic". */
+const creamMat = new THREE.MeshPhysicalMaterial({
+	color: 0xffb3c6,
+	roughness: 0.52,
+	metalness: 0,
+	sheen: 1,
+	sheenColor: new THREE.Color(0xffe8f0),
+	sheenRoughness: 0.4,
+	clearcoat: 0.18,
+	clearcoatRoughness: 0.5,
+});
+const swirl = new THREE.Mesh(swirlGeo, creamMat);
+cone.add(swirl);
+
+cone.add(buildCone());
+
+const sprinkles = buildSprinkles(swirlGeo);
+cone.add(sprinkles);
+
+const cherry = buildCherry();
+const tipPoint = swirlPoint(0.985, 0, new THREE.Vector3());
+cherry.position.copy(tipPoint).add(new THREE.Vector3(0, 0.06, 0));
+cone.add(cherry);
+
+const { group: dripGroup, drips, mat: dripMat } = buildDrips();
+cone.add(dripGroup);
+
+// a soft shadow blob, so the cone has ground under it rather than floating
+const shadowCanvas = document.createElement('canvas');
+shadowCanvas.width = shadowCanvas.height = 256;
+{
+	const g = shadowCanvas.getContext('2d');
+	const gr = g.createRadialGradient(128, 128, 8, 128, 128, 124);
+	gr.addColorStop(0, 'rgba(120,60,40,0.42)');
+	gr.addColorStop(1, 'rgba(120,60,40,0)');
+	g.fillStyle = gr;
+	g.fillRect(0, 0, 256, 256);
+}
+const blob = new THREE.Mesh(
+	new THREE.PlaneGeometry(2.6, 2.6),
+	new THREE.MeshBasicMaterial({
+		map: new THREE.CanvasTexture(shadowCanvas), transparent: true,
+		depthWrite: false, toneMapped: false,
+	}),
+);
+blob.rotation.x = -Math.PI / 2;
+blob.position.y = -CONE_H - 0.34;
+blob.scale.set(1, 0.6, 1);
+scene.add(blob);
+
+const rig = new THREE.Group();
+rig.add(cone);
+scene.add(rig);
+
+/* ── camera ── */
+const target = new THREE.Vector3(0, 0.05, 0);
+let azim = 0.5, elev = 0.16;
+const dist = 5.6;
+let velA = 0, dragging = false, lastX = 0, lastY = 0;
+
+const placeCamera = () => {
+	camera.position.set(
+		target.x + dist * Math.cos(elev) * Math.sin(azim),
+		target.y + dist * Math.sin(elev),
+		target.z + dist * Math.cos(elev) * Math.cos(azim),
+	);
+	camera.lookAt(target);
+};
+placeCamera();
+
+mount.addEventListener('pointerdown', (e) => {
+	dragging = true; lastX = e.clientX; lastY = e.clientY; velA = 0;
+	mount.classList.add('dragging');
+});
+const release = () => { dragging = false; mount.classList.remove('dragging'); };
+window.addEventListener('pointerup', release);
+window.addEventListener('pointercancel', release);
+window.addEventListener('pointermove', (e) => {
+	if (!dragging) return;
+	const dx = e.clientX - lastX, dy = e.clientY - lastY;
+	lastX = e.clientX; lastY = e.clientY;
+	azim -= dx * 0.006;
+	elev = Math.max(-0.35, Math.min(0.85, elev + dy * 0.005));
+	velA = -dx * 0.006;
+	if (reduce) placeCamera();
+}, { passive: true });
+
+window.addEventListener('resize', () => {
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+/* ── flavours ── */
+const FLAVOURS = [
+	{ id: 'strawberry', label: 'Strawberry', swatch: '#ff9fb4', cream: 0xffb3c6, sheen: 0xffe8f0 },
+	{ id: 'vanilla',    label: 'Vanilla',    swatch: '#fbeccb', cream: 0xfdf2d8, sheen: 0xfffaf0 },
+	{ id: 'mint',       label: 'Mint',       swatch: '#a8e6c8', cream: 0xa9e8ca, sheen: 0xe6fff2 },
+	{ id: 'chocolate',  label: 'Chocolate',  swatch: '#8a5a3c', cream: 0x8a5a3c, sheen: 0xd8b192 },
+];
+let flavour = FLAVOURS[0];
+
+const applyFlavour = (f) => {
+	flavour = f;
+	creamMat.color.setHex(f.cream);
+	creamMat.sheenColor.setHex(f.sheen);
+	dripMat.color.setHex(f.cream);
+	document.querySelectorAll('.scoop').forEach((b) => {
+		b.setAttribute('aria-pressed', String(b.dataset.id === f.id));
+	});
+};
+
+const scoopBox = document.getElementById('scoops');
+FLAVOURS.forEach((f) => {
+	const b = document.createElement('button');
+	b.className = 'scoop';
+	b.type = 'button';
+	b.dataset.id = f.id;
+	b.style.background = f.swatch;
+	b.title = f.label;
+	b.setAttribute('aria-label', f.label);
+	b.setAttribute('aria-pressed', String(f === flavour));
+	b.addEventListener('click', () => { Sfx.wake(); Sfx.click(); applyFlavour(f); });
+	scoopBox.appendChild(b);
+});
+applyFlavour(FLAVOURS[0]);
+
+/* ── console ── */
+const state = { sprinkles: true, melt: false, sound: false };
+
+document.getElementById('sw-sprinkles').addEventListener('click', () => {
+	Sfx.wake();
+	state.sprinkles = !state.sprinkles;
+	sprinkles.visible = state.sprinkles;
+	document.getElementById('sw-sprinkles').setAttribute('aria-pressed', String(state.sprinkles));
+	if (state.sprinkles) Sfx.shower(); else Sfx.click();
+});
+document.getElementById('sw-melt').addEventListener('click', () => {
+	Sfx.wake(); Sfx.click();
+	state.melt = !state.melt;
+	document.getElementById('sw-melt').setAttribute('aria-pressed', String(state.melt));
+});
+document.getElementById('sw-sound').addEventListener('click', () => {
+	Sfx.wake(); Sfx.click();
+	state.sound = !state.sound;
+	document.getElementById('sw-sound').setAttribute('aria-pressed', String(state.sound));
+	Sfx.setOn(state.sound);
+});
+
+const volEl = document.getElementById('vol');
+const applyVol = () => {
+	volEl.style.setProperty('--fill', volEl.value + '%');
+	Sfx.setVolume((volEl.value / 100) * 0.9);
+};
+volEl.addEventListener('input', applyVol);
+applyVol();
+
+/* ── frame ══════════════════════════════════════════════════════════════ */
+const clock = new THREE.Clock();
+let t = 0, dripClock = 0;
+
+const spawnDrip = () => {
+	const d = drips.find((x) => !x.alive);
+	if (!d) return;
+	d.alive = true;
+	d.y = 0.02;
+	d.a = Math.random() * TWO_PI;
+	d.v = 0;
+	d.mesh.visible = true;
+};
+
+const frame = () => {
+	requestAnimationFrame(frame);
+	const dt = Math.min(clock.getDelta(), 0.05);
+	if (!reduce) t += dt;
+
+	if (!reduce) {
+		rig.position.y = Math.sin(t * 0.8) * 0.045;
+		rig.rotation.z = Math.sin(t * 0.55) * 0.018;
+	}
+
+	// melting
+	if (state.melt && !reduce) {
+		dripClock += dt;
+		if (dripClock > 0.55) { dripClock = 0; spawnDrip(); }
+	}
+	for (const d of drips) {
+		if (!d.alive) continue;
+		d.v += 0.55 * dt;
+		d.y -= d.v * dt;
+		if (d.y < -CONE_H) { d.alive = false; d.mesh.visible = false; continue; }
+		// radius read off the cone's own taper, so the drip hugs the surface
+		const rr = d.y > 0 ? SWIRL_R : SWIRL_R * (1 + d.y / CONE_H) + 0.035;
+		d.mesh.position.set(Math.cos(d.a) * (rr + 0.02), d.y, Math.sin(d.a) * (rr + 0.02));
+		const stretch = 1 + Math.min(2.4, d.v * 2.6);
+		d.mesh.scale.set(1 / Math.sqrt(stretch), stretch, 1 / Math.sqrt(stretch));
+	}
+
+	if (!dragging && !reduce) {
+		azim += velA;
+		velA *= 0.93;
+		azim += dt * 0.11;      // it turns on its own, like a display case
+	}
+	if (!reduce || dragging) placeCamera();
+
+	renderer.render(scene, camera);
+};
+
+frame();
+</script>
+</body>
+</html>
