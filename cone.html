@@ -11,7 +11,7 @@
   from a CDN). The swirl, the waffle, the sprinkles and the jingle are all
   generated here. No images, no audio files, no build step.
 
-  Drag to spin it. Pick a flavour. Let it melt.
+  Drag to spin it. Pick a flavor. Let it melt.
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -153,10 +153,10 @@
 	}
 	.switch[aria-pressed="true"] .label { color: var(--cocoa); }
 
-	/* ── flavour swatches ──
+	/* ── flavor swatches ──
 	   The control shows the thing it does. A dropdown reading "Strawberry"
-	   would be a description of a colour; this is the colour. */
-	.flavours { display: grid; justify-items: center; gap: 0.5rem; }
+	   would be a description of a color; this is the color. */
+	.flavors { display: grid; justify-items: center; gap: 0.5rem; }
 	.scoops { display: flex; gap: 0.34rem; }
 	.scoop {
 		width: 27px; height: 27px;
@@ -295,13 +295,13 @@
 <div class="overlay">
 	<header class="masthead">
 		<h1 class="title">Cone</h1>
-		<p class="standfirst">Drag to spin it. Pick a flavour. Don't leave it in the sun.</p>
+		<p class="standfirst">Drag to spin it. Pick a flavor. Don't leave it in the sun.</p>
 	</header>
 
 	<div class="console" role="group" aria-label="Cone controls">
-		<div class="flavours">
-			<div class="scoops" id="scoops" role="group" aria-label="Flavour"></div>
-			<span class="label">Flavour</span>
+		<div class="flavors">
+			<div class="scoops" id="scoops" role="group" aria-label="Flavor"></div>
+			<span class="label">Flavor</span>
 		</div>
 		<button class="switch" id="sw-sprinkles" aria-pressed="true">
 			<span class="throw"><span class="knob"></span></span>
@@ -313,7 +313,7 @@
 		</button>
 		<button class="switch" id="sw-sound" aria-pressed="false">
 			<span class="throw"><span class="knob"></span></span>
-			<span class="label">Jingle</span>
+			<span class="label">Music</span>
 		</button>
 		<div class="vol">
 			<input type="range" id="vol" min="0" max="100" value="70" style="--fill: 70%" aria-label="Volume" />
@@ -484,7 +484,7 @@ function buildCone() {
    every one sits ON the surface at the correct angle. Scattering them in a
    bounding box and hoping would leave half of them floating.
 */
-const SPRINKLE_COLOURS = [0xff4d6d, 0xffd93d, 0x4ecdc4, 0xff8c42, 0xa06cd5, 0xffffff, 0x5bc0eb];
+const SPRINKLE_COLORS = [0xff4d6d, 0xffd93d, 0x4ecdc4, 0xff8c42, 0xa06cd5, 0xffffff, 0x5bc0eb];
 
 function buildSprinkles(swirlGeo, count = 340) {
 	const pos = swirlGeo.attributes.position;
@@ -509,7 +509,7 @@ function buildSprinkles(swirlGeo, count = 340) {
 		dummy.scale.setScalar(0.85 + Math.random() * 0.5);
 		dummy.updateMatrix();
 		mesh.setMatrixAt(i, dummy.matrix);
-		mesh.setColorAt(i, col.setHex(SPRINKLE_COLOURS[i % SPRINKLE_COLOURS.length]));
+		mesh.setColorAt(i, col.setHex(SPRINKLE_COLORS[i % SPRINKLE_COLORS.length]));
 	}
 	mesh.instanceMatrix.needsUpdate = true;
 	mesh.instanceColor.needsUpdate = true;
@@ -587,34 +587,71 @@ const buildLightRoom = () => {
 };
 
 /* ══ SOUND ════════════════════════════════════════════════════════════════
-   An ice cream van, which means the melody is only half of it. The other
-   half is the SPEAKER: a horn on a roof, so everything runs through a
-   narrow band (no bass, no air), gets softly clipped, and passes through a
-   modulated delay for wow and flutter. Play the same tune clean and it's a
-   music box; play it through this and it's a van two streets away.
+   A slow music box in a warm room, rather than a van two streets away.
 
-   The tune is original — eight bars, and it loops the way they do.
+   Four things do the relaxing, and they're worth naming because none of
+   them is "turn it down":
+
+   1. A PAD UNDERNEATH. A soft chord holding through each bar is most of
+      what makes music feel calm — the melody stops being exposed and
+      starts being supported. Nothing above it has to work as hard.
+   2. TIME. Slower tempo, longer notes, and a 32-beat loop instead of 16,
+      so it comes round half as often and stops nagging.
+   3. NEAR-HARMONIC PARTIALS. The old tine rang at 3.0 and 5.7 — an
+      inharmonic spacing that reads as struck metal and, at speed, as
+      urgent. At 2.0 and 3.0 the same note comes out round and wooden.
+   4. REVERB, and no horn. The honking mid-boost and the clipping are gone
+      entirely; what's left is a gentle lowpass and a long tail. The wow
+      and flutter stayed, slower and shallower, because a slight waver is
+      what keeps a music box from sounding like a synthesiser.
 */
 const Sfx = (() => {
-	let ctx = null, master = null, horn = null;
+	let ctx = null, master = null, bus = null;
 	let on = false, vol = 0.7, timer = null, nextTime = 0, step = 0, beatPos = 0;
 
 	const C5 = 523.25, D5 = 587.33, E5 = 659.25, F5 = 698.46;
-	const G5 = 783.99, A5 = 880.00, C6 = 1046.50, D6 = 1174.66;
-	// [frequency, beats] — 0 is a rest
+	const G5 = 783.99, A5 = 880.00, B5 = 987.77, C6 = 1046.50, D6 = 1174.66;
+
+	// Two 16-beat phrases. Long notes, room to breathe, and it lands back
+	// home at the end of each — a tune that never resolves keeps you
+	// listening, which is the opposite of what's wanted here.
 	const TUNE = [
-		[G5, 0.5], [E5, 0.25], [F5, 0.25], [G5, 0.5], [C6, 0.5],
-		[A5, 0.5], [G5, 0.25], [F5, 0.25], [E5, 1.0],
-		[F5, 0.5], [D5, 0.25], [E5, 0.25], [F5, 0.5], [A5, 0.5],
-		[G5, 0.5], [E5, 0.5], [C5, 0.75], [0, 0.25],
-		[G5, 0.5], [C6, 0.5], [D6, 0.5], [C6, 0.5],
-		[A5, 0.75], [G5, 0.25], [E5, 1.0],
-		[F5, 0.5], [A5, 0.5], [G5, 0.5], [E5, 0.5],
-		[D5, 0.5], [F5, 0.5], [C5, 0.75], [0, 0.25],
+		[E5, 1], [G5, 1], [C6, 1.5], [B5, 0.5],
+		[A5, 1], [G5, 1], [E5, 2],
+		[F5, 1], [A5, 1], [G5, 1.5], [E5, 0.5],
+		[D5, 1], [F5, 1], [C5, 2],
+
+		[G5, 1], [C6, 1], [D6, 1.5], [C6, 0.5],
+		[A5, 1.5], [G5, 0.5], [E5, 2],
+		[F5, 1], [E5, 1], [D5, 1], [F5, 1],
+		[E5, 2], [C5, 2],
 	];
-	const BEAT = 0.4;
-	const BARS = 16;                                 // the loop, in beats
-	const BASS = [130.81, 174.61, 130.81, 196.00];   // one per four beats
+
+	const BEAT = 0.62;
+	const BARS = 32;
+
+	// one chord per four beats: C – Am – F – G, twice
+	const CHORDS = [
+		[261.63, 329.63, 392.00],
+		[220.00, 261.63, 329.63],
+		[174.61, 261.63, 349.23],
+		[196.00, 246.94, 392.00],
+		[261.63, 329.63, 392.00],
+		[220.00, 261.63, 329.63],
+		[174.61, 220.00, 349.23],
+		[196.00, 246.94, 293.66],
+	];
+	const BASS = [130.81, 110.00, 87.31, 98.00, 130.81, 110.00, 87.31, 98.00];
+
+	const impulse = (seconds, decay) => {
+		const len = Math.floor(ctx.sampleRate * seconds);
+		const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+		for (let ch = 0; ch < 2; ch++) {
+			const d = buf.getChannelData(ch);
+			for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, decay);
+		}
+		return buf;
+	};
 
 	const init = () => {
 		if (ctx) return;
@@ -623,32 +660,17 @@ const Sfx = (() => {
 		master.gain.value = 0;
 		master.connect(ctx.destination);
 
-		// ── the horn speaker ──
-		const hp = ctx.createBiquadFilter();
-		hp.type = 'highpass';
-		hp.frequency.value = 420;          // no bass gets out of a horn
+		// a soft room: roll the top off, and let it ring
 		const lp = ctx.createBiquadFilter();
 		lp.type = 'lowpass';
-		lp.frequency.value = 3400;         // and no air either
-		const peak = ctx.createBiquadFilter();
-		peak.type = 'peaking';
-		peak.frequency.value = 1600;
-		peak.Q.value = 1.1;
-		peak.gain.value = 7;               // the honk
+		lp.frequency.value = 2600;
+		lp.Q.value = 0.5;
 
-		const shaper = ctx.createWaveShaper();
-		const curve = new Float32Array(1024);
-		for (let i = 0; i < 1024; i++) {
-			const x = (i / 1023) * 2 - 1;
-			curve[i] = Math.tanh(x * 2.6) / Math.tanh(2.6);
-		}
-		shaper.curve = curve;
-
-		// wow and flutter: a delay line whose length wobbles, which is what
-		// a worn tape or a cheap motor actually does to pitch
+		// wow and flutter — slower and shallower than the van's. A music box
+		// with perfectly steady pitch sounds like a synthesiser.
 		const delay = ctx.createDelay(0.05);
-		delay.delayTime.value = 0.007;
-		[[4.4, 0.0011], [0.7, 0.0009]].forEach(([f, amt]) => {
+		delay.delayTime.value = 0.008;
+		[[3.1, 0.0006], [0.42, 0.0007]].forEach(([f, amt]) => {
 			const lfo = ctx.createOscillator();
 			lfo.frequency.value = f;
 			const g = ctx.createGain();
@@ -657,47 +679,78 @@ const Sfx = (() => {
 			lfo.start();
 		});
 
-		horn = ctx.createGain();
-		horn.gain.value = 0.5;
-		horn.connect(hp).connect(peak).connect(lp).connect(shaper).connect(delay).connect(master);
+		bus = ctx.createGain();
+		bus.gain.value = 0.9;
+		bus.connect(lp).connect(delay).connect(master);
+
+		const conv = ctx.createConvolver();
+		conv.buffer = impulse(2.8, 2.0);
+		const hp = ctx.createBiquadFilter();
+		hp.type = 'highpass';
+		hp.frequency.value = 300;      // keep the tail out of the low end
+		const wet = ctx.createGain();
+		wet.gain.value = 0.5;
+		bus.connect(conv).connect(hp).connect(wet).connect(master);
 	};
 
-	// a struck tine: partials at 3.0 and 5.7, both decaying faster than the
-	// fundamental, which is what makes it a bell and not a flute
+	// a struck tine, round rather than bright: partials at 2 and 3, both
+	// quiet and both dying faster than the fundamental
 	const tine = (f, t, dur, gain) => {
-		[[1, 1, 1], [3.0, 0.24, 0.5], [5.7, 0.1, 0.3]].forEach(([mult, amp, life]) => {
+		[[1, 1, 1], [2.0, 0.11, 0.55], [3.0, 0.055, 0.32]].forEach(([mult, amp, life]) => {
 			const o = ctx.createOscillator();
 			o.type = 'sine';
 			o.frequency.value = f * mult;
 			const g = ctx.createGain();
 			g.gain.setValueAtTime(0.0001, t);
-			g.gain.exponentialRampToValueAtTime(gain * amp, t + 0.004);
+			g.gain.exponentialRampToValueAtTime(gain * amp, t + 0.02);   // softer attack
 			g.gain.exponentialRampToValueAtTime(0.0001, t + dur * life);
-			o.connect(g).connect(horn);
+			o.connect(g).connect(bus);
 			o.start(t);
-			o.stop(t + dur + 0.05);
+			o.stop(t + dur + 0.06);
 		});
 	};
 
-	// Scheduled ahead of the clock, not fired by setTimeout. Timers drift by
-	// tens of milliseconds and a tune played on them limps; the Web Audio
-	// clock is sample accurate, so notes get booked in advance instead.
+	// A held chord tone. Two oscillators a hair apart, because the slow beat
+	// between them is what makes a pad breathe instead of sit.
+	const pad = (f, t, dur, gain) => {
+		for (const detune of [-1.6, 1.6]) {
+			const o = ctx.createOscillator();
+			o.type = 'sine';
+			o.frequency.value = f;
+			o.detune.value = detune;
+			const g = ctx.createGain();
+			g.gain.setValueAtTime(0.0001, t);
+			g.gain.linearRampToValueAtTime(gain, t + dur * 0.4);          // long swell in
+			g.gain.linearRampToValueAtTime(gain * 0.8, t + dur * 0.8);
+			g.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.5);   // and overlap out
+			o.connect(g).connect(bus);
+			o.start(t);
+			o.stop(t + dur + 0.6);
+		}
+	};
+
+	// Booked against the audio clock, not fired by a timer. setTimeout drifts
+	// by tens of milliseconds, and a tune played on it limps.
 	const pump = () => {
 		if (!on || !ctx) return;
-		while (nextTime < ctx.currentTime + 0.35) {
+		while (nextTime < ctx.currentTime + 0.4) {
 			const [f, beats] = TUNE[step % TUNE.length];
-			if (f) tine(f, nextTime, beats * BEAT * 2.4, 0.16);
-			// Counted in BEATS, not in notes. Notes have different lengths,
-			// so anything counting notes lands wherever it happens to land
-			// and the bass wanders off the downbeat within one loop.
+			if (f) tine(f, nextTime, beats * BEAT * 2.2, 0.105);
+
+			// counted in BEATS, not notes — notes have different lengths, so
+			// counting them walks the chord change off the downbeat
 			if (beatPos % 4 === 0) {
-				tine(BASS[(beatPos / 4) % BASS.length], nextTime, 1.2, 0.085);
+				const bar = (beatPos / 4) % CHORDS.length;
+				const dur = 4 * BEAT;
+				CHORDS[bar].forEach((cf) => pad(cf, nextTime, dur, 0.028));
+				tine(BASS[bar], nextTime, 2.4, 0.055);
 			}
+
 			nextTime += beats * BEAT;
 			beatPos = (beatPos + beats) % BARS;
 			step++;
 		}
-		timer = setTimeout(pump, 90);
+		timer = setTimeout(pump, 110);
 	};
 
 	return {
@@ -706,21 +759,24 @@ const Sfx = (() => {
 			on = v;
 			if (!ctx) return;
 			master.gain.cancelScheduledValues(ctx.currentTime);
-			master.gain.setTargetAtTime(v ? vol : 0, ctx.currentTime, 0.3);
+			// a slow fade, so it arrives rather than starts
+			master.gain.setTargetAtTime(v ? vol : 0, ctx.currentTime, 0.8);
 			clearTimeout(timer);
-			if (v) { nextTime = ctx.currentTime + 0.1; step = 0; beatPos = 0; pump(); }
+			if (v) { nextTime = ctx.currentTime + 0.2; step = 0; beatPos = 0; pump(); }
 		},
 		setVolume(v) {
 			vol = v;
-			if (ctx && on) master.gain.setTargetAtTime(vol, ctx.currentTime, 0.08);
+			if (ctx && on) master.gain.setTargetAtTime(vol, ctx.currentTime, 0.1);
 		},
-		click() { if (ctx) tine(D6, ctx.currentTime, 0.4, 0.14); },
-		// sprinkles landing: a scatter of tiny high ticks
+		click() { if (ctx) tine(G5, ctx.currentTime, 0.9, 0.075); },
+		// sprinkles landing — kept gentle and inside the key, so it lands as
+		// part of the music instead of interrupting it
 		shower() {
 			if (!ctx) return;
 			const t0 = ctx.currentTime;
-			for (let i = 0; i < 22; i++) {
-				tine(1500 + Math.random() * 2400, t0 + Math.random() * 0.45, 0.12, 0.05);
+			const notes = [C6, D6, E5 * 2, G5 * 2, A5 * 2];
+			for (let i = 0; i < 14; i++) {
+				tine(notes[Math.floor(Math.random() * notes.length)], t0 + Math.random() * 0.6, 0.5, 0.035);
 			}
 		},
 	};
@@ -763,7 +819,7 @@ const cone = new THREE.Group();
 const swirlGeo = buildSwirlGeometry();
 /* Soft serve is translucent — light goes a little way in and comes back
    out. SHEEN is the closest thing available without paying for real
-   subsurface scattering: it adds a soft rim of colour at grazing angles,
+   subsurface scattering: it adds a soft rim of color at grazing angles,
    which is most of what reads as "creamy" rather than "plastic". */
 const creamMat = new THREE.MeshPhysicalMaterial({
 	color: 0xffb3c6,
@@ -857,17 +913,17 @@ window.addEventListener('resize', () => {
 	renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-/* ── flavours ── */
-const FLAVOURS = [
+/* ── flavors ── */
+const FLAVORS = [
 	{ id: 'strawberry', label: 'Strawberry', swatch: '#ff9fb4', cream: 0xffb3c6, sheen: 0xffe8f0 },
 	{ id: 'vanilla',    label: 'Vanilla',    swatch: '#fbeccb', cream: 0xfdf2d8, sheen: 0xfffaf0 },
 	{ id: 'mint',       label: 'Mint',       swatch: '#a8e6c8', cream: 0xa9e8ca, sheen: 0xe6fff2 },
 	{ id: 'chocolate',  label: 'Chocolate',  swatch: '#8a5a3c', cream: 0x8a5a3c, sheen: 0xd8b192 },
 ];
-let flavour = FLAVOURS[0];
+let flavor = FLAVORS[0];
 
-const applyFlavour = (f) => {
-	flavour = f;
+const applyFlavor = (f) => {
+	flavor = f;
 	creamMat.color.setHex(f.cream);
 	creamMat.sheenColor.setHex(f.sheen);
 	dripMat.color.setHex(f.cream);
@@ -877,7 +933,7 @@ const applyFlavour = (f) => {
 };
 
 const scoopBox = document.getElementById('scoops');
-FLAVOURS.forEach((f) => {
+FLAVORS.forEach((f) => {
 	const b = document.createElement('button');
 	b.className = 'scoop';
 	b.type = 'button';
@@ -885,11 +941,11 @@ FLAVOURS.forEach((f) => {
 	b.style.background = f.swatch;
 	b.title = f.label;
 	b.setAttribute('aria-label', f.label);
-	b.setAttribute('aria-pressed', String(f === flavour));
-	b.addEventListener('click', () => { Sfx.wake(); Sfx.click(); applyFlavour(f); });
+	b.setAttribute('aria-pressed', String(f === flavor));
+	b.addEventListener('click', () => { Sfx.wake(); Sfx.click(); applyFlavor(f); });
 	scoopBox.appendChild(b);
 });
-applyFlavour(FLAVOURS[0]);
+applyFlavor(FLAVORS[0]);
 
 /* ── console ── */
 const state = { sprinkles: true, melt: false, sound: false };

@@ -1,1411 +1,361 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Magick Mica TV — Time Travel Candy Transmissions 🍭</title>
+<meta name="description" content="Daily cosmic art notes, AI artwork, games and interactive oddities from Magick Mica. Curiosities, dreams and delightful nonsense.">
+<link rel="canonical" href="https://magickmica.github.io/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Magick Mica">
-<meta property="og:title" content="Magick Mica — Where Magic Meets the Pixel">
+<meta property="og:title" content="Magick Mica TV — Time Travel Candy Transmissions 🍭">
 <meta property="og:description" content="Daily cosmic art notes, AI artwork, games and interactive oddities from Magick Mica. Curiosities, dreams and delightful nonsense.">
-<meta property="og:url" content="https://magickmica.github.io/">
+<meta property="og:url" content="https://magickmica.github.io/index-candy.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Magick Mica — Where Magic Meets the Pixel">
+<meta name="twitter:title" content="Magick Mica TV — Time Travel Candy Transmissions 🍭">
 <meta name="twitter:description" content="Daily cosmic art notes, AI artwork, games and interactive oddities from Magick Mica. Curiosities, dreams and delightful nonsense.">
-<link rel="canonical" href="https://magickmica.github.io/">
-<meta name="description" content="Where Magic Meets the Pixel — the official hub for Magick Mica TV broadcasts, stories, and the Mystical Spiral Store.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<style>:root{--pink:#ff4fb8;--cyan:#3dffd6;--lime:#9dff4a;--purple:#c47dff;--gold:#ffd93b;--teal:#3de0b8;--deep:#16031f;--surface:rgba(255,255,255,0.03);--ink:#efe6ff;}
+*{box-sizing:border-box;margin:0;padding:0}
+a{color:inherit;text-decoration:none}
+body{background:var(--deep);color:var(--ink);font-family:'IBM Plex Mono',ui-monospace,monospace;
+-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;
+background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.5),transparent),
+radial-gradient(1px 1px at 70% 60%,rgba(255,255,255,.35),transparent),
+radial-gradient(1px 1px at 45% 85%,rgba(255,255,255,.4),transparent);background-size:300px 300px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 64px;position:relative;z-index:1}
+.holo{background:linear-gradient(115deg,var(--purple),var(--pink) 30%,var(--gold) 55%,var(--cyan) 80%,var(--purple));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.top{display:flex;align-items:center;gap:16px;padding:14px 0 18px;flex-wrap:wrap}
+.brand{font-family:Orbitron,monospace;font-weight:700;font-size:15px;letter-spacing:.16em}
+.top nav{display:flex;gap:14px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#9d94bd}
+.top nav a:hover{color:var(--gold)}
+.chnow{margin-left:auto;font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.16em;color:var(--gold)}
+.mos{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:104px;gap:12px}
+.tile{position:relative;overflow:hidden;border-radius:14px;padding:15px;display:flex;flex-direction:column;
+justify-content:flex-end;border:1px solid color-mix(in srgb,var(--purple) 30%,transparent);
+background:var(--surface);transition:transform .18s ease,border-color .18s ease}
+.tile:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--pink) 55%,transparent)}
+.tile .lab{font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.2em;color:#8e85ad}
+.tile .ttl{font-size:15px;font-weight:500;margin-top:5px;line-height:1.25}
+.tile .sm{font-size:11px;color:#9d94bd;margin-top:4px;line-height:1.5}
+.tile>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5;z-index:0}
+.tile .in{position:relative;z-index:2}
+.tile .scrim{position:absolute;inset:0;z-index:1;
+background:linear-gradient(180deg,transparent 25%,color-mix(in srgb,var(--deep) 88%,transparent) 100%)}
+.hero{grid-column:span 4;grid-row:span 4}
+.hero .ttl{font-family:Orbitron,monospace;font-size:clamp(22px,3vw,32px);line-height:1.03;color:#fff}
+.hero-logo{width:min(44%,244px);height:auto;display:block;margin:0 0 10px;
+filter:drop-shadow(0 0 26px color-mix(in srgb,var(--pink) 42%,transparent))
+drop-shadow(0 0 54px color-mix(in srgb,var(--cyan) 22%,transparent));
+animation:logoGlow 4.6s ease-in-out infinite}
+@keyframes logoGlow{0%,100%{filter:drop-shadow(0 0 22px color-mix(in srgb,var(--pink) 38%,transparent))
+drop-shadow(0 0 46px color-mix(in srgb,var(--cyan) 18%,transparent))}
+50%{filter:drop-shadow(0 0 34px color-mix(in srgb,var(--purple) 52%,transparent))
+drop-shadow(0 0 70px color-mix(in srgb,var(--gold) 26%,transparent))}}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:9px;letter-spacing:.24em;
+text-transform:uppercase;color:var(--lime);border:1px solid color-mix(in srgb,var(--lime) 34%,transparent);
+border-radius:99px;padding:4px 10px;margin-bottom:12px;width:max-content}
+.live b{width:6px;height:6px;border-radius:50%;background:var(--lime);animation:pulse 1.7s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.hero .sm{font-size:12.5px;color:#d9cfff;max-width:420px}
+.tv{grid-column:span 2;grid-row:span 4;border-color:color-mix(in srgb,var(--cyan) 40%,transparent)}
+.w2{grid-column:span 2}
+.w3{grid-column:span 3}
+.h2{grid-row:span 2}
+.pill{position:absolute;top:12px;right:12px;z-index:3;font-size:9px;letter-spacing:.16em;
+padding:4px 9px;border-radius:99px;border:1px solid color-mix(in srgb,var(--cyan) 50%,transparent);color:var(--cyan)}
+.sect{display:flex;align-items:baseline;gap:12px;margin:34px 0 14px}
+.sect h2{font-family:Orbitron,monospace;font-size:13px;letter-spacing:.18em}
+.sect .rule{flex:1;height:1px;background:color-mix(in srgb,var(--purple) 28%,transparent)}
+.sect .meta{font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.16em;color:#7a6f9e}
+.mag-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.mag-card{border:1px solid color-mix(in srgb,var(--purple) 26%,transparent);border-radius:12px;overflow:hidden;background:var(--surface)}
+.mag-card:hover{border-color:color-mix(in srgb,var(--gold) 55%,transparent)}
+.mag-card-cover{position:relative;aspect-ratio:1;overflow:hidden}
+.mag-card-cover img{width:100%;height:100%;object-fit:cover}
+.mag-card-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.72))}
+.mag-card-count{position:absolute;left:10px;bottom:9px;font-family:Silkscreen,monospace;font-size:9px;
+letter-spacing:.14em;color:var(--gold)}
+.mag-card-label{padding:9px 11px;font-size:12px}
+.mag-card-cover.no-img{background:color-mix(in srgb,var(--purple) 22%,var(--deep))}
+#mtv{border:1px solid color-mix(in srgb,var(--cyan) 34%,transparent);border-radius:14px;padding:18px;
+background:var(--surface);min-height:132px;display:flex;flex-direction:column;justify-content:center;gap:9px}
+#mtv .body{font-size:14px;line-height:1.55}
+#mtv .meta{font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.16em;color:var(--cyan)}
+footer{margin-top:44px;padding-top:20px;border-top:1px solid color-mix(in srgb,var(--purple) 24%,transparent);
+font-size:11px;color:#8e85ad;line-height:1.9}
+footer a{color:var(--pink)}
+.strip3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cta-row{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.cta-row .cta{padding:26px 24px 22px}
+.cta-row .cta h3{font-size:21px}
+.cta-row .cta .sub{font-size:12px;max-width:none}
+.cta-row .art{width:84px;height:84px;overflow:visible}
+.cta-row .box{transform:scale(.86);transform-origin:center}
+.cta-row .hstack{transform:scale(.88);transform-origin:center}
+.cta-row .in{gap:18px}
+.scard{border:1px solid color-mix(in srgb,var(--purple) 26%,transparent);border-radius:12px;
+padding:16px;background:var(--surface)}
+.scard:hover{border-color:color-mix(in srgb,var(--gold) 50%,transparent)}
+.scard .lab{font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.2em;color:#8e85ad}
+.scard .ttl{font-size:15px;font-weight:500;margin-top:6px}
+.scard .sm{font-size:11px;color:#9d94bd;margin-top:4px;line-height:1.5}
+.star{display:block;text-align:center;border-radius:14px;padding:22px;
+border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);background:var(--surface)}
+.star .big{font-family:Orbitron,monospace;font-size:19px;color:var(--gold);margin:8px 0 6px}
+.star .sm{font-size:12px;color:#9d94bd}
+.tmap{margin-top:36px;padding:26px 22px;border-radius:18px;
+border:1px solid color-mix(in srgb,var(--purple) 30%,transparent);background:var(--surface)}
+.tmap h2{font-family:Orbitron,monospace;font-size:13px;letter-spacing:.18em;margin-bottom:16px}
+.tmap-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:20px 22px;align-items:start}
+.tmap-col{break-inside:avoid}
+.tmap-col.wide{grid-column:span 2}
+.tmap-col.wide .links{columns:2;column-gap:22px}
+.tmap-col h3{font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.22em;color:var(--gold);
+margin-bottom:9px;text-transform:uppercase}
+.tmap-col a{display:block;font-size:12px;color:#b8b0d4;padding:3px 0;line-height:1.5}
+.tmap-col a:hover{color:var(--pink)}
+@media(max-width:820px){.mos{grid-template-columns:repeat(2,1fr);grid-auto-rows:96px}
+.hero{grid-column:span 2;grid-row:span 3}.tv{grid-column:span 2;grid-row:span 2}
+.w2,.w3{grid-column:span 2}.mag-grid{grid-template-columns:repeat(2,1fr)}.strip3{grid-template-columns:1fr}.cta-row{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.tile{transition:none}
+.hero-logo,.live b{animation:none}}
 
-  :root {
-    --pink:   #ff4fb8;
-    --cyan:   #3dffd6;
-    --lime:   #9dff4a;
-    --purple: #c47dff;
-    --gold:   #ffd93b;
-    --teal:   #3de0b8;
-    --deep:   #16031f;
-    --surface: rgba(255,255,255,0.03);
-    --border:  rgba(255,255,255,0.07);
-  }
+.chdial{position:fixed;right:14px;bottom:70px;z-index:9600;font-family:'IBM Plex Mono',monospace}
+.chdial summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:9px;
+padding:10px 15px;border-radius:99px;background:var(--surface);
+border:1px solid color-mix(in srgb,var(--gold) 55%,transparent);color:var(--gold);font-size:11px}
+.chdial summary::-webkit-details-marker{display:none}
+.chdial .dial-label small{display:block;font-size:8px;letter-spacing:.2em;color:#9d94bd}
+.chdial-panel{position:absolute;right:0;bottom:52px;width:250px;max-height:60vh;overflow:auto;
+background:var(--surface);border:1px solid color-mix(in srgb,var(--purple) 45%,transparent);
+border-radius:12px;padding:10px}
+.chdial-title{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.18em;color:var(--gold);padding:6px 8px}
+.chdial-panel a{display:flex;align-items:center;gap:9px;padding:8px;border-radius:8px;font-size:13px;color:var(--ink)}
+.chdial-panel a:hover{background:color-mix(in srgb,var(--pink) 16%,transparent)}
+.chdial-panel .ch{margin-left:auto;font-family:Silkscreen,monospace;font-size:9px;color:#7a6f9e}
+.cta{position:relative;display:block;border-radius:20px;padding:32px 30px 28px;overflow:hidden;
+text-decoration:none;transition:transform .28s cubic-bezier(.2,.9,.3,1.2),box-shadow .28s,border-color .28s}
+.cta:hover{transform:translateY(-4px)}
+.cta .in{position:relative;z-index:3;display:flex;align-items:center;gap:24px}
+.cta .eyebrow{font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.26em;text-transform:uppercase}
+.cta h3{font-family:Orbitron,monospace;font-size:26px;line-height:1.1;margin:9px 0 8px}
+.cta .sub{font-size:13px;line-height:1.62;max-width:330px}
+.cta .go{display:inline-flex;align-items:center;gap:9px;margin-top:15px;padding:11px 20px;
+border-radius:999px;font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:500}
+.cta .go span:last-child{transition:transform .25s}
+.cta:hover .go span:last-child{transform:translateX(4px)}
+.art{flex:0 0 auto;width:104px;height:104px;position:relative;display:grid;place-items:center}
+.sheen{position:absolute;inset:0;z-index:2;pointer-events:none;
+background:linear-gradient(104deg,transparent 38%,rgba(255,255,255,.14) 48%,transparent 58%);
+transform:translateX(-120%);transition:transform .85s cubic-bezier(.3,.8,.3,1)}
+.cta:hover .sheen{transform:translateX(120%)}
 
-  html { scroll-behavior: smooth; }
+/* ── THE HEARTH ── */
+.hearth{--cold:#0d111b;--slate:#1a2130;--ember:#ff7b3a;--flame:#ffc45c;--cream:#f5ece0;
+background:radial-gradient(120% 100% at 22% 88%,rgba(255,123,58,.42),transparent 62%),
+radial-gradient(90% 80% at 78% 14%,rgba(255,196,92,.18),transparent 60%),
+linear-gradient(160deg,var(--slate) 0%,var(--cold) 68%);
+border:1px solid rgba(255,196,92,.32);box-shadow:0 16px 44px rgba(0,0,0,.5)}
+.hearth:hover{border-color:rgba(255,196,92,.72);box-shadow:0 22px 58px rgba(255,123,58,.26)}
+.hearth .eyebrow{color:var(--flame)}
+.hearth h3{color:var(--cream)}
+.hearth .sub{color:#cdbca8}
+.hearth .go{background:linear-gradient(96deg,var(--flame),var(--ember));color:#1a0d04;
+box-shadow:0 5px 18px rgba(255,123,58,.4)}
+.emb{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.emb i{position:absolute;bottom:-8px;width:4px;height:4px;border-radius:50%;
+background:var(--ember);box-shadow:0 0 8px 2px rgba(255,123,58,.7);animation:rise 5.5s ease-in infinite}
+.emb i:nth-child(3n){background:var(--flame);box-shadow:0 0 9px 2px rgba(255,196,92,.7);width:3px;height:3px}
+@keyframes rise{0%{opacity:0;transform:translateY(0) translateX(0) scale(.6)}
+15%{opacity:1}70%{opacity:.7}
+100%{opacity:0;transform:translateY(-150px) translateX(22px) scale(.3)}}
+.hstack{width:96px;height:78px;position:relative;display:grid;place-items:end center}
+.pool{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:78px;height:16px;
+border-radius:50%;background:radial-gradient(ellipse,rgba(255,123,58,.6),transparent 70%);filter:blur(3px)}
+.log{position:absolute;height:12px;border-radius:7px;
+background:linear-gradient(180deg,#6b4a30,#3a2718);border:1px solid rgba(255,196,92,.25)}
+.log.a{width:70px;bottom:8px;left:13px;transform:rotate(-7deg)}
+.log.b{width:62px;bottom:14px;left:18px;transform:rotate(6deg)}
+.fire{position:absolute;bottom:16px;left:50%;margin-left:-22px;width:44px;height:56px;z-index:2;border-radius:50% 50% 46% 46%;
+background:radial-gradient(ellipse at 50% 82%,var(--cream) 0%,var(--flame) 32%,var(--ember) 62%,transparent 78%);
+animation:flicker 1.5s ease-in-out infinite;filter:blur(.4px)}
+@keyframes flicker{0%,100%{transform:scaleY(1) scaleX(1);opacity:.95}
+33%{transform:scaleY(1.13) scaleX(.93);opacity:1}
+66%{transform:scaleY(.93) scaleX(1.06);opacity:.88}}
 
-  body {
-    min-height: 100vh;
-    background: var(--deep);
-    color: #fff;
-    font-family: 'Space Mono', monospace;
-    overflow-x: hidden;
-  }
+/* ── THE GLOBE ── */
+.globe{--void:#07060e;--violet:#a020f0;--magenta:#ff44cc;--gold:#ffd166;--cyan:#22e0ff;--mist:#b8b0d4;
+background:radial-gradient(120% 95% at 26% 20%,rgba(160,32,240,.42),transparent 62%),
+radial-gradient(100% 85% at 82% 84%,rgba(255,68,204,.32),transparent 62%),
+linear-gradient(158deg,#1d0b33 0%,#12061F 72%);
+border:1px solid rgba(255,209,102,.3);box-shadow:0 16px 44px rgba(0,0,0,.5)}
+.globe:hover{border-color:rgba(255,209,102,.7);box-shadow:0 22px 58px rgba(160,32,240,.3)}
+.globe .eyebrow{color:var(--gold)}
+.globe h3{background:linear-gradient(100deg,#fff,var(--gold) 38%,var(--magenta) 72%,var(--cyan));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.globe .sub{color:var(--mist)}
+.globe .go{background:linear-gradient(96deg,var(--gold),#fff0c4 45%,var(--magenta));color:#1a0426;
+box-shadow:0 5px 18px rgba(255,68,204,.36)}
+.orb{width:92px;height:92px;border-radius:50%;position:relative;overflow:hidden;
+background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.6),rgba(160,32,240,.5) 40%,rgba(7,6,14,.9) 78%);
+border:1px solid rgba(255,209,102,.45);
+box-shadow:inset 0 0 26px rgba(255,68,204,.45),0 0 24px rgba(160,32,240,.4)}
+.orb:before{content:'';position:absolute;inset:-38%;border-radius:45%;
+background:conic-gradient(from 0deg,transparent,rgba(255,68,204,.42),transparent 42%,rgba(34,224,255,.36),transparent 78%);
+animation:swirl 9s linear infinite}
+@keyframes swirl{to{transform:rotate(360deg)}}
+.orb:after{content:'';position:absolute;top:14%;left:22%;width:26%;height:18%;border-radius:50%;
+background:rgba(255,255,255,.6);filter:blur(4px)}
+.stand{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:52px;height:11px;
+border-radius:0 0 12px 12px;background:linear-gradient(180deg,#ffd166,#8a5a12)}
 
-  /* ── canvas bg ── */
-  #bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-
-  /* ── grain ── */
-  body::after {
-    content: '';
-    position: fixed; inset: 0; z-index: 1; pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    opacity: 0.35; mix-blend-mode: overlay;
-  }
-
-  /* ── layout wrapper ── */
-  .page { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; padding: 0 1.25rem 4rem; }
-
-
-  /* ══════════════════════════════
-     WONDERLAND WEEKLY — die-cut blow-in
-  ══════════════════════════════ */
-  .ww-blowin {
-    position: relative; display: flex; align-items: flex-end; gap: 1.75rem;
-    text-decoration: none; border-radius: 14px;
-    margin-top: 5.5rem; padding: 2rem 2rem 1.9rem;
-    border: 1px solid rgba(255,79,184,0.28);
-    background:
-      radial-gradient(circle at 1px 1px, rgba(255,79,184,0.14) 1px, transparent 1.7px) 0 0 / 10px 10px,
-      radial-gradient(620px 240px at 88% -30%, rgba(255,217,59,0.10), transparent 70%),
-      linear-gradient(135deg, rgba(255,79,184,0.08) 0%, rgba(196,125,255,0.05) 50%, rgba(0,0,0,0) 78%);
-    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
-  }
-  .ww-blowin:hover {
-    transform: translateY(-3px); border-color: rgba(255,79,184,0.6);
-    box-shadow: 0 8px 44px rgba(255,79,184,0.16), 0 2px 12px rgba(0,0,0,0.45);
-  }
-  .ww-cutout { flex: 0 0 auto; width: clamp(130px, 20vw, 190px); margin: -6.5rem 0 -1.9rem; }
-  .ww-cutout img {
-    width: 100%; height: auto; display: block;
-    filter: drop-shadow(0 14px 30px rgba(0,0,0,0.6)) drop-shadow(0 0 20px rgba(255,79,184,0.32));
-    transition: transform 0.25s ease;
-  }
-  .ww-blowin:hover .ww-cutout img { transform: translateY(-6px) rotate(-1.5deg); }
-  .ww-cover { flex: 1 1 auto; min-width: 0; }
-  .ww-flash {
-    display: inline-block; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--deep); background: var(--lime); padding: 0.25rem 0.55rem;
-    border-radius: 3px; transform: rotate(-2deg); margin-bottom: 0.75rem;
-  }
-  .ww-masthead {
-    font-family: 'VT323', monospace; font-size: clamp(2rem, 6vw, 2.8rem);
-    letter-spacing: 0.06em; line-height: 1.05; color: #fff; margin-bottom: 0.25rem;
-  }
-  .ww-masthead b { color: var(--pink); font-weight: normal; }
-  .ww-issue {
-    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
-    color: rgba(200,180,255,0.45); margin-bottom: 1rem;
-  }
-  .ww-lines { list-style: none; margin-bottom: 1.2rem; }
-  .ww-lines li {
-    font-size: 0.78rem; line-height: 1.6; letter-spacing: 0.04em;
-    color: rgba(255,255,255,0.8); padding-left: 1rem; position: relative; margin-bottom: 0.3rem;
-  }
-  .ww-lines li::before { content: '✦'; position: absolute; left: 0; top: 0.15rem; font-size: 0.6rem; color: var(--pink); }
-  .ww-lines b { color: var(--gold); font-weight: normal; }
-  .ww-cta {
-    display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem;
-    letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); transition: gap 0.18s;
-  }
-  .ww-blowin:hover .ww-cta { gap: 0.8rem; }
-  @media (max-width: 620px) {
-    .ww-blowin { flex-direction: column; align-items: center; text-align: center; gap: 0.75rem; padding-top: 1.5rem; }
-    .ww-cutout { margin: -6rem 0 0; }
-    .ww-lines li { text-align: left; }
-  }
-
-  /* ══════════════════════════════
-     HERO
-  ══════════════════════════════ */
-  .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 3.5rem 0 2.5rem;
-    text-align: center;
-    position: relative;
-  }
-
-  /* live badge */
-  .live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-size: 0.85rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: rgba(157,255,74,0.7);
-    background: rgba(157,255,74,0.06);
-    border: 1px solid rgba(157,255,74,0.2);
-    border-radius: 100px;
-    padding: 0.3rem 0.85rem;
-    margin-bottom: 1.6rem;
-  }
-  .live-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--lime);
-    box-shadow: 0 0 8px var(--lime);
-    animation: pulse 1.6s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50%      { opacity: 0.4; transform: scale(0.7); }
-  }
-
-  /* TV icon */
-  .hero-tv {
-    font-size: 3.2rem;
-    margin-bottom: 0.6rem;
-    display: block;
-    animation: tvFloat 4s ease-in-out infinite;
-    filter: drop-shadow(0 0 12px rgba(192,84,252,0.5));
-  }
-  @keyframes tvFloat {
-    0%,100% { transform: translateY(0); filter: drop-shadow(0 0 10px rgba(255,79,184,0.5)); }
-    50%      { transform: translateY(-8px); filter: drop-shadow(0 0 18px rgba(61,255,214,0.5)); }
-  }
-
-  /* logo */
-  .hero-logo {
-    width: min(70vw, 420px);
-    height: auto;
-    display: block;
-    margin: 0 auto 0.5rem;
-    filter: drop-shadow(0 0 30px rgba(255,110,247,0.35)) drop-shadow(0 0 60px rgba(110,239,255,0.15));
-    animation: logo-glow 4s ease-in-out infinite;
-  }
-  @keyframes logo-glow {
-    0%, 100% { filter: drop-shadow(0 0 30px rgba(255,110,247,0.35)) drop-shadow(0 0 60px rgba(110,239,255,0.15)); }
-    50% { filter: drop-shadow(0 0 45px rgba(255,110,247,0.55)) drop-shadow(0 0 80px rgba(110,239,255,0.25)); }
-  }
-  .hero-title {
-    font-family: 'VT323', monospace;
-    font-size: clamp(3rem, 10vw, 5.5rem);
-    letter-spacing: 0.1em;
-    line-height: 1;
-    background: linear-gradient(90deg, var(--pink), var(--purple), var(--lime), var(--cyan), var(--pink));
-    background-size: 300% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: shimmer 4s linear infinite;
-    margin-bottom: 0.4rem;
-  }
-  @keyframes shimmer { to { background-position: 300% center; } }
-
-  .hero-tagline {
-    font-size: 0.95rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: rgba(200,180,255,0.4);
-    margin-bottom: 1rem;
-  }
-  .hero-tagline em {
-    color: rgba(157,255,74,0.6);
-    font-style: normal;
-    margin: 0 0.3rem;
-  }
-
-  .hero-divider {
-    width: 100%;
-    max-width: 420px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(192,84,252,0.4), rgba(61,255,214,0.4), transparent);
-    margin: 0.5rem auto 0;
-  }
-
-  /* ══════════════════════════════
-     SECTION LABELS
-  ══════════════════════════════ */
-  .section-label {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin: 2.8rem 0 1.1rem;
-  }
-  .section-label span {
-    font-size: 0.85rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: rgba(200,180,255,0.35);
-    white-space: nowrap;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, rgba(180,100,255,0.2), transparent);
-  }
-
-  /* ══════════════════════════════
-     FEATURED CARD
-  ══════════════════════════════ */
-  .card-featured {
-    display: block;
-    text-decoration: none;
-    position: relative;
-    border-radius: 14px;
-    border: 1px solid rgba(157,255,74,0.18);
-    background: linear-gradient(135deg, rgba(157,255,74,0.05) 0%, rgba(0,0,0,0) 60%);
-    overflow: hidden;
-    padding: 2rem 2rem 1.75rem;
-    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-  }
-  .card-featured::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(157,255,74,0.5), rgba(61,255,214,0.4), transparent);
-  }
-  .card-featured:hover {
-    transform: translateY(-3px);
-    border-color: rgba(157,255,74,0.45);
-    box-shadow: 0 8px 40px rgba(157,255,74,0.1), 0 2px 12px rgba(0,0,0,0.4);
-  }
-  .card-featured .card-eyebrow {
-    font-size: 0.85rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--lime);
-    margin-bottom: 0.6rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .card-featured .card-eyebrow::before {
-    content: '';
-    width: 20px; height: 1px;
-    background: var(--lime);
-    opacity: 0.5;
-  }
-  .card-featured .card-title {
-    font-family: 'VT323', monospace;
-    font-size: clamp(2rem, 6vw, 2.8rem);
-    letter-spacing: 0.06em;
-    line-height: 1.1;
-    color: #fff;
-    margin-bottom: 0.6rem;
-  }
-  .card-featured .card-desc {
-    font-size: 0.95rem;
-    line-height: 1.9;
-    color: rgba(200,180,255,0.5);
-    max-width: 520px;
-    letter-spacing: 0.05em;
-    margin-bottom: 1.2rem;
-  }
-  .card-featured .card-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.95rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--lime);
-    transition: gap 0.18s;
-  }
-  .card-featured:hover .card-cta { gap: 0.8rem; }
-  .card-featured .card-emoji {
-    position: absolute;
-    right: 1.75rem; top: 50%;
-    transform: translateY(-50%);
-    font-size: 4rem;
-    opacity: 0.12;
-    pointer-events: none;
-    transition: opacity 0.22s, transform 0.22s;
-  }
-  .card-featured:hover .card-emoji { opacity: 0.2; transform: translateY(-50%) scale(1.08); }
+/* ── MUSIC BOX ── */
+.mbox{--plum:#2a1030;--rose:#ff8fc7;--gold:#ffd98a;--mint:#7bf1e4;--cream:#fdeaf6;
+background:radial-gradient(120% 95% at 20% 18%,rgba(255,143,199,.36),transparent 62%),
+radial-gradient(100% 85% at 84% 86%,rgba(123,241,228,.26),transparent 62%),
+linear-gradient(158deg,var(--plum) 0%,#150719 72%);
+border:1px solid rgba(255,217,138,.32);box-shadow:0 16px 44px rgba(0,0,0,.5)}
+.mbox:hover{border-color:rgba(255,217,138,.72);box-shadow:0 22px 58px rgba(255,143,199,.26)}
+.mbox .eyebrow{color:var(--gold)}
+.mbox h3{color:var(--cream)}
+.mbox .sub{color:#e0cfe0}
+.mbox .go{background:linear-gradient(96deg,var(--gold),var(--cream) 45%,var(--rose));color:#2a0d20;
+box-shadow:0 5px 18px rgba(255,143,199,.36)}
+.notes{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.notes i{position:absolute;font-style:normal;font-size:15px;color:var(--rose);opacity:0;
+animation:float 6s ease-in-out infinite}
+.notes i:nth-child(2n){color:var(--mint);font-size:12px}
+.notes i:nth-child(3n){color:var(--gold);font-size:17px}
+@keyframes float{0%{opacity:0;transform:translateY(10px) rotate(-8deg)}
+20%{opacity:.9}100%{opacity:0;transform:translateY(-96px) rotate(14deg)}}
+.box{width:88px;height:66px;position:relative}
+.lid{position:absolute;z-index:2;top:0;left:0;width:88px;height:22px;border-radius:6px 6px 2px 2px;
+background:linear-gradient(160deg,#5c2547,#3a1430);border:1px solid rgba(255,217,138,.5);
+transform-origin:left bottom;animation:lift 4.2s ease-in-out infinite}
+@keyframes lift{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(-26deg)}}
+.base{position:absolute;z-index:1;bottom:0;width:88px;height:46px;border-radius:3px 3px 7px 7px;
+background:linear-gradient(160deg,#4a1c3a,#2a1030);border:1px solid rgba(255,217,138,.42)}
+.ballerina{position:absolute;z-index:3;bottom:42px;left:50%;width:9px;height:22px;margin-left:-4.5px;
+background:linear-gradient(180deg,var(--cream),var(--rose));border-radius:50% 50% 30% 30%;
+transform-origin:50% 100%;animation:twirl 3.1s linear infinite;
+box-shadow:0 0 12px rgba(255,143,199,.8)}
+@keyframes twirl{to{transform:rotateY(360deg)}}
 
 
+.two{--night:#0b1026;--night2:#141b3d;--gold:#e0b64c;--lit:#ffe6a6;--turq:#3fb3a6;
+--carn:#c05a3c;--papyrus:#e9dcbb;--sand:#c9b489;
+background:radial-gradient(120% 95% at 24% 16%,rgba(224,182,76,.26),transparent 60%),
+radial-gradient(100% 85% at 82% 88%,rgba(63,179,166,.24),transparent 62%),
+linear-gradient(158deg,var(--night2) 0%,var(--night) 74%);
+border:1px solid rgba(224,182,76,.36);box-shadow:0 16px 44px rgba(0,0,0,.55)}
+.two:hover{border-color:rgba(255,230,166,.75);box-shadow:0 22px 58px rgba(224,182,76,.24)}
+.two .eyebrow{color:var(--turq)}
+.two h3{color:var(--papyrus)}
+.two .sub{color:var(--sand)}
+.two .go{background:linear-gradient(96deg,var(--gold),var(--lit) 48%,var(--carn));color:#1b1405;
+box-shadow:0 5px 18px rgba(224,182,76,.36)}
+.shrine{width:96px;height:96px;position:relative;display:grid;place-items:center}
+.col{position:absolute;top:6px;width:11px;height:84px;border-radius:2px;
+background:linear-gradient(180deg,var(--sand),#6b5a38);border:1px solid rgba(224,182,76,.4)}
+.col.l{left:2px}.col.r{right:2px}
+.col:before{content:'';position:absolute;top:-5px;left:-3px;width:17px;height:7px;border-radius:2px;
+background:var(--gold)}
+.eye{width:52px;height:52px;position:relative}
+.eye svg{width:52px;height:52px;filter:drop-shadow(0 0 12px rgba(224,182,76,.65));
+animation:gaze 5s ease-in-out infinite}
+@keyframes gaze{0%,100%{opacity:.82;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+.rays{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.rays i{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--lit);
+box-shadow:0 0 7px 2px rgba(255,230,166,.6);animation:drift 6s ease-in-out infinite;opacity:0}
+@keyframes drift{0%{opacity:0;transform:translateY(8px)}25%{opacity:.9}
+100%{opacity:0;transform:translateY(-70px)}}
 
-  /* ══════════════════════════════
-     INCOMING TRANSMISSION (Herkimer)
-  ══════════════════════════════ */
-  .tx-wrap { margin: 3.4rem 0 3.6rem; }
-  .tx-label {
-    display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.4rem;
-    font-size: 0.78rem; letter-spacing: 0.34em; text-transform: uppercase; color: #9fd8ff;
-  }
-  .tx-label::after { content:''; flex:1; height:1px; background: linear-gradient(90deg, rgba(159,216,255,0.5), transparent); }
-  .tx-live {
-    display:inline-flex; align-items:center; gap:0.4rem;
-    font-size:0.62rem; letter-spacing:0.22em; color:#fff;
-    border:1px solid #9fd8ff; border-radius:999px; padding:0.25rem 0.7rem;
-    background: rgba(159,216,255,0.08);
-  }
-  .tx-live i { width:7px; height:7px; border-radius:50%; background:#9fd8ff; box-shadow:0 0 8px #9fd8ff; animation: txBlink 1.1s steps(1) infinite; }
-  @keyframes txBlink { 0%,60% {opacity:1} 61%,100% {opacity:0.15} }
+@media(max-width:560px){.cta .in{flex-direction:column;text-align:center;gap:18px}
+.cta .sub{max-width:none}.cta h3{font-size:22px}}
+@media(prefers-reduced-motion:reduce){
+.emb i,.notes i,.fire,.orb:before,.lid,.ballerina{animation:none}
+.cta,.sheen,.cta .go span:last-child{transition:none}}
+.wand-cta{
+  --void:#190522; --plum:#45114a; --rose:#ff5fa8; --lilac:#c48cff;
+  --gold:#ffd9a0; --cream:#fdeaf6; --slab:#26082c;
+  position:relative; display:block; max-width:640px; margin:0 auto;
+  border-radius:20px; padding:34px 30px 30px; overflow:hidden; text-decoration:none;
+  background:
+    radial-gradient(120% 90% at 18% 12%, rgba(196,140,255,.34), transparent 60%),
+    radial-gradient(110% 90% at 84% 88%, rgba(255,95,168,.30), transparent 62%),
+    linear-gradient(158deg, var(--plum) 0%, var(--slab) 58%, var(--void) 100%);
+  border:1px solid rgba(255,217,160,.34);
+  box-shadow:0 0 0 1px rgba(196,140,255,.12) inset, 0 18px 46px rgba(0,0,0,.5);
+  transition:transform .28s cubic-bezier(.2,.9,.3,1.2), box-shadow .28s ease, border-color .28s ease;
+}
+.wand-cta:hover{
+  transform:translateY(-4px);
+  border-color:rgba(255,217,160,.75);
+  box-shadow:0 0 0 1px rgba(255,217,160,.2) inset, 0 24px 60px rgba(255,95,168,.28);
+}
 
-  .tx-set { display:block; text-decoration:none; position:relative; }
-  .tx-screen {
-    position:relative; overflow:hidden; border-radius:18px;
-    border: 2.5px solid #9fd8ff;
-    background:
-      radial-gradient(120% 140% at 80% 50%, rgba(159,216,255,0.18), transparent 55%),
-      #05040f;
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset, 0 14px 44px -16px rgba(159,216,255,0.55);
-    padding: 2.1rem 1.8rem 1.9rem;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-  .tx-set:hover .tx-screen { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 20px 60px -16px rgba(159,216,255,0.7), 0 0 34px -4px rgba(159,216,255,0.5); }
-  .tx-noise { position:absolute; inset:-50%; z-index:1; pointer-events:none; opacity:0.10;
-    background-image:
-      repeating-radial-gradient(circle at 17% 32%, #fff 0 0.6px, transparent 0.6px 4px),
-      repeating-radial-gradient(circle at 73% 64%, #9fd8ff 0 0.5px, transparent 0.5px 3px),
-      repeating-radial-gradient(circle at 44% 81%, #fff 0 0.5px, transparent 0.5px 5px);
-    animation: txStatic 0.42s steps(4) infinite; }
-  @keyframes txStatic {
-    0% { transform: translate(0,0) } 25% { transform: translate(-2%,1.5%) }
-    50% { transform: translate(1.5%,-2%) } 75% { transform: translate(-1%,-1%) } 100% { transform: translate(2%,2%) } }
-  .tx-scan { position:absolute; inset:0; z-index:2; pointer-events:none;
-    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0 1px, transparent 1px 3px); mix-blend-mode:multiply; }
-  .tx-roll { position:absolute; left:0; right:0; height:64px; z-index:2; pointer-events:none;
-    background: linear-gradient(180deg, transparent, rgba(159,216,255,0.12), transparent);
-    animation: txRoll 4.5s linear infinite; }
-  @keyframes txRoll { 0% { top:-70px } 100% { top:110% } }
+/* glitter: three drifting layers of tiny sparks */
+.glit{position:absolute;inset:-20%;pointer-events:none;z-index:0;opacity:.85}
+.glit i{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--cream);
+  box-shadow:0 0 6px 1px currentColor;animation:twinkle 3.4s ease-in-out infinite}
+.glit i:nth-child(3n){background:var(--gold);color:var(--gold);width:4px;height:4px}
+.glit i:nth-child(3n+1){background:var(--rose);color:var(--rose)}
+.glit i:nth-child(3n+2){background:var(--lilac);color:var(--lilac)}
+@keyframes twinkle{
+  0%,100%{opacity:0;transform:translateY(0) scale(.5)}
+  40%{opacity:1;transform:translateY(-7px) scale(1.15)}
+  70%{opacity:.5;transform:translateY(-12px) scale(.8)}
+}
 
-  .tx-inner { position:relative; z-index:3; display:flex; align-items:center; gap:1.6rem; flex-wrap:wrap; }
-  .tx-gem { flex:none; width:110px; height:110px; border-radius:14px; overflow:hidden; border:1.5px solid rgba(159,216,255,0.6);
-    box-shadow: 0 0 22px -4px rgba(159,216,255,0.6); transform: rotate(-2.5deg); }
-  .tx-gem img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.05); }
-  .tx-copy { flex:1; min-width: 15rem; }
-  .tx-chan { display:block; font-family:'VT323', monospace; font-size:1rem; letter-spacing:0.14em; color:#9fd8ff; text-shadow:0 0 8px rgba(159,216,255,0.8); margin-bottom:0.35rem; }
-  .tx-title { display:block; font-family:'VT323', monospace; font-size: clamp(1.9rem, 4.5vw, 3rem); line-height:0.95; color:#fff; position:relative; animation: txGlitch 3.2s infinite; }
-  @keyframes txGlitch {
-    0%, 91%, 100% { text-shadow: 0 0 12px rgba(159,216,255,0.7); transform: none; }
-    92% { text-shadow: -2px 0 #ff4fb8, 2px 0 #3dffd6; transform: translateX(1px); }
-    94% { text-shadow: 2px 0 #ff4fb8, -2px 0 #3dffd6; transform: translateX(-1.5px) skewX(-2deg); }
-    96% { text-shadow: -1.5px 0 #ff4fb8, 1.5px 0 #3dffd6; transform: translateX(0.5px); }
-  }
-  .tx-sub { display:block; margin-top:0.55rem; font-size:0.86rem; letter-spacing:0.06em; color: rgba(200,225,255,0.68); line-height:1.7; max-width:34rem; }
-  .tx-cta { flex:none; display:inline-flex; align-items:center; gap:0.5rem;
-    font-size:0.74rem; letter-spacing:0.24em; text-transform:uppercase; color:#05040f;
-    background:#9fd8ff; border-radius:999px; padding:0.85rem 1.5rem; white-space:nowrap;
-    box-shadow: 0 8px 26px -8px rgba(159,216,255,0.8); transition: gap 0.2s ease; }
-  .tx-set:hover .tx-cta { gap:0.9rem; }
-  @media (max-width: 640px) { .tx-inner { gap:1.1rem } .tx-gem { width:84px; height:84px } }
-  @media (prefers-reduced-motion: reduce) { .tx-noise, .tx-roll, .tx-title, .tx-live i { animation: none !important } }
+/* the sweep of light that crosses on hover */
+.sheen{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(104deg,transparent 38%,rgba(253,234,246,.20) 48%,transparent 58%);
+  transform:translateX(-120%);transition:transform .85s cubic-bezier(.3,.8,.3,1)}
+.wand-cta:hover .sheen{transform:translateX(120%)}
 
-  /* ══════════════════════════════
-     THE VAULTS (curated shop · TV sets)
-  ══════════════════════════════ */
-  .vault-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.3rem; margin-bottom: 2.5rem;
-  }
-  .vault-tv { text-decoration: none; display: block; transition: transform 0.25s ease; }
-  .vault-tv:hover { transform: translateY(-5px); }
-  /* antennae */
-  .tv-antenna { position: relative; height: 26px; margin: 0 auto; width: 90px; }
-  .tv-antenna::before, .tv-antenna::after {
-    content: ''; position: absolute; bottom: 0; left: 50%; width: 2.5px; height: 26px;
-    background: var(--vc); border-radius: 2px; transform-origin: bottom center;
-  }
-  .tv-antenna::before { transform: rotate(-32deg); }
-  .tv-antenna::after  { transform: rotate(26deg); }
-  .tv-antenna .tip-l, .tv-antenna .tip-r {
-    position: absolute; width: 7px; height: 7px; border-radius: 50%;
-    background: var(--vc); box-shadow: 0 0 8px var(--vc); top: -2px;
-  }
-  .tv-antenna .tip-l { left: calc(50% - 18px); }
-  .tv-antenna .tip-r { left: calc(50% + 10px); }
-  /* body */
-  .tv-body {
-    border: 2.5px solid var(--vc); border-radius: 16px; overflow: hidden;
-    background: #22093a;
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset, 0 12px 34px -14px var(--vglow);
-    transition: box-shadow 0.25s ease;
-  }
-  .vault-tv:hover .tv-body { box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 16px 44px -12px var(--vglow), 0 0 30px -6px var(--vglow); }
-  /* screen */
-  .tv-screen { position: relative; aspect-ratio: 4/3; overflow: hidden; background: #000; }
-  .tv-screen img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
-    transition: transform 0.35s ease; filter: saturate(1.05);
-  }
-  .vault-tv:hover .tv-screen img { transform: scale(1.06); }
-  .tv-screen::before { /* scanlines */
-    content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
-    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.16) 0 1px, transparent 1px 3px);
-    mix-blend-mode: multiply;
-  }
-  .tv-screen::after { /* glass glare */
-    content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none;
-    background: radial-gradient(90% 60% at 30% 12%, rgba(255,255,255,0.14), transparent 55%);
-  }
-  .tv-chan {
-    position: absolute; top: 0.55rem; right: 0.6rem; z-index: 4;
-    font-family: 'VT323', monospace; font-size: 0.95rem; letter-spacing: 0.08em;
-    color: var(--vc); text-shadow: 0 0 6px var(--vc); animation: chanBlink 2.6s steps(1) infinite;
-  }
-  @keyframes chanBlink { 0%, 88% { opacity: 1 } 92% { opacity: 0.25 } 96% { opacity: 1 } }
-  .tv-onair {
-    position: absolute; bottom: 0.55rem; left: 0.6rem; z-index: 4;
-    font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: #fff; background: rgba(13,8,32,0.72); border: 1px solid var(--vc);
-    border-radius: 999px; padding: 0.22rem 0.55rem; backdrop-filter: blur(2px);
-  }
-  .tv-onair::before { content: '●'; color: var(--vc); margin-right: 0.35rem; animation: chanBlink 1.8s steps(1) infinite; }
-  /* control panel */
-  .tv-panel {
-    display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
-    padding: 0.75rem 0.95rem; border-top: 1.5px solid var(--vc);
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
-  }
-  .tv-label { min-width: 0; text-align: left; }
-  .tv-name { font-family: 'VT323', monospace; font-size: 1.4rem; letter-spacing: 0.05em; color: #fff; line-height: 1; }
-  .tv-tag { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--vc); margin-top: 0.25rem; }
-  .tv-knobs { display: flex; gap: 0.45rem; flex: none; }
-  .tv-knobs i {
-    width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--vc);
-    position: relative; opacity: 0.85;
-  }
-  .tv-knobs i::after {
-    content: ''; position: absolute; top: 1px; left: 50%; width: 1.5px; height: 4px;
-    background: var(--vc); transform: translateX(-50%);
-  }
-  .tv-knobs i:nth-child(2)::after { transform: translateX(-50%) rotate(65deg); transform-origin: bottom; }
-  .vault-tv:hover .tv-knobs i:first-child::after { transform: translateX(-50%) rotate(120deg); transform-origin: bottom; transition: transform .3s; }
-  .tv-enter {
-    display: block; text-align: center; margin-top: 0.6rem;
-    font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--vc);
-  }
-  .vault-note {
-    text-align: center; font-size: 0.78rem; letter-spacing: 0.06em;
-    color: rgba(200,180,255,0.35); margin: -1.4rem 0 2.4rem;
-  }
-  .vault-note a { color: rgba(200,180,255,0.6); }
+.cta .in{position:relative;z-index:3;display:flex;align-items:center;gap:24px}
 
-  /* ══════════════════════════════
-     NEWSSTAND TEASER
-  ══════════════════════════════ */
-  .newsstand-teaser {
-    display: block; text-decoration: none; position: relative; overflow: hidden;
-    border-radius: 14px; border: 1px solid rgba(61,255,214,0.22);
-    background:
-      radial-gradient(620px 220px at 86% -30%, rgba(255,79,184,0.10), transparent 70%),
-      linear-gradient(135deg, rgba(61,255,214,0.06) 0%, rgba(192,84,252,0.04) 45%, rgba(0,0,0,0) 75%);
-    padding: 2rem 2rem 1.9rem;
-    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-  }
-  .newsstand-teaser::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(61,255,214,0.6), rgba(255,79,184,0.5), rgba(255,217,59,0.5), transparent);
-    background-size: 200% 100%; animation: nsSlide 6s linear infinite;
-  }
-  @keyframes nsSlide { 0% { background-position: 0 0; } 100% { background-position: 200% 0; } }
-  .newsstand-teaser:hover {
-    transform: translateY(-3px); border-color: rgba(61,255,214,0.5);
-    box-shadow: 0 8px 44px rgba(61,255,214,0.12), 0 2px 12px rgba(0,0,0,0.45);
-  }
-  .newsstand-teaser .ns-eyebrow {
-    font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cyan);
-    margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem;
-  }
-  .newsstand-teaser .ns-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--cyan); opacity: 0.5; }
-  .newsstand-teaser .ns-title {
-    font-family: 'VT323', monospace; font-size: clamp(2rem, 6vw, 2.8rem); letter-spacing: 0.06em;
-    line-height: 1.1; color: #fff; margin-bottom: 0.55rem;
-  }
-  .newsstand-teaser .ns-title b { color: var(--pink); font-weight: normal; }
-  .newsstand-teaser .ns-desc {
-    font-size: 0.95rem; line-height: 1.9; color: rgba(200,180,255,0.5);
-    max-width: 540px; letter-spacing: 0.05em; margin-bottom: 1.1rem;
-  }
-  .ns-rack { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.2rem; }
-  .ns-spine {
-    font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
-    color: rgba(255,255,255,0.82); padding: 0.4rem 0.7rem; border-radius: 6px;
-    border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.03);
-    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-  }
-  .ns-spine:nth-child(2) { transform: rotate(1deg); }
-  .ns-spine:nth-child(3) { transform: rotate(-1deg); }
-  .ns-spine:nth-child(4) { transform: rotate(1.5deg); }
-  .newsstand-teaser:hover .ns-spine { transform: translateY(-2px) rotate(-1.5deg); }
-  .ns-spine.more { color: var(--gold); border-color: rgba(255,217,59,0.35); background: rgba(255,217,59,0.06); }
-  .newsstand-teaser .ns-cta {
-    display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem;
-    letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); transition: gap 0.18s;
-  }
-  .newsstand-teaser:hover .ns-cta { gap: 0.8rem; }
-  .newsstand-teaser .ns-emoji {
-    position: absolute; right: 1.8rem; top: 50%; transform: translateY(-50%);
-    font-size: 4.5rem; opacity: 0.12; pointer-events: none; transition: opacity 0.22s, transform 0.22s;
-  }
-  .newsstand-teaser:hover .ns-emoji { opacity: 0.2; transform: translateY(-50%) scale(1.08) rotate(-4deg); }
-  @media (max-width: 600px) {
-    .newsstand-teaser { padding: 1.4rem 1.25rem; }
-    .newsstand-teaser .ns-emoji { display: none; }
-  }
-  @media (prefers-reduced-motion: reduce) { .newsstand-teaser::before { animation: none; } }
+.orb{flex:0 0 auto;width:96px;height:96px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 34% 30%, rgba(253,234,246,.5), rgba(196,140,255,.28) 42%, transparent 70%);
+  border:1px solid rgba(255,217,160,.4);position:relative}
+.orb:after{content:'';position:absolute;inset:-9px;border-radius:50%;
+  border:1px dashed rgba(196,140,255,.4);animation:spin 15s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orb svg{width:46px;height:46px;animation:wave 3.6s ease-in-out infinite;transform-origin:70% 78%}
+@keyframes wave{0%,100%{transform:rotate(-13deg)}50%{transform:rotate(13deg)}}
 
-  /* ══════════════════════════════
-     CARD GRID
-  ══════════════════════════════ */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 0.9rem;
-  }
+.eyebrow{font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.26em;
+  color:var(--gold);text-transform:uppercase}
+h3{font-family:Orbitron,monospace;font-size:27px;line-height:1.1;margin:9px 0 8px;
+  background:linear-gradient(100deg,var(--cream),var(--gold) 35%,var(--rose) 68%,var(--lilac));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-size:13px;line-height:1.62;color:#e3cfe6;max-width:330px}
 
-  .card {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    border-radius: 12px;
-    border: 1px solid var(--card-border, rgba(255,255,255,0.07));
-    background: var(--card-bg, rgba(255,255,255,0.02));
-    padding: 1.4rem 1.4rem 1.25rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--card-glow, transparent);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .card:hover { transform: translateY(-3px); }
-  .card:hover::before { opacity: 1; }
+.go{display:inline-flex;align-items:center;gap:9px;margin-top:16px;padding:11px 20px;
+  border-radius:999px;font-size:12px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--void);font-weight:500;
+  background:linear-gradient(96deg,var(--gold),var(--cream) 45%,var(--rose));
+  box-shadow:0 5px 18px rgba(255,95,168,.34)}
+.wand-cta:hover .go{box-shadow:0 7px 26px rgba(255,217,160,.5)}
+.go span:last-child{transition:transform .25s ease}
+.wand-cta:hover .go span:last-child{transform:translateX(4px)}
 
-  .card-icon { font-size: 1.6rem; margin-bottom: 0.75rem; line-height: 1; }
-  .card-name {
-    font-family: 'VT323', monospace;
-    font-size: 1.65rem;
-    letter-spacing: 0.06em;
-    line-height: 1.15;
-    color: var(--card-color, #fff);
-    margin-bottom: 0.4rem;
-  }
-  .card-hint {
-    font-size: 0.85rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--card-muted, rgba(200,180,255,0.3));
-    margin-bottom: auto;
-    padding-bottom: 1rem;
-    line-height: 1.8;
-  }
-  .card-link-label {
-    font-size: 0.8rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--card-color, rgba(200,180,255,0.4));
-    opacity: 0.5;
-    transition: opacity 0.18s;
-  }
-  .card:hover .card-link-label { opacity: 1; }
-
-  /* color variants */
-  .card.v-purple {
-    --card-bg: rgba(192,84,252,0.05);
-    --card-border: rgba(192,84,252,0.18);
-    --card-color: var(--purple);
-    --card-muted: rgba(192,84,252,0.4);
-    --card-glow: linear-gradient(135deg, rgba(192,84,252,0.06), transparent);
-  }
-  .card.v-purple:hover { border-color: rgba(192,84,252,0.45); box-shadow: 0 6px 30px rgba(192,84,252,0.1); }
-
-  .card.v-gold {
-    --card-bg: rgba(255,217,59,0.04);
-    --card-border: rgba(255,217,59,0.18);
-    --card-color: var(--gold);
-    --card-muted: rgba(255,217,59,0.4);
-    --card-glow: linear-gradient(135deg, rgba(255,217,59,0.05), transparent);
-  }
-  .card.v-gold:hover { border-color: rgba(255,217,59,0.45); box-shadow: 0 6px 30px rgba(255,217,59,0.1); }
-
-  .card.v-teal {
-    --card-bg: rgba(0,200,180,0.04);
-    --card-border: rgba(0,200,180,0.18);
-    --card-color: var(--teal);
-    --card-muted: rgba(0,200,180,0.4);
-    --card-glow: linear-gradient(135deg, rgba(0,200,180,0.05), transparent);
-  }
-  .card.v-teal:hover { border-color: rgba(0,200,180,0.45); box-shadow: 0 6px 30px rgba(0,200,180,0.1); }
-
-  .card.v-cyan {
-    --card-bg: rgba(61,255,214,0.04);
-    --card-border: rgba(61,255,214,0.15);
-    --card-color: var(--cyan);
-    --card-muted: rgba(61,255,214,0.4);
-    --card-glow: linear-gradient(135deg, rgba(61,255,214,0.05), transparent);
-  }
-  .card.v-cyan:hover { border-color: rgba(61,255,214,0.45); box-shadow: 0 6px 30px rgba(61,255,214,0.1); }
-
-  .card.v-pink {
-    --card-bg: rgba(255,79,184,0.04);
-    --card-border: rgba(255,79,184,0.18);
-    --card-color: var(--pink);
-    --card-muted: rgba(255,79,184,0.4);
-    --card-glow: linear-gradient(135deg, rgba(255,79,184,0.05), transparent);
-  }
-  .card.v-pink:hover { border-color: rgba(255,79,184,0.45); box-shadow: 0 6px 30px rgba(255,79,184,0.1); }
-
-  /* external badge */
-  .ext-badge {
-    position: absolute;
-    top: 0.85rem; right: 0.85rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: rgba(200,180,255,0.25);
-    border: 1px solid rgba(200,180,255,0.12);
-    border-radius: 4px;
-    padding: 0.15rem 0.4rem;
-  }
-
-  /* ══════════════════════════════
-     THE TRANSMISSION MAP (footer nav)
-  ══════════════════════════════ */
-  .tmap {
-    position: relative; overflow: hidden;
-    margin-top: 4rem; padding: 2.6rem 1.8rem 2.4rem;
-    border-radius: 20px;
-    border: 1px solid rgba(196,125,255,0.28);
-    background:
-      radial-gradient(600px 260px at 15% 0%, rgba(255,79,184,0.10), transparent 65%),
-      radial-gradient(600px 260px at 85% 100%, rgba(61,255,214,0.10), transparent 65%),
-      linear-gradient(160deg, #260b40 0%, #1b0630 55%, #16031f 100%);
-    box-shadow: 0 0 30px rgba(196,125,255,0.12), inset 0 0 60px rgba(0,0,0,0.4);
-  }
-  /* aurora shimmer drifting through the map */
-  .tmap::before {
-    content: ''; position: absolute; inset: -40%; pointer-events: none; z-index: 0;
-    background: conic-gradient(from 0deg,
-      transparent 0 18%, rgba(255,79,184,0.07) 24%, transparent 32%,
-      rgba(61,255,214,0.07) 46%, transparent 55%,
-      rgba(255,217,59,0.06) 68%, transparent 78%,
-      rgba(196,125,255,0.07) 90%, transparent 100%);
-    animation: tmapAurora 26s linear infinite;
-  }
-  @keyframes tmapAurora { to { transform: rotate(360deg); } }
-  /* scanlines over everything */
-  .tmap::after {
-    content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 3;
-    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.14) 0 1px, transparent 1px 3px);
-  }
-  /* shooting stars streaking across */
-  .tmap-shooter {
-    position: absolute; z-index: 1; pointer-events: none;
-    width: 130px; height: 1.5px; border-radius: 999px;
-    background: linear-gradient(90deg, transparent, #fff, transparent);
-    filter: drop-shadow(0 0 6px rgba(255,255,255,0.8));
-    opacity: 0; transform: rotate(-24deg);
-    animation: tmapShoot 9s linear infinite;
-  }
-  .tmap-shooter.s2 { animation-delay: 4.5s; animation-duration: 11s; transform: rotate(-16deg);
-    background: linear-gradient(90deg, transparent, var(--cyan), transparent); }
-  @keyframes tmapShoot {
-    0%, 88% { opacity: 0; left: -12%; top: 12%; }
-    89% { opacity: 1; }
-    96% { opacity: 1; left: 104%; top: 62%; }
-    97%, 100% { opacity: 0; left: 104%; top: 62%; }
-  }
-  .tmap-head { position: relative; z-index: 2; text-align: center; margin-bottom: 2rem; }
-  .tmap-kicker {
-    display: inline-block; font-size: 0.6rem; letter-spacing: 0.32em; text-transform: uppercase;
-    color: var(--cyan); border: 1px solid rgba(61,255,214,0.4); border-radius: 999px;
-    padding: 0.3rem 0.85rem; margin-bottom: 0.8rem;
-    text-shadow: 0 0 10px rgba(61,255,214,0.6); background: rgba(7,0,15,0.5);
-  }
-  .tmap-kicker::before { content: '◉ '; color: var(--pink); animation: kofiPing 1.6s ease-in-out infinite; }
-  .tmap-title {
-    font-family: 'VT323', monospace;
-    font-size: clamp(2rem, 6vw, 3rem); line-height: 1; letter-spacing: 0.06em;
-    background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan), var(--gold));
-    background-size: 250% 100%;
-    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-    animation: tmapHolo 7s ease-in-out infinite;
-    filter: drop-shadow(0 0 14px rgba(196,125,255,0.5));
-  }
-  @keyframes tmapHolo { 0%,100% { background-position: 0% 0; } 50% { background-position: 100% 0; } }
-  .tmap-sub {
-    margin-top: 0.4rem; font-size: 0.74rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: rgba(200,180,255,0.4);
-  }
-  .tmap-grid {
-    position: relative; z-index: 2;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.8rem 1.6rem;
-  }
-  .tmap-col { min-width: 0; }
-  .tmap-col-title {
-    font-family: 'VT323', monospace; font-size: 1.05rem; letter-spacing: 0.16em;
-    text-transform: uppercase; color: var(--tc, var(--purple));
-    text-shadow: 0 0 12px var(--tg, rgba(196,125,255,0.6));
-    padding-bottom: 0.5rem; margin-bottom: 0.7rem; position: relative;
-  }
-  .tmap-col-title::after { /* constellation line under each header */
-    content: ''; position: absolute; left: 0; bottom: 0; height: 1px; width: 100%;
-    background: linear-gradient(90deg, var(--tc, var(--purple)), transparent);
-    box-shadow: 0 0 8px var(--tg, rgba(196,125,255,0.6));
-  }
-  .tmap-col a {
-    display: block; text-decoration: none;
-    font-size: 0.82rem; letter-spacing: 0.06em; line-height: 1.4;
-    color: rgba(225,214,255,0.72); padding: 0.28rem 0 0.28rem 1.15rem;
-    position: relative; transition: color 0.18s ease, transform 0.18s ease, text-shadow 0.18s ease;
-  }
-  .tmap-col a::before { /* twinkling star bullet */
-    content: '✦'; position: absolute; left: 0; top: 0.28rem;
-    color: var(--tc, var(--purple)); font-size: 0.7rem;
-    animation: tmapTwinkle 2.6s ease-in-out infinite;
-  }
-  .tmap-col a:nth-child(2)::before { animation-delay: 0.3s; }
-  .tmap-col a:nth-child(3)::before { animation-delay: 0.9s; }
-  .tmap-col a:nth-child(4)::before { animation-delay: 1.4s; }
-  .tmap-col a:nth-child(5)::before { animation-delay: 0.6s; }
-  .tmap-col a:nth-child(6)::before { animation-delay: 1.9s; }
-  .tmap-col a:nth-child(7)::before { animation-delay: 1.1s; }
-  .tmap-col a:nth-child(8)::before { animation-delay: 2.2s; }
-  @keyframes tmapTwinkle {
-    0%, 100% { opacity: 0.45; transform: scale(0.85); }
-    50% { opacity: 1; transform: scale(1.15); }
-  }
-  .tmap-col a:hover {
-    color: #fff; transform: translateX(4px);
-    text-shadow: 0 0 12px var(--tg, rgba(196,125,255,0.8));
-  }
-  .tmap-col a:hover::before { animation: none; opacity: 1; transform: scale(1.35); filter: drop-shadow(0 0 6px var(--tc)); }
-  .tmap-col a .ext { font-size: 0.62rem; opacity: 0.5; margin-left: 0.3rem; }
-  .tmap-here {
-    position: relative; z-index: 2; text-align: center; margin-top: 2rem;
-    font-size: 0.66rem; letter-spacing: 0.26em; text-transform: uppercase;
-    color: rgba(200,180,255,0.35);
-  }
-  .tmap-here b {
-    color: var(--lime); font-weight: normal;
-    text-shadow: 0 0 10px rgba(157,255,74,0.7);
-  }
-  .tmap-here b::before {
-    content: '◉ '; animation: tmapPulseDot 1.6s ease-in-out infinite; display: inline-block;
-  }
-  @keyframes tmapPulseDot { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
-  @media (max-width: 560px) {
-    .tmap { padding: 2rem 1.2rem 1.9rem; }
-    .tmap-grid { grid-template-columns: 1fr 1fr; gap: 1.4rem 1.2rem; }
-  }
-
-  /* ══════════════════════════════
-     FOOTER
-  ══════════════════════════════ */
-  .hub-footer {
-    margin-top: 4rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-    text-align: center;
-  }
-  .footer-brand {
-    font-family: 'VT323', monospace;
-    font-size: 1.1rem;
-    letter-spacing: 0.2em;
-    background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .footer-copy {
-    font-size: 0.78rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: rgba(200,180,255,0.18);
-  }
-  .footer-404 {
-    font-size: 0.78rem;
-    letter-spacing: 0.2em;
-    color: rgba(200,180,255,0.2);
-    margin-top: 0.2rem;
-  }
-  .footer-404 a {
-    color: rgba(192,84,252,0.4);
-    text-decoration: none;
-    transition: color 0.18s;
-  }
-  .footer-404 a:hover { color: var(--purple); }
-
-  /* ── floating particles ── */
-  .particle {
-    position: fixed; pointer-events: none; z-index: 0;
-    border-radius: 50%;
-    animation: drift linear infinite;
-    opacity: 0;
-  }
-  @keyframes drift {
-    0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-    5%   { opacity: 1; }
-    95%  { opacity: 0.3; }
-    100% { transform: translateY(-30px) rotate(540deg); opacity: 0; }
-  }
-
-  /* ── responsive ── */
-  @media (max-width: 520px) {
-    .card-featured { padding: 1.4rem 1.25rem; }
-    .card-featured .card-emoji { display: none; }
-    .hero-title { letter-spacing: 0.04em; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; transition: none !important; }
-  }
-  /* ── RANDOM NOTE MINI TV ── */
-  .mtv-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.9rem;
-    margin: 0 auto 1.5rem;
-    max-width: 380px;
-  }
-  .mtv-set {
-    width: 100%;
-    background: linear-gradient(160deg, #2a1f3d 0%, #1a1228 60%, #100a1c 100%);
-    border-radius: 22px;
-    padding: 18px 18px 14px;
-    position: relative;
-    box-shadow:
-      0 20px 50px rgba(0,0,0,0.6),
-      0 0 0 2px rgba(255,255,255,0.04) inset,
-      0 0 35px rgba(255,110,247,0.15);
-  }
-  .mtv-brand {
-    position: absolute; top: 7px; left: 22px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.25);
-  }
-  .mtv-screen-wrap {
-    border-radius: 14px;
-    background: #000;
-    border: 8px solid #0d0815;
-    box-shadow: inset 0 0 30px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.05);
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 4/3;
-  }
-  .mtv-screen {
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 40%, #1c0f2e 0%, #0a0514 75%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.9rem;
-    text-align: center;
-  }
-  .mtv-screen::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
-    pointer-events: none;
-  }
-  .mtv-scanlines {
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.25) 0px, transparent 1px, transparent 3px);
-    pointer-events: none;
-    mix-blend-mode: multiply;
-    z-index: 3;
-  }
-  .mtv-flicker {
-    position: absolute; inset: 0;
-    background: rgba(255,255,255,0.02);
-    pointer-events: none;
-    animation: mtv-flicker-kf 2.5s infinite;
-    z-index: 2;
-  }
-  @keyframes mtv-flicker-kf {
-    0%, 92%, 100% { opacity: 0; }
-    94% { opacity: 0.6; }
-    96% { opacity: 0.1; }
-  }
-  .mtv-note {
-    position: relative; z-index: 1;
-    width: 100%; height: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.35rem;
-    animation: mtv-fade-kf 0.4s ease;
-    cursor: pointer;
-  }
-  @keyframes mtv-fade-kf {
-    from { opacity: 0; filter: brightness(2.5); transform: scale(1.03); }
-    to { opacity: 1; filter: brightness(1); transform: scale(1); }
-  }
-  .mtv-note-img {
-    flex: 0 1 auto;
-    max-width: 100%;
-    max-height: 65%;
-    min-height: 0;
-    object-fit: contain;
-    border: 1px solid rgba(255,110,247,0.3);
-    box-shadow: 0 0 14px rgba(255,110,247,0.25);
-  }
-  .mtv-note.portrait-img .mtv-note-img {
-    max-height: 48%;
-  }
-  .mtv-note.portrait-img .mtv-note-text {
-    -webkit-line-clamp: 1;
-  }
-  .mtv-note-text {
-    flex: 0 1 auto;
-    min-height: 0;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: clamp(0.62rem, 2.4vw, 0.82rem);
-    color: #f0e8ff;
-    line-height: 1.35;
-    white-space: pre-wrap;
-    text-shadow: 0 0 6px rgba(110,239,255,0.3);
-    overflow: hidden;
-    padding: 0 0.3rem;
-  }
-  .mtv-note.has-img .mtv-note-text {
-    font-size: clamp(0.55rem, 1.8vw, 0.7rem);
-    -webkit-line-clamp: 2;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-  }
-  .mtv-note:not(.has-img) .mtv-note-text {
-    -webkit-line-clamp: 7;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-  }
-  .mtv-note-meta {
-    font-family: 'VT323', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    color: #f7ff6e;
-    text-shadow: 0 0 6px #f7ff6e;
-  }
-  .mtv-static {
-    position: absolute; inset: 0;
-    z-index: 4;
-    display: none;
-    background-image:
-      repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0px, transparent 1px, transparent 2px, rgba(255,255,255,0.06) 3px),
-      repeating-radial-gradient(circle at 20% 30%, rgba(255,255,255,0.12) 0, transparent 2%),
-      repeating-radial-gradient(circle at 70% 60%, rgba(255,255,255,0.1) 0, transparent 1.5%);
-    background-size: 100% 4px, 6px 6px, 5px 5px;
-    animation: mtv-noise-kf 0.4s steps(2) infinite;
-  }
-  .mtv-static.active { display: block; }
-  @keyframes mtv-noise-kf {
-    0% { transform: translate(0,0); }
-    25% { transform: translate(-2%, 1%); }
-    50% { transform: translate(2%, -1%); }
-    75% { transform: translate(-1%, -2%); }
-    100% { transform: translate(1%, 2%); }
-  }
-  .mtv-controls {
-    margin-top: 12px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .mtv-unit { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
-  .mtv-knob {
-    width: 42px; height: 42px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #4a3a66, #1a1228 70%);
-    border: 2px solid rgba(255,110,247,0.4);
-    position: relative;
-    cursor: pointer;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.5), 0 0 12px rgba(255,110,247,0.15);
-    transition: box-shadow 0.2s;
-    padding: 0;
-  }
-  .mtv-knob:hover { box-shadow: 0 3px 8px rgba(0,0,0,0.5), 0 0 18px rgba(255,110,247,0.45); }
-  .mtv-knob::after {
-    content: '';
-    position: absolute; top: 5px; left: 50%;
-    width: 2px; height: 10px;
-    background: #ff6ef7;
-    box-shadow: 0 0 4px #ff6ef7;
-    transform: translateX(-50%);
-  }
-  .mtv-knob.spin::after { animation: mtv-spin-kf 0.18s linear; }
-  @keyframes mtv-spin-kf {
-    from { transform: translateX(-50%) rotate(0deg); }
-    to { transform: translateX(-50%) rotate(360deg); }
-  }
-  .mtv-led {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: #6effa0;
-    box-shadow: 0 0 8px #6effa0;
-    flex-shrink: 0;
-    align-self: center;
-    margin-bottom: 14px;
-    animation: mtv-led-kf 2s infinite;
-  }
-  @keyframes mtv-led-kf { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-  .mtv-switch {
-    width: 42px; height: 22px;
-    border-radius: 12px;
-    background: #0d0815;
-    border: 2px solid rgba(110,239,255,0.35);
-    position: relative;
-    cursor: pointer;
-    padding: 0;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .mtv-switch-nub {
-    position: absolute; top: 2px; left: 2px;
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    background: linear-gradient(160deg, #6e6080, #2a1f3d);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-    transition: transform 0.25s, background 0.25s;
-  }
-  .mtv-switch.on {
-    border-color: #6ef7ff;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6), 0 0 14px rgba(110,239,255,0.4);
-  }
-  .mtv-switch.on .mtv-switch-nub {
-    transform: translateX(20px);
-    background: linear-gradient(160deg, #6ef7ff, #1a8a99);
-  }
-  .mtv-label {
-    font-family: 'VT323', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  .mtv-pink { color: #ff6ef7; text-shadow: 0 0 6px rgba(255,110,247,0.5); }
-  .mtv-cyan { color: #6ef7ff; text-shadow: 0 0 6px rgba(110,239,255,0.5); }
-
-  /* ── Y3K MAGAZINE SECTION ── */
-  .mag-section {
-    position: relative; z-index: 5;
-    max-width: 900px; margin: 0 auto 1.5rem;
-    padding: 0 1.2rem;
-    display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
-  }
-  .mag-intro {
-    font-family: 'VT323', monospace;
-    font-size: 1rem; letter-spacing: 0.15em;
-    color: rgba(200,180,255,0.5);
-    text-align: center; text-transform: uppercase;
-  }
-  .mag-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1rem;
-    width: 100%;
-  }
-  .mag-card {
-    text-decoration: none; color: inherit;
-    display: flex; flex-direction: column;
-    background: rgba(18,6,32,0.7);
-    border: 1px solid rgba(255,110,247,0.25);
-    overflow: hidden;
-    transition: all 0.3s;
-  }
-  .mag-card:hover {
-    border-color: #ff6ef7;
-    box-shadow: 0 0 22px rgba(255,110,247,0.3);
-    transform: translateY(-4px);
-  }
-  .mag-card-cover {
-    position: relative;
-    aspect-ratio: 1/1; overflow: hidden;
-    background: linear-gradient(135deg, rgba(255,110,247,0.1), rgba(110,239,255,0.1));
-  }
-  .mag-card-cover img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
-    transition: transform 0.4s;
-  }
-  .mag-card:hover .mag-card-cover img { transform: scale(1.08); }
-  .mag-card-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(180deg, transparent 50%, rgba(7,2,15,0.9) 100%);
-  }
-  .mag-card-count {
-    position: absolute; bottom: 6px; left: 8px;
-    font-family: 'VT323', monospace; font-size: 0.75rem;
-    letter-spacing: 0.1em; color: #f7ff6e;
-    text-shadow: 0 0 6px #f7ff6e;
-  }
-  .mag-card-label {
-    padding: 0.6rem 0.8rem;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700; font-size: 0.78rem;
-    color: #fff; line-height: 1.3;
-  }
-  .mag-hub-link {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: 1.15rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #0a0518;
-    text-decoration: none;
-    background: linear-gradient(135deg, #ff6ef7, #f7ff6e, #6ef7ff);
-    background-size: 200% 100%;
-    border: none;
-    padding: 1rem 2.5rem;
-    margin-top: 0.5rem;
-    border-radius: 4px;
-    box-shadow: 0 0 25px rgba(255,110,247,0.45), 0 0 45px rgba(110,239,255,0.2);
-    transition: all 0.3s;
-    animation: hub-shimmer 4s linear infinite;
-    text-align: center;
-  }
-  @keyframes hub-shimmer {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
-  }
-  .mag-hub-link:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 0 35px rgba(255,110,247,0.7), 0 0 65px rgba(110,239,255,0.35);
-  }
-  @media (max-width: 600px) {
-    .mag-hub-link { font-size: 0.95rem; padding: 0.85rem 1.5rem; }
-  }
-
-  .mtv-full-link {
-    font-family: 'VT323', monospace;
-    font-size: 0.95rem;
-    letter-spacing: 0.1em;
-    color: #f7ff6e;
-    text-decoration: none;
-    border: 1px solid #f7ff6e;
-    padding: 0.4rem 1.1rem;
-    transition: all 0.2s;
-  }
-  .mtv-full-link:hover { background: #f7ff6e; color: #000; box-shadow: 0 0 14px #f7ff6e; }
-
-  /* ══════════════════════════════
-     CHANNEL GUIDE (sticky jump nav)
-  ══════════════════════════════ */
-  .guide {
-    position: sticky; top: 0; z-index: 40;
-    margin: 0 -1.25rem 2.4rem; padding: 0.5rem 1.25rem;
-    background: rgba(7,0,15,0.82);
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-  }
-  .guide-rail {
-    display: flex; gap: 0.4rem; overflow-x: auto;
-    scrollbar-width: none; -ms-overflow-style: none;
-    max-width: 900px; margin: 0 auto;
-  }
-  .guide-rail::-webkit-scrollbar { display: none; }
-  .guide a {
-    flex: 0 0 auto; text-decoration: none;
-    display: inline-flex; align-items: baseline; gap: 0.45rem;
-    font-family: 'VT323', monospace; font-size: 1.05rem; letter-spacing: 0.08em;
-    color: rgba(230,218,255,0.72);
-    padding: 0.35rem 0.85rem; border-radius: 999px;
-    border: 1px solid transparent;
-    transition: color .18s ease, border-color .18s ease, background .18s ease;
-  }
-  .guide a .gch {
-    font-family: 'Space Mono', monospace; font-size: 0.5rem;
-    letter-spacing: 0.16em; color: rgba(200,180,255,0.38);
-  }
-  .guide a:hover, .guide a:focus-visible {
-    color: #fff; border-color: var(--pink);
-    background: rgba(255,255,255,0.06);
-  }
-  .guide a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
-  html { scroll-padding-top: 4.5rem; }
-  @media (max-width: 600px) { .guide a { font-size: 0.98rem; padding: 0.3rem 0.7rem; } }
-
-  /* ══════════════════════════════
-     FEATURED — COMPACT GRID
-  ══════════════════════════════ */
-  .feat-grid {
-    display: grid; gap: 0.9rem;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    margin-bottom: 1.4rem;
-  }
-  .card-featured.is-compact { padding: 1.15rem 1.25rem 1.05rem; }
-  .card-featured.is-compact .card-eyebrow {
-    font-size: 0.58rem; letter-spacing: 0.22em; margin-bottom: 0.4rem;
-  }
-  .card-featured.is-compact .card-eyebrow::before { width: 12px; }
-  .card-featured.is-compact .card-title {
-    font-size: 1.45rem; margin-bottom: 0.35rem;
-  }
-  .card-featured.is-compact .card-desc {
-    font-size: 0.78rem; line-height: 1.65; margin-bottom: 0.7rem;
-    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .card-featured.is-compact .card-cta {
-    font-size: 0.68rem; letter-spacing: 0.16em;
-  }
-  .card-featured.is-compact .card-emoji {
-    font-size: 2.4rem; right: 1rem; opacity: 0.1;
-  }
-
-  /* ══════════════════════════════
-     BUY ME A STAR (one-time tip)
-  ══════════════════════════════ */
-  .star-tip {
-    position: relative; display: flex; align-items: center; gap: 1.6rem;
-    margin-top: 1.4rem; padding: 1.9rem 2rem;
-    text-decoration: none; border-radius: 16px; overflow: hidden;
-    border: 1px solid rgba(255,206,92,0.3);
-    background:
-      radial-gradient(680px 260px at 12% -40%, rgba(255,206,92,0.14), transparent 70%),
-      linear-gradient(135deg, rgba(255,206,92,0.07) 0%, rgba(208,107,255,0.05) 55%, rgba(0,0,0,0) 82%);
-    transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
-  }
-  .star-tip:hover {
-    transform: translateY(-3px); border-color: rgba(255,206,92,0.65);
-    box-shadow: 0 10px 44px rgba(255,206,92,0.16), 0 2px 12px rgba(0,0,0,0.45);
-  }
-  .star-tip:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
-  .star-sky { position: absolute; inset: 0; pointer-events: none; }
-  .star-sky i {
-    position: absolute; left: var(--x); top: var(--y);
-    width: 3px; height: 3px; border-radius: 50%;
-    background: var(--gold); box-shadow: 0 0 8px var(--gold);
-    animation: starTwinkle 3.2s ease-in-out infinite; animation-delay: var(--d);
-  }
-  @keyframes starTwinkle { 0%,100% { opacity: .2; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.25); } }
-  .star-glyph {
-    flex: 0 0 auto; font-size: 5rem; line-height: 1; color: var(--gold);
-    text-shadow: 0 0 22px rgba(255,206,92,0.6);
-    transition: transform .3s ease;
-  }
-  .star-tip:hover .star-glyph { transform: rotate(-14deg) scale(1.12); }
-  .star-tip { gap: 1.9rem; }
-  .star-copy { display: flex; flex-direction: column; min-width: 0; }
-  .star-kicker {
-    font-size: 0.58rem; letter-spacing: 0.26em; text-transform: uppercase;
-    color: var(--gold); opacity: 0.85; margin-bottom: 0.45rem;
-  }
-  .star-title {
-    font-family: 'VT323', monospace; font-size: clamp(1.8rem, 5vw, 2.5rem);
-    line-height: 1.05; letter-spacing: 0.05em; color: #fff; margin-bottom: 0.45rem;
-  }
-  .star-title b { color: var(--gold); font-weight: 400; }
-  .star-sub {
-    font-size: 0.85rem; line-height: 1.8; letter-spacing: 0.04em;
-    color: rgba(200,180,255,0.55); max-width: 460px; margin-bottom: 1rem;
-  }
-  .star-btn {
-    align-self: flex-start;
-    font-family: 'VT323', monospace; font-size: 1.15rem; letter-spacing: 0.12em;
-    color: #140b00; background: var(--gold); border-radius: 8px;
-    padding: 0.35rem 1.15rem; box-shadow: 0 0 22px rgba(255,206,92,0.35);
-    transition: box-shadow .2s ease, transform .2s ease;
-  }
-  .star-tip:hover .star-btn { box-shadow: 0 0 34px rgba(255,206,92,0.7); transform: scale(1.04); }
-  @media (max-width: 620px) {
-    .star-tip { flex-direction: column; align-items: flex-start; gap: 0.9rem; padding: 1.5rem 1.3rem; }
-    .star-glyph { font-size: 2.8rem; }
-  }
-
-  /* ══════════════════════════════
-     MOTION / ACCESSIBILITY FLOOR
-  ══════════════════════════════ */
-  a:focus-visible, button:focus-visible {
-    outline: 2px solid var(--cyan); outline-offset: 3px;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    *, *::before, *::after {
-      animation-duration: 0.001ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.001ms !important;
-    }
-  }
-
-  
-  </style>
-</head>
-<body>
-<style>
-  .chdial { position:fixed; bottom:1.1rem; right:1.1rem; z-index:60; }
-  .chdial summary { list-style:none; cursor:pointer;
-    display:flex; align-items:center; gap:0.55rem;
-    font-family:'VT323', monospace; font-size:1.05rem; letter-spacing:0.08em; color:#fff;
-    background:rgba(13,7,24,0.88); border:1.5px solid var(--gold); border-radius:999px;
-    padding:0.45rem 1rem 0.45rem 0.7rem;
-    box-shadow:0 0 16px rgba(255,206,92,0.4);
-    animation:chFloat 3.4s ease-in-out infinite;
-    transition:box-shadow .25s ease, border-color .25s ease; }
-  .chdial summary::-webkit-details-marker { display:none; }
-  .chdial summary:hover { border-color:var(--cyan);
-    box-shadow:0 0 28px rgba(255,206,92,0.7), 0 0 40px rgba(111,195,255,0.3); animation-play-state:paused; }
-  .chdial[open] summary { animation:none; border-color:var(--pink);
-    box-shadow:0 0 28px rgba(255,36,64,0.6); }
-  @keyframes chFloat { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
-  .chdial .dial-ico { font-size:1.3rem; display:inline-block; animation:chWiggle 4s ease-in-out infinite; }
-  @keyframes chWiggle { 0%,88%,100% { transform:rotate(0deg); } 91% { transform:rotate(-14deg); } 95% { transform:rotate(12deg); } }
-  .chdial .dial-label { display:flex; flex-direction:column; line-height:1.05; text-align:left; }
-  .chdial .dial-label small { font-family:'Space Mono', monospace; font-size:0.5rem;
-    letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); opacity:0.8; }
-  .chdial-panel { position:absolute; bottom:calc(100% + 0.6rem); right:0;
-    width:230px; max-height:min(64vh, 460px); overflow-y:auto;
-    background:linear-gradient(160deg, #1a0e2e, #180818);
-    border:1.5px solid rgba(208,107,255,0.5); border-radius:16px;
-    box-shadow:0 0 30px rgba(208,107,255,0.3), 0 14px 40px rgba(0,0,0,0.6);
-    padding:0.8rem 0.65rem 0.65rem; }
-  .chdial-title { font-family:'VT323', monospace; font-size:1.05rem; letter-spacing:0.16em;
-    text-transform:uppercase; color:var(--gold); text-align:center; margin-bottom:0.55rem;
-    text-shadow:0 0 10px rgba(255,206,92,0.6); }
-  .chdial-panel a { display:flex; align-items:center; gap:0.6rem; text-decoration:none;
-    font-family:'VT323', monospace; font-size:1.02rem; letter-spacing:0.05em;
-    color:rgba(230,218,255,0.85); padding:0.4rem 0.55rem; border-radius:10px;
-    transition:background .15s ease, color .15s ease, transform .15s ease; }
-  .chdial-panel a:hover { background:rgba(255,255,255,0.07); color:#fff; transform:translateX(3px); }
-  .chdial-panel a .em { font-size:1.1rem; width:1.4rem; text-align:center; }
-  .chdial-panel a .ch { margin-left:auto; font-family:'Space Mono', monospace; font-size:0.52rem;
-    letter-spacing:0.14em; color:rgba(200,180,255,0.4); }
-  @media (max-width:600px){ .chdial-panel { width:200px; } }
-  @media (prefers-reduced-motion: reduce){ .chdial summary, .chdial .dial-ico { animation:none !important; } }
-</style>
-<details class="chdial">
-  <summary title="Change the channel — pick a theme">
-    <span class="dial-ico">📺</span>
-    <span class="dial-label"><small>Change Channel</small>Pick a Frequency</span>
-  </summary>
-  <div class="chdial-panel">
-    <div class="chdial-title">📡 Channel Dial</div>
-    <a href="index-summer.html"><span class="em">☀️</span> Summer <span class="ch">CH 02</span></a>
-    <a href="index-halloween.html"><span class="em">🎃</span> Halloween <span class="ch">CH 03</span></a>
-    <a href="index-fall.html"><span class="em">🍂</span> Fall Café <span class="ch">CH 04</span></a>
-    <a href="index-candy.html"><span class="em">🍭</span> Candy Timestream <span class="ch">CH 05</span></a>
-    <a href="index-witching.html"><span class="em">🔮</span> Witching Hour <span class="ch">CH 06</span></a>
-    <a href="index-alien.html"><span class="em">🛸</span> Abduction <span class="ch">CH 07</span></a>
-    <a href="index-witches.html"><span class="em">🧹</span> Witches &amp; Goblins <span class="ch">CH 08</span></a>
-    <a href="index-vhs.html"><span class="em">📼</span> Lost Channel <span class="ch">CH 09</span></a>
-    <a href="index-sea.html"><span class="em">🌊</span> Under the Sea <span class="ch">CH 10</span></a>
-    <a href="index-dream.html"><span class="em">🌙</span> Dreamscape <span class="ch">CH 11</span></a>
-    <a href="index-cottage.html"><span class="em">🍄</span> Cottage Tea Time <span class="ch">CH 12</span></a>
-    <a href="arcade.html"><span class="em">🕹️</span> Arcade <span class="ch">CH 13</span></a>
-    <a href="index-winter.html"><span class="em">❄️</span> Winter Wonderland <span class="ch">CH 14</span></a>
-  </div>
-</details>
-
-<!-- ══ CANDY TIMESTREAM LAYER ══ -->
-<style>
+@media(max-width:560px){
+  .cta .in{flex-direction:column;text-align:center;gap:18px}
+  .sub{max-width:none}
+  h3{font-size:23px}
+}
+@media(prefers-reduced-motion:reduce){
+  .glit i,.orb:after,.orb svg{animation:none}
+  .wand-cta,.sheen,.go span:last-child{transition:none}
+  .glit i{opacity:.8}
+}
   /* ── candy-stripe barber bar across the very top ── */
   .cd-stripe { position:fixed; top:0; left:0; right:0; height:8px; z-index:52; pointer-events:none;
     background:repeating-linear-gradient(115deg, #ff4fb8 0 14px, #fff 14px 28px, #3dffd6 28px 42px, #fff 42px 56px, #ffd93b 56px 70px, #fff 70px 84px);
     background-size:84px 100%; animation:cdStripe 2.5s linear infinite;
     box-shadow:0 2px 12px rgba(255,79,184,0.4); }
-  @keyframes cdStripe { to { background-position:84px 0; } }
+
 
   /* ── the time portal: a spinning lollipop swirl in the corner ── */
   .cd-portal { position:fixed; top:-80px; left:-80px; width:260px; height:260px; z-index:1; pointer-events:none;
@@ -1418,48 +368,47 @@
     mask:radial-gradient(circle, transparent 18%, #000 19% 62%, transparent 70%);
     animation:cdSpin 14s linear infinite;
     filter:blur(1px) drop-shadow(0 0 30px rgba(255,79,184,0.5)); }
-  @keyframes cdSpin { to { transform:rotate(360deg); } }
+
 
   /* ── giant faint clock face turning behind everything ── */
   .cd-clockbg { position:fixed; bottom:-160px; right:-160px; width:440px; height:440px; z-index:0; pointer-events:none;
     border-radius:50%; border:2px dashed rgba(255,217,59,0.14); opacity:0.8;
     animation:cdSpin 60s linear infinite reverse; }
+
   .cd-clockbg::before { content:''; position:absolute; top:50%; left:50%; width:42%; height:2px;
     background:rgba(255,217,59,0.16); transform-origin:left center; animation:cdSpin 12s linear infinite; }
+
   .cd-clockbg::after { content:''; position:absolute; top:50%; left:50%; width:30%; height:2px;
     background:rgba(61,255,214,0.16); transform-origin:left center; animation:cdSpin 45s linear infinite; }
+
 
   /* ── falling candy tumbling through time ── */
   .cd-drop { position:fixed; top:-8%; z-index:1; pointer-events:none; opacity:0;
     animation:cdFall linear infinite; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4)); }
+
   .cd-drop.d1 { left:9%;  font-size:1.4rem; animation-duration:13s; }
+
   .cd-drop.d2 { left:24%; font-size:1.1rem; animation-duration:17s; animation-delay:4s; }
+
   .cd-drop.d3 { left:41%; font-size:1.6rem; animation-duration:15s; animation-delay:8s; }
+
   .cd-drop.d4 { left:58%; font-size:1.2rem; animation-duration:19s; animation-delay:2s; }
+
   .cd-drop.d5 { left:74%; font-size:1.5rem; animation-duration:14s; animation-delay:10s; }
+
   .cd-drop.d6 { left:90%; font-size:1.2rem; animation-duration:18s; animation-delay:6s; }
-  @keyframes cdFall {
-    0%   { opacity:0; transform:translateY(0) rotate(0deg); }
-    6%   { opacity:0.9; }
-    50%  { transform:translateY(55vh) translateX(20px) rotate(190deg); }
-    94%  { opacity:0.9; }
-    100% { opacity:0; transform:translateY(112vh) translateX(-14px) rotate(370deg); }
-  }
+
 
   /* ── clocks drifting sideways through the stream ── */
   .cd-clock { position:fixed; z-index:1; pointer-events:none; opacity:0;
     animation:cdDrift linear infinite; filter:drop-shadow(0 0 12px rgba(255,217,59,0.45)); }
+
   .cd-clock.c1 { font-size:1.6rem; animation-duration:28s; }
+
   .cd-clock.c2 { font-size:1.2rem; animation-duration:36s; animation-delay:12s; }
+
   .cd-clock.c3 { font-size:1.9rem; animation-duration:32s; animation-delay:21s; }
-  @keyframes cdDrift {
-    0%   { opacity:0; left:-5%; top:60%; transform:rotate(-12deg) scale(1); }
-    7%   { opacity:0.55; }
-    35%  { transform:rotate(10deg) scale(1.12); }
-    65%  { transform:rotate(-8deg) scale(0.94); top:36%; }
-    93%  { opacity:0.55; }
-    100% { opacity:0; left:104%; top:50%; transform:rotate(6deg) scale(1); }
-  }
+
 
   /* ── THE GOLDEN TICKET: shimmers across the sky once in a while ── */
   .cd-ticket { position:fixed; z-index:51; pointer-events:none; opacity:0;
@@ -1471,7 +420,78 @@
     display:flex; align-items:center; justify-content:center;
     font-family:'VT323', monospace; font-size:0.72rem; letter-spacing:0.14em; color:#4a3000;
     animation:cdTicket 24s ease-in-out infinite, cdShine 2.2s linear infinite; }
+
+
+  /* ── gumballs bouncing along the bottom ── */
+  .cd-gum { position:fixed; bottom:8px; z-index:2; pointer-events:none; border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #fff 4%, var(--g) 20%, color-mix(in srgb, var(--g) 55%, #000) 100%);
+    box-shadow:0 3px 8px rgba(0,0,0,0.45); animation:cdBounce ease-in-out infinite; }
+
+  .cd-gum.g1 { --g:#ff4fb8; left:12%; width:16px; height:16px; animation-duration:1.7s; }
+
+  .cd-gum.g2 { --g:#3dffd6; left:34%; width:12px; height:12px; animation-duration:2.1s; animation-delay:0.4s; }
+
+  .cd-gum.g3 { --g:#ffd93b; left:57%; width:18px; height:18px; animation-duration:1.9s; animation-delay:0.9s; }
+
+  .cd-gum.g4 { --g:#c47dff; left:79%; width:13px; height:13px; animation-duration:2.3s; animation-delay:0.2s; }
+
+
+  /* ── sugar sparkle time-dust ── */
+  .cd-dust { position:fixed; z-index:1; pointer-events:none; font-size:0.7rem; opacity:0;
+    animation:cdTwinkleDust ease-in-out infinite; color:#fff6c9;
+    text-shadow:0 0 8px rgba(255,217,59,0.9); }
+
+  .cd-dust.s1 { left:18%; top:34%; animation-duration:4s; }
+
+  .cd-dust.s2 { left:47%; top:20%; animation-duration:5.5s; animation-delay:1.5s; }
+
+  .cd-dust.s3 { left:69%; top:44%; animation-duration:4.6s; animation-delay:3s; }
+
+  .cd-dust.s4 { left:87%; top:28%; animation-duration:6s;   animation-delay:2.2s; }
+
+
+  /* ── back to the present ── */
+  .cd-return { position:fixed; bottom:1.1rem; right:1.1rem; z-index:60; text-decoration:none;
+    display:flex; align-items:center; gap:0.5rem;
+    font-family:'VT323', monospace; font-size:1.05rem; letter-spacing:0.08em; color:#fff;
+    background:rgba(26,5,36,0.88); border:1.5px solid #ff4fb8; border-radius:999px;
+    padding:0.45rem 0.95rem; box-shadow:0 0 18px rgba(255,79,184,0.5);
+    transition:box-shadow .2s ease, transform .2s ease; }
+
+  .cd-return:hover { transform:translateY(-2px); box-shadow:0 0 30px rgba(61,255,214,0.8); border-color:#3dffd6; }
+
+  .cd-return .ic { font-size:1.25rem; animation:cdTick 2s steps(8) infinite; display:inline-block; }
+@media (max-width:600px){
+    .cd-portal { width:170px; height:170px; top:-55px; left:-55px; }
+    .cd-clockbg { width:280px; height:280px; bottom:-110px; right:-110px; }
+    .cd-gum { display:none; }}
+@media (prefers-reduced-motion: reduce){
+    .cd-stripe,.cd-portal,.cd-clockbg,.cd-clockbg::before,.cd-clockbg::after,.cd-drop,.cd-clock,.cd-ticket,.cd-gum,.cd-dust,.cd-return .ic { animation:none !important; }
+    .cd-drop,.cd-clock,.cd-ticket,.cd-gum,.cd-dust { display:none; }}
+
+  @keyframes cdStripe { to { background-position:84px 0; } }
+
+  @keyframes cdSpin { to { transform:rotate(360deg); } }
+
+  @keyframes cdFall {
+    0%   { opacity:0; transform:translateY(0) rotate(0deg); }
+    6%   { opacity:0.9; }
+    50%  { transform:translateY(55vh) translateX(20px) rotate(190deg); }
+    94%  { opacity:0.9; }
+    100% { opacity:0; transform:translateY(112vh) translateX(-14px) rotate(370deg); }
+  }
+
+  @keyframes cdDrift {
+    0%   { opacity:0; left:-5%; top:60%; transform:rotate(-12deg) scale(1); }
+    7%   { opacity:0.55; }
+    35%  { transform:rotate(10deg) scale(1.12); }
+    65%  { transform:rotate(-8deg) scale(0.94); top:36%; }
+    93%  { opacity:0.55; }
+    100% { opacity:0; left:104%; top:50%; transform:rotate(6deg) scale(1); }
+  }
+
   @keyframes cdShine { to { background-position:-220% 0; } }
+
   @keyframes cdTicket {
     0%,62% { opacity:0; left:-10%; top:26%; transform:rotate(-8deg) translateY(0); }
     64% { opacity:1; }
@@ -1481,14 +501,6 @@
     100% { opacity:0; left:105%; top:18%; transform:rotate(4deg) translateY(-10px); }
   }
 
-  /* ── gumballs bouncing along the bottom ── */
-  .cd-gum { position:fixed; bottom:8px; z-index:2; pointer-events:none; border-radius:50%;
-    background:radial-gradient(circle at 32% 28%, #fff 4%, var(--g) 20%, color-mix(in srgb, var(--g) 55%, #000) 100%);
-    box-shadow:0 3px 8px rgba(0,0,0,0.45); animation:cdBounce ease-in-out infinite; }
-  .cd-gum.g1 { --g:#ff4fb8; left:12%; width:16px; height:16px; animation-duration:1.7s; }
-  .cd-gum.g2 { --g:#3dffd6; left:34%; width:12px; height:12px; animation-duration:2.1s; animation-delay:0.4s; }
-  .cd-gum.g3 { --g:#ffd93b; left:57%; width:18px; height:18px; animation-duration:1.9s; animation-delay:0.9s; }
-  .cd-gum.g4 { --g:#c47dff; left:79%; width:13px; height:13px; animation-duration:2.3s; animation-delay:0.2s; }
   @keyframes cdBounce {
     0%,100% { transform:translateY(0) scaleY(1); }
     12% { transform:translateY(2px) scaleY(0.82); }
@@ -1496,40 +508,13 @@
     88% { transform:translateY(2px) scaleY(0.82); }
   }
 
-  /* ── sugar sparkle time-dust ── */
-  .cd-dust { position:fixed; z-index:1; pointer-events:none; font-size:0.7rem; opacity:0;
-    animation:cdTwinkleDust ease-in-out infinite; color:#fff6c9;
-    text-shadow:0 0 8px rgba(255,217,59,0.9); }
-  .cd-dust.s1 { left:18%; top:34%; animation-duration:4s; }
-  .cd-dust.s2 { left:47%; top:20%; animation-duration:5.5s; animation-delay:1.5s; }
-  .cd-dust.s3 { left:69%; top:44%; animation-duration:4.6s; animation-delay:3s; }
-  .cd-dust.s4 { left:87%; top:28%; animation-duration:6s;   animation-delay:2.2s; }
   @keyframes cdTwinkleDust {
     0%,100% { opacity:0; transform:scale(0.6) rotate(0deg); }
     50% { opacity:0.9; transform:scale(1.2) rotate(45deg); }
   }
 
-  /* ── back to the present ── */
-  .cd-return { position:fixed; bottom:1.1rem; right:1.1rem; z-index:60; text-decoration:none;
-    display:flex; align-items:center; gap:0.5rem;
-    font-family:'VT323', monospace; font-size:1.05rem; letter-spacing:0.08em; color:#fff;
-    background:rgba(26,5,36,0.88); border:1.5px solid #ff4fb8; border-radius:999px;
-    padding:0.45rem 0.95rem; box-shadow:0 0 18px rgba(255,79,184,0.5);
-    transition:box-shadow .2s ease, transform .2s ease; }
-  .cd-return:hover { transform:translateY(-2px); box-shadow:0 0 30px rgba(61,255,214,0.8); border-color:#3dffd6; }
-  .cd-return .ic { font-size:1.25rem; animation:cdTick 2s steps(8) infinite; display:inline-block; }
-  @keyframes cdTick { to { transform:rotate(360deg); } }
-
-  @media (max-width:600px){
-    .cd-portal { width:170px; height:170px; top:-55px; left:-55px; }
-    .cd-clockbg { width:280px; height:280px; bottom:-110px; right:-110px; }
-    .cd-gum { display:none; }
-  }
-  @media (prefers-reduced-motion: reduce){
-    .cd-stripe,.cd-portal,.cd-clockbg,.cd-clockbg::before,.cd-clockbg::after,.cd-drop,.cd-clock,.cd-ticket,.cd-gum,.cd-dust,.cd-return .ic { animation:none !important; }
-    .cd-drop,.cd-clock,.cd-ticket,.cd-gum,.cd-dust { display:none; }
-  }
-</style>
+  @keyframes cdTick { to { transform:rotate(360deg); } }</style></head>
+<body><div id="stars"></div>
 <div class="cd-stripe" aria-hidden="true"></div>
 <div class="cd-portal" aria-hidden="true"></div>
 <div class="cd-clockbg" aria-hidden="true"></div>
@@ -1552,785 +537,198 @@
 <span class="cd-dust s3" aria-hidden="true">✦</span>
 <span class="cd-dust s4" aria-hidden="true">✧</span>
 <a class="cd-return" href="index.html" title="Return to the present timeline"><span class="ic">⏰</span> Back to the Present</a>
+<div class="wrap">
+<header class="top">
+  <a class="brand holo" href="index.html">✦ MAGICKMICA</a>
+  <span class="chnow">CH 05 · Candy Timestream</span>
+</header>
 
+<div class="mos"><a class="tile hero" href="notes.html"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Feb75e642-69f9-40de-9211-f9a947148356_1536x1024.png" alt="" loading="eager" onerror="this.remove()"><div class="scrim"></div><div class="in"><div class="live"><b></b>Now broadcasting · CH 05</div><img class="hero-logo" src="magick-mica-tv-logo.png" alt="Magick Mica TV" decoding="async" fetchpriority="high"><div class="ttl">Time Travel Candy Transmissions</div><div class="sm">5,615 transmissions and counting. Daily art notes, cosmic curiosities, and a small universe of games.</div></div></a><a class="tile tv" href="random-note.html"><span class="pill">CH 01</span><div class="in" id="mtv"><div class="lab">RANDOM NOTE TV</div><div class="ttl">Tune in →</div></div></a><a class="tile w2 h2" href="minimags.html"><div class="in"><div class="lab">CH 02 · Y3K MAGAZINE</div><div class="ttl">This Week</div><div class="sm">Weekly + monthly issues</div></div></a><a class="tile w2" href="arcade.html"><div class="in"><div class="lab">CH 03</div><div class="ttl">The Arcade</div><div class="sm">Six games from the archive</div></div></a><a class="tile w2" href="herkimer-vault.html"><div class="in"><div class="lab">CH 04</div><div class="ttl">The Vaults</div><div class="sm">Crystals, amulets, copper</div></div></a><a class="tile w2" href="newsstand.html"><div class="in"><div class="lab">CH 05 · NEWSSTAND</div><div class="ttl">Nine issues</div><div class="sm">On the rack now</div></div></a><a class="tile w2" href="blog.html"><div class="in"><div class="lab">CH 06</div><div class="ttl">Blog &amp; Archive</div><div class="sm">ROXIE MOON: THE PLACE THAT REMEMBERS</div></div></a></div>
 
-<canvas id="bg"></canvas>
+<div class="sect"><h2 class="holo">Y3K MAGAZINE</h2><div class="rule"></div>
+<span class="meta">WEEKLY ISSUES</span></div>
+<div class="mag-grid"></div>
 
-<div class="page">
-
-  <!-- ── HERO ── -->
-  <header class="hero">
-    <div class="live-badge">
-      <span class="live-dot"></span>
-      Broadcasting Through Time
+<div class="sect"><h2 class="holo">PLAY &amp; LISTEN</h2><div class="rule"></div>
+<span class="meta">CH 03</span></div>
+<div class="strip3">
+<a class="scard" href="arcade.html"><div class="lab">CH 03 · ARCADE</div><div class="ttl">The Arcade</div><div class="sm">Jigsaw, memory, slots, object hunt</div></a>
+<a class="scard" href="quest.html"><div class="lab">CH 03b</div><div class="ttl">Dream Quest</div><div class="sm">Ten realms, forty artifacts</div></a>
+<a class="scard" href="songmaker.html"><div class="lab">CH 03c</div><div class="ttl">Song Maker</div><div class="sm">Build a tune from the signal</div></a>
+</div>
+<div class="cta-row" style="margin-top:16px"><a class="cta globe" href="https://magickmica.github.io/oracle/">
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="in">
+    <div class="art"><div class="orb"></div><div class="stand"></div></div>
+    <div>
+      <div class="eyebrow">✦ 🕯️ Ancient starlight · modern pixels 🕯️ ✦</div>
+      <h3>Cosmic Crystal Oracle</h3>
+      <div class="sub">Think of a yes or no question. Don't say it out loud —
+        the universe is already listening. Then touch the crystal.</div>
+      <div class="go"><span>Touch the crystal</span><span>→</span></div>
     </div>
-    <img decoding="async" fetchpriority="high" class="hero-logo" src="magick-mica-tv-logo.png" alt="Magick Mica TV" />
-    <h1 class="hero-title" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Magick Mica TV</h1>
-    <p class="hero-tagline"><em>🍭</em> Where Magick Melts the Timestream <em>⏳</em></p>
-    <div class="hero-divider"></div>
-  </header>
-
-
-  <!-- ── CHANNEL GUIDE ── -->
-  <nav class="guide" aria-label="Jump to section">
-    <div class="guide-rail">
-      <a href="#featured"><span>Featured</span><span class="gch">NOW</span></a>
-      <a href="#watch"><span>Watch</span><span class="gch">LIVE</span></a>
-      <a href="#read"><span>Read</span><span class="gch">PRESS</span></a>
-      <a href="#channels"><span>Channels</span><span class="gch">ALL</span></a>
-      <a href="#shop"><span>Shop</span><span class="gch">VAULT</span></a>
-      <a href="#support"><span>Support</span><span class="gch">★</span></a>
+  </div>
+</a><a class="cta mbox" href="https://magickmica.github.io/musicbox/">
+  <div class="notes" aria-hidden="true"></div><div class="sheen" aria-hidden="true"></div>
+  <div class="in">
+    <div class="art"><div class="box">
+      <div class="ballerina"></div><div class="lid"></div><div class="base"></div>
+    </div></div>
+    <div>
+      <div class="eyebrow">✦ Play &amp; Listen ✦</div>
+      <h3>The Music Box</h3>
+      <div class="sub">Lift the lid and something starts turning. Small sounds,
+        slow spins, and a tune that knows where it's going.</div>
+      <div class="go"><span>Wind it up</span><span>→</span></div>
     </div>
-  </nav>
-
-  <!-- ── FEATURED ── -->
-  <div class="section-label" id="featured"><span>Sugar-Spun Transmissions</span></div>
-
-    <a class="card-featured" href="https://magickmica.github.io/glitter-transmission.html" style="margin-bottom:1.4rem;">
-    <div class="card-eyebrow">New Broadcast</div>
-    <div class="card-title">The Glitter Transmission</div>
-    <div class="card-desc">A shimmering signal straight from the rainbow pool — holographic waters, glitter frequencies, and a broadcast that sparkles all the way through. 💖🌈✨</div>
-    <div class="card-cta">Enter the broadcast <span>&rarr;</span></div>
-    <div class="card-emoji">✨</div>
-  </a>
-
-    <a class="card-featured" href="https://magickmica.github.io/aliens/galactic-dessert-issue.html">
-    <div class="card-eyebrow">Main Broadcast</div>
-    <div class="card-title">The Galactic Dessert Issue</div>
-    <div class="card-desc">A cosmic confection of sweetness from across the galaxy — where aliens love ice cream and every dessert is a little bit magic. 🍦👽✨</div>
-    <div class="card-cta">Enter the broadcast <span>&rarr;</span></div>
-    <div class="card-emoji">🍦</div>
-  </a>
-
-  <!-- ── TONIGHT'S GAME SHOW · QUIZ TV ── -->
-  <style>
-    .qz-wrap { margin: 2.6rem 0 2.8rem; }
-    .qz-label {
-      display:flex; align-items:center; gap:0.7rem; margin-bottom:1.4rem;
-      font-size:0.78rem; letter-spacing:0.34em; text-transform:uppercase; color:#ff9ad0;
-    }
-    .qz-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg, rgba(255,79,184,0.5), transparent); }
-    .qz-live {
-      display:inline-flex; align-items:center; gap:0.4rem;
-      font-size:0.62rem; letter-spacing:0.22em; color:#fff;
-      border:1px solid #ff4fb8; border-radius:999px; padding:0.25rem 0.7rem;
-      background:rgba(255,79,184,0.1);
-    }
-    .qz-live i { width:7px; height:7px; border-radius:50%; background:#ff4fb8; box-shadow:0 0 8px #ff4fb8; animation:qzBlink 1.1s steps(1) infinite; }
-    @keyframes qzBlink { 0%,60%{opacity:1} 61%,100%{opacity:0.15} }
-
-    .qz-set { display:block; text-decoration:none; position:relative; max-width:460px; margin:0 auto; transition:transform .25s ease; }
-    .qz-set:hover { transform:translateY(-5px); }
-    /* antennae */
-    .qz-antenna { position:relative; height:22px; margin:0 auto; width:80px; }
-    .qz-antenna::before, .qz-antenna::after {
-      content:''; position:absolute; bottom:0; left:50%; width:2.5px; height:22px;
-      background:#ff4fb8; border-radius:2px; transform-origin:bottom center;
-    }
-    .qz-antenna::before { transform:rotate(-33deg); }
-    .qz-antenna::after { transform:rotate(27deg); }
-    .qz-antenna .qz-tip-l, .qz-antenna .qz-tip-r {
-      position:absolute; width:9px; height:9px; border-radius:50%;
-      background:#3dffd6; box-shadow:0 0 10px #3dffd6; top:-3px;
-      animation:qzBlink 2.2s steps(1) infinite;
-    }
-    .qz-antenna .qz-tip-l { left:calc(50% - 18px); }
-    .qz-antenna .qz-tip-r { left:calc(50% + 10px); animation-delay:1.1s; }
-    /* body */
-    .qz-body {
-      border:3px solid #ff4fb8; border-radius:18px; overflow:hidden; background:#22093a;
-      box-shadow:0 0 0 1px rgba(255,255,255,0.05) inset, 0 14px 40px -14px rgba(255,79,184,0.45);
-      transition:box-shadow .25s ease;
-    }
-    .qz-set:hover .qz-body { box-shadow:0 0 0 1px rgba(255,255,255,0.08) inset, 0 18px 50px -12px rgba(255,79,184,0.55), 0 0 34px -6px rgba(61,255,214,0.35); }
-    /* marquee bulb strip */
-    .qz-marquee { height:9px; background:#2a0d45; border-bottom:1.5px solid rgba(255,79,184,0.5); position:relative; overflow:hidden; }
-    .qz-marquee::before {
-      content:''; position:absolute; inset:0;
-      background:radial-gradient(circle 3px at 10px 6px, #ffd93b 98%, transparent), radial-gradient(circle 3px at 34px 6px, #ff4fb8 98%, transparent), radial-gradient(circle 3px at 58px 6px, #3dffd6 98%, transparent);
-      background-size:72px 12px; background-repeat:repeat-x;
-      animation:qzChase 0.9s steps(3) infinite;
-    }
-    @keyframes qzChase { to { background-position:72px 0; } }
-    /* screen */
-    .qz-screen { position:relative; overflow:hidden; background:radial-gradient(120% 130% at 50% 20%, #301353 0%, #0a0518 70%); padding:1.4rem 1.2rem 1.3rem; text-align:center; }
-    .qz-screen::before { /* scanlines */
-      content:''; position:absolute; inset:0; z-index:5; pointer-events:none;
-      background:repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 1px, transparent 1px 3px);
-      mix-blend-mode:multiply;
-    }
-    .qz-screen::after { /* glass glare */
-      content:''; position:absolute; inset:0; z-index:6; pointer-events:none;
-      background:radial-gradient(90% 60% at 30% 10%, rgba(255,255,255,0.12), transparent 55%);
-    }
-    .qz-noise { position:absolute; inset:-50%; z-index:1; pointer-events:none; opacity:0.09;
-      background-image:repeating-conic-gradient(rgba(255,255,255,0.6) 0% 0.0001%, transparent 0.0002% 0.05%);
-      animation:qzNoise 0.4s steps(4) infinite;
-    }
-    @keyframes qzNoise { 0%{transform:translate(0,0)} 25%{transform:translate(-2%,1%)} 50%{transform:translate(1%,-2%)} 75%{transform:translate(-1%,2%)} 100%{transform:translate(2%,-1%)} }
-    .qz-roll { position:absolute; left:0; right:0; height:70px; z-index:2; pointer-events:none;
-      background:linear-gradient(180deg, transparent, rgba(61,255,214,0.06), transparent);
-      animation:qzRoll 5.5s linear infinite;
-    }
-    @keyframes qzRoll { from{top:-70px} to{top:110%} }
-    /* floating suits */
-    .qz-suits { position:absolute; inset:0; z-index:2; pointer-events:none; }
-    .qz-suits span {
-      position:absolute; font-size:0.85rem; opacity:0.16;
-      animation:qzFloat 7s ease-in-out infinite;
-    }
-    .qz-suits span:nth-child(1){ left:6%;  top:18%; color:#ff4fb8; }
-    .qz-suits span:nth-child(2){ left:14%; top:64%; color:#3dffd6; animation-delay:1.4s; }
-    .qz-suits span:nth-child(3){ right:8%;  top:22%; color:#9dff4a; animation-delay:2.8s; }
-    .qz-suits span:nth-child(4){ right:15%; top:68%; color:#c47dff; animation-delay:4.2s; }
-    .qz-suits span:nth-child(5){ left:48%;  top:8%;  color:#ffd93b; animation-delay:5.6s; }
-    @keyframes qzFloat { 0%,100%{transform:translateY(0) rotate(-8deg)} 50%{transform:translateY(-14px) rotate(10deg)} }
-    /* screen content */
-    .qz-inner { position:relative; z-index:4; }
-    .qz-chan {
-      position:absolute; top:0.55rem; right:0.75rem; z-index:7;
-      font-family:'VT323', monospace; font-size:0.9rem; letter-spacing:0.08em;
-      color:#ff4fb8; text-shadow:0 0 8px #ff4fb8; animation:qzBlink 2.6s steps(1) infinite;
-    }
-    .qz-eyebrow {
-      font-size:0.58rem; letter-spacing:0.3em; text-transform:uppercase;
-      color:#9dff4a; margin-bottom:0.55rem;
-    }
-    .qz-title {
-      font-family:'VT323', monospace; font-size:clamp(1.5rem, 4.5vw, 2.1rem);
-      line-height:1.05; letter-spacing:0.05em; margin-bottom:0.35rem;
-      background:linear-gradient(90deg, #ff4fb8, #ffd93b, #3dffd6, #ff4fb8);
-      background-size:300% auto;
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-      animation:qzShimmer 4.5s linear infinite;
-    }
-    @keyframes qzShimmer { to { background-position:300% center; } }
-    .qz-sub {
-      font-size:0.72rem; letter-spacing:0.1em; line-height:1.65;
-      color:rgba(200,180,255,0.55); max-width:320px; margin:0 auto 0.85rem;
-    }
-    /* contestant podium row */
-    .qz-cast { display:flex; justify-content:center; gap:0.4rem; flex-wrap:wrap; margin-bottom:0.9rem; }
-    .qz-cast span {
-      font-size:1.15rem; line-height:1; padding:0.32rem 0.42rem;
-      border:1.5px solid rgba(255,79,184,0.25); border-radius:10px;
-      background:rgba(255,79,184,0.05);
-      animation:qzSpot 4s ease-in-out infinite;
-    }
-    .qz-cast span:nth-child(2){ animation-delay:0.8s; }
-    .qz-cast span:nth-child(3){ animation-delay:1.6s; }
-    .qz-cast span:nth-child(4){ animation-delay:2.4s; }
-    .qz-cast span:nth-child(5){ animation-delay:3.2s; }
-    @keyframes qzSpot {
-      0%,18%,100% { transform:translateY(0); border-color:rgba(255,79,184,0.25); box-shadow:none; }
-      8% { transform:translateY(-7px); border-color:#3dffd6; box-shadow:0 0 18px rgba(61,255,214,0.5); }
-    }
-    .qz-cta {
-      display:inline-flex; align-items:center; gap:0.6rem;
-      font-family:'VT323', monospace; font-size:1.1rem; letter-spacing:0.12em;
-      color:#060011; background:#9dff4a; border-radius:8px; padding:0.38rem 1.1rem;
-      box-shadow:0 0 22px rgba(157,255,74,0.4);
-      transition:box-shadow .2s, transform .2s;
-    }
-    .qz-set:hover .qz-cta { box-shadow:0 0 34px rgba(157,255,74,0.7); transform:scale(1.04); }
-    /* control panel */
-    .qz-panel {
-      display:flex; align-items:center; justify-content:space-between; gap:0.8rem;
-      padding:0.55rem 0.9rem; border-top:2px solid #ff4fb8;
-      background:linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
-    }
-    .qz-name { font-family:'VT323', monospace; font-size:1.15rem; letter-spacing:0.05em; color:#fff; line-height:1; text-align:left; }
-    .qz-tag { font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase; color:#ff4fb8; margin-top:0.3rem; text-align:left; }
-    .qz-knobs { display:flex; gap:0.45rem; flex:none; }
-    .qz-knobs i { width:13px; height:13px; border-radius:50%; border:1.5px solid #ff4fb8; position:relative; opacity:0.85; }
-    .qz-knobs i::after { content:''; position:absolute; top:1px; left:50%; width:1.5px; height:4px; background:#ff4fb8; transform:translateX(-50%); }
-    .qz-knobs i:nth-child(2)::after { transform:translateX(-50%) rotate(65deg); transform-origin:bottom; }
-    .qz-set:hover .qz-knobs i:first-child::after { transform:translateX(-50%) rotate(120deg); transform-origin:bottom; transition:transform .3s; }
-    @media (max-width:560px){ .qz-screen{ padding:1.2rem 0.9rem 1.1rem; } .qz-cast span{ font-size:1rem; } }
-    @media (prefers-reduced-motion: reduce){
-      .qz-noise,.qz-roll,.qz-title,.qz-live i,.qz-marquee::before,.qz-suits span,.qz-cast span,.qz-chan,.qz-antenna .qz-tip-l,.qz-antenna .qz-tip-r { animation:none !important; }
-    }
-  </style>
-
-  <div class="qz-wrap">
-    <div class="qz-label" id="watch"><span>Tonight's Game Show</span><span class="qz-live"><i></i>Live · CH ♥</span></div>
-    <a class="qz-set" href="https://magickmica.github.io/which-character-are-you.html">
-      <div class="qz-antenna"><span class="qz-tip-l"></span><span class="qz-tip-r"></span></div>
-      <div class="qz-body">
-        <div class="qz-marquee" aria-hidden="true"></div>
-        <div class="qz-screen">
-          <div class="qz-noise" aria-hidden="true"></div>
-          <div class="qz-roll" aria-hidden="true"></div>
-          <div class="qz-suits" aria-hidden="true"><span>♥</span><span>♠</span><span>♦</span><span>♣</span><span>✦</span></div>
-          <span class="qz-chan">CH ♥</span>
-          <div class="qz-inner">
-            <div class="qz-eyebrow">▚▞ Studio Audience Live · Wonderland Broadcasting ▞▚</div>
-            <div class="qz-title">Which Wonderland<br>Character Are You?</div>
-            <p class="qz-sub">Five contestants wait behind the curtain. Step up to the podium and find out who's been you all along.</p>
-            <div class="qz-cast" aria-hidden="true"><span>🐰</span><span>🎩</span><span>😼</span><span>👑</span><span>🐛</span></div>
-            <span class="qz-cta">Take the Quiz →</span>
-          </div>
-        </div>
-        <div class="qz-panel">
-          <div>
-            <div class="qz-name">The Wonderland Quiz</div>
-            <div class="qz-tag">Personality Broadcast · 100% Curiouser</div>
-          </div>
-          <div class="qz-knobs" aria-hidden="true"><i></i><i></i></div>
-        </div>
-      </div>
-    </a>
   </div>
+</a></div>
 
-  <!-- ── RANDOM NOTE TV (embedded mini player) ── -->
-  <div class="section-label"><span>Time Machine Note TV</span></div>
+<div class="sect"><h2 class="holo">THE SIGNAL SHOP</h2><div class="rule"></div>
+<span class="meta">CRYSTALS &amp; COPPER</span></div>
+<div class="strip3">
+<a class="scard" href="herkimer-vault.html"><div class="lab">VAULT</div><div class="ttl">Herkimer and Friends</div><div class="sm">Five crystal vaults, curated</div></a>
+<a class="scard" href="quartz-amulets.html"><div class="lab">VAULT</div><div class="ttl">Quartz Amulets</div><div class="sm">Wearable frequencies</div></a>
+<a class="scard" href="https://www.themysticalspiralstore.com/"><div class="lab">STORE ↗</div><div class="ttl">Mystical Spiral</div><div class="sm">The full shop</div></a>
+</div>
 
-  <div class="mtv-wrap">
-    <div class="mtv-set">
-      <div class="mtv-brand">MAGICKVISION™</div>
-      <div class="mtv-screen-wrap">
-        <div class="mtv-screen" id="mtvScreen">
-          <div class="mtv-note" id="mtvNote"></div>
-        </div>
-        <div class="mtv-static" id="mtvStatic"></div>
-        <div class="mtv-scanlines"></div>
-        <div class="mtv-flicker"></div>
-      </div>
-      <div class="mtv-controls">
-        <div class="mtv-unit">
-          <button class="mtv-knob" id="mtvChannelBtn" aria-label="Change channel">
-            <span class="mtv-knob-ticks"></span>
-          </button>
-          <span class="mtv-label mtv-pink">Change Channel</span>
-        </div>
-        <div class="mtv-led"></div>
-        <div class="mtv-unit">
-          <button class="mtv-switch" id="mtvAutoBtn" aria-label="Toggle auto-rotate">
-            <span class="mtv-switch-nub"></span>
-          </button>
-          <span class="mtv-label mtv-cyan">Auto-Rotate</span>
-        </div>
-      </div>
+<div class="sect"><h2 class="holo">SUBSTACK ARCHIVE</h2><div class="rule"></div>
+<span class="meta">86 ARTICLES</span></div>
+<div class="strip3">
+<a class="scard" href="https://magickmica.substack.com"><div class="lab">TV ↗</div><div class="ttl">MagickMica TV</div><div class="sm">The main broadcast</div></a>
+<a class="scard" href="https://magickmicaart.substack.com"><div class="lab">ART ↗</div><div class="ttl">MagickMica Art</div><div class="sm">The art channel</div></a>
+<a class="scard" href="articles.html"><div class="lab">ON SITE</div><div class="ttl">Every Article</div><div class="sm">Searchable, with covers</div></a>
+</div>
+
+<div class="sect"><h2 class="holo">SUPPORT THE SIGNAL</h2><div class="rule"></div>
+<span class="meta">KEEP IT BROADCASTING</span></div>
+<a class="star" href="https://ko-fi.com/magickmica/tip" target="_blank" rel="noopener">
+<div class="lab" style="font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.2em;color:#8e85ad">ONE-TIME TIP</div>
+<div class="big">✦ Send Me a Star ✦</div>
+<div class="sm">ko-fi.com/magickmica</div></a>
+
+<div class="sect"><h2 class="holo">EXTENDED UNIVERSE</h2><div class="rule"></div>
+<span class="meta">SIDE TRANSMISSIONS</span></div>
+<div class="cta-row"><a class="wand-cta" href="wand.html">
+  <div class="glit" aria-hidden="true"></div>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="in">
+    <div class="orb">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fdeaf6" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 20 L15 9"/>
+        <path d="M15 9 l1.6-1.6 2.4 2.4 L17.4 11.4 z" fill="#ffd9a0" stroke="#ffd9a0"/>
+        <path d="M18.4 3.2l.6 1.5 1.5.6-1.5.6-.6 1.5-.6-1.5-1.5-.6 1.5-.6z" fill="#ff5fa8" stroke="none"/>
+        <path d="M7.6 4.4l.45 1.1 1.1.45-1.1.45-.45 1.1-.45-1.1L6.05 5.95l1.1-.45z" fill="#c48cff" stroke="none"/>
+        <path d="M20.6 12.6l.4 1 1 .4-1 .4-.4 1-.4-1-1-.4 1-.4z" fill="#fdeaf6" stroke="none"/>
+      </svg>
     </div>
-    <a class="mtv-full-link" href="https://magickmica.github.io/random-note.html">📺 Open Full Random Note TV →</a>
-  </div>
-
-  <!-- ── THE NEWSSTAND ── -->
-  <div class="section-label" id="read"><span>The Candy Shop Newsstand</span></div>
-
-  <a class="newsstand-teaser" href="https://magickmica.github.io/aliens/newsstand.html">
-    <div class="ns-eyebrow">Now Stocking · Nine Issues</div>
-    <div class="ns-title">The Intergalactic <b>Newsstand</b></div>
-    <div class="ns-desc">Every transmission on one glowing rack — cosmic desserts, pyramid-powered stellar drives, coastal Y3K dispatches, ancient goddesses and more. Step right up and flip through the whole collection. 🛸📰✨</div>
-    <div class="ns-rack">
-      <span class="ns-spine">Galactic Dessert</span>
-      <span class="ns-spine">Cosmic Stellar Drive</span>
-      <span class="ns-spine">Stargazer</span>
-      <span class="ns-spine">Rhode Island Beach Life</span>
-      <span class="ns-spine more">+ nine on the stand</span>
+    <div>
+      <div class="eyebrow">✦ Extended Universe · CH 07 ✦</div>
+      <h3>Wave the Wand</h3>
+      <div class="sub">One flick and the screen remembers it's magic. Sparks, shimmer,
+        and a little chaos — go make something glitter.</div>
+      <div class="go"><span>Cast a spell</span><span>→</span></div>
     </div>
-    <div class="ns-cta">Browse the newsstand <span>&rarr;</span></div>
-    <div class="ns-emoji">🛸</div>
-  </a>
-
-  <!-- ── WONDERLAND WEEKLY ── -->
-  <div class="section-label"><span>On the Cover</span></div>
-
-  <a class="ww-blowin" href="https://magickmica.github.io/alice/wonderland-weekly-expanded.html">
-    <div class="ww-cutout">
-      <img src="alice-cutout.webp" width="380" height="645" loading="lazy" decoding="async" alt="Alice, cover star of Wonderland Weekly" />
+  </div>
+</a><a class="cta hearth" href="fireplace.html">
+  <div class="emb" aria-hidden="true"></div><div class="sheen" aria-hidden="true"></div>
+  <div class="in">
+    <div class="art"><div class="hstack"><div class="pool"></div><div class="log a"></div><div class="log b"></div><div class="fire"></div></div></div>
+    <div>
+      <div class="eyebrow">✦ Extended Universe ✦</div>
+      <h3>The Hearth</h3>
+      <div class="sub">Pull up a chair. The fire's going, the room is warm,
+        and nothing out there needs you for a while.</div>
+      <div class="go"><span>Sit by the fire</span><span>→</span></div>
     </div>
-    <div class="ww-cover">
-      <span class="ww-flash">Expanded Edition · $9.99</span>
-      <div class="ww-masthead">Wonderland <b>Weekly &hearts;</b></div>
-      <div class="ww-issue">Summer 2026 · Vol. 12 · Issue 24</div>
-      <ul class="ww-lines">
-        <li><b>Exclusive:</b> Alice &amp; The Cat, unfiltered</li>
-        <li>Curiouser &amp; curiouser — the gossip column</li>
-        <li>Tea leaf horoscopes &amp; the Cheshire glow-up</li>
-        <li>Take the quiz: which character are you?</li>
-      </ul>
-      <span class="ww-cta">Read the issue <span>&rarr;</span></span>
+  </div>
+</a></div>
+<div style="margin-top:16px"><a class="cta two" href="abundance-oracle.html">
+  <div class="rays" aria-hidden="true"></div><div class="sheen" aria-hidden="true"></div>
+  <div class="in">
+    <div class="art"><div class="shrine">
+      <div class="col l"></div><div class="col r"></div>
+      <div class="eye"><svg viewBox="0 0 64 40" fill="none" aria-hidden="true">
+        <path d="M4 22 C16 6, 44 6, 58 20" stroke="#e0b64c" stroke-width="2.6" stroke-linecap="round"/>
+        <circle cx="31" cy="20" r="9.5" fill="#3fb3a6"/>
+        <circle cx="31" cy="20" r="4" fill="#0b1026"/>
+        <path d="M31 30 l-4 9" stroke="#e0b64c" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M40 29 c4 5, 6 8, 5 11" stroke="#c05a3c" stroke-width="2.4" stroke-linecap="round"/>
+      </svg></div>
+    </div></div>
+    <div>
+      <div class="eyebrow">✦ 100 Signs ✦</div>
+      <h3>Oracle of the Two Lands</h3>
+      <div class="sub">Step between the columns and put your question to the old gods.
+        They answer in signs, and they have a hundred of them.</div>
+      <div class="go"><span>Enter the shrine</span><span>→</span></div>
     </div>
-  </a>
-
-  <!-- ── Y3K MAGAZINE ── -->
-  <div class="section-label"><span>Y3K Magazine</span></div>
-
-  <div class="mag-section">
-    <div class="mag-intro">Missed a week? Every transmission, archived by date.</div>
-    <div class="mag-grid"></div>
-    <a class="mag-hub-link" href="https://magickmica.github.io/minimags.html">✦ Browse All Weekly &amp; Monthly Issues ✦</a>
   </div>
+</a></div>
 
-  <!-- ── SUBSTACK ARCHIVE ── -->
-  <div class="section-label"><span>Substack Archive</span></div>
+<section class="tmap"><h2 class="holo">✦ THE TRANSMISSION MAP</h2><div class="tmap-cols"><div class="tmap-col"><h3>Read</h3><div class="links"><a href="notes.html">All Notes</a><a href="blog.html">The Blog</a><a href="articles.html">Magazine</a><a href="archive.html">Archive</a><a href="minimags.html">Y3K Magazine</a><a href="newsstand.html">Newsstand</a><a href="random-note.html">Random Note TV</a><a href="tv-notes.html">TV Notes</a></div></div><div class="tmap-col wide"><h3>Play</h3><div class="links"><a href="arcade.html">The Arcade</a><a href="quest.html">Dream Quest</a><a href="songmaker.html">Song Maker</a><a href="daily-sigil.html">Daily Sigil</a><a href="haunted-house.html">The Hollow House</a><a href="stardust.html">Stardust Foundry</a><a href="cosmic-echo.html">Cosmic Echo</a><a href="moon-shot.html">Moon Shot</a><a href="blender.html">Astral Blender</a><a href="sunrise.html">Win the Morning</a><a href="pong.html">Pong</a><a href="glitch.html">Glitch</a><a href="cosmic-phone.html">Cosmic Phone</a><a href="transmissions.html">Transmissions</a></div></div><div class="tmap-col"><h3>Dream &amp; Divine</h3><div class="links"><a href="dream-journal.html">Dream Journal</a><a href="affirmations.html">Daily Affirmation</a><a href="affirmations-100.html">Fortune Machine</a><a href="abundance-portal-one.html">The Portal</a><a href="abundance-notebook.html">The Notebook</a><a href="abundance-scratch.html">Scratch a Sign</a><a href="abundance-globe.html">The Globe</a><a href="abundance-oracle.html">Abundance Oracle</a><a href="https://magickmica.github.io/oracle">Oracle</a><a href="https://magickmica.github.io/musicbox/">Music Box</a></div></div><div class="tmap-col"><h3>The Signal Shop</h3><div class="links"><a href="herkimer-vault.html">Herkimer Vault</a><a href="labradorite-vault.html">Labradorite Vault</a><a href="opal-vault.html">Opal Vault</a><a href="quartz-vault.html">Quartz Vault</a><a href="watermelon-vault.html">Watermelon Vault</a><a href="quartz-amulets.html">Quartz Amulets</a><a href="copper-jewelry.html">Copper Jewelry</a><a href="https://www.themysticalspiralstore.com/">Mystical Spiral ↗</a></div></div><div class="tmap-col"><h3>Broadcasts</h3><div class="links"><a href="glitter-transmission.html">Glitter Transmission</a><a href="galactic-dessert-issue.html">Galactic Dessert</a><a href="cosmic-circus-broadcast.html">Cosmic Circus</a><a href="cozy-christmas-broadcast.html">Cozy Christmas</a><a href="impossible-broadcast.html">Impossible Broadcast</a><a href="stargazer-june-2026.html">Stargazer</a><a href="starseed-chronicles.html">Starseed Chronicles</a><a href="glow-the-transmission-issue.html">Glow Issue</a><a href="copper-the-ancient-issue.html">Ancient Issue</a><a href="the-sampler-three-transmissions.html">The Sampler</a><a href="prism-parlour-crystal-living.html">Prism Parlour</a><a href="the-art-wing-gallery.html">Art Wing Gallery</a></div></div><div class="tmap-col wide"><h3>Extended Universe</h3><div class="links"><a href="alien.html">Visitor</a><a href="ecard.html">Send a Visitor</a><a href="chest.html">The Chest</a><a href="wand.html">Wand</a><a href="cone.html">Cone</a><a href="fireplace.html">Fireplace</a><a href="alice-ufo-message.html">Alice&#x27;s UFO Message</a><a href="wonderland.html">Wonderland</a><a href="wonderland-weekly-expanded.html">Wonderland Weekly</a><a href="aliens-love-icecream.html">Aliens Love Ice Cream</a><a href="brewed-magic-coffee.html">Brewed Magic</a><a href="cosmic-stellar-drive.html">Stellar Drive</a><a href="alien-basic.html">Alien</a><a href="trump-art.html">Trump Art</a><a href="trump-art-gallery.html">Trump Art Gallery</a><a href="abundance-portal.html">Abundance Portal</a><a href="https://magickmica.github.io/racastaldo/">Ra Castaldo</a></div></div></div></section>
 
-  <div class="card-grid">
-
-    <a class="card v-pink" href="https://magickmica.github.io/blog.html">
-      <span class="card-icon">✦</span>
-      <div class="card-name">The Blog</div>
-      <div class="card-hint">A cosmic corner of the internet. Posts, sidebar curiosities, and the occasional surprise.</div>
-      <div class="card-link-label">Read the blog →</div>
-    </a>
-
-    <a class="card v-cyan" href="https://magickmica.github.io/notes.html">
-      <span class="card-icon">📝</span>
-      <div class="card-name">Notes Archive</div>
-      <div class="card-hint">Every transmission, never lost. Search thousands of notes by date, mood, or media.</div>
-      <div class="card-link-label">Browse the notes →</div>
-    </a>
-
-    <a class="card v-gold" href="https://magickmica.github.io/articles.html">
-      <span class="card-icon">📰</span>
-      <div class="card-name">Article Archive</div>
-      <div class="card-hint">The full magazine. Every newsletter issue from Magick Mica TV and Magick Mica Art, in one place.</div>
-      <div class="card-link-label">Read the archive →</div>
-    </a>
-
-  </div>
-
-  <!-- ── CHANNELS ── -->
-  <div class="section-label" id="channels"><span>All Sugar-Coated Channels</span></div>
-
-  <div class="card-grid">
-
-    <a class="card v-gold" href="https://magickmica.github.io/alice/alice-ufo-message.html">
-      <span class="card-icon">🛸</span>
-      <div class="card-name">Alice — UFO Message</div>
-      <div class="card-hint">Signals from beyond the looking glass. Transmissions that came from somewhere else entirely.</div>
-      <div class="card-link-label">Open channel →</div>
-    </a>
-
-    <a class="card v-purple" href="https://magickmica.github.io/mags/mags/index.html">
-      <span class="card-icon">✨</span>
-      <div class="card-name">Cosmic Mags</div>
-      <div class="card-hint">The hub within the hub. Stories, moments, and magic gathered in one place.</div>
-      <div class="card-link-label">Tune in →</div>
-    </a>
-
-    <a class="card v-teal" href="https://magickmica.github.io/mags/mags/rhode-island-beach-life.html">
-      <span class="card-icon">🌊</span>
-      <div class="card-name">Rhode Island Beach Life</div>
-      <div class="card-hint">Salt, sand, and a certain kind of light. The ocean transmissions.</div>
-      <div class="card-link-label">Go there →</div>
-    </a>
-
-  </div>
-
-  <!-- ── INCOMING TRANSMISSION · HERKIMER ── -->
-  <div class="section-label" id="shop"><span>Signal Shop</span></div>
-
-  <div class="tx-wrap">
-    <div class="tx-label"><span>Incoming Transmission</span><span class="tx-live"><i></i>Live · CH 07</span></div>
-    <a class="tx-set" href="https://magickmica.github.io/herkimer-vault.html">
-      <div class="tx-screen">
-        <div class="tx-noise" aria-hidden="true"></div>
-        <div class="tx-scan" aria-hidden="true"></div>
-        <div class="tx-roll" aria-hidden="true"></div>
-        <div class="tx-inner">
-          <span class="tx-gem"><img decoding="async" src="https://static.wixstatic.com/media/f91caa_c9c5e5b708fe490daebae7b468802e21~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Herkimer diamond quartz" loading="lazy"></span>
-          <span class="tx-copy">
-            <span class="tx-chan">▚▞ SIGNAL DETECTED · UPSTATE NEW YORK ▞▚</span>
-            <span class="tx-title">The Herkimer Vault</span>
-            <span class="tx-sub">Pure solidified light — doubly-terminated diamonds mined in Herkimer County, some with ancient water &amp; glowing petroleum sealed inside. 23 pieces, live now. 💠</span>
-          </span>
-          <span class="tx-cta">Tune In →</span>
-        </div>
-      </div>
-    </a>
-  </div>
-
-  <!-- ── THE VAULTS ── -->
-  <div class="section-label"><span>The Candy Vaults</span></div>
-
-  <div class="vault-grid">
-    <a class="vault-tv" href="https://magickmica.github.io/opal-vault.html" style="--vc:#ff6fae;--vglow:rgba(255,111,174,0.4)">
-      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
-      <div class="tv-body">
-        <div class="tv-screen">
-          <img decoding="async" src="https://static.wixstatic.com/media/f91caa_b6366e5b6f564a0a86540f3124dbd6a2~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Midnight Aurora black opal amulet" loading="lazy">
-          <span class="tv-chan">CH 01</span>
-          <span class="tv-onair">On Air</span>
-        </div>
-        <div class="tv-panel">
-          <div class="tv-label">
-            <div class="tv-name">The Opal Vault</div>
-            <div class="tv-tag">Play of Color</div>
-          </div>
-          <div class="tv-knobs"><i></i><i></i></div>
-        </div>
-      </div>
-      <span class="tv-enter">Enter the vault &rarr;</span>
-    </a>
-
-    <a class="vault-tv" href="https://magickmica.github.io/labradorite-vault.html" style="--vc:#5a8bff;--vglow:rgba(90,139,255,0.4)">
-      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
-      <div class="tv-body">
-        <div class="tv-screen">
-          <img decoding="async" src="https://static.wixstatic.com/media/f91caa_022601183b9749ad9be2a356c633d543~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Golden fire labradorite heart" loading="lazy">
-          <span class="tv-chan">CH 02</span>
-          <span class="tv-onair">On Air</span>
-        </div>
-        <div class="tv-panel">
-          <div class="tv-label">
-            <div class="tv-name">Labradorite Vault</div>
-            <div class="tv-tag">The Flash Within</div>
-          </div>
-          <div class="tv-knobs"><i></i><i></i></div>
-        </div>
-      </div>
-      <span class="tv-enter">Enter the vault &rarr;</span>
-    </a>
-
-    <a class="vault-tv" href="https://magickmica.github.io/watermelon-vault.html" style="--vc:#46e5c8;--vglow:rgba(70,229,200,0.4)">
-      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
-      <div class="tv-body">
-        <div class="tv-screen">
-          <img decoding="async" src="https://static.wixstatic.com/media/f91caa_f1482dfa04cf4aefadd757aadbf1a92f~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Watermelon tourmaline specimen" loading="lazy">
-          <span class="tv-chan">CH 03</span>
-          <span class="tv-onair">On Air</span>
-        </div>
-        <div class="tv-panel">
-          <div class="tv-label">
-            <div class="tv-name">Watermelon Vault</div>
-            <div class="tv-tag">Pink Heart · Green Rind</div>
-          </div>
-          <div class="tv-knobs"><i></i><i></i></div>
-        </div>
-      </div>
-      <span class="tv-enter">Enter the vault &rarr;</span>
-    </a>
-
-    <a class="vault-tv" href="https://magickmica.github.io/copper-jewelry.html" style="--vc:#ffc46b;--vglow:rgba(255,196,107,0.4)">
-      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
-      <div class="tv-body">
-        <div class="tv-screen">
-          <img decoding="async" src="https://static.wixstatic.com/media/f91caa_27488b7420dd4bdc81a115dad39a7757~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Shungite H.E.A.L. shield in copper coil" loading="lazy">
-          <span class="tv-chan">CH 04</span>
-          <span class="tv-onair">On Air</span>
-        </div>
-        <div class="tv-panel">
-          <div class="tv-label">
-            <div class="tv-name">Copper Workshop</div>
-            <div class="tv-tag">Sacred Cubit Coils</div>
-          </div>
-          <div class="tv-knobs"><i></i><i></i></div>
-        </div>
-      </div>
-      <span class="tv-enter">Enter the vault &rarr;</span>
-    </a>
-    <a class="vault-tv" href="https://magickmica.github.io/quartz-vault.html" style="--vc:#b17dff;--vglow:rgba(177,125,255,0.4)">
-      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
-      <div class="tv-body">
-        <div class="tv-screen">
-          <img decoding="async" src="https://static.wixstatic.com/media/f91caa_1dfa07609ffd411598cdf448b05a8781~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Phantom clear quartz free form" loading="lazy">
-          <span class="tv-chan">CH 05</span>
-          <span class="tv-onair">On Air</span>
-        </div>
-        <div class="tv-panel">
-          <div class="tv-label">
-            <div class="tv-name">Quartz Vault</div>
-            <div class="tv-tag">Raw Crystal Light</div>
-          </div>
-          <div class="tv-knobs"><i></i><i></i></div>
-        </div>
-      </div>
-      <span class="tv-enter">Enter the vault &rarr;</span>
-    </a>
-
-    <a class="vault-tv" href="https://magickmica.github.io/quartz-amulets.html" style="--vc:#ece9ff;--vglow:rgba(236,233,255,0.35)">
-      <div class="tv-antenna"><span class="tip-l"></span><span class="tip-r"></span></div>
-      <div class="tv-body">
-        <div class="tv-screen">
-          <img decoding="async" src="https://static.wixstatic.com/media/f91caa_946611a656af4732ba9338c926c6f15b~mv2.jpg/v1/fill/w_500,h_600,al_c,q_85/file.jpg" alt="Rose quartz 432 Hz copper H.E.A.L. shield" loading="lazy">
-          <span class="tv-chan">CH 06</span>
-          <span class="tv-onair">On Air</span>
-        </div>
-        <div class="tv-panel">
-          <div class="tv-label">
-            <div class="tv-name">Quartz Amulets</div>
-            <div class="tv-tag">Copper-Wound Light</div>
-          </div>
-          <div class="tv-knobs"><i></i><i></i></div>
-        </div>
-      </div>
-      <span class="tv-enter">Enter the vault &rarr;</span>
-    </a>
-
-  </div>
-
-  <p class="vault-note">Hand-picked crystals, gemstones &amp; copper — curated by Magick Mica TV, sold by <a href="https://www.themysticalspiralstore.com" target="_blank" rel="noopener">The Mystical Spiral Store</a>.</p>
-
-
-  <!-- ── BUY ME A STAR (one-time tip) ── -->
-  <a class="star-tip" href="https://ko-fi.com/magickmica/tip" target="_blank" rel="noopener">
-    <span class="star-sky" aria-hidden="true">
-      <i style="--x:12%;--y:28%;--d:0s"></i><i style="--x:31%;--y:66%;--d:1.1s"></i>
-      <i style="--x:54%;--y:19%;--d:2.2s"></i><i style="--x:73%;--y:58%;--d:0.6s"></i>
-      <i style="--x:88%;--y:33%;--d:1.7s"></i>
-    </span>
-    <span class="star-glyph" aria-hidden="true">★</span>
-    <span class="star-copy">
-      <span class="star-kicker">No subscription · One-time signal boost</span>
-      <span class="star-title">Buy Me a <b>Star</b></span>
-      <span class="star-sub">Toss a star into the transmission. It keeps the broadcast running, the vaults stocked, and the coffee cosmic.</span>
-      <span class="star-btn">★ Send a Star</span>
-    </span>
-  </a>
-
-  <!-- ── EXTENDED UNIVERSE ── -->
-  <div class="section-label" id="support"><span>Extended Timeline</span></div>
-
-  <div class="card-grid">
-
-    <a class="card v-cyan" href="https://substack.com/@magickmica" target="_blank" rel="noopener">
-      <span class="ext-badge">External ↗</span>
-      <span class="card-icon">📡</span>
-      <div class="card-name">Substack</div>
-      <div class="card-hint">The written word. Subscribe to receive transmissions direct to your inbox.</div>
-      <div class="card-link-label">substack.com/@magickmica</div>
-    </a>
-
-    <a class="card v-pink" href="https://www.themysticalspiralstore.com/" target="_blank" rel="noopener">
-      <span class="ext-badge">External ↗</span>
-      <span class="card-icon">🌀</span>
-      <div class="card-name">Mystical Spiral Store</div>
-      <div class="card-hint">Objects that carry the signal. Curated artifacts for the curious and the cosmic.</div>
-      <div class="card-link-label">themysticalspiralstore.com</div>
-    </a>
-
-  </div>
-
-  <!-- ── FOOTER ── -->
-  <!-- ── THE TRANSMISSION MAP ── -->
-  <nav class="tmap" aria-label="Site map">
-    <span class="tmap-shooter"></span>
-    <span class="tmap-shooter s2"></span>
-
-    <div class="tmap-head">
-      <span class="tmap-kicker">Navigation Signal Acquired</span>
-      <div class="tmap-title">THE TIMESTREAM MAP</div>
-      <div class="tmap-sub">Every channel · Every century · One sweet timeline</div>
-    </div>
-
-    <div class="tmap-grid">
-
-      <div class="tmap-col" style="--tc:var(--pink);--tg:rgba(255,79,184,0.6)">
-        <div class="tmap-col-title">📡 Broadcasts</div>
-        <a href="https://magickmica.github.io/glitter-transmission.html">The Glitter Transmission</a>
-        <a href="https://magickmica.github.io/aliens/galactic-dessert-issue.html">Galactic Dessert Issue</a>
-        <a href="https://magickmica.github.io/random-note.html">Random Note TV</a>
-        <a href="https://magickmica.github.io/alice/alice-ufo-message.html">Alice's UFO Message</a>
-        <a href="https://magickmica.github.io/which-character-are-you.html">Character Quiz Show</a>
-      </div>
-
-      <div class="tmap-col" style="--tc:var(--cyan);--tg:rgba(61,255,214,0.6)">
-        <div class="tmap-col-title">📰 Reading Room</div>
-        <a href="https://magickmica.github.io/alice/wonderland-weekly-expanded.html">Wonderland Weekly</a>
-        <a href="https://magickmica.github.io/aliens/newsstand.html">Intergalactic Newsstand</a>
-        <a href="https://magickmica.github.io/minimags.html">Mini Mags</a>
-        <a href="https://magickmica.github.io/blog.html">The Blog</a>
-        <a href="https://magickmica.github.io/articles.html">Articles</a>
-        <a href="https://magickmica.github.io/notes.html">Notes Archive</a>
-      </div>
-
-      <div class="tmap-col" style="--tc:var(--gold);--tg:rgba(255,217,59,0.6)">
-        <div class="tmap-col-title">💎 Crystal Vaults</div>
-        <a href="https://magickmica.github.io/herkimer-vault.html">Herkimer Vault</a>
-        <a href="https://magickmica.github.io/labradorite-vault.html">Labradorite Vault</a>
-        <a href="https://magickmica.github.io/opal-vault.html">Opal Vault</a>
-        <a href="https://magickmica.github.io/quartz-vault.html">Quartz Vault</a>
-        <a href="https://magickmica.github.io/watermelon-vault.html">Watermelon Vault</a>
-        <a href="https://magickmica.github.io/quartz-amulets.html">Quartz Amulets</a>
-        <a href="https://magickmica.github.io/copper-jewelry.html">Copper Jewelry</a>
-      </div>
-
-      <div class="tmap-col" style="--tc:var(--purple);--tg:rgba(196,125,255,0.6)">
-        <div class="tmap-col-title">🛸 Beyond the Signal</div>
-        <a href="https://substack.com/@magickmica" target="_blank" rel="noopener">Substack <span class="ext">↗</span></a>
-        <a href="https://ko-fi.com/magickmica/tiers" target="_blank" rel="noopener">Ko-fi Memberships <span class="ext">↗</span></a>
-        <a href="https://www.themysticalspiralstore.com" target="_blank" rel="noopener">Mystical Spiral Store <span class="ext">↗</span></a>
-      </div>
-
-      <div class="tmap-col" style="--tc:var(--lime);--tg:rgba(157,255,74,0.6)">
-        <div class="tmap-col-title">♥ Leave a Trace</div>
-        <a href="/404.html">The Lost Channel</a>
-      </div>
-
-    </div>
-
-    <div class="tmap-here">Current position: <b>Magick Mica TV · Present Day · Probably</b></div>
-  </nav>
-
-  <footer class="hub-footer">
-    <div class="footer-brand">Magick Mica TV</div>
-    <div class="footer-copy">© Magick Mica TV · All Transmissions Reserved</div>
-  </footer>
-
-</div><!-- /page -->
-
-<script>
-/* ── starfield ── */
-(function(){
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const c = document.getElementById('bg');
-  if (!c) return;
-  const ctx = c.getContext('2d', { alpha: true });
-  const dpr = Math.min(devicePixelRatio || 1, 2);
-  let W, H, stars = [], neb = null, raf = null;
-  const cols = ['#fff'];
-
-  function resize(){
-    W = innerWidth; H = innerHeight;
-    c.width = W * dpr; c.height = H * dpr;
-    c.style.width = W + 'px'; c.style.height = H + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    /* nebula gradients are static — bake once per resize, not per frame */
-    neb = document.createElement('canvas');
-    neb.width = W; neb.height = H;
-    const n = neb.getContext('2d');
-    const g1 = n.createRadialGradient(W*0.2, H*0.15, 0, W*0.2, H*0.15, W*0.35);
-    g1.addColorStop(0,'rgba(192,84,252,0.04)'); g1.addColorStop(1,'transparent');
-    n.fillStyle = g1; n.fillRect(0,0,W,H);
-    const g2 = n.createRadialGradient(W*0.8, H*0.6, 0, W*0.8, H*0.6, W*0.3);
-    g2.addColorStop(0,'rgba(61,255,214,0.03)'); g2.addColorStop(1,'transparent');
-    n.fillStyle = g2; n.fillRect(0,0,W,H);
-  }
-
-  function mkStars(){
-    stars = [];
-    /* capped so large displays don't pay a 1000+ star per-frame cost */
-    const n = Math.min(Math.floor((W*H)/6000), 320);
-    for(let i=0;i<n;i++) stars.push({
-      x: Math.random()*W, y: Math.random()*H,
-      r: Math.random()*1.3+0.2,
-      a: Math.random(), da: (Math.random()-0.5)*0.005,
-      col: cols[Math.floor(Math.random()*cols.length)]
-    });
-  }
-
-  function paint(twinkle){
-    ctx.clearRect(0,0,W,H);
-    if (neb) ctx.drawImage(neb, 0, 0);
-    for (let i=0;i<stars.length;i++){
-      const s = stars[i];
-      if (twinkle){ s.a += s.da; if(s.a<=0||s.a>=1) s.da*=-1; }
-      ctx.globalAlpha = s.a * 0.9;
-      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-      ctx.fillStyle = s.col; ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-  }
-
-  function loop(){ paint(true); raf = requestAnimationFrame(loop); }
-  function stop(){ if (raf) { cancelAnimationFrame(raf); raf = null; } }
-  function play(){ if (!raf && !reduce) loop(); }
-
-  resize(); mkStars();
-  if (reduce) paint(false); else loop();
-
-  /* don't burn battery on a backgrounded tab */
-  document.addEventListener('visibilitychange', () => document.hidden ? stop() : play());
-
-  let t;
-  addEventListener('resize', () => {
-    clearTimeout(t);
-    t = setTimeout(() => { resize(); mkStars(); if (reduce) paint(false); }, 150);
-  });
-})();
-
-/* ── floating particles ── */
-(function(){
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const cols=['rgba(255,79,184,0.5)','rgba(61,255,214,0.4)','rgba(157,255,74,0.4)','rgba(192,84,252,0.5)','rgba(255,217,59,0.4)'];
-  for(let i=0;i<20;i++){
-    const p = document.createElement('div');
-    p.className='particle';
-    const sz = Math.random()*3+1.5;
-    p.style.cssText=[
-      `width:${sz}px`,`height:${sz}px`,
-      `background:${cols[Math.floor(Math.random()*cols.length)]}`,
-      `left:${Math.random()*100}vw`,
-      `animation-duration:${Math.random()*22+14}s`,
-      `animation-delay:${Math.random()*18}s`
-    ].join(';');
-    document.body.appendChild(p);
-  }
-})();
-</script>
-
+<footer>✦ <a href="https://magickmica.substack.com" target="_blank" rel="noopener">Magick Mica TV</a>
+· where magick meets the pixel ✦<br>
+<a href="notes.html">Notes</a> · <a href="articles.html">Magazine</a> ·
+<a href="blog.html">Blog</a> · <a href="minimags.html">Y3K</a> ·
+<a href="arcade.html">Arcade</a> · <a href="archive.html">Archive</a>
+</footer>
+</div>
+<details class="chdial"><summary title="Change the channel"><span class="dial-ico">📺</span><span class="dial-label"><small>Change Channel</small>Pick a Frequency</span></summary><div class="chdial-panel"><div class="chdial-title">📡 Channel Dial</div><a href="index-NEW.html"><span class="em"></span> All Transmissions <span class="ch">CH 00</span></a><a href="index.html"><span class="em">🐇</span> Home <span class="ch">CH 01</span></a><a href="index-summer.html"><span class="em">☀️</span> Summer <span class="ch">CH 02</span></a><a href="index-halloween.html"><span class="em">🎃</span> Halloween <span class="ch">CH 03</span></a><a href="index-fall.html"><span class="em">🍂</span> Fall Café <span class="ch">CH 04</span></a><a href="index-witching.html"><span class="em">🔮</span> Witching Hour <span class="ch">CH 06</span></a><a href="index-alien.html"><span class="em">🛸</span> Abduction <span class="ch">CH 07</span></a><a href="index-witches.html"><span class="em">🧹</span> Witches &amp; Goblins <span class="ch">CH 08</span></a><a href="index-vhs.html"><span class="em">📼</span> Lost Channel <span class="ch">CH 09</span></a><a href="index-sea.html"><span class="em">🌊</span> Under the Sea <span class="ch">CH 10</span></a><a href="index-dream.html"><span class="em">🌙</span> Dreamscape <span class="ch">CH 11</span></a><a href="index-cottage.html"><span class="em">🍄</span> Cottage Tea Time <span class="ch">CH 12</span></a><a href="index-arcade.html"><span class="em">🕹️</span> Arcade <span class="ch">CH 13</span></a><a href="index-winter.html"><span class="em">❄️</span> Winter Wonderland <span class="ch">CH 14</span></a><a href="index-wonderland.html"><span class="em">🐇</span> Down the Rabbit Hole <span class="ch">CH 15</span></a></div></details>
 <script src="pools.js"></script>
-<script>
-let mtvAutoInterval = null;
-
-function mtvEscapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-function mtvPickNote() {
-  return MTV_NOTES[Math.floor(Math.random() * MTV_NOTES.length)];
-}
-
-function mtvIsPortrait(url) {
-  const m = url.match(/_(\d+)x(\d+)/);
-  if (!m) return false;
-  const w = parseInt(m[1], 10), h = parseInt(m[2], 10);
-  return h > w * 1.15;
-}
-
-function mtvShowNote(note) {
-  const container = document.getElementById('mtvNote');
-  let html = '';
-  if (note.t) {
-    html += `<img decoding="async" class="mtv-note-img" src="${note.t}" loading="lazy" onerror="this.style.display='none'" />`;
-  }
-  if (note.b) {
-    html += `<div class="mtv-note-text">${mtvEscapeHtml(note.b)}</div>`;
-  } else if (!note.t) {
-    html += `<div class="mtv-note-text">✦ static ✦</div>`;
-  }
-  html += `<div class="mtv-note-meta">❤ ${note.l} &nbsp; ↩ ${note.r}</div>`;
-  container.innerHTML = html;
-  container.classList.toggle('has-img', !!note.t);
-  container.classList.toggle('portrait-img', !!(note.t && mtvIsPortrait(note.t)));
-
-  const noteUrl = `https://substack.com/@magickmica/note/c-${note.id}`;
-  container.onclick = () => window.open(noteUrl, '_blank', 'noopener');
-}
-
-function mtvChangeChannel() {
-  const staticEl = document.getElementById('mtvStatic');
-  const knob = document.getElementById('mtvChannelBtn');
-  knob.classList.remove('spin');
-  void knob.offsetWidth;
-  knob.classList.add('spin');
-  staticEl.classList.add('active');
-  setTimeout(() => {
-    mtvShowNote(mtvPickNote());
-    staticEl.classList.remove('active');
-  }, 180);
-}
-
-document.getElementById('mtvChannelBtn').addEventListener('click', mtvChangeChannel);
-
-document.getElementById('mtvAutoBtn').addEventListener('click', (e) => {
-  const sw = e.currentTarget;
-  if (mtvAutoInterval) {
-    clearInterval(mtvAutoInterval);
-    mtvAutoInterval = null;
-    sw.classList.remove('on');
-  } else {
-    mtvAutoInterval = setInterval(mtvChangeChannel, 6000);
-    sw.classList.add('on');
-  }
-});
-
-mtvShowNote(mtvPickNote());
-</script>
 <script src="mm-grid.js" defer></script>
-</body>
-</html>
+<script>
+(function(){
+ var el=document.getElementById('mtv');
+ if(!el||typeof MTV_NOTES==='undefined'||!MTV_NOTES.length)return;
+ function pick(){
+  var n=MTV_NOTES[Math.floor(Math.random()*MTV_NOTES.length)];
+  var b=(n.b||'').split('\n')[0].slice(0,180);
+  el.innerHTML='<div class="meta">CH 01 \u00b7 RANDOM NOTE TV</div>'+
+   '<div class="body"></div>'+
+   '<div class="meta">\u2764 '+(n.l||0)+' \u00b7 \u21a9 '+(n.r||0)+' \u00b7 '+(n.d||'')+'</div>';
+  el.querySelector('.body').textContent=b||'\u2726';
+ }
+ pick();
+ el.style.cursor='pointer';
+ el.addEventListener('click',pick);
+ setInterval(pick,9000);
+})();
+</script>
+<script>(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var e = document.querySelector('.emb');
+  if (e) { var h=''; for (var i=0;i<(reduce?0:26);i++){
+    h += '<i style="left:'+(6+Math.random()*88).toFixed(1)+'%;animation-delay:'
+      +(Math.random()*5.5).toFixed(2)+'s;animation-duration:'+(4+Math.random()*3).toFixed(1)+'s"></i>'; }
+    e.innerHTML=h; }
+  var r = document.querySelector('.rays');
+  if (r) { var h3=''; for (var k=0;k<(reduce?0:20);k++){
+    h3 += '<i style="left:'+(6+Math.random()*88).toFixed(1)+'%;bottom:'+(8+Math.random()*40).toFixed(0)
+      +'%;animation-delay:'+(Math.random()*6).toFixed(2)+'s"></i>'; }
+    r.innerHTML=h3; }
+  var n = document.querySelector('.notes');
+  if (n) { var g=['\u266a','\u266b','\u266c','\u2669'], h2='';
+    for (var j=0;j<(reduce?0:16);j++){
+      h2 += '<i style="left:'+(8+Math.random()*84).toFixed(1)+'%;bottom:'
+        +(10+Math.random()*30).toFixed(0)+'%;animation-delay:'+(Math.random()*6).toFixed(2)+'s">'
+        +g[j%4]+'</i>'; }
+    n.innerHTML=h2; }
+})();
+(function(){
+  var g = document.querySelector('.glit');
+  if (!g) return;
+  var n = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 14 : 46;
+  var html = '';
+  for (var i = 0; i < n; i++) {
+    html += '<i style="left:' + (Math.random()*100).toFixed(2) + '%;top:'
+         + (Math.random()*100).toFixed(2) + '%;animation-delay:'
+         + (Math.random()*3.4).toFixed(2) + 's"></i>';
+  }
+  g.innerHTML = html;
+})();</script>
+<script></script>
+<script src="mm-nav.js" defer></script>
+</body></html>

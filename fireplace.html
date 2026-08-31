@@ -400,10 +400,10 @@ const woodTexture = (dark, light, ringFreq = 3.2) => {
 /* ══ THE FIREPLACE ════════════════════════════════════════════════════════
    Every brick is a separate box, which would be hundreds of draw calls —
    so they're one InstancedMesh instead: a single geometry drawn many times
-   with a per-instance matrix and colour. That per-instance colour is what
+   with a per-instance matrix and color. That per-instance color is what
    earns the detail here. Soot isn't a texture; it's each brick being told
    how close it is to the smoke path, so the wall darkens toward the top
-   and the centre the way a real one does.
+   and the center the way a real one does.
 */
 
 const BW = 3.0, BH = 2.35;             // firebox opening: width, height
@@ -456,7 +456,7 @@ function buildFireplace() {
 		dummy.updateMatrix();
 		bricks.setMatrixAt(i, dummy.matrix);
 
-		// soot: heaviest high and centred, where the smoke actually goes
+		// soot: heaviest high and centered, where the smoke actually goes
 		const up = Math.pow(Math.min(1, s.y / BH), 1.25);
 		const mid = Math.exp(-(s.x * s.x) / 1.9);
 		const amt = Math.min(1, up * mid * 1.25 + up * 0.25);
@@ -545,9 +545,9 @@ function buildLogs() {
    per-frame JavaScript, which is why this can be dense enough to look like
    fire instead of like confetti.
 
-   The colour ramp is the other half: white-hot at the base, yellow, orange,
+   The color ramp is the other half: white-hot at the base, yellow, orange,
    then deep red as it dies. Fire is a TEMPERATURE gradient, and a flame
-   that's one colour top to bottom always reads as cellophane.
+   that's one color top to bottom always reads as cellophane.
 */
 const flameUniforms = {
 	uTime: { value: 0 },
@@ -745,7 +745,7 @@ const buildLightRoom = () => {
 const Sfx = (() => {
 	let ctx = null, master = null, bus = null, noiseBuf = null;
 	let roarGain = null, roarFilter = null, sizzleGain = null;
-	let on = false, level = 1, vol = 0.8, timer = null;
+	let on = false, level = 1, vol = 0.8, timer = null, fizzTimer = null;
 
 	const impulse = (seconds, decay) => {
 		const len = Math.floor(ctx.sampleRate * seconds);
@@ -769,9 +769,12 @@ const Sfx = (() => {
 		bus = ctx.createGain();
 		bus.connect(master);
 		const conv = ctx.createConvolver();
-		conv.buffer = impulse(0.9, 3.6);     // a small room, not a cathedral
+		// Short and dry. A long tail smears separate grains into each other
+		// until they overlap continuously — which is, once again, water.
+		// Transients have to stay separate to read as transients.
+		conv.buffer = impulse(0.42, 4.2);
 		const wet = ctx.createGain();
-		wet.gain.value = 0.3;
+		wet.gain.value = 0.16;
 		bus.connect(conv).connect(wet).connect(master);
 
 		noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
@@ -785,54 +788,43 @@ const Sfx = (() => {
 			d[i] = last * 3.2;
 		}
 
-		// TWO beds, with a deliberate HOLE between them. Everything from
-		// roughly 300Hz to 1kHz is where wind lives — broadband noise
-		// wandering slowly through that band IS the sound of a gust, and
-		// that's exactly what the old bed was doing. Real fire has almost
-		// nothing in the middle: a low rumble underneath, a fine sizzle on
-		// top, and the crackles carrying the whole middle by themselves.
+		// ONE bed only, and it lives below 130Hz. Anything sustained above
+		// that turns into water: a continuous hiss in the 2–8kHz band with
+		// movement on it is a stream, full stop. There is no filter setting
+		// that rescues it, because the problem isn't the color — it's that
+		// the sound never stops.
+		//
+		// So the entire high end is transient instead. Everything up there
+		// arrives as separate grains through this bus, with real silence
+		// between them. Fire is impulses; water is a wash.
 		const src = ctx.createBufferSource();
 		src.buffer = noiseBuf;
 		src.loop = true;
 
-		// bed one: body. Deep, steady, and almost motionless.
 		roarFilter = ctx.createBiquadFilter();
 		roarFilter.type = 'lowpass';
-		roarFilter.frequency.value = 135;
+		roarFilter.frequency.value = 118;
 		roarFilter.Q.value = 0.5;
 		roarGain = ctx.createGain();
-		roarGain.gain.value = 0.32;
+		roarGain.gain.value = 0.3;
 		src.connect(roarFilter).connect(roarGain).connect(bus);
-
-		// bed two: sizzle. Thin, high, and fluttering FAST. Speed is the
-		// whole difference — slow movement up here is a draught, quick
-		// movement is burning.
-		const sz = ctx.createBiquadFilter();
-		sz.type = 'highpass';
-		sz.frequency.value = 3400;
-		sizzleGain = ctx.createGain();
-		sizzleGain.gain.value = 0.042;
-		src.connect(sz).connect(sizzleGain).connect(bus);
-		[5.3, 8.9, 13.7].forEach((f, i) => {
-			const lfo = ctx.createOscillator();
-			lfo.frequency.value = f;
-			const amt = ctx.createGain();
-			amt.gain.value = 0.015 - i * 0.004;
-			lfo.connect(amt).connect(sizzleGain.gain);
-			lfo.start();
-		});
 		src.start();
 
-		// the only slow movement left anywhere, and just a few Hz wide
+		// every crackle and grain lands here, so one knob rides them all
+		sizzleGain = ctx.createGain();
+		sizzleGain.gain.value = 1;
+		sizzleGain.connect(bus);
+
+		// the only slow movement anywhere, and just a few Hz wide
 		const drift = ctx.createOscillator();
 		drift.frequency.value = 0.06;
 		const driftAmt = ctx.createGain();
-		driftAmt.gain.value = 16;
+		driftAmt.gain.value = 14;
 		drift.connect(driftAmt).connect(roarFilter.frequency);
 		drift.start();
 	};
 
-	// one crackle: a very short burst through a sharp resonant filter
+	// one grain: a very short burst through a sharp resonant filter
 	const snap = (t, freq, q, gain, dur) => {
 		const src = ctx.createBufferSource();
 		src.buffer = noiseBuf;
@@ -845,9 +837,36 @@ const Sfx = (() => {
 		g.gain.setValueAtTime(0.0001, t);
 		g.gain.exponentialRampToValueAtTime(gain, t + 0.003);
 		g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-		src.connect(f).connect(g).connect(bus);
+		src.connect(f).connect(g).connect(sizzleGain);
 		src.start(t);
 		src.stop(t + dur + 0.05);
+	};
+
+	/* The fine layer. This is what replaced the sustained sizzle, and the
+	   difference is entirely statistical.
+
+	   Amplitude is random()³ — a heavy tail, so the overwhelming majority
+	   of these are inaudible and every so often one isn't. That lopsided
+	   distribution is what separates fire from water at the level your ear
+	   actually judges it: a stream is thousands of grains all the same
+	   size, arriving so evenly they fuse into a wash. Fire is mostly
+	   nothing, punctuated. Even at the same density and the same filter
+	   settings, the flat distribution sounds wet and this one doesn't. */
+	const fizz = () => {
+		if (!on || !ctx) return;
+		const t0 = ctx.currentTime;
+		const n = 1 + Math.floor(Math.random() * 2);
+		for (let i = 0; i < n; i++) {
+			const amp = 0.34 * Math.pow(Math.random(), 3);
+			snap(
+				t0 + Math.random() * 0.05,
+				2000 + Math.random() * 5200,
+				14 + Math.random() * 18,
+				amp * level,
+				0.004 + Math.random() * 0.011,
+			);
+		}
+		fizzTimer = setTimeout(fizz, (26 + Math.random() * 105) / (0.4 + level));
 	};
 
 	const scatter = () => {
@@ -865,6 +884,13 @@ const Sfx = (() => {
 				snap(t, 950 + Math.random() * 3800, 8 + Math.random() * 10, (0.13 + Math.random() * 0.32) * level, 0.018 + Math.random() * 0.045);
 			}
 		}
+		// Sap boiling out of a knot — a genuinely SUSTAINED hiss, a few
+		// hundred milliseconds long. Real fires do this, and it's the one
+		// place a continuous sound belongs. Rare on purpose: at 3% it's a
+		// detail, and at 30% it would be the stream all over again.
+		if (Math.random() < 0.03) {
+			snap(t0, 1300 + Math.random() * 2000, 4, 0.12 * level, 0.22 + Math.random() * 0.35);
+		}
 		timer = setTimeout(scatter, (32 + Math.random() * 250) / (0.35 + level));
 	};
 
@@ -876,20 +902,24 @@ const Sfx = (() => {
 			master.gain.cancelScheduledValues(ctx.currentTime);
 			master.gain.setTargetAtTime(v ? vol : 0, ctx.currentTime, 0.35);
 			clearTimeout(timer);
-			if (v) timer = setTimeout(scatter, 120);
+			clearTimeout(fizzTimer);
+			if (v) {
+				timer = setTimeout(scatter, 120);
+				fizzTimer = setTimeout(fizz, 60);
+			}
 		},
 		setVolume(v) {
 			vol = v;
 			if (ctx && on) master.gain.setTargetAtTime(vol, ctx.currentTime, 0.08);
 		},
-		// as the fire dies the rumble drops away and the sizzle goes first —
-		// coals are almost entirely low end
+		// as the fire dies the rumble drops away and the grains thin out;
+		// coals are almost entirely low end with the odd tick in them
 		setLevel(v) {
 			level = v;
 			if (!ctx) return;
-			roarGain.gain.setTargetAtTime(0.07 + v * 0.28, ctx.currentTime, 0.9);
-			roarFilter.frequency.setTargetAtTime(88 + v * 58, ctx.currentTime, 0.9);
-			sizzleGain.gain.setTargetAtTime(0.004 + v * 0.042, ctx.currentTime, 0.9);
+			roarGain.gain.setTargetAtTime(0.07 + v * 0.26, ctx.currentTime, 0.9);
+			roarFilter.frequency.setTargetAtTime(84 + v * 48, ctx.currentTime, 0.9);
+			sizzleGain.gain.setTargetAtTime(0.3 + v * 0.8, ctx.currentTime, 0.9);
 		},
 		click() { if (ctx) snap(ctx.currentTime, 2400, 6, 0.3, 0.02); },
 		// stoking: air rushing in, then the fire catching up with it

@@ -1,0 +1,305 @@
+{
+ "index.html": {
+  "file": "index.html",
+  "slug": "home",
+  "name": "Where Magic Meets the Pixel",
+  "emoji": "🐇",
+  "ch": "01",
+  "colors": {
+   "pink": "#ff2440",
+   "cyan": "#6fc3ff",
+   "lime": "#7ee364",
+   "purple": "#d06bff",
+   "gold": "#ffce5c",
+   "teal": "#4fc9a8",
+   "deep": "#120418",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Home",
+  "chrome": "crystal"
+ },
+ "index-NEW.html": {
+  "file": "index-NEW.html",
+  "slug": "NEW",
+  "name": "All Transmissions",
+  "emoji": "",
+  "ch": "00",
+  "colors": {
+   "pink": "#ff2d9b",
+   "cyan": "#00f0ff",
+   "lime": "#a3ff57",
+   "purple": "#c084fc",
+   "gold": "#ffd250",
+   "teal": "#00c8b4",
+   "deep": "#07000f",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "All Transmissions"
+ },
+ "index-alien.html": {
+  "file": "index-alien.html",
+  "slug": "alien",
+  "name": "Abduction Frequency",
+  "emoji": "🛸",
+  "ch": "07",
+  "colors": {
+   "pink": "#52ff6e",
+   "cyan": "#4dffe6",
+   "lime": "#a3ff57",
+   "purple": "#9d7dff",
+   "gold": "#eaff5c",
+   "teal": "#3de0a8",
+   "deep": "#030f0a",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Abduction",
+  "chrome": "alien"
+ },
+ "index-arcade.html": {
+  "file": "index-arcade.html",
+  "slug": "arcade",
+  "name": "Arcade Frequency ️",
+  "emoji": "🕹️",
+  "ch": "13",
+  "colors": {
+   "pink": "#ff2079",
+   "cyan": "#00e5ff",
+   "lime": "#39ff14",
+   "purple": "#a45cff",
+   "gold": "#ffcc00",
+   "teal": "#00d5b8",
+   "deep": "#050514",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Arcade",
+  "chrome": "arcade"
+ },
+ "index-candy.html": {
+  "file": "index-candy.html",
+  "slug": "candy",
+  "name": "Time Travel Candy Transmissions",
+  "emoji": "🍭",
+  "ch": "05",
+  "colors": {
+   "pink": "#ff4fb8",
+   "cyan": "#3dffd6",
+   "lime": "#9dff4a",
+   "purple": "#c47dff",
+   "gold": "#ffd93b",
+   "teal": "#3de0b8",
+   "deep": "#16031f",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Candy Timestream",
+  "chrome": "candy"
+ },
+ "index-cottage.html": {
+  "file": "index-cottage.html",
+  "slug": "cottage",
+  "name": "Cottage Tea Time Transmissions",
+  "emoji": "🍄",
+  "ch": "12",
+  "colors": {
+   "pink": "#e8899e",
+   "cyan": "#9fd8a0",
+   "lime": "#9cc45e",
+   "purple": "#b89ad8",
+   "gold": "#f2c14e",
+   "teal": "#8fc9a0",
+   "deep": "#111407",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Cottage Tea Time",
+  "chrome": "cottage"
+ },
+ "index-dream.html": {
+  "file": "index-dream.html",
+  "slug": "dream",
+  "name": "Dreamscape Transmissions",
+  "emoji": "🌙",
+  "ch": "11",
+  "colors": {
+   "pink": "#ffa8d9",
+   "cyan": "#a8d8ff",
+   "lime": "#c2f0c2",
+   "purple": "#d4b8ff",
+   "gold": "#ffe9b0",
+   "teal": "#a8e0d0",
+   "deep": "#0c081c",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Dreamscape",
+  "chrome": "dream"
+ },
+ "index-fall.html": {
+  "file": "index-fall.html",
+  "slug": "fall",
+  "name": "Fall Coffee Transmissions",
+  "emoji": "🍂",
+  "ch": "04",
+  "colors": {
+   "pink": "#e0454f",
+   "cyan": "#ffdfae",
+   "lime": "#b8c95a",
+   "purple": "#d18d5f",
+   "gold": "#ffb347",
+   "teal": "#c98d5a",
+   "deep": "#140a04",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Fall Café",
+  "chrome": "fall"
+ },
+ "index-halloween.html": {
+  "file": "index-halloween.html",
+  "slug": "halloween",
+  "name": "Haunted Transmissions",
+  "emoji": "🎃",
+  "ch": "03",
+  "colors": {
+   "pink": "#ff7a1a",
+   "cyan": "#39ff14",
+   "lime": "#a3ff57",
+   "purple": "#c084fc",
+   "gold": "#ffb02e",
+   "teal": "#8dff5e",
+   "deep": "#07000f",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Halloween",
+  "chrome": "halloween"
+ },
+ "index-sea.html": {
+  "file": "index-sea.html",
+  "slug": "sea",
+  "name": "Under the Sea Transmissions",
+  "emoji": "🌊",
+  "ch": "10",
+  "colors": {
+   "pink": "#ff6f61",
+   "cyan": "#2ee6ff",
+   "lime": "#63e6a4",
+   "purple": "#a07dff",
+   "gold": "#ffdf8a",
+   "teal": "#2ec9b8",
+   "deep": "#021826",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Under the Sea",
+  "chrome": "sea"
+ },
+ "index-summer.html": {
+  "file": "index-summer.html",
+  "slug": "summer",
+  "name": "Summer Transmissions ️",
+  "emoji": "☀️",
+  "ch": "02",
+  "colors": {
+   "pink": "#ff5e7e",
+   "cyan": "#00e0c6",
+   "lime": "#a3ff57",
+   "purple": "#b78bff",
+   "gold": "#ffdd33",
+   "teal": "#00c8b4",
+   "deep": "#020c18",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Summer",
+  "chrome": "summer"
+ },
+ "index-vhs.html": {
+  "file": "index-vhs.html",
+  "slug": "vhs",
+  "name": "The Lost Channel",
+  "emoji": "📼",
+  "ch": "09",
+  "colors": {
+   "pink": "#ff3fae",
+   "cyan": "#27e8f5",
+   "lime": "#a3ff57",
+   "purple": "#b48ef7",
+   "gold": "#ffe14d",
+   "teal": "#00c8b4",
+   "deep": "#060608",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Lost Channel",
+  "chrome": "vhs"
+ },
+ "index-winter.html": {
+  "file": "index-winter.html",
+  "slug": "winter",
+  "name": "Winter Wonderland Transmissions ️",
+  "emoji": "❄️",
+  "ch": "14",
+  "colors": {
+   "pink": "#ff7ba8",
+   "cyan": "#9fe8ff",
+   "lime": "#8ce0c8",
+   "purple": "#a8b8ff",
+   "gold": "#ffe9a8",
+   "teal": "#6ecfc4",
+   "deep": "#050d1a",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Winter Wonderland",
+  "chrome": "winter"
+ },
+ "index-witches.html": {
+  "file": "index-witches.html",
+  "slug": "witches",
+  "name": "Witches & Goblins",
+  "emoji": "🧹",
+  "ch": "08",
+  "colors": {
+   "pink": "#9be23f",
+   "cyan": "#5fd6c0",
+   "lime": "#d4f06a",
+   "purple": "#7a4bd8",
+   "gold": "#ffc23d",
+   "teal": "#3fae94",
+   "deep": "#0a1108",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Witches & Goblins",
+  "chrome": "witches"
+ },
+ "index-witching.html": {
+  "file": "index-witching.html",
+  "slug": "witching",
+  "name": "Witching Hour Transmissions",
+  "emoji": "🔮",
+  "ch": "06",
+  "colors": {
+   "pink": "#b45cff",
+   "cyan": "#c9d8ff",
+   "lime": "#a8e77e",
+   "purple": "#6ee7c8",
+   "gold": "#ffcf6e",
+   "teal": "#6ee7c8",
+   "deep": "#070313",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Witching Hour",
+  "chrome": "witching"
+ },
+ "index-wonderland.html": {
+  "file": "index-wonderland.html",
+  "slug": "wonderland",
+  "name": "Down the Rabbit Hole",
+  "emoji": "🐇",
+  "ch": "15",
+  "colors": {
+   "pink": "#ff2440",
+   "cyan": "#6fc3ff",
+   "lime": "#7ee364",
+   "purple": "#d06bff",
+   "gold": "#ffce5c",
+   "teal": "#4fc9a8",
+   "deep": "#120418",
+   "surface": "rgba(255,255,255,0.03)"
+  },
+  "label": "Down the Rabbit Hole",
+  "chrome": "wonderland"
+ }
+}
