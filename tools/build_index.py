@@ -329,8 +329,8 @@ def render(theme, themes, articles, nav):
 <div class="sect"><h2 class="holo">THE SIGNAL SHOP</h2><div class="rule"></div>
 <span class="meta">CRYSTALS &amp; COPPER</span></div>
 <div class="strip3">
-{scard("herkimer-vault.html","VAULT","Herkimer and Friends","Five crystal vaults, curated")}
-{scard("quartz-amulets.html","VAULT","Quartz Amulets","Wearable frequencies")}
+{scard("crystals.html","LIVE","Every Crystal","The whole shelf, priced and sorted")}
+{scard("herkimer-vault.html","VAULT","Herkimer and Friends","Seven crystal vaults, curated")}
 {scard("https://www.themysticalspiralstore.com/","STORE \u2197","Mystical Spiral","The full shop")}
 </div>
 
@@ -352,7 +352,9 @@ def render(theme, themes, articles, nav):
 <div class="sect"><h2 class="holo">EXTENDED UNIVERSE</h2><div class="rule"></div>
 <span class="meta">SIDE TRANSMISSIONS</span></div>
 <div class="cta-row">{CTAS["wand"]}{CTAS["hearth"]}</div>
-<div style="margin-top:16px">{CTAS["two"]}</div>
+<div class="cta-row" style="margin-top:16px">{CTAS["ship"]}{CTAS["ecard"]}</div>
+<div class="cta-row" style="margin-top:16px">{CTAS["cone"]}{CTAS["moon"]}</div>
+<div class="cta-row" style="margin-top:16px">{CTAS["song"]}{CTAS["two"]}</div>
 
 {tmap(nav)}
 
