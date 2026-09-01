@@ -373,6 +373,180 @@ h3{font-family:Orbitron,monospace;font-size:27px;line-height:1.1;margin:9px 0 8p
   .wand-cta,.sheen,.go span:last-child{transition:none}
   .glit i{opacity:.8}
 }
+
+/* ── THE VISITOR (alien.html) ── */
+.ship{--deep:#04070f;--navy:#0d1a35;--acid:#7dff9b;--cyan:#5ce1ff;--mist:#9fb6cf;
+background:radial-gradient(115% 95% at 50% 96%,rgba(125,255,155,.24),transparent 58%),
+radial-gradient(95% 80% at 78% 12%,rgba(92,225,255,.20),transparent 62%),
+linear-gradient(162deg,var(--navy) 0%,var(--deep) 72%);
+border:1px solid rgba(125,255,155,.28);box-shadow:0 16px 44px rgba(0,0,0,.55)}
+.ship:hover{border-color:rgba(125,255,155,.66);box-shadow:0 22px 58px rgba(92,225,255,.24)}
+.ship .eyebrow{color:var(--acid)}
+.ship h3{background:linear-gradient(100deg,#fff,var(--cyan) 44%,var(--acid));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.ship .sub{color:var(--mist)}
+.ship .go{background:linear-gradient(96deg,var(--acid),var(--cyan));color:#04140b;
+box-shadow:0 5px 18px rgba(125,255,155,.36)}
+.saucer{width:104px;height:88px;position:relative;animation:bob 3.6s ease-in-out infinite}
+.beam{position:absolute;left:50%;top:46px;margin-left:-31px;width:62px;height:44px;
+clip-path:polygon(31% 0,69% 0,100% 100%,0 100%);filter:blur(.5px);
+background:linear-gradient(180deg,rgba(125,255,155,.55),transparent 80%);
+animation:beamPulse 2.6s ease-in-out infinite}
+.hull{position:absolute;left:50%;top:36px;margin-left:-52px;width:104px;height:25px;border-radius:50%;
+background:linear-gradient(180deg,#e6eef8,#7c93b3 52%,#3d4f66);box-shadow:0 0 18px rgba(92,225,255,.42)}
+.dome{position:absolute;left:50%;top:12px;margin-left:-27px;width:54px;height:37px;
+border-radius:50% 50% 42% 42%;border:1px solid rgba(255,255,255,.34);
+background:radial-gradient(ellipse at 38% 26%,rgba(255,255,255,.92),rgba(92,225,255,.38) 48%,rgba(16,54,84,.72))}
+.pilot{position:absolute;left:50%;top:23px;margin-left:-9px;width:18px;height:21px;
+border-radius:50% 50% 44% 44%;background:var(--acid);box-shadow:0 0 11px rgba(125,255,155,.85)}
+.pilot:before,.pilot:after{content:"";position:absolute;top:8px;width:4px;height:6px;
+border-radius:50%;background:#07130b}
+.pilot:before{left:3px}.pilot:after{right:3px}
+.blinks{position:absolute;top:45px;left:50%;margin-left:-40px;width:80px;display:flex;justify-content:space-between}
+.blinks i{width:7px;height:7px;border-radius:50%;background:var(--cyan);
+box-shadow:0 0 9px var(--cyan);animation:blink 1.4s ease-in-out infinite}
+.blinks i:nth-child(2){animation-delay:.45s}
+.blinks i:nth-child(3){animation-delay:.9s}
+
+/* ── SEND A VISITOR (ecard.html) ── */
+.ecard{--ink:#0a0d24;--plum:#2b1a52;--acid:#7dff9b;--rose:#ff8fd0;--paper:#f6efe2;--mist:#c3b6dc;
+background:radial-gradient(110% 92% at 24% 16%,rgba(255,143,208,.26),transparent 60%),
+radial-gradient(100% 85% at 84% 88%,rgba(125,255,155,.20),transparent 62%),
+linear-gradient(158deg,var(--plum) 0%,var(--ink) 74%);
+border:1px solid rgba(255,143,208,.30);box-shadow:0 16px 44px rgba(0,0,0,.5)}
+.ecard:hover{border-color:rgba(255,143,208,.68);box-shadow:0 22px 58px rgba(255,143,208,.24)}
+.ecard .eyebrow{color:var(--rose)}
+.ecard h3{background:linear-gradient(100deg,#fff,var(--rose) 46%,var(--acid));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.ecard .sub{color:var(--mist)}
+.ecard .go{background:linear-gradient(96deg,var(--rose),var(--acid));color:#1a0716;
+box-shadow:0 5px 18px rgba(255,143,208,.36)}
+.env{width:104px;height:86px;position:relative}
+.envb{position:absolute;bottom:4px;left:50%;margin-left:-46px;width:92px;height:54px;border-radius:7px;
+background:linear-gradient(180deg,var(--paper),#d6c9b2);box-shadow:0 7px 20px rgba(0,0,0,.45)}
+.flap{position:absolute;bottom:30px;left:50%;margin-left:-46px;width:92px;height:28px;z-index:4;
+clip-path:polygon(0 0,50% 100%,100% 0);background:linear-gradient(180deg,#e9dfc9,#c9baa0)}
+.mini{position:absolute;top:15px;left:50%;margin-left:-23px;width:46px;height:14px;border-radius:50%;z-index:2;
+background:linear-gradient(180deg,#e6eef8,#7c93b3);box-shadow:0 0 16px rgba(125,255,155,.7);
+animation:lift 3.4s ease-in-out infinite}
+.mini:before{content:"";position:absolute;left:50%;margin-left:-11px;top:-11px;width:22px;height:15px;
+border-radius:50% 50% 40% 40%;border:1px solid rgba(255,255,255,.4);
+background:radial-gradient(ellipse at 40% 28%,#fff,rgba(125,255,155,.55))}
+.mini:after{content:"";position:absolute;left:50%;margin-left:-4px;top:-6px;width:8px;height:9px;
+border-radius:50% 50% 44% 44%;background:var(--acid);box-shadow:0 0 7px rgba(125,255,155,.9)}
+.trail{position:absolute;top:30px;left:50%;margin-left:-2px;width:4px;height:22px;z-index:1}
+.trail i{position:absolute;left:0;width:4px;height:4px;border-radius:50%;background:var(--acid);
+opacity:.5;animation:trail 2.2s ease-in-out infinite}
+.trail i:nth-child(1){top:0}
+.trail i:nth-child(2){top:8px;animation-delay:.35s}
+.trail i:nth-child(3){top:16px;animation-delay:.7s}
+
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes blink{0%,100%{opacity:.32}50%{opacity:1}}
+@keyframes beamPulse{0%,100%{opacity:.42}50%{opacity:.88}}
+@keyframes lift{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes trail{0%,100%{opacity:.15;transform:scale(.7)}50%{opacity:.75;transform:scale(1)}}
+/* ── THE CONE (cone.html) ── */
+.cone{--cream:#fff1e2;--peach:#ffd3bd;--sorbet:#ffb8a8;--mint:#58c9a8;--berry:#ff5d7e;
+background:radial-gradient(115% 95% at 24% 16%,rgba(255,184,168,.30),transparent 60%),
+radial-gradient(100% 85% at 84% 88%,rgba(88,201,168,.22),transparent 62%),
+linear-gradient(158deg,#3f231a 0%,#180c08 74%);
+border:1px solid rgba(255,184,168,.30);box-shadow:0 16px 44px rgba(0,0,0,.5)}
+.cone:hover{border-color:rgba(255,184,168,.70);box-shadow:0 22px 58px rgba(255,93,126,.24)}
+.cone .eyebrow{color:var(--sorbet)}
+.cone h3{background:linear-gradient(100deg,var(--cream),var(--peach) 42%,var(--berry));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.cone .sub{color:#d9bfae}
+.cone .go{background:linear-gradient(96deg,var(--berry),var(--sorbet));color:#2a0a12;
+box-shadow:0 5px 18px rgba(255,93,126,.38)}
+.cone-art{width:104px;height:94px;position:relative;animation:wobble 4.2s ease-in-out infinite;
+transform-origin:50% 92%}
+.cherry{position:absolute;top:0;left:50%;margin-left:-7px;width:14px;height:14px;border-radius:50%;
+background:radial-gradient(circle at 34% 28%,#ff9fb2,var(--berry));
+box-shadow:0 0 9px rgba(255,93,126,.65)}
+.scoop{position:absolute;left:50%;border-radius:50%;box-shadow:inset 0 -5px 10px rgba(0,0,0,.14)}
+.scoop.b{top:11px;margin-left:-23px;width:46px;height:39px;
+background:radial-gradient(ellipse at 34% 26%,#b6f3de,var(--mint))}
+.scoop.a{top:33px;margin-left:-30px;width:60px;height:43px;
+background:radial-gradient(ellipse at 34% 26%,#ffe2d6,var(--sorbet))}
+.drip{position:absolute;top:64px;left:50%;margin-left:16px;width:10px;height:15px;
+border-radius:0 0 60% 60%;background:var(--sorbet);opacity:.9;
+animation:melt 3.8s ease-in-out infinite}
+.waffle{position:absolute;top:68px;left:50%;margin-left:-23px;width:46px;height:26px;
+clip-path:polygon(0 0,100% 0,50% 100%);
+background:linear-gradient(180deg,#e8a866,#a9622c),
+repeating-linear-gradient(58deg,rgba(90,45,18,.35) 0 2px,transparent 2px 7px)}
+.waffle:after{content:"";position:absolute;inset:0;
+background:repeating-linear-gradient(-58deg,rgba(90,45,18,.30) 0 2px,transparent 2px 7px)}
+
+@keyframes wobble{0%,100%{transform:rotate(-3.5deg)}50%{transform:rotate(3.5deg)}}
+@keyframes melt{0%,100%{transform:scaleY(.72);opacity:.75}50%{transform:scaleY(1.1);opacity:1}}
+/* ── MOON SHOT (moon-shot.html) ── */
+.moon{--ink:#050818;--indigo:#141d47;--silver:#e8eeff;--gold:#ffd166;--cyan:#22e0ff;--mist:#a6b0d8;
+background:radial-gradient(110% 92% at 76% 16%,rgba(232,238,255,.18),transparent 58%),
+radial-gradient(100% 85% at 18% 88%,rgba(34,224,255,.18),transparent 62%),
+linear-gradient(158deg,var(--indigo) 0%,var(--ink) 74%);
+border:1px solid rgba(255,209,102,.28);box-shadow:0 16px 44px rgba(0,0,0,.55)}
+.moon:hover{border-color:rgba(255,209,102,.66);box-shadow:0 22px 58px rgba(34,224,255,.22)}
+.moon .eyebrow{color:var(--gold)}
+.moon h3{background:linear-gradient(100deg,#fff,var(--silver) 40%,var(--gold));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.moon .sub{color:var(--mist)}
+.moon .go{background:linear-gradient(96deg,var(--gold),var(--cyan));color:#0a1020;
+box-shadow:0 5px 18px rgba(255,209,102,.34)}
+.luna{width:96px;height:88px;position:relative}
+.rock{position:absolute;top:6px;right:4px;width:56px;height:56px;border-radius:50%;
+background:radial-gradient(circle at 34% 28%,#fbfdff,#c3cde8 52%,#7f8bb4);
+box-shadow:0 0 22px rgba(232,238,255,.34)}
+.rock:before,.rock:after{content:"";position:absolute;border-radius:50%;background:rgba(96,108,150,.42)}
+.rock:before{top:14px;left:12px;width:13px;height:13px}
+.rock:after{bottom:12px;right:14px;width:9px;height:9px}
+.pellet{position:absolute;bottom:10px;left:6px;width:11px;height:11px;border-radius:50%;
+background:var(--gold);box-shadow:0 0 12px rgba(255,209,102,.9);
+animation:shoot 3.2s cubic-bezier(.4,0,.7,1) infinite}
+.arc{position:absolute;bottom:14px;left:14px;width:58px;height:44px}
+.arc i{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--cyan);opacity:.5}
+.arc i:nth-child(1){left:6%;bottom:6%}
+.arc i:nth-child(2){left:28%;bottom:36%}
+.arc i:nth-child(3){left:54%;bottom:60%}
+.arc i:nth-child(4){left:80%;bottom:76%}
+
+/* ── SONG MAKER (songmaker.html) ── */
+.song{--ink:#08061a;--deep:#1d0f3d;--magenta:#ff44cc;--cyan:#22e0ff;--gold:#ffd166;--mist:#bdb2dc;
+background:radial-gradient(112% 92% at 22% 18%,rgba(255,68,204,.26),transparent 60%),
+radial-gradient(100% 85% at 82% 86%,rgba(34,224,255,.20),transparent 62%),
+linear-gradient(158deg,var(--deep) 0%,var(--ink) 74%);
+border:1px solid rgba(34,224,255,.28);box-shadow:0 16px 44px rgba(0,0,0,.5)}
+.song:hover{border-color:rgba(34,224,255,.66);box-shadow:0 22px 58px rgba(255,68,204,.24)}
+.song .eyebrow{color:var(--cyan)}
+.song h3{background:linear-gradient(100deg,#fff,var(--cyan) 42%,var(--magenta));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.song .sub{color:var(--mist)}
+.song .go{background:linear-gradient(96deg,var(--cyan),var(--magenta));color:#0b0518;
+box-shadow:0 5px 18px rgba(34,224,255,.34)}
+.seq{width:92px;height:88px;position:relative;display:grid;grid-template-columns:repeat(4,1fr);
+grid-template-rows:repeat(4,1fr);gap:5px;padding:5px;border-radius:11px;
+background:rgba(255,255,255,.05);border:1px solid rgba(34,224,255,.22)}
+.seq i{border-radius:4px;background:rgba(255,255,255,.07)}
+.seq i.on{background:var(--magenta);box-shadow:0 0 9px rgba(255,68,204,.75);
+animation:step 2.4s ease-in-out infinite}
+.seq i.on.c{background:var(--cyan);box-shadow:0 0 9px rgba(34,224,255,.75)}
+.seq i:nth-child(2).on{animation-delay:.3s}
+.seq i:nth-child(7).on{animation-delay:.6s}
+.seq i:nth-child(12).on{animation-delay:.9s}
+.seq i:nth-child(13).on{animation-delay:1.2s}
+
+/* keep the taller art pieces inside a two-up row */
+.cta-row .cone-art{transform:scale(.86);transform-origin:center}
+.cta-row .shrine{transform:scale(.82);transform-origin:center}
+
+@keyframes shoot{0%{transform:translate(0,0) scale(1);opacity:1}
+70%{transform:translate(52px,-46px) scale(.55);opacity:.85}
+100%{transform:translate(56px,-50px) scale(.2);opacity:0}}
+@keyframes step{0%,100%{opacity:.5;transform:scale(.9)}50%{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){
+  .saucer,.blinks i,.beam,.mini,.trail i,.cone-art,.drip,.pellet,.seq i.on{animation:none}
+}
   /* ── string of warm café lights along the top ── */
   .fl-lights { position:fixed; top:0; left:0; right:0; height:26px; z-index:50; pointer-events:none; }
 
@@ -600,8 +774,8 @@ h3{font-family:Orbitron,monospace;font-size:27px;line-height:1.1;margin:9px 0 8p
 <div class="sect"><h2 class="holo">THE SIGNAL SHOP</h2><div class="rule"></div>
 <span class="meta">CRYSTALS &amp; COPPER</span></div>
 <div class="strip3">
-<a class="scard" href="herkimer-vault.html"><div class="lab">VAULT</div><div class="ttl">Herkimer and Friends</div><div class="sm">Five crystal vaults, curated</div></a>
-<a class="scard" href="quartz-amulets.html"><div class="lab">VAULT</div><div class="ttl">Quartz Amulets</div><div class="sm">Wearable frequencies</div></a>
+<a class="scard" href="crystals.html"><div class="lab">LIVE</div><div class="ttl">Every Crystal</div><div class="sm">The whole shelf, priced and sorted</div></a>
+<a class="scard" href="herkimer-vault.html"><div class="lab">VAULT</div><div class="ttl">Herkimer and Friends</div><div class="sm">Seven crystal vaults, curated</div></a>
 <a class="scard" href="https://www.themysticalspiralstore.com/"><div class="lab">STORE ↗</div><div class="ttl">Mystical Spiral</div><div class="sm">The full shop</div></a>
 </div>
 
@@ -657,7 +831,84 @@ h3{font-family:Orbitron,monospace;font-size:27px;line-height:1.1;margin:9px 0 8p
     </div>
   </div>
 </a></div>
-<div style="margin-top:16px"><a class="cta two" href="abundance-oracle.html">
+<div class="cta-row" style="margin-top:16px"><a class="cta ship" href="alien.html">
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="in">
+    <div class="art"><div class="saucer">
+      <div class="beam"></div><div class="hull"></div>
+      <div class="dome"></div><div class="pilot"></div>
+      <div class="blinks"><i></i><i></i><i></i></div>
+    </div></div>
+    <div>
+      <div class="eyebrow">✦ Extended Universe ✦</div>
+      <h3>The Visitor</h3>
+      <div class="sub">Parked above the field again. Small green pilot, no explanation.</div>
+      <div class="go"><span>Look up</span><span>→</span></div>
+    </div>
+  </div>
+</a><a class="cta ecard" href="ecard.html">
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="in">
+    <div class="art"><div class="env">
+      <div class="mini"></div><div class="trail"><i></i><i></i><i></i></div>
+      <div class="envb"></div><div class="flap"></div>
+    </div></div>
+    <div>
+      <div class="eyebrow">✦ Send a Transmission ✦</div>
+      <h3>Send a Visitor</h3>
+      <div class="sub">Pick a messenger, write a line, beam it into somebody's day.</div>
+      <div class="go"><span>Send one out</span><span>→</span></div>
+    </div>
+  </div>
+</a></div>
+<div class="cta-row" style="margin-top:16px"><a class="cta cone" href="cone.html">
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="in">
+    <div class="art"><div class="cone-art">
+      <div class="cherry"></div>
+      <div class="scoop b"></div><div class="scoop a"></div>
+      <div class="drip"></div><div class="waffle"></div>
+    </div></div>
+    <div>
+      <div class="eyebrow">✦ Extended Universe ✦</div>
+      <h3>The Cone</h3>
+      <div class="sub">Spin it, pick a flavor, don't leave it in the sun.</div>
+      <div class="go"><span>Spin the cone</span><span>→</span></div>
+    </div>
+  </div>
+</a><a class="cta moon" href="moon-shot.html">
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="in">
+    <div class="art"><div class="luna">
+      <div class="rock"></div>
+      <div class="arc"><i></i><i></i><i></i><i></i></div>
+      <div class="pellet"></div>
+    </div></div>
+    <div>
+      <div class="eyebrow">✦ Play ✦</div>
+      <h3>Moon Shot</h3>
+      <div class="sub">Drag back from the moon and let go. Three misses ends the night.</div>
+      <div class="go"><span>Take the shot</span><span>→</span></div>
+    </div>
+  </div>
+</a></div>
+<div class="cta-row" style="margin-top:16px"><a class="cta song" href="songmaker.html">
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="in">
+    <div class="art"><div class="seq">
+      <i></i><i class="on"></i><i></i><i class="on c"></i>
+      <i></i><i></i><i class="on"></i><i></i>
+      <i class="on c"></i><i></i><i></i><i class="on"></i>
+      <i class="on"></i><i></i><i class="on c"></i><i></i>
+    </div></div>
+    <div>
+      <div class="eyebrow">✦ Play &amp; Listen ✦</div>
+      <h3>Cosmic Song Maker</h3>
+      <div class="sub">Tap the grid, build a loop, let the whole thing run.</div>
+      <div class="go"><span>Make a song</span><span>→</span></div>
+    </div>
+  </div>
+</a><a class="cta two" href="abundance-oracle.html">
   <div class="rays" aria-hidden="true"></div><div class="sheen" aria-hidden="true"></div>
   <div class="in">
     <div class="art"><div class="shrine">
@@ -680,7 +931,7 @@ h3{font-family:Orbitron,monospace;font-size:27px;line-height:1.1;margin:9px 0 8p
   </div>
 </a></div>
 
-<section class="tmap"><h2 class="holo">✦ THE TRANSMISSION MAP</h2><div class="tmap-cols"><div class="tmap-col"><h3>Read</h3><div class="links"><a href="notes.html">All Notes</a><a href="blog.html">The Blog</a><a href="articles.html">Magazine</a><a href="archive.html">Archive</a><a href="minimags.html">Y3K Magazine</a><a href="newsstand.html">Newsstand</a><a href="random-note.html">Random Note TV</a><a href="tv-notes.html">TV Notes</a></div></div><div class="tmap-col wide"><h3>Play</h3><div class="links"><a href="arcade.html">The Arcade</a><a href="quest.html">Dream Quest</a><a href="songmaker.html">Song Maker</a><a href="daily-sigil.html">Daily Sigil</a><a href="haunted-house.html">The Hollow House</a><a href="stardust.html">Stardust Foundry</a><a href="cosmic-echo.html">Cosmic Echo</a><a href="moon-shot.html">Moon Shot</a><a href="blender.html">Astral Blender</a><a href="sunrise.html">Win the Morning</a><a href="pong.html">Pong</a><a href="glitch.html">Glitch</a><a href="cosmic-phone.html">Cosmic Phone</a><a href="transmissions.html">Transmissions</a></div></div><div class="tmap-col"><h3>Dream &amp; Divine</h3><div class="links"><a href="dream-journal.html">Dream Journal</a><a href="affirmations.html">Daily Affirmation</a><a href="affirmations-100.html">Fortune Machine</a><a href="abundance-portal-one.html">The Portal</a><a href="abundance-notebook.html">The Notebook</a><a href="abundance-scratch.html">Scratch a Sign</a><a href="abundance-globe.html">The Globe</a><a href="abundance-oracle.html">Abundance Oracle</a><a href="https://magickmica.github.io/oracle">Oracle</a><a href="https://magickmica.github.io/musicbox/">Music Box</a></div></div><div class="tmap-col"><h3>The Signal Shop</h3><div class="links"><a href="herkimer-vault.html">Herkimer Vault</a><a href="labradorite-vault.html">Labradorite Vault</a><a href="opal-vault.html">Opal Vault</a><a href="quartz-vault.html">Quartz Vault</a><a href="watermelon-vault.html">Watermelon Vault</a><a href="quartz-amulets.html">Quartz Amulets</a><a href="copper-jewelry.html">Copper Jewelry</a><a href="https://www.themysticalspiralstore.com/">Mystical Spiral ↗</a></div></div><div class="tmap-col"><h3>Broadcasts</h3><div class="links"><a href="glitter-transmission.html">Glitter Transmission</a><a href="galactic-dessert-issue.html">Galactic Dessert</a><a href="cosmic-circus-broadcast.html">Cosmic Circus</a><a href="cozy-christmas-broadcast.html">Cozy Christmas</a><a href="impossible-broadcast.html">Impossible Broadcast</a><a href="stargazer-june-2026.html">Stargazer</a><a href="starseed-chronicles.html">Starseed Chronicles</a><a href="glow-the-transmission-issue.html">Glow Issue</a><a href="copper-the-ancient-issue.html">Ancient Issue</a><a href="the-sampler-three-transmissions.html">The Sampler</a><a href="prism-parlour-crystal-living.html">Prism Parlour</a><a href="the-art-wing-gallery.html">Art Wing Gallery</a></div></div><div class="tmap-col wide"><h3>Extended Universe</h3><div class="links"><a href="alien.html">Visitor</a><a href="ecard.html">Send a Visitor</a><a href="chest.html">The Chest</a><a href="wand.html">Wand</a><a href="cone.html">Cone</a><a href="fireplace.html">Fireplace</a><a href="alice-ufo-message.html">Alice&#x27;s UFO Message</a><a href="wonderland.html">Wonderland</a><a href="wonderland-weekly-expanded.html">Wonderland Weekly</a><a href="aliens-love-icecream.html">Aliens Love Ice Cream</a><a href="brewed-magic-coffee.html">Brewed Magic</a><a href="cosmic-stellar-drive.html">Stellar Drive</a><a href="alien-basic.html">Alien</a><a href="trump-art.html">Trump Art</a><a href="trump-art-gallery.html">Trump Art Gallery</a><a href="abundance-portal.html">Abundance Portal</a><a href="https://magickmica.github.io/racastaldo/">Ra Castaldo</a></div></div></div></section>
+<section class="tmap"><h2 class="holo">✦ THE TRANSMISSION MAP</h2><div class="tmap-cols"><div class="tmap-col"><h3>Read</h3><div class="links"><a href="notes.html">All Notes</a><a href="blog.html">The Blog</a><a href="articles.html">Magazine</a><a href="archive.html">Archive</a><a href="minimags.html">Y3K Magazine</a><a href="newsstand.html">Newsstand</a><a href="random-note.html">Random Note TV</a><a href="tv-notes.html">TV Notes</a></div></div><div class="tmap-col wide"><h3>Play</h3><div class="links"><a href="arcade.html">The Arcade</a><a href="quest.html">Dream Quest</a><a href="songmaker.html">Song Maker</a><a href="daily-sigil.html">Daily Sigil</a><a href="haunted-house.html">The Hollow House</a><a href="stardust.html">Stardust Foundry</a><a href="cosmic-echo.html">Cosmic Echo</a><a href="moon-shot.html">Moon Shot</a><a href="blender.html">Astral Blender</a><a href="sunrise.html">Win the Morning</a><a href="pong.html">Pong</a><a href="glitch.html">Glitch</a><a href="cosmic-phone.html">Cosmic Phone</a><a href="transmissions.html">Transmissions</a></div></div><div class="tmap-col"><h3>Dream &amp; Divine</h3><div class="links"><a href="dream-journal.html">Dream Journal</a><a href="affirmations.html">Daily Affirmation</a><a href="affirmations-100.html">Fortune Machine</a><a href="abundance-portal-one.html">The Portal</a><a href="abundance-notebook.html">The Notebook</a><a href="abundance-scratch.html">Scratch a Sign</a><a href="abundance-globe.html">The Globe</a><a href="abundance-oracle.html">Abundance Oracle</a><a href="https://magickmica.github.io/oracle">Oracle</a><a href="https://magickmica.github.io/musicbox/">Music Box</a></div></div><div class="tmap-col"><h3>The Signal Shop</h3><div class="links"><a href="crystals.html">All Crystals</a><a href="herkimer-vault.html">Herkimer Vault</a><a href="labradorite-vault.html">Labradorite Vault</a><a href="opal-vault.html">Opal Vault</a><a href="quartz-vault.html">Quartz Vault</a><a href="watermelon-vault.html">Watermelon Vault</a><a href="quartz-amulets.html">Quartz Amulets</a><a href="copper-jewelry.html">Copper Jewelry</a><a href="https://www.themysticalspiralstore.com/">Mystical Spiral ↗</a></div></div><div class="tmap-col"><h3>Broadcasts</h3><div class="links"><a href="glitter-transmission.html">Glitter Transmission</a><a href="galactic-dessert-issue.html">Galactic Dessert</a><a href="cosmic-circus-broadcast.html">Cosmic Circus</a><a href="cozy-christmas-broadcast.html">Cozy Christmas</a><a href="impossible-broadcast.html">Impossible Broadcast</a><a href="stargazer-june-2026.html">Stargazer</a><a href="starseed-chronicles.html">Starseed Chronicles</a><a href="glow-the-transmission-issue.html">Glow Issue</a><a href="copper-the-ancient-issue.html">Ancient Issue</a><a href="the-sampler-three-transmissions.html">The Sampler</a><a href="prism-parlour-crystal-living.html">Prism Parlour</a><a href="the-art-wing-gallery.html">Art Wing Gallery</a></div></div><div class="tmap-col wide"><h3>Extended Universe</h3><div class="links"><a href="alien.html">Visitor</a><a href="ecard.html">Send a Visitor</a><a href="chest.html">The Chest</a><a href="wand.html">Wand</a><a href="cone.html">Cone</a><a href="fireplace.html">Fireplace</a><a href="alice-ufo-message.html">Alice&#x27;s UFO Message</a><a href="wonderland.html">Wonderland</a><a href="wonderland-weekly-expanded.html">Wonderland Weekly</a><a href="aliens-love-icecream.html">Aliens Love Ice Cream</a><a href="brewed-magic-coffee.html">Brewed Magic</a><a href="cosmic-stellar-drive.html">Stellar Drive</a><a href="alien-basic.html">Alien</a><a href="trump-art.html">Trump Art</a><a href="trump-art-gallery.html">Trump Art Gallery</a><a href="abundance-portal.html">Abundance Portal</a><a href="https://magickmica.github.io/racastaldo/">Ra Castaldo</a></div></div></div></section>
 
 <footer>✦ <a href="https://magickmica.substack.com" target="_blank" rel="noopener">Magick Mica TV</a>
 · where magick meets the pixel ✦<br>
