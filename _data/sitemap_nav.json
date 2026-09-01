@@ -1,4 +1,30 @@
 {
+ "_primary": [
+  [
+   "index.html",
+   "Home"
+  ],
+  [
+   "crystals.html",
+   "Crystals"
+  ],
+  [
+   "notes.html",
+   "Notes"
+  ],
+  [
+   "articles.html",
+   "Magazine"
+  ],
+  [
+   "arcade.html",
+   "Arcade"
+  ],
+  [
+   "songmaker.html",
+   "Songs"
+  ]
+ ],
  "Read": [
   [
    "notes.html",
