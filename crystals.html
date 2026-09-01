@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crystals · Magick Mica TV Recommends</title>
+<meta name="description" content="Every crystal, skull, tower and talisman currently on The Mystical Spiral Store — sorted by what's marked down right now.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --void:#08071a;
+    --milk:#ece9ff;
+    --muted:#9a95c8;
+    --muted-dim:#6f6a99;
+    --line:rgba(180,170,255,.14);
+    --line-strong:rgba(180,170,255,.30);
+    --card:rgba(255,255,255,.03);
+    --card-hi:rgba(255,255,255,.055);
+    --sp-teal:#46e5c8;--sp-blue:#5a8bff;--sp-violet:#b17dff;--sp-pink:#ff6fae;--sp-amber:#ffc46b;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--void);color:var(--milk);
+    font-family:"Space Grotesk",system-ui,sans-serif;line-height:1.55;
+    overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(60% 45% at 80% 4%, rgba(90,139,255,.15), transparent 60%),
+      radial-gradient(55% 40% at 10% 20%, rgba(177,125,255,.13), transparent 62%),
+      radial-gradient(70% 55% at 50% 108%, rgba(70,229,200,.09), transparent 60%),
+      var(--void);
+  }
+  .grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;
+    background-image:radial-gradient(rgba(255,255,255,.9) .5px, transparent .5px);background-size:3px 3px}
+  .wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--sp-teal);outline-offset:3px;border-radius:3px}
+
+  header{position:relative;z-index:1;padding:32px 0 4px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .sigil{width:34px;height:34px;border-radius:50%;flex:none;
+    background:conic-gradient(from 0deg,var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber),var(--sp-teal));
+    opacity:.9}
+  .brand b{font-family:"Fraunces",serif;font-weight:600;font-size:1.02rem;letter-spacing:-.01em}
+  .brand span{color:var(--muted-dim);font-size:.8rem}
+
+  /* ---- hero ---- */
+  .hero{padding:52px 0 34px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:300;font-size:clamp(2.5rem,6.4vw,4.6rem);
+    line-height:1.02;letter-spacing:-.028em;max-width:15ch}
+  .hero h1 em{font-style:italic;font-weight:400}
+  .lede{margin-top:20px;max-width:56ch;color:var(--muted);font-size:1.03rem}
+  .spectrum-rule{height:2px;margin:30px 0 0;border-radius:2px;
+    background:linear-gradient(90deg,var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber));opacity:.85}
+
+  /* ---- the featured markdown: the one bold moment ---- */
+  .feature{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:30px;align-items:center;
+    margin-top:34px;padding:22px;border:1px solid var(--line-strong);border-radius:20px;
+    background:linear-gradient(120deg,rgba(255,111,174,.07),rgba(177,125,255,.05) 55%,transparent)}
+  .feature .fshot{position:relative;aspect-ratio:4/5;border-radius:14px;overflow:hidden;background:var(--card)}
+  .feature .fshot img{width:100%;height:100%;object-fit:cover;display:block}
+  .fcut{font-family:"Fraunces",serif;font-size:clamp(3.1rem,8vw,5.2rem);font-weight:900;line-height:.86;
+    letter-spacing:-.04em;color:var(--sp-pink)}
+  .feature h2{font-family:"Fraunces",serif;font-weight:400;font-size:1.5rem;line-height:1.2;margin:14px 0 8px;letter-spacing:-.015em}
+  .fprice{font-size:1.5rem;font-weight:700}
+  .fprice .was{color:var(--muted-dim);font-weight:400;font-size:1rem;text-decoration:line-through;margin-left:10px}
+  .fgo{display:inline-block;margin-top:16px;padding:11px 22px;border-radius:100px;font-size:.85rem;font-weight:500;
+    border:1px solid var(--line-strong);background:var(--card-hi);transition:.2s}
+  .fgo:hover{background:rgba(255,255,255,.1);border-color:var(--sp-pink)}
+
+  /* ---- controls ---- */
+  .controls{position:sticky;top:0;z-index:20;margin-top:44px;padding:14px 0 12px;
+    background:rgba(8,7,26,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .crow{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+  .crow+.crow{margin-top:10px}
+  .chip{font:inherit;font-size:.76rem;color:var(--muted);cursor:pointer;
+    padding:7px 14px;border-radius:100px;border:1px solid var(--line);background:transparent;transition:.18s;white-space:nowrap}
+  .chip:hover{color:var(--milk);border-color:var(--line-strong)}
+  .chip[aria-pressed="true"]{color:var(--void);background:var(--milk);border-color:var(--milk);font-weight:500}
+  .chip .ct{opacity:.55;margin-left:6px;font-variant-numeric:tabular-nums}
+  .search{flex:1;min-width:180px;font:inherit;font-size:.82rem;color:var(--milk);
+    padding:8px 14px;border-radius:100px;border:1px solid var(--line);background:var(--card)}
+  .search::placeholder{color:var(--muted-dim)}
+  select.sort{font:inherit;font-size:.76rem;color:var(--muted);padding:7px 12px;border-radius:100px;
+    border:1px solid var(--line);background:var(--card);cursor:pointer}
+  .count{font-size:.74rem;color:var(--muted-dim);margin-left:auto;font-variant-numeric:tabular-nums}
+
+  /* ---- grid ---- */
+  main{padding:30px 0 20px}
+  .grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(215px,1fr))}
+  .card{position:relative;display:flex;flex-direction:column;border-radius:16px;overflow:hidden;
+    border:1px solid var(--line);background:var(--card);transition:border-color .22s,background .22s}
+  .card:hover{border-color:var(--line-strong);background:var(--card-hi)}
+  .shot{position:relative;aspect-ratio:4/5;overflow:hidden;background:rgba(255,255,255,.02)}
+  .shot img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s}
+  .shot img.loaded{opacity:1}
+  .shot .ph{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted-dim);font-size:.7rem}
+  .badge{position:absolute;z-index:5;top:11px;left:11px;font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;
+    padding:5px 9px;border-radius:100px;font-weight:500;background:rgba(8,7,26,.7);
+    border:1px solid var(--line-strong);color:var(--milk);backdrop-filter:blur(4px)}
+  .badge.sale{color:var(--sp-pink);border-color:rgba(255,111,174,.5)}
+  .badge.gone{color:var(--muted-dim)}
+  .card.out .shot img{filter:grayscale(.9);opacity:.4}
+  .card.out .go{opacity:.45}
+  .body{padding:14px 15px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .body h3{font-family:"Fraunces",serif;font-weight:500;font-size:.95rem;line-height:1.24;letter-spacing:-.008em}
+  .meta{margin-top:auto;display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+  .price{font-weight:700;font-size:1.02rem;font-variant-numeric:tabular-nums}
+  .price .cur{color:var(--muted);font-weight:400;font-size:.76rem;margin-right:1px}
+  .price .was{color:var(--muted-dim);font-weight:400;font-size:.76rem;text-decoration:line-through;margin-left:6px}
+  .go{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+  .card:hover .go{color:var(--milk)}
+  .stretch{position:absolute;inset:0;z-index:4}
+  .empty{padding:60px 0;text-align:center;color:var(--muted)}
+  .empty b{display:block;font-family:"Fraunces",serif;font-size:1.3rem;font-weight:400;color:var(--milk);margin-bottom:8px}
+  .more{display:block;margin:34px auto 0;font:inherit;font-size:.8rem;color:var(--muted);cursor:pointer;
+    padding:12px 30px;border-radius:100px;border:1px solid var(--line-strong);background:var(--card);transition:.2s}
+  .more:hover{color:var(--milk);background:var(--card-hi)}
+
+  /* ---- vaults ---- */
+  .vaults{margin:76px 0 0;padding:34px 0 0;border-top:1px solid var(--line)}
+  .vaults h2{font-family:"Fraunces",serif;font-weight:400;font-size:1.7rem;letter-spacing:-.015em}
+  .vaults p{color:var(--muted);max-width:58ch;margin-top:9px;font-size:.94rem}
+  .vgrid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin-top:22px}
+  .vlink{display:flex;align-items:center;gap:12px;padding:15px 16px;border-radius:13px;
+    border:1px solid var(--line);background:var(--card);transition:.2s}
+  .vlink:hover{border-color:var(--line-strong);background:var(--card-hi)}
+  .vdot{width:9px;height:9px;border-radius:50%;flex:none;background:currentColor;opacity:.8}
+  .vlink b{font-family:"Fraunces",serif;font-weight:500;font-size:.94rem}
+
+  footer{padding:48px 0 60px;color:var(--muted-dim);font-size:.78rem}
+  .asof{color:var(--muted);font-size:.8rem;margin-bottom:6px}
+  .asof a{border-bottom:1px solid var(--line-strong)}
+
+  @media (max-width:720px){
+    .feature{grid-template-columns:1fr;gap:20px}
+    .feature .fshot{max-width:220px}
+    .count{width:100%;margin:4px 0 0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none!important;animation:none!important}
+    .shot img{opacity:1}
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<header>
+  <div class="wrap brand">
+    <div class="sigil"></div>
+    <div>
+      <b>Magick Mica TV Recommends</b><br>
+      <span>The Signal Shop · crystals</span>
+    </div>
+  </div>
+</header>
+
+<section class="wrap hero">
+  <h1>Every stone <em>currently</em> on the shelf.</h1>
+  <p class="lede" id="lede"></p>
+  <div class="spectrum-rule"></div>
+  <div class="feature" id="feature" hidden></div>
+</section>
+
+<div class="controls">
+  <div class="wrap">
+    <div class="crow">
+      <input class="search" id="q" type="search" placeholder="Search stones, skulls, talismans…" aria-label="Search products">
+      <select class="sort" id="sort" aria-label="Sort products">
+        <option value="deal">Biggest markdown</option>
+        <option value="low">Price: low to high</option>
+        <option value="high">Price: high to low</option>
+        <option value="az">Name A–Z</option>
+      </select>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="crow" id="cats"></div>
+    <div class="crow" id="toggles">
+      <button class="chip" id="tSale" aria-pressed="false">On sale only</button>
+      <button class="chip" id="tStock" aria-pressed="true">Hide sold out</button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="grid" id="grid"></div>
+  <button class="more" id="more" hidden>Show more</button>
+  <div class="empty" id="empty" hidden>
+    <b>Nothing matches that.</b>
+    Clear the search or pick a different category.
+  </div>
+
+  <section class="vaults">
+    <h2>Go deeper</h2>
+    <p>Seven curated vaults, each on a single stone or material, with notes on what to look for.</p>
+    <div class="vgrid" id="vaults"></div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="asof" id="asof"></div>
+  <div>Pieces are one-of-a-kind and sell permanently. Magick Mica TV curates for The Mystical Spiral Store.</div>
+</footer>
+
+<script src="products.js"></script>
+<script>
+const IMG   = f => `https://static.wixstatic.com/media/${f}/v1/fill/w_640,h_800,al_c,q_80,enc_auto/file.jpg`;
+const BASE  = "https://www.themysticalspiralstore.com/product-page/";
+const STORE = "https://www.themysticalspiralstore.com";
+
+const OK = typeof PRODUCTS !== "undefined" && Array.isArray(PRODUCTS) && PRODUCTS.length;
+const ALL = OK ? PRODUCTS.slice() : [];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const cut = p => p.was ? (p.was - p.price) / p.was : 0;
+
+/* Categories worth showing as filters. "Shop" is every product and
+   "Crystals" is the parent of nearly all of them, so neither narrows
+   anything — they'd just be decoration. */
+const SKIP = new Set(["Shop", "Crystals"]);
+const counts = {};
+ALL.forEach(p => (p.cats || []).forEach(c => { if (!SKIP.has(c)) counts[c] = (counts[c] || 0) + 1; }));
+const CATS = Object.keys(counts).filter(c => counts[c] >= 3).sort((a, b) => counts[b] - counts[a]);
+
+const VAULTS = [
+  ["Herkimer",   "herkimer-vault.html",    "var(--sp-teal)"],
+  ["Labradorite","labradorite-vault.html", "var(--sp-blue)"],
+  ["Opal",       "opal-vault.html",        "var(--sp-violet)"],
+  ["Quartz",     "quartz-vault.html",      "var(--sp-pink)"],
+  ["Watermelon", "watermelon-vault.html",  "var(--sp-amber)"],
+  ["Quartz amulets","quartz-amulets.html", "var(--sp-teal)"],
+  ["Copper jewelry","copper-jewelry.html", "var(--sp-amber)"]
+];
+document.getElementById("vaults").innerHTML = VAULTS.map(([n, h, c]) =>
+  `<a class="vlink" href="${h}" style="color:${c}"><span class="vdot"></span><b style="color:var(--milk)">${n}</b></a>`
+).join("");
+
+/* ---- hero copy, written from the live numbers ---- */
+const live   = ALL.filter(p => !p.soldOut);
+const onSale = live.filter(p => p.was);
+document.getElementById("lede").textContent = OK
+  ? `${live.length} pieces in stock right now, ${onSale.length} of them marked down. `
+    + `Everything here links straight to the store — these are one-of-a-kind, so when one goes, it's gone.`
+  : `The product list didn't load. Browse the full shop directly instead.`;
+
+document.getElementById("asof").innerHTML = OK
+  ? `Prices and stock as of ${esc(PRODUCTS_COLLECTED)} — <a href="${STORE}" target="_blank" rel="noopener">check the store</a> for current.`
+  : `<a href="${STORE}" target="_blank" rel="noopener">Visit The Mystical Spiral Store</a>`;
+
+/* ---- the one featured markdown ---- */
+if (onSale.length) {
+  const f = onSale.slice().sort((a, b) => cut(b) - cut(a))[0];
+  const el = document.getElementById("feature");
+  el.hidden = false;
+  el.innerHTML = `
+    <div class="fshot"><img alt="${esc(f.name)}" src="${IMG(f.img)}"></div>
+    <div>
+      <div class="fcut">${Math.round(cut(f) * 100)}% off</div>
+      <h2>${esc(f.name)}</h2>
+      <div class="fprice"><span class="cur">$</span>${f.price.toFixed(2)}<span class="was">$${f.was.toFixed(2)}</span></div>
+      <a class="fgo" href="${BASE}${f.slug}" target="_blank" rel="noopener">See it on the store</a>
+    </div>`;
+}
+
+/* ---- filters ---- */
+let cat = null, saleOnly = false, hideOut = true, page = 1;
+const PER = 24;
+
+document.getElementById("cats").innerHTML =
+  `<button class="chip" data-cat="" aria-pressed="true">Everything<span class="ct">${ALL.length}</span></button>` +
+  CATS.map(c => `<button class="chip" data-cat="${esc(c)}" aria-pressed="false">${esc(c)}<span class="ct">${counts[c]}</span></button>`).join("");
+
+function current() {
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  let out = ALL.filter(p => {
+    if (hideOut  && p.soldOut) return false;
+    if (saleOnly && !p.was)    return false;
+    if (cat && !(p.cats || []).includes(cat)) return false;
+    if (q && !p.name.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const s = document.getElementById("sort").value;
+  const by = {
+    deal: (a, b) => cut(b) - cut(a) || (a.price || 0) - (b.price || 0),
+    low:  (a, b) => (a.price || 1e9) - (b.price || 1e9),
+    high: (a, b) => (b.price || 0) - (a.price || 0),
+    az:   (a, b) => a.name.localeCompare(b.name)
+  }[s];
+  return out.sort(by);
+}
+
+function card(p) {
+  const badge = p.soldOut ? '<span class="badge gone">Sold out</span>'
+              : p.was     ? `<span class="badge sale">${Math.round(cut(p) * 100)}% off</span>` : "";
+  const price = p.price == null ? '<span class="go">See price</span>'
+    : `<span class="price"><span class="cur">$</span>${p.price.toFixed(2)}${
+        p.was ? `<span class="was">$${p.was.toFixed(2)}</span>` : ""}</span>`;
+  return `<article class="card${p.soldOut ? " out" : ""}">
+    <div class="shot"><span class="ph">The Mystical Spiral</span>
+      <img loading="lazy" alt="${esc(p.name)}" src="${IMG(p.img)}"
+           onload="this.classList.add('loaded')" onerror="this.remove()">
+      ${badge}
+    </div>
+    <div class="body">
+      <h3>${esc(p.name)}</h3>
+      <div class="meta">${price}<span class="go">${p.soldOut ? "View" : "Get it"} &rarr;</span></div>
+    </div>
+    <a class="stretch" href="${BASE}${p.slug}" target="_blank" rel="noopener"
+       aria-label="${p.soldOut ? "View" : "Buy"} ${esc(p.name)} on The Mystical Spiral Store"></a>
+  </article>`;
+}
+
+function render() {
+  const list = current();
+  const show = list.slice(0, page * PER);
+  document.getElementById("grid").innerHTML = show.map(card).join("");
+  document.getElementById("count").textContent = list.length
+    ? `Showing ${show.length} of ${list.length}` : "";
+  document.getElementById("empty").hidden = list.length > 0;
+  document.getElementById("more").hidden  = show.length >= list.length;
+}
+
+function reset() { page = 1; render(); }
+
+document.getElementById("cats").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  cat = b.dataset.cat || null;
+  [...e.currentTarget.children].forEach(c => c.setAttribute("aria-pressed", c === b));
+  reset();
+});
+document.getElementById("tSale").addEventListener("click", e => {
+  saleOnly = !saleOnly; e.currentTarget.setAttribute("aria-pressed", saleOnly); reset();
+});
+document.getElementById("tStock").addEventListener("click", e => {
+  hideOut = !hideOut; e.currentTarget.setAttribute("aria-pressed", hideOut); reset();
+});
+document.getElementById("sort").addEventListener("change", reset);
+let t; document.getElementById("q").addEventListener("input", () => { clearTimeout(t); t = setTimeout(reset, 140); });
+document.getElementById("more").addEventListener("click", () => { page++; render(); });
+
+render();
+</script>
+</body>
+</html>
