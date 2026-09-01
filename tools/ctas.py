@@ -250,6 +250,21 @@ border-radius:50%;background:#07130b}
 box-shadow:0 0 9px var(--cyan);animation:blink 1.4s ease-in-out infinite}
 .blinks i:nth-child(2){animation-delay:.45s}
 .blinks i:nth-child(3){animation-delay:.9s}
+/* The Visitor sits beside the tall Wand card. Instead of the usual art-left /
+   text-right layout it stacks: a big ship centred at the top with its beam
+   reaching down, and the text under it, so the card fills rather than
+   trailing off into empty space. */
+.cta-row .ship .in{flex-direction:column;text-align:center;gap:14px}
+.cta-row .ship .art{width:176px;height:196px;overflow:visible;display:grid;
+place-items:start center;margin-top:2px}
+.cta-row .ship .sub{max-width:34ch;margin:0 auto}
+.ship .saucer{width:104px;height:122px;transform-origin:top center;
+animation:bobship 3.6s ease-in-out infinite}
+.ship .beam{top:46px;margin-left:-31px;width:62px;height:74px;
+background:linear-gradient(180deg,rgba(125,255,155,.5),rgba(125,255,155,.14) 58%,transparent 94%)}
+.ship .glow{position:absolute;left:50%;bottom:0;margin-left:-31px;width:62px;height:13px;border-radius:50%;
+background:radial-gradient(ellipse,rgba(125,255,155,.45),transparent 72%);filter:blur(3px);
+animation:beamPulse 2.6s ease-in-out infinite}
 
 /* ── SEND A VISITOR (ecard.html) ── */
 .ecard{--ink:#0a0d24;--plum:#2b1a52;--acid:#7dff9b;--rose:#ff8fd0;--paper:#f6efe2;--mist:#c3b6dc;
@@ -285,6 +300,8 @@ opacity:.5;animation:trail 2.2s ease-in-out infinite}
 .trail i:nth-child(3){top:16px;animation-delay:.7s}
 
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes bobship{0%,100%{transform:scale(1.62) translateY(0)}
+50%{transform:scale(1.62) translateY(-5px)}}
 @keyframes blink{0%,100%{opacity:.32}50%{opacity:1}}
 @keyframes beamPulse{0%,100%{opacity:.42}50%{opacity:.88}}
 @keyframes lift{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
@@ -389,6 +406,7 @@ animation:step 2.4s ease-in-out infinite}
 @keyframes step{0%,100%{opacity:.5;transform:scale(.9)}50%{opacity:1;transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){
   .saucer,.blinks i,.beam,.mini,.trail i,.cone-art,.drip,.pellet,.seq i.on{animation:none}
+  .ship .saucer{animation:none;transform:scale(1.62)}
 }'''
 
 CTA_JS = r'''(function(){
@@ -518,6 +536,7 @@ CTAS = {
       <div class="beam"></div><div class="hull"></div>
       <div class="dome"></div><div class="pilot"></div>
       <div class="blinks"><i></i><i></i><i></i></div>
+      <div class="glow"></div>
     </div></div>
     <div>
       <div class="eyebrow">✦ Extended Universe ✦</div>

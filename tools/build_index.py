@@ -351,8 +351,8 @@ def render(theme, themes, articles, nav):
 
 <div class="sect"><h2 class="holo">EXTENDED UNIVERSE</h2><div class="rule"></div>
 <span class="meta">SIDE TRANSMISSIONS</span></div>
-<div class="cta-row">{CTAS["wand"]}{CTAS["hearth"]}</div>
-<div class="cta-row" style="margin-top:16px">{CTAS["ship"]}{CTAS["ecard"]}</div>
+<div class="cta-row">{CTAS["wand"]}{CTAS["ship"]}</div>
+<div class="cta-row" style="margin-top:16px">{CTAS["hearth"]}{CTAS["ecard"]}</div>
 <div class="cta-row" style="margin-top:16px">{CTAS["cone"]}{CTAS["moon"]}</div>
 <div class="cta-row" style="margin-top:16px">{CTAS["song"]}{CTAS["two"]}</div>
 
