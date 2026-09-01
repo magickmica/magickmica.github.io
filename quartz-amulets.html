@@ -45,6 +45,15 @@
   .sigil{width:34px;height:34px;border-radius:50%;flex:none;
     background:conic-gradient(from 210deg,var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber),var(--sp-teal));
     box-shadow:0 0 0 1px var(--line-strong),0 0 22px rgba(140,120,255,.45);animation:spin 18s linear infinite}
+  /* header logo: the character replaces the gradient disc, which stays as a
+     blurred halo behind her. The small footer .sigil is left untouched. */
+  .sigil.logo{width:70px;height:73px;border-radius:0;background:none;box-shadow:none;
+    animation:none;position:relative;display:grid;place-items:center}
+  .sigil.logo::before{content:"";position:absolute;width:58px;height:58px;border-radius:50%;
+    background:conic-gradient(from 210deg,var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber),var(--sp-teal));
+    opacity:.30;filter:blur(12px);animation:spin 18s linear infinite}
+  .sigil.logo img{position:relative;width:100%;height:100%;object-fit:contain;display:block}
+  @media (max-width:560px){.sigil.logo{width:56px;height:58px}}
   .brand-name{font-family:"Fraunces",serif;font-weight:600;font-size:1.05rem;letter-spacing:.02em}
   .brand-name b{font-weight:900}
 
@@ -187,7 +196,7 @@
 <header>
   <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
     <div class="brand">
-      <div class="sigil"></div>
+      <div class="sigil logo"><img src="magickmica-character-logo.png" alt="Magick Mica" width="222" height="231"></div>
       <div class="brand-name">Magick&nbsp;Mica&nbsp;<b>TV</b></div>
     </div>
     <nav style="display:flex;gap:10px;flex-wrap:wrap">

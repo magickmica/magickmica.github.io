@@ -43,9 +43,12 @@
 
   header{position:relative;z-index:1;padding:32px 0 4px}
   .brand{display:flex;align-items:center;gap:14px}
-  .sigil{width:34px;height:34px;border-radius:50%;flex:none;
+  .sigil{width:74px;height:77px;flex:none;position:relative;display:grid;place-items:center}
+  .sigil::before{content:"";position:absolute;width:62px;height:62px;border-radius:50%;
     background:conic-gradient(from 0deg,var(--sp-teal),var(--sp-blue),var(--sp-violet),var(--sp-pink),var(--sp-amber),var(--sp-teal));
-    opacity:.9}
+    opacity:.30;filter:blur(13px)}
+  .sigil img{position:relative;width:100%;height:100%;object-fit:contain;display:block}
+  @media (max-width:560px){.sigil{width:58px;height:60px}}
   .brand b{font-family:"Fraunces",serif;font-weight:600;font-size:1.02rem;letter-spacing:-.01em}
   .brand span{color:var(--muted-dim);font-size:.8rem}
 
@@ -154,7 +157,7 @@
 
 <header>
   <div class="wrap brand">
-    <div class="sigil"></div>
+    <div class="sigil"><img src="magickmica-character-logo.png" alt="Magick Mica" width="222" height="231"></div>
     <div>
       <b>Magick Mica TV Recommends</b><br>
       <span>The Signal Shop · crystals</span>
