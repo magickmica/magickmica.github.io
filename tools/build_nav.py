@@ -57,7 +57,9 @@ def build_sections(nav):
 
 
 def main():
-    nav = json.load(open(DATA, encoding='utf-8'))
+    raw = json.load(open(DATA, encoding='utf-8'))
+    primary = raw.get('_primary')
+    nav = {k: v for k, v in raw.items() if not k.startswith('_')}
     src = NAV.read_text(encoding='utf-8')
 
     # ---- 1. rewrite the SECTIONS block ----------------------------------
@@ -70,6 +72,15 @@ def main():
         if not m:
             sys.exit('could not find SECTIONS in mm-nav.js')
         src = src[:m.start()] + block + src[m.end():]
+    if primary:
+        block2 = ('  var PRIMARY = [\n'
+                  + ',\n'.join('    [%s, %s]' % (js_str(h), js_str(l)) for h, l in primary)
+                  + '\n  ];')
+        m2 = re.search(r'  var PRIMARY = \[.*?\n  \];', src, re.S)
+        if not m2:
+            sys.exit('could not find PRIMARY in mm-nav.js')
+        src = src[:m2.start()] + block2 + src[m2.end():]
+        print('           top bar: ' + ' / '.join(l for _, l in primary))
     NAV.write_text(src, encoding='utf-8')
     total = sum(len(v) for v in nav.values())
     print(f'mm-nav.js  ·  {len(nav)} groups, {total} links written from {DATA.name}')

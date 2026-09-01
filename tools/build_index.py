@@ -247,6 +247,8 @@ def scard(href, lab, ttl, sm=""):
 def tmap(nav):
     cols = []
     for group, items in nav.items():
+        if group.startswith("_"):   # _primary drives the top bar, not the map
+            continue
         links = "".join(f'<a href="{esc(h)}">{esc(l)}</a>' for h, l in items)
         # long groups get a double-width column with two text columns, so one
         # list of 17 doesn't drop to its own full-width row
