@@ -118,6 +118,7 @@
   // shown inline on wide screens; everything else lives in the drawer
   var PRIMARY = [
     ['index.html', 'Home'],
+    ['crystals.html', 'Crystals'],
     ['notes.html', 'Notes'],
     ['articles.html', 'Magazine'],
     ['arcade.html', 'Arcade'],
