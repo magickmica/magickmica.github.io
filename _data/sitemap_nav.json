@@ -31,6 +31,10 @@
   [
    "tv-notes.html",
    "TV Notes"
+  ],
+  [
+   "index2.html",
+   "Notes Archive"
   ]
  ],
  "Play": [
@@ -89,6 +93,10 @@
   [
    "transmissions.html",
    "Transmissions"
+  ],
+  [
+   "which-character-are-you.html",
+   "Which Character Are You?"
   ]
  ],
  "Dream & Divine": [
@@ -126,7 +134,7 @@
   ],
   [
    "https://magickmica.github.io/oracle",
-   "Oracle"
+   "Crystal Ball"
   ],
   [
    "https://magickmica.github.io/musicbox/",
@@ -251,10 +259,6 @@
    "Alice's UFO Message"
   ],
   [
-   "wonderland.html",
-   "Wonderland"
-  ],
-  [
    "wonderland-weekly-expanded.html",
    "Wonderland Weekly"
   ],
@@ -289,6 +293,44 @@
   [
    "https://magickmica.github.io/racastaldo/",
    "Ra Castaldo"
+  ]
+ ],
+ "Y3K Issues": [
+  [
+   "wonderland.html",
+   "Wonderland & Alice"
+  ],
+  [
+   "y2k.html",
+   "Y2K Nostalgia"
+  ],
+  [
+   "cosmic.html",
+   "Cosmic & Space"
+  ],
+  [
+   "gothic.html",
+   "Gothic & Dark"
+  ],
+  [
+   "egypt.html",
+   "Ancient Egypt"
+  ],
+  [
+   "queen.html",
+   "Queen Energy"
+  ],
+  [
+   "art.html",
+   "Art & Masters"
+  ],
+  [
+   "animals.html",
+   "Animals & Creatures"
+  ],
+  [
+   "food.html",
+   "Food & Dessert"
   ]
  ]
 }
