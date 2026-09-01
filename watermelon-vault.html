@@ -444,5 +444,6 @@ const chips=[...document.querySelectorAll(".chip")];
 const secObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){chips.forEach(c=>c.classList.toggle("on",c.dataset.to===e.target.id));}})},{rootMargin:"-45% 0px -50% 0px"});
 document.querySelectorAll("section.coll, section.archive").forEach(s=>secObs.observe(s));
 </script>
+<script src="mm-nav.js?v=2" defer></script>
 </body>
 </html>
