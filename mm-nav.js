@@ -291,9 +291,81 @@
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', build);
-  } else {
+  /* ------------------------------------------------------------------
+     Many pages have their own bar or dock pinned to the top of the
+     viewport (.dock, .navbar, .mag-nav, .controls ...). Those were
+     written before this shared bar existed, so they sit underneath it
+     and get covered as soon as you scroll. Rather than editing ~93
+     pages, nudge them down by the height of this bar.
+
+     Done in JS, not CSS, because the same class names are also used on
+     ordinary in-flow elements elsewhere; setting `top` on those would
+     shift content that was never pinned. So we check the computed
+     position first and only touch fixed/sticky ones.
+     ------------------------------------------------------------------ */
+  var PINNED = '.dock,.navbar,.mag-nav,.sticky-nav,.topbar,.nav-bar,.controls,.tab-rail';
+
+  function offsetPinned() {
+    var bar = document.querySelector('.mm-bar');
+    if (!bar) return;
+    var h = Math.round(bar.getBoundingClientRect().height);
+    if (!h) return;
+    document.documentElement.style.setProperty('--mm-bar-h', h + 'px');
+
+    document.querySelectorAll(PINNED).forEach(function (el) {
+      if (el.closest('.mm-bar') || el.closest('.mm-sheet')) return;
+      var cs = getComputedStyle(el);
+      var pos = cs.position;
+      if (pos !== 'fixed' && pos !== 'sticky') return;
+
+      if (pos === 'sticky') {
+        // sticky only collides once it sticks, so always offset its threshold
+        if (el.dataset.mmTop === undefined) {
+          var st = parseFloat(cs.top);
+          el.dataset.mmTop = isNaN(st) ? 0 : st;
+        }
+        el.style.top = (h + parseFloat(el.dataset.mmTop)) + 'px';
+        return;
+      }
+
+      // Fixed: `top` computes to a used value even when the element is
+      // anchored by `bottom`, so testing for 'auto' is unreliable. Only
+      // move things that are actually sitting under the bar right now.
+      if (el.dataset.mmTop === undefined) {
+        var r = el.getBoundingClientRect();
+        if (r.top >= h) { el.dataset.mmSkip = '1'; return; }
+        el.dataset.mmTop = Math.round(r.top);
+      }
+      if (el.dataset.mmSkip) return;
+
+      // The little Tip/Arcade dock reads better tucked into the bottom
+      // corner than stacked under the bar, so send it there instead of
+      // just nudging it down. Handled here rather than in each page so
+      // any future page using the same dock gets it for free.
+      if (el.classList.contains('dock')) {
+        el.style.top = 'auto';
+        el.style.bottom = el.dataset.mmTop + 'px';
+        // the Arcade chip duplicates a link that is now in this bar
+        var dup = el.querySelector('.chip.arcade');
+        if (dup) dup.style.display = 'none';
+        return;
+      }
+
+      el.style.top = (h + parseFloat(el.dataset.mmTop)) + 'px';
+    });
+  }
+
+  function start() {
     build();
+    offsetPinned();
+    // fonts and images can change the bar height after first paint
+    setTimeout(offsetPinned, 300);
+    window.addEventListener('resize', offsetPinned);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
   }
 })();
