@@ -304,6 +304,9 @@
      position first and only touch fixed/sticky ones.
      ------------------------------------------------------------------ */
   var PINNED = '.dock,.navbar,.mag-nav,.sticky-nav,.topbar,.nav-bar,.controls,.tab-rail';
+  // Full-viewport overlays hold real page content (titles, controls) starting
+  // at y=0, so their top padding has to clear the bar or the heading is cut off.
+  var OVERLAYS = '.overlay';
 
   function offsetPinned() {
     var bar = document.querySelector('.mm-bar');
@@ -311,6 +314,7 @@
     var h = Math.round(bar.getBoundingClientRect().height);
     if (!h) return;
     document.documentElement.style.setProperty('--mm-bar-h', h + 'px');
+    padOverlays(h);
 
     document.querySelectorAll(PINNED).forEach(function (el) {
       if (el.closest('.mm-bar') || el.closest('.mm-sheet')) return;
@@ -352,6 +356,18 @@
       }
 
       el.style.top = (h + parseFloat(el.dataset.mmTop)) + 'px';
+    });
+  }
+
+  function padOverlays(h) {
+    document.querySelectorAll(OVERLAYS).forEach(function (el) {
+      var cs = getComputedStyle(el);
+      if (cs.position !== 'fixed' && cs.position !== 'absolute') return;
+      if (Math.round(parseFloat(cs.top)) !== 0) return;   // not anchored to the top
+      if (el.dataset.mmPad === undefined) {
+        el.dataset.mmPad = parseFloat(cs.paddingTop) || 0;
+      }
+      el.style.paddingTop = (h + parseFloat(el.dataset.mmPad)) + 'px';
     });
   }
 

@@ -326,7 +326,7 @@ def render(theme, themes, articles, nav):
         tile("w2 h2", "CH 02 \u00b7 Y3K MAGAZINE", "This Week",
              "Weekly + monthly issues", "minimags.html"),
         tile("w2", "CH 03", "The Arcade", "Six games from the archive", "arcade.html"),
-        tile("w2", "CH 04", "The Vaults", "Crystals, amulets, copper", "herkimer-vault.html"),
+        tile("w2", "CH 04", "The Vaults", "Every stone, then the seven vaults", "crystals.html"),
         tile("w2", "CH 05 \u00b7 NEWSSTAND", "Nine issues", "On the rack now", "newsstand.html"),
         tile("w2", "CH 06", "Blog & Archive",
              (second or {}).get("title", "Every transmission by date"), "blog.html"),
