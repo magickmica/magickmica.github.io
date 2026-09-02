@@ -44,43 +44,6 @@
   @keyframes twinkle { from { opacity: 0.35 } to { opacity: 0.9 } }
 
   /* STICKY NAV */
-  .mag-nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(7,2,15,0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-    padding: 0.9rem 1.2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 0.8rem;
-  }
-  .mag-logo {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: 1.3rem;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    text-shadow: 0 0 12px var(--accent);
-    text-decoration: none;
-  }
-  .mag-issue {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.45);
-  }
-  .mag-toc {
-    display: flex; gap: 1rem; flex-wrap: wrap;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-  }
-  .mag-toc a {
-    color: rgba(255,255,255,0.55);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .mag-toc a:hover { color: var(--accent); }
 
   /* COVER */
   .cover-wrap {
@@ -406,26 +369,26 @@
   footer a { color: var(--accent); text-decoration: none; }
 
   @media (max-width: 600px) {
-    .mag-toc { display: none; }
   }
+
+/* one quiet link home, in place of the old sticky magazine bar.
+   In normal flow with a stacking context: the shared site bar is sticky and
+   would cover an absolutely-positioned link, and the starfield overlay paints
+   over anything without a z-index. */
+.mag-back{display:inline-block;position:relative;z-index:5;margin:16px 0 0 22px;
+  font-family:'Silkscreen',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:#b8b0d4;text-decoration:none;padding:8px 14px;border-radius:100px;
+  background:rgba(10,7,20,.55);
+  border:1px solid rgba(184,176,212,.28);transition:.2s}
+.mag-back:hover{color:#fff;border-color:rgba(184,176,212,.6);background:rgba(10,7,20,.85)}
+@media(max-width:640px){.mag-back{margin:12px 0 0 12px;font-size:9px;padding:7px 12px}}
 </style>
 </head>
 <body>
 
 <div id="stars"></div>
 
-<nav class="mag-nav">
-  <a class="mag-logo" href="minimags.html">Y3K</a>
-  <span class="mag-issue">ISSUE 106 · Sweet & Cosmic Edition</span>
-  <div class="mag-toc">
-    <a href="#ch1">Feature</a>
-    <a href="#ch2">The Menu</a>
-    <a href="#ch3">The World</a>
-    <a href="#ch4">Bucket List</a>
-    <a href="#ch5">Ritual</a>
-    <a href="#ch6">Final Feature</a>
-  </div>
-</nav>
+<a class="mag-back" href="minimags.html">← Y3K Magazine</a>
 
 <div class="cover-wrap">
   <img class="cover-img" src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Facb26bc1-0462-4b7a-9b5e-4be99cd5bf12_600x600.gif" alt="Food & Dessert cover" onerror="this.style.display='none'" />
@@ -629,5 +592,6 @@ ALL_ISSUES.forEach(iss => {
   otherDiv.appendChild(a);
 });
 </script>
+<script src="mm-nav.js?v=3" defer></script>
 </body>
 </html>

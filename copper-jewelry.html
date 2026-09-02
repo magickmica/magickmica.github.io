@@ -201,7 +201,7 @@
     </div>
     <nav style="display:flex;gap:10px;flex-wrap:wrap">
       <a class="chip" href="https://magickmica.github.io/" style="text-decoration:none">← Home</a>
-      <a class="chip" href="https://magickmica.github.io/aliens/newsstand.html" style="text-decoration:none">Newsstand</a>
+      <a class="chip" href="https://magickmica.github.io/newsstand.html" style="text-decoration:none">Newsstand</a>
     </nav>
   </div>
 </header>
@@ -472,5 +472,6 @@ const chips=[...document.querySelectorAll(".chip")];
 const secObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){chips.forEach(c=>c.classList.toggle("on",c.dataset.to===e.target.id));}})},{rootMargin:"-45% 0px -50% 0px"});
 document.querySelectorAll("section.coll, section.archive").forEach(s=>secObs.observe(s));
 </script>
+<script src="mm-nav.js?v=3" defer></script>
 </body>
 </html>
