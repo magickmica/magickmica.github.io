@@ -259,6 +259,48 @@ def tmap(nav):
             f'<div class="tmap-cols">{"".join(cols)}</div></section>')
 
 
+
+# Search engines only learn a brand's other spellings if you declare them.
+# alternateName is the supported way to say "Magic Mica" and "Mica Magik"
+# are the same site, without stuffing the variants into visible copy.
+SCHEMA = """<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://magickmica.github.io/#website",
+      "url": "https://magickmica.github.io/",
+      "name": "Magick Mica",
+      "alternateName": ["Magik Mica", "Magic Mica", "Magick Mica TV",
+                        "MagickMica", "Mica Magik", "Mica Magick"],
+      "inLanguage": "en",
+      "publisher": { "@id": "https://magickmica.github.io/#creator" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": { "@type": "EntryPoint",
+                    "urlTemplate": "https://magickmica.github.io/notes.html?q={search_term_string}" },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://magickmica.github.io/#creator",
+      "name": "Magick Mica",
+      "alternateName": ["Magik Mica", "Magic Mica", "Magick Mica TV",
+                        "MagickMica", "Mica Magik", "Mica Magick"],
+      "url": "https://magickmica.github.io/",
+      "logo": "https://magickmica.github.io/magickmica-character-logo.png",
+      "sameAs": [
+        "https://magickmica.substack.com",
+        "https://magickmicaart.substack.com",
+        "https://www.themysticalspiralstore.com"
+      ]
+    }
+  ]
+}
+</script>"""
+
 def render(theme, themes, articles, nav):
     c = dict(theme["colors"])
     c.setdefault("ink", "#efe6ff")
@@ -303,6 +345,7 @@ def render(theme, themes, articles, nav):
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(desc)}">
+{SCHEMA}
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
 <style>{css}</style></head>
 <body><div id="stars"></div>
