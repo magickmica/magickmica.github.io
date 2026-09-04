@@ -13,8 +13,12 @@
    "Notes"
   ],
   [
-   "articles.html",
+   "minimags.html",
    "Magazine"
+  ],
+  [
+   "articles.html",
+   "Articles"
   ],
   [
    "arcade.html",
@@ -57,10 +61,6 @@
   [
    "tv-notes.html",
    "TV Notes"
-  ],
-  [
-   "index2.html",
-   "Notes Archive"
   ]
  ],
  "Play": [

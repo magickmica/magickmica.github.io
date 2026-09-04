@@ -26,8 +26,7 @@
       ['minimags.html', 'Y3K Magazine'],
       ['newsstand.html', 'Newsstand'],
       ['random-note.html', 'Random Note TV'],
-      ['tv-notes.html', 'TV Notes'],
-      ['index2.html', 'Notes Archive']
+      ['tv-notes.html', 'TV Notes']
     ]},
     { name: 'Play', items: [
       ['arcade.html', 'The Arcade'],
@@ -120,7 +119,8 @@
     ['index.html', 'Home'],
     ['crystals.html', 'Crystals'],
     ['notes.html', 'Notes'],
-    ['articles.html', 'Magazine'],
+    ['minimags.html', 'Magazine'],
+    ['articles.html', 'Articles'],
     ['arcade.html', 'Arcade'],
     ['songmaker.html', 'Songs']
   ];

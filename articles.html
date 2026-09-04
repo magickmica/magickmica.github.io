@@ -648,8 +648,13 @@ function renderRandomNotes() {
   // Pick a count that fills rows evenly based on column count
   const w = window.innerWidth;
   const cols = w <= 480 ? 2 : (w <= 800 ? 3 : 5);
-  const count = cols * 3; // always 3 full rows
-  const shuffled = [...NOTES_POOL].sort(() => Math.random() - 0.5).slice(0, count);
+  const count = cols; // one full row
+  const pool = [...NOTES_POOL];
+  for (let i = pool.length - 1; i > 0; i--) {          // Fisher-Yates
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  const shuffled = pool.slice(0, count);
   const el = document.getElementById('randomNotesGrid');
   el.innerHTML = shuffled.map(n =>
     `<a class="rn-note" href="https://substack.com/@magickmica/note/c-${n.id}" target="_blank" rel="noopener">
