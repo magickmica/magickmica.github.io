@@ -147,6 +147,18 @@
 	}
 	.switch[aria-pressed="true"] .label { color: var(--cream); }
 
+	.hues { display: flex; flex-direction: column; align-items: center; gap: 0.42rem; }
+	.swatches { display: flex; gap: 0.34rem; }
+	.swatches button {
+		width: 20px; height: 20px; padding: 0; border-radius: 50%; cursor: pointer;
+		border: 1px solid color-mix(in srgb, var(--cream) 22%, transparent);
+		background: var(--sw); transition: transform 0.16s, box-shadow 0.16s;
+	}
+	.swatches button:hover { transform: translateY(-2px); }
+	.swatches button[aria-pressed="true"] {
+		box-shadow: 0 0 0 2px var(--slab), 0 0 0 3px var(--sw), 0 0 12px var(--sw);
+	}
+
 	.press .throw {
 		display: grid;
 		place-items: center;
@@ -328,6 +340,10 @@
 			<span class="throw"><span class="dot"></span></span>
 			<span class="label">Stoke it</span>
 		</button>
+		<div class="hues" role="group" aria-label="Flame colour">
+			<div class="swatches" id="swatches"></div>
+			<span class="label">Colour</span>
+		</div>
 	</div>
 </div>
 
@@ -408,6 +424,23 @@ const woodTexture = (dark, light, ringFreq = 3.2) => {
 
 const BW = 3.0, BH = 2.35;             // firebox opening: width, height
 const BACK_Z = -0.95;
+
+/* the floor pool and the warm environment panel are both baked once at
+   startup, so the palette switch needs a handle on each to redraw them */
+let poolCanvas = null, poolTex = null, warmPanel = null;
+
+function repaintPool(rgb) {
+	if (!poolCanvas || !poolTex) return;
+	const g = poolCanvas.getContext('2d');
+	g.clearRect(0, 0, 512, 512);
+	const gr = g.createRadialGradient(256, 256, 10, 256, 256, 256);
+	gr.addColorStop(0,    'rgba(' + rgb + ',0.60)');
+	gr.addColorStop(0.45, 'rgba(' + rgb + ',0.22)');
+	gr.addColorStop(1,    'rgba(' + rgb + ',0)');
+	g.fillStyle = gr;
+	g.fillRect(0, 0, 512, 512);
+	poolTex.needsUpdate = true;
+}
 
 function buildFireplace() {
 	const group = new THREE.Group();
@@ -553,7 +586,38 @@ const flameUniforms = {
 	uTime: { value: 0 },
 	uLevel: { value: 1 },
 	uPixel: { value: 1 },
+	uSparkHot:  { value: new THREE.Color(1.00, 0.72, 0.30) },
+	uSparkCool: { value: new THREE.Color(1.00, 0.28, 0.06) },
+	uCore: { value: new THREE.Color(1.00, 0.96, 0.80) },
+	uMid:  { value: new THREE.Color(1.00, 0.74, 0.24) },
+	uEdge: { value: new THREE.Color(0.96, 0.31, 0.06) },
+	uDie:  { value: new THREE.Color(0.30, 0.04, 0.01) },
 };
+
+/* ── flame palettes ───────────────────────────────────────────────────────
+   Named for the chemistry that gives a real fire these colours. Wood burns
+   yellow largely from sodium; copper salts throw green and blue, which is
+   why driftwood that has soaked in seawater burns the way it does;
+   potassium gives violet; strontium deep red. `light` is what the room
+   light becomes, `coal` the bed of coals, `glow` the pool on the floor.  */
+const PALETTES = {
+	hearth:    { name: 'Hearth',    swatch: '#ff8a3c',
+	             core: 0xfff5cc, mid: 0xffbc3d, edge: 0xf54f10, die: 0x4d0a02,
+	             light: 0xff7a2a, coal: 0xff4a10, ember: 0xff5a12, glow: '255,60,20' },
+	driftwood: { name: 'Driftwood', swatch: '#4fd6c0',
+	             core: 0xd8fff4, mid: 0x5fe0c8, edge: 0x1f8fb8, die: 0x03202e,
+	             light: 0x2fbfd0, coal: 0x1f7fa8, ember: 0x35d8c0, glow: '40,220,200' },
+	witchfire: { name: 'Witchfire', swatch: '#c07bff',
+	             core: 0xf3e2ff, mid: 0xc07bff, edge: 0x7a2fd0, die: 0x1b0530,
+	             light: 0x9b5cf0, coal: 0x6a2ab0, ember: 0xc77bff, glow: '170,110,255' },
+	strontium: { name: 'Strontium', swatch: '#ff3f5e',
+	             core: 0xffdede, mid: 0xff5f6f, edge: 0xd0102e, die: 0x2e0208,
+	             light: 0xff3a52, coal: 0xc00f28, ember: 0xff4a60, glow: '255,50,80' },
+	coldburn:  { name: 'Cold burn', swatch: '#8fd0ff',
+	             core: 0xffffff, mid: 0xbfe4ff, edge: 0x3f8fe0, die: 0x061428,
+	             light: 0x7fb8ff, coal: 0x3a76c8, ember: 0x9fd4ff, glow: '120,190,255' },
+};
+let palette = 'hearth';
 
 function makeParticles(count, spread, cfg) {
 	const pos = new Float32Array(count * 3);
@@ -613,6 +677,10 @@ const VERT = `
 
 const FLAME_FRAG = `
 	uniform float uLevel;
+	uniform vec3 uCore;   // hottest, at the base
+	uniform vec3 uMid;
+	uniform vec3 uEdge;
+	uniform vec3 uDie;    // what it fades to as it cools
 	varying float vLife;
 	varying float vSeed;
 	void main() {
@@ -621,10 +689,11 @@ const FLAME_FRAG = `
 		if (r > 0.5) discard;
 		float a = smoothstep(0.5, 0.05, r);
 
+		// still a temperature gradient — only the four stops are swappable
 		vec3 c;
-		if (vLife < 0.22)      c = mix(vec3(1.00, 0.96, 0.80), vec3(1.00, 0.74, 0.24), vLife / 0.22);
-		else if (vLife < 0.58) c = mix(vec3(1.00, 0.74, 0.24), vec3(0.96, 0.31, 0.06), (vLife - 0.22) / 0.36);
-		else                   c = mix(vec3(0.96, 0.31, 0.06), vec3(0.30, 0.04, 0.01), (vLife - 0.58) / 0.42);
+		if (vLife < 0.22)      c = mix(uCore, uMid,  vLife / 0.22);
+		else if (vLife < 0.58) c = mix(uMid,  uEdge, (vLife - 0.22) / 0.36);
+		else                   c = mix(uEdge, uDie,  (vLife - 0.58) / 0.42);
 
 		float fade = 1.0 - smoothstep(0.5, 1.0, vLife);
 		gl_FragColor = vec4(c, a * fade * 0.5 * (0.25 + uLevel));
@@ -651,6 +720,8 @@ const SMOKE_FRAG = `
 const EMBER_FRAG = `
 	uniform float uTime;
 	uniform float uLevel;
+	uniform vec3 uSparkHot;
+	uniform vec3 uSparkCool;
 	varying float vLife;
 	varying float vSeed;
 	void main() {
@@ -661,7 +732,7 @@ const EMBER_FRAG = `
 		// each ember winks at its own rate as it tumbles
 		float wink = 0.55 + 0.45 * sin(uTime * (9.0 + vSeed * 14.0) + vSeed * 40.0);
 		float fade = (1.0 - smoothstep(0.3, 1.0, vLife)) * smoothstep(0.0, 0.06, vLife);
-		vec3 c = mix(vec3(1.0, 0.72, 0.30), vec3(1.0, 0.28, 0.06), vLife);
+		vec3 c = mix(uSparkHot, uSparkCool, vLife);
 		gl_FragColor = vec4(c, a * fade * wink * 0.9 * uLevel);
 	}
 `;
@@ -687,6 +758,7 @@ function buildPool() {
 	g.fillStyle = gr;
 	g.fillRect(0, 0, 512, 512);
 	const tex = new THREE.CanvasTexture(c);
+	poolCanvas = c; poolTex = tex;
 	tex.colorSpace = THREE.SRGBColorSpace;
 	const m = new THREE.Mesh(
 		new THREE.PlaneGeometry(6.5, 6.5),
@@ -699,6 +771,159 @@ function buildPool() {
 	m.position.set(0, 0.012, BACK_Z + 0.8);
 	m.renderOrder = 1;
 	return m;
+}
+
+/* ══ THE WINDOW ═══════════════════════════════════════════════════════════
+   There was no room here — just a firebox floating in a lit void. A window
+   gives the fire something to be warm against, which is the whole point of
+   the cold/warm split the palette was built on.
+
+   Built as a short wall to the left with a hole in it: four boxes around an
+   opening rather than any CSG. Behind it sits a painted night sky, and snow
+   falls between the two.                                                  */
+const WIN_X = -2.05;                     // wall plane
+const WIN_Y = 1.02;                      // sits below the masthead, not behind it
+const WIN_W = 1.55, WIN_H = 1.80;        // opening size
+
+function buildWindow() {
+	const g = new THREE.Group();
+
+	// ── night backdrop, painted once to a canvas ──
+	const c = document.createElement('canvas');
+	c.width = 512; c.height = 640;
+	const x = c.getContext('2d');
+	const sky = x.createLinearGradient(0, 0, 0, 640);
+	sky.addColorStop(0.00, '#05070f');
+	sky.addColorStop(0.55, '#0a1226');
+	sky.addColorStop(1.00, '#101c33');
+	x.fillStyle = sky; x.fillRect(0, 0, 512, 640);
+
+	// stars, denser toward the top
+	for (let i = 0; i < 260; i++) {
+		const sx = Math.random() * 512;
+		const sy = Math.pow(Math.random(), 1.7) * 520;
+		const r = Math.random() * 1.25 + 0.25;
+		x.globalAlpha = 0.25 + Math.random() * 0.75;
+		x.fillStyle = Math.random() < 0.12 ? '#cfe4ff' : '#ffffff';
+		x.beginPath(); x.arc(sx, sy, r, 0, Math.PI * 2); x.fill();
+	}
+	x.globalAlpha = 1;
+
+	// moon, low and off to one side so it isn't a bullseye
+	const mx = 355, my = 150;
+	const halo = x.createRadialGradient(mx, my, 6, mx, my, 120);
+	halo.addColorStop(0, 'rgba(200,224,255,0.42)');
+	halo.addColorStop(1, 'rgba(200,224,255,0)');
+	x.fillStyle = halo; x.beginPath(); x.arc(mx, my, 120, 0, Math.PI * 2); x.fill();
+	x.fillStyle = '#e8f0ff';
+	x.beginPath(); x.arc(mx, my, 26, 0, Math.PI * 2); x.fill();
+	x.fillStyle = 'rgba(150,175,215,0.35)';
+	[[-8, -6, 6], [7, 4, 4.5], [-3, 9, 3.5]].forEach(([dx, dy, r]) => {
+		x.beginPath(); x.arc(mx + dx, my + dy, r, 0, Math.PI * 2); x.fill();
+	});
+
+	// a treeline, so the eye reads distance rather than a flat card
+	x.fillStyle = '#05080f';
+	x.beginPath(); x.moveTo(0, 640);
+	for (let i = 0; i <= 512; i += 8) {
+		const h = 470 + Math.sin(i * 0.045) * 26 + Math.sin(i * 0.11) * 16 + Math.random() * 10;
+		x.lineTo(i, h);
+	}
+	x.lineTo(512, 640); x.closePath(); x.fill();
+
+	const tex = new THREE.CanvasTexture(c);
+	tex.colorSpace = THREE.SRGBColorSpace;
+	const back = new THREE.Mesh(
+		new THREE.PlaneGeometry(WIN_W * 1.18, WIN_H * 1.18),
+		new THREE.MeshBasicMaterial({ map: tex, toneMapped: false }),
+	);
+	back.position.set(WIN_X - 0.30, WIN_Y, BACK_Z + 1.45);
+	back.rotation.y = Math.PI / 2;
+	g.add(back);
+
+	// ── snow, falling between backdrop and glass ──
+	const N = 140;
+	const sp = new Float32Array(N * 3), ss = new Float32Array(N), sd = new Float32Array(N);
+	for (let i = 0; i < N; i++) {
+		sp[i * 3]     = WIN_X - 0.10 - Math.random() * 0.48;
+		sp[i * 3 + 1] = Math.random();
+		sp[i * 3 + 2] = BACK_Z + 1.45 + (Math.random() - 0.5) * WIN_W * 1.7;
+		ss[i] = 0.018 + Math.random() * 0.05;
+		sd[i] = Math.random();
+	}
+	const sg = new THREE.BufferGeometry();
+	sg.setAttribute('position', new THREE.BufferAttribute(sp, 3));
+	sg.setAttribute('aSpeed', new THREE.BufferAttribute(ss, 1));
+	sg.setAttribute('aSeed', new THREE.BufferAttribute(sd, 1));
+	const snowUni = { uTime: { value: 0 }, uPixel: { value: 1 } };
+	const snow = new THREE.Points(sg, new THREE.ShaderMaterial({
+		uniforms: snowUni,
+		transparent: true, depthWrite: false, toneMapped: false,
+		vertexShader: `
+			attribute float aSpeed; attribute float aSeed;
+			uniform float uTime; uniform float uPixel;
+			varying float vA;
+			void main() {
+				vec3 p = position;
+				float f = fract(aSeed + uTime * aSpeed);
+				p.y = ${WIN_Y + WIN_H * 0.95} - f * ${WIN_H * 1.9};
+				p.z += sin(uTime * 0.6 + aSeed * 21.0) * 0.10;
+				vA = smoothstep(0.0, 0.08, f) * (1.0 - smoothstep(0.86, 1.0, f));
+				vec4 mv = modelViewMatrix * vec4(p, 1.0);
+				gl_PointSize = (1.6 + aSeed * 2.6) * uPixel * (300.0 / -mv.z);
+				gl_Position = projectionMatrix * mv;
+			}`,
+		fragmentShader: `
+			varying float vA;
+			void main() {
+				float r = length(gl_PointCoord - 0.5);
+				if (r > 0.5) discard;
+				gl_FragColor = vec4(vec3(0.86, 0.92, 1.0), smoothstep(0.5, 0.0, r) * vA * 0.85);
+			}`,
+	}));
+	g.add(snow);
+
+	// ── the wall, with a hole in it ──
+	const wallMat = new THREE.MeshStandardMaterial({ color: 0x2a2f3d, roughness: 0.95, metalness: 0 });
+	const WT = 0.16, WALL_H = 4.2, WALL_D = 3.4;
+	const slab = (h, d, y, z) => {
+		const m = new THREE.Mesh(new THREE.BoxGeometry(WT, h, d), wallMat);
+		m.position.set(WIN_X, y, z);
+		m.castShadow = m.receiveShadow = true;
+		g.add(m);
+	};
+	const zc = BACK_Z + 1.45;   // forward of the firebox, so it clears the piers
+	slab(WALL_H - (WIN_Y + WIN_H / 2), WALL_D, (WIN_Y + WIN_H / 2 + WALL_H) / 2, zc);   // above
+	slab(WIN_Y - WIN_H / 2 + 0.4, WALL_D, (WIN_Y - WIN_H / 2 - 0.4) / 2, zc);           // below
+	const sideD = (WALL_D - WIN_W) / 2;
+	[1, -1].forEach(s => {
+		const m = new THREE.Mesh(new THREE.BoxGeometry(WT, WIN_H, sideD), wallMat);
+		m.position.set(WIN_X, WIN_Y, zc + s * (WIN_W / 2 + sideD / 2));
+		g.add(m);
+	});
+
+	// ── frame and glazing bars ──
+	const frameMat = new THREE.MeshStandardMaterial({ color: 0x6b4a35, roughness: 0.75 });
+	const bar = (h, d, y, z, t2 = 0.055) => {
+		const m = new THREE.Mesh(new THREE.BoxGeometry(0.19, h, d), frameMat);
+		m.position.set(WIN_X + 0.02, y, z);
+		g.add(m);
+	};
+	bar(0.09, WIN_W + 0.18, WIN_Y + WIN_H / 2, zc);        // head
+	bar(0.13, WIN_W + 0.18, WIN_Y - WIN_H / 2, zc);        // sill
+	[1, -1].forEach(s => bar(WIN_H, 0.09, WIN_Y, zc + s * (WIN_W / 2)));
+	bar(0.045, WIN_W, WIN_Y, zc);                          // horizontal glazing bar
+	const mull = new THREE.Mesh(new THREE.BoxGeometry(0.17, WIN_H, 0.045), frameMat);
+	mull.position.set(WIN_X + 0.02, WIN_Y, zc);
+	g.add(mull);
+
+	// ── cold spill, so the window reads as a light source ──
+	const moonLight = new THREE.PointLight(0x9fc2ff, 3.2, 7, 2);
+	moonLight.position.set(WIN_X + 0.7, WIN_Y - 0.1, zc);
+	g.add(moonLight);
+
+	g.userData.tick = (time, pixel) => { snowUni.uTime.value = time; snowUni.uPixel.value = pixel; };
+	return g;
 }
 
 const buildLightRoom = () => {
@@ -723,10 +948,11 @@ const buildLightRoom = () => {
 		m.position.set(x, y, z);
 		m.lookAt(0, 0, 0);
 		room.add(m);
+		return m;
 	};
 	panel(10, 7, -7, 5, 7, 0.5, 0x9fc0ff);   // cold window light from the room
 	panel(8, 6, 7, 3, 6, 0.3, 0x8fa8d8);
-	panel(7, 5, 0, -1, 2, 1.6, 0xff8a3c);    // the fire's own contribution
+	warmPanel = panel(7, 5, 0, -1, 2, 1.6, 0xff8a3c);    // the fire's own contribution
 	return room;
 };
 
@@ -1019,6 +1245,60 @@ scene.add(sparks);
 const pool = buildPool();
 scene.add(pool);
 
+const windowGroup = buildWindow();
+scene.add(windowGroup);
+
+/* ── flame colour ──────────────────────────────────────────────────────────
+   Swapping only the particle ramp makes the fire look like it has a filter
+   over it while the room stays orange. The point light, coal light, ember
+   bed and the pool of light on the floor all have to move together.      */
+const emberBase = new THREE.Color(0xff5a12);
+
+function applyPalette(key) {
+	const q = PALETTES[key];
+	if (!q) return;
+	palette = key;
+
+	flameUniforms.uCore.value.setHex(q.core);
+	flameUniforms.uMid.value.setHex(q.mid);
+	flameUniforms.uEdge.value.setHex(q.edge);
+	flameUniforms.uDie.value.setHex(q.die);
+
+	flameUniforms.uSparkHot.value.setHex(q.mid);
+	flameUniforms.uSparkCool.value.setHex(q.edge);
+
+	fireLight.color.setHex(q.light);
+	coalLight.color.setHex(q.coal);
+	emberBase.setHex(q.ember);
+
+	// the pool on the floor is a painted canvas, so it gets repainted
+	repaintPool(q.glow);
+
+	// and the warm panel in the lighting environment, or reflections stay orange
+	if (warmPanel) warmPanel.material.color.setHex(q.light).multiplyScalar(1.6);
+
+	document.querySelectorAll('#swatches button').forEach(b =>
+		b.setAttribute('aria-pressed', String(b.dataset.k === key)));
+	try { localStorage.setItem('hearth-palette', key); } catch (e) {}
+}
+
+function buildSwatches() {
+	const host = document.getElementById('swatches');
+	host.innerHTML = Object.entries(PALETTES).map(([k, q]) =>
+		`<button type="button" data-k="${k}" style="--sw:${q.swatch}"
+		         title="${q.name}" aria-label="${q.name}" aria-pressed="false"></button>`).join('');
+	host.addEventListener('click', e => {
+		const b = e.target.closest('button'); if (!b) return;
+		Sfx.wake(); Sfx.click();
+		applyPalette(b.dataset.k);
+	});
+}
+buildSwatches();
+
+let saved = null;
+try { saved = localStorage.getItem('hearth-palette'); } catch (e) {}
+applyPalette(saved && PALETTES[saved] ? saved : 'hearth');
+
 /* ── camera ── */
 const target = new THREE.Vector3(0, 0.75, BACK_Z + 0.5);
 let azim = 0, elev = 0.13;
@@ -1179,8 +1459,10 @@ const frame = () => {
 		const e = embers[i];
 		const v = 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(t * (2.1 + i * 0.31) + e.userData.phase));
 		const g = (0.28 + level * 0.72) * v;
-		e.material.color.setRGB(g, g * 0.32, g * 0.07);
+		e.material.color.copy(emberBase).multiplyScalar(g * 1.35);
 	}
+
+	windowGroup.userData.tick(t, renderer.getPixelRatio());
 
 	if (!dragging && !reduce) {
 		azim += velA;
