@@ -109,10 +109,6 @@
    "Pong"
   ],
   [
-   "glitch.html",
-   "Glitch"
-  ],
-  [
    "cosmic-phone.html",
    "Cosmic Phone"
   ],
@@ -281,6 +277,10 @@
    "Fireplace"
   ],
   [
+   "glitter-hearth.html",
+   "Glitter Hearth"
+  ],
+  [
    "alice-ufo-message.html",
    "Alice's UFO Message"
   ],
@@ -319,44 +319,6 @@
   [
    "https://magickmica.github.io/racastaldo/",
    "Ra Castaldo"
-  ]
- ],
- "Y3K Issues": [
-  [
-   "wonderland.html",
-   "Wonderland & Alice"
-  ],
-  [
-   "y2k.html",
-   "Y2K Nostalgia"
-  ],
-  [
-   "cosmic.html",
-   "Cosmic & Space"
-  ],
-  [
-   "gothic.html",
-   "Gothic & Dark"
-  ],
-  [
-   "egypt.html",
-   "Ancient Egypt"
-  ],
-  [
-   "queen.html",
-   "Queen Energy"
-  ],
-  [
-   "art.html",
-   "Art & Masters"
-  ],
-  [
-   "animals.html",
-   "Animals & Creatures"
-  ],
-  [
-   "food.html",
-   "Food & Dessert"
   ]
  ]
 }

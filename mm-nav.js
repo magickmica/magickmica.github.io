@@ -40,7 +40,6 @@
       ['blender.html', 'Astral Blender'],
       ['sunrise.html', 'Win the Morning'],
       ['pong.html', 'Pong'],
-      ['glitch.html', 'Glitch'],
       ['cosmic-phone.html', 'Cosmic Phone'],
       ['transmissions.html', 'Transmissions'],
       ['which-character-are-you.html', 'Which Character Are You?']
@@ -89,6 +88,7 @@
       ['wand.html', 'Wand'],
       ['cone.html', 'Cone'],
       ['fireplace.html', 'Fireplace'],
+      ['glitter-hearth.html', 'Glitter Hearth'],
       ['alice-ufo-message.html', 'Alice\'s UFO Message'],
       ['wonderland-weekly-expanded.html', 'Wonderland Weekly'],
       ['aliens-love-icecream.html', 'Aliens Love Ice Cream'],
@@ -99,17 +99,6 @@
       ['trump-art-gallery.html', 'Trump Art Gallery'],
       ['abundance-portal.html', 'Abundance Portal'],
       ['https://magickmica.github.io/racastaldo/', 'Ra Castaldo']
-    ]},
-    { name: 'Y3K Issues', items: [
-      ['wonderland.html', 'Wonderland & Alice'],
-      ['y2k.html', 'Y2K Nostalgia'],
-      ['cosmic.html', 'Cosmic & Space'],
-      ['gothic.html', 'Gothic & Dark'],
-      ['egypt.html', 'Ancient Egypt'],
-      ['queen.html', 'Queen Energy'],
-      ['art.html', 'Art & Masters'],
-      ['animals.html', 'Animals & Creatures'],
-      ['food.html', 'Food & Dessert']
     ]}
   ];
   /* ==== AUTO:SECTIONS end ==== */

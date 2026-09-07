@@ -481,19 +481,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://magickmica.github.io/animals.html</loc>
-    <lastmod>2026-08-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://magickmica.github.io/arcade-new.html</loc>
-    <lastmod>2026-08-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://magickmica.github.io/art.html</loc>
     <lastmod>2026-08-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -553,12 +541,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://magickmica.github.io/cosmic.html</loc>
-    <lastmod>2026-08-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://magickmica.github.io/cozy-christmas-broadcast.html</loc>
     <lastmod>2026-08-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -583,25 +565,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://magickmica.github.io/egypt.html</loc>
-    <lastmod>2026-08-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://magickmica.github.io/food.html</loc>
-    <lastmod>2026-08-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://magickmica.github.io/galactic-dessert-issue.html</loc>
-    <lastmod>2026-08-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://magickmica.github.io/glitch.html</loc>
     <lastmod>2026-08-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -614,12 +578,6 @@
   </url>
   <url>
     <loc>https://magickmica.github.io/glow-the-transmission-issue.html</loc>
-    <lastmod>2026-08-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://magickmica.github.io/gothic.html</loc>
     <lastmod>2026-08-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -793,12 +751,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://magickmica.github.io/queen.html</loc>
-    <lastmod>2026-08-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://magickmica.github.io/quest.html</loc>
     <lastmod>2026-08-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -907,12 +859,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://magickmica.github.io/wonderland.html</loc>
-    <lastmod>2026-08-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://magickmica.github.io/wwe.htm.html</loc>
     <lastmod>2026-08-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -931,9 +877,9 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://magickmica.github.io/y2k.html</loc>
-    <lastmod>2026-08-30</lastmod>
+    <loc>https://magickmica.github.io/glitter-hearth.html</loc>
+    <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.7</priority>
   </url>
 </urlset>

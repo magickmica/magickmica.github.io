@@ -158,6 +158,11 @@
 	.swatches button[aria-pressed="true"] {
 		box-shadow: 0 0 0 2px var(--slab), 0 0 0 3px var(--sw), 0 0 12px var(--sw);
 	}
+	/* the Magick Mica swatch is a gradient, so the ring can't be var(--sw) */
+	.swatches button.shimmer { border-color: color-mix(in srgb, var(--cream) 45%, transparent); }
+	.swatches button.shimmer[aria-pressed="true"] {
+		box-shadow: 0 0 0 2px var(--slab), 0 0 0 3px #ff9be4, 0 0 14px #b98cff;
+	}
 
 	.press .throw {
 		display: grid;
@@ -586,6 +591,7 @@ const flameUniforms = {
 	uTime: { value: 0 },
 	uLevel: { value: 1 },
 	uPixel: { value: 1 },
+	uShimmer:   { value: 0 },
 	uSparkHot:  { value: new THREE.Color(1.00, 0.72, 0.30) },
 	uSparkCool: { value: new THREE.Color(1.00, 0.28, 0.06) },
 	uCore: { value: new THREE.Color(1.00, 0.96, 0.80) },
@@ -613,6 +619,10 @@ const PALETTES = {
 	strontium: { name: 'Strontium', swatch: '#ff3f5e',
 	             core: 0xffdede, mid: 0xff5f6f, edge: 0xd0102e, die: 0x2e0208,
 	             light: 0xff3a52, coal: 0xc00f28, ember: 0xff4a60, glow: '255,50,80' },
+	magickmica: { name: 'Magick Mica', swatch: 'conic-gradient(from 210deg,#7bf1e4,#ff9be4,#ffd98a,#9b7bff,#7bf1e4)',
+	             core: 0xfff0ff, mid: 0xff9be4, edge: 0x8f6cff, die: 0x140a2e,
+	             light: 0xffa8e8, coal: 0x8f5cf0, ember: 0xa8f0ff, glow: '210,140,255',
+	             shimmer: 1, sparkle: true },
 	coldburn:  { name: 'Cold burn', swatch: '#8fd0ff',
 	             core: 0xffffff, mid: 0xbfe4ff, edge: 0x3f8fe0, die: 0x061428,
 	             light: 0x7fb8ff, coal: 0x3a76c8, ember: 0x9fd4ff, glow: '120,190,255' },
@@ -681,8 +691,18 @@ const FLAME_FRAG = `
 	uniform vec3 uMid;
 	uniform vec3 uEdge;
 	uniform vec3 uDie;    // what it fades to as it cools
+	uniform float uShimmer;
+	uniform float uTime;
 	varying float vLife;
 	varying float vSeed;
+
+	// cheap hue rotation — enough for glitter, not worth a full HSV round trip
+	vec3 hueShift(vec3 c, float a) {
+		const vec3 k = vec3(0.57735);
+		float ca = cos(a);
+		return c * ca + cross(k, c) * sin(a) + k * dot(k, c) * (1.0 - ca);
+	}
+
 	void main() {
 		vec2 d = gl_PointCoord - 0.5;
 		float r = length(d);
@@ -694,6 +714,17 @@ const FLAME_FRAG = `
 		if (vLife < 0.22)      c = mix(uCore, uMid,  vLife / 0.22);
 		else if (vLife < 0.58) c = mix(uMid,  uEdge, (vLife - 0.22) / 0.36);
 		else                   c = mix(uEdge, uDie,  (vLife - 0.58) / 0.42);
+
+		// glitter: every particle takes its own path round the wheel, and the
+		// brightest few get pushed toward white so they read as flecks rather
+		// than as a rainbow gradient
+		if (uShimmer > 0.0) {
+			float spin = vSeed * 6.2831 + uTime * (1.1 + vSeed * 2.6);
+			vec3 lit = hueShift(c, sin(spin) * 2.4 * uShimmer);
+			float fleck = step(0.86, fract(vSeed * 91.7 + uTime * (0.6 + vSeed)));
+			lit = mix(lit, vec3(1.0), fleck * 0.75 * uShimmer);
+			c = mix(c, lit, uShimmer);
+		}
 
 		float fade = 1.0 - smoothstep(0.5, 1.0, vLife);
 		gl_FragColor = vec4(c, a * fade * 0.5 * (0.25 + uLevel));
@@ -970,6 +1001,7 @@ const buildLightRoom = () => {
 */
 const Sfx = (() => {
 	let ctx = null, master = null, bus = null, noiseBuf = null;
+	let sparkleOn = false, sparkleTimer = null;
 	let roarGain = null, roarFilter = null, sizzleGain = null;
 	let on = false, level = 1, vol = 0.8, timer = null, fizzTimer = null;
 
@@ -1095,6 +1127,45 @@ const Sfx = (() => {
 		fizzTimer = setTimeout(fizz, (26 + Math.random() * 105) / (0.4 + level));
 	};
 
+	/* pentatonic, three octaves up — high enough to sit above the roar
+	   without fighting the crackles for the same band */
+	const SPARKLE_HZ = [1046.5, 1174.7, 1396.9, 1568.0, 1864.7,
+	                    2093.0, 2349.3, 2793.8, 3136.0, 3729.3];
+
+	function chime(t0, hz, gain) {
+		const g = ctx.createGain();
+		g.gain.setValueAtTime(0, t0);
+		g.gain.linearRampToValueAtTime(gain, t0 + 0.004);   // near-instant strike
+		g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.9 + Math.random() * 0.5);
+		g.connect(bus);
+		// two partials, slightly detuned — a single sine sounds like a test tone
+		[1, 2.01].forEach((mult, i) => {
+			const o = ctx.createOscillator();
+			o.type = 'sine';
+			o.frequency.setValueAtTime(hz * mult, t0);
+			const og = ctx.createGain();
+			og.gain.value = i ? 0.32 : 1;
+			o.connect(og).connect(g);
+			o.start(t0);
+			o.stop(t0 + 1.6);
+		});
+	}
+
+	const sparkle = () => {
+		if (!sparkleOn || !on) return;
+		const t0 = ctx.currentTime;
+		// occasional little runs, like a handful of glitter landing at once
+		const n = Math.random() < 0.28 ? 2 + Math.floor(Math.random() * 3) : 1;
+		for (let i = 0; i < n; i++) {
+			chime(
+				t0 + i * (0.05 + Math.random() * 0.11),
+				SPARKLE_HZ[Math.floor(Math.random() * SPARKLE_HZ.length)],
+				(0.05 + Math.random() * 0.07) * (0.4 + level * 0.6),
+			);
+		}
+		sparkleTimer = setTimeout(sparkle, 420 + Math.random() * 2100);
+	};
+
 	const scatter = () => {
 		if (!on || !ctx) return;
 		const t0 = ctx.currentTime;
@@ -1129,9 +1200,11 @@ const Sfx = (() => {
 			master.gain.setTargetAtTime(v ? vol : 0, ctx.currentTime, 0.35);
 			clearTimeout(timer);
 			clearTimeout(fizzTimer);
+			clearTimeout(sparkleTimer);
 			if (v) {
 				timer = setTimeout(scatter, 120);
 				fizzTimer = setTimeout(fizz, 60);
+				if (sparkleOn) sparkleTimer = setTimeout(sparkle, 300);
 			}
 		},
 		setVolume(v) {
@@ -1148,6 +1221,21 @@ const Sfx = (() => {
 			sizzleGain.gain.setTargetAtTime(0.3 + v * 0.8, ctx.currentTime, 0.9);
 		},
 		click() { if (ctx) snap(ctx.currentTime, 2400, 6, 0.3, 0.02); },
+
+		/* ── sparkle ───────────────────────────────────────────────────────
+		   Everything else in here is filtered noise, which has no pitch —
+		   fine for fire, wrong for glitter. This is an actual tone: two
+		   detuned sine partials with a very fast decay, so it reads as a
+		   struck bell rather than a beep.
+
+		   Notes are drawn from a pentatonic scale at random. Any scale with
+		   a semitone in it starts sounding like a tune when it repeats, and
+		   a fixed pitch turns into a doorbell within a minute.            */
+		setSparkle(v) {
+			sparkleOn = v;
+			clearTimeout(sparkleTimer);
+			if (v && ctx && on) sparkleTimer = setTimeout(sparkle, 300);
+		},
 		// stoking: air rushing in, then the fire catching up with it
 		stoke() {
 			if (!ctx) return;
@@ -1266,6 +1354,8 @@ function applyPalette(key) {
 
 	flameUniforms.uSparkHot.value.setHex(q.mid);
 	flameUniforms.uSparkCool.value.setHex(q.edge);
+	flameUniforms.uShimmer.value = q.shimmer || 0;
+	Sfx.setSparkle(!!q.sparkle);
 
 	fireLight.color.setHex(q.light);
 	coalLight.color.setHex(q.coal);
@@ -1286,6 +1376,7 @@ function buildSwatches() {
 	const host = document.getElementById('swatches');
 	host.innerHTML = Object.entries(PALETTES).map(([k, q]) =>
 		`<button type="button" data-k="${k}" style="--sw:${q.swatch}"
+		         class="${q.shimmer ? 'shimmer' : ''}"
 		         title="${q.name}" aria-label="${q.name}" aria-pressed="false"></button>`).join('');
 	host.addEventListener('click', e => {
 		const b = e.target.closest('button'); if (!b) return;
