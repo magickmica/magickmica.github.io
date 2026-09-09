@@ -351,7 +351,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.02));
   border:1px solid rgba(255,255,255,.14);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 0 20px var(--ac,transparent)}
-.cab-card .txt{position:relative;z-index:2;min-width:0}
+.cab-card .txt{position:relative;z-index:2;min-width:0;overflow-wrap:anywhere}
 .cab-card .nm{display:block;font-family:var(--arcade);font-weight:700;font-size:.86rem;letter-spacing:.05em;
   text-transform:uppercase;color:var(--pearl)}
 .cab-card .ds{display:block;margin-top:5px;font-family:var(--mono);font-size:.74rem;line-height:1.4;
@@ -363,7 +363,16 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 @media(max-width:640px){
   .cabinet:before,.cabinet:after{display:none}
   .bulbs{left:20px;right:20px}
-  .cab-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .cab-grid{grid-template-columns:1fr}
+  .cab-card{padding:15px 16px;gap:13px}
+  .cab-card .tile{width:52px;height:52px;font-size:1.55rem}
+  /* the pills sat one-per-row on a phone while desktop had them in a single
+     tidy row. Shrink them so they pair up instead of straggling. */
+  /* flex-wrap left them ragged — different widths, three uneven rows. A
+     2-up grid gives the same tidy block the desktop row reads as. */
+  .pill-row{display:grid;grid-template-columns:1fr 1fr;gap:.42rem}
+  .cab-pill{font-size:.6rem;padding:.5rem .5rem;letter-spacing:.03em;text-align:center}
+  .cab-pill:last-child{grid-column:1 / -1}
 }
 @media(prefers-reduced-motion:reduce){
   .marquee:before,.marquee:after,.bulbs i{animation:none;opacity:.8}
@@ -386,7 +395,6 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 
 
 
-<p class="rail-hint">◂ SWIPE EACH ROW FOR MORE ▸</p>
 
 <section class="more-arcade top">
   <div class="more-head">
@@ -567,6 +575,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   <button class="rail-arrow rail-arrow--prev" type="button" data-dir="prev" aria-label="Show previous games">‹</button>
   <button class="rail-arrow rail-arrow--next" type="button" data-dir="next" aria-label="Show more games">›</button>
 </div>
+  <p class="rail-hint">◂ SWIPE FOR MORE GAMES ▸</p>
   <div class="coin-row"><span>INSERT DREAM</span><span class="coin-slot"></span><span>CREDITS ∞</span></div>
   <div class="pill-rail">
     <div class="deck-label">More cabinets ↗</div>
