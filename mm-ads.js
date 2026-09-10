@@ -30,7 +30,16 @@
 	var STORE = 'https://www.themysticalspiralstore.com';
 	var BASE  = STORE + '/product-page/';
 
-	var live = PRODUCTS.filter(function (p) { return !p.soldOut && p.price != null; });
+	/* Readings are services, not stones — no product photo worth showing, and
+	   a $999 twelve-reading package under "hand sourced, one of a kind" reads
+	   wrong next to crystal photography. Keep the strip to physical pieces. */
+	var SKIP_CATS = { Readings: 1 };
+
+	var live = PRODUCTS.filter(function (p) {
+		if (p.soldOut || p.price == null) return false;
+		if (SKIP_CATS[p.cat]) return false;
+		return !(p.cats || []).some(function (c) { return SKIP_CATS[c]; });
+	});
 	if (!live.length) return;
 
 	function esc(s) {
