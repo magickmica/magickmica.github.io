@@ -46,6 +46,8 @@
     ['/harmonizer',               'Harmonizers'],
     ['/tensors',                  'Tensors'],
     ['/pendants-amulets',         'Pendants & Amulets'],
+    ['/programmed-crystals-gemstones', 'Programmed'],
+    ['/readings-1',               'Readings'],
     ['/crystals',                 'Crystals'],   // parent listing
     ['',                          'Shop'],       // catch-all, must stay last
   ];
