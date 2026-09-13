@@ -42,7 +42,9 @@
       ['pong.html', 'Pong'],
       ['cosmic-phone.html', 'Cosmic Phone'],
       ['transmissions.html', 'Transmissions'],
-      ['which-character-are-you.html', 'Which Character Are You?']
+      ['which-character-are-you.html', 'Which Character Are You?'],
+      ['click-through-slideshow.html', 'Slideshow Tool'],
+      ['how-to-use-the-slideshow.html', 'Slideshow: How To']
     ]},
     { name: 'Dream & Divine', items: [
       ['dream-journal.html', 'Dream Journal'],
