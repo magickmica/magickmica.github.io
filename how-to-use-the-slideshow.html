@@ -3,231 +3,577 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How to use the click-through slideshow</title>
+<title>How to Use the Click-Through Slideshow — Magick Mica</title>
+<meta name="description" content="How to run the click-through slideshow: keys, the blackout trick, ordering pictures, and what to check before you present.">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
 <style>
   :root{
-    --shell:#131316;
-    --rise:#1B1B20;
-    --rule:#2C2C33;
-    --paper:#EAE8E3;
-    --muted:#83838E;
-    --lamp:#F0A500;
+    --pink:#ff2440;
+    --cyan:#6fc3ff;
+    --lime:#7ee364;
+    --purple:#d06bff;
+    --gold:#ffce5c;
+    --teal:#4fc9a8;
+    --deep:#120418;
+    --surface:rgba(255,255,255,0.03);
+    --ink:#efe6ff;
+    --mist:#9d94bd;
   }
 
-  *{box-sizing:border-box}
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  a{color:inherit;text-decoration:none}
 
   body{
-    margin:0;
-    padding:56px 24px 96px;
-    background:var(--shell);
-    color:var(--paper);
-    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size:15px;
-    line-height:1.65;
+    background:var(--deep);
+    color:var(--ink);
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:14px;
+    line-height:1.7;
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
   }
 
-  .sheet{max-width:640px;margin:0 auto}
+  #stars{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.5),transparent),
+      radial-gradient(1px 1px at 70% 60%,rgba(255,255,255,.35),transparent),
+      radial-gradient(1px 1px at 45% 85%,rgba(255,255,255,.4),transparent);
+    background-size:300px 300px;
+  }
 
-  .sprockets{display:flex;gap:6px;margin-bottom:26px}
-  .sprockets span{width:14px;height:7px;border-radius:1px;background:var(--rule)}
-  .sprockets span:nth-child(3){background:var(--lamp)}
+  .cr-prism{
+    position:fixed;top:0;left:0;right:0;height:2px;z-index:9;pointer-events:none;
+    background:linear-gradient(90deg,transparent,var(--purple),var(--pink) 30%,
+      var(--gold) 52%,var(--cyan) 74%,transparent);
+    opacity:.55;animation:crSweep 11s ease-in-out infinite;
+  }
+  @keyframes crSweep{0%,100%{opacity:.3;filter:blur(0)}50%{opacity:.75;filter:blur(1px)}}
+
+  .cr-aurora{
+    position:fixed;inset:-30% -10% auto -10%;height:70vh;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(50% 60% at 22% 30%,color-mix(in srgb,var(--purple) 22%,transparent),transparent 70%),
+      radial-gradient(46% 55% at 76% 22%,color-mix(in srgb,var(--cyan) 18%,transparent),transparent 70%),
+      radial-gradient(40% 50% at 50% 60%,color-mix(in srgb,var(--pink) 14%,transparent),transparent 72%);
+    filter:blur(30px);animation:crAurora 24s ease-in-out infinite;
+  }
+  @keyframes crAurora{
+    0%,100%{transform:translateX(-3%) scale(1);opacity:.85}
+    50%{transform:translateX(3%) scale(1.06);opacity:1}
+  }
+
+  .holo{
+    background:linear-gradient(115deg,var(--purple),var(--pink) 30%,var(--gold) 55%,var(--cyan) 80%,var(--purple));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
+  /* top padding clears the bar that mm-nav.js injects; it publishes its own height */
+  .wrap{max-width:760px;margin:0 auto;
+    padding:calc(var(--mm-bar-h,60px) + 26px) 20px 64px;position:relative;z-index:1}
+
+  .hero{
+    --amber:#ffce5c;
+    --lilac:#d06bff;
+    position:relative;
+    overflow:hidden;
+    border:1px solid color-mix(in srgb,var(--gold) 34%,transparent);
+    border-radius:22px;
+    padding:38px 34px 34px;
+    background:
+      radial-gradient(120% 90% at 18% 14%,rgba(255,206,92,.26),transparent 60%),
+      radial-gradient(110% 90% at 84% 88%,rgba(208,107,255,.28),transparent 62%),
+      linear-gradient(158deg,#241035 0%,#12061f 74%);
+    box-shadow:0 18px 50px rgba(0,0,0,.55);
+    margin-bottom:14px;
+    transition:border-color .28s, box-shadow .28s;
+  }
+
+  .hero:hover{
+    border-color:color-mix(in srgb,var(--gold) 70%,transparent);
+    box-shadow:0 24px 62px rgba(208,107,255,.26);
+  }
+
+  .hero .in{
+    position:relative;z-index:3;
+    display:flex;align-items:center;gap:32px;
+  }
+
+  .hero .sheen{
+    position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:linear-gradient(104deg,transparent 38%,rgba(255,255,255,.14) 48%,transparent 58%);
+    transform:translateX(-120%);
+    transition:transform .85s cubic-bezier(.3,.8,.3,1);
+  }
+  .hero:hover .sheen,
+  .hero:focus-within .sheen{transform:translateX(120%)}
+
+  .hero .acts{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:20px}
+
+  .hero .plain{
+    font-size:11.5px;letter-spacing:.06em;color:var(--cyan);
+    border-bottom:1px solid color-mix(in srgb,var(--cyan) 45%,transparent);
+    padding-bottom:1px;transition:color .18s,border-color .18s;
+  }
+  .hero .plain:hover{color:var(--gold);border-color:var(--gold)}
+
+  .eyebrow{
+    font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--gold);
+  }
 
   h1{
-    margin:0 0 8px;
-    font-size:30px;
-    font-weight:600;
-    letter-spacing:-.02em;
+    font-family:Orbitron,monospace;
+    font-size:clamp(22px,4.4vw,31px);
+    line-height:1.12;
+    margin:10px 0 10px;
   }
 
-  .deck{
-    margin:0 0 46px;
-    color:var(--muted);
-    font-size:15px;
+  .deck{font-size:13px;line-height:1.68;color:#d9cfff;max-width:56ch}
+
+  /* ---------- sections ---------- */
+
+  .sect{display:flex;align-items:baseline;gap:12px;margin:38px 0 14px}
+  .sect h2{font-family:Orbitron,monospace;font-size:13px;letter-spacing:.18em}
+  .sect .rule{flex:1;height:1px;background:color-mix(in srgb,var(--purple) 28%,transparent)}
+  .sect .meta{font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.16em;color:#7a6f9e}
+
+  .card{
+    border:1px solid color-mix(in srgb,var(--purple) 26%,transparent);
+    border-radius:14px;
+    padding:20px 22px;
+    background:var(--surface);
   }
 
-  h2{
-    margin:46px 0 4px;
-    font-size:11px;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    color:var(--lamp);
-    font-weight:600;
-  }
+  p{margin:0 0 13px}
+  p:last-child{margin-bottom:0}
 
-  h2 + p, h2 + ol, h2 + table, h2 + .rows{margin-top:16px}
+  ol{margin:0;padding-left:20px}
+  ol li{margin-bottom:13px}
+  ol li:last-child{margin-bottom:0}
 
-  p{margin:0 0 14px}
+  ul{margin:0;padding-left:20px}
+  ul li{margin-bottom:11px}
+  ul li:last-child{margin-bottom:0}
 
-  ol{margin:0 0 14px;padding-left:20px}
-  ol li{margin-bottom:12px}
+  li::marker{color:var(--gold)}
 
-  ul{margin:0 0 14px;padding-left:20px}
-  ul li{margin-bottom:9px}
-
-  strong{font-weight:600}
+  strong{font-weight:500;color:#fff}
+  em{color:var(--cyan);font-style:normal}
 
   kbd{
     display:inline-block;
-    min-width:24px;
-    padding:3px 8px;
-    font:inherit;
-    font-size:12px;
+    min-width:22px;
+    padding:2px 7px;
+    font-family:Silkscreen,monospace;
+    font-size:10px;
     text-align:center;
-    color:var(--paper);
-    background:var(--rise);
-    border:1px solid var(--rule);
-    border-bottom-width:2px;
-    border-radius:3px;
+    color:var(--gold);
+    background:rgba(255,255,255,.05);
+    border:1px solid color-mix(in srgb,var(--gold) 34%,transparent);
+    border-radius:4px;
     white-space:nowrap;
   }
 
-  table{
-    width:100%;
-    border-collapse:collapse;
-    margin:0 0 14px;
-  }
+  table{width:100%;border-collapse:collapse}
 
   td{
     padding:11px 0;
-    border-bottom:1px solid var(--rule);
+    border-bottom:1px solid color-mix(in srgb,var(--purple) 20%,transparent);
     vertical-align:top;
+    font-size:13px;
   }
 
-  td:first-child{
-    width:150px;
-    padding-right:18px;
-    white-space:nowrap;
-  }
-
+  td:first-child{width:160px;padding-right:18px;white-space:nowrap}
+  td:last-child{color:var(--mist)}
   tr:last-child td{border-bottom:none}
 
   .note{
-    margin:22px 0 0;
+    margin-top:16px;
     padding:16px 18px;
-    background:var(--rise);
-    border-left:2px solid var(--lamp);
-    font-size:14px;
+    border-radius:12px;
+    border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);
+    background:radial-gradient(120% 100% at 20% 10%,rgba(255,206,92,.12),transparent 65%),var(--surface);
+    font-size:13px;
+    color:#e0d6f2;
   }
-
-  .note p:last-child{margin-bottom:0}
 
   .rows > div{
-    padding:14px 0;
-    border-bottom:1px solid var(--rule);
+    padding:15px 0;
+    border-bottom:1px solid color-mix(in srgb,var(--purple) 20%,transparent);
+  }
+  .rows > div:first-child{padding-top:0}
+  .rows > div:last-child{border-bottom:none;padding-bottom:0}
+
+  .rows b{
+    display:block;font-weight:500;margin-bottom:4px;color:#fff;font-size:14px;
+  }
+  .rows span{color:var(--mist);font-size:13px}
+
+  .go-row{margin-top:32px}
+
+  .go{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:12px 22px;border-radius:999px;
+    font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:500;
+    color:#1a0426;
+    background:linear-gradient(96deg,var(--gold),#fff0c4 45%,var(--purple));
+    box-shadow:0 5px 18px rgba(208,107,255,.34);
+    transition:box-shadow .25s, transform .25s;
+  }
+  .go:hover{transform:translateY(-3px);box-shadow:0 8px 26px rgba(255,206,92,.5)}
+  .go span:last-child{transition:transform .25s}
+  .go:hover span:last-child{transform:translateX(4px)}
+
+  /* the little projector: a turning reel throwing a beam */
+  .reel-art{flex:0 0 auto;width:132px;height:120px;position:relative}
+
+  .beam{
+    position:absolute;top:33px;left:66px;width:72px;height:58px;
+    clip-path:polygon(0 34%,0 66%,100% 100%,100% 0);
+    background:linear-gradient(90deg,rgba(255,206,92,.55),rgba(255,206,92,.06) 82%,transparent);
+    filter:blur(.4px);
+    animation:beamPulse 2.8s ease-in-out infinite;
+  }
+  @keyframes beamPulse{0%,100%{opacity:.45}50%{opacity:.95}}
+
+  .reel{
+    position:absolute;top:20px;left:8px;width:80px;height:80px;border-radius:50%;
+    background:radial-gradient(circle at 36% 30%,#3a2450,#170a24 72%);
+    border:2px solid color-mix(in srgb,var(--gold) 60%,transparent);
+    box-shadow:0 0 24px color-mix(in srgb,var(--gold) 32%,transparent);
+    animation:spin 7s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .reel i{
+    position:absolute;width:16px;height:16px;border-radius:50%;
+    background:color-mix(in srgb,var(--gold) 70%,transparent);
+  }
+  .reel i:nth-child(1){top:7px;left:50%;margin-left:-8px}
+  .reel i:nth-child(2){bottom:14px;left:10px}
+  .reel i:nth-child(3){bottom:14px;right:10px}
+  .reel:after{
+    content:'';position:absolute;top:50%;left:50%;
+    width:15px;height:15px;margin:-7.5px 0 0 -7.5px;border-radius:50%;
+    background:var(--gold);box-shadow:0 0 12px rgba(255,206,92,.8);
   }
 
-  .rows > div:last-child{border-bottom:none}
+  .reel-art .glow{
+    position:absolute;bottom:2px;left:10px;width:76px;height:14px;border-radius:50%;
+    background:radial-gradient(ellipse,rgba(208,107,255,.5),transparent 72%);
+    filter:blur(3px);
+  }
 
-  .rows b{display:block;font-weight:600;margin-bottom:3px}
-  .rows span{color:var(--muted);font-size:14px}
+  /* ---------- ko-fi star ---------- */
+
+  .star{
+    display:block;text-align:center;
+    border-radius:16px;padding:24px 22px;margin-top:14px;
+    border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);
+    background:radial-gradient(120% 100% at 50% 0%,rgba(255,206,92,.12),transparent 68%),var(--surface);
+    transition:transform .25s, border-color .25s, box-shadow .25s;
+  }
+  .star:hover{
+    transform:translateY(-3px);
+    border-color:color-mix(in srgb,var(--gold) 80%,transparent);
+    box-shadow:0 18px 44px rgba(255,206,92,.2);
+  }
+  .star .lab{font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.2em;color:var(--mist)}
+  .star .big{
+    font-family:Orbitron,monospace;font-size:19px;color:var(--gold);margin:9px 0 6px;
+  }
+  .star .big em{font-style:normal;display:inline-block;animation:twinkle 2.6s ease-in-out infinite}
+  .star .big em:last-child{animation-delay:1.3s}
+  @keyframes twinkle{0%,100%{opacity:.55;transform:scale(.86)}50%{opacity:1;transform:scale(1.16)}}
+  .star .sm{font-size:12px;color:var(--mist)}
+
+  @media(max-width:560px){
+    .hero .in{flex-direction:column-reverse;text-align:center;gap:20px}
+    .hero .deck{max-width:none}
+    .hero .acts{justify-content:center}
+  }
 
   footer{
-    margin-top:56px;
+    margin-top:48px;
     padding-top:20px;
-    border-top:1px solid var(--rule);
-    font-size:12px;
-    color:var(--muted);
+    border-top:1px solid color-mix(in srgb,var(--purple) 24%,transparent);
+    font-size:11px;
+    color:#8e85ad;
+    line-height:1.9;
+  }
+  footer a{color:var(--pink)}
+  footer a:hover{color:var(--gold)}
+  footer .tag{display:block;margin-top:8px;color:#7a6f9e}
+
+  @media(max-width:560px){
+    .hero{padding:26px 20px 24px;border-radius:14px}
+    .card{padding:18px 16px}
+    td:first-child{width:auto;display:block;padding-bottom:4px;border:none}
+    td:last-child{display:block;padding-top:0}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important}
   }
 
   @media print{
-    body{background:#fff;color:#111;padding:0;font-size:11pt}
-    .sprockets span{background:#ccc}
-    .sprockets span:nth-child(3){background:#111}
-    h2{color:#111}
-    kbd{background:#f2f2f2;border-color:#bbb;color:#111}
-    td{border-bottom-color:#ddd}
-    .note{background:#f6f6f6;border-left-color:#111}
-    .rows > div{border-bottom-color:#ddd}
-    .rows span{color:#555}
-    .deck,footer{color:#555}
-    footer{border-top-color:#ddd}
+    body{background:#fff;color:#111}
+    #stars,.cr-prism,.cr-aurora{display:none}
+    .holo{background:none;-webkit-text-fill-color:#111;color:#111}
+    .hero,.card,.note{background:#f7f7f7;border-color:#ddd;box-shadow:none}
+    kbd{background:#eee;border-color:#bbb;color:#111}
+    em{color:#111}
+    .deck,.rows span,td:last-child,footer{color:#555}
+    .go,.proj,.star{display:none}
   }
 </style>
 </head>
 <body>
-<div class="sheet">
 
-  <div class="sprockets"><span></span><span></span><span></span><span></span><span></span></div>
+<div id="stars" aria-hidden="true"></div>
+<div class="cr-prism" aria-hidden="true"></div>
+<div class="cr-aurora" aria-hidden="true"></div>
 
-  <h1>How to use the click-through slideshow</h1>
-  <p class="deck">A picture stays on screen until you decide to move on. Nothing advances by itself, and nothing is ever uploaded — the whole thing runs on your own computer, with or without internet.</p>
+<div class="wrap">
 
-  <h2>Getting started</h2>
-  <ol>
-    <li><strong>Open the file.</strong> Double-click <em>click-through-slideshow.html</em>. It opens in your web browser. Keep the file somewhere easy to find, like your Desktop.</li>
-    <li><strong>Load your pictures.</strong> Click <em>Choose pictures</em> to pick individual files, or <em>Choose a folder</em> to load everything in one go. You can also drag a folder from File Explorer straight onto the window.</li>
-    <li><strong>Go full screen.</strong> Press <kbd>F</kbd>. The browser tabs and address bar disappear, leaving only your picture on a black background.</li>
-    <li><strong>Click to advance.</strong> Click anywhere on the picture for the next one. That's it.</li>
-  </ol>
-
-  <h2>Moving through pictures</h2>
-  <p>Click the picture, or press <kbd>&rarr;</kbd> or the <kbd>Space</kbd> bar, to go forward. To go back, right-click the picture or press <kbd>&larr;</kbd>.</p>
-  <p>The row of thumbnails along the bottom shows where you are. Click any thumbnail to jump straight to it — useful when someone asks about a picture you passed three slides ago.</p>
-  <p>The toolbar and thumbnails fade away after a few seconds of stillness, so your audience only sees the photo. Move the mouse and they come back.</p>
-
-  <h2>The blackout trick</h2>
-  <p>Press <kbd>B</kbd> and the screen goes completely black. Press <kbd>B</kbd> again — or just click — and your picture returns, exactly where you left it.</p>
-  <p>This is the one worth practising. When you finish talking about a picture and want the room looking at <em>you</em> instead of the screen, black it out. It beats leaving a photo hanging there or flipping to an empty slide.</p>
-
-  <h2>Every key</h2>
-  <table>
-    <tr><td><kbd>&rarr;</kbd> <kbd>Space</kbd></td><td>Next picture</td></tr>
-    <tr><td><kbd>&larr;</kbd></td><td>Previous picture</td></tr>
-    <tr><td><kbd>Home</kbd></td><td>Jump to the first picture</td></tr>
-    <tr><td><kbd>End</kbd></td><td>Jump to the last picture</td></tr>
-    <tr><td><kbd>F</kbd></td><td>Full screen on or off</td></tr>
-    <tr><td><kbd>B</kbd></td><td>Black out the screen, and bring it back</td></tr>
-    <tr><td><kbd>Esc</kbd></td><td>Leave full screen</td></tr>
-    <tr><td>Click</td><td>Next picture</td></tr>
-    <tr><td>Right-click</td><td>Previous picture</td></tr>
-  </table>
-
-  <div class="note">
-    <p>If a key does nothing, click once on the picture first. The browser sends keystrokes to whatever you clicked last, so a stray click on the toolbar can leave the keyboard pointed elsewhere.</p>
+  <div class="hero">
+    <div class="sheen" aria-hidden="true"></div>
+    <div class="in">
+      <div>
+        <div class="eyebrow">✦ CH 16 · Pocket projector · no internet required ✦</div>
+        <h1 class="holo">How to Use the Click-Through Slideshow</h1>
+        <p class="deck">A picture stays on screen until you decide to move on — or wave the
+          wand and let it loop by itself. Nothing is ever uploaded: one small file, nothing to
+          install, working on any computer with or without internet.</p>
+        <div class="acts">
+          <a class="go" href="click-through-slideshow.html"
+             download="click-through-slideshow.html"><span>Save the file</span><span>&darr;</span></a>
+          <a class="plain" href="click-through-slideshow.html">or open it in your browser ↗</a>
+        </div>
+      </div>
+      <div class="reel-art" aria-hidden="true">
+        <div class="beam"></div>
+        <div class="reel"><i></i><i></i><i></i></div>
+        <div class="glow"></div>
+      </div>
+    </div>
   </div>
 
-  <h2>Putting them in order</h2>
-  <p>Pictures load in filename order, counting numbers properly — so <em>photo 2</em> comes before <em>photo 10</em>, not after it.</p>
-  <p>To rearrange, drag the thumbnails at the bottom into the order you want before you begin. If you present the same set often, it's faster to rename the files with numbers in front: <em>01 opening.jpg</em>, <em>02 the site.jpg</em>, and so on. Then the order is right every time you load the folder.</p>
-  <p>Need to add more pictures partway through? Click <em>Add more</em> in the toolbar. They join the end of the set.</p>
+  <div class="sect"><h2 class="holo">GETTING STARTED</h2><div class="rule"></div>
+    <span class="meta">FOUR STEPS</span></div>
+  <div class="card">
+    <ol>
+      <li><strong>Open the file.</strong> Double-click <em>click-through-slideshow.html</em>.
+        It opens in your web browser. Keep the file somewhere easy to find, like your Desktop.</li>
+      <li><strong>Load your pictures.</strong> Click <em>Choose pictures</em> to pick individual
+        files, or <em>Choose a folder</em> to load everything in one go. You can also drag a
+        folder from File Explorer straight onto the window.</li>
+      <li><strong>Go full screen.</strong> Press <kbd>F</kbd>. The browser tabs and address bar
+        disappear, leaving only your picture on a black background.</li>
+      <li><strong>Click to advance.</strong> Click anywhere on the picture for the next one.
+        That's it.</li>
+    </ol>
+  </div>
 
-  <h2>Before you present</h2>
-  <div class="rows">
+  <div class="sect"><h2 class="holo">MOVING THROUGH PICTURES</h2><div class="rule"></div>
+    <span class="meta">FORWARD &amp; BACK</span></div>
+  <div class="card">
+    <p>Click the picture, or press <kbd>&rarr;</kbd> or the <kbd>Space</kbd> bar, to go forward.
+      To go back, right-click the picture or press <kbd>&larr;</kbd>.</p>
+    <p>The row of thumbnails along the bottom shows where you are. Click any thumbnail to jump
+      straight to it — useful when someone asks about a picture you passed three slides ago.</p>
+    <p>The toolbar and thumbnails fade away after a few seconds of stillness, so your audience
+      only sees the photo. Move the mouse and they come back.</p>
+  </div>
+
+  <div class="sect"><h2 class="holo">THE BLACKOUT TRICK</h2><div class="rule"></div>
+    <span class="meta">PRESS B</span></div>
+  <div class="card">
+    <p>Press <kbd>B</kbd> and the screen goes completely black. Press <kbd>B</kbd> again — or
+      just click — and your picture returns, exactly where you left it.</p>
+    <p>This is the one worth practicing. When you finish talking about a picture and want the
+      room looking at <em>you</em> instead of the screen, black it out. It beats leaving a photo
+      hanging there or flipping to an empty slide.</p>
+  </div>
+
+  <div class="sect"><h2 class="holo">WAVE THE WAND</h2><div class="rule"></div>
+    <span class="meta">HANDS-FREE LOOP</span></div>
+  <div class="card">
+    <p>Click the gold <strong>✦ Auto</strong> button in the toolbar, or press <kbd>A</kbd>, and
+      the slideshow runs itself — one picture after another, and when it reaches the end it
+      starts again from the beginning. It never stops on its own.</p>
+    <p>Next to the wand is a <em>Hold</em> menu: how long each picture stays up. Anything from
+      3 seconds to 2 minutes. Change it mid-show and the new timing takes over immediately,
+      no need to stop and start again.</p>
+    <p>A thin colored line creeps across the top of the screen showing when the next picture
+      is due. It fades away with the rest of the toolbar once you stop moving the mouse.</p>
+    <p>While it's looping you can still click, or press <kbd>&larr;</kbd> and <kbd>&rarr;</kbd>,
+      to move by hand — the countdown just restarts from that picture. Press <kbd>B</kbd> to
+      black out and the loop politely waits, holding on the same picture until you bring the
+      screen back. Press <kbd>A</kbd> again to stop.</p>
+    <div class="note">
+      This is what you want for a window display, a party, a reception table, or a screen in
+      the corner of a room. Set a long hold — 30 or 60 seconds — wave the wand, press
+      <kbd>F</kbd> for full screen, and walk away.
+    </div>
+  </div>
+
+  <div class="sect"><h2 class="holo">THE MOUSE IS A WAND</h2><div class="rule"></div>
+    <span class="meta">SPARKS ON CLICK</span></div>
+  <div class="card">
+    <p>Move the mouse over a picture and the pointer becomes a little gold-and-purple wand.
+      Click, and it throws off a burst of sparks in your site colors right where you tapped —
+      stars and glints that scatter and fade in under a second. Right-click going backwards
+      does it too.</p>
+    <p>The wand disappears along with the toolbar when you stop moving, so a still screen is
+      just the photograph. Wiggle the mouse and it's back.</p>
+    <p>If you're showing something serious and want none of it, press <kbd>S</kbd> to turn the
+      sparks off, and <kbd>S</kbd> again to bring them back. The wand pointer stays either way.</p>
+  </div>
+
+  <div class="sect"><h2 class="holo">EVERY KEY</h2><div class="rule"></div>
+    <span class="meta">THE WHOLE BOARD</span></div>
+  <div class="card">
+    <table>
+      <tr><td><kbd>&rarr;</kbd> <kbd>Space</kbd></td><td>Next picture</td></tr>
+      <tr><td><kbd>&larr;</kbd></td><td>Previous picture</td></tr>
+      <tr><td><kbd>Home</kbd></td><td>Jump to the first picture</td></tr>
+      <tr><td><kbd>End</kbd></td><td>Jump to the last picture</td></tr>
+      <tr><td><kbd>F</kbd></td><td>Full screen on or off</td></tr>
+      <tr><td><kbd>B</kbd></td><td>Black out the screen, and bring it back</td></tr>
+      <tr><td><kbd>A</kbd></td><td>✦ Start or stop the automatic loop</td></tr>
+      <tr><td><kbd>S</kbd></td><td>Turn the wand sparks on or off</td></tr>
+      <tr><td><kbd>Esc</kbd></td><td>Leave full screen</td></tr>
+      <tr><td>Click</td><td>Next picture</td></tr>
+      <tr><td>Right-click</td><td>Previous picture</td></tr>
+    </table>
+    <div class="note">
+      If a key does nothing, click once on the picture first. The browser sends keystrokes to
+      whatever you clicked last, so a stray click on the toolbar can leave the keyboard
+      pointed elsewhere.
+    </div>
+  </div>
+
+  <div class="sect"><h2 class="holo">PUTTING THEM IN ORDER</h2><div class="rule"></div>
+    <span class="meta">DRAG OR RENAME</span></div>
+  <div class="card">
+    <p>Pictures load in filename order, counting numbers properly — so <em>photo 2</em> comes
+      before <em>photo 10</em>, not after it.</p>
+    <p>To rearrange, drag the thumbnails at the bottom into the order you want before you begin.
+      If you present the same set often, it's faster to rename the files with numbers in front:
+      <em>01 opening.jpg</em>, <em>02 the site.jpg</em>, and so on. Then the order is right every
+      time you load the folder.</p>
+    <p>Need to add more pictures partway through? Click <em>Add more</em> in the toolbar. They
+      join the end of the set.</p>
+  </div>
+
+  <div class="sect"><h2 class="holo">BEFORE YOU PRESENT</h2><div class="rule"></div>
+    <span class="meta">FIVE CHECKS</span></div>
+  <div class="card rows">
     <div>
       <b>Set up the second screen first</b>
-      <span>Press <kbd>Windows</kbd> + <kbd>P</kbd> and choose Duplicate to show the same thing on your laptop and the projector, or Extend if you want the audience to see only the slideshow. Plug in and choose before you open the slideshow, not during.</span>
+      <span>Press <kbd>Windows</kbd> + <kbd>P</kbd> and choose Duplicate to show the same thing
+        on your laptop and the projector, or Extend if you want the audience to see only the
+        slideshow. Plug in and choose before you open the slideshow, not during.</span>
     </div>
     <div>
       <b>Stop the screen going to sleep</b>
-      <span>Nothing kills a moment like the display dimming while you talk. In Settings &rarr; System &rarr; Power, set the screen to turn off after a good long while, or Never for the length of the talk.</span>
+      <span>Nothing kills a moment like the display dimming while you talk. In Settings &rarr;
+        System &rarr; Power, set the screen to turn off after a good long while, or Never for
+        the length of the talk.</span>
     </div>
     <div>
       <b>Do a run-through on the actual screen</b>
-      <span>Projectors wash out dark photos badly. Click through everything once on the real equipment and swap out anything you can't make out from the back of the room.</span>
+      <span>Projectors wash out dark photos badly. Click through everything once on the real
+        equipment and swap out anything you can't make out from the back of the room.</span>
     </div>
     <div>
       <b>Keep the pictures in one folder</b>
-      <span>Loading a whole folder at once is far quicker than picking files one by one, and it means the order is set by the filenames rather than by the order you clicked.</span>
+      <span>Loading a whole folder at once is far quicker than picking files one by one, and it
+        means the order is set by the filenames rather than by the order you clicked.</span>
     </div>
     <div>
       <b>Very large photos take a moment</b>
-      <span>Straight-off-the-camera files are big. The slideshow loads the next picture ahead of time so clicking stays instant, but if you have a few hundred, give it a second after loading before you start.</span>
+      <span>Straight-off-the-camera files are big. The slideshow loads the next picture ahead of
+        time so clicking stays instant, but if you have a few hundred, give it a second after
+        loading before you start.</span>
     </div>
   </div>
 
-  <h2>If something looks wrong</h2>
-  <ul>
-    <li><strong>A picture is missing.</strong> Only image files load — anything else in the folder is skipped. Video files won't appear.</li>
-    <li><strong>The order is wrong.</strong> Drag the thumbnails, or rename the files with numbers in front and load the folder again.</li>
-    <li><strong>You want to start fresh.</strong> Click <em>Start over</em> in the toolbar, or just close the tab and open the file again.</li>
-    <li><strong>Nothing happens when you click.</strong> Check whether the screen is blacked out — press <kbd>B</kbd>.</li>
-    <li><strong>The folder button doesn't work.</strong> Some browsers don't allow it. Use <em>Choose pictures</em> instead: open the folder, press <kbd>Ctrl</kbd> + <kbd>A</kbd> to select everything, then Open.</li>
-  </ul>
+  <div class="sect"><h2 class="holo">IF SOMETHING LOOKS WRONG</h2><div class="rule"></div>
+    <span class="meta">QUICK FIXES</span></div>
+  <div class="card">
+    <ul>
+      <li><strong>A picture is missing.</strong> Only image files load — anything else in the
+        folder is skipped. Video files won't appear.</li>
+      <li><strong>The order is wrong.</strong> Drag the thumbnails, or rename the files with
+        numbers in front and load the folder again.</li>
+      <li><strong>You want to start fresh.</strong> Click <em>Start over</em> in the toolbar, or
+        just close the tab and open the file again.</li>
+      <li><strong>Nothing happens when you click.</strong> Check whether the screen is blacked
+        out — press <kbd>B</kbd>.</li>
+      <li><strong>The folder button doesn't work.</strong> Some browsers don't allow it. Use
+        <em>Choose pictures</em> instead: open the folder, press <kbd>Ctrl</kbd> + <kbd>A</kbd>
+        to select everything, then Open.</li>
+    </ul>
+  </div>
 
-  <footer>Your pictures are read directly from your computer and are never sent anywhere. Closing the tab clears them — the file itself doesn't store anything, so load them again next time.</footer>
+  <div class="sect"><h2 class="holo">SUPPORT THE SIGNAL</h2><div class="rule"></div>
+    <span class="meta">KEEP IT BROADCASTING</span></div>
+
+  <a class="star" href="https://ko-fi.com/magickmica" target="_blank" rel="noopener">
+    <div class="lab">TIP JAR · SHOP · MEMBERSHIPS</div>
+    <div class="big"><em>✦</em> Send Me a Star <em>✦</em></div>
+    <div class="sm">ko-fi.com/magickmica</div>
+  </a>
+
+  <footer>
+    ✦ <a href="https://magickmica.substack.com" target="_blank" rel="noopener">Magick Mica TV</a>
+    · where magick meets the pixel ✦<br>
+    <a href="https://magickmica.github.io/">Magick Mica</a> ·
+    <a href="https://magickmica.substack.com" target="_blank" rel="noopener">Substack ↗</a> ·
+    <a href="https://magickmicaart.substack.com" target="_blank" rel="noopener">Art Substack ↗</a> ·
+    <a href="click-through-slideshow.html">Slideshow</a> ·
+    <a href="https://ko-fi.com/magickmica" target="_blank" rel="noopener">Ko-fi ↗</a>
+    <span class="tag">Your pictures are read directly from your computer and are never sent
+      anywhere. Closing the tab clears them — the file itself doesn't store anything, so load
+      them again next time.</span>
+  </footer>
 
 </div>
-<script src="mm-nav.js?v=3" defer></script>
+<script src="/mm-nav.js?v=3" defer></script>
+<script>
+/* This page lives in /tools/, but mm-nav.js writes its links relative
+   ("index.html", "crystals.html"...), which would resolve to /tools/.
+   Re-point every link in the injected bar at the site root. */
+(function(){
+  var ROOT = 'https://magickmica.github.io/';
+  function fix(){
+    var kids = document.body.children, found = false;
+    for (var i = 0; i < kids.length; i++){
+      var el = kids[i];
+      if (el.tagName === 'SCRIPT') continue;
+      if (el.classList.contains('wrap') || el.classList.contains('cr-prism')) continue;
+      var pos = window.getComputedStyle(el).position;
+      if (pos !== 'fixed' && pos !== 'sticky') continue;
+      var as = el.querySelectorAll('a[href]');
+      for (var j = 0; j < as.length; j++){
+        var h = as[j].getAttribute('href');
+        if (!h || /^(https?:|\/|#|mailto:)/i.test(h)) continue;
+        as[j].setAttribute('href', ROOT + h);
+      }
+      if (as.length) found = true;
+    }
+    return found;
+  }
+  var tries = 0;
+  var timer = setInterval(function(){
+    if (fix() || ++tries > 25) clearInterval(timer);
+  }, 150);
+  document.addEventListener('DOMContentLoaded', fix);
+})();
+</script>
 </body>
 </html>
