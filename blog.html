@@ -409,21 +409,6 @@
   }
   .sidebar-all-issues:hover { text-shadow: 0 0 8px var(--holo3); }
 
-  .sidebar-topics {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .sidebar-topics a {
-    font-family: 'VT323', monospace;
-    font-size: 0.9rem;
-    color: var(--holo2);
-    text-decoration: none;
-    border: 1px solid rgba(110,239,255,0.35);
-    padding: 2px 8px;
-    transition: all 0.2s;
-  }
-  .sidebar-topics a:hover { background: var(--holo2); color: #000; box-shadow: 0 0 10px var(--holo2); }
 
   /* Random note with image */
   .sidebar-random-note .rn-img {
@@ -678,30 +663,7 @@
     letter-spacing: 0.1em;
   }
 
-  .webring {
-    text-align: center;
-  }
-  .webring-links {
-    display: flex; justify-content: center; gap: 0.6rem; margin-top: 0.5rem;
-    font-family: 'VT323', monospace; font-size: 0.85rem;
-  }
-  .webring-links a { color: var(--holo4); text-decoration: none; }
-  .webring-links a:hover { text-shadow: 0 0 8px var(--holo4); }
 
-  .blinkies {
-    display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 0.5rem;
-  }
-  .blinkie {
-    font-family: 'VT323', monospace;
-    font-size: 0.7rem;
-    padding: 2px 6px;
-    border: 1px solid;
-    letter-spacing: 0.05em;
-  }
-  .blinkie:nth-child(1) { color: var(--holo1); border-color: var(--holo1); animation: blink 1.4s infinite; }
-  .blinkie:nth-child(2) { color: var(--holo2); border-color: var(--holo2); animation: blink 1.7s infinite; }
-  .blinkie:nth-child(3) { color: var(--holo3); border-color: var(--holo3); animation: blink 2.1s infinite; }
-  .blinkie:nth-child(4) { color: var(--holo4); border-color: var(--holo4); animation: blink 1.2s infinite; }
 
   footer {
     position: relative; z-index: 5;
@@ -714,6 +676,40 @@
     border-top: 1px solid rgba(255,110,247,0.1);
   }
   footer a { color: var(--holo1); text-decoration: none; }
+
+/* ── Cosmic Crystal Oracle panel ───────────────────────────────────────── */
+.oracle-ball{position:relative;width:118px;height:118px;margin:0.4rem auto 0;border-radius:50%;
+  overflow:hidden;animation:oracleFloat 5.5s ease-in-out infinite;
+  background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.92),rgba(255,110,247,.55) 34%,
+    rgba(110,239,255,.45) 60%,rgba(30,8,60,.95) 100%);
+  box-shadow:0 0 26px rgba(255,110,247,.45),inset 0 0 26px rgba(255,255,255,.22)}
+.oracle-mist{position:absolute;inset:-32%;border-radius:50%;opacity:.55;
+  background:radial-gradient(circle at 30% 70%,rgba(110,255,160,.55),transparent 52%),
+    radial-gradient(circle at 72% 34%,rgba(247,255,110,.45),transparent 48%);
+  animation:oracleMist 11s linear infinite}
+.oracle-spark{position:absolute;width:4px;height:4px;border-radius:50%;background:#fff;
+  box-shadow:0 0 7px #fff}
+.oracle-spark.s1{top:26%;left:30%;animation:oracleTwinkle 2.4s ease-in-out infinite}
+.oracle-spark.s2{top:56%;left:64%;animation:oracleTwinkle 3.1s ease-in-out .7s infinite}
+.oracle-spark.s3{top:70%;left:38%;animation:oracleTwinkle 2.8s ease-in-out 1.4s infinite}
+.oracle-stand{width:74px;height:16px;margin:-4px auto 0;
+  background:linear-gradient(180deg,#b9852f,#6d4a15);
+  clip-path:polygon(12% 0,88% 0,100% 100%,0 100%);
+  box-shadow:0 5px 14px rgba(0,0,0,.55)}
+.oracle-copy{margin:.85rem 0 .9rem;font-size:.82rem;line-height:1.5;color:rgba(235,225,255,.8)}
+@keyframes oracleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes oracleMist{to{transform:rotate(360deg)}}
+@keyframes oracleTwinkle{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.35)}}
+@media(prefers-reduced-motion:reduce){
+  .oracle-ball,.oracle-mist,.oracle-spark{animation:none}}
+
+/* ── Signal Shop panel ─────────────────────────────────────────────────── */
+.shop-rule{height:2px;border-radius:2px;margin:.2rem 0 .7rem;
+  background:linear-gradient(90deg,var(--holo1),var(--holo3),var(--holo2),var(--holo4))}
+.shop-kicker{font-size:.6rem;letter-spacing:.2em;color:var(--holo2);margin-bottom:.5rem}
+.shop-second{display:block;margin-top:.55rem;font-size:.74rem;color:rgba(235,225,255,.6);
+  text-decoration:none}
+.shop-second:hover{color:var(--holo1)}
 </style>
 <meta property="og:image" content="https://magickmica.github.io/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -800,6 +796,30 @@
     </div>
 
     <div class="side-panel">
+      <h3>🔮 Cosmic Crystal Oracle</h3>
+      <div class="oracle-ball" aria-hidden="true">
+        <span class="oracle-mist"></span>
+        <span class="oracle-spark s1"></span>
+        <span class="oracle-spark s2"></span>
+        <span class="oracle-spark s3"></span>
+      </div>
+      <div class="oracle-stand" aria-hidden="true"></div>
+      <p class="oracle-copy">Think of your question — don't say it out loud.
+        The universe is already listening.</p>
+      <a href="https://magickmica.github.io/oracle/" class="sidebar-all-issues">Touch the crystal →</a>
+    </div>
+
+    <div class="side-panel">
+      <h3>✦ The Signal Shop</h3>
+      <div class="shop-rule" aria-hidden="true"></div>
+      <div class="shop-kicker">LIVE FROM THE STORE</div>
+      <p class="oracle-copy">Hand-sourced crystals, carved skulls, towers and copper
+        talismans. Every piece is one of a kind — when it sells, it's gone.</p>
+      <a href="crystals.html" class="sidebar-all-issues">Browse crystals →</a>
+      <a href="herkimer-vault.html" class="shop-second">or go deeper into the vaults →</a>
+    </div>
+
+    <div class="side-panel">
       <h3>🔥 Trending Notes</h3>
       <div id="sidebarTrending" class="sidebar-trending"></div>
     </div>
@@ -816,35 +836,9 @@
       <a href="minimags.html" class="sidebar-all-issues">→ All weekly & monthly issues</a>
     </div>
 
-    <div class="side-panel">
-      <h3>🏷️ Explore Topics</h3>
-      <div class="sidebar-topics">
-        <a href="notes.html?q=coffee">☕ Coffee</a>
-        <a href="notes.html?q=egypt">𓂀 Egypt</a>
-        <a href="notes.html?q=cosmic">✨ Cosmic</a>
-        <a href="notes.html?q=queen">👑 Queen</a>
-        <a href="notes.html?q=alice">🐰 Alice</a>
-        <a href="notes.html?q=coffee">🌙 Moon</a>
-        <a href="notes.html?q=glow">🌟 Glow</a>
-        <a href="notes.html?q=dream">💭 Dreams</a>
-      </div>
-    </div>
+    
 
-    <div class="side-panel webring">
-      <h3>Magick Mica Webring</h3>
-      <div class="about-text">« part of the cosmic nostalgia network »</div>
-      <div class="webring-links">
-        <a href="https://magickmica.substack.com" target="_blank">← PREV</a>
-        <a href="https://magickmica.github.io" target="_blank">RANDOM</a>
-        <a href="https://magickmicaart.substack.com" target="_blank">NEXT →</a>
-      </div>
-      <div class="blinkies">
-        <span class="blinkie">✦ Y2K ✦</span>
-        <span class="blinkie">★ MAGIC ★</span>
-        <span class="blinkie">⋆ COSMIC ⋆</span>
-        <span class="blinkie">✧ RETRO ✧</span>
-      </div>
-    </div>
+    
 
     <div class="side-panel">
       <h3>✦ Y3K Magazine ✦</h3>
