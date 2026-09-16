@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Magick Mica's Classical Meme Generator — CH 15</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Anton&family=Bebas+Neue&family=Special+Elite&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#0a0714;
+  --panel:#150e26;
+  --panel2:#1c1333;
+  --edge:#3a2a5c;
+  --pink:#ff5edb;
+  --cyan:#4de3ff;
+  --gold:#ffd479;
+  --text:#e8e0f5;
+  --dim:#8a7ba8;
+  --mono:'Space Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:
+    radial-gradient(900px 600px at 18% -8%, rgba(255,94,219,.13), transparent 60%),
+    radial-gradient(800px 600px at 88% 4%, rgba(77,227,255,.10), transparent 60%),
+    var(--void);
+  color:var(--text); font-family:var(--mono);
+  padding:26px 16px 70px; min-height:100vh;
+}
+
+/* ── header ─────────────────────────────────────────── */
+.head{text-align:center;margin-bottom:26px}
+.badge{
+  display:inline-flex;align-items:center;gap:9px;
+  border:1px solid var(--edge);border-radius:30px;
+  padding:5px 15px;font-size:.6rem;letter-spacing:.24em;
+  color:var(--dim);background:rgba(21,14,38,.7);margin-bottom:15px;
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--pink);
+  box-shadow:0 0 9px var(--pink);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.head h1{
+  font-family:'Cinzel',serif;font-weight:700;
+  font-size:clamp(1.3rem,4.2vw,2.15rem);
+  letter-spacing:.1em;line-height:1.3;
+  background:linear-gradient(96deg,var(--pink),var(--gold) 46%,var(--cyan));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 44px rgba(255,94,219,.28);
+}
+.head .kicker{
+  font-size:.62rem;letter-spacing:.4em;color:var(--pink);
+  margin-bottom:7px;text-transform:uppercase;
+}
+.head .tag{
+  font-size:.66rem;letter-spacing:.22em;color:var(--dim);
+  margin-top:11px;text-transform:uppercase;
+}
+
+/* ── layout ─────────────────────────────────────────── */
+.wrap{display:flex;gap:34px;max-width:1080px;margin:0 auto;
+  align-items:flex-start;flex-wrap:wrap;justify-content:center}
+
+/* ── CRT ────────────────────────────────────────────── */
+.crt{
+  background:linear-gradient(160deg,#2a1d47,#150e26 65%);
+  border:1px solid var(--edge);border-radius:20px;padding:13px;
+  box-shadow:0 0 50px rgba(255,94,219,.14), inset 0 1px 0 rgba(255,255,255,.07);
+}
+.hud{display:flex;justify-content:space-between;align-items:center;
+  font-size:.53rem;letter-spacing:.2em;color:var(--dim);padding:0 3px 9px}
+.hud .rec{display:flex;align-items:center;gap:6px;color:var(--pink)}
+.screenbox{position:relative;border-radius:9px;overflow:hidden;background:#000;
+  box-shadow:inset 0 0 60px rgba(0,0,0,.9)}
+.stage{position:relative;width:300px;height:534px;overflow:hidden;
+  background:#0d0a16;user-select:none;transition:width .25s,height .25s;display:block}
+#bg{width:100%;height:100%;object-fit:cover;display:block}
+#ph{position:absolute;inset:0;display:flex;flex-direction:column;gap:13px;
+  align-items:center;justify-content:center;color:var(--dim);
+  font-size:.7rem;letter-spacing:.13em;cursor:pointer;text-align:center;padding:22px}
+#ph:hover{background:rgba(255,94,219,.05)}
+.ph-box{width:54px;height:54px;border:1px dashed var(--edge);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+#textwrap{position:absolute;left:7%;top:52%;max-width:86%;
+  cursor:grab;touch-action:none;display:none}
+#textwrap.grabbing{cursor:grabbing}
+#txt{font-weight:bold;font-variant:small-caps;line-height:1.34;letter-spacing:.03em;
+  word-break:break-word;white-space:pre-wrap;color:#fff;font-size:22px}
+#credit{text-align:right;margin-top:5px;font-family:Georgia,serif;
+  font-size:9px;letter-spacing:.02em;display:none}
+#frame{position:absolute;inset:0;pointer-events:none}
+.scan{position:absolute;inset:0;pointer-events:none;z-index:5;
+  background:repeating-linear-gradient(to bottom,rgba(0,0,0,.17) 0 1px,transparent 1px 3px)}
+.glare{position:absolute;inset:0;pointer-events:none;z-index:6;
+  background:radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.055),transparent 55%)}
+#spin{position:absolute;inset:0;z-index:7;display:none;align-items:center;
+  justify-content:center;background:rgba(10,7,20,.82);color:var(--cyan);
+  font-size:.63rem;letter-spacing:.24em}
+#spin.on{display:flex}
+.hint{font-size:.53rem;letter-spacing:.16em;color:#4a3d68;
+  text-align:center;margin-top:10px;min-height:1rem}
+.hint.on{color:var(--cyan)}
+
+.row2{display:flex;gap:9px;margin-top:11px}
+.btn{flex:1;padding:11px;border-radius:9px;cursor:pointer;text-align:center;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;
+  text-transform:uppercase;transition:all .16s;border:1px solid var(--edge)}
+.btn-ghost{background:rgba(28,19,51,.8);color:var(--cyan)}
+.btn-ghost:hover{border-color:var(--cyan);box-shadow:0 0 16px rgba(77,227,255,.28)}
+.btn-solid{background:linear-gradient(96deg,var(--pink),#b44de0);
+  border-color:transparent;color:#fff;font-weight:700}
+.btn-solid:hover:not(:disabled){box-shadow:0 0 22px rgba(255,94,219,.5)}
+.btn-solid:disabled{opacity:.3;cursor:not-allowed}
+#name{font-size:.53rem;color:#5a4d78;margin-top:10px;text-align:center;
+  letter-spacing:.1em;min-height:1em;line-height:1.6}
+
+/* ── panel ──────────────────────────────────────────── */
+.panel{flex:1;min-width:300px;max-width:560px}
+.sec{display:flex;align-items:center;gap:11px;font-size:.57rem;
+  letter-spacing:.3em;color:var(--cyan);text-transform:uppercase;
+  margin:24px 0 11px}
+.sec:first-child{margin-top:0}
+.sec::before,.sec::after{content:'';height:1px;background:linear-gradient(
+  90deg,transparent,var(--edge),transparent);flex:1}
+.sec span{white-space:nowrap}
+
+textarea,input[type=text],input[type=number]{
+  background:rgba(21,14,38,.9);border:1px solid var(--edge);border-radius:8px;
+  color:var(--text);font-family:var(--mono);outline:none;transition:border-color .16s}
+textarea:focus,input:focus{border-color:var(--pink);
+  box-shadow:0 0 16px rgba(255,94,219,.2)}
+textarea{width:100%;padding:12px 13px;font-size:.85rem;line-height:1.65;
+  resize:none;overflow:hidden;min-height:78px;display:block}
+
+.grp{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.lab{font-size:.55rem;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+.cw{display:flex;align-items:center;gap:7px}
+#swatch,#strokeSwatch,#boxSwatch{width:34px;height:34px;border-radius:8px;border:1px solid var(--edge);
+  cursor:pointer;flex-shrink:0;background:none;padding:2px}
+#hex,#strokeHex,#boxHex{width:92px;padding:7px 9px;font-size:.76rem}
+#size{width:56px;padding:7px 4px;font-size:.76rem;text-align:center;
+  -moz-appearance:textfield}
+#size::-webkit-outer-spin-button,#size::-webkit-inner-spin-button{-webkit-appearance:none}
+.step{width:28px;height:34px;background:rgba(28,19,51,.8);border:1px solid var(--edge);
+  border-radius:7px;color:var(--cyan);cursor:pointer;font-size:1rem;font-family:var(--mono)}
+.step:hover{border-color:var(--cyan)}
+.tgl{width:38px;height:20px;background:var(--edge);border-radius:10px;position:relative;
+  cursor:pointer;border:none;transition:background .2s}
+.tgl.on{background:linear-gradient(96deg,var(--pink),#b44de0)}
+.tgl::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:transform .2s}
+.tgl.on::after{transform:translateX(18px)}
+
+.pill{padding:6px 13px;border-radius:20px;cursor:pointer;font-family:var(--mono);
+  font-size:.63rem;letter-spacing:.08em;border:1px solid var(--edge);
+  background:rgba(28,19,51,.75);color:var(--dim);transition:all .14s}
+.pill:hover{border-color:var(--pink);color:var(--text)}
+.pill.on{background:linear-gradient(96deg,rgba(255,94,219,.28),rgba(77,227,255,.2));
+  border-color:var(--pink);color:#fff;box-shadow:0 0 15px rgba(255,94,219,.28)}
+.pill.gen{border-color:rgba(77,227,255,.5);color:var(--cyan)}
+.pill.gen:hover{box-shadow:0 0 16px rgba(77,227,255,.35)}
+.pill.gen:disabled{opacity:.4;cursor:not-allowed}
+
+.tabrow{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:9px;margin-bottom:11px}
+#caps{display:flex;flex-direction:column;gap:7px;max-height:215px;
+  overflow-y:auto;padding-right:4px}
+.cap{text-align:left;padding:10px 14px;background:rgba(21,14,38,.75);
+  border:1px solid rgba(58,42,92,.55);border-radius:8px;color:var(--dim);
+  cursor:pointer;font-size:.76rem;font-family:'EB Garamond',serif;
+  line-height:1.5;transition:all .13s}
+.cap:hover{border-color:var(--pink);color:var(--text)}
+.cap.on{background:linear-gradient(96deg,rgba(255,94,219,.18),rgba(77,227,255,.1));
+  border-color:var(--pink);color:#fff}
+
+.searchbar{display:flex;gap:9px;margin-bottom:12px}
+#q{flex:1;padding:9px 13px;font-size:.72rem}
+#grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;min-height:60px;
+  max-height:420px;overflow-y:auto;padding-right:4px}
+.tile{aspect-ratio:2/3;border-radius:6px;border:1px solid var(--edge);cursor:pointer;
+  overflow:hidden;background:var(--panel);transition:all .14s;position:relative}
+.tile:hover{border-color:var(--cyan);box-shadow:0 0 14px rgba(77,227,255,.3)}
+.tile.on{border-color:var(--pink);box-shadow:0 0 16px rgba(255,94,219,.45)}
+.tile img{width:100%;height:100%;object-fit:cover;display:block}
+.note{font-size:.58rem;letter-spacing:.08em;color:#5a4d78;line-height:1.9;margin-top:12px}
+.note a{color:var(--cyan);text-decoration:none;border-bottom:1px dotted var(--edge)}
+
+.foot{text-align:center;margin-top:46px;font-size:.53rem;
+  letter-spacing:.26em;color:#4a3d68;text-transform:uppercase}
+.foot a{color:var(--pink);text-decoration:none}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--edge);border-radius:2px}
+@media(max-width:560px){#grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <div class="badge"><span class="dot"></span> CH 15 · NOW BROADCASTING · LIVE</div>
+  <div class="kicker">Magick Mica TV Presents</div>
+  <h1>Classical Meme Generator</h1>
+  <div class="tag">✦ Fine Art Meets Relatable Suffering ✦</div>
+</div>
+
+<div class="wrap">
+
+  <!-- ── MONITOR ── -->
+  <div id="leftcol">
+    <div class="crt">
+      <div class="hud">
+        <span class="rec"><span class="dot"></span> REC</span>
+        <span id="hudFmt">9:16 · 1600</span>
+      </div>
+      <div class="screenbox">
+        <div class="stage" id="stage">
+          <img id="bg" alt="" crossorigin="anonymous" style="display:none"/>
+          <div id="ph" onclick="file.click()">
+            <div class="ph-box">📺</div>
+            <span>Select a transmission below</span>
+            <span style="font-size:.55rem;color:#4a3d68">or upload your own signal</span>
+          </div>
+          <div id="textwrap">
+            <div id="txt"></div>
+            <div id="credit"></div>
+          </div>
+          <div id="frame"></div>
+          <div id="spin">◈ TUNING IN…</div>
+        </div>
+        <div class="scan"></div>
+        <div class="glare"></div>
+      </div>
+    </div>
+    <p class="hint" id="hint">✦ DRAG THE TEXT TO REPOSITION</p>
+
+    <div class="row2">
+      <div class="btn btn-ghost" onclick="file.click()">⬆ Upload</div>
+      <div class="btn btn-ghost" id="clearBtn" onclick="clearAll()" style="flex:0 0 auto;padding:11px 14px">✕ Clear</div>
+      <button class="btn btn-solid" id="dl" onclick="save()" disabled>↓ Download</button>
+    </div>
+    <input type="file" id="file" accept="image/*" hidden onchange="onUpload(event)"/>
+    <p id="name"></p>
+  </div>
+
+  <!-- ── CONTROL PANEL ── -->
+  <div class="panel">
+
+    <div class="sec"><span>▚▞ Caption</span></div>
+    <textarea id="cap" rows="3" oninput="setCap(this.value);grow(this)">This too shall pass, but at what cost</textarea>
+
+    <div class="sec"><span>▚▞ Type</span></div>
+    <div class="grp">
+      <span class="lab">Color</span>
+      <div class="cw">
+        <input type="color" id="swatch" value="#ffffff" oninput="setColor(this.value)"/>
+        <input type="text" id="hex" value="#ffffff" maxlength="7" oninput="setColor(this.value)"/>
+      </div>
+      <span class="lab" style="margin-left:6px">Size</span>
+      <div style="display:flex;align-items:center;gap:5px">
+        <button class="step" onclick="bump(-2)">−</button>
+        <input type="number" id="size" value="22" min="8" max="120" oninput="setSize(+this.value)"/>
+        <button class="step" onclick="bump(2)">+</button>
+      </div>
+      <span class="lab" style="margin-left:6px">Shadow</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="tgl on" id="tgl" onclick="toggleShadow()"></button>
+        <span class="lab" id="tglLbl">On</span>
+      </div>
+    </div>
+
+    <div class="grp" style="margin-top:13px">
+      <span class="lab">Text Box</span>
+      <button class="pill on" id="b-off" onclick="setBox('off')">Off</button>
+      <button class="pill" id="b-solid" onclick="setBox('solid')">Solid</button>
+      <button class="pill" id="b-soft" onclick="setBox('soft')">Soft</button>
+      <button class="pill" id="b-full" onclick="setBox('full')">Full Width</button>
+      <div class="cw" style="margin-left:4px">
+        <input type="color" id="boxSwatch" value="#ffffff" oninput="setBoxColor(this.value)"/>
+        <input type="text" id="boxHex" value="#ffffff" maxlength="7" oninput="setBoxColor(this.value)"/>
+      </div>
+    </div>
+
+    <div class="grp" style="margin-top:11px">
+      <span class="lab">Credit</span>
+      <input type="text" id="creditInput" placeholder="@yourhandle — optional"
+             style="flex:1;min-width:170px;padding:7px 10px;font-size:.72rem"
+             oninput="setCredit(this.value)"/>
+    </div>
+
+    <div class="grp" style="margin-top:13px">
+      <span class="lab">Stroke</span>
+      <button class="pill on" id="s-0" onclick="setStroke(0)">Off</button>
+      <button class="pill" id="s-1" onclick="setStroke(1)">Thin</button>
+      <button class="pill" id="s-2" onclick="setStroke(2)">Medium</button>
+      <button class="pill" id="s-3" onclick="setStroke(3)">Bold</button>
+      <button class="pill" id="s-5" onclick="setStroke(5)">Heavy</button>
+      <div class="cw" style="margin-left:4px">
+        <input type="color" id="strokeSwatch" value="#000000" oninput="setStrokeColor(this.value)"/>
+        <input type="text" id="strokeHex" value="#000000" maxlength="7" oninput="setStrokeColor(this.value)"/>
+      </div>
+    </div>
+
+    <div class="grp" style="margin-top:13px">
+      <span class="lab">Font</span>
+      <button class="pill on" id="f-georgia" onclick="setFont('georgia')" style="font-family:Georgia,serif">Georgia</button>
+      <button class="pill" id="f-cinzel" onclick="setFont('cinzel')" style="font-family:'Cinzel',serif">Cinzel</button>
+      <button class="pill" id="f-playfair" onclick="setFont('playfair')" style="font-family:'Playfair Display',serif">Playfair</button>
+      <button class="pill" id="f-garamond" onclick="setFont('garamond')" style="font-family:'EB Garamond',serif">Garamond</button>
+      <button class="pill" id="f-anton" onclick="setFont('anton')" style="font-family:'Anton',sans-serif">Anton</button>
+      <button class="pill" id="f-bebas" onclick="setFont('bebas')" style="font-family:'Bebas Neue',sans-serif">Bebas</button>
+      <button class="pill" id="f-elite" onclick="setFont('elite')" style="font-family:'Special Elite',monospace">Typewriter</button>
+    </div>
+
+    <div class="grp" style="margin-top:11px">
+      <span class="lab">Case</span>
+      <button class="pill on" id="k-smallcaps" onclick="setCase('smallcaps')">Small Caps</button>
+      <button class="pill" id="k-upper" onclick="setCase('upper')">Upper</button>
+      <button class="pill" id="k-normal" onclick="setCase('normal')">As Typed</button>
+      <span class="lab" style="margin-left:6px">Align</span>
+      <button class="pill on" id="a-left" onclick="setAlign('left')">Left</button>
+      <button class="pill" id="a-center" onclick="setAlign('center')">Center</button>
+    </div>
+
+    <div class="grp" style="margin-top:11px">
+      <span class="lab">Preset</span>
+      <button class="pill" onclick="preset('#ffffff',true)">White</button>
+      <button class="pill" onclick="preset('#ffd479',true)">Gold</button>
+      <button class="pill" onclick="preset('#111111',false)">Black</button>
+      <button class="pill" onclick="preset('#ff5edb',true)">Neon Pink</button>
+      <button class="pill" onclick="preset('#4de3ff',true)">Signal Cyan</button>
+      <button class="pill" onclick="preset('#c0392b',true)">Blood</button>
+    </div>
+
+    <div class="sec"><span>▚▞ Broadcast Format</span></div>
+    <div class="grp">
+      <span class="lab">Frame</span>
+      <button class="pill on" id="fr-none" onclick="setFrame('none')">None</button>
+      <button class="pill" id="fr-hairline" onclick="setFrame('hairline')">Hairline</button>
+      <button class="pill" id="fr-double" onclick="setFrame('double')">Double</button>
+      <button class="pill" id="fr-mat" onclick="setFrame('mat')">Mat</button>
+      <button class="pill" id="fr-vignette" onclick="setFrame('vignette')">Vignette</button>
+      <button class="pill" id="fr-bars" onclick="setFrame('bars')">Cinema</button>
+    </div>
+    <div class="grp" style="margin-top:11px">
+      <span class="lab">Shape</span>
+      <button class="pill on" id="ar-9x16" onclick="setRatio('9x16')">9:16</button>
+      <button class="pill" id="ar-4x5" onclick="setRatio('4x5')">4:5</button>
+      <button class="pill" id="ar-1x1" onclick="setRatio('1x1')">1:1</button>
+      <button class="pill" id="ar-16x9" onclick="setRatio('16x9')">16:9</button>
+      <span class="lab" style="margin-left:6px">Export</span>
+      <button class="pill" id="ox-1080" onclick="setOut(1080)">1080</button>
+      <button class="pill" id="ox-1350" onclick="setOut(1350)">1350</button>
+      <button class="pill on" id="ox-1600" onclick="setOut(1600)">1600</button>
+      <button class="pill" id="ox-2400" onclick="setOut(2400)">2400</button>
+      <button class="pill" id="ox-3200" onclick="setOut(3200)">3200</button>
+    </div>
+    <p class="note" id="srcNote" style="margin-top:8px"></p>
+
+    <div class="sec"><span>▚▞ Script</span></div>
+    <div class="tabrow">
+      <div style="display:flex;gap:7px">
+        <button class="pill on" id="t-dread" onclick="setTab('dread')">Existential Dread</button>
+        <button class="pill" id="t-work" onclick="setTab('work')">Work Pain</button>
+      </div>
+      <button class="pill gen" id="gen" onclick="genCaptions()">✦ Generate More</button>
+    </div>
+    <div id="caps"></div>
+
+    <div class="sec"><span>▚▞ Archive</span></div>
+    <div class="searchbar">
+      <input type="text" id="q" placeholder="Search the archive — Vermeer, Ophelia, storm at sea…"
+             onkeydown="if(event.key==='Enter')search()"/>
+      <button class="pill" onclick="search()">Search</button>
+      <button class="pill gen" onclick="surprise()">🎲 Surprise</button>
+    </div>
+    <div class="grp" id="chanRow" style="margin-bottom:12px"></div>
+    <div id="grid"></div>
+    <div style="display:flex;justify-content:center;margin-top:12px">
+      <button class="pill" id="moreBtn" onclick="loadMore()" style="display:none">↓ Load More</button>
+    </div>
+    <p class="note" id="galNote">Signal sourced live from
+      <a href="https://commons.wikimedia.org/wiki/Category:Paintings" target="_blank">Wikimedia Commons</a>
+      — all public domain.</p>
+
+  </div>
+</div>
+
+<div class="foot">▚▞ Magick Mica TV · CH 15 · <a href="https://magickmica.github.io/">Return to the Signal</a> ▞▚</div>
+
+<script>
+/* ─── config ─────────────────────────────────────────────────────────── */
+const API_KEY = 'YOUR_ANTHROPIC_API_KEY_HERE'; // optional — for ✦ Generate More
+
+/* ─── channels ───────────────────────────────────────────────────────── */
+/* "files" channels are hand-picked; "q" channels pull live from Commons
+   search and can be paged endlessly with Load More.                     */
+const CHANNELS = [
+  { id:'classics', label:'★ Classics', files: [
+    '1665 Girl with a Pearl Earring.jpg',
+    'Lady with an Ermine - Leonardo da Vinci - Google Art Project.jpg',
+    'Petrus Christus - Portrait of a Young Woman - Google Art Project.jpg',
+    'Mona Lisa, by Leonardo da Vinci, from C2RMF retouched.jpg',
+    'Vermeer - De Melkmeid.jpg',
+    'Jan Vermeer van Delft - Woman in Blue Reading a Letter - Google Art Project.jpg',
+    'Johannes Vermeer - The Love Letter - Google Art Project.jpg',
+    'Rembrandt van Rijn - Self-Portrait - Google Art Project.jpg',
+    'Ghirlandaio Giovanna Tornabuoni.jpg',
+    'Hans Memling - Portrait of a Young Woman - Google Art Project.jpg',
+    'Rogier van der Weyden - Portrait of a Lady - National Gallery of Art.jpg',
+    'Raphael - Portrait of a Woman - Google Art Project.jpg',
+    'John Everett Millais - Ophelia - Google Art Project.jpg',
+    'Flaming June, by Frederic Lord Leighton (1830-1896).jpg',
+    'John William Waterhouse - The Lady of Shalott.jpg',
+    'Hylas and the Nymphs Manchester Art Gallery 1896.15.jpg',
+    'Rossetti Proserpine.jpg',
+    'Rossetti La Ghirlandata.jpg',
+    'Sandro Botticelli - La nascita di Venere - Google Art Project - edited.jpg',
+    'Botticelli-primavera.jpg',
+    'Fragonard, The Swing.jpg',
+    'Artemisia Gentileschi - Judith Slaying Holofernes - WGA8563.jpg',
+    'John Everett Millais - Isabella.jpg',
+    'John William Waterhouse Miranda - The Tempest.jpg',
+    'Edvard Munch, 1893, The Scream, oil, tempera and pastel on cardboard, 91 x 73 cm, National Gallery of Norway.jpg',
+    'Caspar David Friedrich - Wanderer above the sea of fog.jpg',
+    'Caspar David Friedrich - Two Men Contemplating the Moon - Google Art Project.jpg',
+    'Caspar David Friedrich - Frau am Fenster - Google Art Project.jpg',
+    'Francisco de Goya, Saturno devorando a su hijo (1819-1823).jpg',
+    'John Henry Fuseli - The Nightmare.JPG',
+    'Van Gogh - Starry Night - Google Art Project.jpg',
+    'Van Gogh - Worn Out.jpg',
+    'Vincent van Gogh - Self-Portrait with Bandaged Ear.jpg',
+    'Rembrandt van Rijn - De Nachtwacht.jpg',
+    'Arnold Böcklin - Die Toteninsel I (Kunstmuseum Basel).jpg',
+    'Hubert von Herkomer - Hard Times, 1885.jpg',
+  ]},
+  { id:'portraits',   label:'Portraits',      q:'portrait painting',      q2:'portrait oil' },
+  { id:'preraph',     label:'Pre-Raphaelite', q:'Pre-Raphaelite',         q2:'Waterhouse painting' },
+  { id:'vermeer',     label:'Dutch Golden',   q:'Vermeer',                q2:'Rembrandt painting' },
+  { id:'baroque',     label:'Baroque',        q:'Baroque painting',       q2:'Caravaggio' },
+  { id:'renaissance', label:'Renaissance',    q:'Renaissance painting',   q2:'Botticelli' },
+  { id:'romantic',    label:'Romantic',       q:'Romanticism painting',   q2:'Friedrich painting' },
+  { id:'myth',        label:'Mythology',      q:'mythology painting',     q2:'Venus painting' },
+  { id:'macabre',     label:'Macabre',        q:'memento mori',           q2:'skull painting' },
+  { id:'gothic',      label:'Gothic',         q:'gothic painting',        q2:'nightmare painting' },
+  { id:'sea',         label:'Sea & Storm',    q:'shipwreck painting',     q2:'seascape painting' },
+  { id:'landscape',   label:'Landscapes',     q:'landscape painting',     q2:'Turner painting' },
+  { id:'angels',      label:'Saints & Angels',q:'angel painting',         q2:'altarpiece' },
+  { id:'stilllife',   label:'Still Life',     q:'still life painting',    q2:'vanitas' },
+  { id:'impress',     label:'Impressionist',  q:'Impressionism painting', q2:'Monet' },
+  { id:'ukiyoe',      label:'Ukiyo-e',        q:'ukiyo-e',                q2:'Hokusai' },
+  { id:'medieval',    label:'Medieval',       q:'illuminated manuscript', q2:'medieval painting' },
+  { id:'symbolist',   label:'Symbolist',      q:'Symbolism painting',     q2:'Klimt' },
+  { id:'goya',        label:'Goya',           q:'Goya painting',          q2:'Goya' },
+  { id:'munch',       label:'Munch',          q:'Munch painting',         q2:'Edvard Munch' },
+  { id:'bosch',       label:'Bosch & Bruegel',q:'Hieronymus Bosch',       q2:'Bruegel painting' },
+  { id:'vangogh',     label:'Van Gogh',       q:'Van Gogh painting',      q2:'Van Gogh' },
+  { id:'sargent',     label:'Sargent',        q:'Sargent painting',       q2:'John Singer Sargent' },
+];
+
+const CAPS = {
+  dread: [
+    "This too shall pass, but at what cost",
+    "I am fine. This is fine. Everything is fine.",
+    "I made a pros and cons list. The cons won.",
+    "What is time. What is meaning. What is a W-2.",
+    "Nothing matters and yet everything costs money.",
+    "I asked for a sign. The sign said 'good luck with that'.",
+    "I have achieved a tiredness that transcends sleep.",
+    "Perhaps this is what they meant by 'character building'.",
+    "I contain multitudes. Most of them are tired.",
+  ],
+  work: [
+    "Another day of pretending I have it together",
+    "The meeting that could have been an email: Hour 3",
+    "Functioning member of society (citation needed)",
+    "Sent a professional email. Cried immediately after.",
+    "Adulting is googling everything and hoping for the best",
+    "My therapist said 'set boundaries'. She hasn't seen my inbox.",
+    "The quarterly review is in 10 minutes and I haven't started",
+    "Out of office: emotionally. In office: physically.",
+    "I have been perceived. I did not consent to this.",
+  ],
+};
+
+/* ─── state ──────────────────────────────────────────────────────────── */
+let tab = 'dread', caption = CAPS.dread[0];
+let color = '#ffffff', size = 22, shadow = true;
+let src = null, tx = 7, ty = 52;
+let srcFile = null, srcW = 0;
+let ratio = '9x16', outW = 1600;
+let font = 'georgia', textCase = 'smallcaps', align = 'left', frame = 'none';
+let strokeW = 0, strokeColor = '#000000';
+let box = 'off', boxColor = '#ffffff', credit = '';
+const BOX_ALPHA = { off: 0, solid: 1, soft: 0.82, full: 1 };
+
+const FONTS = {
+  georgia:  { css: 'Georgia, serif',                   weight: 'bold' },
+  cinzel:   { css: '"Cinzel", serif',                  weight: '700'  },
+  playfair: { css: '"Playfair Display", serif',        weight: '700'  },
+  garamond: { css: '"EB Garamond", serif',             weight: '600'  },
+  anton:    { css: '"Anton", Impact, sans-serif',      weight: '400'  },
+  bebas:    { css: '"Bebas Neue", Impact, sans-serif', weight: '400'  },
+  elite:    { css: '"Special Elite", monospace',       weight: '400'  },
+};
+
+const FR = { inset1: .033, inset2: .052, line: .0045, mat: .055, bar: .10 };
+
+const RATIOS = { '9x16': 9/16, '4x5': 4/5, '1x1': 1, '16x9': 16/9 };
+
+const $ = id => document.getElementById(id);
+
+/* ─── setters ────────────────────────────────────────────────────────── */
+function setFont(f) {
+  font = f;
+  Object.keys(FONTS).forEach(k => $('f-' + k).classList.toggle('on', k === f));
+  paint();
+}
+function setCase(k) {
+  textCase = k;
+  ['smallcaps','upper','normal'].forEach(x => $('k-' + x).classList.toggle('on', x === k));
+  paint();
+}
+function setAlign(a) {
+  align = a;
+  ['left','center'].forEach(x => $('a-' + x).classList.toggle('on', x === a));
+  paint();
+}
+function setFrame(f) {
+  frame = f;
+  ['none','hairline','double','mat','vignette','bars']
+    .forEach(x => $('fr-' + x).classList.toggle('on', x === f));
+  paint();
+}
+function hexToRgba(hex, a) {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
+}
+function setBox(mode) {
+  box = mode;
+  ['off','solid','soft','full'].forEach(m => $('b-' + m).classList.toggle('on', m === mode));
+  // a light box usually wants dark text — nudge once, but never override a deliberate choice
+  paint();
+}
+function setBoxColor(v) {
+  const c = v.startsWith('#') ? v : '#' + v;
+  if (!/^#[0-9a-fA-F]{6}$/.test(c)) return;
+  boxColor = c; $('boxSwatch').value = c; $('boxHex').value = c; paint();
+}
+function setCredit(v) { credit = v; paint(); }
+
+function setStroke(w) {
+  strokeW = w;
+  [0,1,2,3,5].forEach(n => $('s-' + n).classList.toggle('on', n === w));
+  paint();
+}
+function setStrokeColor(v) {
+  const c = v.startsWith('#') ? v : '#' + v;
+  if (!/^#[0-9a-fA-F]{6}$/.test(c)) return;
+  strokeColor = c;
+  $('strokeSwatch').value = c;
+  $('strokeHex').value = c;
+  paint();
+}
+function setRatio(r) {
+  ratio = r;
+  Object.keys(RATIOS).forEach(k => $('ar-' + k).classList.toggle('on', k === r));
+  sizeStage(); hud();
+}
+function setOut(w) {
+  outW = w;
+  [1080, 1350, 1600, 2400, 3200].forEach(n => $('ox-' + n).classList.toggle('on', n === w));
+  hud(); srcNote();
+}
+function hud() { $('hudFmt').textContent = ratio.replace('x', ':') + ' · ' + outW; }
+
+function srcNote() {
+  const el = $('srcNote');
+  if (!src) { el.textContent = ''; return; }
+  if (srcFile) {
+    el.textContent = outW > 1600
+      ? `◈ Archive image — a ${outW}px version will be fetched for export.`
+      : '';
+  } else {
+    el.textContent = srcW && outW > srcW
+      ? `⚠ Your image is ${srcW}px wide — exporting at ${outW}px will upscale it.`
+      : (srcW ? `◈ Your image: ${srcW}px wide — plenty for ${outW}px export.` : '');
+  }
+}
+
+function sizeStage() {
+  const AR = RATIOS[ratio], MAX_W = 380, MAX_H = 534;
+  let w = MAX_W, h = w / AR;
+  if (h > MAX_H) { h = MAX_H; w = h * AR; }
+  w = Math.round(w); h = Math.round(h);
+  const s = $('stage');
+  s.style.width = w + 'px';
+  s.style.height = h + 'px';
+  $('leftcol').style.width = (w + 28) + 'px';
+  paintFrame();
+}
+
+/* ─── Wikimedia API ──────────────────────────────────────────────────── */
+async function resolve(filename, width) {
+  const url = 'https://commons.wikimedia.org/w/api.php?action=query&titles=' +
+    encodeURIComponent('File:' + filename) +
+    '&prop=imageinfo&iiprop=url&iiurlwidth=' + width + '&format=json&origin=*';
+  const r = await fetch(url);
+  const d = await r.json();
+  const page = Object.values(d.query.pages)[0];
+  if (page.missing !== undefined || !page.imageinfo) throw new Error('not found');
+  return page.imageinfo[0].thumburl || page.imageinfo[0].url;
+}
+
+async function searchCommons(query, offset = 0, limit = 40) {
+  const url = 'https://commons.wikimedia.org/w/api.php?action=query&generator=search' +
+    '&gsrsearch=' + encodeURIComponent('filetype:bitmap ' + query) +
+    '&gsrnamespace=6&gsrlimit=' + limit + '&gsroffset=' + offset +
+    '&prop=imageinfo&iiprop=url|size&iiurlwidth=160' +
+    '&format=json&origin=*';
+  const r = await fetch(url);
+  const d = await r.json();
+  if (!d.query || !d.query.pages) return [];
+  return Object.values(d.query.pages)
+    .filter(p => p.imageinfo && p.imageinfo[0].width >= 400)
+    .map(p => ({
+      title: p.title.replace(/^File:/, '').replace(/\.[^.]+$/, ''),
+      file: p.title.replace(/^File:/, ''),
+      thumb: p.imageinfo[0].thumburl,
+    }));
+}
+
+/* run the primary query; if it's thin, blend in the fallback */
+async function fetchChannel(ch, offset = 0) {
+  let res = [];
+  try { res = await searchCommons(ch.q, offset); } catch {}
+  if (res.length < 12 && ch.q2) {
+    try {
+      const more = await searchCommons(ch.q2, offset);
+      const seen = new Set(res.map(r => r.file));
+      res = res.concat(more.filter(m => !seen.has(m.file)));
+    } catch {}
+  }
+  return res;
+}
+
+/* ─── gallery ────────────────────────────────────────────────────────── */
+let channel = 'classics', offset = 0, lastQuery = null, shown = [];
+
+function buildChannels() {
+  const row = $('chanRow');
+  row.innerHTML = '';
+  CHANNELS.forEach(ch => {
+    const b = document.createElement('button');
+    b.className = 'pill' + (ch.id === channel ? ' on' : '');
+    b.id = 'ch-' + ch.id;
+    b.textContent = ch.label;
+    b.onclick = () => loadChannel(ch.id);
+    row.appendChild(b);
+  });
+}
+
+function markChannel(id) {
+  CHANNELS.forEach(ch => {
+    const el = $('ch-' + ch.id);
+    if (el) el.classList.toggle('on', ch.id === id);
+  });
+}
+
+async function loadChannel(id) {
+  channel = id; offset = 0; lastQuery = null;
+  markChannel(id);
+  $('q').value = '';
+  $('grid').innerHTML = '';
+  $('moreBtn').style.display = 'none';
+  $('galNote').textContent = '◈ Receiving transmission…';
+
+  const ch = CHANNELS.find(c => c.id === id);
+  if (ch.files) {
+    const items = await Promise.all(ch.files.map(async f => {
+      try { return { file:f, title:f.replace(/\.[^.]+$/,''), thumb: await resolve(f,160) }; }
+      catch { return null; }
+    }));
+    shown = items.filter(Boolean);
+    render(shown, false);
+    note(shown.length + ' hand-picked classics');
+  } else {
+    lastQuery = ch;
+    const res = await fetchChannel(ch, 0);
+    shown = res;
+    render(res, false);
+    offset = 40;
+    $('moreBtn').style.display = res.length ? 'block' : 'none';
+    note(res.length ? res.length + ' signals on ' + ch.label
+                    : 'Nothing came through on ' + ch.label + ' — try Search instead.');
+  }
+}
+
+async function search() {
+  const q = $('q').value.trim();
+  if (!q) return;
+  channel = null; offset = 0; lastQuery = q;
+  markChannel(null);
+  $('grid').innerHTML = '';
+  $('moreBtn').style.display = 'none';
+  $('galNote').textContent = '◈ Scanning the archive…';
+  try {
+    const res = await searchCommons(q, 0);
+    shown = res;
+    render(res, false);
+    offset = 40;
+    $('moreBtn').style.display = res.length ? 'block' : 'none';
+    note(res.length ? `${res.length} signals found for "${q}"`
+                    : `No transmissions for "${q}" — try another frequency.`);
+  } catch { note('Signal lost — check your connection.'); }
+}
+
+async function loadMore() {
+  if (!lastQuery) return;
+  const b = $('moreBtn');
+  b.textContent = '◈ Tuning…'; b.disabled = true;
+  try {
+    const res = typeof lastQuery === 'string'
+      ? await searchCommons(lastQuery, offset)
+      : await fetchChannel(lastQuery, offset);
+    const seen = new Set(shown.map(s => s.file));
+    const fresh = res.filter(r => !seen.has(r.file));
+    if (fresh.length) {
+      shown = shown.concat(fresh);
+      render(fresh, true);
+      offset += 40;
+      note(shown.length + ' signals loaded');
+    } else {
+      b.style.display = 'none';
+      note("End of transmission — that's everything on this frequency.");
+    }
+  } catch { note('Could not load more.'); }
+  b.textContent = '↓ Load More'; b.disabled = false;
+}
+
+function surprise() {
+  if (!shown.length) return;
+  const pick = shown[Math.floor(Math.random() * shown.length)];
+  const tiles = document.querySelectorAll('.tile');
+  const idx = shown.indexOf(pick);
+  if (tiles[idx]) tiles[idx].click();
+  const capList = CAPS[tab];
+  const c = capList[Math.floor(Math.random() * capList.length)];
+  caption = c; $('cap').value = c; grow($('cap')); paint(); renderCaps();
+}
+
+function note(msg) { $('galNote').textContent = msg; }
+
+function render(items, append) {
+  const grid = $('grid');
+  if (!append) grid.innerHTML = '';
+  items.forEach(it => {
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.title = it.title;
+    const img = document.createElement('img');
+    img.src = it.thumb;
+    img.alt = it.title;
+    img.loading = 'lazy';
+    img.referrerPolicy = 'no-referrer';
+    tile.appendChild(img);
+    tile.onclick = async () => {
+      document.querySelectorAll('.tile').forEach(t => t.classList.remove('on'));
+      tile.classList.add('on');
+      $('spin').classList.add('on');
+      try { show(await resolve(it.file, 1200), it.title, it.file); }
+      catch { note('Could not tune that signal — try another.'); }
+      $('spin').classList.remove('on');
+    };
+    grid.appendChild(tile);
+  });
+}
+
+/* ─── display ────────────────────────────────────────────────────────── */
+function show(url, title, file) {
+  src = url;
+  srcFile = file || null;
+  srcW = 0;
+  const bg = $('bg');
+  bg.onload = () => { srcW = bg.naturalWidth; srcNote(); };
+  bg.src = url;
+  bg.style.display = 'block';
+  $('ph').style.display = 'none';
+  $('textwrap').style.display = 'block';
+  $('name').textContent = title || '';
+  $('dl').disabled = false;
+  $('hint').classList.add('on');
+  paint();
+  srcNote();
+}
+
+function clearAll() {
+  src = null; srcFile = null; srcW = 0;
+  tx = 7; ty = 52;
+  caption = CAPS[tab][0];
+  $('cap').value = caption;
+  grow($('cap'));  const bg = $('bg');
+  bg.removeAttribute('src');
+  bg.style.display = 'none';
+  $('ph').style.display = 'flex';
+  $('textwrap').style.display = 'none';
+  $('name').textContent = '';
+  $('srcNote').textContent = '';
+  $('dl').disabled = true;
+  $('hint').classList.remove('on');
+  document.querySelectorAll('.tile').forEach(t => t.classList.remove('on'));
+  paint(); renderCaps();
+}
+
+function onUpload(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    document.querySelectorAll('.tile').forEach(t => t.classList.remove('on'));
+    show(ev.target.result, f.name.replace(/\.[^.]+$/, ''));
+  };
+  r.readAsDataURL(f);
+  e.target.value = '';
+}
+
+/* ─── text + frame painting ──────────────────────────────────────────── */
+function paint() {
+  const wrap = $('textwrap'), t = $('txt'), cr = $('credit'), f = FONTS[font];
+  t.textContent = caption;
+  t.style.color = color;
+  t.style.fontSize = size + 'px';
+  t.style.fontFamily = f.css;
+  t.style.fontWeight = f.weight;
+  t.style.fontVariant = textCase === 'smallcaps' ? 'small-caps' : 'normal';
+  t.style.textTransform = textCase === 'upper' ? 'uppercase' : 'none';
+  t.style.textAlign = align;
+  t.style.webkitTextStrokeWidth = strokeW ? strokeW + 'px' : '0';
+  t.style.webkitTextStrokeColor = strokeColor;
+  t.style.paintOrder = 'stroke fill';
+
+  // box
+  const pad = box === 'off' ? 0 : Math.round(size * 0.55);
+  t.style.padding = pad ? `${Math.round(pad*0.8)}px ${pad}px` : '0';
+  t.style.background = box === 'off' ? 'none' : hexToRgba(boxColor, BOX_ALPHA[box]);
+  t.style.textShadow = (shadow && box === 'off')
+    ? '2px 2px 16px rgba(0,0,0,.95), 0 0 32px rgba(0,0,0,.7)' : 'none';
+
+  // credit
+  if (credit.trim()) {
+    cr.style.display = 'block';
+    cr.textContent = credit;
+    cr.style.fontSize = Math.max(7, Math.round(size * 0.38)) + 'px';
+    cr.style.color = color;
+    cr.style.textShadow = shadow ? '1px 1px 6px rgba(0,0,0,.9)' : 'none';
+  } else {
+    cr.style.display = 'none';
+  }
+
+  // placement
+  wrap.style.top = ty + '%';
+  if (box === 'full') {
+    wrap.style.left = '0'; wrap.style.right = '0';
+    wrap.style.transform = 'none'; wrap.style.maxWidth = '100%';
+  } else if (align === 'center') {
+    wrap.style.left = '50%'; wrap.style.right = 'auto';
+    wrap.style.transform = 'translateX(-50%)'; wrap.style.maxWidth = '86%';
+  } else {
+    wrap.style.left = tx + '%'; wrap.style.right = 'auto';
+    wrap.style.transform = 'none'; wrap.style.maxWidth = (95 - tx) + '%';
+  }
+  paintFrame();
+}
+
+function paintFrame() {
+  const el = $('frame');
+  const W = $('stage').offsetWidth || 300;
+  const px = k => Math.max(1, Math.round(W * k));
+  el.innerHTML = '';
+  el.style.cssText = 'position:absolute;inset:0;pointer-events:none;';
+  switch (frame) {
+    case 'hairline':
+      el.style.clipPath = `inset(${px(FR.inset1)}px)`;
+      el.style.boxShadow = `inset 0 0 0 ${px(FR.line)}px rgba(255,255,255,.8)`;
+      break;
+    case 'double': {
+      const mk = i => {
+        const d = document.createElement('div');
+        d.style.cssText = `position:absolute;inset:${i}px;border:${px(FR.line)}px solid rgba(255,255,255,.8);`;
+        return d;
+      };
+      el.appendChild(mk(px(FR.inset1)));
+      el.appendChild(mk(px(FR.inset2)));
+      break;
+    }
+    case 'mat':
+      el.style.boxShadow = `inset 0 0 0 ${px(FR.mat)}px #efe7d6`;
+      break;
+    case 'vignette':
+      el.style.background =
+        'radial-gradient(ellipse at center, rgba(0,0,0,0) 42%, rgba(0,0,0,.72) 100%)';
+      break;
+    case 'bars':
+      el.style.background =
+        `linear-gradient(to bottom,#000 0,#000 ${FR.bar*100}%,` +
+        `rgba(0,0,0,0) ${FR.bar*100}%,rgba(0,0,0,0) ${100-FR.bar*100}%,` +
+        `#000 ${100-FR.bar*100}%,#000 100%)`;
+      break;
+  }
+}
+
+/* ─── controls ───────────────────────────────────────────────────────── */
+function grow(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+function setCap(v) { caption = v; paint(); renderCaps(); }
+function setColor(v) {
+  const c = v.startsWith('#') ? v : '#' + v;
+  if (!/^#[0-9a-fA-F]{6}$/.test(c)) return;
+  color = c; $('swatch').value = c; $('hex').value = c; paint();
+}
+function setSize(v) { size = Math.max(8, Math.min(120, v || 22)); $('size').value = size; paint(); }
+function bump(d) { setSize(size + d); }
+function toggleShadow() {
+  shadow = !shadow;
+  $('tgl').classList.toggle('on', shadow);
+  $('tglLbl').textContent = shadow ? 'On' : 'Off';
+  paint();
+}
+function preset(c, s) {
+  setColor(c); shadow = s;
+  $('tgl').classList.toggle('on', s);
+  $('tglLbl').textContent = s ? 'On' : 'Off';
+  paint();
+}
+
+function setTab(t) {
+  tab = t;
+  $('t-dread').classList.toggle('on', t === 'dread');
+  $('t-work').classList.toggle('on', t === 'work');
+  renderCaps();
+}
+
+function renderCaps() {
+  const box = $('caps');
+  box.innerHTML = '';
+  CAPS[tab].forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'cap' + (c === caption ? ' on' : '');
+    b.textContent = c;
+    b.onclick = () => {
+      caption = c;
+      $('cap').value = c;
+      grow($('cap'));
+      paint(); renderCaps();
+    };
+    box.appendChild(b);
+  });
+}
+
+async function genCaptions() {
+  if (API_KEY === 'YOUR_ANTHROPIC_API_KEY_HERE') {
+    alert('To use AI captions, open this file in a text editor and replace ' +
+          'YOUR_ANTHROPIC_API_KEY_HERE near the top of the script with your key ' +
+          'from console.anthropic.com.\n\nThe built-in captions work without it!');
+    return;
+  }
+  const b = $('gen');
+  b.textContent = '◈ Conjuring…'; b.disabled = true;
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514', max_tokens: 1000,
+        messages: [{ role: 'user', content:
+          `Generate 8 punchy meme captions in the style of "This too shall pass, but at what cost" — ` +
+          `short lines mixing dramatic classical tone with brutal modern relatability. No profanity. Focus on: ` +
+          (tab === 'dread' ? 'existential dread, nihilism, absurdity' : 'work stress, adulting exhaustion') +
+          `. Return ONLY a JSON array of 8 strings — no preamble, no backticks.` }]
+      })
+    });
+    const d = await r.json();
+    CAPS[tab] = [...JSON.parse(d.content[0].text.trim()), ...CAPS[tab]];
+    renderCaps();
+  } catch (e) { alert('Transmission failed: ' + e.message); }
+  b.textContent = '✦ Generate More'; b.disabled = false;
+}
+
+/* ─── drag ───────────────────────────────────────────────────────────── */
+(function () {
+  const el = $('textwrap'), stage = $('stage');
+  let on = false, sx, sy, ox, oy;
+  el.addEventListener('pointerdown', e => {
+    if (!src) return;
+    e.preventDefault(); on = true; el.classList.add('grabbing');
+    sx = e.clientX; sy = e.clientY; ox = tx; oy = ty;
+  });
+  window.addEventListener('pointermove', e => {
+    if (!on) return;
+    const r = stage.getBoundingClientRect();
+    if (align === 'left' && box !== 'full')
+      tx = Math.max(0, Math.min(82, ox + ((e.clientX - sx) / r.width) * 100));
+    ty = Math.max(0, Math.min(92, oy + ((e.clientY - sy) / r.height) * 100));
+    paint();
+  });
+  window.addEventListener('pointerup', () => { on = false; el.classList.remove('grabbing'); });
+})();
+
+/* ─── frame on canvas ────────────────────────────────────────────────── */
+function drawFrame(c, W, H) {
+  const lw = Math.max(1, W * FR.line);
+  c.save();
+  switch (frame) {
+    case 'hairline': {
+      const i = W * FR.inset1;
+      c.strokeStyle = 'rgba(255,255,255,.8)'; c.lineWidth = lw;
+      c.strokeRect(i, i, W - i*2, H - i*2);
+      break;
+    }
+    case 'double':
+      c.strokeStyle = 'rgba(255,255,255,.8)'; c.lineWidth = lw;
+      [FR.inset1, FR.inset2].forEach(k => {
+        const i = W * k; c.strokeRect(i, i, W - i*2, H - i*2);
+      });
+      break;
+    case 'mat': {
+      const m = W * FR.mat;
+      c.fillStyle = '#efe7d6';
+      c.fillRect(0,0,W,m); c.fillRect(0,H-m,W,m);
+      c.fillRect(0,0,m,H); c.fillRect(W-m,0,m,H);
+      break;
+    }
+    case 'vignette': {
+      const g = c.createRadialGradient(W/2,H/2,Math.min(W,H)*.21,
+                                       W/2,H/2,Math.max(W,H)*.72);
+      g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,.72)');
+      c.fillStyle = g; c.fillRect(0,0,W,H);
+      break;
+    }
+    case 'bars': {
+      const b = H * FR.bar;
+      c.fillStyle = '#000';
+      c.fillRect(0,0,W,b); c.fillRect(0,H-b,W,b);
+      break;
+    }
+  }
+  c.restore();
+}
+
+/* ─── download ───────────────────────────────────────────────────────── */
+function save() {
+  if (!src) return;
+  const b = $('dl');
+  b.textContent = 'Saving…'; b.disabled = true;
+
+  const f = FONTS[font];
+  const fontReady = document.fonts
+    ? document.fonts.load(`${f.weight} 40px ${f.css}`).catch(() => {})
+    : Promise.resolve();
+
+  // for archive images, pull a bigger original when exporting large
+  const srcReady = (srcFile && outW > 1200)
+    ? resolve(srcFile, Math.min(outW * 2, 4000)).catch(() => src)
+    : Promise.resolve(src);
+
+  Promise.all([fontReady, srcReady]).then(([, exportSrc]) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.referrerPolicy = 'no-referrer';
+    img.onload = () => {
+      const stageW = $('stage').offsetWidth;
+      const S = outW / stageW;
+      const W = Math.round(outW), H = Math.round(outW / RATIOS[ratio]);
+      const cv = document.createElement('canvas');
+      cv.width = W; cv.height = H;
+      const c = cv.getContext('2d');
+
+      // cover-crop
+      const ia = img.width / img.height, ca = W / H;
+      let sw, sh, sx0, sy0;
+      if (ia > ca) { sh = img.height; sw = sh * ca; sx0 = (img.width - sw)/2; sy0 = 0; }
+      else { sw = img.width; sh = sw / ca; sx0 = 0; sy0 = (img.height - sh)/2; }
+      c.drawImage(img, sx0, sy0, sw, sh, 0, 0, W, H);
+
+      // ── text layout ──
+      const fs = size * S;
+      c.font = `${f.weight} ${fs}px ${f.css}`;
+      if (textCase === 'smallcaps' && 'fontVariantCaps' in c) c.fontVariantCaps = 'small-caps';
+
+      const body = textCase === 'upper' ? caption.toUpperCase() : caption;
+      const pad = box === 'off' ? 0 : Math.round(fs * 0.55);
+      const padY = Math.round(pad * 0.8);
+      const lh = fs * 1.34;
+
+      let availW;
+      if (box === 'full') availW = W - pad * 2;
+      else if (align === 'center') availW = W * 0.86 - pad * 2;
+      else availW = W * (95 - tx) / 100 - pad * 2;
+
+      const lines = [];
+      body.split('\n').forEach(para => {
+        if (!para.trim()) { lines.push(''); return; }
+        let cur = '';
+        for (const w of para.split(' ')) {
+          const test = cur ? cur + ' ' + w : w;
+          if (c.measureText(test).width > availW && cur) { lines.push(cur); cur = w; }
+          else cur = test;
+        }
+        if (cur) lines.push(cur);
+      });
+
+      const widest = lines.length ? Math.max(...lines.map(l => c.measureText(l).width)) : 0;
+      const textW = Math.min(availW, widest);
+      const blockW = box === 'full' ? W : textW + pad * 2;
+      const blockH = lines.length * lh + padY * 2;
+
+      let blockX;
+      if (box === 'full') blockX = 0;
+      else if (align === 'center') blockX = (W - blockW) / 2;
+      else blockX = (tx / 100) * W;
+      const blockY = (ty / 100) * H;
+
+      // ── box ──
+      if (box !== 'off') {
+        c.fillStyle = hexToRgba(boxColor, BOX_ALPHA[box]);
+        c.fillRect(blockX, blockY, blockW, blockH);
+      }
+
+      // ── text ──
+      c.fillStyle = color;
+      c.textAlign = align;
+      const useShadow = shadow && box === 'off';
+      if (useShadow) {
+        c.shadowColor = 'rgba(0,0,0,.9)';
+        c.shadowBlur = 20*S; c.shadowOffsetX = c.shadowOffsetY = 2*S;
+      }
+      const textX = align === 'center' ? blockX + blockW / 2 : blockX + pad;
+      const firstBaseline = blockY + padY + fs * 0.92;
+      lines.forEach((ln, i) => {
+        if (!ln) return;
+        const ly = firstBaseline + i * lh;
+        if (strokeW > 0) {
+          c.lineWidth = strokeW * S * 2;
+          c.strokeStyle = strokeColor;
+          c.lineJoin = 'round';
+          c.miterLimit = 2;
+          c.strokeText(ln, textX, ly);
+          c.shadowColor = 'transparent'; c.shadowBlur = 0;
+          c.shadowOffsetX = c.shadowOffsetY = 0;
+        }
+        c.fillText(ln, textX, ly);
+        if (strokeW > 0 && useShadow) {
+          c.shadowColor = 'rgba(0,0,0,.9)';
+          c.shadowBlur = 20*S; c.shadowOffsetX = c.shadowOffsetY = 2*S;
+        }
+      });
+
+      // ── credit ──
+      if (credit.trim()) {
+        const cfs = Math.max(7, fs * 0.38);
+        c.font = `${cfs}px Georgia, serif`;
+        if ('fontVariantCaps' in c) c.fontVariantCaps = 'normal';
+        c.fillStyle = color;
+        c.textAlign = 'right';
+        c.shadowColor = shadow ? 'rgba(0,0,0,.9)' : 'transparent';
+        c.shadowBlur = shadow ? 6*S : 0;
+        c.shadowOffsetX = c.shadowOffsetY = shadow ? 1*S : 0;
+        c.fillText(credit, blockX + blockW, blockY + blockH + cfs * 1.35);
+      }
+
+      c.shadowColor = 'transparent'; c.shadowBlur = 0;
+      c.shadowOffsetX = c.shadowOffsetY = 0;
+      drawFrame(c, W, H);
+
+      cv.toBlob(blob => {
+        const u = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = u; a.download = `magickmica-meme-${ratio}-${outW}.jpg`; a.click();
+        URL.revokeObjectURL(u);
+        b.textContent = '↓ Download'; b.disabled = false;
+      }, 'image/jpeg', .93);
+    };
+    img.onerror = () => {
+      alert('Could not export this signal. Try uploading the image with ⬆ Upload.');
+      b.textContent = '↓ Download'; b.disabled = false;
+    };
+    img.src = exportSrc;
+  });
+}
+
+/* ─── init ───────────────────────────────────────────────────────────── */
+sizeStage();
+hud();
+grow($('cap'));
+paint();
+renderCaps();
+buildChannels();
+loadChannel('classics');
+</script>
+</body>
+</html>
