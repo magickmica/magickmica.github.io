@@ -236,27 +236,6 @@ def update_all(repo, out_dir, notes, articles, digest_weeks):
     return changed
 
 
-if __name__ == "__main__":
-    import sys
-    repo = sys.argv[1] if len(sys.argv) > 1 else "magickmica.github.io-main"
-    data_dir = sys.argv[2] if len(sys.argv) > 2 else "_data"
-    out_dir = sys.argv[3] if len(sys.argv) > 3 else "build"
-
-    with open(os.path.join(data_dir, "notes_with_media_compact.json"), encoding="utf-8") as f:
-        notes = json.load(f)
-    with open(os.path.join(data_dir, "magazine_articles.json"), encoding="utf-8") as f:
-        articles = json.load(f)
-
-    weeks = sorted({(datetime.date.fromisoformat(n["d"])
-                     - datetime.timedelta(days=datetime.date.fromisoformat(n["d"]).weekday())
-                     ).isoformat() for n in notes})
-
-    changed = update_all(repo, out_dir, notes, articles, weeks)
-    print(f"updated {len(changed)} pages")
-    for c in changed:
-        print("  ", c)
-
-
 # ---------------------------------------------------------------- minimags hub
 def issue_card(href, cover, count, title):
     img = ""
@@ -410,3 +389,28 @@ def seo_pass(repo, out_dir):
 
 
 # ---------------------------------------------------------------- mag-grid
+
+
+if __name__ == "__main__":
+    import sys
+    repo = sys.argv[1] if len(sys.argv) > 1 else "magickmica.github.io-main"
+    data_dir = sys.argv[2] if len(sys.argv) > 2 else "_data"
+    out_dir = sys.argv[3] if len(sys.argv) > 3 else "build"
+
+    with open(os.path.join(data_dir, "notes_with_media_compact.json"), encoding="utf-8") as f:
+        notes = json.load(f)
+    with open(os.path.join(data_dir, "magazine_articles.json"), encoding="utf-8") as f:
+        articles = json.load(f)
+
+    weeks = sorted({(datetime.date.fromisoformat(n["d"])
+                     - datetime.timedelta(days=datetime.date.fromisoformat(n["d"]).weekday())
+                     ).isoformat() for n in notes})
+
+    changed = update_all(repo, out_dir, notes, articles, weeks)
+    # the Y3K hub: run tools/build_digests.py first so the week-/month-
+    # pages these cards link to exist
+    if rebuild_minimags(repo, out_dir, notes):
+        changed.append("minimags.html")
+    print(f"updated {len(changed)} pages")
+    for c in changed:
+        print("  ", c)

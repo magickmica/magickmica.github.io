@@ -169,6 +169,25 @@ def cover_image(notes):
     return sorted(withimg, key=lambda n: -(n.get("l") or 0))[0]["t"]
 
 
+# ---------------------------------------------------------------- link fixes
+# Pages that used to live in alice/ and aliens/ now sit at the site root,
+# but the notes still carry the old links. These were fixed by hand on the
+# live issues; doing it here keeps a rebuild from reviving dead links.
+# A link is only moved when that exact page exists at the root, and never
+# for index.html (the root one is the homepage, not the old folder index).
+# mags/mags/index.html -> minimags.html is the owner's own mapping.
+MOVED = re.compile(r"(magickmica\.github\.io/)(?:alice|aliens)/([A-Za-z0-9._-]+\.html)")
+ROOT_PAGES = set()
+
+
+def fix_links(page):
+    page = page.replace("magickmica.github.io/mags/mags/index.html",
+                        "magickmica.github.io/minimags.html")
+    return MOVED.sub(lambda m: m.group(1) + m.group(2)
+                     if m.group(2) in ROOT_PAGES and m.group(2) != "index.html"
+                     else m.group(0), page)
+
+
 # ---------------------------------------------------------------- template
 def load_template(repo):
     """Pull CSS + <head> shell from an existing digest so design is preserved."""
@@ -177,11 +196,18 @@ def load_template(repo):
         h = f.read()
     css = re.search(r"<style>(.*?)</style>", h, re.DOTALL).group(1)
     css = re.sub(r":root\{[^}]*\}", "__ROOT__", css, count=1)
-    head_links = "".join(re.findall(r'<link[^>]+>', h))
-    return css, head_links
+    # skip the template's own canonical: render() writes the right one, and
+    # copying this one gave every issue a second canonical at month-2026-08
+    head_links = "".join(l for l in re.findall(r'<link[^>]+>', h)
+                         if 'rel="canonical"' not in l)
+    # the scripts added after the footer since this generator was written
+    # (mm-nav.js, products.js, mm-ads.js); copied so their ?v= stays in step
+    tail = h[h.rfind("</footer>") + len("</footer>"):h.rfind("</body>")]
+    tail_scripts = "".join(s + "\n" for s in re.findall(r'<script src="[^"]+"[^>]*></script>', tail))
+    return css, head_links, tail_scripts
 
 
-def render(css, head_links, *, filename, title, kind, issue_label, accent, cover_url,
+def render(css, head_links, *, tail_scripts="", filename, title, kind, issue_label, accent, cover_url,
            cover_title, cover_sub, notes, articles, start, end,
            prev_link, next_link, prev_label, next_label):
     root = (f":root{{--accent:{accent};--accent2:#6ef7ff;--dark:#07020f;"
@@ -268,7 +294,7 @@ def render(css, head_links, *, filename, title, kind, issue_label, accent, cover
         + f'<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>\n'
     )
 
-    return (
+    return fix_links(
         f'<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
         f'<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
         f"<title>&#x2726; {esc(cover_title)} &#x2726; Y3K Magazine</title>\n"
@@ -293,8 +319,18 @@ def render(css, head_links, *, filename, title, kind, issue_label, accent, cover
         f'<footer>&#x2726; <a href="https://magickmica.substack.com" target="_blank">Magick Mica TV</a>'
         f' &#x2726; where magic meets the pixel &#x2726;<br>\n'
         f'<a href="minimags.html">&larr; Back to All Issues</a> &nbsp;|&nbsp; '
-        f'<a href="blog.html">Blog Home</a></footer>\n</body></html>'
+        f'<a href="blog.html">Blog Home</a></footer>\n{tail_scripts}</body></html>'
     )
+
+
+def _unchanged(repo, fname, page):
+    """True when the repo already holds exactly this page, so build/ only
+    ever contains files that need uploading (same rule as update_pages)."""
+    src = os.path.join(repo, fname)
+    if not os.path.exists(src):
+        return False
+    with open(src, encoding="utf-8") as f:
+        return f.read() == page
 
 
 # ---------------------------------------------------------------- main
@@ -307,7 +343,8 @@ def build_all(repo, data_dir, out_dir):
         with open(apath, encoding="utf-8") as f:
             articles = json.load(f)
 
-    css, head_links = load_template(repo)
+    css, head_links, tail_scripts = load_template(repo)
+    ROOT_PAGES.update(os.path.basename(p) for p in glob.glob(os.path.join(repo, "*.html")))
     os.makedirs(out_dir, exist_ok=True)
     written = []
 
@@ -329,7 +366,7 @@ def build_all(repo, data_dir, out_dir):
         nl = (datetime.date(int(months[i+1][:4]), int(months[i+1][5:7]), 1)
               .strftime("%B") if i + 1 < len(months) else "Next Month")
         page = render(
-            css, head_links,
+            css, head_links, tail_scripts=tail_scripts,
             filename=f"month-{m}.html",
             title=name, kind="Month", issue_label=f"MONTHLY \u00b7 {name}",
             accent=month_accent(y, mo), cover_url=cover_image(group),
@@ -340,6 +377,8 @@ def build_all(repo, data_dir, out_dir):
             prev_link=prev_l, next_link=next_l, prev_label=pl, next_label=nl,
         )
         p = os.path.join(out_dir, f"month-{m}.html")
+        if _unchanged(repo, f"month-{m}.html", page):
+            continue
         with open(p, "w", encoding="utf-8") as f:
             f.write(page)
         written.append(p)
@@ -360,7 +399,7 @@ def build_all(repo, data_dir, out_dir):
         prev_l = f"week-{weeks[i-1]}.html" if i else None
         next_l = f"week-{weeks[i+1]}.html" if i + 1 < len(weeks) else None
         page = render(
-            css, head_links,
+            css, head_links, tail_scripts=tail_scripts,
             filename=f"week-{w}.html",
             title=label, kind="Week", issue_label=f"WEEKLY \u00b7 {label}",
             accent=week_accent(i), cover_url=cover_image(group),
@@ -372,6 +411,8 @@ def build_all(repo, data_dir, out_dir):
             prev_label="Prev Week", next_label="Next Week",
         )
         p = os.path.join(out_dir, f"week-{w}.html")
+        if _unchanged(repo, f"week-{w}.html", page):
+            continue
         with open(p, "w", encoding="utf-8") as f:
             f.write(page)
         written.append(p)
@@ -385,6 +426,9 @@ if __name__ == "__main__":
     data_dir = sys.argv[2] if len(sys.argv) > 2 else "_data"
     out_dir = sys.argv[3] if len(sys.argv) > 3 else "build"
     written, months, weeks = build_all(repo, data_dir, out_dir)
-    print(f"wrote {len(written)} digests ({len(months)} months, {len(weeks)} weeks)")
+    print(f"wrote {len(written)} changed or new digests "
+          f"(of {len(months)} months, {len(weeks)} weeks)")
+    for p in written:
+        print("  ", os.path.basename(p))
     print("months:", months[0], "->", months[-1])
     print("weeks :", weeks[0], "->", weeks[-1])
