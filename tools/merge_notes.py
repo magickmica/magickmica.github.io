@@ -8,6 +8,8 @@ Rebuilds _data/notes_with_media_compact.json from:
 Compact record shape:  {d, l, r, id, b, t}
   d = date YYYY-MM-DD   l = likes   r = restacks
   id = note id          b = body    t = cdn image url (or absent)
+  m = Mux playback id for video notes with no image (or absent)
+  c, v = curated fields added later; carried forward on re-merge
 """
 import json, os, re
 from urllib.parse import quote
@@ -61,10 +63,19 @@ def parse_refresh(refresh_path: str) -> list:
             "id": int(nid),
             "b": c.get("body") or "",
         }
-        for a in c.get("attachments") or []:
+        atts = c.get("attachments") or []
+        for a in atts:
             if a.get("type") == "image" and a.get("imageUrl"):
                 rec["t"] = cdn(a["imageUrl"])
                 break
+        if "t" not in rec:
+            # video notes: keep the Mux playback id; notes.html builds the
+            # thumbnail from https://image.mux.com/<m>/thumbnail.jpg
+            for a in atts:
+                mu = a.get("mediaUpload") or {}
+                if a.get("type") == "video" and mu.get("mux_playback_id"):
+                    rec["m"] = mu["mux_playback_id"]
+                    break
         out.append(rec)
     return out
 
@@ -81,9 +92,11 @@ def merge(master: list, fresh: list) -> tuple[list, dict]:
             old = by_id[nid]
             if old.get("l") != rec["l"] or old.get("r") != rec["r"]:
                 updated += 1
-            # keep an existing image if the fresh copy somehow lacks one
-            if "t" in old and "t" not in rec:
-                rec["t"] = old["t"]
+            # carry forward anything the fresh copy lacks: curated tags (c),
+            # the v flag, an image (t) or video id (m) from an earlier run
+            for k, v in old.items():
+                if k not in rec:
+                    rec[k] = v
             by_id[nid] = rec
         else:
             by_id[nid] = rec
