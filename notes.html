@@ -437,7 +437,10 @@ function getFiltered() {
     }
     return true;
   });
-  if (sortMode === 'oldest') filtered = [...filtered].reverse();
+  // NOTES is stored oldest-first (merge_notes.py sorts ascending), so sort
+  // explicitly rather than relying on array order
+  if (sortMode === 'newest') filtered = [...filtered].sort((a,b) => b.d.localeCompare(a.d) || b.id - a.id);
+  if (sortMode === 'oldest') filtered = [...filtered].sort((a,b) => a.d.localeCompare(b.d) || a.id - b.id);
   if (sortMode === 'popular') filtered = [...filtered].sort((a,b) => b.l - a.l);
   return filtered;
 }
