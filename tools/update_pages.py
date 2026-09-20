@@ -393,6 +393,7 @@ def seo_pass(repo, out_dir):
 
 if __name__ == "__main__":
     import sys
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     repo = sys.argv[1] if len(sys.argv) > 1 else "magickmica.github.io-main"
     data_dir = sys.argv[2] if len(sys.argv) > 2 else "_data"
     out_dir = sys.argv[3] if len(sys.argv) > 3 else "build"
@@ -411,6 +412,19 @@ if __name__ == "__main__":
     # pages these cards link to exist
     if rebuild_minimags(repo, out_dir, notes):
         changed.append("minimags.html")
+    # pools.js feeds the Y3K cards and MTV notes on index.html and all
+    # index-*.html (rendered by mm-grid.js). Missing from this run, it went
+    # stale and the homepage kept showing old issues over the fresh HTML.
+    import build_pools
+    tmp = os.path.join(out_dir, ".pools")
+    build_pools.write_pools(repo, tmp, notes)
+    fresh = open(os.path.join(tmp, "pools.js"), encoding="utf-8").read()
+    live = os.path.join(repo, "pools.js")
+    if not os.path.exists(live) or open(live, encoding="utf-8").read() != fresh:
+        with open(os.path.join(out_dir, "pools.js"), "w", encoding="utf-8") as fh:
+            fh.write(fresh)
+        changed.append("pools.js")
+    shutil.rmtree(tmp, ignore_errors=True)
     print(f"updated {len(changed)} pages")
     for c in changed:
         print("  ", c)
