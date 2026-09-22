@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Candy Carnival Broadcast — Magick Mica</title>
+<meta name="description" content="Three transmissions from the sweet end of the dial — Willy Wonky's carnival candy factory, a sideshow wall of memes, and a cosmic brunch menu. Magick Mica Art &amp; Magick Mica TV.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Candy Carnival Broadcast — Magick Mica">
+<meta property="og:description" content="Cotton candy that remembers places that haven't happened yet, a midway of memes, and eight out-of-this-world brunch ideas.">
+<meta property="og:url" content="https://magickmica.github.io/candy-carnival-broadcast.html">
+<meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4e255931-a8f0-4e23-8e3a-b1a2b12ab4d3_1376x768.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Candy Carnival Broadcast — Magick Mica">
+<meta name="twitter:description" content="Cotton candy that remembers places that haven't happened yet, a midway of memes, and eight out-of-this-world brunch ideas.">
+<meta name="twitter:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4e255931-a8f0-4e23-8e3a-b1a2b12ab4d3_1376x768.jpeg">
+<link rel="canonical" href="https://magickmica.github.io/candy-carnival-broadcast.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Yellowtail&family=Barlow+Condensed:wght@500;600;700;800&family=Karla:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THE CANDY CARNIVAL BROADCAST
+   Same shape as the Cozy Christmas and Cosmic Circus specials:
+   ticker, on-air sign, channel guide, one channel per post,
+   with a hand-built interlude in the middle. Bubblegum and
+   butter on grape-black; every photograph is from the posts.
+   ══════════════════════════════════════════════════════════ */
+:root{
+  --night:#14061f; --deep:#26093a; --grape:#3d1259;
+  --cream:#FFF4FA; --dim:rgba(255,244,250,.64);
+  --candy:#FF5FA2; --bubble:#FFA8D8; --mint:#63E6C4;
+  --butter:#FFD86B; --lilac:#B78BFF;
+  --head:"Shrikhand",Georgia,serif;
+  --script:"Yellowtail",cursive;
+  --cond:"Barlow Condensed",sans-serif;
+  --mono:"Space Mono",ui-monospace,monospace;
+  --body:"Karla",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--night); color:var(--cream);
+  font-family:var(--body); font-size:17px; line-height:1.65; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(72% 46% at 50% -8%, rgba(255,95,162,.26), transparent 64%),
+    radial-gradient(48% 34% at 88% 22%, rgba(255,216,107,.14), transparent 66%),
+    radial-gradient(56% 42% at 8% 72%, rgba(99,230,196,.13), transparent 64%),
+    linear-gradient(180deg, transparent 38%, rgba(38,9,58,.8));
+}
+/* the big-top awning: candy stripes, very faint, over everything */
+.awning{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.055;
+  background:repeating-linear-gradient(115deg,
+    var(--candy) 0 26px, transparent 26px 52px);
+}
+.sparks{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(1.6px 1.6px at 14% 16%,var(--butter),transparent),
+    radial-gradient(1.3px 1.3px at 76% 10%,var(--bubble),transparent),
+    radial-gradient(1.7px 1.7px at 36% 64%,#fff,transparent),
+    radial-gradient(1.4px 1.4px at 24% 86%,var(--mint),transparent),
+    radial-gradient(1.5px 1.5px at 90% 70%,var(--butter),transparent),
+    radial-gradient(1.2px 1.2px at 8% 48%,var(--candy),transparent);
+  background-size:540px 540px,700px 700px,470px 470px,580px 580px,760px 760px,620px 620px;
+  animation:twinkle 6s ease-in-out infinite alternate;
+}
+@keyframes twinkle{from{opacity:.5}to{opacity:1}}
+#sugar{position:fixed;inset:0;z-index:0;pointer-events:none}
+main{position:relative;z-index:2}
+a{color:var(--bubble)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* ── bunting ────────────────────────────────────────── */
+.bunting{position:relative;z-index:2;display:flex;justify-content:center;gap:0;
+  padding:0 8px;flex-wrap:wrap;overflow:hidden}
+.bunting i{width:26px;height:30px;
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  animation:flag 4.5s ease-in-out infinite}
+.bunting i:nth-child(4n+1){background:var(--candy)}
+.bunting i:nth-child(4n+2){background:var(--butter)}
+.bunting i:nth-child(4n+3){background:var(--mint)}
+.bunting i:nth-child(4n){background:var(--lilac)}
+.bunting i:nth-child(odd){animation-delay:.4s}
+@keyframes flag{50%{transform:translateY(3px) scaleY(.94)}}
+
+/* ── header ─────────────────────────────────────────── */
+header{position:relative;z-index:2;text-align:center;padding:clamp(18px,4vw,36px) 20px 0}
+.ticker{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;align-items:center;
+  font-family:var(--cond);font-size:.82rem;letter-spacing:.22em;text-transform:uppercase;color:var(--bubble)}
+.ticker .dot{color:var(--butter)}
+.onair{display:inline-block;margin-top:1rem;font-family:var(--cond);font-weight:800;font-size:.8rem;
+  letter-spacing:.24em;color:#2a0a1c;background:var(--butter);padding:.34rem .9rem;border-radius:999px;
+  box-shadow:0 0 22px rgba(255,216,107,.55);animation:blink 3.4s steps(1) infinite}
+@keyframes blink{88%{opacity:1}92%{opacity:.35}}
+.sign{margin-top:1.1rem}
+.sign h1{font-family:var(--head);font-weight:400;line-height:1.04;
+  font-size:clamp(2.2rem,7.4vw,4.6rem);color:var(--cream);
+  text-shadow:0 0 34px rgba(255,95,162,.6), 0 5px 0 rgba(61,18,89,.9), 0 0 90px rgba(255,216,107,.3)}
+.sign .script{display:block;margin-top:.6rem;font-family:var(--script);font-size:clamp(1.3rem,3.4vw,2rem);
+  color:var(--butter);text-shadow:0 0 22px rgba(255,216,107,.5)}
+.tagline{max-width:44rem;margin:1.2rem auto 0;color:var(--dim);font-size:1.05rem}
+.sweetline{margin-top:.9rem;color:rgba(255,168,216,.55);letter-spacing:.14em}
+
+/* ── channel guide ──────────────────────────────────── */
+.guide{max-width:800px;margin:clamp(24px,4vw,40px) auto 0;padding:1.1rem 1.2rem 1.3rem;
+  border:1px solid rgba(255,95,162,.34);border-radius:14px;background:rgba(38,9,58,.62);
+  box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.guide-label{font-family:var(--cond);font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--butter);margin-bottom:.8rem}
+.guide a{display:flex;gap:.8rem;align-items:baseline;flex-wrap:wrap;text-decoration:none;color:var(--cream);
+  padding:.55rem .2rem;border-top:1px solid rgba(255,95,162,.16);transition:.18s}
+.guide a:first-of-type{border-top:0}
+.guide a:hover{color:var(--candy)}
+.guide .ch{font-family:var(--cond);font-weight:700;font-size:.8rem;letter-spacing:.14em;color:var(--mint)}
+.guide .desc{margin-left:auto;font-family:var(--cond);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim)}
+
+/* ── sections ───────────────────────────────────────── */
+section{scroll-margin-top:72px;position:relative;padding:clamp(48px,8vw,96px) 0 clamp(30px,5vw,60px)}
+.slug{display:inline-block;font-family:var(--cond);font-size:.76rem;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--night);background:var(--bubble);
+  padding:.26rem .8rem;border-radius:999px;margin-bottom:1rem}
+.section-head{text-align:center;margin-bottom:clamp(26px,4vw,44px)}
+.section-title{font-family:var(--head);font-weight:400;line-height:1.1;
+  font-size:clamp(1.9rem,5.2vw,3.2rem)}
+.section-sub{margin-top:.5rem;font-family:var(--script);font-size:clamp(1.1rem,2.6vw,1.5rem)}
+.copy{max-width:40rem;margin:0 auto}
+.copy p{margin-top:1.05rem}
+.copy p:first-child{margin-top:0}
+em.sweet{font-style:italic;color:var(--butter)}
+.pull{max-width:42rem;margin:clamp(26px,4vw,40px) auto;text-align:center;
+  font-family:var(--head);font-weight:400;font-size:clamp(1.1rem,2.7vw,1.6rem);line-height:1.4;
+  color:var(--cream);text-shadow:0 0 30px rgba(255,95,162,.4)}
+.pull span{color:var(--mint)}
+
+/* ── the read-on button ─────────────────────────────── */
+.more{text-align:center;margin-top:clamp(26px,4vw,42px)}
+.more a{display:inline-block;font-family:var(--cond);font-weight:700;font-size:.85rem;
+  letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:#2a0a1c;
+  background:linear-gradient(135deg,var(--butter),var(--candy));
+  padding:.75rem 1.7rem;border-radius:999px;box-shadow:0 12px 34px rgba(255,95,162,.4);transition:.2s}
+.more a:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(255,95,162,.55)}
+
+/* ── shared picture treatments ──────────────────────── */
+.jarwall{display:grid;gap:clamp(10px,1.6vw,18px);
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:clamp(24px,4vw,38px)}
+.jar{border-radius:14px;overflow:hidden;position:relative;border:1px solid rgba(255,168,216,.26);
+  background:rgba(38,9,58,.55);transition:.24s}
+.jar img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover}
+.jar:hover{transform:translateY(-6px) rotate(-.6deg);box-shadow:0 20px 50px rgba(255,95,162,.3)}
+.jar figcaption{position:absolute;left:0;right:0;bottom:0;padding:.75rem .7rem .6rem;
+  font-family:var(--cond);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--cream);background:linear-gradient(180deg,transparent,rgba(20,6,31,.92))}
+.pair{display:grid;gap:clamp(10px,1.6vw,18px);grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  margin-top:clamp(20px,3vw,32px)}
+.pair figure{border-radius:14px;overflow:hidden;border:1px solid rgba(99,230,196,.24)}
+.pair img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover}
+.strip{max-width:1000px;margin:clamp(26px,4vw,42px) auto 0;border-radius:12px;overflow:hidden;
+  border:1px solid rgba(255,216,107,.26)}
+.strip img{display:block;width:100%;aspect-ratio:3/1;object-fit:cover}
+
+/* ── divider ────────────────────────────────────────── */
+.divider{display:flex;gap:.9rem;justify-content:center;align-items:center;
+  padding:clamp(18px,3vw,30px) 0;color:rgba(255,168,216,.5);font-size:1.1rem}
+.divider i{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
+</style>
+</head>
+<body>
+
+<div class="awning" aria-hidden="true"></div>
+<div class="sparks" aria-hidden="true"></div>
+<canvas id="sugar" aria-hidden="true"></canvas>
+
+<main>
+
+<div class="bunting" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<header>
+  <div class="ticker">
+    <span>🍭 Sugar frequency locked</span><span class="dot">●</span>
+    <span>Magick Mica Art &amp; TV</span><span class="dot">●</span>
+    <span>Reality may become delightfully over&#8209;fluffed</span>
+  </div>
+  <div class="onair">◉ NOW SPINNING — ALL AGES</div>
+  <div class="sign">
+    <h1>The Candy Carnival<br>Broadcast</h1>
+    <span class="script">three transmissions from the sweet end of the dial</span>
+  </div>
+  <p class="tagline">A candy factory with fairy-tale physics, a midway wall of memes, and a brunch menu written in constellations. Every picture here came out of the posts themselves. ✦</p>
+  <p class="sweetline">⋆｡°✩ 🍭 ⋆｡°✩ 🎡 ✩°｡⋆ 🥞 ✩°｡⋆</p>
+
+  <nav class="guide" aria-label="Channel guide">
+    <div class="guide-label">✦ Today's channel guide ✦</div>
+    <a href="#factory"><span class="ch">CH 01</span> Alice Visits Willy Wonky's Candy Factory <span class="desc">Flavour No. 743</span></a>
+    <a href="#collider"><span class="ch">CH ✦</span> The Cosmic Cotton Candy Collider <span class="desc">Pull the lever</span></a>
+    <a href="#sideshow"><span class="ch">CH ☺</span> The Sideshow: Memes for the Magically Unhinged <span class="desc">Laugh at the mirror</span></a>
+    <a href="#kitchen"><span class="ch">CH 🥞</span> Cosmic Kitchen Magazine, August <span class="desc">The food court</span></a>
+  </nav>
+</header>
+
+<!-- ═══════════ CH 01 — THE CANDY FACTORY ═══════════ -->
+<style>
+  #factory .section-title{color:var(--bubble);text-shadow:0 0 30px rgba(255,95,162,.5)}
+  #factory .section-sub{color:var(--mint)}
+  .factory-hero{position:relative;max-width:900px;margin:0 auto clamp(22px,4vw,36px);
+    border-radius:18px;overflow:hidden;border:1px solid rgba(255,95,162,.32);
+    box-shadow:0 26px 70px rgba(0,0,0,.6),0 0 60px rgba(255,95,162,.16)}
+  .factory-hero img{display:block;width:100%;aspect-ratio:16/11;object-fit:cover}
+  .factory-hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,transparent 46%,rgba(20,6,31,.88))}
+  .factory-hero .cap{position:absolute;left:0;right:0;bottom:0;padding:1.6rem;text-align:center;
+    font-family:var(--script);font-size:clamp(1rem,2.4vw,1.5rem);color:var(--butter)}
+  /* the valve labels, straight off the brass valves in the story */
+  .valves{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-top:clamp(22px,3.4vw,34px)}
+  .valves span{font-family:var(--mono);font-size:.76rem;letter-spacing:.05em;
+    border:1px dashed rgba(255,216,107,.5);color:var(--butter);
+    padding:.4rem .8rem;border-radius:8px;background:rgba(61,18,89,.45)}
+  /* the flavour jars from the back of the laboratory */
+  .flavours{max-width:44rem;margin:clamp(26px,4vw,40px) auto 0;display:grid;gap:.6rem}
+  .flavours div{display:flex;gap:.8rem;align-items:baseline;flex-wrap:wrap;
+    padding:.7rem .95rem;border-radius:10px;background:rgba(61,18,89,.5);
+    border-left:3px solid var(--candy)}
+  .flavours b{font-family:var(--cond);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--mint);flex:0 0 auto}
+  .flavours div:nth-child(2){border-left-color:var(--lilac)}
+  .flavours div:nth-child(3){border-left-color:var(--butter)}
+  .flavours div:nth-child(4){border-left-color:var(--mint)}
+  .flavours div:nth-child(5){border-left-color:var(--bubble)}
+  .flavours div:nth-child(5) span{font-family:var(--script);font-size:1.15rem;color:var(--bubble)}
+  /* the horoscopes */
+  .zodiac{display:grid;gap:.55rem;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    margin-top:clamp(22px,3.4vw,34px)}
+  .zodiac div{padding:.75rem .9rem;border-radius:10px;border:1px solid rgba(255,168,216,.2);
+    background:rgba(38,9,58,.5)}
+  .zodiac b{display:block;font-family:var(--cond);font-size:.8rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--butter)}
+  .zodiac span{font-size:.94rem;color:var(--dim)}
+</style>
+<section id="factory">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 01 · Magick Mica Art · Aug 31</span>
+      <h2 class="section-title">Alice Visits Willy Wonky's<br>Carnival Candy Factory</h2>
+      <p class="section-sub">you are the magic</p>
+    </div>
+
+    <figure class="factory-hero">
+      <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2583612-062d-4ee0-82f7-ecaf22c5f220_1536x1024.png" alt="Inside the carnival candy factory, sugar running through glass pipes" loading="lazy">
+      <figcaption class="cap">Alice had expected chocolate. Instead, the elevator opened into clouds.</figcaption>
+    </figure>
+
+    <div class="copy">
+      <p>Not ordinary clouds — cotton candy weather systems, floating gently beneath a ceiling that had somehow forgotten gravity. Glass tubes carried shimmering sugar through transparent pipes like glowing rivers of liquid starlight, and giant crystalline machines spun impossible flavours into existence while tiny rainbow sparks escaped from the brass valves.</p>
+      <p>At the centre stood Willy Wonky, in a velvet coat stitched entirely from carnival tickets that changed colour whenever nobody was looking. <em class="sweet">“You're just in time for today's Cotton Candy Consciousness Trials.”</em></p>
+    </div>
+
+    <div class="valves" aria-label="Labels on the brass valves">
+      <span>DREAM DENSITY</span><span>NOSTALGIA CONCENTRATE</span><span>TUESDAY</span><span>UNFINISHED WISHES</span>
+    </div>
+
+    <div class="copy" style="margin-top:clamp(24px,3.6vw,36px)">
+      <p>He handed her a tiny silver spoon holding what looked like an ordinary pink cloud. <em class="sweet">Flavour Number 743.</em> She took one bite, and the laboratory dissolved. For three seconds she became a carousel horse dreaming it was a constellation. Then she was seven years old. Then ninety-seven. Then a teacup. Then somehow all of those things at once.</p>
+      <p>When the room came back, her shoes had turned transparent. <em class="sweet">“Excellent,”</em> said Wonky, scribbling furiously. <em class="sweet">“Only minor temporal frosting.”</em></p>
+    </div>
+
+    <div class="jarwall">
+      <figure class="jar"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fea996640-87d2-4fc4-b462-cad59de17d52_1103x1426.png" alt="Alice in the candy laboratory" loading="lazy"><figcaption>Cotton candy weather</figcaption></figure>
+      <figure class="jar"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F881203f7-366d-4680-8f97-9c983c3c34da_1024x1536.png" alt="Glass jars of impossible flavours floating in the air" loading="lazy"><figcaption>Flavour No. 743</figcaption></figure>
+      <figure class="jar"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F28d347ae-5d84-441b-b96c-b75669c376d7_1122x1402.png" alt="A machine folding laughter into ribbons" loading="lazy"><figcaption>Laughter, in ribbons</figcaption></figure>
+      <figure class="jar"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3ba969bc-00f1-4e45-8467-2e44863d5733_1024x1536.png" alt="Memories inflated until they float like balloons" loading="lazy"><figcaption>Memory balloons</figcaption></figure>
+      <figure class="jar"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F82245ab0-5366-4f1d-9332-4bf59674dfe4_1024x1536.png" alt="Jellybeans sorted by emotional frequency" loading="lazy"><figcaption>Sorted by feeling</figcaption></figure>
+      <figure class="jar"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4997f4ed-e114-4faa-8659-a09bc2e748d6_1024x1536.png" alt="Willy Wonky in a coat of carnival tickets" loading="lazy"><figcaption>The ticket coat</figcaption></figure>
+    </div>
+
+    <p class="pull">“Nothing appeared to follow scientific principles. Everything appeared to follow <span>fairy tale physics</span>.”</p>
+
+    <div class="flavours">
+      <div><b>Blue</b><span>tasted like forgotten songs.</span></div>
+      <div><b>Lavender</b><span>dissolved into tiny butterflies that politely apologised before disappearing.</span></div>
+      <div><b>Gold</b><span>made shadows giggle.</span></div>
+      <div><b>Green</b><span>convinced houseplants to gossip.</span></div>
+      <div><b>One empty jar</b><span>Possibility.</span></div>
+    </div>
+
+    <div class="pair">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc3b2ed84-b91d-4104-9a29-a9ccb8b0962e_1531x1083.png" alt="The Cosmic Cotton Candy Collider, covered in blinking lights" loading="lazy"></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4e255931-a8f0-4e23-8e3a-b1a2b12ab4d3_1376x768.jpeg" alt="The carnival candy factory at full tilt" loading="lazy"></figure>
+    </div>
+
+    <div class="copy" style="margin-top:clamp(24px,3.6vw,36px)">
+      <p>Wonky pulled a glittering lever and the machine inhaled every colour in the room. For one magnificent moment the cotton candy became the sky, the sky became the carnival, the carnival became a story — and the story quietly wrapped itself around Alice like the sweetest scarf imaginable.</p>
+      <p>Afterwards everything looked perfectly normal. Except the clouds now smelled faintly of strawberries, gravity seemed optional, and somewhere in Alice's pocket was a tiny puff of cotton candy that glowed whenever someone imagined impossible things. <em class="sweet">She never ate it.</em></p>
+    </div>
+
+    <p class="pull">“Some candies are too magical to disappear. Some are meant to remind us that reality has always been <span>under construction</span>.”</p>
+
+    <div class="section-head" style="margin-top:clamp(30px,5vw,54px);margin-bottom:1rem">
+      <h3 class="section-title" style="font-size:clamp(1.3rem,3.4vw,2rem);color:var(--butter)">Collider Horoscopes</h3>
+      <p class="section-sub" style="color:var(--bubble)">a candy for every sign</p>
+    </div>
+    <div class="zodiac">
+      <div><b>♈ Aries · Sour Gumball</b><span>Take the risk that feels a little uncomfortable. Growth is on the other side.</span></div>
+      <div><b>♉ Taurus · Chocolate Truffle</b><span>Indulge in what truly nourishes you. You deserve the sweetness you give others.</span></div>
+      <div><b>♊ Gemini · Rainbow Twirl</b><span>A conversation brings an idea that changes what you believed.</span></div>
+      <div><b>♋ Cancer · Moon Marshmallow</b><span>Your feelings are strong, soft and sacred. Let them guide your next move.</span></div>
+      <div><b>♌ Leo · Stardust Pop</b><span>You're meant to shine. Don't dim your sparkle for anyone.</span></div>
+      <div><b>♍ Virgo · Sugar Crystal</b><span>Small details create big magic. One tiny change aligns everything.</span></div>
+      <div><b>♎ Libra · Cotton Candy Heart</b><span>Choose harmony — and include your own heart in the equation.</span></div>
+      <div><b>♏ Scorpio · Black Licorice</b><span>Release what is heavy and make space for a transformation you can feel.</span></div>
+      <div><b>♐ Sagittarius · Candy Rocket</b><span>Adventure calls. Say yes to something that expands your world.</span></div>
+      <div><b>♑ Capricorn · Caramel Fudge</b><span>Patience is your superpower. Your hard work is becoming your magic.</span></div>
+      <div><b>♒ Aquarius · Galaxy Lollipop</b><span>An unexpected idea could set you on a whole new timeline. Trust the glitch.</span></div>
+      <div><b>♓ Pisces · Mermaid Gummy</b><span>Trust your dreams. They're sending messages in sugar-coated symbols.</span></div>
+    </div>
+
+    <figure class="strip"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1026f871-0b41-480d-984d-0d11f30ff45c_2172x724.png" alt="A wide banner from the candy factory" loading="lazy"></figure>
+
+    <div class="more"><a href="https://magickmicaart.substack.com/p/alice-visits-willy-wonkys-carnival" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- ═══════════ CH ✦ — THE COLLIDER (interlude) ═══════════ -->
+<style>
+  /* the machine is a square that rotates parts inside it; clip the
+     section so its bounding box can't push the page sideways */
+  #collider{background:radial-gradient(900px 440px at 50% 42%,rgba(255,95,162,.16),transparent 70%);overflow:hidden}
+  #collider .section-title{color:var(--mint);text-shadow:0 0 26px rgba(99,230,196,.4)}
+  .machine{position:relative;width:min(90vw,520px);margin:0 auto}
+  .machine svg{display:block;width:100%;height:auto;overflow:visible}
+  .bulb{animation:bulb 1.6s ease-in-out infinite}
+  .bulb:nth-of-type(even){animation-delay:.8s}
+  @keyframes bulb{0%,100%{opacity:1}50%{opacity:.25}}
+  .gear{transform-box:fill-box;transform-origin:center;animation:spin 9s linear infinite}
+  .gear.back{animation-duration:14s;animation-direction:reverse}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .floss{animation:floss 5s ease-in-out infinite}
+  @keyframes floss{50%{transform:translateY(-6px) scale(1.04)}}
+  @media (prefers-reduced-motion: reduce){
+    .bulb,.gear,.floss,.bunting i,.onair,.sparks{animation:none!important}
+  }
+  .lever{text-align:center;margin-top:clamp(22px,3.4vw,34px)}
+  .lever button{font-family:var(--cond);font-weight:800;font-size:.86rem;letter-spacing:.2em;
+    text-transform:uppercase;color:#2a0a1c;border:0;cursor:pointer;
+    background:linear-gradient(135deg,var(--mint),var(--butter));
+    padding:.8rem 1.8rem;border-radius:999px;box-shadow:0 12px 34px rgba(99,230,196,.35);transition:.18s}
+  .lever button:hover{transform:translateY(-3px)}
+  .lever button:active{transform:translateY(1px)}
+  .readout{max-width:36rem;margin:1.3rem auto 0;min-height:5.2rem;
+    font-family:var(--mono);font-size:.92rem;color:var(--cream);
+    border:1px solid rgba(99,230,196,.3);border-radius:12px;background:rgba(20,6,31,.72);
+    padding:1rem 1.1rem;text-align:left}
+  .readout b{display:block;font-family:var(--cond);font-size:.76rem;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--mint);margin-bottom:.4rem}
+  .warn{max-width:34rem;margin:clamp(20px,3vw,30px) auto 0;text-align:center;
+    font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;color:var(--butter);
+    border:1px dashed rgba(255,216,107,.45);border-radius:10px;padding:.7rem .9rem}
+</style>
+<section id="collider">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH ✦ · Interlude</span>
+      <h2 class="section-title">The Cosmic Cotton Candy Collider</h2>
+      <p class="section-sub" style="color:var(--butter)">warning: reality may become delightfully over-fluffed</p>
+    </div>
+
+    <div class="machine" aria-hidden="true">
+      <svg viewBox="0 0 320 260">
+        <defs>
+          <radialGradient id="flossG" cx="50%" cy="45%" r="55%">
+            <stop offset="0%" stop-color="#FFC9E6"/><stop offset="60%" stop-color="#FF5FA2"/>
+            <stop offset="100%" stop-color="#B78BFF" stop-opacity=".45"/>
+          </radialGradient>
+          <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4b1a6c"/><stop offset="100%" stop-color="#26093a"/>
+          </linearGradient>
+        </defs>
+
+        <!-- the floss cloud rising out of the drum -->
+        <g class="floss">
+          <ellipse cx="160" cy="54" rx="72" ry="40" fill="url(#flossG)" opacity=".85"/>
+          <ellipse cx="118" cy="62" rx="34" ry="24" fill="url(#flossG)" opacity=".6"/>
+          <ellipse cx="204" cy="60" rx="30" ry="21" fill="url(#flossG)" opacity=".6"/>
+          <circle cx="132" cy="38" r="3" fill="#FFD86B"/>
+          <circle cx="188" cy="34" r="2.4" fill="#63E6C4"/>
+          <circle cx="163" cy="24" r="2" fill="#FFF4FA"/>
+        </g>
+
+        <!-- machine body -->
+        <rect x="64" y="92" width="192" height="126" rx="16" fill="url(#bodyG)" stroke="#FFA8D8" stroke-width="2"/>
+        <rect x="80" y="106" width="160" height="56" rx="9" fill="#14061f" stroke="#63E6C4" stroke-width="1.4"/>
+        <text x="160" y="132" text-anchor="middle" fill="#63E6C4"
+              font-family="'Space Mono',monospace" font-size="11" letter-spacing="1.4">COSMIC COTTON</text>
+        <text x="160" y="150" text-anchor="middle" fill="#FFD86B"
+              font-family="'Space Mono',monospace" font-size="11" letter-spacing="1.4">CANDY COLLIDER</text>
+
+        <!-- gears -->
+        <g transform="translate(104,188)"><g class="gear back">
+          <circle r="17" fill="none" stroke="#B78BFF" stroke-width="3"/>
+          <circle r="5" fill="#B78BFF"/>
+          <g stroke="#B78BFF" stroke-width="3">
+            <line x1="0" y1="-22" x2="0" y2="-14"/><line x1="0" y1="14" x2="0" y2="22"/>
+            <line x1="-22" y1="0" x2="-14" y2="0"/><line x1="14" y1="0" x2="22" y2="0"/>
+            <line x1="-15" y1="-15" x2="-10" y2="-10"/><line x1="10" y1="10" x2="15" y2="15"/>
+            <line x1="15" y1="-15" x2="10" y2="-10"/><line x1="-10" y1="10" x2="-15" y2="15"/>
+          </g>
+        </g></g>
+        <g transform="translate(216,188)"><g class="gear">
+          <circle r="14" fill="none" stroke="#63E6C4" stroke-width="3"/>
+          <circle r="4" fill="#63E6C4"/>
+          <g stroke="#63E6C4" stroke-width="3">
+            <line x1="0" y1="-18" x2="0" y2="-11"/><line x1="0" y1="11" x2="0" y2="18"/>
+            <line x1="-18" y1="0" x2="-11" y2="0"/><line x1="11" y1="0" x2="18" y2="0"/>
+            <line x1="-12" y1="-12" x2="-8" y2="-8"/><line x1="8" y1="8" x2="12" y2="12"/>
+          </g>
+        </g></g>
+
+        <!-- carnival bulbs along the top edge -->
+        <circle class="bulb" cx="78"  cy="92" r="4" fill="#FFD86B"/>
+        <circle class="bulb" cx="105" cy="92" r="4" fill="#FF5FA2"/>
+        <circle class="bulb" cx="132" cy="92" r="4" fill="#63E6C4"/>
+        <circle class="bulb" cx="160" cy="92" r="4" fill="#FFD86B"/>
+        <circle class="bulb" cx="188" cy="92" r="4" fill="#FF5FA2"/>
+        <circle class="bulb" cx="215" cy="92" r="4" fill="#63E6C4"/>
+        <circle class="bulb" cx="242" cy="92" r="4" fill="#FFD86B"/>
+
+        <!-- the glittering lever -->
+        <line x1="264" y1="150" x2="286" y2="116" stroke="#FFA8D8" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="286" cy="114" r="8" fill="#FFD86B"/>
+        <rect x="256" y="148" width="18" height="10" rx="4" fill="#4b1a6c" stroke="#FFA8D8" stroke-width="1.5"/>
+
+        <!-- legs -->
+        <rect x="88"  y="218" width="12" height="18" rx="4" fill="#3d1259"/>
+        <rect x="220" y="218" width="12" height="18" rx="4" fill="#3d1259"/>
+      </svg>
+    </div>
+
+    <div class="lever">
+      <button id="pull" type="button">🍭 Pull the lever</button>
+      <div class="readout" id="flavour" role="status" aria-live="polite">
+        <b>Tray empty</b>Press the lever. The collider will spin you a flavour.
+      </div>
+    </div>
+
+    <p class="warn">COSMIC COTTON CANDY COLLIDER · Warning: reality may become delightfully over-fluffed.</p>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- ═══════════ CH ☺ — THE SIDESHOW ═══════════ -->
+<style>
+  #sideshow .section-title{color:var(--candy);text-shadow:0 0 30px rgba(255,95,162,.5)}
+  #sideshow .section-sub{color:var(--mint)}
+  .marquee-frame{max-width:1000px;margin:0 auto;padding:clamp(14px,2.4vw,24px);
+    border-radius:18px;border:2px solid rgba(255,216,107,.4);background:rgba(38,9,58,.45);
+    box-shadow:0 26px 70px rgba(0,0,0,.55),inset 0 0 60px rgba(255,95,162,.1)}
+  .wall{display:grid;gap:clamp(8px,1.4vw,14px);grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+  .wall figure{border-radius:12px;overflow:hidden;border:1px solid rgba(255,168,216,.22);
+    transition:.22s}
+  .wall img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+  .wall figure:hover{transform:translateY(-5px) rotate(.8deg);box-shadow:0 18px 44px rgba(255,216,107,.3)}
+  .wall figure:nth-child(even):hover{transform:translateY(-5px) rotate(-.8deg)}
+</style>
+<section id="sideshow">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH ☺ · Magick Mica Art · Sep 12</span>
+      <h2 class="section-title">The Sideshow</h2>
+      <p class="section-sub">memes for the magically unhinged</p>
+    </div>
+
+    <div class="copy" style="text-align:center;margin-bottom:clamp(22px,3.4vw,34px)">
+      <p>Every carnival keeps one tent for the mirrors that make you laugh at yourself. These were made entirely by Magick Mica and first appeared on the notes feed — a whole wall of them, hung here in no particular order.</p>
+    </div>
+
+    <div class="marquee-frame">
+      <div class="wall">
+        <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F290615ff-177b-4bf3-b5d9-9426fc147e58_1254x1254.png" alt="A Magick Mica meme" loading="lazy"></figure>
+        <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7c00ef53-85dd-413e-b554-cf2dc23905c4_1254x1254.png" alt="A Magick Mica meme" loading="lazy"></figure>
+        <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F183e4b00-7006-4145-a816-40a295f0d555_1254x1254.png" alt="A Magick Mica meme" loading="lazy"></figure>
+        <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3fc2fa40-2a64-4f7b-9489-4533eb6f01df_1254x1254.png" alt="A Magick Mica meme" loading="lazy"></figure>
+        <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5cf4b557-b07e-4dba-ad2c-c6f61ded815a_1254x1254.png" alt="A Magick Mica meme" loading="lazy"></figure>
+        <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b3ac2d4-0b32-421c-bf2a-e711f6d08a49_1254x1254.png" alt="A Magick Mica meme" loading="lazy"></figure>
+        <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F57000d86-9037-402c-b82c-51dfebf07746_1254x1254.png" alt="A Magick Mica meme" loading="lazy"></figure>
+        <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa70ee872-8b89-4966-8fe7-a83c721a8fed_1254x1254.png" alt="A Magick Mica meme" loading="lazy"></figure>
+        <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7d15b3e1-1933-4224-b2a4-f6c552558d26_1254x1254.png" alt="A Magick Mica meme" loading="lazy"></figure>
+        <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb0f407d8-b6d3-4e5c-bb16-347749f3ef09_1254x1254.png" alt="A Magick Mica meme" loading="lazy"></figure>
+        <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6ce32234-6961-4a69-bf7a-4f4900742ae3_1536x1024.png" alt="A Magick Mica meme" loading="lazy"></figure>
+        <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2c317912-a6dd-43cd-906f-f337e9235bd9_1536x1024.png" alt="A Magick Mica meme" loading="lazy"></figure>
+      </div>
+    </div>
+
+    <p class="pull">“Originally posted to the notes feed, where they belong — <span>somewhere between a joke and a tarot card</span>.”</p>
+
+    <div class="more"><a href="https://magickmicaart.substack.com/p/memes-for-the-magically-unhinged" target="_blank" rel="noopener">See the whole wall ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- ═══════════ CH 🥞 — THE FOOD COURT ═══════════ -->
+<style>
+  #kitchen{background:radial-gradient(900px 420px at 50% 36%,rgba(255,216,107,.13),transparent 70%)}
+  #kitchen .section-title{color:var(--butter);text-shadow:0 0 30px rgba(255,216,107,.45)}
+  #kitchen .section-sub{color:var(--bubble)}
+  .cover-row{display:grid;gap:clamp(18px,3vw,34px);align-items:center;
+    grid-template-columns:minmax(200px,300px) 1fr;max-width:920px;margin:0 auto}
+  @media (max-width:720px){.cover-row{grid-template-columns:1fr}}
+  .mag-cover{border-radius:14px;overflow:hidden;border:1px solid rgba(255,216,107,.36);
+    box-shadow:0 26px 60px rgba(0,0,0,.6),0 0 50px rgba(255,216,107,.14);
+    transform:rotate(-1.4deg);transition:.25s}
+  .mag-cover:hover{transform:rotate(0) translateY(-5px)}
+  .mag-cover img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}
+  /* the menu board */
+  .board{max-width:900px;margin:clamp(28px,4.4vw,48px) auto 0;padding:clamp(18px,3vw,30px);
+    border-radius:16px;border:1px solid rgba(255,216,107,.34);background:rgba(20,6,31,.72);
+    box-shadow:0 22px 60px rgba(0,0,0,.5)}
+  .board-title{text-align:center;font-family:var(--script);font-size:clamp(1.3rem,3.2vw,2rem);
+    color:var(--butter);margin-bottom:1.1rem}
+  .menu{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .menu div{display:flex;gap:.7rem;padding:.7rem .3rem;
+    border-bottom:1px dashed rgba(255,216,107,.22)}
+  .menu em{font-family:var(--mono);font-size:.82rem;color:var(--mint);font-style:normal;flex:0 0 auto}
+  .menu b{font-family:var(--cond);font-size:1.02rem;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--cream);display:block}
+  .menu span{font-size:.93rem;color:var(--dim)}
+  /* the coffee ritual list */
+  .ritual{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    max-width:820px;margin:clamp(24px,3.6vw,38px) auto 0}
+  .ritual div{padding:.8rem .95rem;border-radius:12px;background:rgba(61,18,89,.5);
+    border-top:3px solid var(--butter);text-align:center}
+  .ritual b{display:block;font-family:var(--cond);font-size:.78rem;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--mint)}
+  .ritual span{font-family:var(--script);font-size:1.25rem;color:var(--cream)}
+</style>
+<section id="kitchen">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 🥞 · Magick Mica TV · Sep 4</span>
+      <h2 class="section-title">Cosmic Kitchen Magazine</h2>
+      <p class="section-sub">the august issue, served warm</p>
+    </div>
+
+    <div class="cover-row">
+      <figure class="mag-cover">
+        <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8447bdbb-513d-4e22-8ce3-a82b86fdd4e0_1122x1402.png" alt="The cover of Cosmic Kitchen Magazine, August 2026" loading="lazy">
+      </figure>
+      <div class="copy">
+        <p>There are foods that fill your stomach, and foods that fill your spirit. Long before recipes were measured in teaspoons and timers, meals were guided by intuition, seasons, moonlight and ritual. A loaf of bread carried the warmth of the sun. A cup of tea held the memory of rain.</p>
+        <p>In a world of notifications and endless scrolling, comfort food becomes an act of rebellion. It says: <em class="sweet">sit, stay, taste this moment.</em></p>
+      </div>
+    </div>
+
+    <p class="pull">“Sometimes the most extraordinary thing isn't travelling to another galaxy. It's discovering one in your <span>morning coffee</span>.”</p>
+
+    <div class="board">
+      <p class="board-title">8 out-of-this-world brunch ideas</p>
+      <div class="menu">
+        <div><em>01</em><span><b>Moonbeam Pancake Stacks</b>Vanilla pancakes with whipped cream, blackberries, edible glitter and blueberry syrup — dusted to resemble lunar craters.</span></div>
+        <div><em>02</em><span><b>Saturn Ring Bagels</b>Everything bagels with cream cheese, smoked salmon, cucumber ribbons and onion rings in orbit.</span></div>
+        <div><em>03</em><span><b>Stardust French Toast</b>Brioche in vanilla custard, berry compote, gold sugar crystals and a touch of lavender honey.</span></div>
+        <div><em>04</em><span><b>Cosmic Cloud Waffles</b>Light waffles, whipped coconut cream, dragon fruit, kiwi and star-shaped pineapple.</span></div>
+        <div><em>05</em><span><b>Nebula Fruit Parfaits</b>Yogurt tinted with blueberry, butterfly pea flower and raspberry, swirled like distant galaxies.</span></div>
+        <div><em>06</em><span><b>Solar Flare Mimosa Bar</b>Citrus juices, sparkling things, edible flowers — everyone builds their own sunrise.</span></div>
+        <div><em>07</em><span><b>Milky Way Cinnamon Rolls</b>Soft spirals glazed with vanilla icing and drizzled with blueberry reduction.</span></div>
+        <div><em>08</em><span><b>Planetary Breakfast Boards</b>Mini pancakes, fruit, cheeses, pastries, nuts and honey in orbit-like patterns.</span></div>
+      </div>
+    </div>
+
+    <figure class="strip"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0f4c7265-f50c-4129-a3e5-95d9ef56d4dc_1500x645.png" alt="A banner from Cosmic Kitchen Magazine" loading="lazy"></figure>
+
+    <div class="copy" style="margin-top:clamp(26px,4vw,40px)">
+      <p><b>Why cosmic brunch matters.</b> The secret isn't the ingredients, it's the atmosphere. Open a window. Let sunlight pour across the table. Put on music that feels like a forgotten summer. Use the special dishes you've been saving. Light a candle even if it's noon.</p>
+      <p>The universe is full of spectacular events — eclipses, meteor showers, comets crossing the sky. But brunch reminds us that wonder doesn't always arrive dramatically. <em class="sweet">Sometimes it arrives disguised as pancakes.</em></p>
+    </div>
+
+    <div class="section-head" style="margin-top:clamp(30px,5vw,54px);margin-bottom:1rem">
+      <h3 class="section-title" style="font-size:clamp(1.3rem,3.4vw,2rem)">Brewed in the Stars</h3>
+      <p class="section-sub">cosmic coffee rituals</p>
+    </div>
+    <div class="ritual">
+      <div><b>For creativity</b><span>add cinnamon</span></div>
+      <div><b>For comfort</b><span>add vanilla</span></div>
+      <div><b>For reflection</b><span>no screens</span></div>
+      <div><b>For celebration</b><span>share it</span></div>
+    </div>
+
+    <p class="pull">“Pour carefully. Sip slowly. <span>Feed your universe.</span>”</p>
+
+    <figure class="strip"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9db478a1-2e92-436a-b41c-2f219ebed437_2048x877.png" alt="A closing banner from Cosmic Kitchen Magazine" loading="lazy"></figure>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/cosmic-kitchen-magazine-august-2026" target="_blank" rel="noopener">Read the full issue ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+<footer style="text-align:center;padding:0 20px clamp(46px,7vw,80px)">
+  <p style="font-family:var(--script);font-size:clamp(1.4rem,3.4vw,2.2rem);color:var(--butter)">you are the magic</p>
+  <p style="margin-top:.9rem;color:var(--dim)">Three transmissions from <a href="https://magickmicaart.substack.com" target="_blank" rel="noopener">Magick Mica Art</a> and <a href="https://magickmica.substack.com" target="_blank" rel="noopener">Magick Mica TV</a>, rebuilt as one broadcast.</p>
+  <p style="margin-top:1.2rem;font-family:var(--cond);font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)">
+    <a href="articles.html">The magazine</a> · <a href="notes.html">All notes</a> · <a href="index.html">Back to the signal</a>
+  </p>
+</footer>
+
+</main>
+
+<script>
+/* drifting sugar */
+(function(){
+  var c=document.getElementById('sugar'),x=c.getContext('2d'),w,h,bits=[];
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cols=['255,216,107','255,168,216','99,230,196','255,255,255'];
+  function size(){w=c.width=innerWidth;h=c.height=innerHeight;}
+  size();addEventListener('resize',size);
+  for(var i=0;i<44;i++)bits.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.8+.6,
+    s:Math.random()*.3+.08,d:Math.random()*Math.PI*2,o:Math.random()*.45+.2,
+    c:cols[Math.floor(Math.random()*cols.length)]});
+  function tick(){
+    x.clearRect(0,0,w,h);
+    for(var i=0;i<bits.length;i++){var m=bits[i];
+      m.y+=m.s;m.d+=.012;m.x+=Math.sin(m.d)*.3;
+      if(m.y>h+6){m.y=-6;m.x=Math.random()*w;}
+      x.beginPath();x.arc(m.x,m.y,m.r,0,6.2832);
+      x.fillStyle='rgba('+m.c+','+m.o.toFixed(2)+')';x.fill();}
+    requestAnimationFrame(tick);
+  }
+  if(!reduce)tick();
+})();
+
+/* the collider: every flavour below is from the post */
+(function(){
+  var flavours=[
+    ["Flavour No. 743","For three seconds you become a carousel horse dreaming it was a constellation. Then seven years old. Then ninety-seven. Then a teacup. Then all of those at once."],
+    ["Blue","Tastes like forgotten songs."],
+    ["Lavender","Dissolves into tiny butterflies that politely apologise before disappearing."],
+    ["Gold","Makes shadows giggle."],
+    ["Green","Convinces houseplants to gossip."],
+    ["The empty jar","Possibility. You could have sworn you tasted tomorrow."],
+    ["Dream density","One machine folds laughter into ribbons. Another inflates memories until they float like balloons."],
+    ["Nostalgia concentrate","A tiny mechanical squirrel sorts jellybeans according to emotional frequency."],
+    ["Unfinished wishes","An enormous crystal centrifuge separates hope from ordinary sugar."],
+    ["Over-fluffed","The cotton candy became the sky. The sky became the carnival. The carnival became a story."]
+  ];
+  var i=Math.floor(Math.random()*flavours.length),el=document.getElementById('flavour');
+  document.getElementById('pull').addEventListener('click',function(){
+    var f=flavours[i%flavours.length];i++;
+    el.innerHTML='<b>'+f[0]+'</b>'+f[1];
+    el.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:420,easing:'ease-out'});
+  });
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+</body>
+</html>

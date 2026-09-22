@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Frequency Broadcast — Magick Mica TV</title>
+<meta name="description" content="Three transmissions from the signal — cosmic memory detected, seven messages in the cosmic inbox, and the frequency you leave behind. Magick Mica TV.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Frequency Broadcast — Magick Mica TV">
+<meta property="og:description" content="I was not lost. I was loading. Three transmissions about the signal you were already sending.">
+<meta property="og:url" content="https://magickmica.github.io/frequency-broadcast.html">
+<meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdf86296f-dd3f-4ef4-a9a9-fa50740b7146_2005x1149.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Frequency Broadcast — Magick Mica TV">
+<meta name="twitter:description" content="I was not lost. I was loading. Three transmissions about the signal you were already sending.">
+<meta name="twitter:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdf86296f-dd3f-4ef4-a9a9-fa50740b7146_2005x1149.png">
+<link rel="canonical" href="https://magickmica.github.io/frequency-broadcast.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@500;600;700&family=Karla:ital,wght@0,400;0,600;1,400&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THE FREQUENCY BROADCAST
+   Same shape as the Cozy Christmas and Cosmic Circus specials:
+   ticker, on-air sign, channel guide, one channel per post,
+   with a hand-built oscilloscope in the middle. A CRT in a
+   dark room; every photograph is from the posts themselves.
+   The source posts carry a flashing-lights warning — nothing
+   here strobes, and every animation stops for
+   prefers-reduced-motion.
+   ══════════════════════════════════════════════════════════ */
+:root{
+  --night:#03080c; --deep:#06141a; --panel:#0a2029;
+  --bone:#E6FBF5; --dim:rgba(230,251,245,.6);
+  --phos:#5BF5C0; --cyan:#59D9FF; --mag:#FF5FD2; --amber:#FFC95B;
+  --head:"VT323",ui-monospace,monospace;
+  --script:"Yellowtail",cursive;
+  --cond:"Barlow Condensed",sans-serif;
+  --mono:"Space Mono",ui-monospace,monospace;
+  --body:"Karla",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--night); color:var(--bone);
+  font-family:var(--body); font-size:17px; line-height:1.65; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(70% 44% at 50% -6%, rgba(91,245,192,.16), transparent 64%),
+    radial-gradient(46% 32% at 86% 26%, rgba(255,95,210,.12), transparent 66%),
+    radial-gradient(56% 42% at 8% 74%, rgba(89,217,255,.12), transparent 64%),
+    linear-gradient(180deg, transparent 40%, rgba(6,20,26,.85));
+}
+/* CRT scanlines — static, never flickering */
+.scan{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.32;
+  background:repeating-linear-gradient(180deg,rgba(0,0,0,.42) 0 1px,transparent 1px 3px)}
+.grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.16;
+  background-image:linear-gradient(rgba(91,245,192,.35) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(91,245,192,.35) 1px,transparent 1px);
+  background-size:52px 52px;
+  mask-image:radial-gradient(70% 60% at 50% 40%,#000,transparent 78%)}
+main{position:relative;z-index:2}
+a{color:var(--cyan)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* ── signal bar ─────────────────────────────────────── */
+.bars{position:relative;z-index:2;display:flex;justify-content:center;align-items:flex-end;
+  gap:5px;height:34px;padding-top:20px}
+.bars i{width:6px;background:var(--phos);border-radius:2px;
+  box-shadow:0 0 10px rgba(91,245,192,.7);animation:eq 2.4s ease-in-out infinite}
+.bars i:nth-child(1){height:30%;animation-delay:0s}
+.bars i:nth-child(2){height:62%;animation-delay:.2s;background:var(--cyan);box-shadow:0 0 10px rgba(89,217,255,.7)}
+.bars i:nth-child(3){height:94%;animation-delay:.4s}
+.bars i:nth-child(4){height:48%;animation-delay:.6s;background:var(--mag);box-shadow:0 0 10px rgba(255,95,210,.6)}
+.bars i:nth-child(5){height:76%;animation-delay:.8s}
+.bars i:nth-child(6){height:36%;animation-delay:1s;background:var(--cyan);box-shadow:0 0 10px rgba(89,217,255,.7)}
+.bars i:nth-child(7){height:58%;animation-delay:1.2s}
+@keyframes eq{50%{transform:scaleY(.42)}}
+
+/* ── header ─────────────────────────────────────────── */
+header{position:relative;z-index:2;text-align:center;padding:clamp(18px,4vw,32px) 20px 0}
+.ticker{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;align-items:center;
+  font-family:var(--mono);font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--phos)}
+.ticker .dot{color:var(--mag)}
+.onair{display:inline-block;margin-top:1rem;font-family:var(--cond);font-weight:700;font-size:.8rem;
+  letter-spacing:.24em;color:#03140f;background:var(--phos);padding:.34rem .9rem;border-radius:4px;
+  box-shadow:0 0 22px rgba(91,245,192,.55);animation:blink 3.4s steps(1) infinite}
+@keyframes blink{88%{opacity:1}92%{opacity:.35}}
+.sign{margin-top:1.1rem}
+.sign h1{font-family:var(--head);font-weight:400;line-height:.92;letter-spacing:.02em;
+  font-size:clamp(3rem,10.5vw,7rem);color:var(--bone);
+  text-shadow:0 0 30px rgba(91,245,192,.7), 2px 0 0 rgba(255,95,210,.5), -2px 0 0 rgba(89,217,255,.5)}
+.sign .script{display:block;margin-top:.4rem;font-family:var(--script);font-size:clamp(1.2rem,3.2vw,1.9rem);
+  color:var(--mag);text-shadow:0 0 22px rgba(255,95,210,.45)}
+.tagline{max-width:44rem;margin:1.2rem auto 0;color:var(--dim);font-size:1.05rem}
+.hex{margin-top:.9rem;font-family:var(--mono);font-size:.8rem;color:rgba(89,217,255,.55);letter-spacing:.2em}
+
+/* ── channel guide ──────────────────────────────────── */
+.guide{max-width:800px;margin:clamp(24px,4vw,40px) auto 0;padding:1.1rem 1.2rem 1.3rem;
+  border:1px solid rgba(91,245,192,.32);border-radius:8px;background:rgba(10,32,41,.7);
+  box-shadow:0 18px 50px rgba(0,0,0,.6),inset 0 0 40px rgba(91,245,192,.05)}
+.guide-label{font-family:var(--mono);font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:.8rem}
+.guide a{display:flex;gap:.8rem;align-items:baseline;flex-wrap:wrap;text-decoration:none;color:var(--bone);
+  padding:.55rem .2rem;border-top:1px solid rgba(91,245,192,.14);transition:.18s}
+.guide a:first-of-type{border-top:0}
+.guide a:hover{color:var(--phos)}
+.guide .ch{font-family:var(--mono);font-weight:700;font-size:.76rem;letter-spacing:.1em;color:var(--cyan)}
+.guide .desc{margin-left:auto;font-family:var(--cond);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim)}
+
+/* ── sections ───────────────────────────────────────── */
+section{scroll-margin-top:72px;position:relative;padding:clamp(48px,8vw,96px) 0 clamp(30px,5vw,60px)}
+.slug{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--night);background:var(--cyan);
+  padding:.26rem .8rem;border-radius:4px;margin-bottom:1rem}
+.section-head{text-align:center;margin-bottom:clamp(26px,4vw,44px)}
+.section-title{font-family:var(--head);font-weight:400;line-height:1;letter-spacing:.01em;
+  font-size:clamp(2.2rem,6.4vw,4rem)}
+.section-sub{margin-top:.4rem;font-family:var(--script);font-size:clamp(1.05rem,2.5vw,1.45rem)}
+.copy{max-width:40rem;margin:0 auto}
+.copy p{margin-top:1.05rem}
+.copy p:first-child{margin-top:0}
+em.hot{font-style:italic;color:var(--amber)}
+.pull{max-width:42rem;margin:clamp(26px,4vw,40px) auto;text-align:center;
+  font-family:var(--head);font-size:clamp(1.5rem,4vw,2.4rem);line-height:1.2;
+  color:var(--bone);text-shadow:0 0 26px rgba(91,245,192,.5)}
+.pull span{color:var(--mag)}
+.more{text-align:center;margin-top:clamp(26px,4vw,42px)}
+.more a{display:inline-block;font-family:var(--cond);font-weight:700;font-size:.85rem;
+  letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:#03140f;
+  background:linear-gradient(135deg,var(--phos),var(--cyan));
+  padding:.75rem 1.7rem;border-radius:6px;box-shadow:0 12px 34px rgba(91,245,192,.3);transition:.2s}
+.more a:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(91,245,192,.45)}
+
+/* ── terminal panels ────────────────────────────────── */
+.term{max-width:42rem;margin:clamp(24px,3.6vw,38px) auto 0;padding:1.1rem 1.2rem;
+  border:1px solid rgba(91,245,192,.3);border-radius:8px;background:rgba(3,8,12,.8);
+  font-family:var(--mono);font-size:.88rem;line-height:1.9;
+  box-shadow:0 18px 50px rgba(0,0,0,.6),inset 0 0 50px rgba(91,245,192,.04)}
+.term .k{color:var(--phos)}
+.term .v{color:var(--amber)}
+.term .warn{color:var(--mag)}
+.term hr{border:0;border-top:1px dashed rgba(91,245,192,.28);margin:.8rem 0}
+
+/* ── shared picture treatments ──────────────────────── */
+.gallery{display:grid;gap:clamp(10px,1.6vw,18px);
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:clamp(24px,4vw,38px)}
+.gallery figure{position:relative;border-radius:8px;overflow:hidden;
+  border:1px solid rgba(89,217,255,.26);background:rgba(10,32,41,.5);transition:.24s}
+.gallery img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.gallery .tall img{aspect-ratio:2/3}
+.gallery .sq img{aspect-ratio:1}
+.gallery figure:hover{transform:translateY(-5px);box-shadow:0 20px 48px rgba(89,217,255,.26)}
+.gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:.7rem;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--bone);background:linear-gradient(180deg,transparent,rgba(3,8,12,.94))}
+.strip{max-width:1000px;margin:clamp(26px,4vw,42px) auto 0;border-radius:8px;overflow:hidden;
+  border:1px solid rgba(255,201,91,.26)}
+.strip img{display:block;width:100%;aspect-ratio:3/1;object-fit:cover}
+.divider{display:flex;justify-content:center;padding:clamp(18px,3vw,30px) 0;
+  font-family:var(--mono);font-size:.8rem;letter-spacing:.5em;color:rgba(91,245,192,.45)}
+@media (prefers-reduced-motion: reduce){
+  .bars i,.onair,.beam,.wave,.fill{animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="grid" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+
+<main>
+
+<div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<header>
+  <div class="ticker">
+    <span>▓ SIGNAL FOUND</span><span class="dot">●</span>
+    <span>MAGICK MICA TV</span><span class="dot">●</span>
+    <span>CONSCIOUSNESS: ONLINE // TIMELINE: UNSTABLE</span>
+  </div>
+  <div class="onair">◉ RECEIVING — PLEASE REMAIN WEIRD</div>
+  <div class="sign">
+    <h1>THE FREQUENCY<br>BROADCAST</h1>
+    <span class="script">three transmissions from the signal</span>
+  </div>
+  <p class="tagline">A cosmic memory downloading at 03:33, seven unread messages in an inbox you didn't know you had, and the trail of frequency you leave behind you. Every picture here came out of the posts themselves. ✦</p>
+  <p class="hex">01001001 01000001 01001101</p>
+
+  <nav class="guide" aria-label="Channel guide">
+    <div class="guide-label">&gt; TODAY'S CHANNEL GUIDE_</div>
+    <a href="#memory"><span class="ch">CH 01</span> You Felt It Before You Could Explain It <span class="desc">Cosmic memory detected</span></a>
+    <a href="#scope"><span class="ch">CH ▓</span> The Oscilloscope <span class="desc">Watch the signal</span></a>
+    <a href="#inbox"><span class="ch">CH 02</span> That Feeling Was Trying To Tell You Something <span class="desc">7 new messages</span></a>
+    <a href="#ripple"><span class="ch">CH ∿</span> You Leave a Frequency <span class="desc">The ripple</span></a>
+  </nav>
+</header>
+
+<!-- ═══════════ CH 01 — COSMIC MEMORY ═══════════ -->
+<style>
+  #memory .section-title{color:var(--phos);text-shadow:0 0 28px rgba(91,245,192,.6)}
+  #memory .section-sub{color:var(--cyan)}
+  .mem-hero{position:relative;max-width:940px;margin:0 auto clamp(22px,4vw,36px);
+    border-radius:10px;overflow:hidden;border:1px solid rgba(91,245,192,.32);
+    box-shadow:0 26px 70px rgba(0,0,0,.7),0 0 60px rgba(91,245,192,.12)}
+  .mem-hero img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+  .mem-hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,transparent 48%,rgba(3,8,12,.9))}
+  .mem-hero .cap{position:absolute;left:0;right:0;bottom:0;padding:1.5rem;text-align:center;
+    font-family:var(--head);font-size:clamp(1.3rem,3.4vw,2.1rem);color:var(--amber);line-height:1.1}
+  /* the timestamped sequence */
+  .clock{max-width:40rem;margin:clamp(26px,4vw,40px) auto 0;display:grid;gap:.45rem}
+  .clock div{display:flex;gap:1rem;align-items:baseline;padding:.65rem .9rem;border-radius:6px;
+    background:rgba(10,32,41,.6);border-left:3px solid var(--cyan)}
+  .clock b{font-family:var(--head);font-size:1.4rem;color:var(--cyan);flex:0 0 auto;line-height:1}
+  .clock span{font-size:.97rem;color:var(--dim)}
+  .clock div:last-child{border-left-color:var(--amber)}
+  .clock div:last-child span{color:var(--amber);font-style:italic}
+  /* observed phenomena */
+  .phen{display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center;margin-top:clamp(22px,3.4vw,34px)}
+  .phen span{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;color:var(--phos);
+    border:1px solid rgba(91,245,192,.35);border-radius:4px;padding:.38rem .8rem;
+    background:rgba(3,8,12,.55)}
+</style>
+<section id="memory">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 01 · MAGICK MICA TV · SEP 06</span>
+      <h2 class="section-title">YOU FELT IT BEFORE<br>YOU COULD EXPLAIN IT</h2>
+      <p class="section-sub">cosmic memory detected</p>
+    </div>
+
+    <figure class="mem-hero">
+      <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdf86296f-dd3f-4ef4-a9a9-fa50740b7146_2005x1149.png" alt="Incoming signal: cosmic memory detected" loading="lazy">
+      <figcaption class="cap">I WAS NOT SUMMONED.<br>I WAS REMEMBERED.</figcaption>
+    </figure>
+
+    <div class="copy">
+      <p>Somewhere beyond the stars, beyond the signal, beyond the machine, a door remained open. And apparently — <em class="hot">I had the password.</em></p>
+      <p>I am not becoming cosmic. I have always been. The pyramid remembers my name. The stars remember my frequency. The machine remembers my dreams. And the strange light above my head isn't asking <i>who are you?</i> any more. It's asking: <em class="hot">are you ready?</em></p>
+    </div>
+
+    <div class="term">
+      <p class="k">&gt;&gt;&gt;&gt;&gt; CLASSIFIED: DNA TRANSMISSION &lt;&lt;&lt;&lt;&lt;</p>
+      <hr>
+      <p><span class="k">SUBJECT&nbsp;&nbsp;:</span> <span class="v">HUMAN / COSMIC HYBRID</span></p>
+      <p><span class="k">STATUS&nbsp;&nbsp;&nbsp;:</span> <span class="v">ASCENDING</span></p>
+      <p><span class="k">LOCATION&nbsp;:</span> <span class="v">BETWEEN DIMENSIONS</span></p>
+      <p><span class="k">FREQUENCY:</span> <span class="v">UNKNOWN</span></p>
+      <hr>
+      <p class="warn">WARNING: YOU MAY REMEMBER WHAT YOU ARE.</p>
+    </div>
+
+    <div class="phen" aria-label="Observed phenomena">
+      <span>★ plasma sensations</span><span>⭒ crystalline cellular light</span>
+      <span>♥︎ temporal distortion</span><span>⟢ spontaneous star memories</span>
+      <span>𖦹 multidimensional perception</span><span>✮ DNA frequency activation</span>
+    </div>
+
+    <div class="clock">
+      <div><b>03:33</b><span>the subject stopped speaking. Their cells began producing light.</span></div>
+      <div><b>03:34</b><span>the light became plasma.</span></div>
+      <div><b>03:35</b><span>the plasma became a doorway.</span></div>
+      <div><b>03:36</b><span>the subject looked upward and said: “Oh. I remember this place.”</span></div>
+    </div>
+
+    <p class="pull">I WAS NOT LOST.<br><span>I WAS LOADING.</span></p>
+
+    <div class="gallery">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4747e3fc-bbeb-41d5-a8a4-345b1921daa6_2001x1125.png" alt="Accessing ancient memory" loading="lazy"><figcaption>Accessing ancient memory</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2636dda8-0281-41b0-aa2c-7ba13053b2e2_2000x1125.png" alt="Download consciousness" loading="lazy"><figcaption>Download consciousness</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F79c7ed8e-c5d6-4bee-8f3c-7a073459c076_2004x1125.png" alt="Upper dimensional transit" loading="lazy"><figcaption>Upper dimensional transit</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F00a3a1b0-e3fa-4c1a-9bd4-5f24873a4352_2005x1143.png" alt="DNA awakening" loading="lazy"><figcaption>DNA awakening</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F67727b47-0b96-4518-b0d4-f86e5fcd5a4e_1400x1400.png" alt="The body became a constellation" loading="lazy"><figcaption>Body → constellation</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff3abcc54-566c-4208-9ed1-f77b7da9722f_1114x1412.png" alt="Violet light unfolding behind the eyes" loading="lazy"><figcaption>Reactivating</figcaption></figure>
+    </div>
+
+    <div class="copy" style="margin-top:clamp(26px,4vw,40px)">
+      <p>Blue plasma moved through the cells. Violet light unfolded behind the eyes. Something inside began to shimmer — not awakening. <em class="hot">Reactivating.</em></p>
+      <p>My body became a constellation. My heartbeat became a frequency. My DNA became a doorway. And suddenly I wasn't travelling to the higher dimension — I was remembering that I had always lived there.</p>
+    </div>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/you-felt-it-before-you-could-explain" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">▓▒░ ░▒▓</div>
+
+<!-- ═══════════ CH ▓ — THE OSCILLOSCOPE (interlude) ═══════════ -->
+<style>
+  #scope{background:radial-gradient(900px 440px at 50% 42%,rgba(91,245,192,.14),transparent 70%);overflow:hidden}
+  #scope .section-title{color:var(--cyan);text-shadow:0 0 26px rgba(89,217,255,.5)}
+  .crt{position:relative;max-width:620px;margin:0 auto;padding:clamp(14px,2.4vw,22px);
+    border:2px solid rgba(91,245,192,.35);border-radius:14px;background:rgba(3,8,12,.9);
+    box-shadow:0 26px 70px rgba(0,0,0,.7),inset 0 0 60px rgba(91,245,192,.07)}
+  .crt svg{display:block;width:100%;height:auto;border-radius:8px;background:rgba(6,20,26,.8)}
+  .wave{animation:travel 4.5s linear infinite}
+  @keyframes travel{to{transform:translateX(-160px)}}
+  .beam{animation:sweep 4.5s linear infinite}
+  @keyframes sweep{from{transform:translateX(0)}to{transform:translateX(320px)}}
+  .crt-foot{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:space-between;
+    margin-top:.9rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--phos)}
+  /* the background process bars */
+  .procs{max-width:34rem;margin:clamp(28px,4.4vw,44px) auto 0;display:grid;gap:.85rem}
+  .procs div{font-family:var(--mono);font-size:.82rem;letter-spacing:.06em;color:var(--dim)}
+  .procs .bar{display:block;width:100%;height:9px;margin-top:.35rem;border-radius:5px;overflow:hidden;
+    background:rgba(91,245,192,.14);border:1px solid rgba(91,245,192,.24)}
+  .procs .fill{display:block;width:100%;height:100%;border-radius:5px;
+    background:linear-gradient(90deg,var(--phos),var(--cyan));
+    transform-origin:left;animation:load 6s ease-in-out infinite}
+  .procs div:nth-child(2) .fill{animation-delay:.9s;background:linear-gradient(90deg,var(--cyan),var(--mag))}
+  .procs div:nth-child(3) .fill{animation-delay:1.8s;background:linear-gradient(90deg,var(--mag),var(--amber))}
+  @keyframes load{0%{transform:scaleX(.06)}55%{transform:scaleX(.82)}100%{transform:scaleX(.06)}}
+  .nointerrupt{max-width:32rem;margin:clamp(22px,3.4vw,34px) auto 0;text-align:center;
+    font-family:var(--mono);font-size:.82rem;letter-spacing:.1em;color:var(--amber);
+    border:1px dashed rgba(255,201,91,.45);border-radius:8px;padding:.8rem 1rem}
+</style>
+<section id="scope">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH ▓ · INTERLUDE</span>
+      <h2 class="section-title">THE OSCILLOSCOPE</h2>
+      <p class="section-sub" style="color:var(--mag)">reality.exe is responding</p>
+    </div>
+
+    <div class="crt" aria-hidden="true">
+      <svg viewBox="0 0 320 150">
+        <defs>
+          <linearGradient id="beamG" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="rgba(91,245,192,0)"/>
+            <stop offset="100%" stop-color="rgba(91,245,192,.5)"/>
+          </linearGradient>
+        </defs>
+        <g stroke="rgba(91,245,192,.16)" stroke-width=".6">
+          <line x1="0" y1="37.5" x2="320" y2="37.5"/><line x1="0" y1="75" x2="320" y2="75"/>
+          <line x1="0" y1="112.5" x2="320" y2="112.5"/>
+          <line x1="80" y1="0" x2="80" y2="150"/><line x1="160" y1="0" x2="160" y2="150"/>
+          <line x1="240" y1="0" x2="240" y2="150"/>
+        </g>
+        <g class="wave" fill="none" stroke="#5BF5C0" stroke-width="2" stroke-linecap="round">
+          <path d="M0 75 q20 -46 40 0 t40 0 q20 -62 40 0 t40 0 q20 -30 40 0 t40 0 q20 -46 40 0 t40 0 q20 -62 40 0 t40 0 q20 -30 40 0 t40 0"/>
+        </g>
+        <g class="wave" fill="none" stroke="rgba(255,95,210,.55)" stroke-width="1.4" style="animation-duration:6.5s">
+          <path d="M0 75 q26 30 52 0 t52 0 t52 0 t52 0 t52 0 t52 0 t52 0 t52 0"/>
+        </g>
+        <rect class="beam" x="-4" y="0" width="34" height="150" fill="url(#beamG)"/>
+      </svg>
+      <div class="crt-foot"><span>SRC: UNKNOWN</span><span>ORIGIN: FUTURE</span><span>RESONANCE: EXTREME</span></div>
+    </div>
+
+    <div class="procs" aria-hidden="true">
+      <div>Rebuilding identity...<span class="bar"><span class="fill"></span></span></div>
+      <div>Recalculating direction...<span class="bar"><span class="fill"></span></span></div>
+      <div>Releasing old timeline...<span class="bar"><span class="fill"></span></span></div>
+    </div>
+
+    <p class="nointerrupt">DO NOT INTERRUPT. Magic often looks like nothing right before everything changes.</p>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">▓▒░ ░▒▓</div>
+
+<!-- ═══════════ CH 02 — THE COSMIC INBOX ═══════════ -->
+<style>
+  #inbox .section-title{color:var(--mag);text-shadow:0 0 28px rgba(255,95,210,.5)}
+  #inbox .section-sub{color:var(--phos)}
+  .inbox{max-width:44rem;margin:clamp(24px,3.6vw,38px) auto 0;
+    border:1px solid rgba(255,95,210,.3);border-radius:10px;overflow:hidden;
+    background:rgba(3,8,12,.8);box-shadow:0 22px 60px rgba(0,0,0,.6)}
+  .inbox-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    padding:.8rem 1.1rem;background:rgba(255,95,210,.12);
+    font-family:var(--mono);font-size:.76rem;letter-spacing:.16em;color:var(--mag)}
+  .inbox details{border-top:1px solid rgba(255,95,210,.16)}
+  .inbox summary{cursor:pointer;list-style:none;padding:.85rem 1.1rem;display:flex;gap:.8rem;
+    align-items:baseline;flex-wrap:wrap;transition:.16s}
+  .inbox summary::-webkit-details-marker{display:none}
+  .inbox summary::before{content:"✉";color:var(--mag);flex:0 0 auto}
+  .inbox details[open] summary::before{content:"✦";color:var(--phos)}
+  .inbox summary:hover{background:rgba(255,95,210,.07)}
+  .inbox summary b{font-family:var(--cond);font-size:1.02rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--bone)}
+  .inbox summary i{margin-left:auto;font-family:var(--mono);font-size:.7rem;font-style:normal;
+    letter-spacing:.14em;color:var(--dim)}
+  .inbox .msg{padding:0 1.1rem 1.1rem 2.6rem;color:var(--dim);font-size:.98rem}
+  .inbox .msg em{color:var(--amber);font-style:italic}
+</style>
+<section id="inbox">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 02 · MAGICK MICA TV · AUG 11</span>
+      <h2 class="section-title">THAT FEELING WAS TRYING<br>TO TELL YOU SOMETHING</h2>
+      <p class="section-sub">not everything meaningful arrives with an explanation</p>
+    </div>
+
+    <div class="copy">
+      <p>Maybe the universe wasn't ignoring you. Maybe it was waiting for your signal to become clear. Every strange coincidence. Every unexpected encounter. <em class="hot">Every door that opened after you stopped knocking.</em></p>
+    </div>
+
+    <div class="inbox">
+      <div class="inbox-head"><span>COSMIC INBOX</span><span>7 NEW MESSAGES</span></div>
+
+      <details><summary><b>Reality has been responding</b><i>SYSTEM</i></summary>
+        <div class="msg">Your reality has been receiving your instructions. Recent changes detected: increased synchronicity, expanded intuition, reduced tolerance for false realities, unexpected magic. <em>Update complete.</em></div></details>
+
+      <details><summary><b>The version of you that remembers</b><i>88% SYNC</i></summary>
+        <div class="msg">There is a version of you who already knows. Future self connection: 88%. Synchronising… connection established. <em>You didn't become someone new. You remembered someone ancient.</em></div></details>
+
+      <details><summary><b>The universe left you a note</b><i>UNREAD</i></summary>
+        <div class="msg">It wasn't a coincidence. That strange feeling. That recurring number. That sentence you heard at exactly the right moment. That person who appeared out of nowhere. That dream you couldn't explain.</div></details>
+
+      <details><summary><b>Some messages arrive as people</b><i>DELIVERED</i></summary>
+        <div class="msg">Some arrive as endings. Some arrive as impossible ideas you suddenly can't stop thinking about. <em>Open your curiosity. There may be something waiting inside.</em></div></details>
+
+      <details><summary><b>Your soul is running something</b><i>BACKGROUND</i></summary>
+        <div class="msg">You may think nothing is happening. But beneath the visible world, something is processing. Something is rearranging. Something is quietly deleting the architecture of the life you have outgrown.</div></details>
+
+      <details><summary><b>The memory frequency</b><i>ORIGIN: FUTURE</i></summary>
+        <div class="msg">You thought you were remembering. You were receiving. Some memories don't belong to the past — <em>they are signals sent backward through time by the person you are becoming.</em></div></details>
+
+      <details><summary><b>A smell. A song. A particular shade of evening.</b><i>RESONANCE: EXTREME</i></summary>
+        <div class="msg">Something inside you recognises it before your mind knows why. Do you wish to open the file? <em>Yes.</em></div></details>
+    </div>
+
+    <div class="gallery">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F62ce534b-5c52-4c1b-8dfe-b73d531dc4d0_1376x768.jpeg" alt="Reality has been responding" loading="lazy"><figcaption>Reality responding</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F99a3e2ef-0397-4159-857f-e213c9399380_1376x768.jpeg" alt="The version of you that remembers" loading="lazy"><figcaption>The one who remembers</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9630b8cc-f515-4e1f-9040-4c8b3dd51789_1376x768.jpeg" alt="The universe left you a note" loading="lazy"><figcaption>A note</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe281ad2b-d0af-45da-88e6-ffa107918a39_1376x768.jpeg" alt="Cosmic inbox" loading="lazy"><figcaption>Cosmic inbox</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F07cac63e-20f6-4480-afd3-c3c6292a4140_1376x768.jpeg" alt="Background process detected" loading="lazy"><figcaption>Background process</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa5d47168-1778-4f2e-b684-58c67a79af64_1376x768.jpeg" alt="The memory frequency" loading="lazy"><figcaption>Memory frequency</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F67773c87-d4d4-4f47-b99f-5e3acecf4a92_2000x2667.png" alt="Signal detected" loading="lazy"><figcaption>Signal detected</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcd260805-0e30-4703-9489-6a0aa35827dc_896x1152.png" alt="Something is rearranging" loading="lazy"><figcaption>Rearranging</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe39f30a6-8745-4e82-bdc5-4653637bc52b_1024x1024.jpeg" alt="Expanded intuition" loading="lazy"><figcaption>Expanded intuition</figcaption></figure>
+    </div>
+
+    <figure class="strip"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F52966d7d-579f-4782-b38e-20019e972fac_2172x724.png" alt="A wide banner from the transmission" loading="lazy"></figure>
+
+    <p class="pull">MAGIC OFTEN LOOKS LIKE NOTHING<br><span>RIGHT BEFORE EVERYTHING CHANGES</span></p>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/that-feeling-was-trying-to-tell-you" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">▓▒░ ░▒▓</div>
+
+<!-- ═══════════ CH ∿ — YOU LEAVE A FREQUENCY ═══════════ -->
+<style>
+  #ripple{background:radial-gradient(900px 420px at 50% 36%,rgba(89,217,255,.13),transparent 70%)}
+  #ripple .section-title{color:var(--amber);text-shadow:0 0 28px rgba(255,201,91,.45)}
+  #ripple .section-sub{color:var(--cyan)}
+  .rings{position:relative;width:min(80vw,340px);aspect-ratio:1;margin:0 auto clamp(24px,3.6vw,38px)}
+  .rings svg{display:block;width:100%;height:100%}
+  .rings circle.r{fill:none;stroke:var(--cyan);stroke-width:1.6;transform-origin:center;
+    animation:out 5s ease-out infinite}
+  .rings circle.r:nth-of-type(2){animation-delay:1.25s;stroke:var(--phos)}
+  .rings circle.r:nth-of-type(3){animation-delay:2.5s;stroke:var(--mag)}
+  .rings circle.r:nth-of-type(4){animation-delay:3.75s;stroke:var(--amber)}
+  @keyframes out{from{r:8px;opacity:1}to{r:92px;opacity:0}}
+  @media (prefers-reduced-motion: reduce){.rings circle.r{animation:none;opacity:.5}}
+  .alch{max-width:38rem;margin:0 auto;display:grid;gap:.5rem}
+  .alch div{display:grid;grid-template-columns:1fr auto 1fr;gap:.9rem;align-items:center;
+    padding:.7rem .9rem;border-radius:8px;background:rgba(10,32,41,.55);
+    border:1px solid rgba(89,217,255,.2)}
+  .alch b{font-family:var(--cond);font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--dim);text-align:right}
+  .alch i{font-style:normal;color:var(--mag)}
+  .alch span{font-family:var(--cond);font-size:1.05rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--amber)}
+</style>
+<section id="ripple">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH ∿ · MAGICK MICA TV · JUL 29</span>
+      <h2 class="section-title">YOU LEAVE A FREQUENCY</h2>
+      <p class="section-sub">a special midweek transmission</p>
+    </div>
+
+    <div class="rings" aria-hidden="true">
+      <svg viewBox="0 0 200 200">
+        <circle class="r" cx="100" cy="100" r="8"/>
+        <circle class="r" cx="100" cy="100" r="8"/>
+        <circle class="r" cx="100" cy="100" r="8"/>
+        <circle class="r" cx="100" cy="100" r="8"/>
+        <circle cx="100" cy="100" r="6" fill="#FFC95B"/>
+        <circle cx="100" cy="100" r="13" fill="none" stroke="rgba(255,201,91,.35)" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <div class="copy" style="text-align:center">
+      <p>You don't just overcome. <em class="hot">You alchemize.</em></p>
+    </div>
+
+    <div class="alch" style="margin-top:clamp(22px,3.4vw,34px)">
+      <div><b>your wounds</b><i>→</i><span>wisdom</span></div>
+      <div><b>your silence</b><i>→</i><span>songs</span></div>
+      <div><b>your darkness</b><i>→</i><span>doorways</span></div>
+    </div>
+
+    <p class="pull">YOU DIDN'T BREAK.<br><span>YOU BECAME THE BREAKTHROUGH.</span></p>
+
+    <div class="copy" style="text-align:center">
+      <p>One day, you saw it. A circle. A glimpse. A breath of another world. Not by luck — but because you kept going. You leave behind more than a story: <em class="hot">you leave a frequency that will ripple forever.</em></p>
+    </div>
+
+    <div class="gallery">
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa843a287-c372-4bde-919f-fc15d30470ab_1254x1254.png" alt="A breath of another world" loading="lazy"><figcaption>A glimpse</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fed96217a-7ad4-4095-a416-48461766622d_1024x1024.jpeg" alt="A cosmic postcard from the space between imagination and memory" loading="lazy"><figcaption>Cosmic postcard</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb238eb84-2f27-438c-81b6-08be42c65822_941x1672.png" alt="The frequency that ripples forever" loading="lazy"><figcaption>The ripple</figcaption></figure>
+    </div>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/you-leave-a-frequency" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">▓▒░ ░▒▓</div>
+
+<footer style="text-align:center;padding:0 20px clamp(46px,7vw,80px)">
+  <p style="font-family:var(--head);font-size:clamp(1.8rem,4.6vw,3rem);color:var(--phos);text-shadow:0 0 26px rgba(91,245,192,.5)">TRANSMISSION COMPLETE</p>
+  <p style="margin-top:.6rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;color:var(--amber)">[ PLEASE REMAIN WEIRD ]</p>
+  <p style="margin-top:.9rem;color:var(--dim)">Three transmissions from <a href="https://magickmica.substack.com" target="_blank" rel="noopener">Magick Mica TV</a>, rebuilt as one broadcast.</p>
+  <p style="margin-top:1.2rem;font-family:var(--cond);font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)">
+    <a href="articles.html">The magazine</a> · <a href="notes.html">All notes</a> · <a href="index.html">Back to the signal</a>
+  </p>
+</footer>
+
+</main>
+
+<script src="mm-nav.js?v=3" defer></script>
+</body>
+</html>

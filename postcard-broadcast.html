@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Postcard Broadcast — Magick Mica TV</title>
+<meta name="description" content="Three transmissions from the cosmic mail room — a postcard found on the edge of the moon, system messages from the universe, and the front page of The Daily Enchantment. Magick Mica TV.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Postcard Broadcast — Magick Mica TV">
+<meta property="og:description" content="Mail from the universe: a glowing postcard, a spell of system messages, and a gazette reporting a fairy dust strike.">
+<meta property="og:url" content="https://magickmica.github.io/postcard-broadcast.html">
+<meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff48c6c7a-4aae-4e4f-8453-2738e2bae942_2752x1536.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Postcard Broadcast — Magick Mica TV">
+<meta name="twitter:description" content="Mail from the universe: a glowing postcard, a spell of system messages, and a gazette reporting a fairy dust strike.">
+<meta name="twitter:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff48c6c7a-4aae-4e4f-8453-2738e2bae942_2752x1536.jpeg">
+<link rel="canonical" href="https://magickmica.github.io/postcard-broadcast.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Yellowtail&family=Barlow+Condensed:wght@500;600;700&family=Karla:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THE POSTCARD BROADCAST
+   Same shape as the Cozy Christmas and Cosmic Circus specials:
+   ticker, on-air sign, channel guide, one channel per post,
+   with a hand-built glittering road in the middle. Warm paper
+   laid on a navy night; every photograph is from the posts.
+   ══════════════════════════════════════════════════════════ */
+:root{
+  --night:#0B1026; --deep:#141B3D; --panel:#1d2652;
+  --cream:#FBF4E6; --dim:rgba(251,244,230,.62);
+  --paper:#F6EBD6; --ink:#2A2318; --ink2:#5b4f3a;
+  --gold:#F0C24B; --rose:#FF8FB3; --teal:#5CD6C8; --lav:#A99CFF;
+  --head:"Abril Fatface",Georgia,serif;
+  --gaz:"UnifrakturMaguntia",Georgia,serif;
+  --serif:"Playfair Display",Georgia,serif;
+  --script:"Yellowtail",cursive;
+  --cond:"Barlow Condensed",sans-serif;
+  --mono:"Space Mono",ui-monospace,monospace;
+  --body:"Karla",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--night); color:var(--cream);
+  font-family:var(--body); font-size:17px; line-height:1.65; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(70% 44% at 50% -6%, rgba(169,156,255,.22), transparent 64%),
+    radial-gradient(46% 32% at 86% 26%, rgba(240,194,75,.13), transparent 66%),
+    radial-gradient(56% 42% at 8% 74%, rgba(92,214,200,.12), transparent 64%),
+    linear-gradient(180deg, transparent 40%, rgba(20,27,61,.82));
+}
+.stars{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(1.6px 1.6px at 13% 17%,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 75% 9%,var(--lav),transparent),
+    radial-gradient(1.7px 1.7px at 37% 62%,#fff,transparent),
+    radial-gradient(1.3px 1.3px at 23% 85%,var(--rose),transparent),
+    radial-gradient(1.5px 1.5px at 91% 71%,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 7% 50%,var(--gold),transparent);
+  background-size:530px 530px,690px 690px,465px 465px,570px 570px,750px 750px,610px 610px;
+  animation:twinkle 7s ease-in-out infinite alternate;
+}
+@keyframes twinkle{from{opacity:.5}to{opacity:1}}
+#glitter{position:fixed;inset:0;z-index:0;pointer-events:none}
+main{position:relative;z-index:2}
+a{color:var(--rose)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* ── stamp row ──────────────────────────────────────── */
+.stamps{position:relative;z-index:2;display:flex;justify-content:center;
+  gap:clamp(8px,2.4vw,18px);padding:22px 16px 0;flex-wrap:wrap}
+.stamps i{width:24px;height:28px;background:var(--paper);display:block;
+  border:2px solid rgba(251,244,230,.35);
+  border-radius:2px;position:relative;opacity:.85;
+  box-shadow:0 0 12px rgba(251,244,230,.28);animation:tilt 6s ease-in-out infinite}
+.stamps i::after{content:"✦";position:absolute;inset:0;display:grid;place-items:center;
+  font-size:11px;color:var(--ink)}
+.stamps i:nth-child(2n){background:var(--gold);animation-delay:.7s}
+.stamps i:nth-child(3n){background:var(--rose);animation-delay:1.4s}
+.stamps i:nth-child(5n){background:var(--teal)}
+@keyframes tilt{50%{transform:rotate(-5deg) translateY(-2px)}}
+
+/* ── header ─────────────────────────────────────────── */
+header{position:relative;z-index:2;text-align:center;padding:clamp(18px,3.6vw,32px) 20px 0}
+.ticker{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;align-items:center;
+  font-family:var(--cond);font-size:.82rem;letter-spacing:.22em;text-transform:uppercase;color:var(--teal)}
+.ticker .dot{color:var(--rose)}
+.onair{display:inline-block;margin-top:1rem;font-family:var(--cond);font-weight:700;font-size:.8rem;
+  letter-spacing:.24em;color:#15122a;background:var(--gold);padding:.34rem .9rem;border-radius:999px;
+  box-shadow:0 0 22px rgba(240,194,75,.5);animation:blink 3.4s steps(1) infinite}
+@keyframes blink{88%{opacity:1}92%{opacity:.35}}
+.sign{margin-top:1.1rem}
+.sign h1{font-family:var(--head);font-weight:400;line-height:1.04;
+  font-size:clamp(2.2rem,7vw,4.6rem);color:var(--cream);
+  text-shadow:0 0 38px rgba(169,156,255,.55), 0 0 90px rgba(255,143,179,.3)}
+.sign .script{display:block;margin-top:.6rem;font-family:var(--script);font-size:clamp(1.3rem,3.4vw,2rem);
+  color:var(--gold);text-shadow:0 0 22px rgba(240,194,75,.45)}
+.tagline{max-width:44rem;margin:1.2rem auto 0;color:var(--dim);font-size:1.05rem}
+.mailline{margin-top:.9rem;font-family:var(--mono);font-size:.78rem;color:rgba(92,214,200,.7);letter-spacing:.18em}
+
+/* ── channel guide ──────────────────────────────────── */
+.guide{max-width:800px;margin:clamp(24px,4vw,40px) auto 0;padding:1.1rem 1.2rem 1.3rem;
+  border:1px solid rgba(169,156,255,.3);border-radius:14px;background:rgba(29,38,82,.6);
+  box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.guide-label{font-family:var(--cond);font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.8rem}
+.guide a{display:flex;gap:.8rem;align-items:baseline;flex-wrap:wrap;text-decoration:none;color:var(--cream);
+  padding:.55rem .2rem;border-top:1px solid rgba(169,156,255,.14);transition:.18s}
+.guide a:first-of-type{border-top:0}
+.guide a:hover{color:var(--gold)}
+.guide .ch{font-family:var(--cond);font-weight:700;font-size:.8rem;letter-spacing:.14em;color:var(--teal)}
+.guide .desc{margin-left:auto;font-family:var(--cond);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim)}
+
+/* ── sections ───────────────────────────────────────── */
+section{scroll-margin-top:72px;position:relative;padding:clamp(48px,8vw,96px) 0 clamp(30px,5vw,60px)}
+.slug{display:inline-block;font-family:var(--cond);font-size:.76rem;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--night);background:var(--teal);
+  padding:.26rem .8rem;border-radius:999px;margin-bottom:1rem}
+.section-head{text-align:center;margin-bottom:clamp(26px,4vw,44px)}
+.section-title{font-family:var(--head);font-weight:400;line-height:1.1;
+  font-size:clamp(1.8rem,5vw,3rem)}
+.section-sub{margin-top:.5rem;font-family:var(--script);font-size:clamp(1.1rem,2.6vw,1.5rem)}
+.copy{max-width:40rem;margin:0 auto}
+.copy p{margin-top:1.05rem}
+.copy p:first-child{margin-top:0}
+em.hot{font-style:italic;color:var(--gold)}
+.pull{max-width:42rem;margin:clamp(26px,4vw,40px) auto;text-align:center;
+  font-family:var(--head);font-weight:400;font-size:clamp(1.15rem,2.8vw,1.7rem);line-height:1.4;
+  color:var(--cream);text-shadow:0 0 30px rgba(169,156,255,.4)}
+.pull span{color:var(--rose)}
+.more{text-align:center;margin-top:clamp(26px,4vw,42px)}
+.more a{display:inline-block;font-family:var(--cond);font-weight:700;font-size:.85rem;
+  letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:#15122a;
+  background:linear-gradient(135deg,var(--gold),var(--rose));
+  padding:.75rem 1.7rem;border-radius:999px;box-shadow:0 12px 34px rgba(255,143,179,.36);transition:.2s}
+.more a:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(255,143,179,.5)}
+
+/* ── shared picture treatments ──────────────────────── */
+.gallery{display:grid;gap:clamp(10px,1.6vw,18px);
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:clamp(24px,4vw,38px)}
+.gallery figure{position:relative;border-radius:12px;overflow:hidden;
+  border:1px solid rgba(169,156,255,.26);background:rgba(29,38,82,.5);transition:.24s}
+.gallery img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.gallery .sq img{aspect-ratio:1}
+.gallery figure:hover{transform:translateY(-5px);box-shadow:0 20px 48px rgba(169,156,255,.26)}
+.gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:.7rem;
+  font-family:var(--cond);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--cream);background:linear-gradient(180deg,transparent,rgba(11,16,38,.94))}
+.strip{max-width:1000px;margin:clamp(26px,4vw,42px) auto 0;border-radius:12px;overflow:hidden;
+  border:1px solid rgba(240,194,75,.26)}
+.strip img{display:block;width:100%;aspect-ratio:3/1;object-fit:cover}
+.divider{display:flex;justify-content:center;padding:clamp(18px,3vw,30px) 0;
+  font-size:1rem;letter-spacing:.6em;color:rgba(240,194,75,.5)}
+@media (prefers-reduced-motion: reduce){
+  .stamps i,.onair,.stars,.glint,.twinkleStar{animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="stars" aria-hidden="true"></div>
+<canvas id="glitter" aria-hidden="true"></canvas>
+
+<main>
+
+<div class="stamps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<header>
+  <div class="ticker">
+    <span>✉ Mail from the universe</span><span class="dot">●</span>
+    <span>Magick Mica TV</span><span class="dot">●</span>
+    <span>No mailbox · No address · No explanation</span>
+  </div>
+  <div class="onair">◉ DELIVERING — HEART STILL RECEIVING</div>
+  <div class="sign">
+    <h1>The Postcard<br>Broadcast</h1>
+    <span class="script">three transmissions from the cosmic mail room</span>
+  </div>
+  <p class="tagline">A postcard found glowing on the edge of the moon, a spell disguised as a system message, and the front page of a gazette covering a fairy dust strike. Every picture here came out of the posts themselves. ✦</p>
+  <p class="mailline">MAIL_FROM_THE_UNIVERSE.exe</p>
+
+  <nav class="guide" aria-label="Channel guide">
+    <div class="guide-label">✦ Today's channel guide ✦</div>
+    <a href="#postcard"><span class="ch">CH 01</span> The Universe Sent Her A Postcard <span class="desc">Open message?</span></a>
+    <a href="#road"><span class="ch">CH ✦</span> The Glittering Road <span class="desc">Between the stars</span></a>
+    <a href="#messages"><span class="ch">CH 📜</span> System Messages from the Universe <span class="desc">A spell in all caps</span></a>
+    <a href="#gazette"><span class="ch">CH 📰</span> The Daily Enchantment <span class="desc">Front page</span></a>
+  </nav>
+</header>
+
+<!-- ═══════════ CH 01 — THE POSTCARD ═══════════ -->
+<style>
+  #postcard .section-title{color:var(--lav);text-shadow:0 0 30px rgba(169,156,255,.5)}
+  #postcard .section-sub{color:var(--rose)}
+  .pc-hero{position:relative;max-width:940px;margin:0 auto clamp(22px,4vw,36px);
+    border-radius:16px;overflow:hidden;border:1px solid rgba(169,156,255,.3);
+    box-shadow:0 26px 70px rgba(0,0,0,.6),0 0 60px rgba(169,156,255,.14)}
+  .pc-hero img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+  .pc-hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,transparent 48%,rgba(11,16,38,.88))}
+  .pc-hero .cap{position:absolute;left:0;right:0;bottom:0;padding:1.5rem;text-align:center;
+    font-family:var(--script);font-size:clamp(1rem,2.4vw,1.5rem);color:var(--gold)}
+  /* the postcard itself, laid on the night */
+  .card{max-width:44rem;margin:clamp(28px,4.4vw,46px) auto 0;background:var(--paper);
+    color:var(--ink);border-radius:8px;padding:clamp(20px,3.6vw,34px);
+    box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 1px rgba(42,35,24,.15);
+    transform:rotate(-.7deg);position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;inset:8px;border:1px dashed rgba(42,35,24,.28);
+    border-radius:5px;pointer-events:none}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;
+    flex-wrap:wrap;position:relative;z-index:1}
+  .postmark{width:82px;height:82px;border-radius:50%;border:2px solid rgba(42,35,24,.4);
+    display:grid;place-content:center;text-align:center;transform:rotate(-12deg);
+    font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;color:rgba(42,35,24,.65);line-height:1.5}
+  .pstamp{width:66px;height:80px;border-radius:3px;display:grid;place-items:center;font-size:1.6rem;
+    background:linear-gradient(140deg,#FFD98A,#FF8FB3 60%,#A99CFF);
+    border:4px solid var(--paper);outline:1px dashed rgba(42,35,24,.35);
+    box-shadow:0 2px 0 rgba(42,35,24,.18)}
+  .card .dear{font-family:var(--script);font-size:clamp(1.5rem,4vw,2.4rem);
+    margin:1.1rem 0 .6rem;color:#8a5a2b;position:relative;z-index:1}
+  .card .msg{font-family:var(--serif);font-size:clamp(1rem,2.2vw,1.18rem);line-height:1.75;
+    color:var(--ink2);position:relative;z-index:1}
+  .card .msg b{color:var(--ink)}
+  .card ul{list-style:none;margin:1rem 0 0;display:grid;gap:.35rem;position:relative;z-index:1}
+  .card li{font-family:var(--serif);font-style:italic;color:var(--ink2);
+    font-size:clamp(.95rem,2vw,1.08rem);padding-left:1.2rem;position:relative}
+  .card li::before{content:"✦";position:absolute;left:0;color:#c08a3e}
+  .card .sign-off{margin-top:1.3rem;text-align:right;font-family:var(--script);
+    font-size:clamp(1.2rem,2.8vw,1.7rem);color:#8a5a2b;position:relative;z-index:1}
+  /* system message strip */
+  .sysmsg{max-width:36rem;margin:clamp(26px,4vw,40px) auto 0;padding:1rem 1.2rem;text-align:center;
+    border:1px solid rgba(92,214,200,.4);border-radius:10px;background:rgba(11,16,38,.75);
+    font-family:var(--mono);font-size:.9rem;line-height:1.9;color:var(--teal);letter-spacing:.06em}
+  .sysmsg b{display:block;color:var(--gold)}
+</style>
+<section id="postcard">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 01 · Magick Mica TV · Sep 17</span>
+      <h2 class="section-title">The Universe<br>Sent Her A Postcard</h2>
+      <p class="section-sub">no mailbox. no address. no explanation.</p>
+    </div>
+
+    <figure class="pc-hero">
+      <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff48c6c7a-4aae-4e4f-8453-2738e2bae942_2752x1536.jpeg" alt="A postcard glowing softly on the edge of the moon" loading="lazy">
+      <figcaption class="cap">She found it on the edge of the moon — a little piece of paper glowing softly in the cosmic dark.</figcaption>
+    </figure>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="postmark">EDGE OF<br>THE MOON<br>★ ★ ★</div>
+        <div class="pstamp" aria-hidden="true">🌙</div>
+      </div>
+      <p class="dear">Dear You,</p>
+      <p class="msg">we thought you might like to know <b>you're closer than you think.</b> The stars have been watching the strange little things you call coincidence.</p>
+      <ul>
+        <li>the song that found you at exactly the right moment</li>
+        <li>the door that appeared when you thought there were no doors left</li>
+        <li>the person who arrived carrying a piece of a story you forgot you started</li>
+        <li>the dream that wouldn't leave</li>
+        <li>the feeling you couldn't explain</li>
+        <li>the impossible little yes hiding inside a thousand no's</li>
+      </ul>
+      <p class="sign-off">— the universe</p>
+    </div>
+
+    <div class="copy" style="margin-top:clamp(28px,4.4vw,44px)">
+      <p>She looked up. The universe looked back. A planet turned inside a rainbow. <em class="hot">A moon opened like a flower.</em> And somewhere beyond the edge of everything familiar, another version of her was holding another postcard.</p>
+    </div>
+
+    <div class="sysmsg">
+      <b>SYSTEM MESSAGE</b>
+      YOU ARE NOT LOST. YOU ARE BEING RE-ROUTED.
+    </div>
+
+    <div class="copy" style="margin-top:clamp(26px,4vw,40px)">
+      <p>She laughed. <em class="hot">“Re-routed to where?”</em> … [NO DATA]. So she tucked the postcard inside her dress and followed the glittering road between the stars.</p>
+      <p>Because maybe the universe doesn't always send answers. Maybe sometimes it sends a feeling. A strange little nudge. A door. A dream. A shooting star. A ridiculous coincidence that feels a little too perfect. Or a postcard from somewhere you've never been.</p>
+    </div>
+
+    <div class="gallery">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe26ad630-fc66-46bc-aba1-9c7d896f8cd6_1678x937.png" alt="A planet turning inside a rainbow" loading="lazy"><figcaption>A planet in a rainbow</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1cdde116-a33d-4db3-8ec7-2aaa722d1058_1678x937.png" alt="A moon opening like a flower" loading="lazy"><figcaption>A moon opens</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F411a9ace-cbbe-40e3-b669-b5f17311c74b_1678x937.png" alt="Another version of her holding another postcard" loading="lazy"><figcaption>Another version of her</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffe1fcba5-4360-4c43-b333-b0e55bf0180a_1678x937.jpeg" alt="The glittering road between the stars" loading="lazy"><figcaption>The glittering road</figcaption></figure>
+    </div>
+
+    <p class="pull">LOOK UP. LOOK AGAIN. LOOK CLOSER.<br><span>Something is trying to find you.</span></p>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/the-universe-sent-her-a-postcard" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">✦ ✦ ✦</div>
+
+<!-- ═══════════ CH ✦ — THE GLITTERING ROAD (interlude) ═══════════ -->
+<style>
+  #road{background:radial-gradient(900px 440px at 50% 44%,rgba(240,194,75,.14),transparent 70%);overflow:hidden}
+  #road .section-title{color:var(--gold);text-shadow:0 0 28px rgba(240,194,75,.45)}
+  .roadstage{max-width:760px;margin:0 auto;aspect-ratio:2/1}
+  .roadstage svg{display:block;width:100%;height:100%;overflow:visible}
+  .glint{offset-path:path("M10 190 C 120 160, 150 120, 240 110 S 380 80, 470 62 S 620 40, 750 22");
+    offset-rotate:0deg;animation:travelRoad 9s linear infinite}
+  @keyframes travelRoad{from{offset-distance:0%}to{offset-distance:100%}}
+  .twinkleStar{animation:tw 3.4s ease-in-out infinite}
+  .twinkleStar:nth-of-type(2n){animation-delay:.9s}
+  .twinkleStar:nth-of-type(3n){animation-delay:1.8s}
+  @keyframes tw{50%{opacity:.35;transform:scale(.7)}}
+  .roadnote{max-width:34rem;margin:clamp(24px,3.6vw,38px) auto 0;text-align:center;
+    font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.4vw,1.3rem);color:var(--dim)}
+  .endcard{max-width:26rem;margin:clamp(26px,4vw,40px) auto 0;padding:1.1rem 1rem;text-align:center;
+    border:1px dashed rgba(92,214,200,.45);border-radius:10px;background:rgba(11,16,38,.7);
+    font-family:var(--mono);font-size:.82rem;letter-spacing:.14em;line-height:2;color:var(--teal)}
+  .endcard b{display:block;color:var(--rose)}
+</style>
+<section id="road">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH ✦ · Interlude</span>
+      <h2 class="section-title">The Glittering Road</h2>
+      <p class="section-sub" style="color:var(--lav)">between the stars</p>
+    </div>
+
+    <div class="roadstage" aria-hidden="true">
+      <svg viewBox="0 0 760 200">
+        <defs>
+          <linearGradient id="roadG" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0%" stop-color="rgba(240,194,75,.15)"/>
+            <stop offset="50%" stop-color="rgba(255,143,179,.6)"/>
+            <stop offset="100%" stop-color="rgba(169,156,255,.9)"/>
+          </linearGradient>
+          <radialGradient id="glintG"><stop offset="0%" stop-color="#fff"/>
+            <stop offset="45%" stop-color="#F0C24B"/><stop offset="100%" stop-color="rgba(240,194,75,0)"/></radialGradient>
+        </defs>
+
+        <path d="M10 190 C 120 160, 150 120, 240 110 S 380 80, 470 62 S 620 40, 750 22"
+              fill="none" stroke="url(#roadG)" stroke-width="3" stroke-linecap="round"
+              stroke-dasharray="2 9"/>
+        <path d="M10 190 C 120 160, 150 120, 240 110 S 380 80, 470 62 S 620 40, 750 22"
+              fill="none" stroke="rgba(251,244,230,.1)" stroke-width="14" stroke-linecap="round"/>
+
+        <g fill="#FBF4E6">
+          <circle class="twinkleStar" cx="84" cy="52" r="1.8"/>
+          <circle class="twinkleStar" cx="176" cy="30" r="1.4"/>
+          <circle class="twinkleStar" cx="300" cy="46" r="2"/>
+          <circle class="twinkleStar" cx="420" cy="20" r="1.5"/>
+          <circle class="twinkleStar" cx="540" cy="104" r="1.7"/>
+          <circle class="twinkleStar" cx="640" cy="132" r="1.3"/>
+          <circle class="twinkleStar" cx="120" cy="140" r="1.5"/>
+          <circle class="twinkleStar" cx="690" cy="80" r="1.9"/>
+        </g>
+
+        <!-- the moon she found it on -->
+        <circle cx="712" cy="34" r="26" fill="rgba(251,244,230,.1)"/>
+        <circle cx="712" cy="34" r="17" fill="#FBF4E6" opacity=".9"/>
+        <circle cx="704" cy="30" r="17" fill="#0B1026"/>
+
+        <!-- the postcard at the start of the road -->
+        <g transform="translate(8,168) rotate(-8)">
+          <rect width="40" height="27" rx="3" fill="#F6EBD6" stroke="rgba(42,35,24,.3)"/>
+          <rect x="29" y="3" width="8" height="10" rx="1.5" fill="#FF8FB3"/>
+          <g stroke="rgba(42,35,24,.3)" stroke-width="1">
+            <line x1="4" y1="9" x2="24" y2="9"/><line x1="4" y1="14" x2="24" y2="14"/>
+            <line x1="4" y1="19" x2="20" y2="19"/>
+          </g>
+        </g>
+
+        <circle class="glint" r="7" fill="url(#glintG)"/>
+      </svg>
+    </div>
+
+    <p class="roadnote">“So she tucked the postcard inside her dress and followed the glittering road between the stars.”</p>
+
+    <div class="endcard">
+      [ TRANSMISSION ENDED ]<br>[ FILE SAVED ]
+      <b>[ HEART STILL RECEIVING... ]</b>
+    </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">✦ ✦ ✦</div>
+
+<!-- ═══════════ CH 📜 — SYSTEM MESSAGES ═══════════ -->
+<style>
+  #messages .section-title{color:var(--teal);text-shadow:0 0 28px rgba(92,214,200,.45)}
+  #messages .section-sub{color:var(--gold)}
+  .spell{max-width:34rem;margin:0 auto;text-align:center}
+  .spell p{font-family:var(--cond);font-size:clamp(1rem,2.4vw,1.22rem);letter-spacing:.14em;
+    text-transform:uppercase;line-height:1.9;margin-top:1.25rem;color:var(--cream)}
+  .spell p:first-child{margin-top:0}
+  .spell p:nth-child(even){color:var(--teal)}
+  .spell hr{border:0;border-top:1px solid rgba(240,194,75,.3);max-width:9rem;margin:1.7rem auto}
+  .laws{display:grid;gap:.55rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    max-width:52rem;margin:clamp(28px,4.4vw,44px) auto 0}
+  .laws div{padding:.9rem 1rem;border-radius:12px;background:rgba(29,38,82,.55);
+    border:1px solid rgba(169,156,255,.24);font-family:var(--serif);font-size:1.02rem;
+    line-height:1.55;color:var(--cream)}
+  .laws div:nth-child(3n+1){border-color:rgba(240,194,75,.3)}
+  .laws div:nth-child(3n+2){border-color:rgba(255,143,179,.3)}
+  .choose{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    max-width:46rem;margin:clamp(26px,4vw,40px) auto 0}
+  .choose div{padding:.85rem;border-radius:10px;text-align:center;background:rgba(11,16,38,.7);
+    border:1px solid rgba(92,214,200,.3);font-family:var(--cond);letter-spacing:.14em;
+    text-transform:uppercase;font-size:1rem}
+  .choose b{color:var(--gold)}
+  .choose i{font-style:normal;color:rgba(251,244,230,.42);font-size:.82rem}
+</style>
+<section id="messages">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 📜 · Magick Mica TV · Aug 02</span>
+      <h2 class="section-title">System Messages<br>from the Universe</h2>
+      <p class="section-sub">📜✨🤍💓</p>
+    </div>
+
+    <div class="spell">
+      <p>Moonlight above me, earth below.<br>Magick within me, rivers that flow.</p>
+      <p>Fairies whisper, stars align.<br>The universe opens a door divine.</p>
+      <p>With every breath, with every beat,<br>my dreams and I are destined to meet.</p>
+      <hr>
+      <p>I honour the shadow, I welcome the light.<br>Every ending creates new sight.</p>
+      <p>The dark is my teacher, the sun is my guide.<br>Wisdom and love walk by my side.</p>
+      <p>I release the old, I awaken anew.<br>The magick I seek has always been true.</p>
+      <hr>
+      <p>I call my dreams from distant galaxies.<br>I open the portal, I receive the keys.</p>
+    </div>
+
+    <div class="laws">
+      <div>What belongs to me will find me. What passes me was never mine.</div>
+      <div>The cosmos does not make mistakes.</div>
+      <div>The universe remembers the magic I hold.</div>
+      <div>My path is bright, my frequency free. What I seek also seeks me.</div>
+      <div>If a dream has my name on it, no distance, no detour, no delay can keep it from finding me.</div>
+      <div>I no longer chase light. I become it.</div>
+    </div>
+
+    <div class="choose">
+      <div><i>I choose</i><br><b>WONDER</b> over worry</div>
+      <div><i>I choose</i><br><b>CURIOSITY</b> over fear</div>
+      <div><i>I choose</i><br><b>MAGIC</b> over limitation</div>
+      <div><i>I choose</i><br><b>LOVE</b> over everything</div>
+    </div>
+
+    <p class="pull">Every tear becomes a star. Every scar becomes a constellation.<br><span>Every ending becomes a new galaxy.</span></p>
+
+    <div class="gallery">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fafb24d17-4e19-40cf-adab-e4676718646f_1376x768.jpeg" alt="Moonlight above me, earth below" loading="lazy"><figcaption>Moonlight above</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa9d040de-86b0-40d1-8835-a0c1c7ea3588_1870x1071.png" alt="The universe opens a door divine" loading="lazy"><figcaption>A door divine</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F392f213f-9f65-414d-b8c4-e66dd9d9518c_1376x768.jpeg" alt="I open the portal, I receive the keys" loading="lazy"><figcaption>The keys</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4d402ab1-6dca-431e-8493-a849c7dc731f_1200x675.png" alt="What I seek also seeks me" loading="lazy"><figcaption>What I seek</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F39846daf-8127-4828-907d-bfb8a6ef5af1_1200x675.png" alt="I no longer chase light, I become it" loading="lazy"><figcaption>I become it</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe4747288-8378-461c-be2f-e70505a41598_1200x1200.png" alt="Every scar becomes a constellation" loading="lazy"><figcaption>A constellation</figcaption></figure>
+    </div>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/system-messages-from-the-universe" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">✦ ✦ ✦</div>
+
+<!-- ═══════════ CH 📰 — THE DAILY ENCHANTMENT ═══════════ -->
+<style>
+  #gazette{background:radial-gradient(900px 420px at 50% 30%,rgba(255,143,179,.12),transparent 70%)}
+  #gazette .section-title{color:var(--rose);text-shadow:0 0 28px rgba(255,143,179,.45)}
+  .news{max-width:960px;margin:0 auto;background:var(--paper);color:var(--ink);
+    border-radius:6px;padding:clamp(20px,3.6vw,42px);
+    box-shadow:0 30px 80px rgba(0,0,0,.65),0 0 0 1px rgba(42,35,24,.14)}
+  .masthead{text-align:center;border-bottom:3px double rgba(42,35,24,.55);padding-bottom:1rem}
+  .masthead .top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(42,35,24,.6);border-bottom:1px solid rgba(42,35,24,.3);padding-bottom:.5rem;margin-bottom:.9rem}
+  .masthead h3{font-family:var(--gaz);font-size:clamp(2rem,7.4vw,4.4rem);line-height:1;color:var(--ink)}
+  .masthead .motto{margin-top:.5rem;font-family:var(--serif);font-style:italic;
+    font-size:clamp(.9rem,2vw,1.1rem);color:var(--ink2)}
+  .cols{column-width:270px;column-gap:clamp(18px,3vw,34px);column-rule:1px solid rgba(42,35,24,.22);
+    margin-top:1.4rem}
+  .story{break-inside:avoid;margin-bottom:1.6rem}
+  .story h4{font-family:var(--head);font-size:clamp(1.05rem,2.4vw,1.35rem);line-height:1.2;
+    color:var(--ink);margin-bottom:.2rem}
+  .story .deck{font-family:var(--serif);font-style:italic;font-size:.92rem;color:var(--ink2);
+    border-bottom:1px solid rgba(42,35,24,.22);padding-bottom:.4rem;margin-bottom:.5rem}
+  .story .by{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(42,35,24,.55);margin-bottom:.5rem}
+  .story p{font-family:var(--serif);font-size:.95rem;line-height:1.62;color:var(--ink2);margin-bottom:.5rem}
+  .story p.by + p::first-letter{float:left;font-family:var(--head);font-size:2.9rem;
+    line-height:.82;padding:.06em .1em 0 0;color:#8a5a2b}
+  .story ul{margin:.3rem 0 .6rem 1.1rem;font-family:var(--serif);font-size:.92rem;color:var(--ink2)}
+  .story .quote{font-family:var(--serif);font-style:italic;color:var(--ink);
+    border-left:3px solid #c08a3e;padding-left:.7rem;margin:.6rem 0}
+  .newsfoot{margin-top:1rem;border-top:3px double rgba(42,35,24,.5);padding-top:.7rem;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(42,35,24,.55)}
+</style>
+<section id="gazette">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 📰 · Magick Mica TV · Jul 25</span>
+      <h2 class="section-title">The Daily Enchantment</h2>
+      <p class="section-sub" style="color:var(--gold)">the most divine news this side of reality</p>
+    </div>
+
+    <div class="news">
+      <div class="masthead">
+        <div class="top"><span>Saturday, July 25, 2026</span><span>Kingdom of Somewhere Else</span><span>Price: one compliment</span></div>
+        <h3>The Daily Enchantment</h3>
+        <p class="motto">“The Most Divine News This Side of Reality”</p>
+      </div>
+
+      <div class="cols">
+        <article class="story">
+          <h4>🌙 The Moon is Pink &amp; So Am I!</h4>
+          <p class="deck">Celestial Gazette declares: “She's the main character”</p>
+          <p class="by">By Luna Quillsong · Senior Moon Correspondent</p>
+          <p>Residents across the Kingdom of Somewhere Else awoke yesterday to discover the moon had abandoned its usual silver complexion in favour of a spectacular shade of cosmic rose. Astronomers called it impossible. Witches called it Tuesday.</p>
+          <p>According to the Department of Celestial Drama, the Moon entered what officials described as “an unapologetically expressive phase” after overhearing one local starseed remark, <i>“I wish the sky dressed with more confidence.”</i> Within moments, the lunar body reportedly blushed across the heavens.</p>
+          <p class="quote">“It's not a scientific phenomenon. It's emotional lighting.” — Professor Nebula Fern</p>
+          <p>The event has inspired thousands to wear pink cloaks after sunset, compliment strangers' auras, and dramatically stare into oceans while pretending not to notice they're being admired. Officials expect the Moon to remain fabulous indefinitely.</p>
+        </article>
+
+        <article class="story">
+          <h4>✨ Fairy Dust Shortage Causes Chaos in Town</h4>
+          <p class="deck">Pixies union demands better working conditions</p>
+          <p class="by">By Petal Bramble · Labor &amp; Magic Reporter</p>
+          <p>The Great Fairy Dust Strike entered its seventh day this morning after pixies unanimously voted to suspend all sparkle-related activities until safer working conditions are established. The strike has already affected enchanted forests, birthday wishes, dandelion flights, and approximately 94% of accidental magic worldwide.</p>
+          <p class="quote">“We've been sprinkling glitter into people's lives for centuries. And frankly… we're exhausted.” — Glimmia Twinkletoes, union leader</p>
+          <p>The union's demands include:</p>
+          <ul>
+            <li>Longer moonbeam breaks</li>
+            <li>Unlimited flower nectar</li>
+            <li>Paid rainbow holidays</li>
+            <li>Hazard pay for unicorn grooming</li>
+            <li>A complete ban on glitter inhalation</li>
+          </ul>
+          <p>Without fresh fairy dust, enchanted mirrors have become brutally honest, pumpkins refuse to become carriages, and at least six dragons have forgotten how to sparkle. Negotiations continue under a large toadstool.</p>
+        </article>
+
+        <article class="story">
+          <h4>🧙 Wizards Ban Boring People From the Castle</h4>
+          <p class="deck">Broomstick passes revoked in mass enchantment cleanse</p>
+          <p class="by">By Cedric Spellwright</p>
+          <p>In what historians are calling the Boldest Magical Decision Since Tuesdays Were Invented, the High Council of Wizards has permanently prohibited “terminally boring individuals” from entering castle grounds. The decree follows decades of complaints involving conversations about printer warranties, tax spreadsheets during banquets, and people describing dreams by saying, “It was probably nothing.”</p>
+          <p class="quote">“Magic cannot thrive where enthusiasm goes to die.” — Archmage Bellweather</p>
+          <p>Castle security has been equipped with new Wonder Detectors, enchanted devices capable of measuring a person's curiosity levels. Visitors may now be asked: <i>“When was the last time you danced with absolutely no reason?”</i> Failure to answer may result in temporary transformation into decorative garden statuary. Tourism has increased 400%.</p>
+        </article>
+
+        <article class="story">
+          <h4>🧋 Mermaids Spotted Sipping Boba Offshore</h4>
+          <p class="deck">“It's not just a phase…”</p>
+          <p class="by">By Coral Inkwave</p>
+          <p>Beachgoers reported seeing dozens of fashionable mermaids floating beyond the reefs while enjoying oversized cups of Bubble Reef Boba. Marine biologists initially suspected hallucinations. Fashion critics called it inevitable.</p>
+          <p class="quote">“Seaweed smoothies were cute for several millennia. But sometimes a girl simply wants brown sugar pearls.” — Queen Aqua-Latte</p>
+          <p>Special waterproof straws crafted from enchanted coral have quickly become the hottest accessory beneath the waves. Local dolphins reportedly approve. Sharks remain indifferent.</p>
+        </article>
+
+        <article class="story">
+          <h4>🔮 Today's Spell of the Day</h4>
+          <p class="deck">Sprinkle glitter on your problems</p>
+          <p class="by">Contributing columnist Madame Stardust</p>
+          <p>Today's recommended enchantment requires only three ingredients: one handful of biodegradable glitter, a sincere compliment, and five uninterrupted seconds of believing everything will somehow work out beautifully.</p>
+          <p>Simply toss the glitter toward your greatest worry while whispering:</p>
+          <p class="quote">“May possibility be louder than fear.”</p>
+          <p>While this spell has not been approved by the Bureau of Practical Magic, readers consistently report improved moods, unexpected coincidences, and mysteriously excellent parking spaces.</p>
+        </article>
+
+        <article class="story">
+          <h4>👑 Town Gossip: The Crystal Queen Strikes Again</h4>
+          <p class="deck">She turned her tea into stardust</p>
+          <p class="by">Society Desk</p>
+          <p>Witnesses at the Moonlight Café claim the Crystal Queen casually stirred her evening tea exactly three times before the entire cup erupted into a swirling miniature galaxy. Customers applauded. One philosopher cried. The waitress simply nodded and asked, “Refill?”</p>
+          <p><b>Rumour has it… she's dating a comet.</b> Observers noted several unmistakable signs of affection: shared stargazing, holding gravitational fields, and accidentally creating two new constellations. Sources describe the comet as “very bright,” “emotionally unavailable,” and “travels constantly.” Friends say she can fix him. Astronomers disagree.</p>
+          <p>Residents near the harbour insist a soft crystalline glow appears every evening shortly after she walks through town. Street lamps dim respectfully. Cats purr in perfect harmony. The Moon itself has reportedly started arriving early simply to watch.</p>
+        </article>
+
+        <article class="story">
+          <h4>🚨 Breaking: Aliens Love Ice Cream</h4>
+          <p class="deck">Sources confirm</p>
+          <p class="by">By Orbit Scoopwell · Galactic Affairs Desk</p>
+          <p>The Intergalactic Ice Cream Council has officially confirmed what Earth conspiracy theorists have suspected for decades. During yesterday's emergency summit aboard the frozen moon of Gelato-9, representatives from over 4,000 civilisations unanimously voted Vanilla Stardust Swirl the most diplomatically significant dessert in the known universe.</p>
+          <p class="quote">“The creamy texture transcends language. Every intelligent species eventually invents frozen joy.” — Ambassador Zxrr'p of the Pistachio Nebula</p>
+          <p>Earth has now been placed on the Galactic Snack Preservation List, protecting humanity's ice cream recipes as “Intangible Universal Heritage.” Officials warn citizens not to panic if mysterious flying saucers begin appearing near local ice cream shops. “They're probably just here for sprinkles.”</p>
+        </article>
+      </div>
+
+      <div class="newsfoot"><span>The Daily Enchantment</span><span>Printed on moonlight</span><span>All rumours verified twice by the same fairy</span></div>
+    </div>
+
+    <figure class="strip"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6b0872b6-67b1-4e62-a201-966a94ab09e4_2172x724.png" alt="A wide banner from The Daily Enchantment" loading="lazy"></figure>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/the-daily-enchantment" target="_blank" rel="noopener">Read the full issue ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">✦ ✦ ✦</div>
+
+<footer style="text-align:center;padding:0 20px clamp(46px,7vw,80px)">
+  <p style="font-family:var(--script);font-size:clamp(1.4rem,3.4vw,2.2rem);color:var(--gold)">something is trying to find you</p>
+  <p style="margin-top:.9rem;color:var(--dim)">Three transmissions from <a href="https://magickmica.substack.com" target="_blank" rel="noopener">Magick Mica TV</a>, rebuilt as one broadcast.</p>
+  <p style="margin-top:1.2rem;font-family:var(--cond);font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)">
+    <a href="articles.html">The magazine</a> · <a href="notes.html">All notes</a> · <a href="index.html">Back to the signal</a>
+  </p>
+</footer>
+
+</main>
+
+<script>
+/* drifting glitter */
+(function(){
+  var c=document.getElementById('glitter'),x=c.getContext('2d'),w,h,bits=[];
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cols=['240,194,75','255,143,179','92,214,200','251,244,230'];
+  function size(){w=c.width=innerWidth;h=c.height=innerHeight;}
+  size();addEventListener('resize',size);
+  for(var i=0;i<42;i++)bits.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.7+.5,
+    s:Math.random()*.22+.05,d:Math.random()*Math.PI*2,o:Math.random()*.45+.2,
+    c:cols[Math.floor(Math.random()*cols.length)]});
+  function tick(){
+    x.clearRect(0,0,w,h);
+    for(var i=0;i<bits.length;i++){var m=bits[i];
+      m.y-=m.s;m.d+=.011;m.x+=Math.sin(m.d)*.26;
+      if(m.y<-6){m.y=h+6;m.x=Math.random()*w;}
+      x.beginPath();x.arc(m.x,m.y,m.r,0,6.2832);
+      x.fillStyle='rgba('+m.c+','+m.o.toFixed(2)+')';x.fill();}
+    requestAnimationFrame(tick);
+  }
+  if(!reduce)tick();
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+</body>
+</html>

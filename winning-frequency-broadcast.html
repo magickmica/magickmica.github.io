@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Winning Frequency Broadcast — Magick Mica TV</title>
+<meta name="description" content="Three transmissions from the arena — tune in, lock on, take the shot; a protection spell for loud mornings; and a twelve-sign tarot call. Magick Mica TV.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Winning Frequency Broadcast — Magick Mica TV">
+<meta property="og:description" content="Pressure doesn't break crystals, it reveals their brilliance. Plus a protection spell and a full cosmic tarot reading.">
+<meta property="og:url" content="https://magickmica.github.io/winning-frequency-broadcast.html">
+<meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc461ca09-4377-4cbc-9f64-603c44181447_1659x948.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Winning Frequency Broadcast — Magick Mica TV">
+<meta name="twitter:description" content="Pressure doesn't break crystals, it reveals their brilliance. Plus a protection spell and a full cosmic tarot reading.">
+<meta name="twitter:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc461ca09-4377-4cbc-9f64-603c44181447_1659x948.png">
+<link rel="canonical" href="https://magickmica.github.io/winning-frequency-broadcast.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=VT323&family=Yellowtail&family=Barlow+Condensed:wght@500;600;700&family=Karla:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THE WINNING FREQUENCY BROADCAST
+   Same shape as the Cozy Christmas and Cosmic Circus specials:
+   ticker, on-air sign, channel guide, one channel per post,
+   with a hand-built shot in the middle. A jumbotron over a
+   crystal court; every photograph is from the posts.
+   ══════════════════════════════════════════════════════════ */
+:root{
+  --night:#0C0518; --deep:#1A0B33; --court:#26123f;
+  --bone:#FFF7E8; --dim:rgba(255,247,232,.62);
+  --gold:#FFC93C; --flame:#FF7A3D; --ice:#5FD7FF; --violet:#B36BFF; --rose:#FF5F9E;
+  --head:"Anton",system-ui,sans-serif;
+  --board:"VT323",ui-monospace,monospace;
+  --script:"Yellowtail",cursive;
+  --cond:"Barlow Condensed",sans-serif;
+  --body:"Karla",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--night); color:var(--bone);
+  font-family:var(--body); font-size:17px; line-height:1.65; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(72% 46% at 50% -8%, rgba(255,201,60,.2), transparent 62%),
+    radial-gradient(46% 32% at 86% 26%, rgba(255,122,61,.14), transparent 66%),
+    radial-gradient(58% 44% at 8% 74%, rgba(179,107,255,.15), transparent 64%),
+    linear-gradient(180deg, transparent 38%, rgba(26,11,51,.84));
+}
+/* arena spotlights sweeping the dark */
+.lights{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.2;
+  background:
+    conic-gradient(from 210deg at 14% -10%, transparent 0 8deg, rgba(255,201,60,.5) 9deg 12deg, transparent 13deg 360deg),
+    conic-gradient(from 300deg at 86% -10%, transparent 0 8deg, rgba(95,215,255,.5) 9deg 12deg, transparent 13deg 360deg)}
+.crowd{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(1.6px 1.6px at 13% 16%,var(--gold),transparent),
+    radial-gradient(1.2px 1.2px at 75% 9%,#fff,transparent),
+    radial-gradient(1.7px 1.7px at 36% 62%,var(--ice),transparent),
+    radial-gradient(1.3px 1.3px at 23% 85%,var(--rose),transparent),
+    radial-gradient(1.5px 1.5px at 90% 70%,#fff,transparent);
+  background-size:520px 520px,680px 680px,455px 455px,565px 565px,745px 745px;
+  animation:flashbulbs 5s ease-in-out infinite alternate}
+@keyframes flashbulbs{from{opacity:.4}to{opacity:.95}}
+main{position:relative;z-index:2}
+a{color:var(--ice)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* ── scoreboard strip ───────────────────────────────── */
+.score{position:relative;z-index:2;max-width:440px;margin:22px auto 0;padding:.5rem .9rem;
+  display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;
+  border:1px solid rgba(255,201,60,.4);border-radius:8px;background:rgba(12,5,24,.8);
+  font-family:var(--board);font-size:1.35rem;letter-spacing:.06em;color:var(--gold)}
+.score span{color:var(--ice)}
+.score b{font-weight:400;color:var(--bone)}
+
+/* ── header ─────────────────────────────────────────── */
+header{position:relative;z-index:2;text-align:center;padding:clamp(18px,3.6vw,32px) 20px 0}
+.ticker{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;align-items:center;
+  font-family:var(--cond);font-size:.82rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ice)}
+.ticker .dot{color:var(--flame)}
+.onair{display:inline-block;margin-top:1rem;font-family:var(--cond);font-weight:700;font-size:.8rem;
+  letter-spacing:.24em;color:#1a0d05;background:var(--gold);padding:.34rem .9rem;border-radius:5px;
+  box-shadow:0 0 22px rgba(255,201,60,.55);animation:blink 3.4s steps(1) infinite}
+@keyframes blink{88%{opacity:1}92%{opacity:.35}}
+.sign{margin-top:1.1rem}
+.sign h1{font-family:var(--head);font-weight:400;line-height:.98;letter-spacing:.005em;
+  font-size:clamp(2.4rem,8.6vw,5.6rem);text-transform:uppercase;
+  background:linear-gradient(180deg,#FFF7E8 0%,var(--gold) 52%,var(--flame) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 30px rgba(255,201,60,.5))}
+.sign .script{display:block;margin-top:.5rem;font-family:var(--script);font-size:clamp(1.3rem,3.4vw,2rem);
+  color:var(--ice);text-shadow:0 0 22px rgba(95,215,255,.45)}
+.tagline{max-width:44rem;margin:1.2rem auto 0;color:var(--dim);font-size:1.05rem}
+.callsign{margin-top:.9rem;font-family:var(--cond);font-size:.86rem;letter-spacing:.3em;
+  text-transform:uppercase;color:rgba(255,201,60,.8)}
+
+/* ── channel guide ──────────────────────────────────── */
+.guide{max-width:800px;margin:clamp(24px,4vw,40px) auto 0;padding:1.1rem 1.2rem 1.3rem;
+  border:1px solid rgba(255,201,60,.32);border-radius:10px;background:rgba(38,18,63,.62);
+  box-shadow:0 18px 50px rgba(0,0,0,.55)}
+.guide-label{font-family:var(--cond);font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--flame);margin-bottom:.8rem}
+.guide a{display:flex;gap:.8rem;align-items:baseline;flex-wrap:wrap;text-decoration:none;color:var(--bone);
+  padding:.55rem .2rem;border-top:1px solid rgba(255,201,60,.16);transition:.18s}
+.guide a:first-of-type{border-top:0}
+.guide a:hover{color:var(--gold)}
+.guide .ch{font-family:var(--board);font-size:1.02rem;letter-spacing:.06em;color:var(--ice)}
+.guide .desc{margin-left:auto;font-family:var(--cond);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim)}
+
+/* ── sections ───────────────────────────────────────── */
+section{scroll-margin-top:72px;position:relative;padding:clamp(48px,8vw,96px) 0 clamp(30px,5vw,60px)}
+.slug{display:inline-block;font-family:var(--cond);font-size:.76rem;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--night);background:var(--ice);
+  padding:.26rem .8rem;border-radius:5px;margin-bottom:1rem}
+.section-head{text-align:center;margin-bottom:clamp(26px,4vw,44px)}
+.section-title{font-family:var(--head);font-weight:400;line-height:1.02;text-transform:uppercase;
+  font-size:clamp(1.9rem,5.4vw,3.4rem)}
+.section-sub{margin-top:.5rem;font-family:var(--script);font-size:clamp(1.1rem,2.6vw,1.5rem)}
+.copy{max-width:40rem;margin:0 auto}
+.copy p{margin-top:1.05rem}
+.copy p:first-child{margin-top:0}
+em.hot{font-style:italic;color:var(--gold)}
+.pull{max-width:42rem;margin:clamp(26px,4vw,40px) auto;text-align:center;
+  font-family:var(--head);font-weight:400;text-transform:uppercase;
+  font-size:clamp(1.3rem,3.4vw,2.2rem);line-height:1.15;
+  color:var(--bone);text-shadow:0 0 28px rgba(255,201,60,.45)}
+.pull span{color:var(--flame)}
+.more{text-align:center;margin-top:clamp(26px,4vw,42px)}
+.more a{display:inline-block;font-family:var(--cond);font-weight:700;font-size:.85rem;
+  letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:#1a0d05;
+  background:linear-gradient(135deg,var(--gold),var(--flame));
+  padding:.75rem 1.7rem;border-radius:6px;box-shadow:0 12px 34px rgba(255,201,60,.34);transition:.2s}
+.more a:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(255,201,60,.48)}
+
+/* ── shared picture treatments ──────────────────────── */
+.gallery{display:grid;gap:clamp(10px,1.6vw,18px);
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:clamp(24px,4vw,38px)}
+.gallery figure{position:relative;border-radius:10px;overflow:hidden;
+  border:1px solid rgba(255,201,60,.26);background:rgba(38,18,63,.5);transition:.24s}
+.gallery img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.gallery .tall img{aspect-ratio:2/3}
+.gallery .sq img{aspect-ratio:1}
+.gallery figure:hover{transform:translateY(-5px);box-shadow:0 20px 48px rgba(255,201,60,.26)}
+.gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:.7rem;
+  font-family:var(--cond);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--bone);background:linear-gradient(180deg,transparent,rgba(12,5,24,.94))}
+.strip{max-width:1000px;margin:clamp(26px,4vw,42px) auto 0;border-radius:10px;overflow:hidden;
+  border:1px solid rgba(255,122,61,.26)}
+.strip img{display:block;width:100%;aspect-ratio:3/1;object-fit:cover}
+.divider{display:flex;justify-content:center;padding:clamp(18px,3vw,30px) 0;
+  font-family:var(--board);font-size:1.2rem;letter-spacing:.5em;color:rgba(255,201,60,.55)}
+@media (prefers-reduced-motion: reduce){
+  .crowd,.onair,.ball,.netshake,.burst{animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="lights" aria-hidden="true"></div>
+<div class="crowd" aria-hidden="true"></div>
+
+<main>
+
+<div class="score" aria-hidden="true">
+  <span>YOU</span><b>∞</b><span>DOUBT</span><b>0</b><span>Q4</span><b>0:01</b>
+</div>
+
+<header>
+  <div class="ticker">
+    <span>🏀 Tune in · Lock on · Take the shot</span><span class="dot">●</span>
+    <span>Magick Mica TV</span><span class="dot">●</span>
+    <span>The final buzzer is not the final word</span>
+  </div>
+  <div class="onair">◉ LIVE — FROM THE ARENA</div>
+  <div class="sign">
+    <h1>The Winning<br>Frequency</h1>
+    <span class="script">three transmissions from the court</span>
+  </div>
+  <p class="tagline">Pressure turned into prisms, a protection spell for loud mornings, and a goddess ringing twelve signs at once. Every picture here came out of the posts themselves. ✦</p>
+  <p class="callsign">Glitch the doubt · Crystalize the vision</p>
+
+  <nav class="guide" aria-label="Channel guide">
+    <div class="guide-label">✦ Tonight's channel guide ✦</div>
+    <a href="#arena"><span class="ch">CH 01</span> The Winning Frequency <span class="desc">Dunk on doubt</span></a>
+    <a href="#shot"><span class="ch">CH 🏀</span> The Shot <span class="desc">Watch it fall</span></a>
+    <a href="#louder"><span class="ch">CH 🌙</span> I Wake Up Louder Than My Doubts <span class="desc">A protection spell</span></a>
+    <a href="#tarot"><span class="ch">CH 🔮</span> The Goddess on the Phone <span class="desc">All twelve signs</span></a>
+  </nav>
+</header>
+
+<!-- ═══════════ CH 01 — THE ARENA ═══════════ -->
+<style>
+  #arena .section-title{color:var(--gold);text-shadow:0 0 28px rgba(255,201,60,.5)}
+  #arena .section-sub{color:var(--ice)}
+  .jumbo{position:relative;max-width:940px;margin:0 auto clamp(22px,4vw,36px);
+    border-radius:14px;overflow:hidden;border:2px solid rgba(255,201,60,.35);
+    box-shadow:0 26px 70px rgba(0,0,0,.7),0 0 60px rgba(255,201,60,.14)}
+  .jumbo img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+  .jumbo::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,transparent 46%,rgba(12,5,24,.92))}
+  .jumbo .cap{position:absolute;left:0;right:0;bottom:0;padding:1.5rem;text-align:center;
+    font-family:var(--head);font-size:clamp(1.1rem,3.4vw,2.2rem);text-transform:uppercase;
+    line-height:1.1;color:var(--gold)}
+  /* the all-caps chants */
+  .chants{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:clamp(24px,3.6vw,38px)}
+  .chants span{font-family:var(--cond);font-weight:700;font-size:.9rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--bone);border-radius:5px;padding:.4rem .9rem;
+    border:1px solid rgba(95,215,255,.3);background:rgba(38,18,63,.55)}
+  .chants span:nth-child(3n+1){border-color:rgba(255,201,60,.35);color:var(--gold)}
+  .chants span:nth-child(3n+2){border-color:rgba(255,122,61,.35);color:var(--flame)}
+  /* courtside quote cards */
+  .courtside{display:grid;gap:.6rem;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));
+    margin-top:clamp(26px,4vw,42px)}
+  .courtside div{padding:1rem 1.15rem;border-radius:12px;background:rgba(38,18,63,.6);
+    border-left:3px solid var(--gold);font-size:1rem;line-height:1.55;transition:.22s}
+  .courtside div:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(255,201,60,.2)}
+  .courtside div:nth-child(3n+2){border-left-color:var(--ice)}
+  .courtside div:nth-child(3n){border-left-color:var(--rose)}
+  .bigboard{max-width:38rem;margin:clamp(28px,4.4vw,46px) auto 0;padding:1.2rem 1rem;text-align:center;
+    border:2px solid rgba(255,201,60,.4);border-radius:12px;background:rgba(12,5,24,.85);
+    font-family:var(--board);font-size:clamp(1.2rem,3.4vw,1.9rem);line-height:1.5;
+    letter-spacing:.06em;color:var(--gold);
+    box-shadow:0 0 50px rgba(255,201,60,.12) inset}
+  .bigboard span{display:block;color:var(--ice)}
+</style>
+<section id="arena">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 01 · Magick Mica TV · Aug 23</span>
+      <h2 class="section-title">The Winning Frequency</h2>
+      <p class="section-sub">tune in • lock on • take the shot</p>
+    </div>
+
+    <figure class="jumbo">
+      <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc461ca09-4377-4cbc-9f64-603c44181447_1659x948.png" alt="The winning frequency: the court as a portal" loading="lazy">
+      <figcaption class="cap">The ball is magic. The court is a portal.<br>The next move is yours.</figcaption>
+    </figure>
+
+    <div class="bigboard">
+      THE FUTURE IS LOADING…
+      <span>AND YOU'RE THE ONE WHO PRESSED PLAY.</span>
+    </div>
+
+    <div class="chants" aria-label="Chants from the stands">
+      <span>Dunk on doubt</span><span>Play · Believe · Transcend</span><span>Leap like you mean it</span>
+      <span>Pressure makes prisms</span><span>Make the impossible look easy</span>
+      <span>The crown loves courage</span><span>Focus is a superpower</span>
+      <span>Your shot · Your moment</span><span>No fear · Just flight</span>
+      <span>Win the moment</span><span>Become the highlight</span><span>Magic in motion</span>
+      <span>Dream big · Jump higher</span>
+    </div>
+
+    <p class="pull">Reality is just a scoreboard<br><span>waiting for your next move.</span></p>
+
+    <div class="courtside">
+      <div>Play like the crown was always yours. You don't chase the spotlight — you become the moment.</div>
+      <div>Champions don't wait for perfect conditions. They make the moment legendary.</div>
+      <div>Your confidence is not arrogance. It's evidence of the magic you've already survived.</div>
+      <div>You came for the victory. Not the validation.</div>
+      <div>Pressure doesn't break crystals. It reveals their brilliance.</div>
+      <div>Your energy enters the room before the ball ever hits the court.</div>
+      <div>Protect your vision. Even the crowd can't see the shot you're about to make.</div>
+      <div>The scoreboard doesn't know what you're capable of yet.</div>
+      <div>You don't need everyone cheering. You only need to know where you're going.</div>
+      <div>Manifestation is believing the shot is possible before the scoreboard proves it.</div>
+      <div>Sometimes destiny looks like a ridiculous shot you were brave enough to take.</div>
+      <div>The universe loves a player who refuses to quit before the final buzzer.</div>
+    </div>
+
+    <div class="gallery">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5f8c723c-c073-48b1-a350-b22ac60d99cc_1403x1121.png" alt="Turn pressure into power" loading="lazy"><figcaption>Pressure into power</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdb507f16-c1ff-47ff-a793-d8e5f52dac60_2000x2000.png" alt="Turn doubt into diamonds" loading="lazy"><figcaption>Doubt into diamonds</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F28070495-d75a-4df9-add2-113fa00d8d8a_2000x2000.png" alt="Jump higher than your doubts" loading="lazy"><figcaption>Jump higher</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F77150407-ae92-40d6-908f-5dddfbc9de3d_1183x1329.png" alt="No fear, just flight" loading="lazy"><figcaption>No fear, just flight</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F08c35d0e-9cfe-4397-b6fe-b680bb8c4453_1122x1402.png" alt="Your shot, your moment" loading="lazy"><figcaption>Your moment</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa4a54e89-d1cf-4f17-9670-9c29605dea06_1103x1426.png" alt="Become the highlight" loading="lazy"><figcaption>The highlight</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F60942ef2-ebde-4b42-8517-a4401a87f1fb_1103x1426.png" alt="Magic in motion" loading="lazy"><figcaption>Magic in motion</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6e725869-04ab-46d3-bb2d-cfded4c864b0_1222x1341.png" alt="The final buzzer is not the final word" loading="lazy"><figcaption>Not the final word</figcaption></figure>
+    </div>
+
+    <figure class="strip"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F68113469-3185-4e31-846d-b5b94ef39f28_2172x724.png" alt="A wide banner from The Winning Frequency" loading="lazy"></figure>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/the-winning-frequency" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">▣ ▣ ▣</div>
+
+<!-- ═══════════ CH 🏀 — THE SHOT (interlude) ═══════════ -->
+<style>
+  #shot{background:radial-gradient(900px 440px at 50% 44%,rgba(255,122,61,.16),transparent 70%);overflow:hidden}
+  #shot .section-title{color:var(--flame);text-shadow:0 0 26px rgba(255,122,61,.5)}
+  .courtstage{max-width:680px;margin:0 auto;aspect-ratio:16/10;border-radius:14px;overflow:hidden;
+    border:1px solid rgba(255,201,60,.3);box-shadow:0 26px 70px rgba(0,0,0,.7)}
+  .courtstage svg{display:block;width:100%;height:100%}
+  .ball{offset-path:path("M56 250 C 150 40, 300 20, 392 118");offset-rotate:0deg;
+    animation:takeshot 4.6s cubic-bezier(.4,0,.6,1) infinite}
+  @keyframes takeshot{
+    0%{offset-distance:0%;opacity:0}
+    6%{opacity:1}
+    62%{offset-distance:100%;opacity:1}
+    76%{offset-distance:100%;opacity:0}
+    100%{offset-distance:0%;opacity:0}
+  }
+  .netshake{transform-box:fill-box;transform-origin:top center;
+    animation:swish 4.6s ease-out infinite}
+  @keyframes swish{0%,58%{transform:scaleY(1)}66%{transform:scaleY(1.4)}78%,100%{transform:scaleY(1)}}
+  .burst{transform-box:fill-box;transform-origin:center;opacity:0;
+    animation:pop 4.6s ease-out infinite}
+  @keyframes pop{0%,58%{opacity:0;transform:scale(.3)}68%{opacity:.85;transform:scale(1.1)}
+    84%,100%{opacity:0;transform:scale(1.5)}}
+  .buzz{max-width:32rem;margin:clamp(26px,4vw,40px) auto 0;padding:1rem;text-align:center;
+    border:2px solid rgba(95,215,255,.4);border-radius:10px;background:rgba(12,5,24,.82);
+    font-family:var(--board);font-size:clamp(1.2rem,3.4vw,1.8rem);letter-spacing:.08em;
+    line-height:1.5;color:var(--ice)}
+  .buzz b{display:block;font-weight:400;color:var(--gold)}
+</style>
+<section id="shot">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 🏀 · Interlude</span>
+      <h2 class="section-title">The Shot</h2>
+      <p class="section-sub" style="color:var(--ice)">destiny looks like a ridiculous shot you were brave enough to take</p>
+    </div>
+
+    <div class="courtstage" aria-hidden="true">
+      <svg viewBox="0 0 440 275">
+        <defs>
+          <linearGradient id="floorG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#26123f"/><stop offset="100%" stop-color="#0C0518"/>
+          </linearGradient>
+          <radialGradient id="ballG" cx="35%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#FFD98A"/><stop offset="55%" stop-color="#FF7A3D"/>
+            <stop offset="100%" stop-color="#C4441C"/>
+          </radialGradient>
+        </defs>
+
+        <rect width="440" height="275" fill="#0C0518"/>
+        <rect y="200" width="440" height="75" fill="url(#floorG)"/>
+
+        <!-- court lines -->
+        <g stroke="rgba(255,201,60,.28)" stroke-width="1.4" fill="none">
+          <path d="M0 214 H440"/>
+          <path d="M120 275 a100 44 0 0 1 200 0"/>
+        </g>
+
+        <!-- the arc of the shot -->
+        <path d="M56 250 C 150 40, 300 20, 392 118" fill="none"
+              stroke="rgba(255,201,60,.3)" stroke-width="1.6" stroke-dasharray="3 7"/>
+
+        <!-- backboard, rim, net -->
+        <g>
+          <rect x="384" y="58" width="6" height="74" rx="2" fill="#3a1f5c"/>
+          <rect x="336" y="58" width="50" height="40" rx="3" fill="rgba(255,247,232,.1)"
+                stroke="#5FD7FF" stroke-width="2"/>
+          <rect x="352" y="70" width="20" height="15" rx="2" fill="none" stroke="#5FD7FF" stroke-width="1.4"/>
+          <ellipse cx="342" cy="104" rx="24" ry="5.5" fill="none" stroke="#FF7A3D" stroke-width="3"/>
+          <g class="netshake">
+            <path d="M320 106 L326 130 M330 108 L333 132 M342 109 L342 134 M354 108 L351 132 M364 106 L358 130"
+                  stroke="rgba(255,247,232,.6)" stroke-width="1.2" fill="none"/>
+            <path d="M324 118 H360 M327 128 H357" stroke="rgba(255,247,232,.4)" stroke-width="1" fill="none"/>
+          </g>
+        </g>
+
+        <!-- the prism burst when it falls -->
+        <g class="burst" transform="translate(342,104)">
+          <g stroke-width="2.4" stroke-linecap="round">
+            <line x1="0" y1="-34" x2="0" y2="-20" stroke="#FFC93C"/>
+            <line x1="24" y1="-24" x2="14" y2="-14" stroke="#5FD7FF"/>
+            <line x1="34" y1="0" x2="20" y2="0" stroke="#FF5F9E"/>
+            <line x1="-24" y1="-24" x2="-14" y2="-14" stroke="#B36BFF"/>
+            <line x1="-34" y1="0" x2="-20" y2="0" stroke="#FFC93C"/>
+            <line x1="-18" y1="22" x2="-11" y2="13" stroke="#5FD7FF"/>
+            <line x1="18" y1="22" x2="11" y2="13" stroke="#FF5F9E"/>
+          </g>
+        </g>
+
+        <!-- the ball -->
+        <g class="ball">
+          <circle r="11" fill="url(#ballG)"/>
+          <g stroke="rgba(60,20,8,.65)" stroke-width="1.1" fill="none">
+            <path d="M-11 0 H11"/><path d="M0 -11 V11"/>
+            <path d="M-8 -8 Q0 0 8 8"/><path d="M8 -8 Q0 0 -8 8"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="buzz">
+      THE FINAL BUZZER
+      <b>IS NOT THE FINAL WORD.</b>
+    </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">▣ ▣ ▣</div>
+
+<!-- ═══════════ CH 🌙 — LOUDER THAN MY DOUBTS ═══════════ -->
+<style>
+  #louder{background:radial-gradient(900px 420px at 50% 32%,rgba(179,107,255,.15),transparent 70%)}
+  #louder .section-title{color:var(--violet);text-shadow:0 0 28px rgba(179,107,255,.5)}
+  #louder .section-sub{color:var(--gold)}
+  .incant{max-width:34rem;margin:0 auto;text-align:center}
+  .incant p{font-family:var(--cond);font-size:clamp(1rem,2.4vw,1.2rem);letter-spacing:.14em;
+    text-transform:uppercase;line-height:1.9;margin-top:1.25rem;color:var(--bone)}
+  .incant p:first-child{margin-top:0}
+  .incant p:nth-child(even){color:var(--violet)}
+  .incant hr{border:0;border-top:1px solid rgba(255,201,60,.3);max-width:9rem;margin:1.7rem auto}
+  .fourbeats{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    max-width:36rem;margin:clamp(28px,4.4vw,44px) auto 0}
+  .fourbeats div{padding:1rem .6rem;border-radius:12px;text-align:center;
+    background:rgba(38,18,63,.6);border:1px solid rgba(255,201,60,.3);
+    font-family:var(--head);font-size:clamp(1rem,2.6vw,1.4rem);text-transform:uppercase;color:var(--gold)}
+  .fourbeats div:nth-child(2){color:var(--ice);border-color:rgba(95,215,255,.35)}
+  .fourbeats div:nth-child(3){color:var(--rose);border-color:rgba(255,95,158,.35)}
+  .fourbeats div:nth-child(4){color:var(--violet);border-color:rgba(179,107,255,.35)}
+  .sacred{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    max-width:50rem;margin:clamp(26px,4vw,40px) auto 0}
+  .sacred div{padding:.85rem 1rem;border-radius:10px;background:rgba(12,5,24,.65);
+    border-left:3px solid var(--violet);font-size:1rem;color:var(--bone)}
+  .sacred div:nth-child(2n){border-left-color:var(--gold)}
+  .mother{max-width:36rem;margin:clamp(28px,4.4vw,44px) auto 0;padding:1.3rem 1.4rem;text-align:center;
+    border-radius:14px;border:1px solid rgba(255,201,60,.4);
+    background:linear-gradient(180deg,rgba(38,18,63,.75),rgba(12,5,24,.88))}
+  .mother b{display:block;font-family:var(--head);font-size:clamp(1.05rem,2.8vw,1.5rem);
+    text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+  .mother span{color:var(--dim);font-size:.99rem}
+</style>
+<section id="louder">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 🌙 · Magick Mica TV · Aug 20</span>
+      <h2 class="section-title">I Wake Up Louder<br>Than My Doubts</h2>
+      <p class="section-sub">mother of lost frequencies</p>
+    </div>
+
+    <div class="incant">
+      <p>Negative energy, return to the void.<br>I release what is heavy, I call back what I enjoy.</p>
+      <p>My heart is open, my spirit is free.<br>Abundance and magic flow back to me.</p>
+      <p>As above, so within,<br>my new era shall begin.</p>
+      <hr>
+      <p>Anything sent to dim my light<br>transforms into stars tonight.</p>
+      <p>What was heavy, now floats away.<br>What is divine, is here to stay.</p>
+      <p>My energy is pure golden flame.<br>The universe knows my true name.</p>
+      <hr>
+      <p>Starlight within me, cosmos around.<br>I am the frequency, I am the sound.</p>
+      <p>Old worlds fade, new worlds appear.<br>My future is calling, my path is clear.</p>
+      <p>From galaxies far, to oceans deep,<br>the magic I plant is mine to keep.</p>
+    </div>
+
+    <div class="fourbeats">
+      <div>I release</div><div>I receive</div><div>I rise</div><div>I believe</div>
+    </div>
+
+    <div class="sacred">
+      <div>My energy is sacred.</div>
+      <div>My heart is a portal.</div>
+      <div>My dreams are infinite.</div>
+      <div>I am a magnet for miracles, magic and divine timing.</div>
+      <div>What leaves me makes space for stars.</div>
+      <div>What finds me was written in the cosmos.</div>
+    </div>
+
+    <div class="gallery">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F70f38bde-6cff-4018-bf0b-7bd1271803ad_1680x944.jpeg" alt="I wake up louder than my doubts" loading="lazy"><figcaption>Louder than doubt</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa8fcf0eb-2bf0-4c9a-bcca-dd188a0392df_1662x946.png" alt="Anything sent to dim my light transforms into stars" loading="lazy"><figcaption>Into stars tonight</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fef282ffe-ddc6-4b58-ae83-01ac2d5e7f5b_1369x1149.png" alt="My energy is pure golden flame" loading="lazy"><figcaption>Golden flame</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F12adca23-b7a4-479b-800f-e6ab1cbd83d8_1085x1450.png" alt="The Mother of Lost Frequencies" loading="lazy"><figcaption>Mother of Lost Frequencies</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffda4c29d-04ec-4b00-8b34-9f6410e52abd_1023x1537.png" alt="I am the frequency, I am the sound" loading="lazy"><figcaption>I am the sound</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8f1244ea-d44c-4475-8b0c-a2df32fb5686_1024x1024.jpeg" alt="What leaves me makes space for stars" loading="lazy"><figcaption>Space for stars</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe79580ba-c397-49c2-83be-da7280c45979_1024x1024.jpeg" alt="I walk in peace, I walk in grace" loading="lazy"><figcaption>Peace and grace</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0dcca0ee-327e-40f7-9a5d-2e9348687362_1024x1024.jpeg" alt="Love and light surround my space" loading="lazy"><figcaption>Love and light</figcaption></figure>
+    </div>
+
+    <div class="mother">
+      <b>Mother of Lost Frequencies</b>
+      <span>The ancient goddess behind Magick Mica TV, receiving transmissions from forgotten timelines and deciding which signals deserve to enter reality.</span>
+    </div>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/i-wake-up-louder-than-my-doubts" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">▣ ▣ ▣</div>
+
+<!-- ═══════════ CH 🔮 — THE GODDESS ON THE PHONE ═══════════ -->
+<style>
+  #tarot .section-title{color:var(--rose);text-shadow:0 0 28px rgba(255,95,158,.5)}
+  #tarot .section-sub{color:var(--violet)}
+  .spread{display:grid;gap:clamp(10px,1.6vw,16px);
+    grid-template-columns:repeat(auto-fit,minmax(255px,1fr));margin-top:clamp(26px,4vw,42px)}
+  .tcard{position:relative;padding:1.1rem 1.15rem 1.15rem;border-radius:14px;
+    background:linear-gradient(180deg,rgba(38,18,63,.78),rgba(12,5,24,.9));
+    border:1px solid rgba(179,107,255,.3);transition:.22s;overflow:hidden}
+  .tcard::before{content:"";position:absolute;inset:5px;border:1px solid rgba(255,201,60,.16);
+    border-radius:10px;pointer-events:none}
+  .tcard:hover{transform:translateY(-6px);box-shadow:0 22px 52px rgba(179,107,255,.28)}
+  .tcard .sgn{font-family:var(--cond);font-size:.76rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--gold)}
+  .tcard h4{font-family:var(--head);font-size:clamp(1rem,2.3vw,1.25rem);text-transform:uppercase;
+    line-height:1.12;color:var(--bone);margin:.25rem 0 .55rem}
+  .tcard p{font-size:.95rem;line-height:1.55;color:var(--dim)}
+  .tcard .msg{margin-top:.7rem;padding-top:.6rem;border-top:1px dashed rgba(255,201,60,.26);
+    font-family:var(--script);font-size:1.15rem;line-height:1.35;color:var(--ice)}
+  .tcard:nth-child(3n+2){border-color:rgba(95,215,255,.3)}
+  .tcard:nth-child(3n){border-color:rgba(255,95,158,.3)}
+  .collective{max-width:40rem;margin:clamp(30px,5vw,54px) auto 0;padding:clamp(18px,3vw,32px);
+    border-radius:16px;border:1px solid rgba(255,201,60,.34);
+    background:linear-gradient(180deg,rgba(38,18,63,.78),rgba(12,5,24,.9));text-align:center}
+  .collective h3{font-family:var(--head);font-size:clamp(1.1rem,3vw,1.7rem);text-transform:uppercase;
+    color:var(--gold);margin-bottom:.4rem}
+  .collective .date{font-family:var(--cond);font-size:.76rem;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+  .collective p{margin-top:.9rem;color:var(--bone)}
+  .collective em{font-style:italic;color:var(--ice)}
+  .ritual{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:1.3rem}
+  .ritual span{font-family:var(--head);font-size:clamp(.95rem,2.4vw,1.3rem);text-transform:uppercase;
+    color:var(--night);background:var(--gold);border-radius:6px;padding:.3rem .9rem}
+  .ritual span:nth-child(2){background:var(--ice)}
+  .ritual span:nth-child(3){background:var(--rose)}
+  .ritual span:nth-child(4){background:var(--violet)}
+</style>
+<section id="tarot">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 🔮 · Magick Mica TV · Aug 12</span>
+      <h2 class="section-title">The Goddess on the Phone</h2>
+      <p class="section-sub">your frequency is receiving. your intuition is the notification.</p>
+    </div>
+
+    <div class="spread">
+      <div class="tcard"><p class="sgn">♈ Aries</p><h4>The Spark</h4>
+        <p>Your card says: MOVE. Something you've been waiting to feel “ready” for is already energetically unlocked. The universe isn't asking for a perfect plan — it wants your first click, first step, first yes.</p>
+        <p class="msg">Your courage is the password.</p></div>
+
+      <div class="tcard"><p class="sgn">♉ Taurus</p><h4>The Crystal Garden</h4>
+        <p>Something you've been nurturing quietly is beginning to show signs of life. Don't dig it up every five minutes to see if it's growing. Water it. Love it. Leave room for magic to surprise you.</p>
+        <p class="msg">What is meant for you does not need to be rushed.</p></div>
+
+      <div class="tcard"><p class="sgn">♊ Gemini</p><h4>The Incoming Transmission</h4>
+        <p>A message, conversation, coincidence or unexpected piece of information changes how you see something. Pay attention to the tiny details — your intuition may notice the signal before your brain understands it.</p>
+        <p class="msg">Not every notification comes from a phone.</p></div>
+
+      <div class="tcard"><p class="sgn">♋ Cancer</p><h4>The Moon Mirror</h4>
+        <p>Your emotional sensitivity is not a malfunction. You are picking up information other people are filtering out. Tonight, protect your energy from unnecessary noise and listen to what your body has already been telling you.</p>
+        <p class="msg">Your feelings are carrying data.</p></div>
+
+      <div class="tcard"><p class="sgn">♌ Leo</p><h4>The Golden Screen</h4>
+        <p>You are entering a visibility portal. Let yourself be seen without shrinking, apologising, or explaining the sparkle. Somebody needs to witness what happens when you stop dimming yourself.</p>
+        <p class="msg">You were never meant to be background scenery.</p></div>
+
+      <div class="tcard"><p class="sgn">♍ Virgo</p><h4>The Hidden Code</h4>
+        <p>A small adjustment creates a surprisingly large shift. Rearrange the room. Change the routine. Delete the thing that keeps distracting you. Your next chapter may be hiding inside one very ordinary decision.</p>
+        <p class="msg">The magic is in the details.</p></div>
+
+      <div class="tcard"><p class="sgn">♎ Libra</p><h4>The Prism</h4>
+        <p>Your card speaks of alignment. Something becomes easier when you stop trying to make everyone else comfortable with your choice. Harmony does not mean abandoning yourself.</p>
+        <p class="msg">Peace feels different when you don't have to perform for it.</p></div>
+
+      <div class="tcard"><p class="sgn">♏ Scorpio</p><h4>The Secret Door</h4>
+        <p>A truth is becoming impossible to ignore. This isn't necessarily something frightening — it may be something liberating. Your intuition has been circling the answer for a while. Open the door.</p>
+        <p class="msg">What is revealed cannot control you any more.</p></div>
+
+      <div class="tcard"><p class="sgn">♐ Sagittarius</p><h4>The Cosmic Ticket</h4>
+        <p>Adventure energy is returning. A new place, idea, person, project or possibility wants your attention. Say yes to something that makes your life feel slightly more interesting.</p>
+        <p class="msg">The universe rewards curiosity.</p></div>
+
+      <div class="tcard"><p class="sgn">♑ Capricorn</p><h4>The Architect</h4>
+        <p>You are building something that will outlast the mood you're currently in. Keep going. Your future self is already living inside the structure you're creating now.</p>
+        <p class="msg">Discipline is one of your secret forms of magic.</p></div>
+
+      <div class="tcard"><p class="sgn">♒ Aquarius</p><h4>The Glitch in the Matrix</h4>
+        <p>Something unexpected may interrupt your normal pattern — and that's exactly the point. Don't immediately label the detour as a problem. It could be the universe rerouting you toward something much stranger and much better.</p>
+        <p class="msg">The glitch may actually be the doorway.</p></div>
+
+      <div class="tcard"><p class="sgn">♓ Pisces</p><h4>The Dream Receiver</h4>
+        <p>Your imagination is unusually loud right now. Dreams, symbols, music, memories, colours, synchronicities — notice what keeps repeating. Your creative mind is connecting dots before your logical mind catches up.</p>
+        <p class="msg">Your inner world is sending you coordinates.</p></div>
+    </div>
+
+    <div class="collective">
+      <h3>📞 The Collective Message</h3>
+      <p class="date">August 12, 2026</p>
+      <p>There is a call coming through. Not necessarily from someone. Not necessarily from somewhere.</p>
+      <p>Maybe it's the sudden idea. The strange coincidence. The song that finds you at exactly the right moment. The person who says the sentence you needed to hear. <em>The tiny impulse you almost ignore.</em></p>
+      <p><b>Answer it.</b> Your intuition doesn't always ring loudly. Sometimes it simply glows.</p>
+      <div class="ritual"><span>Receive</span><span>Notice</span><span>Trust</span><span>Move</span></div>
+      <p style="margin-top:1.3rem">The universe called. And this time, you answered. ✨</p>
+    </div>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/the-goddess-on-the-phone-cosmic-tarot" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">▣ ▣ ▣</div>
+
+<footer style="text-align:center;padding:0 20px clamp(46px,7vw,80px)">
+  <p style="font-family:var(--head);font-size:clamp(1.4rem,4vw,2.6rem);text-transform:uppercase;color:var(--gold)">Take the shot</p>
+  <p style="margin-top:.9rem;color:var(--dim)">Three transmissions from <a href="https://magickmica.substack.com" target="_blank" rel="noopener">Magick Mica TV</a>, rebuilt as one broadcast.</p>
+  <p style="margin-top:1.2rem;font-family:var(--cond);font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)">
+    <a href="articles.html">The magazine</a> · <a href="notes.html">All notes</a> · <a href="index.html">Back to the signal</a>
+  </p>
+</footer>
+
+</main>
+
+<script src="mm-nav.js?v=3" defer></script>
+</body>
+</html>

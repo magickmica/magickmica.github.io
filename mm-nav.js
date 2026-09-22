@@ -70,6 +70,15 @@
       ['https://www.themysticalspiralstore.com/', 'Mystical Spiral \u2197']
     ]},
     { name: 'Broadcasts', items: [
+      ['dreamland-broadcast.html', 'Dreamland'],
+      ['candy-carnival-broadcast.html', 'Candy Carnival'],
+      ['remembering-broadcast.html', 'The Remembering'],
+      ['frequency-broadcast.html', 'The Frequency'],
+      ['new-timeline-broadcast.html', 'New Timeline'],
+      ['postcard-broadcast.html', 'The Postcard'],
+      ['glitter-hallway-broadcast.html', 'Glitter Hallway'],
+      ['machine-room-broadcast.html', 'Machine Room'],
+      ['winning-frequency-broadcast.html', 'Winning Frequency'],
       ['glitter-transmission.html', 'Glitter Transmission'],
       ['galactic-dessert-issue.html', 'Galactic Dessert'],
       ['cosmic-circus-broadcast.html', 'Cosmic Circus'],

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Dreamland Broadcast — Magick Mica Art</title>
+<meta name="description" content="Three transmissions from the far side of sleep — Dreamland, the Cosmic Phone, and a little ghost who shares stardust coffee with the Moon Baby. Magick Mica Art.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Dreamland Broadcast — Magick Mica Art">
+<meta property="og:description" content="Three transmissions from the far side of sleep: Dreamland, the Cosmic Phone, and stardust coffee with the Moon Baby.">
+<meta property="og:url" content="https://magickmica.github.io/dreamland-broadcast.html">
+<meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8a3ce7d3-9a7e-4c97-8391-fbb6f7fe1cc1_1023x1537.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Dreamland Broadcast — Magick Mica Art">
+<meta name="twitter:description" content="Three transmissions from the far side of sleep: Dreamland, the Cosmic Phone, and stardust coffee with the Moon Baby.">
+<meta name="twitter:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8a3ce7d3-9a7e-4c97-8391-fbb6f7fe1cc1_1023x1537.png">
+<link rel="canonical" href="https://magickmica.github.io/dreamland-broadcast.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Yellowtail&family=Barlow+Condensed:wght@500;600;700&family=Karla:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THE DREAMLAND BROADCAST
+   A night-meadow special in the shape of the Cozy Christmas
+   and Cosmic Circus broadcasts: ticker, on-air sign, channel
+   guide, one channel per transmission. Moonlit indigo, silver
+   and soft pink; every image is from the posts themselves.
+   ══════════════════════════════════════════════════════════ */
+:root{
+  --night:#07061c; --deep:#100a30; --violet:#2a1a58;
+  --moon:#F3ECFF; --silver:#CFC4F0; --dim:rgba(243,236,255,.62);
+  --pink:#FF9BD2; --lilac:#B79CFF; --mint:#8FE9D0; --gold:#F5C044;
+  --head:"Playfair Display",Georgia,serif;
+  --script:"Yellowtail",cursive;
+  --cond:"Barlow Condensed",sans-serif;
+  --body:"Karla",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--night); color:var(--moon);
+  font-family:var(--body); font-size:17px; line-height:1.65; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(70% 45% at 50% -6%, rgba(183,156,255,.24), transparent 64%),
+    radial-gradient(45% 34% at 12% 24%, rgba(255,155,210,.14), transparent 66%),
+    radial-gradient(60% 46% at 82% 74%, rgba(143,233,208,.12), transparent 64%),
+    linear-gradient(180deg, transparent 40%, rgba(16,10,48,.75));
+}
+.stars{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.9;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 74% 8%,var(--lilac),transparent),
+    radial-gradient(1.7px 1.7px at 38% 62%,#fff,transparent),
+    radial-gradient(1.3px 1.3px at 22% 84%,var(--pink),transparent),
+    radial-gradient(1.5px 1.5px at 92% 72%,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 6% 52%,var(--gold),transparent),
+    radial-gradient(1.4px 1.4px at 30% 40%,var(--mint),transparent);
+  background-size:520px 520px,700px 700px,460px 460px,560px 560px,740px 740px,600px 600px,680px 680px;
+  animation:twinkle 7s ease-in-out infinite alternate;
+}
+@keyframes twinkle{from{opacity:.55}to{opacity:1}}
+#dust{position:fixed;inset:0;z-index:0;pointer-events:none}
+main{position:relative;z-index:2}
+a{color:var(--pink)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* ── moon-phase strip ───────────────────────────────── */
+.phases{position:relative;z-index:2;display:flex;justify-content:center;gap:clamp(10px,3vw,28px);
+  padding:20px 16px 0;flex-wrap:wrap}
+.phases i{position:relative;width:18px;height:18px;border-radius:50%;background:var(--moon);
+  box-shadow:0 0 14px rgba(243,236,255,.7);animation:phaseGlow 6s ease-in-out infinite}
+.phases i::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--night)}
+.phases i:nth-child(1)::after{transform:translateX(-2px)}
+.phases i:nth-child(2)::after{transform:translateX(-7px)}
+.phases i:nth-child(3)::after{transform:translateX(-12px)}
+.phases i:nth-child(4)::after{display:none}
+.phases i:nth-child(5)::after{transform:translateX(12px)}
+.phases i:nth-child(6)::after{transform:translateX(7px)}
+.phases i:nth-child(7)::after{transform:translateX(2px)}
+.phases i:nth-child(n+2){animation-delay:.5s}
+@keyframes phaseGlow{50%{box-shadow:0 0 22px rgba(255,155,210,.75)}}
+
+/* ── header ─────────────────────────────────────────── */
+header{position:relative;z-index:2;text-align:center;padding:clamp(20px,4vw,40px) 20px 0}
+.ticker{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;align-items:center;
+  font-family:var(--cond);font-size:.82rem;letter-spacing:.22em;text-transform:uppercase;color:var(--silver)}
+.ticker .dot{color:var(--pink)}
+.onair{display:inline-block;margin-top:1rem;font-family:var(--cond);font-weight:700;font-size:.8rem;
+  letter-spacing:.24em;color:#1a0f33;background:var(--pink);padding:.34rem .9rem;border-radius:999px;
+  box-shadow:0 0 22px rgba(255,155,210,.5);animation:blink 3.4s steps(1) infinite}
+@keyframes blink{88%{opacity:1}92%{opacity:.35}}
+.sign{margin-top:1.1rem}
+.sign h1{font-family:var(--head);font-weight:800;line-height:1.02;
+  font-size:clamp(2.5rem,8vw,5.2rem);color:var(--moon);
+  text-shadow:0 0 40px rgba(183,156,255,.55), 0 0 90px rgba(255,155,210,.35)}
+.sign .script{display:block;margin-top:.5rem;font-family:var(--script);font-size:clamp(1.3rem,3.4vw,2rem);
+  color:var(--pink);text-shadow:0 0 22px rgba(255,155,210,.5)}
+.tagline{max-width:44rem;margin:1.2rem auto 0;color:var(--dim);font-size:1.05rem}
+.moonline{margin-top:.9rem;color:rgba(207,196,240,.5);letter-spacing:.1em}
+
+/* ── channel guide ──────────────────────────────────── */
+.guide{max-width:780px;margin:clamp(24px,4vw,40px) auto 0;padding:1.1rem 1.2rem 1.3rem;
+  border:1px solid rgba(183,156,255,.3);border-radius:14px;background:rgba(16,10,48,.6);
+  box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.guide-label{font-family:var(--cond);font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.8rem}
+.guide a{display:flex;gap:.8rem;align-items:baseline;flex-wrap:wrap;text-decoration:none;color:var(--moon);
+  padding:.55rem .2rem;border-top:1px solid rgba(183,156,255,.14);transition:.18s}
+.guide a:first-of-type{border-top:0}
+.guide a:hover{color:var(--pink)}
+.guide .ch{font-family:var(--cond);font-weight:700;font-size:.8rem;letter-spacing:.14em;color:var(--mint)}
+.guide .desc{margin-left:auto;font-family:var(--cond);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim)}
+
+/* ── sections ───────────────────────────────────────── */
+section{scroll-margin-top:72px;position:relative;padding:clamp(48px,8vw,96px) 0 clamp(30px,5vw,60px)}
+.section-head{text-align:center;max-width:46rem;margin:0 auto clamp(22px,4vw,38px)}
+.ch-badge{display:inline-block;font-family:var(--cond);font-size:.76rem;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--night);background:var(--silver);padding:.28rem .8rem;border-radius:999px}
+.section-title{font-family:var(--head);font-weight:800;line-height:1.08;margin-top:.9rem;
+  font-size:clamp(1.9rem,5vw,3.1rem)}
+.section-sub{font-family:var(--script);font-size:clamp(1.15rem,2.6vw,1.6rem);margin-top:.4rem}
+.section-note{margin-top:.9rem;color:var(--dim)}
+.pull{max-width:46rem;margin:clamp(20px,3.6vw,34px) auto;padding:0 1rem;text-align:center;
+  font-family:var(--head);font-style:italic;font-size:clamp(1.25rem,3vw,1.9rem);line-height:1.4;color:var(--moon)}
+.pull span{color:var(--pink)}
+.readmore{display:block;width:fit-content;margin:clamp(22px,4vw,38px) auto 0;
+  font-family:var(--cond);font-size:.84rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;
+  color:var(--night);background:linear-gradient(96deg,var(--pink),var(--lilac));
+  padding:.85rem 1.7rem;border-radius:999px;box-shadow:0 10px 30px rgba(255,155,210,.28);transition:transform .16s}
+.readmore:hover{transform:translateY(-2px)}
+.divider{display:block;text-align:center;color:rgba(183,156,255,.4);letter-spacing:.5em;margin:clamp(30px,5vw,56px) 0}
+
+/* image furniture shared by the channels */
+.strip{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.shot{position:relative;border-radius:14px;overflow:hidden;border:1px solid rgba(183,156,255,.25);
+  background:#0d0826;box-shadow:0 10px 34px rgba(0,0,0,.45);transition:transform .25s,box-shadow .25s,border-color .25s}
+.shot:hover{transform:translateY(-5px) rotate(-.4deg);border-color:rgba(255,155,210,.55);
+  box-shadow:0 18px 48px rgba(255,155,210,.2)}
+.shot img{display:block;width:100%;height:100%;object-fit:cover}
+.shot.tall img{aspect-ratio:2/3}
+.shot.wide img{aspect-ratio:16/10}
+.shot.sq img{aspect-ratio:1/1}
+.shot figcaption{position:absolute;left:0;right:0;bottom:0;padding:1.6rem .9rem .7rem;
+  font-family:var(--cond);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--moon);
+  background:linear-gradient(180deg,transparent,rgba(7,6,28,.85))}
+
+@media(prefers-reduced-motion:reduce){
+  .stars,.onair,.phases i{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+
+<main>
+
+<div class="phases" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<header>
+  <div class="ticker">
+    <span>☾ Dreamland frequency locked</span><span class="dot">●</span>
+    <span>Magick Mica Art</span><span class="dot">●</span>
+    <span>Broadcasting from somewhere past midnight</span>
+  </div>
+  <div class="onair">◉ DREAMING — ALL NIGHT</div>
+  <div class="sign">
+    <h1>The Dreamland<br>Broadcast</h1>
+    <span class="script">three transmissions from the far side of sleep</span>
+  </div>
+  <p class="tagline">A lunar cycle, a ringing phone and a very small ghost with a very warm mug. Every picture here came out of the posts themselves. ✦</p>
+  <p class="moonline">⋆｡°✩ ☾ ✩°｡⋆ ☕ ⋆｡°✩ ☎ ✩°｡⋆</p>
+
+  <nav class="guide" aria-label="Channel guide">
+    <div class="guide-label">✦ Tonight's channel guide ✦</div>
+    <a href="#dreamland"><span class="ch">CH 01</span> I Visit Dreamland To Remember <span class="desc">Moonlight &amp; Ferris wheels</span></a>
+    <a href="#wheel"><span class="ch">CH ◎</span> The Cosmic Ferris Wheel <span class="desc">Old timelines, turning</span></a>
+    <a href="#phone"><span class="ch">CH ☎</span> Your Dreams Have Been Knocking <span class="desc">Pick up the line</span></a>
+    <a href="#moonbaby"><span class="ch">CH ☕</span> The Ghost &amp; the Moon Baby <span class="desc">Stardust coffee</span></a>
+  </nav>
+</header>
+
+<!-- ═══════════ CH 01 — DREAMLAND ═══════════ -->
+<style>
+  #dreamland .section-title{color:var(--lilac);text-shadow:0 0 30px rgba(183,156,255,.5)}
+  #dreamland .section-sub{color:var(--pink)}
+  .dream-hero{position:relative;max-width:900px;margin:0 auto clamp(22px,4vw,36px);
+    border-radius:18px;overflow:hidden;border:1px solid rgba(183,156,255,.3);
+    box-shadow:0 26px 70px rgba(0,0,0,.6),0 0 60px rgba(183,156,255,.14)}
+  .dream-hero img{display:block;width:100%;aspect-ratio:16/11;object-fit:cover}
+  .dream-hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,transparent 45%,rgba(7,6,28,.85))}
+  .dream-hero .cap{position:absolute;left:0;right:0;bottom:0;padding:1.6rem;text-align:center;
+    font-family:var(--script);font-size:clamp(1.2rem,3vw,1.9rem);color:var(--moon);
+    text-shadow:0 2px 20px rgba(0,0,0,.8)}
+  .dream-grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+  .glow-card{border-radius:14px;overflow:hidden;position:relative;border:1px solid rgba(255,155,210,.22);
+    box-shadow:0 10px 34px rgba(0,0,0,.45);transition:transform .25s,box-shadow .25s}
+  .glow-card img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover}
+  .glow-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(183,156,255,.28)}
+  .glow-card::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 60% at 50% 0%,rgba(255,246,251,.12),transparent 55%)}
+  .leaving{max-width:44rem;margin:clamp(24px,4vw,40px) auto 0;display:grid;gap:.6rem}
+  .leaving div{display:flex;gap:.8rem;align-items:flex-start;padding:.8rem 1rem;border-radius:12px;
+    background:rgba(42,26,88,.4);border:1px solid rgba(183,156,255,.2)}
+  .leaving b{font-family:var(--cond);letter-spacing:.14em;text-transform:uppercase;color:var(--mint);font-size:.8rem;
+    padding-top:.2rem;white-space:nowrap}
+</style>
+<section id="dreamland">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="ch-badge">CH 01 · Magick Mica Art · Aug 25</span>
+      <h2 class="section-title">I Visit Dreamland To Remember</h2>
+      <p class="section-sub">who I am</p>
+      <p class="section-note">A new lunar cycle, and a decision to stop knocking on doors that were never hers.</p>
+    </div>
+
+    <figure class="dream-hero">
+      <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8a3ce7d3-9a7e-4c97-8391-fbb6f7fe1cc1_1023x1537.png" alt="A dreamer beneath the moon, stars caught in her hair" loading="lazy">
+      <figcaption class="cap">Dreamland is not somewhere I go. It is something I remember.</figcaption>
+    </figure>
+
+    <p class="pull">“Here, the impossible does not ask for permission to become real. Here, my intuition wears <span>stardust</span>.”</p>
+
+    <div class="dream-grid">
+      <figure class="glow-card"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc3599cea-d82c-4ac8-b7a4-58afa97d4481_1028x1529.png" alt="A dreamer walking the moonlit path of Dreamland" loading="lazy"></figure>
+      <figure class="glow-card"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8f89e779-9a68-410d-915d-738f6fa23f2e_1027x1532.png" alt="Stars settling into a sleeper's hair" loading="lazy"></figure>
+      <figure class="glow-card"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5859da21-743f-4949-ab6c-b7b853e8f389_1023x1537.png" alt="The version of her she is becoming" loading="lazy"></figure>
+      <figure class="glow-card"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd9535b7f-7c62-4279-902f-29db7d4a07dc_1023x1537.png" alt="A quiet figure under a wide lunar sky" loading="lazy"></figure>
+    </div>
+
+    <div class="leaving">
+      <div><b>Leaving behind</b><span>the version who confused waiting with wisdom.</span></div>
+      <div><b>Leaving behind</b><span>the one who confused silence with peace.</span></div>
+      <div><b>Leaving behind</b><span>the one who confused smallness with safety.</span></div>
+    </div>
+
+    <p class="pull">“Let this lunar cycle find me softer, stranger, brighter. Let it find me <span>curious</span>.”</p>
+
+    <a class="readmore" href="https://magickmicaart.substack.com/p/i-visit-dreamland-to-remember" target="_blank" rel="noopener">Read the full transmission ↗</a>
+  </div>
+</section>
+
+<span class="divider">☾ ✦ ☾ ✦ ☾</span>
+
+<!-- ═══════════ CH ◎ — THE FERRIS WHEEL ═══════════ -->
+<style>
+  /* the stage is a square that rotates, so its bounding box grows past the
+     viewport on a phone; clip the section rather than shrink the wheel */
+  #wheel{background:radial-gradient(900px 420px at 50% 40%,rgba(183,156,255,.14),transparent 70%);overflow:hidden}
+  #wheel .section-title{color:var(--gold);text-shadow:0 0 26px rgba(245,192,68,.4)}
+  .wheel-stage{position:relative;width:min(88vw,460px);aspect-ratio:1;margin:0 auto}
+  .wheel-spin{position:absolute;inset:0;animation:turn 44s linear infinite}
+  @keyframes turn{to{transform:rotate(360deg)}}
+  .wheel-spin svg{width:100%;height:100%;overflow:visible}
+  .spoke{stroke:rgba(207,196,240,.45);stroke-width:1.4}
+  .rim{fill:none;stroke:rgba(243,236,255,.55);stroke-width:2.4}
+  .rim-in{fill:none;stroke:rgba(183,156,255,.4);stroke-width:1.2}
+  .cab{fill:#1a0f3d;stroke:var(--pink);stroke-width:1.6}
+  .cab-lamp{fill:var(--gold);filter:drop-shadow(0 0 6px var(--gold))}
+  .hub{fill:#2a1a58;stroke:var(--silver);stroke-width:2}
+  .wheel-base{position:absolute;left:50%;bottom:-6%;transform:translateX(-50%);width:42%;height:16%;
+    background:linear-gradient(180deg,rgba(207,196,240,.35),transparent);clip-path:polygon(46% 0,54% 0,100% 100%,0 100%)}
+  .wheel-caption{max-width:40rem;margin:clamp(26px,4vw,40px) auto 0;text-align:center;color:var(--dim)}
+</style>
+<section id="wheel">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="ch-badge">CH ◎ · Interlude</span>
+      <h2 class="section-title">The Cosmic Ferris Wheel</h2>
+      <p class="section-sub">every old timeline, turning into a little light</p>
+    </div>
+    <div class="wheel-stage" aria-hidden="true">
+      <div class="wheel-spin">
+        <svg viewBox="0 0 200 200">
+          <circle class="rim" cx="100" cy="100" r="88"/>
+          <circle class="rim-in" cx="100" cy="100" r="72"/>
+          <g class="spokes">
+            <line class="spoke" x1="100" y1="12" x2="100" y2="188"/>
+            <line class="spoke" x1="12" y1="100" x2="188" y2="100"/>
+            <line class="spoke" x1="38" y1="38" x2="162" y2="162"/>
+            <line class="spoke" x1="162" y1="38" x2="38" y2="162"/>
+            <line class="spoke" x1="66" y1="17" x2="134" y2="183"/>
+            <line class="spoke" x1="134" y1="17" x2="66" y2="183"/>
+            <line class="spoke" x1="17" y1="66" x2="183" y2="134"/>
+            <line class="spoke" x1="183" y1="66" x2="17" y2="134"/>
+          </g>
+          <g>
+            <rect class="cab" x="92" y="2" width="16" height="12" rx="3"/>
+            <rect class="cab" x="92" y="186" width="16" height="12" rx="3"/>
+            <rect class="cab" x="2" y="94" width="12" height="12" rx="3"/>
+            <rect class="cab" x="186" y="94" width="12" height="12" rx="3"/>
+            <rect class="cab" x="28" y="28" width="14" height="12" rx="3"/>
+            <rect class="cab" x="158" y="28" width="14" height="12" rx="3"/>
+            <rect class="cab" x="28" y="160" width="14" height="12" rx="3"/>
+            <rect class="cab" x="158" y="160" width="14" height="12" rx="3"/>
+          </g>
+          <g class="lamps">
+            <circle class="cab-lamp" cx="100" cy="12" r="2.2"/>
+            <circle class="cab-lamp" cx="100" cy="188" r="2.2"/>
+            <circle class="cab-lamp" cx="12" cy="100" r="2.2"/>
+            <circle class="cab-lamp" cx="188" cy="100" r="2.2"/>
+            <circle class="cab-lamp" cx="38" cy="38" r="2.2"/>
+            <circle class="cab-lamp" cx="162" cy="38" r="2.2"/>
+            <circle class="cab-lamp" cx="38" cy="162" r="2.2"/>
+            <circle class="cab-lamp" cx="162" cy="162" r="2.2"/>
+          </g>
+          <circle class="hub" cx="100" cy="100" r="10"/>
+        </svg>
+      </div>
+      <div class="wheel-base"></div>
+    </div>
+    <p class="wheel-caption">“Round and round they go — every heartbreak, every detour, every strange little miracle I almost missed. Nothing was wasted. It was all becoming a map.”</p>
+  </div>
+</section>
+
+<span class="divider">☎ ✦ ☎ ✦ ☎</span>
+
+<!-- ═══════════ CH ☎ — THE COSMIC PHONE ═══════════ -->
+<style>
+  #phone{background:linear-gradient(180deg,transparent,rgba(42,26,88,.5) 24%,rgba(42,26,88,.5) 82%,transparent)}
+  #phone .section-title{color:var(--mint);text-shadow:0 0 26px rgba(143,233,208,.4)}
+  #phone .section-sub{color:var(--gold)}
+  .phone-stage{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:clamp(20px,4vw,44px);
+    align-items:center;max-width:920px;margin:0 auto}
+  .handset{width:100%;filter:drop-shadow(0 18px 30px rgba(0,0,0,.6));animation:ring 3.6s ease-in-out infinite}
+  @keyframes ring{0%,72%,100%{transform:rotate(0)}76%{transform:rotate(-7deg)}80%{transform:rotate(6deg)}84%{transform:rotate(-4deg)}88%{transform:rotate(3deg)}}
+  .handset .body{fill:#2a1a58;stroke:var(--mint);stroke-width:2}
+  .handset .dial{fill:none;stroke:var(--silver);stroke-width:1.6}
+  .handset .hole{fill:var(--gold)}
+  .handset .cord{fill:none;stroke:var(--pink);stroke-width:2.6;stroke-linecap:round}
+  .answer{font-family:var(--cond);font-size:.84rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;
+    color:var(--night);background:var(--mint);border:0;border-radius:999px;padding:.85rem 1.6rem;
+    box-shadow:0 10px 26px rgba(143,233,208,.3);transition:transform .16s}
+  .answer:hover{transform:translateY(-2px)}
+  .line{margin-top:1.1rem;min-height:4.2rem;font-family:var(--head);font-style:italic;
+    font-size:clamp(1.15rem,2.6vw,1.6rem);line-height:1.4;color:var(--moon)}
+  .line b{display:block;font-family:var(--cond);font-style:normal;font-weight:600;font-size:.78rem;
+    letter-spacing:.24em;text-transform:uppercase;color:var(--mint);margin-bottom:.4rem}
+  .phone-grid{margin-top:clamp(28px,4vw,44px)}
+  @media(max-width:720px){.phone-stage{grid-template-columns:1fr}.handset{max-width:220px;margin:0 auto}}
+</style>
+<section id="phone">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="ch-badge">CH ☎ · Magick Mica Art · Aug 6</span>
+      <h2 class="section-title">Your Dreams Have Been Knocking &amp; Ringing</h2>
+      <p class="section-sub">this is the month you finally answer</p>
+    </div>
+
+    <div class="phone-stage">
+      <svg class="handset" viewBox="0 0 200 200" role="img" aria-label="A ringing cosmic telephone">
+        <path class="cord" d="M24 168 q14 -16 28 0 q14 16 28 0 q14 -16 28 0"/>
+        <rect class="body" x="46" y="52" width="108" height="86" rx="16"/>
+        <circle class="dial" cx="100" cy="95" r="26"/>
+        <circle class="hole" cx="100" cy="72" r="3"/>
+        <circle class="hole" cx="120" cy="82" r="3"/>
+        <circle class="hole" cx="124" cy="104" r="3"/>
+        <circle class="hole" cx="108" cy="118" r="3"/>
+        <circle class="hole" cx="86" cy="118" r="3"/>
+        <circle class="hole" cx="76" cy="104" r="3"/>
+        <circle class="hole" cx="80" cy="82" r="3"/>
+        <rect class="body" x="30" y="30" width="140" height="22" rx="11"/>
+        <circle class="hole" cx="46" cy="41" r="4"/>
+        <circle class="hole" cx="154" cy="41" r="4"/>
+      </svg>
+      <div>
+        <p class="section-note" style="margin-top:0">The cosmos doesn't dial the wrong number. If your heart is ringing, answer it.</p>
+        <button class="answer" id="answer" type="button">☎ Answer the cosmic phone</button>
+        <div class="line" id="line" aria-live="polite"><b>Line open</b>Press the button. Something is already on hold.</div>
+      </div>
+    </div>
+
+    <div class="strip phone-grid">
+      <figure class="shot wide"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F04479a1d-b4f0-48e6-9e4c-7f3c294c64de_1672x941.png" alt="Cosmic phone artwork" loading="lazy"><figcaption>Incoming</figcaption></figure>
+      <figure class="shot wide"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4b200f72-9791-4769-91af-666fb702fc91_1672x941.png" alt="Cosmic phone artwork" loading="lazy"><figcaption>Ring ring ring</figcaption></figure>
+      <figure class="shot sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0d84f7c2-838d-43c8-bf49-cb195dbc1e81_1200x1200.png" alt="Abundance era artwork" loading="lazy"><figcaption>Abundance era</figcaption></figure>
+      <figure class="shot sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8c0035ff-ae4f-49c0-86ae-b362fbd2da48_1200x1200.png" alt="Icon status artwork" loading="lazy"><figcaption>Icon status</figcaption></figure>
+      <figure class="shot tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3612581b-e71e-4c57-af68-ce54fd343331_1122x1402.png" alt="Queen, rebel, born not made" loading="lazy"><figcaption>Born, not made</figcaption></figure>
+      <figure class="shot tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fba32a628-905b-438e-8d70-b28150bfe3de_1122x1402.png" alt="The future is unwritten" loading="lazy"><figcaption>The future is unwritten</figcaption></figure>
+    </div>
+
+    <p class="pull">“The call is coming from inside your <span>imagination</span>.”</p>
+
+    <a class="readmore" href="https://magickmicaart.substack.com/p/your-dreams-have-been-knocking-and" target="_blank" rel="noopener">Read the full transmission ↗</a>
+  </div>
+</section>
+
+<span class="divider">☕ ✦ ☕ ✦ ☕</span>
+
+<!-- ═══════════ CH ☕ — THE MOON BABY ═══════════ -->
+<style>
+  #moonbaby .section-title{color:var(--pink);text-shadow:0 0 26px rgba(255,155,210,.45)}
+  #moonbaby .section-sub{color:var(--mint)}
+  .meadow{position:relative;max-width:900px;margin:0 auto clamp(24px,4vw,38px);border-radius:18px;overflow:hidden;
+    border:1px solid rgba(143,233,208,.28);box-shadow:0 26px 70px rgba(0,0,0,.6)}
+  .meadow img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+  .mug{position:absolute;right:5%;bottom:6%;width:clamp(72px,14vw,116px);z-index:2;
+    filter:drop-shadow(0 8px 16px rgba(0,0,0,.6))}
+  .mug .cup{fill:#F3ECFF;stroke:#2a1a58;stroke-width:3}
+  .mug .brew{fill:#3b2360}
+  .steam{stroke:rgba(243,236,255,.85);stroke-width:3.4;stroke-linecap:round;fill:none;
+    animation:steam 4.2s ease-in-out infinite}
+  .steam.s2{animation-delay:1.1s}
+  .steam.s3{animation-delay:2.2s}
+  @keyframes steam{0%{opacity:0;transform:translateY(6px)}30%{opacity:.9}100%{opacity:0;transform:translateY(-14px)}}
+  .story{max-width:40rem;margin:0 auto;font-size:1.1rem;line-height:1.75;color:rgba(243,236,255,.86)}
+  .story p+p{margin-top:1rem}
+  .story em{color:var(--pink);font-style:italic}
+  .wisdom{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    max-width:56rem;margin:clamp(26px,4vw,40px) auto 0}
+  .wisdom div{padding:1.1rem 1.2rem;border-radius:14px;border:1px solid rgba(255,155,210,.25);
+    background:linear-gradient(160deg,rgba(255,155,210,.09),rgba(143,233,208,.06));
+    font-family:var(--head);font-style:italic;font-size:1.06rem;line-height:1.5}
+  .moon-grid{margin-top:clamp(26px,4vw,40px)}
+</style>
+<section id="moonbaby">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="ch-badge">CH ☕ · Magick Mica Art · Jul 26</span>
+      <h2 class="section-title">The Ghost Who Shared Coffee With the Moon Baby</h2>
+      <p class="section-sub">a bedtime story for grown dreamers</p>
+    </div>
+
+    <figure class="meadow">
+      <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa894029a-88bf-4f08-95b8-0bf20d6a965f_1376x768.jpeg" alt="The wildflower meadow between worlds at night" loading="lazy">
+      <svg class="mug" viewBox="0 0 120 120" aria-hidden="true">
+        <path class="steam" d="M44 42 q8 -10 0 -20 q-8 -10 0 -18"/>
+        <path class="steam s2" d="M60 42 q8 -10 0 -20 q-8 -10 0 -18"/>
+        <path class="steam s3" d="M76 42 q8 -10 0 -20 q-8 -10 0 -18"/>
+        <path class="cup" d="M28 52 h64 v24 a32 32 0 0 1 -64 0z"/>
+        <path class="brew" d="M33 57 h54 v3 a27 27 0 0 1 -54 0z"/>
+        <path class="cup" d="M92 56 h10 a12 12 0 0 1 0 24 h-10" fill="none"/>
+      </svg>
+    </figure>
+
+    <div class="story">
+      <p>Every evening, just before the first stars remembered to sparkle, a little ghost wandered into the <em>Wildflower Meadow Between Worlds</em> carrying the same tiny mug of stardust coffee.</p>
+      <p>No one knew where the ghost came from. Some said they drifted out of forgotten dreams. Some whispered they were born from the very first sigh the universe ever made.</p>
+      <p>Because every night, the Moon Baby would rise. Not the moon everyone else saw — the little moon who lived inside the moon, who painted silver onto oceans and sprinkled glow onto mushrooms before dawn.</p>
+      <p>“What does coffee taste like?” they asked one evening. The ghost held out the mug. <em>“It tastes like staying up just long enough to hear the flowers tell secrets.”</em></p>
+      <p>The Moon Baby took one tiny sip. <em>“It tastes like… remembering tomorrow before it happens.”</em></p>
+    </div>
+
+    <div class="strip moon-grid">
+      <figure class="shot sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F466e13e7-02c2-4376-9e75-f8d7da8c8dc9_1024x1024.jpeg" alt="The little ghost and the Moon Baby" loading="lazy"><figcaption>One warm mug</figcaption></figure>
+      <figure class="shot sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdbda13ee-98cd-4426-a1b1-29b5ff21d6d1_1024x1024.jpeg" alt="The Moon Baby" loading="lazy"><figcaption>The moon inside the moon</figcaption></figure>
+      <figure class="shot wide"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fee4ea5d6-2025-432b-974d-762f82319108_1376x768.jpeg" alt="Glowing mushrooms in the meadow" loading="lazy"><figcaption>Glow before dawn</figcaption></figure>
+      <figure class="shot wide"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa6fe3c19-58e0-4596-be9d-c93a323ae2f4_1376x768.jpeg" alt="Comets practising their handwriting" loading="lazy"><figcaption>Comets, practising</figcaption></figure>
+    </div>
+
+    <div class="wisdom">
+      <div>“Sometimes they watched comets practise their handwriting across the sky.”</div>
+      <div>“Sometimes they counted planets the way children count sheep.”</div>
+      <div>“Galaxies hummed lullabies so old that even time forgot the words.”</div>
+    </div>
+
+    <p class="pull">“Somewhere beyond ordinary dreams, friendship was still being brewed — one cup of <span>stardust coffee</span> at a time.”</p>
+
+    <a class="readmore" href="https://magickmicaart.substack.com/p/the-ghost-who-shared-coffee-with" target="_blank" rel="noopener">Read the full transmission ↗</a>
+  </div>
+</section>
+
+<span class="divider">☾ ✦ ☾ ✦ ☾</span>
+
+<footer style="text-align:center;padding:0 20px clamp(46px,7vw,80px)">
+  <p style="font-family:var(--script);font-size:clamp(1.4rem,3.4vw,2.2rem);color:var(--pink)">goodnight, dreamers</p>
+  <p style="margin-top:.9rem;color:var(--dim)">Three transmissions from <a href="https://magickmicaart.substack.com" target="_blank" rel="noopener">Magick Mica Art</a>, rebuilt as one broadcast.</p>
+  <p style="margin-top:1.2rem;font-family:var(--cond);font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)">
+    <a href="articles.html">The magazine</a> · <a href="notes.html">All notes</a> · <a href="index.html">Back to the signal</a>
+  </p>
+</footer>
+
+</main>
+
+<script>
+/* drifting moon dust */
+(function(){
+  var c=document.getElementById('dust'),x=c.getContext('2d'),w,h,motes=[];
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){w=c.width=innerWidth;h=c.height=innerHeight;}
+  size();addEventListener('resize',size);
+  for(var i=0;i<46;i++)motes.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.7+.5,
+    s:Math.random()*.22+.05,d:Math.random()*Math.PI*2,o:Math.random()*.5+.25});
+  function tick(){
+    x.clearRect(0,0,w,h);
+    for(var i=0;i<motes.length;i++){var m=motes[i];
+      m.y-=m.s;m.d+=.01;m.x+=Math.sin(m.d)*.22;
+      if(m.y<-6){m.y=h+6;m.x=Math.random()*w;}
+      x.beginPath();x.arc(m.x,m.y,m.r,0,6.2832);
+      x.fillStyle='rgba(243,236,255,'+m.o.toFixed(2)+')';x.fill();}
+    requestAnimationFrame(tick);
+  }
+  if(!reduce)tick();
+})();
+
+/* the cosmic phone: every line below is from the post */
+(function(){
+  var lines=[
+    ["Incoming","Your next timeline is calling. Are you going to pick it up, or let it go to voicemail?"],
+    ["Transmission","You are becoming a magnet for everything that matches your soul."],
+    ["Reminder","The universe isn't interrupting your life. It's inviting you into a bigger one."],
+    ["Static, then","When opportunity calls, it often sounds exactly like curiosity."],
+    ["From the cosmos","A cosmic plot twist is arriving with your name written in stardust."],
+    ["Held on the line","Your next adventure isn't waiting for permission. It's waiting for your attention."],
+    ["Long distance","You weren't born to fit into reality. You were born to remix it."],
+    ["Operator","Your destiny has excellent timing."]
+  ];
+  var i=Math.floor(Math.random()*lines.length),el=document.getElementById('line');
+  document.getElementById('answer').addEventListener('click',function(){
+    var l=lines[i%lines.length];i++;
+    el.innerHTML='<b>'+l[0]+'</b>'+l[1];
+    el.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:420,easing:'ease-out'});
+  });
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+</body>
+</html>

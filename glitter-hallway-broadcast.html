@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Glitter Hallway Broadcast — Magick Mica Art</title>
+<meta name="description" content="Three transmissions about leaving a mark — a shooting star with no plan, a hallway woven from auroras, and what a graffiti writer knew about being impossible to ignore. Magick Mica Art.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Glitter Hallway Broadcast — Magick Mica Art">
+<meta property="og:description" content="A star who didn't know where she was going, a corridor made of forgotten wishes, and the object that became more than the object.">
+<meta property="og:url" content="https://magickmica.github.io/glitter-hallway-broadcast.html">
+<meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4f3eff1b-786a-465e-9359-3b0657fe0fc6_2752x1536.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Glitter Hallway Broadcast — Magick Mica Art">
+<meta name="twitter:description" content="A star who didn't know where she was going, a corridor made of forgotten wishes, and the object that became more than the object.">
+<meta name="twitter:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4f3eff1b-786a-465e-9359-3b0657fe0fc6_2752x1536.jpeg">
+<link rel="canonical" href="https://magickmica.github.io/glitter-hallway-broadcast.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Yellowtail&family=Barlow+Condensed:wght@500;600;700&family=Karla:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THE GLITTER HALLWAY BROADCAST
+   Same shape as the Cozy Christmas and Cosmic Circus specials:
+   ticker, on-air sign, channel guide, one channel per post,
+   with a hand-built corridor in the middle. Holographic
+   2002-mall glitter on indigo; every photograph is from the
+   posts themselves.
+   ══════════════════════════════════════════════════════════ */
+:root{
+  --night:#0A0618; --deep:#150a33; --panel:#20124a;
+  --cream:#FFF3FB; --dim:rgba(255,243,251,.62);
+  --aqua:#57F5E0; --pink:#FF63C8; --lilac:#B78BFF; --lemon:#F7F36A; --peach:#FFA86B;
+  --head:"Lilita One",system-ui,sans-serif;
+  --script:"Yellowtail",cursive;
+  --cond:"Barlow Condensed",sans-serif;
+  --mono:"Space Mono",ui-monospace,monospace;
+  --body:"Karla",system-ui,sans-serif;
+  --holo:linear-gradient(100deg,#57F5E0,#B78BFF 28%,#FF63C8 54%,#FFA86B 76%,#F7F36A);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--night); color:var(--cream);
+  font-family:var(--body); font-size:17px; line-height:1.65; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(72% 46% at 50% -8%, rgba(255,99,200,.24), transparent 62%),
+    radial-gradient(48% 34% at 88% 24%, rgba(87,245,224,.14), transparent 66%),
+    radial-gradient(58% 44% at 8% 74%, rgba(183,139,255,.16), transparent 64%),
+    linear-gradient(180deg, transparent 38%, rgba(21,10,51,.82));
+}
+.sparkle{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(1.7px 1.7px at 13% 16%,#fff,transparent),
+    radial-gradient(1.3px 1.3px at 75% 9%,var(--aqua),transparent),
+    radial-gradient(1.8px 1.8px at 36% 62%,#fff,transparent),
+    radial-gradient(1.4px 1.4px at 23% 85%,var(--pink),transparent),
+    radial-gradient(1.6px 1.6px at 90% 70%,var(--lemon),transparent),
+    radial-gradient(1.3px 1.3px at 7% 50%,var(--lilac),transparent);
+  background-size:520px 520px,680px 680px,455px 455px,565px 565px,745px 745px,600px 600px;
+  animation:twinkle 5.5s ease-in-out infinite alternate;
+}
+@keyframes twinkle{from{opacity:.5}to{opacity:1}}
+#dust{position:fixed;inset:0;z-index:0;pointer-events:none}
+main{position:relative;z-index:2}
+a{color:var(--aqua)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* ── holographic top rail ───────────────────────────── */
+.rail{position:relative;z-index:2;height:5px;background:var(--holo);
+  background-size:300% 100%;animation:shift 9s linear infinite}
+@keyframes shift{to{background-position:300% 0}}
+
+/* ── header ─────────────────────────────────────────── */
+header{position:relative;z-index:2;text-align:center;padding:clamp(22px,4vw,40px) 20px 0}
+.ticker{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;align-items:center;
+  font-family:var(--cond);font-size:.82rem;letter-spacing:.22em;text-transform:uppercase;color:var(--aqua)}
+.ticker .dot{color:var(--pink)}
+.onair{display:inline-block;margin-top:1rem;font-family:var(--cond);font-weight:700;font-size:.8rem;
+  letter-spacing:.24em;color:#1b0630;background:var(--lemon);padding:.34rem .9rem;border-radius:999px;
+  box-shadow:0 0 22px rgba(247,243,106,.5);animation:blink 3.4s steps(1) infinite}
+@keyframes blink{88%{opacity:1}92%{opacity:.35}}
+.sign{margin-top:1.1rem}
+.sign h1{font-family:var(--head);font-weight:400;line-height:1.02;letter-spacing:.01em;
+  font-size:clamp(2.3rem,7.6vw,5rem);
+  background:var(--holo);background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 28px rgba(255,99,200,.5));animation:shift 11s linear infinite}
+.sign .script{display:block;margin-top:.5rem;font-family:var(--script);font-size:clamp(1.3rem,3.4vw,2rem);
+  color:var(--lemon);text-shadow:0 0 22px rgba(247,243,106,.45)}
+.tagline{max-width:44rem;margin:1.2rem auto 0;color:var(--dim);font-size:1.05rem}
+.doorline{margin-top:.9rem;color:rgba(183,139,255,.6);letter-spacing:.2em}
+
+/* ── channel guide ──────────────────────────────────── */
+.guide{max-width:800px;margin:clamp(24px,4vw,40px) auto 0;padding:1.1rem 1.2rem 1.3rem;
+  border:1px solid rgba(255,99,200,.32);border-radius:16px;background:rgba(32,18,74,.6);
+  box-shadow:0 18px 50px rgba(0,0,0,.55)}
+.guide-label{font-family:var(--cond);font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--lemon);margin-bottom:.8rem}
+.guide a{display:flex;gap:.8rem;align-items:baseline;flex-wrap:wrap;text-decoration:none;color:var(--cream);
+  padding:.55rem .2rem;border-top:1px solid rgba(255,99,200,.16);transition:.18s}
+.guide a:first-of-type{border-top:0}
+.guide a:hover{color:var(--pink)}
+.guide .ch{font-family:var(--cond);font-weight:700;font-size:.8rem;letter-spacing:.14em;color:var(--aqua)}
+.guide .desc{margin-left:auto;font-family:var(--cond);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim)}
+
+/* ── sections ───────────────────────────────────────── */
+section{scroll-margin-top:72px;position:relative;padding:clamp(48px,8vw,96px) 0 clamp(30px,5vw,60px)}
+.slug{display:inline-block;font-family:var(--cond);font-size:.76rem;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--night);background:var(--aqua);
+  padding:.26rem .8rem;border-radius:999px;margin-bottom:1rem}
+.section-head{text-align:center;margin-bottom:clamp(26px,4vw,44px)}
+.section-title{font-family:var(--head);font-weight:400;line-height:1.08;
+  font-size:clamp(1.8rem,5vw,3.1rem)}
+.section-sub{margin-top:.5rem;font-family:var(--script);font-size:clamp(1.1rem,2.6vw,1.5rem)}
+.copy{max-width:40rem;margin:0 auto}
+.copy p{margin-top:1.05rem}
+.copy p:first-child{margin-top:0}
+em.hot{font-style:italic;color:var(--lemon)}
+.pull{max-width:42rem;margin:clamp(26px,4vw,40px) auto;text-align:center;
+  font-family:var(--head);font-weight:400;font-size:clamp(1.2rem,3vw,1.9rem);line-height:1.3;
+  color:var(--cream);text-shadow:0 0 30px rgba(255,99,200,.45)}
+.pull span{color:var(--aqua)}
+.more{text-align:center;margin-top:clamp(26px,4vw,42px)}
+.more a{display:inline-block;font-family:var(--cond);font-weight:700;font-size:.85rem;
+  letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:#1b0630;
+  background:var(--holo);background-size:200% 100%;
+  padding:.75rem 1.7rem;border-radius:999px;box-shadow:0 12px 34px rgba(255,99,200,.36);
+  transition:.2s;animation:shift 8s linear infinite}
+.more a:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(255,99,200,.5)}
+
+/* ── shared picture treatments ──────────────────────── */
+.gallery{display:grid;gap:clamp(10px,1.6vw,18px);
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:clamp(24px,4vw,38px)}
+.gallery figure{position:relative;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(183,139,255,.3);background:rgba(32,18,74,.5);transition:.24s}
+.gallery img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.gallery .tall img{aspect-ratio:2/3}
+.gallery .sq img{aspect-ratio:1}
+.gallery figure:hover{transform:translateY(-6px) rotate(-.5deg);box-shadow:0 22px 52px rgba(255,99,200,.3)}
+.gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:.75rem;
+  font-family:var(--cond);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--cream);background:linear-gradient(180deg,transparent,rgba(10,6,24,.94))}
+.divider{display:flex;justify-content:center;padding:clamp(18px,3vw,30px) 0;
+  font-size:1rem;letter-spacing:.6em;color:rgba(87,245,224,.5)}
+@media (prefers-reduced-motion: reduce){
+  .rail,.sign h1,.more a,.onair,.sparkle,.streak,.corridor rect,.flutter{animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sparkle" aria-hidden="true"></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+
+<main>
+
+<div class="rail" aria-hidden="true"></div>
+
+<header>
+  <div class="ticker">
+    <span>✦ The hallway is open</span><span class="dot">●</span>
+    <span>Magick Mica Art</span><span class="dot">●</span>
+    <span>None of the clocks work here</span>
+  </div>
+  <div class="onair">◉ SPARKLING — ALL FREQUENCIES</div>
+  <div class="sign">
+    <h1>The Glitter Hallway<br>Broadcast</h1>
+    <span class="script">three transmissions about leaving a mark</span>
+  </div>
+  <p class="tagline">A shooting star with no plan whatsoever, a corridor woven from auroras and forgotten wishes, and what a notorious graffiti writer knew about being impossible to ignore. Every picture here came out of the posts themselves. ✦</p>
+  <p class="doorline">⋆｡°✩ 🌠 ⋆｡°✩ 🚪 ✩°｡⋆ 🦋 ✩°｡⋆</p>
+
+  <nav class="guide" aria-label="Channel guide">
+    <div class="guide-label">✦ Today's channel guide ✦</div>
+    <a href="#star"><span class="ch">CH 01</span> The Shooting Star Who Didn't Know Where She Was Going <span class="desc">Whoosh</span></a>
+    <a href="#hallway"><span class="ch">CH ✦</span> The Glitter Hallway <span class="desc">Walk down it</span></a>
+    <a href="#galaxy"><span class="ch">CH 🚪</span> Good Girls Go To Heaven… <span class="desc">We go to another galaxy</span></a>
+    <a href="#mark"><span class="ch">CH ✍</span> The Object Is More <span class="desc">I was here</span></a>
+  </nav>
+</header>
+
+<!-- ═══════════ CH 01 — THE SHOOTING STAR ═══════════ -->
+<style>
+  #star .section-title{color:var(--lemon);text-shadow:0 0 30px rgba(247,243,106,.45)}
+  #star .section-sub{color:var(--aqua)}
+  .star-hero{position:relative;max-width:940px;margin:0 auto clamp(22px,4vw,36px);
+    border-radius:18px;overflow:hidden;border:1px solid rgba(247,243,106,.3);
+    box-shadow:0 26px 70px rgba(0,0,0,.65),0 0 60px rgba(247,243,106,.12)}
+  .star-hero img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+  .star-hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,transparent 48%,rgba(10,6,24,.9))}
+  .star-hero .cap{position:absolute;left:0;right:0;bottom:0;padding:1.5rem;text-align:center;
+    font-family:var(--script);font-size:clamp(1rem,2.4vw,1.5rem);color:var(--lemon)}
+  /* the other stars, all of whom had plans */
+  .plans{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-top:clamp(22px,3.4vw,34px)}
+  .plans span{font-family:var(--script);font-size:clamp(1rem,2.3vw,1.3rem);color:var(--lilac);
+    border:1px solid rgba(183,139,255,.3);border-radius:999px;padding:.35rem 1.1rem;
+    background:rgba(32,18,74,.45)}
+  /* the conversation with the oldest star */
+  .talk{max-width:34rem;margin:clamp(26px,4vw,40px) auto 0;display:grid;gap:.5rem}
+  .talk p{padding:.7rem 1rem;border-radius:16px;max-width:86%;font-size:1.02rem;line-height:1.55}
+  .talk .lil{background:rgba(255,99,200,.16);border:1px solid rgba(255,99,200,.34);
+    border-bottom-left-radius:5px;justify-self:start}
+  .talk .old{background:rgba(87,245,224,.13);border:1px solid rgba(87,245,224,.3);
+    border-bottom-right-radius:5px;justify-self:end;text-align:right;color:var(--aqua)}
+  .talk b{display:block;font-family:var(--cond);font-size:.72rem;letter-spacing:.2em;
+    text-transform:uppercase;opacity:.65;margin-bottom:.15rem}
+  /* the whoosh */
+  .whoosh{position:relative;max-width:640px;margin:clamp(28px,4.4vw,46px) auto 0;
+    aspect-ratio:3/1;border-radius:18px;overflow:hidden;
+    border:1px solid rgba(247,243,106,.26);background:rgba(10,6,24,.7)}
+  .whoosh svg{display:block;width:100%;height:100%}
+  .streak{animation:shoot 5s ease-in infinite}
+  @keyframes shoot{0%{transform:translate(-120px,-40px);opacity:0}
+    12%{opacity:1}55%{transform:translate(340px,50px);opacity:0}100%{opacity:0}}
+  /* who saw it */
+  .saw{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    max-width:46rem;margin:clamp(24px,3.6vw,38px) auto 0}
+  .saw div{padding:.85rem;border-radius:14px;text-align:center;background:rgba(32,18,74,.55);
+    border:1px solid rgba(183,139,255,.24);font-size:.98rem;color:var(--dim)}
+  .saw div b{display:block;font-size:1.5rem;margin-bottom:.2rem}
+</style>
+<section id="star">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 01 · Magick Mica Art · Sep 16</span>
+      <h2 class="section-title">The Shooting Star Who Didn't<br>Know Where She Was Going</h2>
+      <p class="section-sub">she had no plan whatsoever</p>
+    </div>
+
+    <figure class="star-hero">
+      <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4f3eff1b-786a-465e-9359-3b0657fe0fc6_2752x1536.jpeg" alt="A little shooting star in a wide night sky" loading="lazy">
+      <figcaption class="cap">Every other star seemed to know exactly where it was going.</figcaption>
+    </figure>
+
+    <div class="plans" aria-label="What the other stars said">
+      <span>“I'm heading toward Orion!”</span>
+      <span>“I'll be over the ocean tonight!”</span>
+      <span>“I have an appointment above the mountains!”</span>
+    </div>
+
+    <div class="talk">
+      <p class="lil"><b>the little star</b>What's wrong with me?</p>
+      <p class="old"><b>the oldest star in the sky</b>Nothing.</p>
+      <p class="lil"><b>the little star</b>But everyone else knows where they're going.</p>
+      <p class="old"><b>the oldest star</b>Do you know what a shooting star does?</p>
+      <p class="lil"><b>the little star</b>Shoots?</p>
+      <p class="old"><b>the oldest star</b>Exactly.</p>
+      <p class="lil"><b>the little star</b>That doesn't sound very organised.</p>
+      <p class="old"><b>the oldest star</b>It isn't.</p>
+    </div>
+
+    <div class="whoosh" aria-hidden="true">
+      <svg viewBox="0 0 400 133">
+        <defs>
+          <linearGradient id="tailG" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="rgba(247,243,106,0)"/>
+            <stop offset="100%" stop-color="#F7F36A"/>
+          </linearGradient>
+        </defs>
+        <g fill="#FFF3FB" opacity=".75">
+          <circle cx="40" cy="26" r="1.4"/><circle cx="120" cy="14" r="1"/>
+          <circle cx="210" cy="34" r="1.6"/><circle cx="300" cy="18" r="1.2"/>
+          <circle cx="352" cy="58" r="1.4"/><circle cx="76" cy="96" r="1.1"/>
+          <circle cx="188" cy="110" r="1.5"/><circle cx="286" cy="90" r="1.2"/>
+        </g>
+        <g class="streak">
+          <path d="M20 40 L96 62" stroke="url(#tailG)" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <circle cx="98" cy="63" r="5" fill="#FFF3FB"/>
+          <circle cx="98" cy="63" r="10" fill="rgba(247,243,106,.35)"/>
+        </g>
+      </svg>
+    </div>
+    <p style="text-align:center;margin-top:.9rem;font-family:var(--head);font-size:clamp(1.4rem,4vw,2.2rem);color:var(--lemon);letter-spacing:.06em">WHOOSH!</p>
+
+    <div class="saw">
+      <div><b>😮</b>Three children gasped.</div>
+      <div><b>🌟</b>Someone made a wish.</div>
+      <div><b>🐈</b>A sleepy cat looked out a window.</div>
+      <div><b>✏️</b>An artist grabbed a sketchbook.</div>
+      <div><b>🪑</b>An old woman alone on her porch smiled for the first time that day.</div>
+    </div>
+
+    <div class="talk" style="margin-top:clamp(26px,4vw,40px)">
+      <p class="lil"><b>the little star</b>Did I do that?</p>
+      <p class="old"><b>the oldest star</b>You didn't know where you were going.</p>
+      <p class="lil"><b>the little star</b>No.</p>
+      <p class="old"><b>the oldest star</b>But you still gave everyone somewhere to look.</p>
+    </div>
+
+    <p class="pull">You don't always need a destination to <span>leave a little magic behind you</span>.</p>
+
+    <div class="gallery">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1d66b66c-6321-4424-912c-8b94f3847f33_1668x997.png" alt="The little shooting star streaking across the sky" loading="lazy"><figcaption>Somewhere to look</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc6b14c21-a95e-484e-b38c-08cbcf15394f_600x451.png" alt="The oldest star in the sky" loading="lazy"><figcaption>The oldest star</figcaption></figure>
+    </div>
+
+    <div class="more"><a href="https://magickmicaart.substack.com/p/the-shooting-star-who-didnt-know" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">✦ ✦ ✦</div>
+
+<!-- ═══════════ CH ✦ — THE GLITTER HALLWAY (interlude) ═══════════ -->
+<style>
+  #hallway{background:radial-gradient(900px 440px at 50% 42%,rgba(183,139,255,.18),transparent 70%);overflow:hidden}
+  #hallway .section-title{color:var(--lilac);text-shadow:0 0 28px rgba(183,139,255,.5)}
+  .corridor{max-width:700px;margin:0 auto;aspect-ratio:4/3;border-radius:18px;overflow:hidden;
+    border:1px solid rgba(255,99,200,.3);box-shadow:0 26px 70px rgba(0,0,0,.7)}
+  .corridor svg{display:block;width:100%;height:100%}
+  .corridor rect.ring{animation:approach 7s linear infinite}
+  @keyframes approach{
+    from{transform:scale(.06);opacity:0}
+    12%{opacity:1}
+    to{transform:scale(2.6);opacity:0}
+  }
+  .flutter{animation:flit 6s ease-in-out infinite}
+  .flutter:nth-of-type(2){animation-delay:1.7s}
+  .flutter:nth-of-type(3){animation-delay:3.4s}
+  @keyframes flit{50%{transform:translate(9px,-13px) rotate(-8deg)}}
+  .madeof{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;
+    max-width:48rem;margin:clamp(26px,4vw,40px) auto 0}
+  .madeof span{font-family:var(--cond);font-size:.92rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--cream);border-radius:999px;padding:.35rem .95rem;
+    border:1px solid rgba(87,245,224,.3);background:rgba(32,18,74,.5)}
+  .madeof span:nth-child(3n+1){border-color:rgba(255,99,200,.34)}
+  .madeof span:nth-child(3n+2){border-color:rgba(247,243,106,.34)}
+  .clocknote{max-width:30rem;margin:clamp(26px,4vw,40px) auto 0;text-align:center;
+    font-family:var(--head);font-size:clamp(1.05rem,2.6vw,1.5rem);line-height:1.35;color:var(--lemon)}
+  .clocknote small{display:block;margin-top:.5rem;font-family:var(--body);font-size:.95rem;
+    font-weight:400;color:var(--dim)}
+</style>
+<section id="hallway">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH ✦ · Interlude</span>
+      <h2 class="section-title">The Glitter Hallway</h2>
+      <p class="section-sub" style="color:var(--aqua)">it waits behind ordinary doors</p>
+    </div>
+
+    <div class="corridor" aria-hidden="true">
+      <svg viewBox="0 0 400 300">
+        <defs>
+          <linearGradient id="wallG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#57F5E0"/><stop offset="33%" stop-color="#B78BFF"/>
+            <stop offset="66%" stop-color="#FF63C8"/><stop offset="100%" stop-color="#F7F36A"/>
+          </linearGradient>
+          <radialGradient id="endG" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FFFFFF"/><stop offset="40%" stop-color="#FFF3FB"/>
+            <stop offset="100%" stop-color="rgba(247,243,106,0)"/>
+          </radialGradient>
+        </defs>
+
+        <rect width="400" height="300" fill="#0A0618"/>
+
+        <!-- the impossible glow at the far end -->
+        <circle cx="200" cy="150" r="72" fill="url(#endG)" opacity=".55"/>
+
+        <!-- receding rings, each one another stretch of corridor -->
+        <g transform="translate(200,150)">
+          <rect class="ring" x="-90" y="-68" width="180" height="136" rx="8"
+                fill="none" stroke="url(#wallG)" stroke-width="2.4" style="animation-delay:0s"/>
+          <rect class="ring" x="-90" y="-68" width="180" height="136" rx="8"
+                fill="none" stroke="url(#wallG)" stroke-width="2.4" style="animation-delay:1.4s"/>
+          <rect class="ring" x="-90" y="-68" width="180" height="136" rx="8"
+                fill="none" stroke="url(#wallG)" stroke-width="2.4" style="animation-delay:2.8s"/>
+          <rect class="ring" x="-90" y="-68" width="180" height="136" rx="8"
+                fill="none" stroke="url(#wallG)" stroke-width="2.4" style="animation-delay:4.2s"/>
+          <rect class="ring" x="-90" y="-68" width="180" height="136" rx="8"
+                fill="none" stroke="url(#wallG)" stroke-width="2.4" style="animation-delay:5.6s"/>
+        </g>
+
+        <!-- perspective lines to the vanishing point -->
+        <g stroke="rgba(255,243,251,.14)" stroke-width="1">
+          <line x1="0" y1="0" x2="200" y2="150"/><line x1="400" y1="0" x2="200" y2="150"/>
+          <line x1="0" y1="300" x2="200" y2="150"/><line x1="400" y1="300" x2="200" y2="150"/>
+        </g>
+
+        <!-- glowing doors floating in midair -->
+        <g>
+          <rect x="52" y="112" width="28" height="48" rx="3" fill="rgba(87,245,224,.22)" stroke="#57F5E0" stroke-width="1.5"/>
+          <rect x="320" y="122" width="26" height="44" rx="3" fill="rgba(255,99,200,.22)" stroke="#FF63C8" stroke-width="1.5"/>
+          <rect x="112" y="196" width="22" height="38" rx="3" fill="rgba(247,243,106,.2)" stroke="#F7F36A" stroke-width="1.4"/>
+          <rect x="266" y="56" width="20" height="34" rx="3" fill="rgba(183,139,255,.22)" stroke="#B78BFF" stroke-width="1.4"/>
+        </g>
+
+        <!-- the clocks have been replaced by butterflies -->
+        <g fill="#FFF3FB" opacity=".9">
+          <g transform="translate(96,66)"><g class="flutter">
+            <path d="M0 0 q-9 -8 -13 1 q-2 8 13 5 q15 3 13 -5 q-4 -9 -13 -1 Z" fill="#FF63C8"/>
+          </g></g>
+          <g transform="translate(300,214)"><g class="flutter">
+            <path d="M0 0 q-8 -7 -11 1 q-2 7 11 4 q13 3 11 -4 q-3 -8 -11 -1 Z" fill="#57F5E0"/>
+          </g></g>
+          <g transform="translate(196,246)"><g class="flutter">
+            <path d="M0 0 q-7 -6 -10 1 q-2 6 10 4 q12 2 10 -4 q-3 -7 -10 -1 Z" fill="#F7F36A"/>
+          </g></g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="copy" style="margin-top:clamp(26px,4vw,40px);text-align:center">
+      <p>Nobody remembers who built the hallway. Some say it appeared after someone spilled fairy dust into a broken television. Others insist it leaked out of an abandoned mall in 2002, where every glitter sticker, flip phone, lava lamp and cosmic daydream accidentally fused together during a solar storm.</p>
+    </div>
+
+    <div class="madeof" aria-label="What the walls are woven from">
+      <span>auroras</span><span>holographic glitter</span><span>forgotten wishes</span>
+      <span>butterfly wings</span><span>tie-dye nebulae</span><span>rainbow static</span>
+      <span>sparkles left when a shooting star changes its mind</span>
+    </div>
+
+    <p class="clocknote">None of the clocks work here. They've been replaced by butterflies.
+      <small>The hallway doesn't measure minutes. It measures wonder.</small></p>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">✦ ✦ ✦</div>
+
+<!-- ═══════════ CH 🚪 — ANOTHER GALAXY ═══════════ -->
+<style>
+  #galaxy .section-title{color:var(--pink);text-shadow:0 0 30px rgba(255,99,200,.5)}
+  #galaxy .section-sub{color:var(--lemon)}
+  .doors{display:grid;gap:.6rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    margin-top:clamp(24px,3.6vw,38px)}
+  .doors div{padding:1rem 1.1rem;border-radius:14px;position:relative;
+    background:rgba(32,18,74,.55);border:1px solid rgba(183,139,255,.26);
+    font-size:1rem;line-height:1.55;color:var(--cream);transition:.22s}
+  .doors div:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(183,139,255,.26)}
+  .doors div::before{content:"🚪";display:block;font-size:1.3rem;margin-bottom:.35rem}
+  .doors div:nth-child(3n+1){border-color:rgba(87,245,224,.3)}
+  .doors div:nth-child(3n+2){border-color:rgba(255,99,200,.3)}
+  .partII{max-width:40rem;margin:clamp(30px,5vw,54px) auto 0;padding:clamp(18px,3vw,30px);
+    border-radius:16px;border:1px solid rgba(247,243,106,.3);
+    background:linear-gradient(180deg,rgba(32,18,74,.7),rgba(10,6,24,.86))}
+  .partII h3{font-family:var(--head);font-size:clamp(1.2rem,3vw,1.7rem);color:var(--lemon);
+    text-align:center;margin-bottom:.9rem}
+  .partII p{margin-top:.95rem}
+  .partII p:first-of-type{margin-top:0}
+  .partII em{font-style:italic;color:var(--aqua)}
+  .versions{display:grid;gap:.45rem;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+    max-width:48rem;margin:clamp(24px,3.6vw,38px) auto 0}
+  .versions div{padding:.7rem .9rem;border-radius:12px;background:rgba(10,6,24,.6);
+    border-left:3px solid var(--pink);font-size:.96rem;color:var(--dim)}
+  .versions div:nth-child(2n){border-left-color:var(--aqua)}
+  .versions div:nth-child(3n){border-left-color:var(--lemon)}
+</style>
+<section id="galaxy">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 🚪 · Magick Mica Art · Jul 24</span>
+      <h2 class="section-title">Good Girls Go To Heaven…</h2>
+      <p class="section-sub">we go to another galaxy</p>
+    </div>
+
+    <div class="copy">
+      <p>The hallway isn't made of paint. Every inch pulses with living colour. The floor reflects futures that haven't happened yet; the ceiling swirls like liquid galaxies poured into a kaleidoscope. Walking through it feels like floating inside a cosmic lava lamp while the universe quietly whispers your real name.</p>
+      <p>As you move deeper, gravity begins forgetting its job. The glitter drifts sideways. <em class="hot">Time folds itself into origami.</em> Old memories dissolve into stardust while impossible new ones quietly appear.</p>
+    </div>
+
+    <div class="doors">
+      <div>A planet where fairies harvest comets like flowers.</div>
+      <div>An ocean made entirely of melted rainbows.</div>
+      <div>An endless roller rink where UFOs skate beneath disco moons.</div>
+      <div>A library where every book tells the story of a different version of you.</div>
+    </div>
+
+    <div class="copy" style="margin-top:clamp(26px,4vw,40px)">
+      <p>The farther you travel, the brighter your imagination becomes. Eventually your thoughts begin creating the scenery around you. Think of candy-coloured galaxies — they appear. Imagine crystal forests — they bloom beside you. Picture impossible stars, and the ceiling invents new constellations astronomers haven't discovered yet.</p>
+      <p>Some travellers never return. Not because they're lost, <em class="hot">but because they finally remembered where they came from.</em></p>
+    </div>
+
+    <p class="pull">The hallway never asks if you're ready.<br><span>It simply sparkles… and opens.</span></p>
+
+    <div class="gallery">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7cbcaeb6-9dc1-4575-9b19-2b86087f6538_1672x941.png" alt="The glitter hallway to another galaxy" loading="lazy"><figcaption>The hallway</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff7f760ed-0b2d-4d1a-98de-2dba89761ae3_1536x1024.png" alt="Nebulas curling like holographic tie-dye ribbons" loading="lazy"><figcaption>Tie-dye nebulae</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4f90d328-6a4c-4ae0-a8e4-e51930bd0dce_1536x1024.png" alt="The Door Garden" loading="lazy"><figcaption>The Door Garden</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe7accaee-8722-4d8a-94a5-d26a15f0be9d_1023x1537.png" alt="A traveller in the glitter hallway" loading="lazy"><figcaption>The traveller</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6bc3697e-bd21-4374-9de9-ebb442d20247_1254x1254.png" alt="Cosmic blossoms opening with every heartbeat" loading="lazy"><figcaption>Light from flowers</figcaption></figure>
+    </div>
+
+    <div class="partII">
+      <h3>Part II — The Galaxy That Dreamed First</h3>
+      <p>The moment she stepped through the final doorway, the universe blinked. Not exploded. Not expanded. <em>It simply remembered her.</em></p>
+      <p>The galaxy beyond wasn't floating in space. Space was floating inside it. There were no suns — the light came from flowers. Millions of cosmic blossoms opened and closed with every heartbeat of the universe, releasing clouds of fairy dust that became butterflies halfway through the breeze.</p>
+      <p>Nothing here had shadows. Every living thing glowed from within. And then she noticed them: the Door Garden. Millions of glowing doors stretching farther than imagination itself — moonstone, candy-coloured crystal, stained-glass galaxies. One opened into a dream someone would have tomorrow. One led to the last sunset of a forgotten civilisation. One simply contained another hallway, glittering, waiting, endless.</p>
+      <p>An elderly fairy floated toward her wearing wings stitched from fragments of the Milky Way. <em>“You finally made it.”</em> — “I've never been here before.” — The fairy laughed. <em>“Oh, yes you have.”</em></p>
+      <p>She waved her hand, and every sparkle became a tiny window. Inside each one, a different version of her.</p>
+    </div>
+
+    <div class="versions">
+      <div>One painting galaxies.</div>
+      <div>One flying beside whales through deep space.</div>
+      <div>One dancing with aliens beneath a disco moon.</div>
+      <div>One building castles from comets.</div>
+      <div>One riding a dragon woven from northern lights.</div>
+      <div>One walking through the hallway for the very first time… again.</div>
+    </div>
+
+    <p class="pull">“This galaxy isn't where dreams come after you imagine them.<br><span>It's where dreams are born before they ever find you.</span>”</p>
+
+    <div class="more"><a href="https://magickmicaart.substack.com/p/good-girls-go-to-heaven" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">✦ ✦ ✦</div>
+
+<!-- ═══════════ CH ✍ — THE OBJECT IS MORE ═══════════ -->
+<style>
+  #mark{background:radial-gradient(900px 420px at 50% 34%,rgba(87,245,224,.13),transparent 70%)}
+  #mark .section-title{color:var(--aqua);text-shadow:0 0 28px rgba(87,245,224,.45)}
+  #mark .section-sub{color:var(--pink)}
+  .tagwall{max-width:48rem;margin:clamp(26px,4vw,42px) auto 0;padding:clamp(16px,2.6vw,26px);
+    border-radius:16px;border:1px dashed rgba(255,243,251,.22);background:rgba(10,6,24,.6);
+    display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center}
+  .tagwall span{font-family:var(--script);font-size:clamp(1.05rem,2.6vw,1.5rem);
+    color:var(--cream);opacity:.78;transform:rotate(-2deg);padding:.15rem .5rem}
+  .tagwall span:nth-child(2n){transform:rotate(2.4deg);color:var(--pink)}
+  .tagwall span:nth-child(3n){transform:rotate(-4deg);color:var(--aqua)}
+  .tagwall span:nth-child(5n){color:var(--lemon)}
+  .repeat{display:grid;gap:.45rem;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    max-width:44rem;margin:clamp(24px,3.6vw,38px) auto 0}
+  .repeat div{padding:.75rem;border-radius:12px;text-align:center;background:rgba(32,18,74,.55);
+    border:1px solid rgba(183,139,255,.24);font-family:var(--cond);letter-spacing:.14em;
+    text-transform:uppercase;font-size:.96rem;color:var(--lilac)}
+  .leave{max-width:34rem;margin:clamp(28px,4.4vw,44px) auto 0;display:grid;gap:.4rem;text-align:center}
+  .leave div{font-family:var(--head);font-size:clamp(1.05rem,2.6vw,1.5rem);color:var(--cream);
+    padding:.4rem;letter-spacing:.02em}
+  .leave div:nth-child(2n){color:var(--pink)}
+  .leave div:nth-child(3n){color:var(--aqua)}
+</style>
+<section id="mark">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH ✍ · Magick Mica Art · Jul 23</span>
+      <h2 class="section-title">The Object Is More</h2>
+      <p class="section-sub">what a notorious graffiti writer taught me about leaving a mark</p>
+    </div>
+
+    <div class="copy">
+      <p>There are artists who chase perfection. And then there are artists who chase <em class="hot">presence.</em> CAP — the infamous New York graffiti writer — wasn't trying to paint the prettiest letters in the city. His mission was simple: <em class="hot">be impossible to ignore.</em></p>
+      <p>To CAP, graffiti wasn't a painting. It was proof of existence. Every tag whispered <i>“I was here.”</i> Every wall became a page in an endless conversation between strangers. Every train became a moving constellation of human persistence.</p>
+    </div>
+
+    <div class="tagwall" aria-label="I was here, over and over">
+      <span>I was here</span><span>I was here</span><span>I was here</span><span>I was here</span>
+      <span>I was here</span><span>I was here</span><span>I was here</span><span>I was here</span>
+      <span>I was here</span><span>I was here</span><span>I was here</span><span>I was here</span>
+    </div>
+
+    <div class="copy" style="margin-top:clamp(26px,4vw,40px)">
+      <p>We live in a world obsessed with perfect portfolios, flawless grids, curated aesthetics and algorithms that reward polish over personality. But somewhere beneath all that, there's still something beautifully primitive about simply leaving a mark. Not because it's perfect. <em class="hot">Because it's real.</em></p>
+      <p>How many people spend their lives waiting until they're “good enough” before creating anything? How many incredible ideas never escape someone's notebook? How many dreams quietly evaporate while someone tweaks the colours, rewrites the paragraph, waits for the stars to align? Meanwhile, someone else simply starts. They post. They paint. They write. Again. And again. And again.</p>
+      <p>The universe itself doesn't seem interested in perfection. <em class="hot">It prefers repetition.</em></p>
+    </div>
+
+    <div class="repeat">
+      <div>Stars pulse</div><div>Planets orbit</div><div>Waves return</div>
+      <div>Trees grow rings</div><div>Galaxies spiral</div>
+    </div>
+
+    <p class="pull">Reality leaves its signature everywhere.<br><span>Maybe we're meant to do the same.</span></p>
+
+    <div class="copy">
+      <p>Maybe that's why I've always loved weathered posters peeling off brick walls. Old magazines with coffee stains. Misprinted books. VHS tapes that still play. Data-moshed pixels. Half-erased signs. Cracked paint. Artifacts carrying the fingerprints of time. <em class="hot">They aren't perfect. They're alive.</em> They've been somewhere. They've survived something. The object became more than the object.</p>
+      <p>Perhaps the greatest work of art isn't the masterpiece hanging in a museum. Perhaps it's the accumulation of thousands of small acts of creation scattered throughout a lifetime. Tiny echoes. Tiny portals. Tiny reminders that someone dared to imagine differently.</p>
+    </div>
+
+    <div class="leave">
+      <div>Leave the mark.</div>
+      <div>Write the story.</div>
+      <div>Build the impossible world.</div>
+      <div>Make the strange thing.</div>
+      <div>Publish the weird idea.</div>
+      <div>Plant the seed.</div>
+    </div>
+
+    <div class="copy" style="margin-top:clamp(24px,3.6vw,36px);text-align:center">
+      <p>Not because it's flawless. Because someday someone will stumble across it and realise they weren't the only one dreaming this way. ✨</p>
+    </div>
+
+    <div class="gallery">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc670f6a4-5edd-4f9f-89b1-ef5a348120b6_1663x946.png" alt="Artwork from The Object Is More" loading="lazy"><figcaption>The object is more</figcaption></figure>
+    </div>
+
+    <div class="more"><a href="https://magickmicaart.substack.com/p/the-object-is-more" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">✦ ✦ ✦</div>
+
+<footer style="text-align:center;padding:0 20px clamp(46px,7vw,80px)">
+  <p style="font-family:var(--script);font-size:clamp(1.4rem,3.4vw,2.2rem);color:var(--lemon)">leave the mark</p>
+  <p style="margin-top:.9rem;color:var(--dim)">Three transmissions from <a href="https://magickmicaart.substack.com" target="_blank" rel="noopener">Magick Mica Art</a>, rebuilt as one broadcast.</p>
+  <p style="margin-top:1.2rem;font-family:var(--cond);font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)">
+    <a href="articles.html">The magazine</a> · <a href="notes.html">All notes</a> · <a href="index.html">Back to the signal</a>
+  </p>
+</footer>
+
+</main>
+
+<script>
+/* drifting glitter */
+(function(){
+  var c=document.getElementById('dust'),x=c.getContext('2d'),w,h,bits=[];
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cols=['87,245,224','255,99,200','247,243,106','183,139,255'];
+  function size(){w=c.width=innerWidth;h=c.height=innerHeight;}
+  size();addEventListener('resize',size);
+  for(var i=0;i<46;i++)bits.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.8+.5,
+    s:Math.random()*.24+.06,d:Math.random()*Math.PI*2,o:Math.random()*.45+.2,
+    c:cols[Math.floor(Math.random()*cols.length)]});
+  function tick(){
+    x.clearRect(0,0,w,h);
+    for(var i=0;i<bits.length;i++){var m=bits[i];
+      /* the glitter drifts sideways, exactly as advertised */
+      m.x+=Math.sin(m.d)*.5+.12;m.d+=.013;m.y-=m.s*.35;
+      if(m.x>w+6){m.x=-6;m.y=Math.random()*h;}
+      if(m.y<-6){m.y=h+6;}
+      x.beginPath();x.arc(m.x,m.y,m.r,0,6.2832);
+      x.fillStyle='rgba('+m.c+','+m.o.toFixed(2)+')';x.fill();}
+    requestAnimationFrame(tick);
+  }
+  if(!reduce)tick();
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+</body>
+</html>

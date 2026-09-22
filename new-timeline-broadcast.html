@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The New Timeline Broadcast — Magick Mica TV</title>
+<meta name="description" content="Three transmissions from the other side of the gate — a reality update, an old self expiring, and the Mother of Lost Frequencies. Magick Mica TV.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The New Timeline Broadcast — Magick Mica TV">
+<meta property="og:description" content="Reality update v8.8, an old version becoming an ancestor, and a goddess deciding which signals get to enter reality.">
+<meta property="og:url" content="https://magickmica.github.io/new-timeline-broadcast.html">
+<meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3bf292e4-87e3-4cd9-aee1-3a44512dff66_3000x1286.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The New Timeline Broadcast — Magick Mica TV">
+<meta name="twitter:description" content="Reality update v8.8, an old version becoming an ancestor, and a goddess deciding which signals get to enter reality.">
+<meta name="twitter:image" content="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_1200,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3bf292e4-87e3-4cd9-aee1-3a44512dff66_3000x1286.png">
+<link rel="canonical" href="https://magickmica.github.io/new-timeline-broadcast.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@500;600;700&family=Karla:ital,wght@0,400;0,600;1,400&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   THE NEW TIMELINE BROADCAST
+   Same shape as the Cozy Christmas and Cosmic Circus specials:
+   ticker, on-air sign, channel guide, one channel per post,
+   with a hand-built gate on the grid horizon in the middle.
+   Vaporwave sunset over an indigo plain; every photograph is
+   from the posts themselves.
+   ══════════════════════════════════════════════════════════ */
+:root{
+  --night:#0A0320; --deep:#180840; --panel:#241056;
+  --white:#F6F2FF; --dim:rgba(246,242,255,.62);
+  --mag:#FF3DAE; --cyan:#4DE8FF; --violet:#A56BFF; --sun:#FFB03A; --lime:#9BFF7A;
+  --head:"Orbitron",system-ui,sans-serif;
+  --script:"Yellowtail",cursive;
+  --cond:"Barlow Condensed",sans-serif;
+  --mono:"Space Mono",ui-monospace,monospace;
+  --body:"Karla",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--night); color:var(--white);
+  font-family:var(--body); font-size:17px; line-height:1.65; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(74% 46% at 50% -8%, rgba(255,61,174,.24), transparent 62%),
+    radial-gradient(48% 34% at 88% 24%, rgba(77,232,255,.14), transparent 66%),
+    radial-gradient(58% 44% at 8% 74%, rgba(165,107,255,.14), transparent 64%),
+    linear-gradient(180deg, transparent 38%, rgba(24,8,64,.82));
+}
+.stars{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 14% 16%,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 76% 9%,var(--cyan),transparent),
+    radial-gradient(1.6px 1.6px at 36% 62%,#fff,transparent),
+    radial-gradient(1.3px 1.3px at 24% 85%,var(--mag),transparent),
+    radial-gradient(1.5px 1.5px at 90% 70%,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 8% 50%,var(--sun),transparent);
+  background-size:540px 540px,700px 700px,470px 470px,580px 580px,760px 760px,620px 620px;
+  animation:twinkle 6.5s ease-in-out infinite alternate;
+}
+@keyframes twinkle{from{opacity:.5}to{opacity:1}}
+main{position:relative;z-index:2}
+a{color:var(--cyan)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* ── loader strip ───────────────────────────────────── */
+.loadbar{position:relative;z-index:2;max-width:420px;margin:22px auto 0;padding:0 20px}
+.loadbar .track{height:8px;border-radius:5px;overflow:hidden;
+  background:rgba(165,107,255,.18);border:1px solid rgba(165,107,255,.35)}
+.loadbar .go{display:block;width:100%;height:100%;transform-origin:left;
+  background:linear-gradient(90deg,var(--mag),var(--violet),var(--cyan));
+  animation:load 5.5s ease-in-out infinite}
+@keyframes load{0%{transform:scaleX(.08)}55%{transform:scaleX(.86)}100%{transform:scaleX(.08)}}
+.loadbar p{margin-top:.45rem;text-align:center;font-family:var(--mono);font-size:.7rem;
+  letter-spacing:.24em;color:rgba(77,232,255,.7)}
+
+/* ── header ─────────────────────────────────────────── */
+header{position:relative;z-index:2;text-align:center;padding:clamp(18px,3.6vw,30px) 20px 0}
+.ticker{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;align-items:center;
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan)}
+.ticker .dot{color:var(--mag)}
+.onair{display:inline-block;margin-top:1rem;font-family:var(--cond);font-weight:700;font-size:.8rem;
+  letter-spacing:.24em;color:#14042e;background:var(--cyan);padding:.34rem .9rem;border-radius:4px;
+  box-shadow:0 0 22px rgba(77,232,255,.5);animation:blink 3.4s steps(1) infinite}
+@keyframes blink{88%{opacity:1}92%{opacity:.35}}
+.sign{margin-top:1.1rem}
+.sign h1{font-family:var(--head);font-weight:900;line-height:1.06;letter-spacing:.02em;
+  font-size:clamp(1.7rem,5.6vw,3.7rem);
+  background:linear-gradient(180deg,#fff 0%,var(--cyan) 42%,var(--mag) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 30px rgba(255,61,174,.5))}
+.sign .script{display:block;margin-top:.6rem;font-family:var(--script);font-size:clamp(1.2rem,3.2vw,1.9rem);
+  color:var(--sun);text-shadow:0 0 22px rgba(255,176,58,.45)}
+.tagline{max-width:44rem;margin:1.2rem auto 0;color:var(--dim);font-size:1.05rem}
+.path{margin-top:.9rem;font-family:var(--mono);font-size:.8rem;color:rgba(155,255,122,.75);letter-spacing:.1em}
+
+/* ── channel guide ──────────────────────────────────── */
+.guide{max-width:800px;margin:clamp(24px,4vw,40px) auto 0;padding:1.1rem 1.2rem 1.3rem;
+  border:1px solid rgba(77,232,255,.32);border-radius:10px;background:rgba(36,16,86,.6);
+  box-shadow:0 18px 50px rgba(0,0,0,.55)}
+.guide-label{font-family:var(--mono);font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--sun);margin-bottom:.8rem}
+.guide a{display:flex;gap:.8rem;align-items:baseline;flex-wrap:wrap;text-decoration:none;color:var(--white);
+  padding:.55rem .2rem;border-top:1px solid rgba(77,232,255,.14);transition:.18s}
+.guide a:first-of-type{border-top:0}
+.guide a:hover{color:var(--mag)}
+.guide .ch{font-family:var(--mono);font-weight:700;font-size:.76rem;letter-spacing:.1em;color:var(--lime)}
+.guide .desc{margin-left:auto;font-family:var(--cond);font-size:.78rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim)}
+
+/* ── sections ───────────────────────────────────────── */
+section{scroll-margin-top:72px;position:relative;padding:clamp(48px,8vw,96px) 0 clamp(30px,5vw,60px)}
+.slug{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--night);background:var(--lime);
+  padding:.26rem .8rem;border-radius:4px;margin-bottom:1rem}
+.section-head{text-align:center;margin-bottom:clamp(26px,4vw,44px)}
+.section-title{font-family:var(--head);font-weight:900;line-height:1.14;letter-spacing:.01em;
+  font-size:clamp(1.4rem,3.9vw,2.4rem)}
+.section-sub{margin-top:.5rem;font-family:var(--script);font-size:clamp(1.05rem,2.5vw,1.45rem)}
+.copy{max-width:40rem;margin:0 auto}
+.copy p{margin-top:1.05rem}
+.copy p:first-child{margin-top:0}
+em.hot{font-style:italic;color:var(--sun)}
+.pull{max-width:42rem;margin:clamp(26px,4vw,40px) auto;text-align:center;
+  font-family:var(--head);font-weight:700;font-size:clamp(1rem,2.4vw,1.45rem);line-height:1.5;
+  color:var(--white);text-shadow:0 0 28px rgba(165,107,255,.5)}
+.pull span{color:var(--mag)}
+.more{text-align:center;margin-top:clamp(26px,4vw,42px)}
+.more a{display:inline-block;font-family:var(--cond);font-weight:700;font-size:.85rem;
+  letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:#14042e;
+  background:linear-gradient(135deg,var(--cyan),var(--mag));
+  padding:.75rem 1.7rem;border-radius:6px;box-shadow:0 12px 34px rgba(255,61,174,.34);transition:.2s}
+.more a:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(255,61,174,.48)}
+
+/* ── shared picture treatments ──────────────────────── */
+.gallery{display:grid;gap:clamp(10px,1.6vw,18px);
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:clamp(24px,4vw,38px)}
+.gallery figure{position:relative;border-radius:10px;overflow:hidden;
+  border:1px solid rgba(165,107,255,.28);background:rgba(36,16,86,.5);transition:.24s}
+.gallery img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.gallery .tall img{aspect-ratio:2/3}
+.gallery .sq img{aspect-ratio:1}
+.gallery figure:hover{transform:translateY(-5px);box-shadow:0 20px 48px rgba(255,61,174,.26)}
+.gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:.7rem;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--white);background:linear-gradient(180deg,transparent,rgba(10,3,32,.94))}
+.strip{max-width:1000px;margin:clamp(26px,4vw,42px) auto 0;border-radius:10px;overflow:hidden;
+  border:1px solid rgba(255,176,58,.26)}
+.strip img{display:block;width:100%;aspect-ratio:3/1;object-fit:cover}
+.divider{display:flex;justify-content:center;padding:clamp(18px,3vw,30px) 0;
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.5em;color:rgba(165,107,255,.55)}
+@media (prefers-reduced-motion: reduce){
+  .loadbar .go,.onair,.stars,.floor,.sunrise,.arch{animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="stars" aria-hidden="true"></div>
+
+<main>
+
+<div class="loadbar" aria-hidden="true">
+  <div class="track"><span class="go"></span></div>
+  <p>LOADING NEW TIMELINE...</p>
+</div>
+
+<header>
+  <div class="ticker">
+    <span>⛩ THE GATE IS OPEN</span><span class="dot">●</span>
+    <span>MAGICK MICA TV</span><span class="dot">●</span>
+    <span>REALITY UPDATE // VERSION 8.8</span>
+  </div>
+  <div class="onair">◉ INSTALLING — DO NOT POWER OFF</div>
+  <div class="sign">
+    <h1>THE NEW TIMELINE<br>BROADCAST</h1>
+    <span class="script">three transmissions from the other side of the gate</span>
+  </div>
+  <p class="tagline">A reality update you didn't know was downloading, an old version of you quietly becoming an ancestor, and the goddess who decides which signals get to enter reality. Every picture here came out of the posts themselves. ✦</p>
+  <p class="path">C:\UNIVERSE&gt; WHOAMI</p>
+
+  <nav class="guide" aria-label="Channel guide">
+    <div class="guide-label">&gt; TODAY'S CHANNEL GUIDE_</div>
+    <a href="#update"><span class="ch">CH 01</span> &gt; Accessing New Timeline... <span class="desc">Reality update 8.8</span></a>
+    <a href="#gate"><span class="ch">CH ⛩</span> The Gate <span class="desc">Walk through it</span></a>
+    <a href="#expiring"><span class="ch">CH 02</span> The Old You Is Expiring <span class="desc">Cut the cord</span></a>
+    <a href="#recognition"><span class="ch">CH ◉</span> Cosmic Recognition <span class="desc">There you are</span></a>
+  </nav>
+</header>
+
+<!-- ═══════════ CH 01 — REALITY UPDATE ═══════════ -->
+<style>
+  #update .section-title{color:var(--cyan);text-shadow:0 0 26px rgba(77,232,255,.5)}
+  #update .section-sub{color:var(--mag)}
+  .up-hero{position:relative;max-width:940px;margin:0 auto clamp(22px,4vw,36px);
+    border-radius:12px;overflow:hidden;border:1px solid rgba(77,232,255,.32);
+    box-shadow:0 26px 70px rgba(0,0,0,.65),0 0 60px rgba(77,232,255,.12)}
+  .up-hero img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+  .up-hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,transparent 48%,rgba(10,3,32,.9))}
+  .up-hero .cap{position:absolute;left:0;right:0;bottom:0;padding:1.5rem;text-align:center;
+    font-family:var(--head);font-weight:900;font-size:clamp(1rem,2.8vw,1.8rem);color:var(--sun);
+    letter-spacing:.04em}
+  /* the BIOS panel */
+  .bios{max-width:40rem;margin:clamp(26px,4vw,40px) auto 0;padding:1.1rem 1.2rem;
+    border:1px solid rgba(155,255,122,.32);border-radius:8px;background:rgba(10,3,32,.85);
+    font-family:var(--mono);font-size:.86rem;line-height:1.95;
+    box-shadow:0 20px 56px rgba(0,0,0,.6)}
+  .bios .t{color:var(--lime);letter-spacing:.14em;margin-bottom:.5rem}
+  .bios .row{display:flex;justify-content:space-between;gap:1rem;color:var(--dim)}
+  .bios .row b{color:var(--lime);font-weight:400}
+  .bios .found b{color:var(--mag)}
+  .bios .q{margin-top:.6rem;color:var(--cyan)}
+  .bios .y{color:var(--sun)}
+  /* patch notes */
+  .patch{max-width:40rem;margin:clamp(24px,3.6vw,38px) auto 0;padding:1.1rem 1.3rem;
+    border-radius:10px;background:rgba(36,16,86,.6);border:1px solid rgba(255,61,174,.28)}
+  .patch h4{font-family:var(--head);font-weight:700;font-size:.92rem;letter-spacing:.1em;
+    color:var(--mag);margin-bottom:.7rem}
+  .patch ul{list-style:none;display:grid;gap:.35rem}
+  .patch li{font-family:var(--mono);font-size:.86rem;color:var(--white)}
+  .patch li::before{content:"+ ";color:var(--lime)}
+  /* system status meters */
+  .status{max-width:40rem;margin:clamp(24px,3.6vw,38px) auto 0;display:grid;gap:.6rem}
+  .status div{display:grid;grid-template-columns:7.5rem 1fr auto;gap:.8rem;align-items:center;
+    font-family:var(--mono);font-size:.82rem;color:var(--dim)}
+  .status .m{height:9px;border-radius:5px;background:rgba(77,232,255,.16);
+    border:1px solid rgba(77,232,255,.3);overflow:hidden}
+  .status .m span{display:block;height:100%;
+    background:linear-gradient(90deg,var(--cyan),var(--violet))}
+  .status b{color:var(--lime);font-weight:400}
+</style>
+<section id="update">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 01 · MAGICK MICA TV · AUG 06</span>
+      <h2 class="section-title">&gt; ACCESSING NEW TIMELINE...</h2>
+      <p class="section-sub">reality update // version 8.8</p>
+    </div>
+
+    <figure class="up-hero">
+      <img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2944619b-1381-4068-a4ab-0a44f981005c_2500x1376.png" alt="Accessing new timeline" loading="lazy">
+      <figcaption class="cap">YOU ARE THE GATE.</figcaption>
+    </figure>
+
+    <div class="copy">
+      <p>Searching… searching… searching. <em class="hot">The answer has been inside you the entire time.</em> Your soul has better ideas than your fear ever will.</p>
+      <p>The universe doesn't need to hand you permission — your imagination already did. Every decision creates another doorway. Every question opens another room. Every act of wonder rewrites the map.</p>
+    </div>
+
+    <div class="bios">
+      <p class="t">COSMIC BIOS v8.08</p>
+      <p class="row"><span>Checking Wonder</span><b>OK</b></p>
+      <p class="row"><span>Checking Curiosity</span><b>OK</b></p>
+      <p class="row"><span>Checking Imagination</span><b>OK</b></p>
+      <p class="row found"><span>Checking Fear</span><b>FOUND</b></p>
+      <p class="q">Override Fear? [Y/N] &gt; <span class="y">Y</span></p>
+      <p class="q">Loading New Timeline...</p>
+    </div>
+
+    <p class="pull">THE PORTAL WASN'T HIDDEN.<br><span>IT WAS DISGUISED AS YOUR BIGGEST CURIOSITY.</span></p>
+
+    <div class="patch">
+      <h4>REALITY UPDATE AVAILABLE — VERSION: YOU 8.8</h4>
+      <ul>
+        <li>Increased Wonder</li>
+        <li>Improved Synchronicity Detection</li>
+        <li>Bug fixes for Self-Doubt</li>
+        <li>Curiosity loads 43% faster</li>
+      </ul>
+    </div>
+
+    <div class="status">
+      <div><span>Soul</span><span class="m"><span style="width:100%"></span></span><b>Online</b></div>
+      <div><span>Heart</span><span class="m"><span style="width:100%"></span></span><b>Online</b></div>
+      <div><span>Imagination</span><span class="m"><span style="width:100%"></span></span><b>Unlimited</b></div>
+      <div><span>GPS</span><span class="m"><span style="width:64%"></span></span><b>En route</b></div>
+    </div>
+    <p style="max-width:40rem;margin:.9rem auto 0;font-family:var(--mono);font-size:.8rem;color:var(--dim);text-align:center">
+      Current location: <span style="color:var(--sun)">between who you were and who you're becoming.</span><br>
+      Progress: not measured in minutes. Measured in courage.
+    </p>
+
+    <div class="gallery">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb75a02c7-e85b-4387-8409-634ddf93d5ef_1376x768.jpeg" alt="The gate has always been yours" loading="lazy"><figcaption>The gate is yours</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F48500205-c7d5-40b8-b67d-53aec0880674_1376x768.jpeg" alt="Every question opens another room" loading="lazy"><figcaption>Another room</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F688278c0-da5b-49f0-b014-8134112e38f8_1376x768.jpeg" alt="The universe keeps leaving clues" loading="lazy"><figcaption>Clues</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0270ad08-0995-4244-bda1-625187938389_1376x768.jpeg" alt="Curiosity is how you call back" loading="lazy"><figcaption>Curiosity calls back</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F403a5035-c77d-4b71-b7bf-25b14ccbdccb_848x1264.jpeg" alt="Walk through it before you're ready" loading="lazy"><figcaption>Before you're ready</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1cf3f79e-45bf-42f5-9581-91a00e7e6c1e_1086x1448.png" alt="Name it after the person you're becoming" loading="lazy"><figcaption>Name the gate</figcaption></figure>
+    </div>
+
+    <div class="copy" style="margin-top:clamp(26px,4vw,40px)">
+      <p>You don't have to wait for a celestial gateway. <em class="hot">Build one.</em> Name it after the person you're becoming. Walk through it before you're ready. Leave the old story on the other side.</p>
+      <p>Because maybe the greatest portal in the universe isn't hidden among the stars. Maybe it's the moment you believe that one curious thought can rewrite an entire lifetime.</p>
+    </div>
+
+    <figure class="strip"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F439b4dfc-b096-4088-995f-6466254fa900_2500x1071.png" alt="Searching for magic" loading="lazy"></figure>
+    <p style="max-width:40rem;margin:1rem auto 0;text-align:center;font-family:var(--mono);font-size:.86rem;color:var(--lime)">
+      Magic wasn't missing. It was running in the background.
+    </p>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/accessing-new-timeline" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">▚▚▚</div>
+
+<!-- ═══════════ CH ⛩ — THE GATE (interlude) ═══════════ -->
+<style>
+  #gate{background:radial-gradient(900px 440px at 50% 40%,rgba(255,61,174,.16),transparent 70%);overflow:hidden}
+  #gate .section-title{color:var(--sun);text-shadow:0 0 26px rgba(255,176,58,.5)}
+  .horizon{position:relative;max-width:700px;margin:0 auto;aspect-ratio:16/10;
+    border-radius:14px;overflow:hidden;border:1px solid rgba(255,61,174,.3);
+    box-shadow:0 26px 70px rgba(0,0,0,.7)}
+  .horizon svg{display:block;width:100%;height:100%}
+  .floor line{animation:rush 3.2s linear infinite}
+  @keyframes rush{to{transform:translateY(26px)}}
+  .sunrise{animation:rise 9s ease-in-out infinite}
+  @keyframes rise{50%{transform:translateY(-7px)}}
+  .arch{animation:glow 5s ease-in-out infinite}
+  @keyframes glow{50%{opacity:.6}}
+  .press{max-width:30rem;margin:clamp(26px,4vw,40px) auto 0;padding:1.1rem 1rem;text-align:center;
+    border:2px solid rgba(155,255,122,.45);border-radius:10px;background:rgba(10,3,32,.8);
+    font-family:var(--mono);font-size:.92rem;line-height:2;color:var(--white)}
+  .press b{display:block;font-family:var(--head);font-weight:900;letter-spacing:.1em;color:var(--lime)}
+  .press i{font-style:normal;color:var(--cyan);font-size:.8rem;letter-spacing:.2em}
+</style>
+<section id="gate">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH ⛩ · INTERLUDE</span>
+      <h2 class="section-title">THE GATE</h2>
+      <p class="section-sub" style="color:var(--cyan)">build one. name it after who you're becoming.</p>
+    </div>
+
+    <div class="horizon" aria-hidden="true">
+      <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a0642"/><stop offset="60%" stop-color="#4a0f52"/>
+            <stop offset="100%" stop-color="#7d1450"/>
+          </linearGradient>
+          <linearGradient id="sunG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFE08A"/><stop offset="45%" stop-color="#FFB03A"/>
+            <stop offset="100%" stop-color="#FF3DAE"/>
+          </linearGradient>
+          <linearGradient id="grndG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0A0320"/><stop offset="100%" stop-color="#2a0a4e"/>
+          </linearGradient>
+          <clipPath id="sunClip"><rect x="120" y="40" width="160" height="110"/></clipPath>
+          <clipPath id="floorClip"><rect x="0" y="150" width="400" height="100"/></clipPath>
+        </defs>
+
+        <rect width="400" height="150" fill="url(#skyG)"/>
+
+        <!-- the sun, with vaporwave slices cut out -->
+        <g class="sunrise" clip-path="url(#sunClip)">
+          <circle cx="200" cy="120" r="62" fill="url(#sunG)"/>
+          <g fill="#4a0f52" opacity=".85">
+            <rect x="130" y="104" width="140" height="4"/>
+            <rect x="130" y="114" width="140" height="5"/>
+            <rect x="130" y="126" width="140" height="6"/>
+            <rect x="130" y="139" width="140" height="7"/>
+          </g>
+        </g>
+
+        <!-- the gate arch standing on the horizon -->
+        <g class="arch" fill="none" stroke="#4DE8FF" stroke-width="3" stroke-linecap="round"
+           filter="drop-shadow(0 0 7px rgba(77,232,255,.9))">
+          <path d="M166 150 L166 96 a34 34 0 0 1 68 0 L234 150"/>
+        </g>
+        <path d="M166 150 L166 96 a34 34 0 0 1 68 0 L234 150 Z" fill="rgba(255,61,174,.16)"/>
+
+        <rect y="150" width="400" height="100" fill="url(#grndG)"/>
+
+        <!-- the scrolling grid floor -->
+        <g class="floor" clip-path="url(#floorClip)" stroke="rgba(77,232,255,.5)" stroke-width="1">
+          <g>
+            <line x1="0" y1="150" x2="400" y2="150"/>
+            <line x1="0" y1="156" x2="400" y2="156"/>
+            <line x1="0" y1="165" x2="400" y2="165"/>
+            <line x1="0" y1="178" x2="400" y2="178"/>
+            <line x1="0" y1="196" x2="400" y2="196"/>
+            <line x1="0" y1="220" x2="400" y2="220"/>
+            <line x1="0" y1="250" x2="400" y2="250"/>
+          </g>
+        </g>
+        <g clip-path="url(#floorClip)" stroke="rgba(255,61,174,.42)" stroke-width="1">
+          <line x1="200" y1="150" x2="-190" y2="250"/><line x1="200" y1="150" x2="-60" y2="250"/>
+          <line x1="200" y1="150" x2="40" y2="250"/><line x1="200" y1="150" x2="120" y2="250"/>
+          <line x1="200" y1="150" x2="200" y2="250"/><line x1="200" y1="150" x2="280" y2="250"/>
+          <line x1="200" y1="150" x2="360" y2="250"/><line x1="200" y1="150" x2="460" y2="250"/>
+          <line x1="200" y1="150" x2="590" y2="250"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="press">
+      <b>YOU ARE THE GATE</b>
+      <i>PRESS ANY KEY TO CONTINUE</i>
+    </div>
+
+    <p class="pull" style="margin-top:clamp(26px,4vw,40px)">EVERY ACT OF WONDER <span>REWRITES THE MAP</span></p>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">▚▚▚</div>
+
+<!-- ═══════════ CH 02 — THE OLD YOU IS EXPIRING ═══════════ -->
+<style>
+  #expiring .section-title{color:var(--violet);text-shadow:0 0 26px rgba(165,107,255,.5)}
+  #expiring .section-sub{color:var(--sun)}
+  .release{max-width:40rem;margin:clamp(24px,3.6vw,38px) auto 0;display:grid;gap:.5rem}
+  .release div{padding:.85rem 1rem;border-radius:10px;background:rgba(36,16,86,.55);
+    border-left:3px solid var(--violet);font-size:1.02rem;color:var(--white)}
+  .release div:nth-child(2){border-left-color:var(--mag)}
+  .release div:nth-child(3){border-left-color:var(--cyan)}
+  .release div:nth-child(4){border-left-color:var(--sun)}
+  .release div:nth-child(5){border-left-color:var(--lime)}
+  .three{display:grid;gap:.6rem;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    max-width:34rem;margin:clamp(24px,3.6vw,38px) auto 0}
+  .three div{padding:.9rem;border-radius:10px;text-align:center;
+    background:rgba(10,3,32,.7);border:1px solid rgba(165,107,255,.3);
+    font-family:var(--head);font-weight:700;font-size:.92rem;letter-spacing:.12em;color:var(--violet)}
+  .three div:nth-child(2){color:var(--mag);border-color:rgba(255,61,174,.35)}
+  .three div:nth-child(3){color:var(--cyan);border-color:rgba(77,232,255,.35)}
+  .swap{max-width:42rem;margin:clamp(26px,4vw,40px) auto 0;display:grid;gap:.7rem}
+  .swap div{padding:1rem 1.2rem;border-radius:12px;font-size:1.02rem}
+  .swap .was{background:rgba(36,16,86,.45);border:1px dashed rgba(246,242,255,.22);color:var(--dim)}
+  .swap .now{background:linear-gradient(135deg,rgba(255,61,174,.18),rgba(77,232,255,.14));
+    border:1px solid rgba(255,61,174,.4);color:var(--white)}
+  .swap b{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;
+    text-transform:uppercase;margin-bottom:.35rem}
+  .swap .was b{color:rgba(246,242,255,.45)}
+  .swap .now b{color:var(--mag)}
+</style>
+<section id="expiring">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH 02 · MAGICK MICA TV · AUG 27</span>
+      <h2 class="section-title">THE OLD YOU IS EXPIRING</h2>
+      <p class="section-sub">let this lunar cycle take what you've been too sentimental to release</p>
+    </div>
+
+    <div class="gallery" style="margin-top:0;margin-bottom:clamp(26px,4vw,40px)">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F014fbbf4-fa2a-40de-8227-e15cf2ca4364_1719x1136.png" alt="The old you is expiring" loading="lazy"><figcaption>Expiring</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8e0e3ed9-87d8-4b67-82c1-c64fed193edb_1684x934.png" alt="Let the old version become an ancestor" loading="lazy"><figcaption>An ancestor</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F85cc4b38-ee98-49d8-82c1-47acc5548703_1536x1024.png" alt="Cutting the cord" loading="lazy"><figcaption>The cord</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Faf7c7612-a6ff-4bdd-9678-e6b4a99f85bc_1448x1086.png" alt="Walk toward the future like you already belong there" loading="lazy"><figcaption>You already belong</figcaption></figure>
+      <figure class="tall"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fafbc9ed7-fe19-48c2-ac49-f90a4bcd4766_1028x1530.png" alt="The timeline shift begins" loading="lazy"><figcaption>The shift begins</figcaption></figure>
+      <figure class="sq"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd1c758e4-b929-4379-9413-89e7ba4be9e5_1254x1254.png" alt="The past can be sacred without remaining active" loading="lazy"><figcaption>Sacred, not active</figcaption></figure>
+    </div>
+
+    <div class="release">
+      <div>Not everything that returns belongs in the next chapter.</div>
+      <div>Let the old version of you become an ancestor.</div>
+      <div>The past can be sacred without remaining active.</div>
+      <div>Sometimes the biggest cord to cut is the one connecting you to who you thought you had to be.</div>
+      <div>Walk toward the future like you already belong there.</div>
+    </div>
+
+    <div class="three">
+      <div>THANK HER</div><div>BLESS HER</div><div>RELEASE HER</div>
+    </div>
+
+    <div class="swap">
+      <div class="was"><b>she stopped asking</b>“Do they like me?”</div>
+      <div class="now"><b>and started asking</b>“Do I like how I feel when I am around them?”</div>
+    </div>
+
+    <p class="pull">THE TIMELINE SHIFT BEGINS THE MOMENT YOU STOP NEGOTIATING WITH <span>THE VERSION OF YOU THAT IS AFRAID TO CHANGE</span></p>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/the-old-you-is-expiring" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">▚▚▚</div>
+
+<!-- ═══════════ CH ◉ — COSMIC RECOGNITION ═══════════ -->
+<style>
+  #recognition{background:radial-gradient(900px 420px at 50% 34%,rgba(255,176,58,.13),transparent 70%)}
+  #recognition .section-title{color:var(--mag);text-shadow:0 0 26px rgba(255,61,174,.5)}
+  #recognition .section-sub{color:var(--violet)}
+  .verse{max-width:36rem;margin:0 auto;text-align:center}
+  .verse p{margin-top:1.3rem;font-size:1.08rem;line-height:1.8}
+  .verse p:first-child{margin-top:0}
+  .verse .lead{font-family:var(--head);font-weight:700;font-size:clamp(1.1rem,2.8vw,1.6rem);
+    letter-spacing:.06em;color:var(--sun)}
+  .verse em{font-style:italic;color:var(--cyan)}
+  .oracle{display:grid;gap:clamp(10px,1.6vw,16px);
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-top:clamp(28px,4.4vw,44px)}
+  .oracle figure{border-radius:12px;overflow:hidden;border:1px solid rgba(255,61,174,.3);
+    position:relative;transition:.24s}
+  .oracle img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover}
+  .oracle figure:hover{transform:translateY(-6px);box-shadow:0 22px 52px rgba(255,61,174,.3)}
+  .oracle figcaption{position:absolute;left:0;right:0;bottom:0;padding:.8rem .7rem .65rem;
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--white);background:linear-gradient(180deg,transparent,rgba(10,3,32,.94))}
+  .mother{max-width:36rem;margin:clamp(28px,4.4vw,44px) auto 0;padding:1.3rem 1.4rem;text-align:center;
+    border-radius:14px;border:1px solid rgba(255,176,58,.4);
+    background:linear-gradient(180deg,rgba(36,16,86,.72),rgba(10,3,32,.86))}
+  .mother b{display:block;font-family:var(--head);font-weight:900;font-size:clamp(1rem,2.6vw,1.4rem);
+    letter-spacing:.06em;color:var(--sun);margin-bottom:.6rem}
+  .mother span{color:var(--dim);font-size:.99rem}
+</style>
+<section id="recognition">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="slug">CH ◉ · MAGICK MICA TV · SEP 19</span>
+      <h2 class="section-title">COSMIC RECOGNITION</h2>
+      <p class="section-sub">some souls do not meet. they remember.</p>
+    </div>
+
+    <div class="verse">
+      <p class="lead">One glance and something ancient whispers: <em>there you are.</em></p>
+      <p>In the temple of her body, the pineal glows — a silent oracle, a cosmic compass, a divine inheritance. Her sight pierces time like an arrow of light, for she remembers what even the gods buried.</p>
+      <p>She does not pray to the heavens — <em>she opens them, from within.</em> In her stillness, the crystal awakens. In her awakening, the illusion shatters.</p>
+      <p>She never followed the recipe. She listened to the plasma, added three crystals of intuition, a spoonful of moonlight, and baked the impossible until it remembered how to shine.</p>
+    </div>
+
+    <div class="oracle">
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1c687eba-c17a-4185-8ef4-8bcfaeeeddd1_1023x1537.png" alt="The pineal glowing in the temple of her body" loading="lazy"><figcaption>The silent oracle</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd515da8e-85d8-48e4-95b6-eaddab21c14a_1023x1537.png" alt="Her sight piercing time like an arrow of light" loading="lazy"><figcaption>An arrow of light</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F228117e7-bfcf-4f71-b640-88d3ecd41f94_1023x1537.png" alt="She opens the heavens from within" loading="lazy"><figcaption>From within</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc4435667-8a3a-4c03-a00e-05ad8ca1044d_1023x1537.png" alt="In her stillness the crystal awakens" loading="lazy"><figcaption>The crystal awakens</figcaption></figure>
+      <figure><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd4e61e6f-dc5b-40f3-b284-1eda66055d92_1023x1537.png" alt="The Mother of Lost Frequencies" loading="lazy"><figcaption>Mother of Lost Frequencies</figcaption></figure>
+    </div>
+
+    <p class="pull">LOVE IS AN <span>EXTRAORDINARY TECHNOLOGY</span></p>
+
+    <div class="copy" style="text-align:center">
+      <p>It changes nervous systems. Builds bridges. Creates worlds. And sometimes it makes impossible things feel inevitable.</p>
+    </div>
+
+    <div class="mother">
+      <b>THE MOTHER OF LOST FREQUENCIES</b>
+      <span>The ancient goddess behind Magick Mica TV, receiving transmissions from forgotten timelines and deciding which signals deserve to enter reality.</span>
+    </div>
+
+    <figure class="strip"><img src="https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6f0c4b7b-3a98-4f89-ae8f-236263ced70b_2172x724.png" alt="A wide banner from Cosmic Recognition" loading="lazy"></figure>
+
+    <div class="more"><a href="https://magickmica.substack.com/p/cosmic-recognition" target="_blank" rel="noopener">Read the full transmission ↗</a></div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">▚▚▚</div>
+
+<footer style="text-align:center;padding:0 20px clamp(46px,7vw,80px)">
+  <p style="font-family:var(--head);font-weight:900;font-size:clamp(1.1rem,3.2vw,1.9rem);color:var(--lime);letter-spacing:.06em">DOWNLOAD COMPLETE</p>
+  <p style="margin-top:.5rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.18em;color:var(--cyan)">File: Future_Self.zip — extracted.</p>
+  <p style="margin-top:.9rem;color:var(--dim)">Three transmissions from <a href="https://magickmica.substack.com" target="_blank" rel="noopener">Magick Mica TV</a>, rebuilt as one broadcast.</p>
+  <p style="margin-top:1.2rem;font-family:var(--cond);font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)">
+    <a href="articles.html">The magazine</a> · <a href="notes.html">All notes</a> · <a href="index.html">Back to the signal</a>
+  </p>
+</footer>
+
+</main>
+
+<script src="mm-nav.js?v=3" defer></script>
+</body>
+</html>
