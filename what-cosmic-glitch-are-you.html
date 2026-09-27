@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Kind of Cosmic Glitch Are You? — Magick Mica</title>
+<meta name="description" content="Your aura has been buffering since 1999. Ten questions to find out which impossible frequency you've been broadcasting this whole time.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="What Kind of Cosmic Glitch Are You? — Magick Mica">
+<meta property="og:description" content="Your aura has been buffering since 1999. Ten questions, four impossible frequencies.">
+<meta property="og:url" content="https://magickmica.github.io/what-cosmic-glitch-are-you.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What Kind of Cosmic Glitch Are You? — Magick Mica">
+<meta name="twitter:description" content="Your aura has been buffering since 1999. Ten questions, four impossible frequencies.">
+<link rel="canonical" href="https://magickmica.github.io/what-cosmic-glitch-are-you.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   WHAT KIND OF COSMIC GLITCH ARE YOU?
+   Holographic Y2K quiz · one question per screen · four
+   frequencies. Scoring is tag-based: every option carries the
+   archetype it points at, so options can sit in any order.
+   Everything is inline — no frameworks, no libraries.
+   ══════════════════════════════════════════════════════════ */
+:root{
+  --void:#07021a; --void-2:#140630; --plum:#2a1050;
+  --pearl:#FFF6FB; --pearl-dim:rgba(255,246,251,.58);
+  --gold:#F5C044; --pink:#FF7AC8; --cyan:#5FE8D0; --violet:#B79CFF;
+  --chrome:linear-gradient(160deg,#ffffff 0%,#cfe4ff 18%,#8fa8d8 34%,#ffffff 50%,#e8c9ff 66%,#8fa8d8 82%,#ffffff 100%);
+  --holo:linear-gradient(115deg,var(--gold) 0%,#ffe6a8 26%,var(--pink) 52%,var(--violet) 76%,var(--cyan) 100%);
+  --line:rgba(245,192,68,.22);
+  --radius:4px;
+  --display:"Orbitron",system-ui,sans-serif;
+  --body:"Cormorant Garamond",Georgia,serif;
+  --mono:"Space Mono",Menlo,monospace;
+  --script:"Yellowtail",cursive;
+  /* the scanner hue, rewritten by JS as you answer */
+  --aura:#B79CFF; --aura-2:#FF7AC8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void); color:var(--pearl);
+  font-family:var(--body); font-size:18px; line-height:1.6;
+  overflow-x:hidden; min-height:100vh; -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(70% 44% at 50% -8%, rgba(183,156,255,.26), transparent 62%),
+    radial-gradient(46% 32% at 86% 24%, rgba(255,122,200,.16), transparent 66%),
+    radial-gradient(56% 42% at 8% 74%, rgba(95,232,208,.14), transparent 64%),
+    linear-gradient(180deg, transparent 38%, rgba(20,6,48,.82));
+}
+/* starfield */
+.stars{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(1.6px 1.6px at 13% 16%,#fff,transparent),
+    radial-gradient(1.2px 1.2px at 75% 9%,var(--cyan),transparent),
+    radial-gradient(1.8px 1.8px at 36% 62%,#fff,transparent),
+    radial-gradient(1.3px 1.3px at 23% 85%,var(--pink),transparent),
+    radial-gradient(1.5px 1.5px at 90% 70%,var(--gold),transparent),
+    radial-gradient(1.2px 1.2px at 7% 48%,var(--violet),transparent);
+  background-size:520px 520px,680px 680px,455px 455px,565px 565px,745px 745px,610px 610px;
+  animation:twinkle 6s ease-in-out infinite alternate;
+}
+@keyframes twinkle{from{opacity:.45}to{opacity:1}}
+/* a faint CRT scanline wash over the whole page */
+.scan{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.22;
+  background:repeating-linear-gradient(180deg,rgba(0,0,0,.5) 0 1px,transparent 1px 3px)}
+main{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:0 20px 72px}
+
+/* ── header ─────────────────────────────────────────── */
+header{text-align:center;padding:clamp(24px,5vw,44px) 0 0}
+.kicker{font-family:var(--mono);font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--cyan)}
+h1{font-family:var(--display);font-weight:900;line-height:1.06;letter-spacing:.01em;
+  font-size:clamp(1.7rem,5.6vw,3.1rem);margin-top:.7rem;text-transform:uppercase;
+  background:var(--holo);background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 26px rgba(255,122,200,.45));
+  animation:holoshift 9s linear infinite}
+@keyframes holoshift{to{background-position:220% 0}}
+.deck{max-width:34rem;margin:1rem auto 0;color:var(--pearl-dim);font-size:1.08rem}
+.deck b{color:var(--gold);font-weight:600}
+
+/* ── the aura scanner ───────────────────────────────── */
+.scanner{position:relative;max-width:420px;margin:clamp(24px,4vw,38px) auto 0}
+.crt{position:relative;border-radius:18px;padding:14px;
+  background:linear-gradient(170deg,#2b1a4d,#120630);
+  border:1px solid rgba(183,156,255,.3);
+  box-shadow:0 26px 60px rgba(0,0,0,.65), 0 0 50px rgba(183,156,255,.16),
+             inset 0 1px 0 rgba(255,255,255,.14)}
+.tube{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:4/3;
+  background:radial-gradient(70% 70% at 50% 45%, #1d0c42, #08021c 80%);
+  box-shadow:inset 0 0 44px rgba(0,0,0,.85), inset 0 0 90px var(--aura)}
+.tube svg{position:absolute;inset:0;width:100%;height:100%}
+.aurablob{fill:var(--aura);opacity:.5;filter:blur(1px);
+  transform-box:fill-box;transform-origin:center;
+  animation:breathe 5s ease-in-out infinite;transition:fill .6s ease}
+.aurablob.two{fill:var(--aura-2);opacity:.34;animation-duration:7s;animation-direction:reverse}
+@keyframes breathe{50%{transform:scale(1.09)}}
+.figure{fill:rgba(255,246,251,.9)}
+/* RGB split bars sweeping down the tube */
+.bar{position:absolute;left:0;right:0;height:14%;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,122,200,.3),rgba(95,232,208,.3));
+  mix-blend-mode:screen;animation:sweep 6.5s linear infinite}
+.bar.b2{animation-duration:9.5s;animation-delay:-3s;
+  background:linear-gradient(180deg,rgba(183,156,255,.28),transparent)}
+@keyframes sweep{from{top:-16%}to{top:104%}}
+.tube::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(180deg,rgba(0,0,0,.34) 0 1px,transparent 1px 3px)}
+.crt-label{display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap;
+  margin-top:10px;font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--cyan)}
+.rec{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--pink);
+  margin-right:.45rem;box-shadow:0 0 8px var(--pink);animation:rec 2s steps(1) infinite}
+@keyframes rec{50%{opacity:.25}}
+.readout{margin-top:.8rem;text-align:center;font-family:var(--mono);font-size:.8rem;
+  letter-spacing:.1em;color:var(--pearl-dim);min-height:2.4em}
+.readout b{color:var(--gold);font-weight:400}
+
+/* ── progress ───────────────────────────────────────── */
+.progress{margin:clamp(24px,4vw,38px) auto 0;max-width:560px}
+.track{height:8px;border-radius:999px;overflow:hidden;
+  background:rgba(183,156,255,.16);border:1px solid rgba(183,156,255,.3)}
+.fill{display:block;height:100%;width:0%;border-radius:999px;
+  background:var(--holo);background-size:220% 100%;
+  transition:width .45s cubic-bezier(.4,0,.2,1);animation:holoshift 6s linear infinite}
+.count{margin-top:.5rem;text-align:center;font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--pearl-dim)}
+
+/* ── the question card ──────────────────────────────── */
+.card{position:relative;margin:clamp(20px,3.4vw,32px) auto 0;max-width:620px;
+  padding:clamp(20px,4vw,34px);border-radius:var(--radius);
+  background:linear-gradient(180deg,rgba(42,16,80,.72),rgba(7,2,26,.86));
+  border:1px solid var(--line);
+  box-shadow:0 24px 60px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.07)}
+.q{font-family:var(--display);font-weight:700;font-size:clamp(1.15rem,3.2vw,1.55rem);
+  line-height:1.3;text-align:center;letter-spacing:.005em}
+.opts{margin-top:clamp(18px,3vw,26px);display:grid;gap:.6rem}
+
+/* liquid chrome buttons */
+.opt{position:relative;display:block;width:100%;text-align:left;cursor:pointer;
+  font-family:var(--body);font-size:1.06rem;line-height:1.4;color:#180a33;
+  padding:.85rem 1.1rem;border:1px solid rgba(255,255,255,.55);border-radius:var(--radius);
+  background:var(--chrome);background-size:220% 220%;background-position:0% 50%;
+  box-shadow:0 6px 18px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.9);
+  transition:background-position .55s ease, transform .18s ease, box-shadow .18s ease;
+  min-height:48px;overflow:hidden}
+.opt::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:var(--holo);mix-blend-mode:overlay;transition:opacity .28s ease}
+.opt:hover,.opt:focus-visible{background-position:100% 50%;transform:translateY(-3px);
+  box-shadow:0 14px 32px rgba(255,122,200,.35), inset 0 1px 0 rgba(255,255,255,.95);
+  outline:none}
+.opt:hover::after,.opt:focus-visible::after{opacity:.55}
+.opt:active{transform:translateY(1px)}
+.opt .tick{float:right;margin-left:.8rem;font-family:var(--mono);font-size:.74rem;
+  letter-spacing:.14em;color:rgba(24,10,51,.5)}
+
+/* one question per screen: fade + lift between them */
+.swap{animation:swapin .42s cubic-bezier(.2,.7,.3,1)}
+@keyframes swapin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.swapout{animation:swapout .22s ease-in forwards}
+@keyframes swapout{to{opacity:0;transform:translateY(-10px)}}
+
+.backrow{margin-top:1rem;text-align:center}
+.backrow button{background:none;border:0;cursor:pointer;font-family:var(--mono);
+  font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--pearl-dim);
+  padding:.4rem .6rem;transition:.18s}
+.backrow button:hover{color:var(--cyan)}
+.backrow button[hidden]{display:none}
+
+/* ── result ─────────────────────────────────────────── */
+.result{display:none;margin:clamp(20px,3.4vw,32px) auto 0;max-width:620px;
+  padding:clamp(22px,4.4vw,38px);border-radius:var(--radius);text-align:center;
+  background:linear-gradient(180deg,rgba(42,16,80,.8),rgba(7,2,26,.9));
+  border:1px solid rgba(245,192,68,.4);
+  box-shadow:0 28px 70px rgba(0,0,0,.66), 0 0 60px rgba(183,156,255,.18)}
+.result.show{display:block;animation:swapin .55s cubic-bezier(.2,.7,.3,1)}
+.r-badge{font-family:var(--mono);font-size:.74rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--cyan)}
+.r-name{font-family:var(--display);font-weight:900;text-transform:uppercase;
+  font-size:clamp(1.6rem,6vw,2.9rem);line-height:1.05;margin:.5rem 0 .3rem;
+  background:var(--holo);background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 24px rgba(255,122,200,.45));animation:holoshift 7s linear infinite}
+.r-tag{font-family:var(--script);font-size:clamp(1.2rem,3.4vw,1.7rem);color:var(--gold)}
+.r-desc{margin-top:1.1rem;font-size:1.1rem;line-height:1.66;color:var(--pearl);text-align:left}
+.r-desc + .r-desc{margin-top:.8rem}
+.r-meta{margin-top:1.3rem;padding-top:1rem;border-top:1px dashed rgba(245,192,68,.28);
+  display:grid;gap:.4rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;
+  color:var(--pearl-dim);text-align:left}
+.r-meta b{color:var(--cyan);font-weight:400}
+.r-mix{margin-top:1rem;display:grid;gap:.35rem;text-align:left}
+.r-mix div{display:grid;grid-template-columns:8.5rem 1fr 2.5rem;gap:.6rem;align-items:center;
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--pearl-dim)}
+.r-mix .m{height:7px;border-radius:999px;background:rgba(183,156,255,.16);overflow:hidden}
+.r-mix .m span{display:block;height:100%;background:var(--holo);background-size:220% 100%}
+
+.actions{margin-top:1.5rem;display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+/* gold pill — the house primary action */
+.pill{display:inline-block;cursor:pointer;border:0;text-decoration:none;
+  font-family:var(--mono);font-weight:700;font-size:.78rem;letter-spacing:.2em;
+  text-transform:uppercase;color:#1b0a2e;
+  background:linear-gradient(135deg,var(--gold),var(--pink));
+  padding:.8rem 1.6rem;border-radius:999px;
+  box-shadow:0 12px 30px rgba(255,122,200,.36);transition:.2s}
+.pill:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(255,122,200,.5)}
+.pill.ghost{background:none;color:var(--pearl);border:1px solid rgba(183,156,255,.45);
+  box-shadow:none}
+.pill.ghost:hover{border-color:var(--cyan);color:var(--cyan);box-shadow:none}
+.pill.done{background:linear-gradient(135deg,var(--cyan),var(--gold))}
+
+footer{margin-top:clamp(40px,7vw,72px);text-align:center;color:var(--pearl-dim)}
+footer .sig{font-family:var(--script);font-size:clamp(1.2rem,3vw,1.7rem);color:var(--gold)}
+footer .links{margin-top:1rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;
+  text-transform:uppercase}
+footer a{color:var(--pearl-dim);text-decoration:none}
+footer a:hover{color:var(--pink)}
+
+@media (prefers-reduced-motion: reduce){
+  .stars,h1,.fill,.r-name,.aurablob,.bar,.rec,.swap,.result.show{animation:none!important}
+  .opt,.pill,.gallery figure{transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="stars" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+
+<main>
+
+<header>
+  <p class="kicker">✦ Interactive Quiz ✦</p>
+  <h1>What Kind of<br>Cosmic Glitch Are You?</h1>
+  <p class="deck">Your aura has been <b>buffering since 1999</b>. Ten questions to find out which impossible frequency you've been broadcasting this whole time.</p>
+</header>
+
+<!-- ── the aura scanner: reacts to every answer ── -->
+<div class="scanner">
+  <div class="crt">
+    <div class="tube">
+      <svg viewBox="0 0 200 150" aria-hidden="true">
+        <ellipse class="aurablob" cx="100" cy="74" rx="62" ry="50"/>
+        <ellipse class="aurablob two" cx="100" cy="72" rx="42" ry="36"/>
+        <g class="figure">
+          <circle cx="100" cy="56" r="14"/>
+          <path d="M100 73 c-17 0 -28 13 -31 33 c-1 6 3 10 9 10 h44 c6 0 10 -4 9 -10 c-3 -20 -14 -33 -31 -33 Z"/>
+        </g>
+      </svg>
+      <div class="bar" aria-hidden="true"></div>
+      <div class="bar b2" aria-hidden="true"></div>
+    </div>
+    <div class="crt-label">
+      <span><span class="rec"></span>AURA SCANNER</span>
+      <span id="scan-state">STANDBY</span>
+    </div>
+  </div>
+  <p class="readout" id="readout" role="status" aria-live="polite">Signal detected. Stand still.</p>
+</div>
+
+<!-- ── progress ── -->
+<div class="progress">
+  <div class="track"><span class="fill" id="fill"></span></div>
+  <p class="count" id="count">Question 1 of 10</p>
+</div>
+
+<!-- ── one question per screen ── -->
+<section class="card" id="card">
+  <h2 class="q" id="q"></h2>
+  <div class="opts" id="opts"></div>
+  <div class="backrow"><button type="button" id="back" hidden>← Previous</button></div>
+</section>
+
+<!-- ── result ── -->
+<section class="result" id="result" aria-live="polite">
+  <p class="r-badge">Your frequency is…</p>
+  <h2 class="r-name" id="r-name"></h2>
+  <p class="r-tag" id="r-tag"></p>
+  <div id="r-desc"></div>
+  <div class="r-meta" id="r-meta"></div>
+  <div class="r-mix" id="r-mix"></div>
+  <div class="actions">
+    <button class="pill" type="button" id="share">✦ Share my frequency</button>
+    <button class="pill ghost" type="button" id="retry">↻ Take it again</button>
+  </div>
+</section>
+
+<footer>
+  <p class="sig">stay weird, stay broadcasting</p>
+  <p class="links">
+    <a href="articles.html">The magazine</a> ·
+    <a href="notes.html">All notes</a> ·
+    <a href="arcade.html">The arcade</a> ·
+    <a href="index.html">Back to the signal</a> · <a href="https://magickmicatv.store/" target="_blank" rel="noopener">Store ↗</a>
+  </p>
+</footer>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* Every option carries the archetype it points at, so options can sit in
+     any order — no position-to-result mapping to keep straight. */
+  var RESULTS = {
+    oracle: {
+      name: 'Crystal Oracle',
+      tag: 'the clear signal',
+      aura: ['#5FE8D0', '#B79CFF'],
+      state: 'CLEAR',
+      desc: [
+        "You radiate shimmering calm, and it unnerves people slightly. While everyone else is refreshing the page, you are already sitting with the answer, waiting for the rest of the room to catch up. You do not rush. Rushing has never once improved your accuracy.",
+        "Your particular magic is that you notice the thing before it announces itself — the shift in a voice, the sentence under the sentence, the reason someone really came over. You would call it paying attention. Everyone else calls it slightly spooky. Both are correct."
+      ],
+      keeps: 'a stone you picked up somewhere and never explained',
+      hour: '4:44am, everything humming',
+      error: 'NO ERROR FOUND — which is, frankly, suspicious'
+    },
+    pixel: {
+      name: 'Pixel Witch',
+      tag: 'the one who builds it anyway',
+      aura: ['#B79CFF', '#FF7AC8'],
+      state: 'COMPILING',
+      desc: [
+        "Reality loads one glitter pixel at a time, and you are the one placing them. You do not wait for the tools to exist — you make the thing out of whatever is lying around, and it works, and nobody can quite explain why. Your spells look like spreadsheets. Your spreadsheets are absolutely spells.",
+        "You are happiest at 2am, deep in something, snacks everywhere, three tabs from a breakthrough. The world calls this a hobby. It is not a hobby. It is a practice, and you have been keeping it faithfully for years."
+      ],
+      keeps: 'three cables, and no idea which is which',
+      hour: '2am, deep in a project',
+      error: 'ERROR 0x5P3LL — recompiling reality, please hold'
+    },
+    glitch: {
+      name: 'Glitch Angel',
+      tag: 'the beautiful error',
+      aura: ['#FF7AC8', '#F5C044'],
+      state: 'TORN',
+      desc: [
+        "You are made of broken transmissions and you have decided this is a feature. Where other people see a mistake, you see the interesting part — the tear in the picture where something true got through. You act first. You understand later. Somehow it keeps working out, which annoys people who planned.",
+        "Nothing about you arrives in the expected order, and the rooms you walk into change shape a little. That is not chaos for its own sake. It is what happens when someone refuses to round themselves off to fit the grid."
+      ],
+      keeps: 'a receipt, a wrapper, and something mildly sticky',
+      hour: '3:33am, wide awake for no reason',
+      error: 'ERROR 404: REALITY MISSING — proceeding anyway'
+    },
+    dream: {
+      name: 'Dream Archivist',
+      tag: 'the keeper',
+      aura: ['#F5C044', '#5FE8D0'],
+      state: 'ARCHIVING',
+      desc: [
+        "You collect impossible memories — the ones that may not have happened in the order you remember, and are true regardless. A smell, a particular shade of evening, four seconds of a song. You file them somewhere careful, and years later you produce exactly the right one at exactly the right moment.",
+        "Everyone assumes you are sentimental. You are actually doing something much rarer: you are the only person still keeping the record. When the rest of us have forgotten what that summer felt like, you will still have it, catalogued, glowing faintly."
+      ],
+      keeps: 'a ticket stub from something already over',
+      hour: 'the blue hour, just before the sun',
+      error: 'BUFFERING SOUL — 97% · do not close this window'
+    }
+  };
+
+  var ORDER = ['oracle', 'pixel', 'glitch', 'dream'];
+
+  var QUESTIONS = [
+
+    { q: 'Choose a portal.', opts: [
+      ['Crystal Door', 'oracle'],
+      ['VHS Static', 'glitch'],
+      ['Moon Mirror', 'dream'],
+      ['Pixel Tunnel', 'pixel'] ] },
+
+    { q: 'You find a mysterious glowing object. What do you do?', opts: [
+      ['Hide it in your pocket for later.', 'dream'],
+      ['Put it on immediately.', 'glitch'],
+      ['Ask the moon what it means.', 'oracle'],
+      ['Scan it like it’s alien technology.', 'pixel'] ] },
+
+    { q: 'Choose a dream room.', opts: [
+      ['Pixel cave.', 'pixel'],
+      ['Floating cloud bedroom.', 'dream'],
+      ['Neon arcade.', 'glitch'],
+      ['Crystal castle.', 'oracle'] ] },
+
+    { q: 'The song stuck in your head is actually a message. What is it?', opts: [
+      ['A radio station that no longer exists.', 'glitch'],
+      ['Eight seconds of a game you played once.', 'pixel'],
+      ['A lullaby you have never heard before.', 'oracle'],
+      ['Something from a summer you cannot place.', 'dream'] ] },
+
+    { q: 'Pick a glitch.', opts: [
+      ['The screen tearing into three colours at once.', 'glitch'],
+      ['A rainbow appearing where there is no light.', 'oracle'],
+      ['A sprite that keeps walking off the edge of the map.', 'pixel'],
+      ['A save file with someone else’s name on it.', 'dream'] ] },
+
+    { q: 'Your phone shows a photo you never took. It is…', opts: [
+      ['A place you loved, from before you had that phone.', 'dream'],
+      ['Your own room, rendered slightly wrong.', 'pixel'],
+      ['The sky, from somewhere very high up.', 'oracle'],
+      ['A blur with a face in it.', 'glitch'] ] },
+
+    { q: 'How do you enter a room you have never been in?', opts: [
+      ['You find the light switch situation immediately.', 'pixel'],
+      ['You notice what is on the shelves.', 'dream'],
+      ['Loudly, and possibly through the wrong door.', 'glitch'],
+      ['Slowly. You read it first.', 'oracle'] ] },
+
+    { q: 'Someone asks what you do. You say…', opts: [
+      ['“I make things that should not work, work.”', 'pixel'],
+      ['“I pay attention.”', 'oracle'],
+      ['“Depends what day you are asking.”', 'glitch'],
+      ['“I keep things.”', 'dream'] ] },
+
+    { q: 'The universe sends you a sign. Then eleven more. You…', opts: [
+      ['Already knew. You were waiting on confirmation.', 'oracle'],
+      ['Start a document. Cross-reference them.', 'pixel'],
+      ['Write them all down for when they make sense.', 'dream'],
+      ['Take one wildly out of context and act on it tonight.', 'glitch'] ] },
+
+    { q: 'Last one. What is actually in your pocket right now?', opts: [
+      ['A ticket stub from something already over.', 'dream'],
+      ['A stone you picked up somewhere.', 'oracle'],
+      ['Three cables and no idea which.', 'pixel'],
+      ['A receipt, a wrapper, and something sticky.', 'glitch'] ] }
+  ];
+
+  var TOTAL = QUESTIONS.length;
+  var qEl = document.getElementById('q');
+  var optsEl = document.getElementById('opts');
+  var cardEl = document.getElementById('card');
+  var fillEl = document.getElementById('fill');
+  var countEl = document.getElementById('count');
+  var backEl = document.getElementById('back');
+  var resultEl = document.getElementById('result');
+  var readoutEl = document.getElementById('readout');
+  var stateEl = document.getElementById('scan-state');
+  var root = document.documentElement;
+
+  var current = 0;
+  var answers = [];          // one tag per answered question
+  var winner = null;
+
+  var READOUTS = {
+    oracle: ['Clear signal. No interference.', 'Something old just answered back.', 'The quiet part is getting louder.'],
+    pixel:  ['Rendering… one pixel at a time.', 'Spell compiled successfully.', 'Something homemade is running.'],
+    glitch: ['Transmission torn. Beautifully.', 'Unexpected colour. Keeping it.', 'Reality dropped a frame there.'],
+    dream:  ['Filed under: later.', 'Memory recovered from an unknown year.', 'Archiving… do not close this window.']
+  };
+
+  function setAura(tag) {
+    var r = RESULTS[tag];
+    root.style.setProperty('--aura', r.aura[0]);
+    root.style.setProperty('--aura-2', r.aura[1]);
+    stateEl.textContent = r.state;
+    var lines = READOUTS[tag];
+    readoutEl.innerHTML = '<b>' + lines[Math.floor(Math.random() * lines.length)] + '</b>';
+  }
+
+  function progress() {
+    var done = Math.min(current, TOTAL);
+    fillEl.style.width = (done / TOTAL * 100) + '%';
+    countEl.textContent = current < TOTAL
+      ? 'Question ' + (current + 1) + ' of ' + TOTAL
+      : 'Reading your frequency…';
+  }
+
+  function renderQ() {
+    var item = QUESTIONS[current];
+    qEl.textContent = item.q;
+    optsEl.innerHTML = '';
+    item.opts.forEach(function (pair) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'opt';
+      b.textContent = pair[0];
+      b.addEventListener('click', function () { choose(pair[1]); });
+      optsEl.appendChild(b);
+    });
+    backEl.hidden = current === 0;
+    cardEl.classList.remove('swap');
+    void cardEl.offsetWidth;          // restart the entrance animation
+    cardEl.classList.add('swap');
+    progress();
+  }
+
+  function choose(tag) {
+    answers[current] = tag;
+    setAura(tag);
+    current++;
+    progress();
+    cardEl.classList.add('swapout');
+    setTimeout(function () {
+      cardEl.classList.remove('swapout');
+      if (current >= TOTAL) { finish(); } else { renderQ(); }
+    }, 210);
+  }
+
+  function goBack() {
+    if (current === 0) return;
+    current--;
+    answers.length = current;
+    renderQ();
+  }
+
+  function tally() {
+    var t = { oracle: 0, pixel: 0, glitch: 0, dream: 0 };
+    answers.forEach(function (a) { t[a]++; });
+    return t;
+  }
+
+  function finish() {
+    var t = tally();
+    var best = -1;
+    // ties break toward whichever tied frequency you picked earliest
+    ORDER.forEach(function (k) { if (t[k] > best) best = t[k]; });
+    var tied = ORDER.filter(function (k) { return t[k] === best; });
+    winner = tied.length === 1 ? tied[0]
+      : answers.filter(function (a) { return tied.indexOf(a) > -1; })[0];
+
+    var r = RESULTS[winner];
+    setAura(winner);
+    document.getElementById('r-name').textContent = r.name;
+    document.getElementById('r-tag').textContent = r.tag;
+
+    var d = document.getElementById('r-desc');
+    d.innerHTML = '';
+    r.desc.forEach(function (p) {
+      var el = document.createElement('p');
+      el.className = 'r-desc';
+      el.textContent = p;
+      d.appendChild(el);
+    });
+
+    document.getElementById('r-meta').innerHTML =
+      '<span><b>ERROR CODE:</b> ' + r.error + '</span>' +
+      '<span><b>PEAK HOUR:</b> ' + r.hour + '</span>' +
+      '<span><b>IN YOUR POCKET:</b> ' + r.keeps + '</span>';
+
+    document.getElementById('r-mix').innerHTML = ORDER.map(function (k) {
+      var pct = Math.round(t[k] / TOTAL * 100);
+      return '<div><span>' + RESULTS[k].name + '</span>' +
+             '<span class="m"><span style="width:' + pct + '%"></span></span>' +
+             '<span>' + pct + '%</span></div>';
+    }).join('');
+
+    cardEl.style.display = 'none';
+    resultEl.classList.add('show');
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function reset() {
+    current = 0;
+    answers = [];
+    winner = null;
+    root.style.setProperty('--aura', '#B79CFF');
+    root.style.setProperty('--aura-2', '#FF7AC8');
+    stateEl.textContent = 'STANDBY';
+    readoutEl.innerHTML = 'Signal detected. Stand still.';
+    resultEl.classList.remove('show');
+    cardEl.style.display = '';
+    renderQ();
+    document.querySelector('header').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* Share: the native sheet where it exists, clipboard everywhere else,
+     and a select-it-yourself message if both are unavailable. */
+  document.getElementById('share').addEventListener('click', function () {
+    var btn = this;
+    if (!winner) return;
+    var r = RESULTS[winner];
+    var url = location.href.split('#')[0];
+    var text = 'I am a ' + r.name + ' — ' + r.tag + '. What kind of cosmic glitch are you?';
+    function flash(msg, ok) {
+      btn.textContent = msg;
+      btn.classList.toggle('done', !!ok);
+      setTimeout(function () {
+        btn.textContent = '✦ Share my frequency';
+        btn.classList.remove('done');
+      }, 2400);
+    }
+    if (navigator.share) {
+      navigator.share({ title: 'What Kind of Cosmic Glitch Are You?', text: text, url: url })
+        .then(function () { flash('Shared ✓', true); })
+        .catch(function () { /* the person cancelled — say nothing */ });
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text + ' ' + url)
+        .then(function () { flash('Copied ✓', true); },
+              function () { flash('Copy it from the page', false); });
+      return;
+    }
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text + ' ' + url;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      var okc = document.execCommand('copy');
+      document.body.removeChild(ta);
+      flash(okc ? 'Copied ✓' : 'Copy it from the page', okc);
+    } catch (e) {
+      flash('Copy it from the page', false);
+    }
+  });
+
+  document.getElementById('retry').addEventListener('click', reset);
+  backEl.addEventListener('click', goBack);
+
+  renderQ();
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+</body>
+</html>
