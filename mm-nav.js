@@ -42,6 +42,7 @@
       ['pong.html', 'Pong'],
       ['cosmic-phone.html', 'Cosmic Phone'],
       ['transmissions.html', 'Transmissions'],
+      ['what-cosmic-glitch-are-you.html', 'Cosmic Glitch Quiz'],
       ['which-character-are-you.html', 'Which Character Are You?'],
       ['click-through-slideshow.html', 'Slideshow Tool'],
       ['how-to-use-the-slideshow.html', 'Slideshow: How To']
@@ -59,6 +60,7 @@
       ['https://magickmica.github.io/musicbox/', 'Music Box']
     ]},
     { name: 'The Signal Shop', items: [
+      ['https://magickmicatv.store/', 'Magick Mica TV Store'],
       ['crystals.html', 'All Crystals'],
       ['herkimer-vault.html', 'Herkimer Vault'],
       ['labradorite-vault.html', 'Labradorite Vault'],
@@ -67,7 +69,7 @@
       ['watermelon-vault.html', 'Watermelon Vault'],
       ['quartz-amulets.html', 'Quartz Amulets'],
       ['copper-jewelry.html', 'Copper Jewelry'],
-      ['https://www.themysticalspiralstore.com/', 'Mystical Spiral \u2197']
+      ['https://www.themysticalspiralstore.com/', 'Mystical Spiral']
     ]},
     { name: 'Broadcasts', items: [
       ['dreamland-broadcast.html', 'Dreamland'],
@@ -122,7 +124,8 @@
     ['minimags.html', 'Magazine'],
     ['articles.html', 'Articles'],
     ['arcade.html', 'Arcade'],
-    ['songmaker.html', 'Songs']
+    ['songmaker.html', 'Songs'],
+    ['https://magickmicatv.store/', 'Store']
   ];
 
   var CSS = ''

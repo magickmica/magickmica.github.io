@@ -27,6 +27,10 @@
   [
    "songmaker.html",
    "Songs"
+  ],
+  [
+   "https://magickmicatv.store/",
+   "Store"
   ]
  ],
  "Read": [
@@ -117,6 +121,10 @@
    "Transmissions"
   ],
   [
+   "what-cosmic-glitch-are-you.html",
+   "Cosmic Glitch Quiz"
+  ],
+  [
    "which-character-are-you.html",
    "Which Character Are You?"
   ],
@@ -173,6 +181,10 @@
  ],
  "The Signal Shop": [
   [
+   "https://magickmicatv.store/",
+   "Magick Mica TV Store"
+  ],
+  [
    "crystals.html",
    "All Crystals"
   ],
@@ -206,10 +218,46 @@
   ],
   [
    "https://www.themysticalspiralstore.com/",
-   "Mystical Spiral ↗"
+   "Mystical Spiral"
   ]
  ],
  "Broadcasts": [
+  [
+   "dreamland-broadcast.html",
+   "Dreamland"
+  ],
+  [
+   "candy-carnival-broadcast.html",
+   "Candy Carnival"
+  ],
+  [
+   "remembering-broadcast.html",
+   "The Remembering"
+  ],
+  [
+   "frequency-broadcast.html",
+   "The Frequency"
+  ],
+  [
+   "new-timeline-broadcast.html",
+   "New Timeline"
+  ],
+  [
+   "postcard-broadcast.html",
+   "The Postcard"
+  ],
+  [
+   "glitter-hallway-broadcast.html",
+   "Glitter Hallway"
+  ],
+  [
+   "machine-room-broadcast.html",
+   "Machine Room"
+  ],
+  [
+   "winning-frequency-broadcast.html",
+   "Winning Frequency"
+  ],
   [
    "glitter-transmission.html",
    "Glitter Transmission"
