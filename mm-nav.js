@@ -119,13 +119,13 @@
   // shown inline on wide screens; everything else lives in the drawer
   var PRIMARY = [
     ['index.html', 'Home'],
+    ['https://magickmicatv.store/', 'Store'],
     ['crystals.html', 'Crystals'],
     ['notes.html', 'Notes'],
     ['minimags.html', 'Magazine'],
     ['articles.html', 'Articles'],
     ['arcade.html', 'Arcade'],
-    ['songmaker.html', 'Songs'],
-    ['https://magickmicatv.store/', 'Store']
+    ['songmaker.html', 'Songs']
   ];
 
   var CSS = ''

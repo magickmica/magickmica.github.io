@@ -108,7 +108,11 @@ h1{font-family:var(--display);font-weight:900;line-height:1.06;letter-spacing:.0
   animation:breathe 5s ease-in-out infinite;transition:fill .6s ease}
 .aurablob.two{fill:var(--aura-2);opacity:.34;animation-duration:7s;animation-direction:reverse}
 @keyframes breathe{50%{transform:scale(1.09)}}
-.figure{fill:rgba(255,246,251,.9)}
+.figure{fill:rgba(255,246,251,.92);opacity:0;transition:opacity .5s ease;pointer-events:none}
+  .figure.on{opacity:1}
+  /* a short flicker as the scanner re-locks onto a new shape */
+  .figure.lock{animation:relock .55s steps(2) 1}
+  @keyframes relock{0%,100%{opacity:1}22%,62%{opacity:.22}}
 /* RGB split bars sweeping down the tube */
 .bar{position:absolute;left:0;right:0;height:14%;pointer-events:none;
   background:linear-gradient(180deg,rgba(255,122,200,.3),rgba(95,232,208,.3));
@@ -239,7 +243,7 @@ footer a{color:var(--pearl-dim);text-decoration:none}
 footer a:hover{color:var(--pink)}
 
 @media (prefers-reduced-motion: reduce){
-  .stars,h1,.fill,.r-name,.aurablob,.bar,.rec,.swap,.result.show,
+  .stars,h1,.fill,.r-name,.aurablob,.bar,.rec,.swap,.result.show,.figure.lock,
   .r-art.has,.r-art::after{animation:none!important}
   .opt,.pill,.gallery figure{transition:none!important}
 }
@@ -265,9 +269,54 @@ footer a:hover{color:var(--pink)}
       <svg viewBox="0 0 200 150" aria-hidden="true">
         <ellipse class="aurablob" cx="100" cy="74" rx="62" ry="50"/>
         <ellipse class="aurablob two" cx="100" cy="72" rx="42" ry="36"/>
-        <g class="figure">
-          <circle cx="100" cy="56" r="14"/>
-          <path d="M100 73 c-17 0 -28 13 -31 33 c-1 6 3 10 9 10 h44 c6 0 10 -4 9 -10 c-3 -20 -14 -33 -31 -33 Z"/>
+        <g class="figure fig-oracle">
+<path d="M91 40 C83 22 70 14 62 18 c-5 3 -3 9 3 8 c5 -1 4 -8 -2 -7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+<path d="M109 40 C117 22 130 14 138 18 c5 3 3 9 -3 8 c-5 -1 -4 -8 2 -7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+<path d="M89 34 l5 -8 l6 6 l6 -6 l5 8 Z"/>
+<circle cx="100" cy="50" r="11"/>
+<path d="M78 60 c-16 4 -28 18 -32 38 c-1 6 4 9 8 5 l22 -22 Z"/>
+<path d="M122 60 c16 4 28 18 32 38 c1 6 -4 9 -8 5 l-22 -22 Z"/>
+<path d="M100 60 c-9 0 -14 6 -15 14 l-5 34 c-1 6 4 9 8 5 l12 -10 l12 10 c4 4 9 1 8 -5 l-5 -34 c-1 -8 -6 -14 -15 -14 Z"/>
+<path d="M96 116 h8 l3 16 h-14 Z"/>
+        </g>
+        <g class="figure fig-pixel">
+<rect x="93" y="2" width="14" height="11" rx="2"/>
+<path d="M97 2 l-4 -6 M103 2 l4 -6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+<path d="M100 12 c-5 0 -8 6 -10 12 l-8 22 h36 l-8 -22 c-2 -6 -5 -12 -10 -12 Z"/>
+<ellipse cx="100" cy="48" rx="36" ry="7"/>
+<circle cx="100" cy="60" r="11"/>
+<path d="M100 70 c-11 0 -16 6 -18 15 l-8 26 c-2 6 3 9 8 7 l18 -7 l18 7 c5 2 10 -1 8 -7 l-8 -26 c-2 -9 -7 -15 -18 -15 Z"/>
+<path d="M66 100 L48 60" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+<path d="M48 46 l7 9 l-7 9 l-7 -9 Z"/>
+<rect x="86" y="114" width="11" height="16" rx="2"/>
+<rect x="103" y="114" width="11" height="16" rx="2"/>
+<rect x="82" y="128" width="19" height="7" rx="3"/>
+<rect x="99" y="128" width="19" height="7" rx="3"/>
+        </g>
+        <g class="figure fig-glitch">
+<ellipse cx="100" cy="16" rx="21" ry="5.5" fill="none" stroke="currentColor" stroke-width="3.6"/>
+<path d="M85 64 c-10 -16 -26 -28 -38 -28 c-5 0 -6 5 -2 7 l14 8 l-16 0 c-5 0 -5 5 -1 7 l15 7 l-13 3 c-5 1 -4 6 1 6 l16 1 l-9 6 c-4 3 -1 7 3 6 c12 -3 24 -6 30 -8 Z"/>
+<path d="M115 64 c10 -16 26 -28 38 -28 c5 0 6 5 2 7 l-14 8 l16 0 c5 0 5 5 1 7 l-15 7 l13 3 c5 1 4 6 -1 6 l-16 1 l9 6 c4 3 1 7 -3 6 c-12 -3 -24 -6 -30 -8 Z"/>
+<circle cx="100" cy="46" r="11"/>
+<path d="M100 32 c-13 0 -19 10 -19 22 c0 10 -2 18 -4 24 c-1 5 4 7 7 3 l4 -6 h24 l4 6 c3 4 8 2 7 -3 c-2 -6 -4 -14 -4 -24 c0 -12 -6 -22 -19 -22 Z"/>
+<path d="M100 58 c-10 0 -15 6 -17 15 l-7 32 c-1 6 3 9 8 7 l16 -7 l16 7 c5 2 9 -1 8 -7 l-7 -32 c-2 -9 -7 -15 -17 -15 Z"/>
+<circle cx="139" cy="98" r="9" fill="none" stroke="currentColor" stroke-width="3.4"/>
+<path d="M139 107 v9" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+<rect x="88" y="112" width="10" height="18" rx="3"/>
+<rect x="102" y="112" width="10" height="18" rx="3"/>
+        </g>
+        <g class="figure fig-dream" transform="translate(0,-7)">
+<path d="M100 20 c-12 0 -20 6 -24 15 c-8 -1 -14 6 -14 13 c0 7 4 12 10 13 c1 9 4 17 8 22 h40 c4 -5 7 -13 8 -22 c6 -1 10 -6 10 -13 c0 -7 -6 -14 -14 -13 c-4 -9 -12 -15 -24 -15 Z"/>
+<path d="M56 60 c0 -22 19 -38 44 -38 c25 0 44 16 44 38" fill="none" stroke="currentColor" stroke-width="4.4" stroke-linecap="round"/>
+<circle cx="56" cy="66" r="12"/>
+<circle cx="144" cy="66" r="12"/>
+<path d="M100 84 c-14 0 -21 7 -23 17 l-3 14 c-1 5 4 8 8 5 l4 -3 l1 12 h26 l1 -12 l4 3 c4 3 9 0 8 -5 l-3 -14 c-2 -10 -9 -17 -23 -17 Z"/>
+<rect x="132" y="88" width="14" height="19" rx="5"/>
+<rect x="136" y="81" width="6" height="8" rx="2"/>
+<rect x="90" y="126" width="8" height="8"/>
+<rect x="102" y="126" width="8" height="8"/>
+<path d="M82 132 c-5 1 -6 6 -3 9 c3 3 9 4 15 4 h8 c4 0 5 -4 2 -6 c-7 -3 -13 -8 -22 -7 Z"/>
+<path d="M118 132 c5 1 6 6 3 9 c-3 3 -9 4 -15 4 h-8 c-4 0 -5 -4 -2 -6 c7 -3 13 -8 22 -7 Z"/>
         </g>
       </svg>
       <div class="bar" aria-hidden="true"></div>
@@ -478,6 +527,28 @@ footer a:hover{color:var(--pink)}
     dream:  ['Filed under: later.', 'Memory recovered from an unknown year.', 'Archiving… do not close this window.']
   };
 
+  /* The scanner cycles the four silhouettes at random while it works,
+     then locks onto whoever you actually turn out to be. */
+  var figs = {};
+  ORDER.forEach(function (k) { figs[k] = document.querySelector('.fig-' + k); });
+  var showing = null, idleTimer = null;
+
+  function showFig(tag, lock) {
+    if (tag === showing) return;
+    if (showing && figs[showing]) figs[showing].classList.remove('on', 'lock');
+    showing = tag;
+    var el = figs[tag];
+    if (!el) return;
+    el.classList.add('on');
+    if (lock) { el.classList.remove('lock'); void el.offsetWidth; el.classList.add('lock'); }
+  }
+  function randomFig(exclude) {
+    var pool = ORDER.filter(function (k) { return k !== exclude; });
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+  function startIdle() { stopIdle(); idleTimer = setInterval(function () { showFig(randomFig(showing)); }, 2600); }
+  function stopIdle() { if (idleTimer) { clearInterval(idleTimer); idleTimer = null; } }
+
   function setAura(tag) {
     var r = RESULTS[tag];
     root.style.setProperty('--aura', r.aura[0]);
@@ -518,6 +589,8 @@ footer a:hover{color:var(--pink)}
     answers[current] = tag;
     setAura(tag);
     warm(tag);
+    showFig(randomFig(showing), true);
+    startIdle();
     current++;
     progress();
     cardEl.classList.add('swapout');
@@ -551,6 +624,8 @@ footer a:hover{color:var(--pink)}
 
     var r = RESULTS[winner];
     setAura(winner);
+    stopIdle();
+    showFig(winner, true);
     var art = document.getElementById('r-art'), artImg = document.getElementById('r-art-img');
     if (r.art) {
       artImg.src = r.art;
@@ -598,6 +673,8 @@ footer a:hover{color:var(--pink)}
     root.style.setProperty('--aura', '#B79CFF');
     root.style.setProperty('--aura-2', '#FF7AC8');
     stateEl.textContent = 'STANDBY';
+    showFig(randomFig(showing));
+    startIdle();
     readoutEl.innerHTML = 'Signal detected. Stand still.';
     resultEl.classList.remove('show');
     cardEl.style.display = '';
@@ -662,6 +739,8 @@ footer a:hover{color:var(--pink)}
   document.getElementById('retry').addEventListener('click', reset);
   backEl.addEventListener('click', goBack);
 
+  showFig(ORDER[Math.floor(Math.random() * ORDER.length)]);
+  startIdle();
   renderQ();
 })();
 </script>
