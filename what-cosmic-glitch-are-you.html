@@ -10,9 +10,13 @@
 <meta property="og:title" content="What Kind of Cosmic Glitch Are You? — Magick Mica">
 <meta property="og:description" content="Your aura has been buffering since 1999. Ten questions, four impossible frequencies.">
 <meta property="og:url" content="https://magickmica.github.io/what-cosmic-glitch-are-you.html">
+<meta property="og:image" content="https://magickmica.github.io/og-cosmic-glitch.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="What Kind of Cosmic Glitch Are You? — Magick Mica">
 <meta name="twitter:description" content="Your aura has been buffering since 1999. Ten questions, four impossible frequencies.">
+<meta name="twitter:image" content="https://magickmica.github.io/og-cosmic-glitch.png">
 <link rel="canonical" href="https://magickmica.github.io/what-cosmic-glitch-are-you.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -182,6 +186,17 @@ h1{font-family:var(--display);font-weight:900;line-height:1.06;letter-spacing:.0
   border:1px solid rgba(245,192,68,.4);
   box-shadow:0 28px 70px rgba(0,0,0,.66), 0 0 60px rgba(183,156,255,.18)}
 .result.show{display:block;animation:swapin .55s cubic-bezier(.2,.7,.3,1)}
+.r-art{display:none;width:min(230px,58vw);aspect-ratio:1;margin:0 auto 1.1rem;
+  border-radius:var(--radius);overflow:hidden;position:relative;
+  border:1px solid rgba(245,192,68,.45);
+  box-shadow:0 18px 44px rgba(0,0,0,.6), 0 0 44px rgba(183,156,255,.3)}
+.r-art.has{display:block;animation:swapin .6s cubic-bezier(.2,.7,.3,1) .1s both}
+.r-art img{display:block;width:100%;height:100%;object-fit:cover}
+/* a slow holographic sheen across the portrait */
+.r-art::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.34;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.55) 46%,transparent 62%);
+  background-size:260% 100%;animation:sheen 5.5s linear infinite}
+@keyframes sheen{to{background-position:-260% 0}}
 .r-badge{font-family:var(--mono);font-size:.74rem;letter-spacing:.28em;text-transform:uppercase;
   color:var(--cyan)}
 .r-name{font-family:var(--display);font-weight:900;text-transform:uppercase;
@@ -224,7 +239,8 @@ footer a{color:var(--pearl-dim);text-decoration:none}
 footer a:hover{color:var(--pink)}
 
 @media (prefers-reduced-motion: reduce){
-  .stars,h1,.fill,.r-name,.aurablob,.bar,.rec,.swap,.result.show{animation:none!important}
+  .stars,h1,.fill,.r-name,.aurablob,.bar,.rec,.swap,.result.show,
+  .r-art.has,.r-art::after{animation:none!important}
   .opt,.pill,.gallery figure{transition:none!important}
 }
 </style>
@@ -280,6 +296,7 @@ footer a:hover{color:var(--pink)}
 
 <!-- ── result ── -->
 <section class="result" id="result" aria-live="polite">
+  <figure class="r-art" id="r-art"><img id="r-art-img" src="" alt=""></figure>
   <p class="r-badge">Your frequency is…</p>
   <h2 class="r-name" id="r-name"></h2>
   <p class="r-tag" id="r-tag"></p>
@@ -312,6 +329,8 @@ footer a:hover{color:var(--pink)}
      any order — no position-to-result mapping to keep straight. */
   var RESULTS = {
     oracle: {
+      art: 'char-crystal-oracle.png',
+      artAlt: 'The Crystal Oracle — a crescent-crowned seer holding a swirling galaxy orb, ringed by tarot cards and amethyst',
       name: 'Crystal Oracle',
       tag: 'the clear signal',
       aura: ['#5FE8D0', '#B79CFF'],
@@ -325,6 +344,8 @@ footer a:hover{color:var(--pink)}
       error: 'NO ERROR FOUND — which is, frankly, suspicious'
     },
     pixel: {
+      art: 'char-pixel-witch.png',
+      artAlt: 'The Pixel Witch — a witch in a TV-topped hat with a crystal wand, beside a floppy disk marked DREAMS.SYS and a spell loading at 99%',
       name: 'Pixel Witch',
       tag: 'the one who builds it anyway',
       aura: ['#B79CFF', '#FF7AC8'],
@@ -338,6 +359,8 @@ footer a:hover{color:var(--pink)}
       error: 'ERROR 0x5P3LL — recompiling reality, please hold'
     },
     glitch: {
+      art: 'char-glitch-angel.png',
+      artAlt: 'The Glitch Angel — a haloed angel with iridescent wings holding a hand mirror, standing on a pixelated floor',
       name: 'Glitch Angel',
       tag: 'the beautiful error',
       aura: ['#FF7AC8', '#F5C044'],
@@ -351,6 +374,8 @@ footer a:hover{color:var(--pink)}
       error: 'ERROR 404: REALITY MISSING — proceeding anyway'
     },
     dream: {
+      art: 'char-dream-archivist.png',
+      artAlt: 'The Dream Archivist — a dreamer in star-print pyjamas and moon headphones, carrying a bottle labelled DREAMS INSIDE',
       name: 'Dream Archivist',
       tag: 'the keeper',
       aura: ['#F5C044', '#5FE8D0'],
@@ -492,6 +517,7 @@ footer a:hover{color:var(--pink)}
   function choose(tag) {
     answers[current] = tag;
     setAura(tag);
+    warm(tag);
     current++;
     progress();
     cardEl.classList.add('swapout');
@@ -525,6 +551,17 @@ footer a:hover{color:var(--pink)}
 
     var r = RESULTS[winner];
     setAura(winner);
+    var art = document.getElementById('r-art'), artImg = document.getElementById('r-art-img');
+    if (r.art) {
+      artImg.src = r.art;
+      artImg.alt = r.artAlt || r.name;
+      art.classList.add('has');
+    } else {
+      // no portrait painted for this frequency yet — the card reads fine without one
+      art.classList.remove('has');
+      artImg.removeAttribute('src');
+      artImg.alt = '';
+    }
     document.getElementById('r-name').textContent = r.name;
     document.getElementById('r-tag').textContent = r.tag;
 
@@ -611,6 +648,16 @@ footer a:hover{color:var(--pink)}
       flash('Copy it from the page', false);
     }
   });
+
+  /* warm the leading frequency's portrait so the reveal never flashes empty */
+  var warmed = {};
+  function warm(tag) {
+    var a = RESULTS[tag] && RESULTS[tag].art;
+    if (!a || warmed[a]) return;
+    warmed[a] = true;
+    var i = new Image();
+    i.src = a;
+  }
 
   document.getElementById('retry').addEventListener('click', reset);
   backEl.addEventListener('click', goBack);
