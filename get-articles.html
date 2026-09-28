@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GET ARTICLES! — back up every Substack post you ever published</title>
+<meta name="description" content="A free tool for Substack writers: collect every post from your newsletter, update the collection later, and keep it as JSON, CSV or your own searchable archive page, with the full text if you want it. Runs in your browser; nothing is uploaded.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="GET ARTICLES! — back up every Substack post you ever published">
+<meta property="og:description" content="Collect every post from your Substack, update it later, and keep it as JSON, CSV or your own searchable archive, full text included. Free, runs in your browser.">
+<meta property="og:url" content="https://magickmica.github.io/get-articles.html">
+<meta property="og:image" content="https://magickmica.github.io/og-get-articles.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GET ARTICLES! — back up every Substack post you ever published">
+<meta name="twitter:description" content="Collect every post from your Substack, update it later, and keep it as JSON, CSV or your own searchable archive, full text included. Free, runs in your browser.">
+<meta name="twitter:image" content="https://magickmica.github.io/og-get-articles.png">
+<link rel="canonical" href="https://magickmica.github.io/get-articles.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   GET ARTICLES! — the sister wall to GET NOTES!
+   (plum void, gold hairlines, Space Mono labels, Cormorant
+   body) with a spray-painted headline and the crowd poster's
+   five inks: orange, teal, yellow, purple, pink.
+   ========================================================== */
+:root{
+  --void:#0B0417; --deep:#160A2B; --plum:#2B1240;
+  --gold:#F5C044; --cream:#FFF6FB; --mint:#5FE8D0; --lav:#B79CFF;
+  --ink:rgba(255,246,251,.88); --ink-dim:rgba(255,246,251,.56);
+  --line:rgba(245,192,68,.24);
+  /* the crowd poster */
+  --orange:#F0572A; --teal:#1FA59A; --yellow:#F7B928; --purple:#7B4BA0; --pink:#E9557F;
+  --f-tag:"Sedgwick Ave Display","Rubik Spray Paint",cursive;
+  --f-body:"Cormorant Garamond",Georgia,serif;
+  --f-mono:"Space Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void); color:var(--ink);
+  font-family:var(--f-body); font-size:18px; line-height:1.6;
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+}
+/* the wall: plum night, soft glow pools, faint brick courses */
+body::before{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(50% 40% at 82% 6%, rgba(183,156,255,.20), transparent 62%),
+    radial-gradient(44% 36% at 8% 20%, rgba(233,85,127,.16), transparent 64%),
+    radial-gradient(60% 44% at 50% 104%, rgba(31,165,154,.16), transparent 62%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.018) 0 1px, transparent 1px 46px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 92px);
+}
+#stars{
+  position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.75;
+  background-image:
+    radial-gradient(1.4px 1.4px at 12% 18%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 74% 8%, var(--lav), transparent),
+    radial-gradient(1.6px 1.6px at 38% 62%, #fff, transparent),
+    radial-gradient(1.3px 1.3px at 22% 84%, var(--pink), transparent),
+    radial-gradient(1.5px 1.5px at 92% 72%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 6% 52%, var(--gold), transparent),
+    radial-gradient(1.3px 1.3px at 30% 40%, var(--mint), transparent);
+  background-size:520px 520px,700px 700px,460px 460px,560px 560px,740px 740px,600px 600px,680px 680px;
+}
+.holo-bar{position:relative; z-index:2; height:3px;
+  background:linear-gradient(90deg,var(--orange),var(--yellow),var(--teal),var(--purple),var(--pink),var(--orange));
+  background-size:200% auto; animation:shimmer 9s linear infinite}
+@keyframes shimmer{to{background-position:200% center}}
+main,header,footer{position:relative; z-index:2}
+a{color:inherit}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+
+/* ── hero ───────────────────────────────────────────────── */
+.hero{
+  max-width:1180px; margin:0 auto; padding:clamp(38px,6vw,80px) 20px clamp(30px,5vw,56px);
+  display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:clamp(24px,4vw,56px); align-items:center;
+}
+.kicker{font-family:var(--f-mono); font-size:.66rem; letter-spacing:.3em; text-transform:uppercase; color:var(--mint)}
+.tag{
+  position:relative; display:inline-block; margin:.6rem 0 .2rem;
+  font-family:var(--f-tag); font-weight:400; line-height:.9;
+  font-size:clamp(4.2rem,11vw,8.6rem); letter-spacing:.01em;
+  color:var(--orange);
+  transform:rotate(-4deg);
+  /* spray: a hard offset outline in purple, then pink overspray */
+  text-shadow:
+    4px 4px 0 var(--purple), -2px -2px 0 var(--pink),
+    0 0 18px rgba(240,87,42,.5), 0 0 60px rgba(233,85,127,.4);
+}
+.tag .bang{color:var(--yellow); text-shadow:4px 4px 0 var(--purple), 0 0 22px rgba(233,85,127,.7)}
+/* paint drips under the tag */
+.drips{position:absolute; left:6%; right:10%; top:88%; height:70px; pointer-events:none}
+.drips i{position:absolute; top:0; width:7px; border-radius:0 0 6px 6px;
+  background:linear-gradient(180deg, var(--orange), var(--orange) 80%, rgba(240,87,42,0));
+  animation:drip 3.6s ease-in infinite}
+.drips i::after{content:""; position:absolute; left:-2px; bottom:-6px; width:11px; height:11px; border-radius:50%; background:inherit}
+.drips i:nth-child(1){left:4%; height:34px; animation-delay:.2s}
+.drips i:nth-child(2){left:23%; height:52px; width:6px; animation-delay:1.1s; background:linear-gradient(180deg,var(--pink),var(--pink) 80%,transparent)}
+.drips i:nth-child(3){left:47%; height:26px; animation-delay:.6s}
+.drips i:nth-child(4){left:66%; height:44px; width:5px; animation-delay:1.7s}
+.drips i:nth-child(5){left:88%; height:30px; animation-delay:.9s; background:linear-gradient(180deg,var(--pink),var(--pink) 80%,transparent)}
+@keyframes drip{0%{transform:scaleY(.2); transform-origin:top}40%,100%{transform:scaleY(1); transform-origin:top}}
+.lede{margin-top:2.6rem; font-size:clamp(1.25rem,2.2vw,1.55rem); line-height:1.4; color:var(--cream); max-width:34rem}
+.lede em{color:var(--yellow); font-style:italic}
+.chips{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.4rem}
+.chip{font-family:var(--f-mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase;
+  padding:.5rem .9rem; border-radius:999px; border:1px solid var(--line); background:rgba(43,18,64,.45); color:var(--ink-dim)}
+.chip b{color:var(--mint); font-weight:400}
+.cta{
+  display:inline-flex; align-items:center; gap:.6rem; margin-top:1.8rem;
+  font-family:var(--f-mono); font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; text-decoration:none;
+  color:#fff; background:var(--orange); padding:1rem 1.6rem; border-radius:999px;
+  box-shadow:5px 5px 0 var(--purple), 0 0 30px rgba(240,87,42,.35); transition:transform .15s, box-shadow .15s;
+}
+.cta:hover{transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--purple), 0 0 40px rgba(247,185,40,.5)}
+
+/* the pasted-up poster */
+.poster{position:relative; transform:rotate(2.2deg); justify-self:center; width:min(100%,560px)}
+.poster figure{
+  background:#fffdf7; padding:14px 14px 12px; border-radius:3px;
+  box-shadow:0 30px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.2);
+}
+.poster img{display:block; width:100%; height:auto; border-radius:2px}
+.poster figcaption{
+  font-family:var(--f-tag); font-size:clamp(1.3rem,2.6vw,1.8rem); line-height:1.1; color:#1c1030;
+  text-align:center; padding:.5rem .4rem .1rem;
+}
+.poster figcaption span{color:var(--orange)}
+.tape{position:absolute; width:110px; height:28px; background:rgba(247,185,40,.55);
+  box-shadow:0 2px 6px rgba(0,0,0,.25); mix-blend-mode:normal}
+.tape.t1{top:-12px; left:18px; transform:rotate(-8deg)}
+.tape.t2{top:-10px; right:14px; transform:rotate(7deg); background:rgba(31,165,154,.55)}
+.sticker{
+  position:absolute; right:-14px; bottom:-18px; transform:rotate(-10deg);
+  font-family:var(--f-mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; line-height:1.3;
+  background:var(--pink); color:#fff; padding:.7rem .8rem; border-radius:50%; width:96px; height:96px;
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  box-shadow:3px 3px 0 var(--purple);
+}
+
+/* ── steps ──────────────────────────────────────────────── */
+.steps{max-width:980px; margin:0 auto; padding:0 20px clamp(40px,6vw,70px); display:grid; gap:1.3rem; counter-reset:step}
+.step{
+  position:relative; border-radius:6px; padding:clamp(1.3rem,3vw,2rem);
+  background:linear-gradient(170deg, rgba(43,18,64,.78), rgba(22,10,43,.94));
+  border:1px solid var(--line); box-shadow:0 14px 40px rgba(0,0,0,.45);
+}
+.step[aria-disabled="true"]{opacity:.5}
+.step-head{display:flex; align-items:baseline; gap:1rem; margin-bottom:1rem; flex-wrap:wrap}
+.num{
+  font-family:var(--f-tag); font-size:3rem; line-height:.8; transform:rotate(-6deg);
+  color:var(--c,var(--yellow)); text-shadow:3px 3px 0 var(--purple);
+}
+.step:nth-of-type(1){--c:var(--yellow)} .step:nth-of-type(2){--c:var(--teal)}
+.step:nth-of-type(3){--c:var(--orange)} .step:nth-of-type(4){--c:var(--pink)}
+.step h2{font-family:var(--f-mono); font-weight:700; font-size:.8rem; letter-spacing:.24em; text-transform:uppercase; color:var(--cream)}
+.step h2 small{display:block; margin-top:.3rem; font-family:var(--f-body); font-weight:400; font-style:italic; font-size:1.08rem; letter-spacing:0; text-transform:none; color:var(--ink-dim)}
+.step p{color:var(--ink); max-width:44rem}
+.step p + p{margin-top:.6rem}
+.hint{font-size:.98rem; color:var(--ink-dim)}
+.hint code,.step code{font-family:var(--f-mono); font-size:.8em; color:var(--yellow); background:rgba(11,4,23,.6); padding:.08em .4em; border-radius:4px}
+
+/* fields */
+.row{display:flex; flex-wrap:wrap; gap:.7rem; align-items:center; margin-top:1rem}
+.handle{
+  display:flex; align-items:center; flex:1 1 260px; max-width:420px;
+  background:rgba(11,4,23,.72); border:1px solid var(--line); border-radius:999px; padding:0 1.1rem;
+  transition:border-color .2s, box-shadow .2s;
+}
+.handle:focus-within{border-color:var(--yellow); box-shadow:0 0 0 3px rgba(247,185,40,.16)}
+.handle span{font-family:var(--f-mono); color:var(--yellow)}
+.handle input{flex:1; min-width:0; background:none; border:0; outline:0; color:var(--cream);
+  font-family:var(--f-mono); font-size:1rem; padding:.85rem .3rem}
+.handle input::placeholder{color:rgba(255,246,251,.3)}
+.seg{display:inline-flex; padding:4px; border-radius:999px; background:rgba(11,4,23,.6); border:1px solid var(--line)}
+.seg label{position:relative; cursor:pointer}
+.seg input{position:absolute; opacity:0; inset:0; cursor:pointer}
+.seg span{display:block; font-family:var(--f-mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase;
+  padding:.6rem 1rem; border-radius:999px; color:var(--ink-dim); transition:.18s}
+.seg input:checked + span{background:var(--yellow); color:var(--void)}
+.seg input:focus-visible + span{outline:2px solid var(--mint); outline-offset:2px}
+
+.drop{
+  position:relative; margin-top:1rem; border:2px dashed rgba(247,185,40,.4); border-radius:6px;
+  padding:1.4rem; text-align:center; cursor:pointer; transition:.18s; background:rgba(11,4,23,.35);
+}
+.drop:hover,.drop.over{border-color:var(--yellow); background:rgba(247,185,40,.06)}
+.drop input{position:absolute; inset:0; opacity:0; cursor:pointer}
+.drop strong{display:block; font-family:var(--f-mono); font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--yellow)}
+.drop small{display:block; margin-top:.3rem; color:var(--ink-dim); font-size:.95rem}
+.status{margin-top:.9rem; font-family:var(--f-mono); font-size:.72rem; letter-spacing:.06em; line-height:1.6; color:var(--mint)}
+.status.warn{color:var(--pink)}
+.status:empty{display:none}
+
+/* the two ways to run it */
+.ways{display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.1rem}
+.way{border:1px solid var(--line); border-radius:6px; padding:1.1rem 1.2rem; background:rgba(11,4,23,.4)}
+.way h3{font-family:var(--f-mono); font-weight:400; font-size:.62rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); margin-bottom:.7rem}
+.way ol{padding-left:1.2rem; font-size:1rem}
+.way li + li{margin-top:.3rem}
+.bm{
+  display:inline-block; margin:.2rem 0 .8rem; text-decoration:none; cursor:grab;
+  font-family:var(--f-tag); font-size:1.9rem; line-height:1; color:#fff;
+  background:var(--orange); padding:.5rem 1.2rem .6rem; border-radius:10px; transform:rotate(-2deg);
+  box-shadow:4px 4px 0 var(--purple), 0 0 24px rgba(240,87,42,.35);
+}
+.bm:active{cursor:grabbing}
+.bm.nudge{animation:nudge .5s}
+@keyframes nudge{25%{transform:rotate(-7deg)}75%{transform:rotate(4deg)}}
+.btn{
+  font-family:var(--f-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; cursor:pointer;
+  color:var(--cream); background:rgba(43,18,64,.6); border:1px solid rgba(247,185,40,.45);
+  border-radius:999px; padding:.7rem 1.2rem; transition:.18s; text-decoration:none; display:inline-block;
+}
+.btn:hover{color:var(--void); background:var(--yellow); border-color:var(--yellow)}
+.btn.teal{border-color:rgba(31,165,154,.7)} .btn.teal:hover{background:var(--teal); border-color:var(--teal); color:#fff}
+.btn.pink{border-color:rgba(233,85,127,.7)} .btn.pink:hover{background:var(--pink); border-color:var(--pink); color:#fff}
+.btn[disabled]{opacity:.4; pointer-events:none}
+.open-link{margin-top:1rem}
+
+/* results */
+.stats{display:grid; grid-template-columns:repeat(4,1fr); gap:.7rem; margin-top:1rem}
+.stat{border:1px solid var(--line); border-radius:6px; padding:.9rem; text-align:center; background:rgba(11,4,23,.4)}
+.stat b{display:block; font-family:var(--f-tag); font-weight:400; font-size:2rem; line-height:1.1; color:var(--c,var(--yellow))}
+.stat:nth-child(2){--c:var(--teal)} .stat:nth-child(3){--c:var(--orange)} .stat:nth-child(4){--c:var(--pink)}
+.stat span{font-family:var(--f-mono); font-size:.56rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim)}
+.exports{display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.2rem}
+.preview{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:.8rem; margin-top:1.3rem}
+.pv{display:flex; flex-direction:column; text-decoration:none; border-radius:5px; overflow:hidden;
+  border:1px solid var(--line); background:rgba(11,4,23,.5); transition:transform .2s, border-color .2s}
+.pv:hover{transform:translateY(-3px); border-color:rgba(247,185,40,.6)}
+.pv img{display:block; width:100%; aspect-ratio:1/1; object-fit:cover; background:#0a0514}
+.pv p{padding:.7rem .8rem .3rem; font-size:.98rem; line-height:1.4; color:var(--ink);
+  display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden}
+.pv small{margin-top:auto; padding:.5rem .8rem .7rem; font-family:var(--f-mono); font-size:.55rem; letter-spacing:.1em; color:var(--pink)}
+.preview-label{margin-top:1.4rem; font-family:var(--f-mono); font-size:.6rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gold)}
+
+/* FAQ + footer */
+.faq{max-width:980px; margin:0 auto; padding:0 20px clamp(40px,6vw,64px)}
+.faq h2{font-family:var(--f-tag); font-weight:400; font-size:2.4rem; color:var(--teal); text-shadow:3px 3px 0 var(--purple); transform:rotate(-2deg); display:inline-block; margin-bottom:.8rem}
+.faq details{border-top:1px solid var(--line); padding:.9rem 0}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer; font-weight:600; font-size:1.12rem; color:var(--cream); list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"✦ "; color:var(--yellow)}
+.faq details p{margin-top:.5rem; color:var(--ink); font-size:1.02rem}
+footer{text-align:center; padding:1.6rem 20px 3rem; border-top:1px solid rgba(245,192,68,.12)}
+footer .made{font-family:var(--f-tag); font-size:1.7rem; color:var(--yellow); text-shadow:3px 3px 0 var(--purple)}
+footer p{font-family:var(--f-mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim); margin-top:.6rem}
+footer a{color:var(--mint); text-decoration:none; border-bottom:1px solid rgba(95,232,208,.35)}
+
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .poster{order:-1; width:min(92%,480px); margin-bottom:.6rem}
+  .ways{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:860px){
+  .sticker{top:-26px; bottom:auto; right:-8px}
+  .tape.t2{display:none}
+}
+@media(max-width:480px){
+  body{font-size:17px}
+  .kicker{letter-spacing:.16em; font-size:.6rem}
+  .sticker{width:78px; height:78px; font-size:.5rem; right:-6px}
+  .seg span{padding:.55rem .75rem; font-size:.56rem}
+}
+@media(prefers-reduced-motion:reduce){.holo-bar,.drips i,.bm.nudge{animation:none}}
+
+/* ── GET ARTICLES! extras ───────────────────────────────── */
+.site{flex:1 1 300px; max-width:460px}
+.check{display:flex; gap:.7rem; align-items:flex-start; margin-top:1.1rem; cursor:pointer; max-width:44rem}
+.check input{appearance:none; flex-shrink:0; width:22px; height:22px; margin-top:.2rem; border-radius:6px;
+  border:1px solid rgba(247,185,40,.6); background:rgba(11,4,23,.6); cursor:pointer; display:grid; place-content:center}
+.check input::before{content:"✓"; font-family:var(--f-mono); font-size:.8rem; color:var(--void); transform:scale(0); transition:transform .12s}
+.check input:checked{background:var(--yellow); border-color:var(--yellow)}
+.check input:checked::before{transform:scale(1)}
+.check input:focus-visible{outline:2px solid var(--mint); outline-offset:2px}
+.check span{font-size:1.02rem}
+.check small{display:block; color:var(--ink-dim); font-size:.95rem}
+.pv .ty{padding:.6rem .8rem 0; font-family:var(--f-mono); font-size:.52rem; letter-spacing:.16em; text-transform:uppercase; color:var(--mint)}
+.pv h4{padding:.25rem .8rem .2rem; font-weight:600; font-size:1.12rem; line-height:1.25; color:var(--cream)}
+.pv img{aspect-ratio:16/10}
+.sister{display:inline-block; margin-top:.9rem; font-family:var(--f-mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--yellow); text-decoration:none; border-bottom:1px solid rgba(247,185,40,.4)}
+
+/* "ARTICLES" is longer than "NOTES": keep the tag inside its column */
+.tag{font-size:clamp(3.4rem,7.6vw,6.6rem)}
+.export-tip{margin:-.2rem 0 1.1rem; padding:.8rem 1rem; border-radius:6px; border:1px dashed rgba(31,165,154,.6);
+  background:rgba(31,165,154,.08); font-size:1.02rem; color:var(--ink)}
+.export-tip b{color:var(--mint)} .export-tip a{color:var(--yellow)}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div class="holo-bar"></div>
+
+<header class="hero">
+  <div>
+    <div class="kicker">✦ a free tool for Substack writers ✦</div>
+    <h1 class="tag">GET ARTICLES<span class="bang">!</span><span class="drips" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></h1>
+    <p class="lede">Every post you ever published on your Substack, backed up to <em>your</em> computer, with the full text if you want it. Come back any time for the new ones.</p>
+    <div class="chips">
+      <span class="chip"><b>✓</b> free</span>
+      <span class="chip"><b>✓</b> nothing uploaded</span>
+      <span class="chip"><b>✓</b> JSON · CSV · archive page</span>
+    </div>
+    <a class="cta" href="#start">✦ start collecting</a>
+    <br><a class="sister" href="get-notes.html">looking for your notes? try GET NOTES! →</a>
+  </div>
+  <div class="poster">
+    <span class="tape t1"></span><span class="tape t2"></span>
+    <figure>
+      <img src="get-notes-crowd.png" width="1225" height="682" alt="A crowd of people of many backgrounds, drawn in bold flat colors">
+      <figcaption>your stories, <span>your archive</span></figcaption>
+    </figure>
+    <div class="sticker">works for any newsletter</div>
+  </div>
+</header>
+
+<main class="steps" id="start">
+
+  <!-- 1 ─ which newsletter -->
+  <section class="step" id="s1">
+    <div class="step-head"><span class="num">1</span>
+      <h2>Which newsletter?<small>Its web address: <code>yourname.substack.com</code> or your own domain.</small></h2></div>
+    <p class="export-tip">✦ <b>Have Substack's export zip?</b> (Settings → Exports) Skip steps 1 and 2 and <a href="#s3">drop the zip in step 3</a>. It already has every post and its full text.</p>
+    <div class="row">
+      <label class="handle site"><span class="sr">Newsletter address</span>
+        <input id="site" type="text" placeholder="yourname.substack.com" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+      <div class="seg" role="radiogroup" aria-label="First time or update">
+        <label><input type="radio" name="mode" value="first" checked><span>First time</span></label>
+        <label><input type="radio" name="mode" value="update"><span>I have a file</span></label>
+      </div>
+    </div>
+    <label class="check"><input type="checkbox" id="full">
+      <span>Save the full text of every article<small>Slower: one extra request per post. Private and paid posts come through in full when you're logged in as the author.</small></span></label>
+    <div id="updateBox" hidden>
+      <div class="drop" id="oldDrop">
+        <input type="file" id="oldFile" accept=".json,.zip,application/json,application/zip" multiple aria-label="Your last GET ARTICLES! file">
+        <strong>⤓ drop last time's file here</strong>
+        <small>The <code>get-articles-….json</code> you saved before. We only fetch posts published after it.</small>
+      </div>
+    </div>
+    <div class="status" id="s1Status" aria-live="polite"></div>
+  </section>
+
+  <!-- 2 ─ grab -->
+  <section class="step" id="s2">
+    <div class="step-head"><span class="num">2</span>
+      <h2>Grab your articles<small>This part runs on your newsletter's own site, in your browser.</small></h2></div>
+    <p id="scopeLine" class="hint">Collecting <b>every post</b>.</p>
+    <div class="ways">
+      <div class="way">
+        <h3>Easiest: one-click button</h3>
+        <a class="bm" id="bookmarklet" href="#" title="Drag me to your bookmarks bar">GET ARTICLES!</a>
+        <ol>
+          <li><b>Drag</b> the orange button up to your bookmarks bar.<br><span class="hint">No bookmarks bar? Press <code>Ctrl+Shift+B</code> (<code>⌘+Shift+B</code> on a Mac).</span></li>
+          <li>Open your newsletter (link below). Log in if you want paid posts in full.</li>
+          <li>Click <b>GET ARTICLES!</b> in your bookmarks bar. A counter appears; your file downloads when it's done.</li>
+        </ol>
+      </div>
+      <div class="way">
+        <h3>Or: paste into the console</h3>
+        <button class="btn teal" id="copyCode" type="button">⧉ copy the collector</button>
+        <ol style="margin-top:.8rem">
+          <li>Open your newsletter (link below).</li>
+          <li>Press <code>F12</code> and open the <b>Console</b> tab.</li>
+          <li>Chrome asks the first time: type <code>allow pasting</code> and press Enter.</li>
+          <li>Paste and press Enter.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="open-link"><a class="btn pink" id="openSite" href="https://substack.com" target="_blank" rel="noopener">↗ open your newsletter</a></div>
+    <p class="hint" style="margin-top:.9rem">Works on a computer in Chrome, Edge, Firefox or Safari. Phones can't run it.</p>
+  </section>
+
+  <!-- 3 ─ drop -->
+  <section class="step" id="s3">
+    <div class="step-head"><span class="num">3</span>
+      <h2>Drop the new file here<small>We merge it with last time's file (if you gave us one) and remove duplicates.</small></h2></div>
+    <div class="drop" id="newDrop">
+      <input type="file" id="newFile" accept=".json,.zip,application/json,application/zip" multiple aria-label="Your GET ARTICLES! file or Substack export zip">
+      <strong>⤓ drop your new file or Substack export .zip</strong>
+      <small>The zip as Substack sent it; no need to unzip. Two newsletters? Drop both at once and they're kept in one archive.</small>
+    </div>
+    <div class="status" id="s3Status" aria-live="polite"></div>
+  </section>
+
+  <!-- 4 ─ keep -->
+  <section class="step" id="s4" aria-disabled="true">
+    <div class="step-head"><span class="num">4</span>
+      <h2>Keep them<small>Save the JSON: it's what you drop in next time.</small></h2></div>
+    <div class="stats" id="stats">
+      <div class="stat"><b>—</b><span>articles</span></div>
+      <div class="stat"><b>—</b><span>first post</span></div>
+      <div class="stat"><b>—</b><span>latest post</span></div>
+      <div class="stat"><b>—</b><span>words written</span></div>
+    </div>
+    <div class="exports">
+      <button class="btn" id="dlJson" type="button" disabled>⤓ JSON (keep this one)</button>
+      <button class="btn teal" id="dlCsv" type="button" disabled>⤓ CSV for spreadsheets</button>
+      <button class="btn pink" id="dlHtml" type="button" disabled>⤓ my archive page</button>
+    </div>
+    <p class="hint" id="fullHint" style="margin-top:.8rem" hidden></p>
+    <div class="preview-label" id="pvLabel" hidden>✦ your latest posts</div>
+    <div class="preview" id="preview"></div>
+  </section>
+</main>
+
+<section class="faq">
+  <h2>good to know</h2>
+  <details><summary>Is anything sent to Magick Mica or anyone else?</summary>
+    <p>No. The collector talks only to your own newsletter, from your browser, and saves the file to your computer. Merging and exporting happen on this page, in your browser. Nothing is uploaded anywhere.</p></details>
+  <details><summary>How does the second time work?</summary>
+    <p>Keep the JSON from step 4. Next time, choose <b>I have a file</b> and drop it in. We find your newest post and make a collector that stops a few days before it. Then drop the new file in step 3 and save the combined JSON again. Full text you saved before is kept.</p></details>
+  <details><summary>Should I tick "full text"?</summary>
+    <p>Tick it if you want a real backup of your writing: your archive page will then let you read every post right there, even offline. Leave it off for a quick list of titles, dates and links.</p></details>
+  <details><summary>Can I use Substack's own export zip?</summary>
+    <p>Yes. In Substack go to <b>Settings → Exports → Create new export</b>, download the zip, and drop it in step 3 as it is. We read it right here in your browser: the post list and each post's full text, with a cover picked from the post's own images. We only open <code>posts.csv</code> and the <code>posts</code> folder. Your subscriber list, which is also in that zip, is never read.</p></details>
+  <details><summary>Export or collector: which should I use?</summary>
+    <p>The export has everything, including email-only posts, but you have to ask Substack for a new one each time. The collector is quicker for topping up, and adds hearts and comment counts. They mix: drop an export and a collector file together and each post is kept once.</p></details>
+  <details><summary>It says it can't find the newsletter.</summary>
+    <p>Run it on your newsletter's own address, <code>yourname.substack.com</code> or your custom domain, not on <code>substack.com</code> itself or inside the Substack app.</p></details>
+</section>
+
+<footer>
+  <div class="made">made by Magick Mica TV</div>
+  <p>Free to use ✦ <a href="get-notes.html">GET NOTES!</a> ✦ <a href="https://magickmica.substack.com" target="_blank" rel="noopener">subscribe to Magick Mica TV</a> ✦ <a href="articles.html">see Magick Mica's articles</a></p>
+</footer>
+
+<script>
+/* ============================================================
+   THE COLLECTOR — runs on the newsletter's own site (bookmarklet
+   or console). Serialised with .toString(): it may only use its
+   one argument.
+   ============================================================ */
+async function getArticlesCollector(CFG) {
+  var PAUSE = 300, PAGE = 50, MAX_PAGES = 400;
+  var box = document.getElementById('ga-box');
+  if (!box) {
+    box = document.createElement('div'); box.id = 'ga-box';
+    box.style.cssText = 'position:fixed;z-index:2147483647;right:18px;bottom:18px;width:300px;padding:14px 16px 15px;' +
+      'border-radius:14px;background:#160A2B;color:#FFF6FB;font:500 13px/1.5 system-ui,-apple-system,sans-serif;' +
+      'box-shadow:5px 5px 0 #7B4BA0,0 16px 44px rgba(0,0,0,.45);border:2px solid #F0572A';
+    document.body.appendChild(box);
+  }
+  function say(html) {
+    box.innerHTML = '<div style="font:900 17px/1 system-ui,sans-serif;letter-spacing:.02em;color:#F0572A;margin-bottom:8px">GET ARTICLES!</div>' + html;
+  }
+  async function getJSON(u) {
+    var r = await fetch(u, { credentials: 'include' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  say('Checking this is a newsletter…');
+  var probe = null;
+  try { probe = await getJSON('/api/v1/archive?sort=new&offset=0&limit=1'); } catch (e) {}
+  if (!Array.isArray(probe)) {
+    alert('GET ARTICLES! runs on your newsletter\'s own site.\n\nOpen https://' + (CFG.site || 'yourname.substack.com') +
+          ' and click it (or paste the code) there.');
+    box.remove(); return;
+  }
+  var site = location.hostname, since = CFG.since || '';
+  var posts = [], seen = {}, offset = 0, pages = 0, stop = false, oldest = null, note = '';
+  while (!stop && pages < MAX_PAGES) {
+    pages++;
+    var batch;
+    try { batch = await getJSON('/api/v1/archive?sort=new&search=&offset=' + offset + '&limit=' + PAGE); }
+    catch (e) { note = 'Your newsletter stopped answering (' + e.message + '), so this file is partial. Run it again as an update to fill the rest.'; break; }
+    if (!Array.isArray(batch) || !batch.length) break;
+    for (var i = 0; i < batch.length; i++) {
+      var p = batch[i]; if (!p || p.id == null) continue;
+      var d = p.post_date || '', day = d.slice(0, 10);
+      if (day && (!oldest || day < oldest)) oldest = day;
+      if (since && day && day < since) { stop = true; continue; }
+      if (seen[p.id]) continue; seen[p.id] = 1;
+      var likes = p.reaction_count;
+      if (likes == null && p.reactions) { likes = 0; for (var k in p.reactions) likes += +p.reactions[k] || 0; }
+      posts.push({
+        id: p.id, date: d, title: p.title || '', subtitle: p.subtitle || '', description: p.description || '',
+        type: p.type || 'newsletter', audience: p.audience || '', words: p.wordcount == null ? null : p.wordcount,
+        likes: likes || 0, comments: p.comment_count || 0, restacks: p.restacks || 0,
+        cover: p.cover_image || null, slug: p.slug || '',
+        url: p.canonical_url || ('https://' + site + '/p/' + p.slug),
+        site: site, body_html: null
+      });
+    }
+    offset += batch.length;
+    say('<b style="font-size:18px">' + posts.length + '</b> posts<br>back to ' + (oldest || '…') +
+        (since ? '<br><span style="opacity:.7">stopping at ' + since + '</span>' : ''));
+    await wait(PAUSE);
+  }
+  var missed = 0;
+  if (CFG.full && !note) {
+    for (var j = 0; j < posts.length; j++) {
+      say('Reading full text<br><b style="font-size:18px">' + (j + 1) + '</b> of ' + posts.length +
+          '<br><span style="opacity:.7">' + String(posts[j].title).replace(/</g, '&lt;').slice(0, 60) + '</span>');
+      try { var full = await getJSON('/api/v1/posts/' + encodeURIComponent(posts[j].slug));
+            posts[j].body_html = full.body_html || null; if (!full.body_html) missed++; }
+      catch (e) { missed++; }
+      await wait(PAUSE);
+    }
+  }
+  posts.sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+  var out = { app: 'GET ARTICLES!', version: 1, site: site, collected_at: new Date().toISOString(),
+              since: since || null, full_text: !!CFG.full, partial: !!note, count: posts.length, posts: posts };
+  var blob = new Blob([JSON.stringify(out)], { type: 'application/json' });
+  var a2 = document.createElement('a');
+  a2.href = URL.createObjectURL(blob);
+  a2.download = 'get-articles-' + site.replace(/[^a-z0-9.-]/gi, '') + '-' + out.collected_at.slice(0, 10) + (since ? '-update' : '') + '.json';
+  document.body.appendChild(a2); a2.click();
+  window.__getArticles = out;
+  say('Done: <b>' + posts.length + '</b> ' + (since ? 'new ' : '') + 'posts' + (oldest && !since ? ', back to ' + oldest : '') + '.' +
+      (CFG.full ? '<br>Full text for ' + (posts.length - missed) + ' of ' + posts.length + '.' : '') +
+      (note ? '<br><span style="color:#E9557F">' + note + '</span>' : '') +
+      '<br>Your file is downloading. Take it back to GET ARTICLES! (step 3).' +
+      '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">' +
+      '<a href="#" id="ga-again" style="color:#fff;background:#F0572A;padding:5px 10px;border-radius:99px;text-decoration:none;font-weight:700">download again</a>' +
+      '<a href="#" id="ga-close" style="color:#FFF6FB;opacity:.7">close</a></div>');
+  document.getElementById('ga-again').onclick = function (e) { e.preventDefault(); a2.click(); };
+  document.getElementById('ga-close').onclick = function (e) { e.preventDefault(); box.remove(); };
+}
+
+/* ============================================================
+   THIS PAGE — build the collector, read files, merge, export.
+   ============================================================ */
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var STORE = 'getArticles.v1';
+  var state = { site: '', mode: 'first', full: false, prior: [], since: '', merged: [] };
+
+  function remember(o) { try { localStorage.setItem(STORE, JSON.stringify(o)); } catch (e) {} }
+  function recall() { try { return JSON.parse(localStorage.getItem(STORE) || 'null'); } catch (e) { return null; } }
+  function cleanSite(v) {
+    v = String(v || '').trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/^@/, '');
+    if (v && v.indexOf('.') < 0) v += '.substack.com';
+    return v;
+  }
+  function isoMinusDays(iso, n) { var d = new Date(iso.slice(0, 10) + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() - n); return d.toISOString().slice(0, 10); }
+  function nice(iso) { return iso ? new Date(iso.slice(0, 10) + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—'; }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
+  /* GET ARTICLES! files, plus the magazine_articles.json shape
+     Magick Mica's own site builds from Substack exports. */
+  function normalise(json) {
+    if (json && json.app === 'GET ARTICLES!' && Array.isArray(json.posts)) {
+      return { site: json.site || '', collected: json.collected_at || '', posts: json.posts };
+    }
+    if (Array.isArray(json) && json.length && json[0] && 'slug' in json[0] && 'title' in json[0] && ('published' in json[0] || 'date' in json[0])) {
+      return { site: '', collected: '', posts: json.map(function (a) {
+        var host = ''; try { host = new URL(a.url).hostname; } catch (e) {}
+        return { id: a.post_id || a.url, date: a.published || a.date || '', title: a.title || '', subtitle: a.subtitle || '',
+          description: a.preview || '', type: a.type || 'newsletter', audience: a.audience || '', words: null,
+          likes: 0, comments: 0, restacks: 0, cover: a.cover_url || null, slug: a.slug || '', url: a.url || '',
+          site: host, body_html: null }; }) };
+    }
+    throw new Error('not an articles file');
+  }
+  function keyOf(p) { return (p.site || '') + '|' + (p.id != null ? p.id : p.url); }
+  function merge(sets) {
+    var by = {};
+    sets.slice().sort(function (a, b) { return (a.collected || '') < (b.collected || '') ? -1 : 1; })
+      .forEach(function (s) {
+        s.posts.forEach(function (p) {
+          var k = keyOf(p), old = by[k];
+          if (!old) { by[k] = Object.assign({}, p); return; }
+          var next = Object.assign({}, p);
+          Object.keys(old).forEach(function (f) { if (next[f] == null || next[f] === '') next[f] = old[f]; });
+          by[k] = next;
+        });
+      });
+    /* fold cross-posts (same slug and title in two newsletters),
+       keeping the copy with more text, as build_articles.py does */
+    var bySlug = {};
+    Object.keys(by).forEach(function (k) {
+      var p = by[k], s = p.slug ? p.slug + '|' + String(p.title || '').toLowerCase() : k;
+      var prev = bySlug[s];
+      if (!prev || String(p.body_html || '').length > String(prev.body_html || '').length) bySlug[s] = p;
+    });
+    return Object.keys(bySlug).map(function (k) { return bySlug[k]; })
+      .sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+  }
+  function isZip(f) { return /\.zip$/i.test(f.name) || /zip/.test(f.type || ''); }
+  function readFiles(list) {
+    var zips = [].filter.call(list, isZip);
+    var hint = zips.length === 1 ? state.site : '';   // one zip + a typed address: trust the address
+    return Promise.all([].map.call(list, function (f) {
+      if (isZip(f)) return readExport(f, hint).catch(function (e) { return { name: f.name, error: true, why: e.message }; });
+      return f.text().then(function (t) {
+        try { var r = normalise(JSON.parse(t)); r.name = f.name; return r; } catch (e) { return { name: f.name, error: true }; }
+      });
+    })).then(function (res) {
+      var ex = res.filter(function (r) { return r.fromExport; });
+      if (ex.length) pickCovers([].concat.apply([], ex.map(function (r) { return r.posts; })));
+      return res;
+    });
+  }
+  function exportNote(res) {
+    return res.filter(function (r) { return r.fromExport; }).map(function (r) {
+      return '<br>✦ Read your Substack export <b>' + esc(r.name) + '</b>: ' + r.posts.length + ' published posts with full text' +
+        (r.drafts ? ' (' + r.drafts + ' drafts skipped)' : '') +
+        (r.site ? ' from ' + esc(r.site) + '.' : '. <span style="color:var(--pink)">Type the newsletter address in step 1 and drop it again so the links work.</span>');
+    }).join('') + res.filter(function (r) { return r.error && r.why; }).map(function (r) {
+      return '<br><span style="color:var(--pink)">Couldn\'t read ' + esc(r.name) + ': ' + esc(r.why) + '.</span>'; }).join('');
+  }
+
+  /* ── Substack export zips ───────────────────────────────
+     A small zip reader: walks the central directory and inflates with
+     the browser's own DecompressionStream, so no library is needed.
+     Only posts.csv and posts/*.html are ever opened. */
+  async function unzipSome(file, wanted) {
+    var buf = new Uint8Array(await file.arrayBuffer()), dv = new DataView(buf.buffer), td = new TextDecoder('utf-8');
+    var eocd = -1;
+    for (var i = buf.length - 22; i >= Math.max(0, buf.length - 65557); i--) { if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; } }
+    if (eocd < 0) throw new Error('not a zip file');
+    var p = dv.getUint32(eocd + 16, true), out = {};
+    if (p === 0xFFFFFFFF) throw new Error('zip too large to read here');
+    while (p + 46 <= buf.length && dv.getUint32(p, true) === 0x02014b50) {
+      var method = dv.getUint16(p + 10, true), csize = dv.getUint32(p + 20, true);
+      var nlen = dv.getUint16(p + 28, true), xlen = dv.getUint16(p + 30, true), clen = dv.getUint16(p + 32, true);
+      var lho = dv.getUint32(p + 42, true), name = td.decode(buf.subarray(p + 46, p + 46 + nlen));
+      p += 46 + nlen + xlen + clen;
+      if (!wanted(name)) continue;
+      var start = lho + 30 + dv.getUint16(lho + 26, true) + dv.getUint16(lho + 28, true);
+      var data = buf.subarray(start, start + csize), bytes;
+      if (method === 0) bytes = data;
+      else if (method === 8) bytes = new Uint8Array(await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());
+      else continue;
+      out[name] = td.decode(bytes);
+    }
+    return out;
+  }
+  function parseCSV(t) {
+    t = t.replace(/^﻿/, '');
+    var rows = [], row = [], f = '', q = false;
+    for (var i = 0; i < t.length; i++) {
+      var c = t[i];
+      if (q) { if (c === '"') { if (t[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+      else if (c === '"') q = true;
+      else if (c === ',') { row.push(f); f = ''; }
+      else if (c === '\n' || c === '\r') { if (c === '\r' && t[i + 1] === '\n') i++; row.push(f); rows.push(row); row = []; f = ''; }
+      else f += c;
+    }
+    if (f !== '' || row.length) { row.push(f); rows.push(row); }
+    var head = rows.shift() || [];
+    return rows.filter(function (r) { return r.length > 1 || r[0]; }).map(function (r) {
+      var o = {}; head.forEach(function (h, k) { o[h.trim()] = r[k] == null ? '' : r[k]; }); return o;
+    });
+  }
+  /* Cover picking, ported from Magick Mica's tools/build_articles.py so
+     both give the same answer: skip images used in 3+ posts (logos,
+     banners), take the first substantial image, else the largest
+     acceptable one. Wrapped in Substack's image CDN at 600px. */
+  var IMG_RE = /<img[^>]+src="([^"]+)"[^>]*>/gi, DIM_RE = /_(\d+)x(\d+)\.(?:png|jpe?g|webp|gif)/i;
+  function imagesIn(h) { var o = [], m; IMG_RE.lastIndex = 0; while ((m = IMG_RE.exec(h || ''))) o.push(m[1]); return o; }
+  function dimsOf(u) { var m = DIM_RE.exec(u); return m ? [+m[1], +m[2]] : [null, null]; }
+  function usable(u) { var d = dimsOf(u), w = d[0], h = d[1]; if (w == null) return true;
+    if (h < 100) return false; if (Math.max(w, h) / Math.max(Math.min(w, h), 1) > 4) return false; return Math.min(w, h) >= 400; }
+  function acceptable(u) { var d = dimsOf(u), w = d[0], h = d[1]; if (w == null) return true;
+    if (h < 100) return false; if (Math.max(w, h) / Math.max(Math.min(w, h), 1) > 4) return false; return Math.max(w, h) >= 500; }
+  function areaOf(u) { var d = dimsOf(u); return (d[0] || 0) * (d[1] || 0); }
+  function pyQuote(s) { return encodeURIComponent(s).replace(/[!'()*]/g, function (c) { return '%' + c.charCodeAt(0).toString(16).toUpperCase(); }); }
+  var COVER_CDN = 'https://substackcdn.com/image/fetch/$s_!G4Yk!,w_600,c_limit,f_webp,q_auto:good,fl_progressive:steep/';
+  function pickCovers(posts) {
+    var freq = {};
+    posts.forEach(function (p) { var seen = {}; p._imgs.forEach(function (u) { if (!seen[u]) { seen[u] = 1; freq[u] = (freq[u] || 0) + 1; } }); });
+    posts.forEach(function (p) {
+      var cover = '';
+      for (var i = 0; i < p._imgs.length; i++) { var u = p._imgs[i]; if (freq[u] >= 3 || !usable(u)) continue; cover = u; break; }
+      if (!cover) {
+        var c = p._imgs.filter(function (u) { return freq[u] < 3 && acceptable(u); });
+        if (c.length) cover = c.reduce(function (a, b) { return areaOf(b) > areaOf(a) ? b : a; });
+      }
+      p.cover = cover ? COVER_CDN + pyQuote(cover) : null;
+      delete p._imgs;
+    });
+  }
+  function guessSite(bodies) {
+    var n = {}, re = /https?:\/\/([a-z0-9-]+\.substack\.com)/gi, m;
+    bodies.forEach(function (b) { re.lastIndex = 0; while ((m = re.exec(b || ''))) { var h = m[1].toLowerCase(); n[h] = (n[h] || 0) + 1; } });
+    var best = ''; Object.keys(n).forEach(function (h) { if (!best || n[h] > n[best]) best = h; });
+    return best;
+  }
+  async function readExport(file, siteHint) {
+    var files = await unzipSome(file, function (name) {
+      return /(^|\/)posts\.csv$/.test(name) || /(^|\/)posts\/[^\/]+\.html$/.test(name);
+    });
+    var csvName = Object.keys(files).filter(function (k) { return /(^|\/)posts\.csv$/.test(k); })[0];
+    if (!csvName) throw new Error('no posts.csv inside; is this a Substack export?');
+    var base = csvName.replace(/posts\.csv$/, '');
+    var rows = parseCSV(files[csvName]), posts = [], drafts = 0, bodies = [];
+    rows.forEach(function (r) {
+      if (['true', '1'].indexOf(String(r.is_published || '').toLowerCase()) < 0) { drafts++; return; }
+      var pid = r.post_id || '', slug = pid.indexOf('.') > -1 ? pid.slice(pid.indexOf('.') + 1) : pid;
+      var body = files[base + 'posts/' + pid + '.html'] || '';
+      var text = body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      bodies.push(body);
+      posts.push({ id: parseInt(pid, 10) || pid, date: r.post_date || '', title: (r.title || '').trim(), subtitle: (r.subtitle || '').trim(),
+        description: text.slice(0, 200), type: r.type || 'newsletter', audience: r.audience || '',
+        words: text ? text.split(' ').length : 0, likes: null, comments: null, restacks: null,
+        cover: null, slug: slug, url: '', site: '', body_html: body || null, _imgs: imagesIn(body) });
+    });
+    var site = siteHint || guessSite(bodies);
+    posts.forEach(function (p) { p.site = site; p.url = site ? 'https://' + site + '/p/' + p.slug : ''; });
+    return { site: site, collected: new Date(file.lastModified || Date.now()).toISOString(), posts: posts,
+             fromExport: true, drafts: drafts, name: file.name };
+  }
+
+  /* ── steps 1 & 2 ────────────────────────────────────── */
+  function collectorSource() {
+    var cfg = { site: state.site, since: state.mode === 'update' ? state.since : '', full: state.full };
+    return '(' + getArticlesCollector.toString() + ')(' + JSON.stringify(cfg) + ');';
+  }
+  function refresh() {
+    $('bookmarklet').href = 'javascript:' + encodeURIComponent(collectorSource());
+    $('openSite').href = state.site ? 'https://' + state.site : 'https://substack.com';
+    $('openSite').textContent = state.site ? '↗ open ' + state.site : '↗ open your newsletter';
+    var extra = state.full ? ' with the <b>full text</b> of each one (a few seconds per post)' : '';
+    if (state.mode === 'update' && state.since) $('scopeLine').innerHTML = 'Collecting posts from <b>' + esc(nice(state.since)) + '</b> on' + extra + '.';
+    else if (state.mode === 'update') $('scopeLine').innerHTML = '<span style="color:var(--pink)">Drop last time\'s file in step 1 first</span>, or switch to <b>First time</b>.';
+    else $('scopeLine').innerHTML = 'Collecting <b>every post</b>' + extra + '.';
+  }
+  $('site').addEventListener('input', function (e) { state.site = cleanSite(e.target.value); refresh(); });
+  $('full').addEventListener('change', function (e) { state.full = e.target.checked; refresh(); });
+  [].forEach.call(document.querySelectorAll('input[name=mode]'), function (r) {
+    r.addEventListener('change', function () { state.mode = r.value; $('updateBox').hidden = state.mode !== 'update'; refresh(); });
+  });
+  $('oldFile').addEventListener('change', function (e) {
+    if (!e.target.files.length) return;
+    readFiles(e.target.files).then(function (res) {
+      var good = res.filter(function (r) { return !r.error && r.posts.length; }), st = $('s1Status');
+      if (!good.length) { st.className = 'status warn'; st.textContent = 'That doesn\'t look like a GET ARTICLES! file. Pick the .json you saved last time.'; return; }
+      state.prior = good;
+      var all = merge(good), newest = all[0].date;
+      state.since = isoMinusDays(newest, 3);
+      var s = good.map(function (g) { return g.site; }).filter(Boolean)[0];
+      if (s && !state.site) { state.site = s; $('site').value = s; }
+      st.className = 'status';
+      st.innerHTML = '✓ ' + all.length.toLocaleString() + ' posts, newest ' + esc(nice(newest)) + '. The collector will fetch from ' + esc(nice(state.since)) + ' on.' + exportNote(res);
+      refresh();
+    });
+  });
+  $('bookmarklet').addEventListener('click', function (e) {
+    e.preventDefault();
+    var b = e.currentTarget; b.classList.remove('nudge'); void b.offsetWidth; b.classList.add('nudge');
+    $('s1Status').className = 'status';
+    $('s1Status').textContent = 'Drag the orange button to your bookmarks bar, then click it on your newsletter\'s site.';
+  });
+  $('copyCode').addEventListener('click', function (e) {
+    var btn = e.currentTarget, src = collectorSource();
+    var done = function () { btn.textContent = '✓ copied: now paste on your newsletter'; setTimeout(function () { btn.textContent = '⧉ copy the collector'; }, 2600); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(src).then(done, fallback); else fallback();
+    function fallback() { var t = document.createElement('textarea'); t.value = src; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); done(); } catch (x) {} t.remove(); }
+  });
+
+  /* ── steps 3 & 4 ────────────────────────────────────── */
+  $('newFile').addEventListener('change', function (e) {
+    if (!e.target.files.length) return;
+    readFiles(e.target.files).then(function (res) {
+      var good = res.filter(function (r) { return !r.error; }), st = $('s3Status');
+      if (!good.length) { st.className = 'status warn'; st.textContent = 'Those files don\'t look like articles files.'; return; }
+      var before = state.prior.length ? merge(state.prior).length : 0;
+      state.merged = merge(state.prior.concat(good));
+      state.site = state.site || good.map(function (g) { return g.site; }).filter(Boolean)[0] || '';
+      st.className = 'status';
+      st.innerHTML = '✓ ' + state.merged.length.toLocaleString() + ' posts' +
+        (before ? ' (' + (state.merged.length - before).toLocaleString() + ' new since last time)' : '') + '. Ready in step 4.' + exportNote(res);
+      remember({ site: state.site, newest: state.merged[0] ? state.merged[0].date : '', count: state.merged.length });
+      show();
+      $('s4').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+  [['oldDrop'], ['newDrop']].forEach(function (p) {
+    var z = $(p[0]);
+    ['dragenter', 'dragover'].forEach(function (ev) { z.addEventListener(ev, function () { z.classList.add('over'); }); });
+    ['dragleave', 'drop'].forEach(function (ev) { z.addEventListener(ev, function () { z.classList.remove('over'); }); });
+  });
+
+  function show() {
+    var n = state.merged; if (!n.length) return;
+    $('s4').removeAttribute('aria-disabled');
+    var words = n.reduce(function (s, x) { return s + (x.words || 0); }, 0);
+    var hearts = n.reduce(function (s, x) { return s + (+x.likes || 0); }, 0);
+    var st = $('stats').querySelectorAll('.stat');
+    st[0].querySelector('b').textContent = n.length.toLocaleString();
+    st[1].querySelector('b').textContent = nice(n[n.length - 1].date);
+    st[2].querySelector('b').textContent = nice(n[0].date);
+    st[3].querySelector('b').textContent = words ? words.toLocaleString() : hearts.toLocaleString();
+    st[3].querySelector('span').textContent = words ? 'words written' : 'hearts';
+    ['dlJson', 'dlCsv', 'dlHtml'].forEach(function (id) { $(id).disabled = false; });
+    var withText = n.filter(function (x) { return x.body_html; }).length;
+    $('fullHint').hidden = false;
+    $('fullHint').textContent = withText
+      ? 'Full text saved for ' + withText + ' of ' + n.length + ' posts. Your archive page lets people read them right there.'
+      : 'No full text in this collection, so the archive page links each post to Substack. Tick "full text" in step 1 next time for a complete backup.';
+    $('pvLabel').hidden = false;
+    $('preview').innerHTML = n.slice(0, 8).map(function (x) {
+      return '<a class="pv" href="' + esc(x.url) + '" target="_blank" rel="noopener">' +
+        (x.cover ? '<img src="' + esc(x.cover) + '" alt="" loading="lazy" onerror="this.remove()">' : '') +
+        '<div class="ty">' + esc(x.type) + (x.audience && x.audience !== 'everyone' ? ' · paid' : '') + '</div>' +
+        '<h4>' + esc(x.title) + '</h4>' + (x.subtitle ? '<p>' + esc(x.subtitle) + '</p>' : '') +
+        '<small>' + esc(nice(x.date)) + (x.likes ? ' · ♥ ' + x.likes : '') + '</small></a>';
+    }).join('');
+  }
+
+  function save(name, type, text) {
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type: type }));
+    a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+  }
+  function stamp() { return new Date().toISOString().slice(0, 10); }
+  function who() { return (state.site || 'my-newsletter').replace(/\.substack\.com$/, ''); }
+
+  $('dlJson').addEventListener('click', function () {
+    var sites = state.merged.map(function (p) { return p.site; }).filter(function (v, i, a) { return v && a.indexOf(v) === i; });
+    var out = { app: 'GET ARTICLES!', version: 1, site: sites.join(', '), collected_at: new Date().toISOString(), since: null,
+                full_text: state.merged.some(function (p) { return p.body_html; }), partial: false, count: state.merged.length, posts: state.merged };
+    save('get-articles-' + who() + '-' + stamp() + '.json', 'application/json', JSON.stringify(out));
+  });
+  $('dlCsv').addEventListener('click', function () {
+    var cols = ['date', 'title', 'subtitle', 'type', 'audience', 'words', 'likes', 'comments', 'restacks', 'url', 'cover', 'site', 'id'];
+    var q = function (v) { v = v == null ? '' : String(v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    var rows = [cols.join(',')].concat(state.merged.map(function (p) { return cols.map(function (c) { return q(p[c]); }).join(','); }));
+    save('get-articles-' + who() + '-' + stamp() + '.csv', 'text/csv', '\ufeff' + rows.join('\r\n'));
+  });
+  $('dlHtml').addEventListener('click', function () {
+    save('articles-archive-' + who() + '.html', 'text/html', archivePage(state.site, state.merged));
+  });
+
+  /* A self-contained, searchable page of someone's posts. With full
+     text, each card opens a reader; scripts are stripped from bodies. */
+  function archivePage(site, posts) {
+    var data = JSON.stringify(posts.map(function (p) {
+      return { d: p.date, t: p.title, s: p.subtitle, ty: p.type, pd: p.audience && p.audience !== 'everyone',
+               c: p.cover || '', u: p.url, w: p.words || 0,
+               h: p.body_html ? String(p.body_html).replace(/<script[\s\S]*?<\/script>/gi, '').replace(/\son\w+="[^"]*"/gi, '') : '' };
+    })).replace(/</g, '\\u003c');
+    var name = site ? site.replace(/\.substack\.com$/, '') : 'My';
+    var title = (site ? name + '\u2019s' : 'My') + ' articles';
+    return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">' +
+      '<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>' + esc(title) + '</title>' +
+      '<link href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Mono&display=swap" rel="stylesheet">' +
+      '<style>:root{--void:#0B0417;--gold:#F5C044;--cream:#FFF6FB;--ink:rgba(255,246,251,.86);--dim:rgba(255,246,251,.5);--line:rgba(245,192,68,.22);--o:#F0572A;--y:#F7B928;--p:#7B4BA0;--pk:#E9557F;--t:#1FA59A;--m:#5FE8D0}' +
+      '*{box-sizing:border-box;margin:0;padding:0}body{background:var(--void);color:var(--ink);font:18px/1.6 "Cormorant Garamond",Georgia,serif;padding:0 20px 60px}' +
+      'body:before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(50% 40% at 80% 5%,rgba(183,156,255,.18),transparent 62%),radial-gradient(44% 36% at 8% 20%,rgba(240,87,42,.14),transparent 64%)}' +
+      'header{text-align:center;padding:50px 0 24px}h1{font:400 clamp(2.6rem,8vw,4.6rem)/1 "Sedgwick Ave Display",cursive;color:var(--o);text-shadow:4px 4px 0 var(--p);transform:rotate(-3deg);display:inline-block}' +
+      '.sub{font:.66rem "Space Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-top:18px}' +
+      '#q{display:block;width:100%;max-width:560px;margin:22px auto 8px;background:rgba(11,4,23,.7);border:1px solid var(--line);border-radius:99px;padding:.85rem 1.3rem;color:var(--cream);font:1.05rem "Cormorant Garamond",serif;outline:0}#q:focus{border-color:var(--o)}' +
+      '#n{text-align:center;font:.62rem "Space Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:6px 0 20px}' +
+      '#g{max-width:1180px;margin:0 auto;display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}' +
+      '.c{display:flex;flex-direction:column;text-decoration:none;color:inherit;border-radius:5px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(170deg,rgba(43,18,64,.72),rgba(22,10,43,.9));transition:transform .2s,border-color .2s;cursor:pointer;text-align:left;font:inherit}.c:hover{transform:translateY(-3px);border-color:rgba(245,192,68,.6)}' +
+      '.c img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#0a0514}.c .ty{padding:14px 16px 0;font:.54rem "Space Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--m)}' +
+      '.c h2{padding:4px 16px 4px;font-weight:600;font-size:1.35rem;line-height:1.2;color:var(--cream)}.c p{padding:0 16px 8px;font-style:italic;color:#B79CFF}' +
+      '.c small{margin-top:auto;padding:10px 16px 14px;border-top:1px solid rgba(245,192,68,.12);font:.56rem "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);display:flex;justify-content:space-between}.c small b{color:var(--o);font-weight:400}' +
+      '#more{display:block;margin:28px auto 0;font:.64rem "Space Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:#fff;background:var(--o);border:0;border-radius:99px;padding:.9rem 2rem;cursor:pointer;box-shadow:4px 4px 0 var(--p)}' +
+      '#rd{position:fixed;inset:0;z-index:9;background:rgba(5,2,12,.94);overflow:auto;display:none;padding:40px 20px}#rd.on{display:block}' +
+      '#rd article{max-width:720px;margin:0 auto;background:#fffdf7;color:#1c1030;border-radius:6px;padding:clamp(22px,5vw,56px);font-size:1.22rem;line-height:1.65}' +
+      '#rd h1{display:block;transform:none;text-shadow:none;color:#1c1030;font:600 clamp(2rem,5vw,2.8rem)/1.15 "Cormorant Garamond",serif}#rd .rs{font-style:italic;color:#5b3b7a;margin:.4rem 0 1rem}#rd .rm{font:.6rem "Space Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#7B4BA0;margin-bottom:1.6rem}' +
+      '#rd .body img{max-width:100%;height:auto;border-radius:4px}#rd .body p,#rd .body ul,#rd .body ol,#rd .body blockquote,#rd .body h2,#rd .body h3,#rd .body figure{margin:0 0 1em}#rd .body a{color:#c2410c}#rd .body blockquote{border-left:3px solid var(--o);padding-left:1em;font-style:italic}' +
+      '#x{position:fixed;top:14px;right:18px;z-index:10;font:.62rem "Space Mono",monospace;letter-spacing:.16em;text-transform:uppercase;background:var(--y);color:#0B0417;border:0;border-radius:99px;padding:.6rem 1rem;cursor:pointer;display:none}#rd.on~#x{display:block}' +
+      'footer{text-align:center;margin-top:48px;font:.6rem "Space Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}footer a{color:var(--t)}</style></head><body>' +
+      '<header><h1>' + esc(title) + '</h1><div class="sub">' + posts.length.toLocaleString() + ' posts \u00b7 ' + esc(nice(posts[posts.length - 1].date)) + ' \u2013 ' + esc(nice(posts[0].date)) + '</div>' +
+      '<input id="q" type="search" placeholder="search every article\u2026" aria-label="Search articles"><div id="n"></div></header>' +
+      '<div id="g"></div><button id="more" hidden>load more \u2726</button><div id="rd" role="dialog" aria-modal="true"></div><button id="x">close \u2715</button>' +
+      '<footer>made with <a href="https://magickmica.github.io/get-articles.html">GET ARTICLES!</a> by <a href="https://magickmica.substack.com">Magick Mica TV</a></footer>' +
+      '<script>var P=' + data + ',show=36,q="";' +
+      'function e(s){var d=document.createElement("div");d.textContent=s==null?"":s;return d.innerHTML}' +
+      'function f(s){return s?new Date(s.slice(0,10)+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):""}' +
+      'function L(){return q?P.filter(function(x){return((x.t||"")+" "+(x.s||"")+" "+(x.h||"")).toLowerCase().indexOf(q)>-1}):P}' +
+      'function r(){var l=L();document.getElementById("n").textContent=l.length.toLocaleString()+" posts";' +
+      'document.getElementById("g").innerHTML=l.slice(0,show).map(function(x){var i=P.indexOf(x);var inner=(x.c?\'<img src="\'+e(x.c)+\'" alt="" loading="lazy" onerror="this.remove()">\':"")+\'<div class="ty">\'+e(x.ty)+(x.pd?" \\u00b7 paid":"")+"</div><h2>"+e(x.t)+"</h2>"+(x.s?"<p>"+e(x.s)+"</p>":"")+"<small><span>"+f(x.d)+"</span><b>"+(x.h?"read here \\u2192":"on substack \\u2197")+"</b></small>";' +
+      'return x.h?\'<button class="c" data-i="\'+i+\'">\'+inner+"</button>":\'<a class="c" href="\'+e(x.u)+\'" target="_blank" rel="noopener">\'+inner+"</a>"}).join("");' +
+      'document.getElementById("more").hidden=l.length<=show}' +
+      'document.getElementById("g").onclick=function(ev){var b=ev.target.closest("button.c");if(!b)return;var x=P[+b.dataset.i],rd=document.getElementById("rd");' +
+      'rd.innerHTML="<article><h1>"+e(x.t)+"</h1>"+(x.s?\'<div class="rs">\'+e(x.s)+"</div>":"")+\'<div class="rm">\'+f(x.d)+(x.w?" \\u00b7 "+x.w.toLocaleString()+" words":"")+\' \\u00b7 <a href="\'+e(x.u)+\'" target="_blank" rel="noopener">on substack \\u2197</a></div><div class="body">\'+x.h+"</div></article>";' +
+      'rd.classList.add("on");rd.scrollTop=0;document.body.style.overflow="hidden"};' +
+      'function cl(){document.getElementById("rd").classList.remove("on");document.body.style.overflow=""}document.getElementById("x").onclick=cl;document.getElementById("rd").onclick=function(ev){if(ev.target.id==="rd")cl()};document.onkeydown=function(ev){if(ev.key==="Escape")cl()};' +
+      'document.getElementById("q").oninput=function(ev){q=ev.target.value.toLowerCase();show=36;r()};' +
+      'document.getElementById("more").onclick=function(){show+=36;r()};r();<\/script></body></html>';
+  }
+
+  /* ── welcome back ───────────────────────────────────── */
+  var back = recall();
+  if (back && back.site) {
+    state.site = back.site; $('site').value = back.site;
+    $('s1Status').className = 'status';
+    $('s1Status').innerHTML = '✦ Welcome back. Last time you had ' + Number(back.count || 0).toLocaleString() + ' posts from ' + esc(back.site) +
+      ' up to ' + esc(nice(back.newest)) + '. Choose <b>I have a file</b> and drop that JSON to fetch only what\'s new.';
+  }
+  refresh();
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+</body>
+</html>
