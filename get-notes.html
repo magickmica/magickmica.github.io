@@ -307,10 +307,12 @@ footer a{color:var(--mint); text-decoration:none; border-bottom:1px solid rgba(9
   <!-- 1 ─ who -->
   <section class="step" id="s1">
     <div class="step-head"><span class="num">1</span>
-      <h2>Who are you?<small>Your Substack handle, the part after the @.</small></h2></div>
+      <h2>Who are you?<small>Your handle (the part after the @), and your newsletter's address — that's where your notes live.</small></h2></div>
     <div class="row">
       <label class="handle"><span>@</span><span class="sr">Substack handle</span>
         <input id="handle" type="text" placeholder="yourname" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+      <label class="handle"><span>↗</span><span class="sr">Newsletter address</span>
+        <input id="site" type="text" placeholder="yourname.substack.com" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
       <div class="seg" role="radiogroup" aria-label="First time or update">
         <label><input type="radio" name="mode" value="first" checked><span>First time</span></label>
         <label><input type="radio" name="mode" value="update"><span>I have a file</span></label>
@@ -531,7 +533,7 @@ async function getNotesCollector(CFG) {
 (function () {
   var $ = function (id) { return document.getElementById(id); };
   var STORE = 'getNotes.v1';
-  var state = { handle: '', mode: 'first', prior: [], priorHandle: '', since: '', merged: [] };
+  var state = { handle: '', site: '', siteTouched: false, mode: 'first', prior: [], priorHandle: '', since: '', merged: [] };
 
   function remember(obj) { try { localStorage.setItem(STORE, JSON.stringify(obj)); } catch (e) {} }
   function recall() { try { return JSON.parse(localStorage.getItem(STORE) || 'null'); } catch (e) { return null; } }
@@ -605,23 +607,29 @@ async function getNotesCollector(CFG) {
 
   /* ── step 1 & 2 ─────────────────────────────────────── */
   function collectorSource() {
-    var cfg = { handle: state.handle, since: state.mode === 'update' ? state.since : '' };
+    var cfg = { handle: state.handle, site: state.site || (state.handle ? state.handle + '.substack.com' : ''),
+              since: state.mode === 'update' ? state.since : '' };
     return '(' + getNotesCollector.toString() + ')(' + JSON.stringify(cfg) + ');';
   }
   function refreshCollector() {
     var src = collectorSource();
     $('bookmarklet').href = 'javascript:' + encodeURIComponent(src);
-    // with no handle yet, substack.com/notes is the whole reader feed rather
-    // than yours — so point at the profile only once we know who you are
-    $('openNotes').href = state.handle
-      ? 'https://substack.com/@' + state.handle + '/notes' : 'https://substack.com/notes';
-    $('openNotes').textContent = state.handle
-      ? '\u2197 open substack.com/@' + state.handle + '/notes' : '\u2197 open Substack notes';
-    $('altNotes').innerHTML = state.handle
-      ? 'Your newsletter\'s own notes tab works too — try <code>' + esc(state.handle) +
-        '.substack.com/notes</code> if that is your address.'
-      : 'Type your handle above and this points straight at your notes. Your newsletter\'s own ' +
-        '<code>/notes</code> tab works too.';
+    // your notes live on your newsletter's own /notes tab, so lead with that;
+    // the reader profile is the fallback
+    var site = state.site || (state.handle ? state.handle + '.substack.com' : '');
+    if (site) {
+      $('openNotes').href = 'https://' + site + '/notes';
+      $('openNotes').textContent = '\u2197 open ' + site + '/notes';
+      $('altNotes').innerHTML = 'Not your address? Change it above. Your reader profile works too \u2014 ' +
+        (state.handle
+          ? '<a href="https://substack.com/@' + esc(state.handle) + '/notes" target="_blank" rel="noopener"><code>substack.com/@' +
+            esc(state.handle) + '/notes</code></a>.'
+          : '<code>substack.com/@you/notes</code>.');
+    } else {
+      $('openNotes').href = 'https://substack.com/notes';
+      $('openNotes').textContent = '\u2197 open Substack notes';
+      $('altNotes').innerHTML = 'Fill in your handle and address above and this points straight at your own notes.';
+    }
     var line = $('scopeLine');
     if (state.mode === 'update' && state.since) {
       line.innerHTML = 'Collecting only notes from <b>' + esc(nice(state.since)) + '</b> on (a few days of overlap, so nothing is missed).';
@@ -634,7 +642,20 @@ async function getNotesCollector(CFG) {
 
   $('handle').addEventListener('input', function (e) {
     state.handle = cleanHandle(e.target.value);
+    if (!state.siteTouched) {
+      state.site = state.handle ? state.handle + '.substack.com' : '';
+      $('site').value = state.site;
+    }
     refreshCollector();
+  });
+  $('site').addEventListener('input', function (e) {
+    state.siteTouched = e.target.value.trim() !== '';
+    state.site = cleanSite(e.target.value);
+    refreshCollector();
+  });
+  $('site').addEventListener('blur', function (e) {
+    // tidy it up once they're done typing, so the link is always valid
+    if (e.target.value.trim()) { state.site = cleanSite(e.target.value); e.target.value = state.site; refreshCollector(); }
   });
   [].forEach.call(document.querySelectorAll('input[name=mode]'), function (r) {
     r.addEventListener('change', function () {
@@ -732,6 +753,14 @@ async function getNotesCollector(CFG) {
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
   }
   function stamp() { return new Date().toISOString().slice(0, 10); }
+  /* 'magickmica' and 'magickmica.substack.com' and a pasted URL all mean the
+     same newsletter — take any of them */
+  function cleanSite(v) {
+    var s = String(v || '').trim().toLowerCase()
+      .replace(/^https?:\/\//, '').replace(/\/.*$/, '').replace(/^@/, '');
+    if (s && s.indexOf('.') < 0) s += '.substack.com';
+    return s;
+  }
   function who() { return state.handle || 'my'; }
 
   $('dlJson').addEventListener('click', function () {
