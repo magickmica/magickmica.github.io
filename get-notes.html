@@ -353,6 +353,7 @@ footer a{color:var(--mint); text-decoration:none; border-bottom:1px solid rgba(9
       </div>
     </div>
     <div class="open-link"><a class="btn pink" id="openNotes" href="https://substack.com/notes" target="_blank" rel="noopener">↗ open your notes page</a></div>
+    <p class="hint" id="altNotes" style="margin-top:.7rem">Your newsletter's own notes tab works too — <code>yourname.substack.com/notes</code>.</p>
     <p class="hint" style="margin-top:.9rem">Works on a computer in Chrome, Edge, Firefox or Safari. Phones can't run it.</p>
   </section>
 
@@ -399,7 +400,7 @@ footer a{color:var(--mint); text-decoration:none; border-bottom:1px solid rgba(9
   <details><summary>What's in the file?</summary>
     <p>For each note: its date, text, hearts, restacks and replies, the first image, a video still, any link it shares, and the note's address on Substack.</p></details>
   <details><summary>It stopped partway, or the counter never appeared.</summary>
-    <p>Make sure you're on <code>substack.com</code> (not your newsletter's own domain) and logged in. If Substack stops answering partway, you still get a file with what was collected. Run it again as an update to fill the rest.</p></details>
+    <p>Make sure you're on Substack and logged in — either <code>substack.com/@you/notes</code> or your newsletter's own <code>/notes</code> tab is fine. If Substack stops answering partway, you still get a file with what was collected. Run it again as an update to fill the rest.</p></details>
 </section>
 
 <footer>
@@ -426,9 +427,14 @@ async function getNotesCollector(CFG) {
   function say(html) {
     box.innerHTML = '<div style="font:900 17px/1 system-ui,sans-serif;letter-spacing:.02em;color:#F7B928;margin-bottom:8px">GET NOTES!</div>' + html;
   }
-  if (location.hostname !== 'substack.com') {
-    alert('GET NOTES! runs on substack.com.\n\nOpen https://substack.com/@' + (CFG.handle || 'yourname') +
-          '/notes (logged in), then click the button or paste the code there.');
+  /* Notes live in two places — substack.com/@you/notes and your own
+     newsletter's /notes tab — and both are served from substack.com, so
+     accept either rather than insisting on one. */
+  if (!/(^|\.)substack\.com$/.test(location.hostname)) {
+    alert('GET NOTES! has to run on Substack itself.\n\nOpen either\n  ' +
+          'https://substack.com/@' + (CFG.handle || 'yourname') + '/notes\n  or  ' +
+          'https://' + (CFG.site || 'yourname.substack.com') + '/notes\n\n' +
+          'while logged in, then click the button or paste the code there.');
     box.remove(); return;
   }
   var handle = String(CFG.handle || '').replace(/^@/, '').trim().toLowerCase();
@@ -450,8 +456,12 @@ async function getNotesCollector(CFG) {
           if (!handle || String(me.handle || '').toLowerCase() === handle) { uid = me.id; handle = String(me.handle || handle).toLowerCase(); } } catch (e) {}
   }
   if (!uid) {
+    var elsewhere = location.hostname === 'substack.com'
+      ? 'your newsletter\'s own /notes page'
+      : 'substack.com/@' + (handle || 'yourname') + '/notes';
     say('Couldn\'t find ' + (handle ? '<b>@' + handle + '</b>' : 'your account') +
-        '.<br>Check the handle, or open your own notes page while logged in and try again.');
+        ' from this page.<br>Check the handle, make sure you\'re logged in, ' +
+        'or try it on <b>' + elsewhere + '</b> instead.');
     return;
   }
   var notes = [], seen = {}, cursor = null, page = 0, oldest = null, stop = false, note = '';
@@ -601,8 +611,17 @@ async function getNotesCollector(CFG) {
   function refreshCollector() {
     var src = collectorSource();
     $('bookmarklet').href = 'javascript:' + encodeURIComponent(src);
-    $('openNotes').href = state.handle ? 'https://substack.com/@' + state.handle + '/notes' : 'https://substack.com/notes';
-    $('openNotes').textContent = state.handle ? '↗ open substack.com/@' + state.handle + '/notes' : '↗ open your notes page';
+    // with no handle yet, substack.com/notes is the whole reader feed rather
+    // than yours — so point at the profile only once we know who you are
+    $('openNotes').href = state.handle
+      ? 'https://substack.com/@' + state.handle + '/notes' : 'https://substack.com/notes';
+    $('openNotes').textContent = state.handle
+      ? '\u2197 open substack.com/@' + state.handle + '/notes' : '\u2197 open Substack notes';
+    $('altNotes').innerHTML = state.handle
+      ? 'Your newsletter\'s own notes tab works too — try <code>' + esc(state.handle) +
+        '.substack.com/notes</code> if that is your address.'
+      : 'Type your handle above and this points straight at your notes. Your newsletter\'s own ' +
+        '<code>/notes</code> tab works too.';
     var line = $('scopeLine');
     if (state.mode === 'update' && state.since) {
       line.innerHTML = 'Collecting only notes from <b>' + esc(nice(state.since)) + '</b> on (a few days of overlap, so nothing is missed).';
