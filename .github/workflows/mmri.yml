@@ -1,15 +1,19 @@
-name: MMRI hourly reading
+name: MMRI reading
 
 # Refreshes data/mmri.json with the current dollar index and 10-year yield,
 # so risk-indicator.html stays live without anyone re-uploading it.
 #
 # GitHub's cron has no timezone, so these are UTC. 13:00-21:00 UTC weekdays
 # covers 9am-5pm during EDT and 8am-4pm during EST — a little wider than the
-# NYSE session at both ends, which is harmless. Minute 25 rather than 0
-# because scheduled jobs queue up on the hour and get delayed.
+# NYSE session at both ends, which is harmless.
+#
+# Every ten minutes, not five: each commit triggers a Pages rebuild, and Pages
+# soft-limits to about ten builds an hour. Six an hour leaves headroom, and
+# GitHub delays scheduled jobs under load anyway, so five would not reliably
+# deliver twelve.
 on:
   schedule:
-    - cron: "25 13-21 * * 1-5"
+    - cron: "*/10 13-21 * * 1-5"
   workflow_dispatch: {}
 
 # Only one run at a time, so two jobs can never race on the same commit.
