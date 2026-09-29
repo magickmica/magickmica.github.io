@@ -1,0 +1,152 @@
+<!-- ✦ Magick wand: cursor, sparkle trail, spell sounds (sound off until the viewer turns it on) -->
+<style>
+@media (hover:hover) and (pointer:fine){
+  html,body,a,button,.track,.marker,input,label{
+    cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cdefs%3E%3ClinearGradient id='s' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23FFF6FB'/%3E%3Cstop offset='1' stop-color='%23B79CFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M11 11 L33 33' stroke='%230B0417' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M11 11 L33 33' stroke='url(%23s)' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M29 29 L33 33' stroke='%23F5C044' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M8 1 L9.8 6.2 L15 8 L9.8 9.8 L8 15 L6.2 9.8 L1 8 L6.2 6.2 Z' fill='%23F5C044' stroke='%230B0417' stroke-width='1'/%3E%3C/svg%3E") 8 8, auto;
+  }
+  input{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cpath d='M11 11 L33 33' stroke='%230B0417' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M11 11 L33 33' stroke='%235FE8D0' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M8 1 L9.8 6.2 L15 8 L9.8 9.8 L8 15 L6.2 9.8 L1 8 L6.2 6.2 Z' fill='%235FE8D0' stroke='%230B0417' stroke-width='1'/%3E%3C/svg%3E") 8 8, text}
+}
+#wandFx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.spellbar{position:fixed;right:16px;bottom:16px;z-index:60;display:flex;gap:8px}
+.spellbar button{padding:.55rem 1rem;font-size:.64rem;letter-spacing:.16em}
+.spellbar button.ghost{background:rgba(11,4,23,.78);backdrop-filter:blur(6px)}
+.spellbar button[aria-pressed="true"]{color:#1b0a2e;background:var(--cyan);border-color:var(--cyan)}
+.score-num.cast{animation:castpop .9s cubic-bezier(.2,.8,.2,1)}
+@keyframes castpop{0%{transform:scale(1);filter:none}
+  30%{transform:scale(1.08);filter:drop-shadow(0 0 26px rgba(245,192,68,.9))}
+  100%{transform:scale(1);filter:none}}
+@media (prefers-reduced-motion:reduce){.score-num.cast{animation:none}}
+</style>
+<canvas id="wandFx" aria-hidden="true"></canvas>
+<div class="spellbar">
+  <button class="ghost" id="soundBtn" type="button" aria-pressed="false">♪ Sound off</button>
+  <button id="castBtn" type="button">✦ Cast</button>
+</div>
+<script>
+(function () {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const $ = (id) => document.getElementById(id);
+
+  /* ── sparkles ── */
+  const cv = $("wandFx"), ctx = cv.getContext("2d");
+  const COLS = ["245,192,68", "255,122,200", "183,156,255", "95,232,208", "255,246,251"];
+  let parts = [], W = 0, H = 0, running = false;
+  function size() {
+    const d = Math.min(2, devicePixelRatio || 1);
+    W = innerWidth; H = innerHeight;
+    cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+  }
+  size(); addEventListener("resize", size);
+  function star(x, y, r, rot) {
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) {
+      const a = rot + i * Math.PI / 4, rr = i % 2 ? r * .38 : r;
+      ctx[i ? "lineTo" : "moveTo"](x + Math.cos(a) * rr, y + Math.sin(a) * rr);
+    }
+    ctx.closePath(); ctx.fill();
+  }
+  function emit(x, y, n, speed) {
+    if (reduce) return;
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2, s = (Math.random() * .7 + .3) * speed;
+      parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - speed * .2,
+        r: 1.5 + Math.random() * 3.5, life: 1, decay: .012 + Math.random() * .02,
+        rot: Math.random() * 6, c: COLS[(Math.random() * COLS.length) | 0] });
+    }
+    if (parts.length > 500) parts.splice(0, parts.length - 500);
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  }
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    parts = parts.filter((p) => (p.life -= p.decay) > 0);
+    for (const p of parts) {
+      p.x += p.vx; p.y += p.vy; p.vy += .03; p.vx *= .985; p.rot += .08;
+      ctx.fillStyle = `rgba(${p.c},${p.life})`;
+      ctx.shadowColor = `rgba(${p.c},${p.life})`; ctx.shadowBlur = 8;
+      star(p.x, p.y, p.r * (.6 + p.life * .4), p.rot);
+    }
+    if (parts.length) requestAnimationFrame(tick); else { running = false; ctx.clearRect(0, 0, W, H); }
+  }
+  let lx = 0, ly = 0;
+  addEventListener("pointermove", (e) => {
+    if (e.pointerType !== "mouse") return;
+    const d = Math.hypot(e.clientX - lx, e.clientY - ly);
+    if (d > 6) { emit(e.clientX - 2, e.clientY - 2, Math.min(3, 1 + d / 30), .6); lx = e.clientX; ly = e.clientY; }
+  }, { passive: true });
+  addEventListener("pointerdown", (e) => { emit(e.clientX, e.clientY, 18, 2.4); sfx.tap(); }, { passive: true });
+
+  /* ── sound: synthesized, nothing to download. Off until the viewer turns it on. ── */
+  let on = false, ac = null;
+  try { on = localStorage.getItem("mm-sound") === "on"; } catch (e) {}
+  function A() {
+    if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } }
+    if (ac.state === "suspended") ac.resume();
+    return ac;
+  }
+  function tone(freq, t0, dur, type, vol) {
+    const a = A(); if (!a) return;
+    const o = a.createOscillator(), g = a.createGain(), t = a.currentTime + t0;
+    o.type = type || "sine"; o.frequency.setValueAtTime(freq, t);
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(vol || .08, t + .01);
+    g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    o.connect(g).connect(a.destination); o.start(t); o.stop(t + dur + .05);
+  }
+  const PENT = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.5, 1568];
+  let lastTick = 0;
+  const sfx = {
+    tap() { if (on) { tone(1568, 0, .25, "sine", .04); tone(2093, .03, .3, "triangle", .025); } },
+    tick(v) {                           /* drag shimmer, pitch follows the reading */
+      if (!on) return; const now = performance.now(); if (now - lastTick < 45) return; lastTick = now;
+      tone(300 + Math.max(0, Math.min(1, v)) * 1300, 0, .12, "triangle", .035);
+    },
+    cast() {                            /* rising arpeggio + bell */
+      if (!on) return;
+      [0, 2, 4, 5, 7].forEach((n, i) => tone(PENT[n], i * .07, .6, "sine", .06));
+      tone(PENT[8], .38, 1.4, "triangle", .05); tone(PENT[8] * 2.01, .38, 1, "sine", .02);
+    },
+    band(b) {                           /* lower, darker gong the hotter the band */
+      if (!on) return; const f = [880, 659.25, 523.25, 392][b] || 440;
+      tone(f, 0, 1.6, "sine", .07); tone(f * 1.5, .02, 1.2, "triangle", .03); tone(f / 2, 0, 1.8, "sine", .05);
+    },
+  };
+  const btn = $("soundBtn");
+  function paint() { btn.textContent = on ? "♪ Sound on" : "♪ Sound off"; btn.setAttribute("aria-pressed", on); }
+  paint();
+  btn.addEventListener("click", () => {
+    on = !on; paint();
+    try { localStorage.setItem("mm-sound", on ? "on" : "off"); } catch (e) {}
+    if (on) sfx.cast();
+  });
+
+  /* ── cast: flourish over the reading and chime ── */
+  const score = $("score");
+  function flourish() {
+    const r = score.getBoundingClientRect();
+    emit(r.left + r.width / 2, r.top + r.height / 2, 70, 4.2);
+    score.classList.remove("cast"); void score.offsetWidth; score.classList.add("cast");
+  }
+  $("castBtn").addEventListener("click", (e) => {
+    e.stopPropagation();
+    const reset = $("resetBtn"); if (reset && !reset.hidden) reset.click();
+    flourish(); sfx.cast();
+  });
+
+  /* ── react to the instrument ── */
+  let lastBand = null, lastScore = score.textContent;
+  new MutationObserver(() => {
+    if (score.textContent === lastScore) return; lastScore = score.textContent;
+    const txt = ($("pill").textContent || "").toLowerCase();
+    const b = ["low", "moderate", "high", "extreme"].findIndex((k) => txt.startsWith(k));
+    const m = $("marker"), lo = +m.getAttribute("aria-valuemin"), hi = +m.getAttribute("aria-valuemax");
+    sfx.tick((parseFloat(lastScore) - lo) / (hi - lo));
+    if (lastBand !== null && b !== lastBand) {
+      sfx.band(b);
+      const r = $("pill").getBoundingClientRect(); emit(r.left + r.width / 2, r.top + r.height / 2, 30, 2.8);
+    }
+    lastBand = b;
+  }).observe(score, { childList: true, characterData: true, subtree: true });
+  const t = ($("pill").textContent || "").toLowerCase();
+  lastBand = ["low", "moderate", "high", "extreme"].findIndex((k) => t.startsWith(k));
+})();
+</script>
