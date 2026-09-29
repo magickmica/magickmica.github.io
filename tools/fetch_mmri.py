@@ -86,6 +86,34 @@ def stooq(symbol):
         return None
 
 
+def debt_to_gdp():
+    """Federal debt as a share of GDP, from FRED's keyless CSV export.
+
+    Quarterly and slow-moving, so a stale value costs nothing and a missing
+    one is not worth failing the run over — the caller keeps whatever it had.
+    FRED publishes it as a percent; the MMMRI wants the ratio.
+    """
+    url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=GFDEGDQ188S"
+    try:
+        rows = [r for r in get(url).strip().splitlines() if r.strip()]
+    except Exception as e:
+        note(f"  debt/GDP: {e}")
+        return None
+    for row in reversed(rows[1:]):
+        parts = row.split(",")
+        if len(parts) < 2:
+            continue
+        try:
+            pct = float(parts[1])
+        except ValueError:
+            continue          # FRED writes "." for a missing observation
+        if 30.0 <= pct <= 400.0:
+            note(f"  debt/GDP: {pct}% of GDP ({parts[0]})")
+            return round(pct / 100.0, 4)
+    note("  debt/GDP: no usable observation in the CSV")
+    return None
+
+
 def treasury_10y():
     """The official daily par yield curve. Authoritative but once-a-day,
     published around 3:30pm ET, so it is the backstop rather than the lead."""
@@ -156,7 +184,13 @@ def main():
     stamp = now.isoformat(timespec="seconds")
     source = dxy_src if dxy_src == y10_src else f"{dxy_src} / {y10_src}"
 
-    data = read_existing()
+    # Quarterly, so keep the previous value when the fetch comes back empty
+    # rather than dropping the field and breaking the MMMRI.
+    data_seed = read_existing()
+    note("Fetching debt-to-GDP...")
+    gdp = debt_to_gdp() or data_seed.get("debt_gdp")
+
+    data = data_seed
     hist = data["history"]
     entry = {"t": stamp, "dxy": dxy, "us10y": y10}
 
@@ -183,9 +217,15 @@ def main():
         "source": source,
         "history": hist[-MAX_HISTORY:],
     }
+    if gdp:
+        out["debt_gdp"] = gdp
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(out, separators=(",", ":")) + "\n", encoding="utf-8")
-    note(f"Wrote {OUT.relative_to(ROOT)}: MMRI = {dxy * y10 / 1.61:.1f}")
+    mmri = dxy * y10 / 1.61
+    line = f"Wrote {OUT.relative_to(ROOT)}: MMRI = {mmri:.1f}"
+    if gdp:
+        line += f", MMMRI = {mmri * gdp:.1f}"
+    note(line)
     return 0
 
 
