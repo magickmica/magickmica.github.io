@@ -86,31 +86,64 @@ def stooq(symbol):
         return None
 
 
-def debt_to_gdp():
-    """Federal debt as a share of GDP, from FRED's keyless CSV export.
+def fred_latest(series):
+    """Newest usable observation from FRED's keyless CSV export.
 
-    Quarterly and slow-moving, so a stale value costs nothing and a missing
-    one is not worth failing the run over — the caller keeps whatever it had.
-    FRED publishes it as a percent; the MMMRI wants the ratio.
+    FRED writes "." for a missing observation, so rows are walked newest
+    first until one parses.
     """
-    url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=GFDEGDQ188S"
-    try:
-        rows = [r for r in get(url).strip().splitlines() if r.strip()]
-    except Exception as e:
-        note(f"  debt/GDP: {e}")
-        return None
+    url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}"
+    rows = [r for r in get(url).strip().splitlines() if r.strip()]
     for row in reversed(rows[1:]):
         parts = row.split(",")
         if len(parts) < 2:
             continue
         try:
-            pct = float(parts[1])
+            return float(parts[1]), parts[0]
         except ValueError:
-            continue          # FRED writes "." for a missing observation
+            continue
+    raise ValueError(f"{series}: no usable observation")
+
+
+def treasury_debt():
+    """Total public debt outstanding, in dollars, from the Treasury's own
+    daily figure. No key, updated every business day."""
+    url = ("https://api.fiscaldata.treasury.gov/services/api/fi/v1/accounting/"
+           "od/debt_to_penny?sort=-record_date&page%5Bsize%5D=1&format=json")
+    rec = json.loads(get(url))["data"][0]
+    return float(rec["tot_pub_debt_out_amt"]), rec["record_date"]
+
+
+def debt_to_gdp():
+    """Federal debt as a share of GDP, as the MMMRI's fourth input.
+
+    Computed the way Mannarino's own page does it — the Treasury's daily debt
+    figure over the latest nominal GDP — rather than from FRED's quarterly
+    published ratio, which lags by a quarter and currently reads about seven
+    points lower. Falls back to that published ratio, and then to whatever
+    the file already held, because a stale ratio is far better than none:
+    it moves a fraction of a point a week.
+    """
+    try:
+        debt, debt_date = treasury_debt()
+        gdp_bn, gdp_date = fred_latest("GDP")     # billions, annualised
+        ratio = debt / (gdp_bn * 1e9)
+        if 0.5 <= ratio <= 3.0:
+            note(f"  debt/GDP: {ratio * 100:.1f}% "
+                 f"(Treasury {debt_date} \u00f7 GDP {gdp_date})")
+            return round(ratio, 4)
+        note(f"  debt/GDP: computed {ratio:.3f}, outside 0.5-3.0 \u2014 ignoring")
+    except Exception as e:
+        note(f"  debt/GDP live: {e}")
+
+    try:
+        pct, when = fred_latest("GFDEGDQ188S")    # the published ratio, percent
         if 30.0 <= pct <= 400.0:
-            note(f"  debt/GDP: {pct}% of GDP ({parts[0]})")
+            note(f"  debt/GDP: {pct}% of GDP (FRED published, {when})")
             return round(pct / 100.0, 4)
-    note("  debt/GDP: no usable observation in the CSV")
+    except Exception as e:
+        note(f"  debt/GDP published: {e}")
+
     return None
 
 
