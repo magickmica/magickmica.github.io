@@ -1,0 +1,46 @@
+name: MMRI hourly reading
+
+# Refreshes data/mmri.json with the current dollar index and 10-year yield,
+# so risk-indicator.html stays live without anyone re-uploading it.
+#
+# GitHub's cron has no timezone, so these are UTC. 13:00-21:00 UTC weekdays
+# covers 9am-5pm during EDT and 8am-4pm during EST — a little wider than the
+# NYSE session at both ends, which is harmless. Minute 25 rather than 0
+# because scheduled jobs queue up on the hour and get delayed.
+on:
+  schedule:
+    - cron: "25 13-21 * * 1-5"
+  workflow_dispatch: {}
+
+# Only one run at a time, so two jobs can never race on the same commit.
+concurrency:
+  group: mmri-reading
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  reading:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch the reading
+        run: python tools/fetch_mmri.py
+
+      - name: Commit if it changed
+        run: |
+          if [ -z "$(git status --porcelain data/mmri.json)" ]; then
+            echo "No change — nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/mmri.json
+          git commit -m "MMRI reading $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
