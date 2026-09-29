@@ -321,7 +321,7 @@ footer strong{color:var(--gold)}
 
   <div class="reading" id="reading">
     <canvas id="mica" aria-hidden="true"></canvas>
-    <div class="live" id="live"><span class="dot"></span><b id="liveWord">Live</b><span id="liveText">Updated every ten minutes during market hours</span></div>
+    <div class="live" id="live"><span class="dot"></span><b id="liveWord">Live</b><span id="liveText">Reading the market…</span></div>
     <div class="top">
       <div class="score">
         <div class="label" id="readLabel">Latest reading</div>
@@ -530,6 +530,13 @@ footer strong{color:var(--gold)}
   /* Three honest states. A reading from yesterday's close is not "live" just
      because it is under twenty hours old — overnight it is the last close,
      and only genuinely old data is flagged as stale. */
+  /* Say where this number came from, rather than promising a schedule that
+     GitHub is free to ignore. */
+  function CADENCE() {
+    return LIVE_POINT
+      ? " · quoted live when the page loaded"
+      : " · updated through the trading day";
+  }
   function renderLive() {
     const ageH = (Date.now() - new Date(FEED.updated).getTime()) / 36e5;
     const open = marketOpen();
@@ -537,13 +544,13 @@ footer strong{color:var(--gold)}
     let word, tail;
     if (!isFinite(ageH) || ageH > 96) {
       el.classList.remove("closed"); el.classList.add("stale");
-      word = "Last update"; tail = " · refreshes every 10 min on market days";
+      word = "Last update"; tail = CADENCE();
     } else if (open && ageH < 0.5) {
       el.classList.remove("stale", "closed");
-      word = "Live"; tail = " · refreshes every 10 min on market days";
+      word = "Live"; tail = CADENCE();
     } else if (open) {
       el.classList.remove("closed"); el.classList.add("stale");
-      word = "Last update"; tail = " · next reading within ten minutes";
+      word = "Last update"; tail = CADENCE();
     } else {
       el.classList.remove("stale"); el.classList.add("closed");
       word = "Last close"; tail = " · markets closed, updates resume at the open";
@@ -557,8 +564,8 @@ footer strong{color:var(--gold)}
     const pts = hist.map((r) => ({ date: fmtShort(r.t), v: mmri(r.dxy, r.us10y) }));
     $("chartBox").innerHTML = pts.length ? chartSVG(pts) : '<div class="empty">No readings yet.</div>';
     $("histLede").textContent = hist.length > 1
-      ? `${hist.length} readings since ${fmtShort(hist[0].t)}. A new one lands every ten minutes on market days.`
-      : "A reading lands every ten minutes on market days. The chart fills in as the days go by.";
+      ? `${hist.length} readings since ${fmtShort(hist[0].t)}. New ones land through the trading day.`
+      : "Readings land through the trading day. The chart fills in as the days go by.";
     $("logList").innerHTML = hist.slice(-8).reverse().map((r) => {
       const v = mmri(r.dxy, r.us10y);
       return `<div class="log-item"><span>${fmtShort(r.t)}</span><span class="dim hide-sm">DXY ${fmt(r.dxy, 3)}</span><span class="dim">${fmt(r.us10y, 2)}%</span><span class="mm" style="color:${BANDS[bandOf(v)].color}">${v.toFixed(1)}</span></div>`;
@@ -770,41 +777,99 @@ footer strong{color:var(--gold)}
     dxyIn.value = DEFAULT.dxy; yIn.value = DEFAULT.us10y; update();
   });
 
-  /* The feed block above is the snapshot that shipped with this file. On a
-     real server we ask for a fresher one first: data/mmri.json, rewritten
-     every ten minutes by the Action in .github/workflows/mmri.yml. Opened from a
-     hard drive or a file:// URL the request simply fails and the snapshot
-     stands, so the page is never blank and never blocked on the network. */
-  function liveRefresh() {
+  /* ── where the numbers come from ──────────────────────────────────────
+     Three sources, best first, each one falling through to the next:
+
+       1. WORKER_URL — a Cloudflare Worker that asks Yahoo the moment
+          someone looks. No schedule, so nothing can be late or skipped.
+          This is the live reading.
+       2. data/mmri.json — rewritten by the GitHub Action through the
+          trading day. Carries the history the chart is drawn from, and
+          covers the page if the Worker is unreachable.
+       3. The <script id="feed"> block baked into this file — always
+          present, so the page renders instantly and still works opened
+          from a hard drive with no network at all.
+
+     Paste your Worker's URL below to switch the live source on. Left empty,
+     the page behaves exactly as it did before.                              */
+  var WORKER_URL = "https://mmri.magickmica.workers.dev/";
+
+  /* The file supplies the history; the Worker supplies the newest point.
+     Kept apart so that re-polling the Worker replaces that point rather
+     than stacking a new one onto the chart every minute. */
+  var FILE_FEED = FEED;
+  var LIVE_POINT = null;
+
+  function compose() {
+    if (!LIVE_POINT) return FILE_FEED;
+    const h = (FILE_FEED.history || []).slice();
+    const last = h[h.length - 1];
+    if (!last || new Date(LIVE_POINT.t) > new Date(last.t)) h.push(LIVE_POINT);
+    return {
+      updated: LIVE_POINT.t, dxy: LIVE_POINT.dxy, us10y: LIVE_POINT.us10y,
+      source: LIVE_POINT.source, history: h,
+    };
+  }
+
+  /* Adopt whatever compose() now says, without yanking the numbers out from
+     under someone who is part-way through a what-if. */
+  function adopt() {
+    const next = compose();
+    if (!(next.dxy > 0) || !(next.us10y > 0)) return;
+    const untouched =
+      Math.abs(parseFloat(dxyIn.value) - DEFAULT.dxy) < 1e-9 &&
+      Math.abs(parseFloat(yIn.value) - DEFAULT.us10y) < 1e-9;
+    FEED = next;
+    DEFAULT.dxy = next.dxy;
+    DEFAULT.us10y = next.us10y;
+    if (untouched) { dxyIn.value = next.dxy; yIn.value = next.us10y; }
+    update();
+    renderLive();
+    renderLog();
+  }
+
+  function fetchFile() {
     if (!/^https?:$/.test(location.protocol)) return;
     fetch("data/mmri.json", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
         if (!j || !(j.dxy > 0) || !(j.us10y > 0)) return;
-        const fresh = new Date(j.updated), have = new Date(FEED.updated);
-        if (!(fresh > have)) return;
-        // Don't yank the numbers out from under someone mid-what-if.
-        const untouched =
-          Math.abs(parseFloat(dxyIn.value) - DEFAULT.dxy) < 1e-9 &&
-          Math.abs(parseFloat(yIn.value) - DEFAULT.us10y) < 1e-9;
-        FEED = j;
-        DEFAULT.dxy = j.dxy;
-        DEFAULT.us10y = j.us10y;
-        if (untouched) { dxyIn.value = j.dxy; yIn.value = j.us10y; }
-        update();
-        renderLive();
-        renderLog();
+        if (!(new Date(j.updated) > new Date(FILE_FEED.updated))) return;
+        FILE_FEED = j;
+        adopt();
       })
       .catch(() => {});
+  }
+
+  function fetchLive() {
+    if (!WORKER_URL || !/^https?:$/.test(location.protocol)) return;
+    fetch(WORKER_URL, { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        if (!j || !(j.dxy > 0) || !(j.us10y > 0)) return;
+        const t = j.updated || new Date().toISOString();
+        if (LIVE_POINT && !(new Date(t) > new Date(LIVE_POINT.t))) return;
+        LIVE_POINT = { t: t, dxy: j.dxy, us10y: j.us10y, source: j.source || "live" };
+        adopt();
+      })
+      .catch(() => {});   // Worker down: the file and the snapshot still stand
   }
 
   dxyIn.value = DEFAULT.dxy; yIn.value = DEFAULT.us10y;
   update();
   renderLive();
   renderLog();
-  liveRefresh();
-  /* and pick up later readings without a page reload */
-  setInterval(liveRefresh, 10 * 60 * 1000);
+  fetchFile();
+  fetchLive();
+  /* The file moves slowly; the Worker is the thing worth re-asking. Only
+     while the tab is actually being looked at. */
+  setInterval(fetchFile, 10 * 60 * 1000);
+  setInterval(function () {
+    if (!document.hidden) fetchLive();
+  }, 60 * 1000);
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) fetchLive();
+  });
   let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(renderLog, 150); });
 })();
 </script>
