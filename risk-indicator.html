@@ -446,12 +446,44 @@ footer strong{color:var(--gold)}
   .g-you b{color:var(--pearl)}
   .g-last{font-size:1rem;color:var(--pearl-dim);margin:0}
   .g-last b{color:var(--pearl)}
-  .g-crystal{display:grid;gap:8px;padding:12px;border-radius:var(--radius);
-    border:1px dashed rgba(183,156,255,.4);background:rgba(183,156,255,.07)}
-  .g-crystal .orb{font-size:1.6rem;line-height:1;filter:drop-shadow(0 0 12px rgba(183,156,255,.8))}
-  .g-crystal p{margin:0;font-size:1rem;color:var(--pearl-dim)}
+  .g-crystal{display:grid;gap:14px;padding:18px 18px 16px;border-radius:var(--radius);
+    border:1px solid rgba(245,192,68,.22);background:linear-gradient(180deg,#1f0c33,#14071f)}
+  .g-orb-head{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-weight:700;font-size:.72rem;
+    letter-spacing:.26em;text-transform:uppercase;color:var(--gold);padding-bottom:12px;border-bottom:1px solid rgba(255,246,251,.12)}
+  .g-crystal button.g-orb-btn{justify-self:center;display:grid;justify-items:center;background:none;border:0;padding:6px 0 0;
+    box-shadow:none;border-radius:50%;cursor:pointer;transform:none;letter-spacing:0}
+  .g-crystal button.g-orb-btn:hover{transform:none;box-shadow:none}
+  .g-crystal button.g-orb-btn:hover .g-orb{box-shadow:0 0 44px rgba(255,122,200,.55),0 0 90px rgba(183,156,255,.35),inset -10px -14px 30px rgba(20,7,31,.35)}
+  .g-orb{position:relative;width:128px;height:128px;border-radius:50%;display:grid;place-items:center;
+    background:
+      radial-gradient(circle at 32% 26%,rgba(255,255,255,.9) 0 3%,rgba(255,255,255,.35) 9%,transparent 30%),
+      radial-gradient(circle at 70% 30%,rgba(255,122,200,.6),transparent 55%),
+      radial-gradient(circle at 40% 80%,rgba(95,160,232,.75),transparent 60%),
+      radial-gradient(circle at 50% 50%,#c98bc0,#7d6aa8 70%,#5a4a8a);
+    box-shadow:0 0 32px rgba(255,122,200,.35),0 0 70px rgba(183,156,255,.22),inset -10px -14px 30px rgba(20,7,31,.35);
+    animation:gOrbFloat 6s ease-in-out infinite;transition:box-shadow .4s}
+  .g-orb::before{content:"";position:absolute;inset:0;border-radius:50%;mix-blend-mode:screen;
+    background:conic-gradient(from 0deg,transparent,rgba(255,255,255,.14),transparent 40%,rgba(255,122,200,.18),transparent 75%);
+    animation:gOrbSwirl 12s linear infinite}
+  .g-orb::after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;left:54%;top:72%;
+    box-shadow:0 0 8px #fff,-26px -34px 0 -1px rgba(255,255,255,.7),30px -18px 0 -1px rgba(255,255,255,.5);
+    animation:gOrbTwinkle 3s ease-in-out infinite}
+  .g-orb-num{position:relative;z-index:1;font-family:var(--display);font-weight:900;font-size:1.9rem;line-height:1;
+    color:var(--pearl);text-shadow:0 2px 14px rgba(20,7,31,.75),0 0 16px rgba(255,122,200,.6);font-variant-numeric:tabular-nums;
+    opacity:0;transform:scale(.6);transition:opacity .6s,transform .6s}
+  .g-crystal.revealed .g-orb-num{opacity:1;transform:none}
+  .g-stand{width:80px;height:19px;margin-top:-6px;background:linear-gradient(180deg,#d9a53a,#9a6c1c);
+    clip-path:polygon(18% 0,82% 0,100% 100%,0 100%)}
+  .g-crystal p{margin:0;font-size:1.12rem;line-height:1.45;color:rgba(255,246,251,.86)}
   .g-crystal p b{color:var(--violet);font-family:var(--mono)}
   .g-crystal em{color:var(--pearl)}
+  .g-crystal button.g-orb-cta{justify-self:start;background:none;border:0;box-shadow:none;padding:0;color:var(--cyan);
+    font-family:var(--mono);font-size:.74rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;cursor:pointer}
+  .g-crystal button.g-orb-cta:hover{color:var(--gold);transform:none;box-shadow:none}
+  @keyframes gOrbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  @keyframes gOrbSwirl{to{transform:rotate(360deg)}}
+  @keyframes gOrbTwinkle{0%,100%{opacity:.5}50%{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.g-orb,.g-orb::before,.g-orb::after{animation:none}}
   .g-tabs{display:flex;gap:6px}
   .g-tabs button{padding:.45rem .9rem;font-size:.62rem;letter-spacing:.16em}
   .g-tabs button[aria-selected="false"]{color:var(--pearl);background:none;border:1px solid var(--line);box-shadow:none}
@@ -512,9 +544,13 @@ footer strong{color:var(--gold)}
         <p class="g-last" id="gLast" hidden></p>
 
         <div class="g-crystal" id="gCrystalBox" hidden>
-          <div class="g-row"><span class="orb" aria-hidden="true">◇</span>
-            <button type="button" class="ghost" id="gCrystalBtn">Touch the crystal</button></div>
-          <p id="gCrystal">The Crystal casts every day too. Beat it for bonus points.</p>
+          <div class="g-orb-head"><span aria-hidden="true">🔮</span>Cosmic Crystal Oracle</div>
+          <button type="button" class="g-orb-btn" id="gCrystalBtn" aria-label="Touch the crystal to see its cast">
+            <span class="g-orb"><span class="g-orb-num" id="gOrbNum"></span></span>
+            <span class="g-stand" aria-hidden="true"></span>
+          </button>
+          <p id="gCrystal">Think of your number. Don't say it out loud. The Crystal casts every day too, and beating it earns +10.</p>
+          <button type="button" class="g-orb-cta" id="gCrystalCta">Touch the crystal →</button>
         </div>
       </div>
 
@@ -683,13 +719,18 @@ footer strong{color:var(--gold)}
     });
     $("gVal").addEventListener("keydown", (e) => { if (e.key === "Enter") $("gCastBtn").click(); });
 
-    $("gCrystalBtn").addEventListener("click", () => {
+    function touchCrystal() {
       if (!STATE) return;
       const c = STATE.crystal, r = $("gCrystalBtn").getBoundingClientRect();
-      fx().emit(r.left + 20, r.top + r.height / 2, 40, 3);
+      fx().emit(r.left + r.width / 2, r.top + r.height / 2 - 10, 50, 3.2);
       fx().sfx.band(1);
+      $("gOrbNum").textContent = n1(c.value);
+      $("gCrystalBox").classList.add("revealed");
       $("gCrystal").innerHTML = `<em>“${esc(c.prophecy)}”</em> The Crystal casts <b>${n1(c.value)}</b> for ${dayName(STATE.day)}. Beat it for +10.`;
-    });
+      $("gCrystalCta").textContent = "Ask again →";
+    }
+    $("gCrystalBtn").addEventListener("click", touchCrystal);
+    $("gCrystalCta").addEventListener("click", touchCrystal);
 
     document.querySelectorAll(".g-tabs button").forEach((b) => b.addEventListener("click", () => {
       PERIOD = b.dataset.p;
