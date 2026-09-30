@@ -212,7 +212,7 @@ def main():
         return 1
 
     dxy = round(dxy, 3)
-    y10 = round(y10, 2)
+    y10 = round(y10, 3)
     now = datetime.now(EASTERN)
     stamp = now.isoformat(timespec="seconds")
     source = dxy_src if dxy_src == y10_src else f"{dxy_src} / {y10_src}"
