@@ -335,7 +335,7 @@ footer strong{color:var(--gold)}
     <div class="top">
       <div class="score">
         <div class="label" id="readLabel">Latest reading</div>
-        <div class="score-num sheen" id="score">429.0</div>
+        <div class="score-num sheen" id="score">410.4</div>
         <div class="band-pill" id="pill" style="--band: var(--extreme)">Extreme risk</div>
         <div class="delta" id="delta" hidden></div>
       </div>
@@ -364,10 +364,10 @@ footer strong{color:var(--gold)}
             <label for="debtgdp">Debt ÷ GDP</label>
             <div class="ctl">
               <button class="step" type="button" data-for="debtgdp" data-step="-0.005" aria-label="Lower the debt to GDP ratio">−</button>
-              <input id="debtgdp" type="number" step="0.001" inputmode="decimal" value="1.29">
+              <input id="debtgdp" type="number" step="0.001" inputmode="decimal" value="1.234">
               <button class="step" type="button" data-for="debtgdp" data-step="0.005" aria-label="Raise the debt to GDP ratio">+</button>
             </div>
-            <small>US federal debt ÷ GDP · Treasury daily</small>
+            <small>US federal debt ÷ GDP · FRED / BEA</small>
           </div>
         </div>
       </div>
@@ -384,7 +384,7 @@ footer strong{color:var(--gold)}
       <div class="drag-hint" id="dragHint">✦ Drag the marker — the <b>10-year yield</b> moves to match, DXY stays put</div>
     </div>
 
-    <div class="formula" id="formula">MMMRI = (DXY × US10Y ÷ 1.61) × Debt÷GDP = <b>(101.4 × 5.28 ÷ 1.61) × 1.290 = 429.0</b></div>
+    <div class="formula" id="formula">MMMRI = (DXY × US10Y ÷ 1.61) × Debt÷GDP = <b>(101.4 × 5.28 ÷ 1.61) × 1.234 = 410.4</b></div>
     <div class="actions">
       <button id="resetBtn" type="button" hidden>Back to latest reading</button>
       <span class="asof" id="asof">Nothing here is fixed — type in any box, tap ±, or drag the marker. The live reading is one click away.</span>
@@ -761,7 +761,7 @@ footer strong{color:var(--gold)}
 (function () {
   let FEED = { dxy: 101.174, us10y: 5.27, history: [] };
   try { FEED = JSON.parse(document.getElementById("feed").textContent); } catch (e) {}
-  const DEFAULT = { dxy: FEED.dxy, us10y: FEED.us10y, gdp: FEED.debt_gdp || 1.29 };
+  const DEFAULT = { dxy: FEED.dxy, us10y: FEED.us10y, gdp: FEED.debt_gdp || 1.234 };
   const BANDS = [
     { name: "Low risk", color: "var(--low)" },
     { name: "Moderate risk", color: "var(--moderate)" },
@@ -779,7 +779,7 @@ footer strong{color:var(--gold)}
      Everything downstream (scale, ticks, bands, heat grid, chart shading,
      the drag) is derived from `edges`, so a mode is the only thing that
      has to change.                                                         */
-  const GDP_FALLBACK = 1.29;    // Treasury daily debt ÷ GDP, ~129%, Sep 2026
+  const GDP_FALLBACK = 1.234;   // $40.10T debt ÷ $32.49T GDP (BEA Q2 2026) ≈ 123.4%, Sep 2026
 
   function curGdp() {
     const g = parseFloat($("debtgdp").value);
@@ -803,7 +803,7 @@ footer strong{color:var(--gold)}
       solveYield: (target, d) => target * 1.61 / (d * curGdp()),
       formula: (d, y, v) =>
         `MMMRI = (DXY × US10Y ÷ 1.61) × Debt÷GDP = <b>(${fmt(d, 3)} × ${fmt(y, 2)} ÷ 1.61) × ${curGdp().toFixed(3)} = ${v.toFixed(1)}</b>`,
-      note: "The modified version multiplies the reading by federal debt over GDP, and lowers every band edge. With debt near 130% of GDP both changes push the same way, so the MMMRI reads far hotter than the MMRI on identical market conditions — by design.",
+      note: "The modified version multiplies the reading by federal debt over GDP, and lowers every band edge. With debt above 120% of GDP both changes push the same way, so the MMMRI reads far hotter than the MMRI on identical market conditions — by design.",
     },
   };
   var PAGE_MODE = "mmmri";            /* build_mmri_pages.py flips this */
