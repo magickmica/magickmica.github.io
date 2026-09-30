@@ -394,6 +394,239 @@ footer strong{color:var(--gold)}
     </div>
   </div>
 
+  <!-- ✦ The equation strip, modified: DXY × US10Y ÷ 1.61 × Debt÷GDP = MMMRI, live, with today's move -->
+  <style>
+  .eq{position:relative;display:grid;gap:14px;padding:22px clamp(14px,3vw,26px) 18px;border-radius:var(--radius);
+    border:1px solid var(--line);background:linear-gradient(180deg,rgba(43,18,64,.55),rgba(11,4,23,.85));overflow:hidden}
+  .eq-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
+  .eq-kicker{font-family:var(--mono);font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+  .eq-status{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+  .eq-row{display:grid;grid-template-columns:minmax(0,1.25fr) auto minmax(0,1.25fr) auto minmax(0,.9fr) auto minmax(0,1.25fr);
+    align-items:stretch;gap:0 10px}
+  .eq-op{align-self:center;font-family:var(--display);font-size:1.9rem;line-height:1;color:var(--gold);
+    text-shadow:0 0 18px rgba(245,192,68,.45);user-select:none}
+  .eq-card{position:relative;display:grid;align-content:start;gap:4px;min-width:0;padding:14px 14px 0;border-radius:var(--radius);
+    background:rgba(14,6,32,.78);border:1px solid rgba(255,246,251,.08)}
+  .eq-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .eq-sym{font-family:var(--mono);font-weight:700;font-size:.82rem;letter-spacing:.08em;color:var(--pearl)}
+  .eq-name{flex:1 1 auto;min-width:0;text-align:right;font-family:var(--body);font-style:italic;font-size:.95rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .eq-sym{flex:none}
+  .eq-card>*{min-width:0}
+  .eq-val{font-family:var(--mono);font-size:clamp(1.45rem,2.6vw,2rem);line-height:1.15;color:var(--pearl);font-variant-numeric:tabular-nums}
+  .eq-chg{font-family:var(--mono);font-size:.74rem;font-variant-numeric:tabular-nums;color:var(--muted);min-height:1.2em}
+  .eq-chg.up{color:var(--pink)} .eq-chg.down{color:var(--cyan)}
+  .eq-spark{display:block;width:100%;height:56px;margin-top:6px}
+  .eq-note{font-family:var(--body);font-size:.95rem;color:var(--pearl-dim);line-height:1.35;padding-bottom:14px}
+  .eq-card.const .eq-val{background:var(--holo);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .eq-card.result{border-color:color-mix(in srgb,var(--band,var(--extreme)) 45%,transparent);
+    background:linear-gradient(160deg,color-mix(in srgb,var(--band,var(--extreme)) 14%,transparent),rgba(14,6,32,.85) 60%)}
+  .eq-card.result .eq-val{color:var(--band,var(--extreme))}
+  .eq-band{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--band,var(--extreme))}
+  .eq-foot{font-family:var(--mono);font-size:.66rem;color:var(--muted)}
+  .eq.mod .eq-row{grid-template-columns:minmax(0,1.2fr) auto minmax(0,1.2fr) auto minmax(0,.85fr) auto minmax(0,1fr);gap:12px 8px}
+  .eq.mod .eq-row>.eq-op:nth-last-child(2){display:none}
+  .eq.mod .eq-card.result{grid-column:1/-1}
+  .eq.mod .eq-card.result .eq-top{justify-content:flex-start;gap:14px}
+  .eq.mod .eq-card.result .eq-sym::before{content:"= ";color:var(--gold)}
+  .eq.mod .eq-val{font-size:clamp(1.3rem,2.2vw,1.75rem)}
+  .eq-card.debt .eq-val{color:var(--gold)}
+  @media (max-width:900px){
+    .eq.mod .eq-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+    .eq.mod .eq-card.result{grid-column:1/-1}
+    .eq-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+    .eq-op{display:none}
+  }
+  @media (max-width:420px){ .eq-row{grid-template-columns:minmax(0,1fr)} }
+  </style>
+
+  <section class="eq mod" id="eqStrip" aria-labelledby="eqH">
+    <div class="eq-head">
+      <div class="eq-kicker" id="eqH">✦ The spell, term by term</div>
+      <div class="eq-status" id="eqStatus">Reading the market…</div>
+    </div>
+    <div class="eq-row">
+      <div class="eq-card" id="eqDxy">
+        <div class="eq-top"><span class="eq-sym">DXY</span><span class="eq-name">US Dollar Index</span></div>
+        <div class="eq-val" data-v>—</div>
+        <div class="eq-chg" data-c></div>
+        <svg class="eq-spark" data-s viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="eq-op" aria-hidden="true">×</div>
+      <div class="eq-card" id="eqY">
+        <div class="eq-top"><span class="eq-sym">US10Y</span><span class="eq-name">10-year Treasury yield</span></div>
+        <div class="eq-val" data-v>—</div>
+        <div class="eq-chg" data-c></div>
+        <svg class="eq-spark" data-s viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="eq-op" aria-hidden="true">÷</div>
+      <div class="eq-card const">
+        <div class="eq-top"><span class="eq-sym">1.61</span><span class="eq-name">The divisor</span></div>
+        <div class="eq-val">1.61</div>
+        <div class="eq-note">Fixed. Only the dollar and the yield move the reading.</div>
+      </div>
+      <div class="eq-op" aria-hidden="true">×</div>
+      <div class="eq-card debt" id="eqG">
+        <div class="eq-top"><span class="eq-sym">DEBT÷GDP</span><span class="eq-name">Federal debt over GDP</span></div>
+        <div class="eq-val" data-v>—</div>
+        <div class="eq-note" data-n>US Treasury daily debt over the latest GDP. It moves slowly.</div>
+      </div>
+      <div class="eq-op" aria-hidden="true">=</div>
+      <div class="eq-card result" id="eqM">
+        <div class="eq-top"><span class="eq-sym">MMMRI</span><span class="eq-band" data-b>—</span></div>
+        <div class="eq-val" data-v>—</div>
+        <div class="eq-chg" data-c></div>
+        <svg class="eq-spark" data-s viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+    </div>
+    <div class="eq-foot">MMMRI bands: under 100 low · 100–150 moderate · 150–200 high · 200+ extreme. Change is measured against the prior session's close. ▲ means the term rose, which pushes risk up.</div>
+  </section>
+
+  <script>
+  (function () {
+    const WORKER = "https://mmri.magickmica.workers.dev/";
+    const FILE = "data/mmri.json";
+    const BANDS = [["Low risk", "var(--low)"], ["Moderate risk", "var(--moderate)"], ["High risk", "var(--high)"], ["Extreme risk", "var(--extreme)"]];
+    const bandOf = (v) => (v < 100 ? 0 : v < 150 ? 1 : v < 200 ? 2 : 3);
+    let GDP = 1.234; // replaced by the site data file's debt_gdp as soon as it loads
+    const mmri = (d, y) => ((d * y) / 1.61) * GDP;
+    const root = document.getElementById("eqStrip");
+    if (!root) return;
+    const q = (id, sel) => document.getElementById(id).querySelector(sel);
+    let uid = 0;
+
+    function etTime(t) {
+      const d = typeof t === "number" ? new Date(t * 1000) : new Date(t);
+      if (isNaN(d)) return "";
+      return d.toLocaleString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" }) + " ET";
+    }
+    function etDay(t) {
+      return new Date(t).toLocaleDateString("en-CA", { timeZone: "America/New_York" });
+    }
+
+    function change(el, now, prev, dp) {
+      el.classList.remove("up", "down");
+      if (!(prev > 0) || !(now > 0)) { el.textContent = ""; return; }
+      const d = now - prev, pct = (d / prev) * 100;
+      const flat = Math.abs(d) < Math.pow(10, -dp) / 2;
+      const arrow = flat ? "•" : d > 0 ? "▲" : "▼";
+      if (!flat) el.classList.add(d > 0 ? "up" : "down");
+      el.textContent = `${arrow} ${Math.abs(d).toFixed(dp)} (${pct >= 0 ? "+" : "−"}${Math.abs(pct).toFixed(2)}%) today`;
+    }
+
+    function spark(svg, pts, prev, color) {
+      if (!pts || pts.length < 2) { svg.innerHTML = ""; return; }
+      const W = 300, H = 56, P = 4;
+      const vals = pts.map((p) => p[1]).concat(prev > 0 ? [prev] : []);
+      let lo = Math.min(...vals), hi = Math.max(...vals);
+      if (hi - lo < 1e-9) { lo -= 1; hi += 1; }
+      const t0 = pts[0][0], t1 = pts[pts.length - 1][0] || t0 + 1;
+      const x = (t) => ((t - t0) / Math.max(1, t1 - t0)) * W;
+      const y = (v) => P + (H - 2 * P) * (1 - (v - lo) / (hi - lo));
+      const line = pts.map((p, i) => (i ? "L" : "M") + x(p[0]).toFixed(1) + " " + y(p[1]).toFixed(1)).join(" ");
+      const id = "eqg" + ++uid;
+      let s = `<defs><linearGradient id="${id}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${color}" stop-opacity=".38"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>`;
+      if (prev > 0) s += `<line x1="0" x2="${W}" y1="${y(prev)}" y2="${y(prev)}" stroke="rgba(255,246,251,.28)" stroke-dasharray="3 4" vector-effect="non-scaling-stroke"/>`;
+      s += `<path d="${line} L${x(t1)} ${H} L0 ${H} Z" fill="url(#${id})"/>`;
+      s += `<path d="${line}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
+      svg.innerHTML = s;
+    }
+
+    // MMRI series: step through the dollar's timestamps, carrying the latest yield forward.
+    function mmriSeries(dp, yp) {
+      if (!dp.length || !yp.length) return [];
+      const out = [];
+      let j = 0;
+      for (const [t, d] of dp) {
+        while (j + 1 < yp.length && yp[j + 1][0] <= t) j++;
+        if (yp[j][0] <= t + 600) out.push([t, mmri(d, yp[j][1])]);
+      }
+      return out;
+    }
+
+    function render(r) {
+      const css = getComputedStyle(document.documentElement);
+      const cyan = css.getPropertyValue("--cyan").trim() || "#5FE8D0";
+      const violet = css.getPropertyValue("--violet").trim() || "#B79CFF";
+      const pink = css.getPropertyValue("--pink").trim() || "#FF7AC8";
+
+      q("eqDxy", "[data-v]").textContent = r.dxy.toFixed(2);
+      change(q("eqDxy", "[data-c]"), r.dxy, r.prev.dxy, 2);
+      spark(q("eqDxy", "[data-s]"), r.spark.dxy, r.prev.dxy, cyan);
+
+      q("eqY", "[data-v]").textContent = r.us10y.toFixed(3);
+      change(q("eqY", "[data-c]"), r.us10y, r.prev.us10y, 3);
+      spark(q("eqY", "[data-s]"), r.spark.us10y, r.prev.us10y, violet);
+
+      q("eqG", "[data-v]").textContent = GDP.toFixed(3);
+      const m = mmri(r.dxy, r.us10y);
+      const pm = r.prev.dxy > 0 && r.prev.us10y > 0 ? mmri(r.prev.dxy, r.prev.us10y) : null;
+      const b = BANDS[bandOf(m)];
+      const card = document.getElementById("eqM");
+      card.style.setProperty("--band", b[1]);
+      q("eqM", "[data-v]").textContent = m.toFixed(2);
+      q("eqM", "[data-b]").textContent = b[0];
+      change(q("eqM", "[data-c]"), m, pm, 2);
+      spark(q("eqM", "[data-s]"), mmriSeries(r.spark.dxy || [], r.spark.us10y || []), pm, pink);
+
+      document.getElementById("eqStatus").textContent = (gotGdp ? "" : "Debt÷GDP estimated · ") + (r.live
+        ? `Live · ${r.source} · ${etTime(r.updated)} · refreshes every minute`
+        : `Last update ${etTime(r.updated)} · ${r.source || "site data"}`);
+    }
+
+    // Fallback: build the same shape from the site's own data file.
+    function fromFile(j) {
+      const h = (j.history || []).filter((p) => p.dxy > 0 && p.us10y > 0 && p.t);
+      const last = h.length ? etDay(h[h.length - 1].t) : null;
+      const today = h.filter((p) => etDay(p.t) === last);
+      const before = h.filter((p) => etDay(p.t) < last);
+      const prevRow = before[before.length - 1];
+      const sec = (p) => Math.floor(new Date(p.t).getTime() / 1000);
+      return {
+        dxy: j.dxy, us10y: j.us10y, updated: j.updated, source: j.source, live: false,
+        prev: prevRow ? { dxy: prevRow.dxy, us10y: prevRow.us10y } : {},
+        spark: { dxy: today.map((p) => [sec(p), p.dxy]), us10y: today.map((p) => [sec(p), p.us10y]) },
+      };
+    }
+
+    let gotLive = false;
+    let gotGdp = false;
+    async function loadGdp() {
+      try {
+        const r = await fetch(FILE, { cache: "no-store" });
+        const j = r.ok ? await r.json() : null;
+        if (j && j.debt_gdp > 0.5 && j.debt_gdp < 3) { GDP = j.debt_gdp; gotGdp = true; }
+      } catch (e) { /* keep the fallback ratio */ }
+    }
+    async function load() {
+      if (!gotGdp) await loadGdp();
+      try {
+        const r = await fetch(WORKER, { cache: "no-store" });
+        const j = r.ok ? await r.json() : null;
+        if (j && j.dxy > 0 && j.us10y > 0) {
+          gotLive = true;
+          render({ dxy: j.dxy, us10y: j.us10y, updated: j.updated, source: j.source || "live",
+                   prev: j.prev || {}, spark: j.spark || { dxy: [], us10y: [] }, live: true });
+          return;
+        }
+      } catch (e) { /* fall through to the file */ }
+      if (gotLive) return; // keep the last live view rather than stepping back to older data
+      try {
+        const r = await fetch(FILE, { cache: "no-store" });
+        const j = r.ok ? await r.json() : null;
+        if (j && j.dxy > 0 && j.us10y > 0) render(fromFile(j));
+      } catch (e) {
+        document.getElementById("eqStatus").textContent = "Live data is unavailable right now.";
+      }
+    }
+
+    if (/^https?:$/.test(location.protocol)) {
+      load();
+      setInterval(() => { if (!document.hidden) load(); }, 60 * 1000);
+      document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+    }
+  })();
+  </script>
+
   <section class="two">
     <div class="grid-wrap" style="display:grid; gap:12px; min-width:0">
       <h2>What moves the needle</h2>
