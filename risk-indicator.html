@@ -416,6 +416,7 @@ footer strong{color:var(--gold)}
   .trophy p{margin:0;color:var(--pearl-dim);font-size:1.02rem;max-width:52ch}
   .trophy-read{display:grid;justify-items:end;gap:8px;text-align:right}
   .trophy-num{font-family:var(--display);font-weight:900;font-size:clamp(2.4rem,6vw,3.4rem);line-height:.95;font-variant-numeric:tabular-nums}
+  .trophy-gdp{font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;color:var(--muted)}
   .trophy-cta{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan)}
   .trophy:hover .trophy-cta{color:var(--gold)}
   @keyframes trophySheen{0%,60%{background-position:120% 0}100%{background-position:-120% 0}}
@@ -437,29 +438,37 @@ footer strong{color:var(--gold)}
     <span class="trophy-read">
       <span class="trophy-num sheen" id="trophyNum">429</span>
       <span class="band-pill" id="trophyPill" style="--band: var(--extreme)">Extreme risk</span>
+      <span class="trophy-gdp" id="trophyGdp"></span>
       <span class="trophy-cta">Open the MMMRI →</span>
     </span>
   </a>
   <script>
   (function () {
-    const GDP = 1.29, EDGES = [100, 150, 200];              // MMMRI band edges
+    /* Same debt ÷ GDP source as the MMMRI page: the site's data file first,
+       then the page's built-in fallback, so the two numbers always agree. */
+    let GDP = 1.29, DXY = null, Y = null;
+    const EDGES = [100, 150, 200];                          // MMMRI band edges
     const NAMES = ["Low risk", "Moderate risk", "High risk", "Extreme risk"];
     const COLS = ["var(--low)", "var(--moderate)", "var(--high)", "var(--extreme)"];
-    function show(dxy, y) {
-      const v = dxy * y / 1.61 * GDP;
+    function show() {
+      if (!(DXY > 0) || !(Y > 0)) return;
+      const v = DXY * Y / 1.61 * GDP;
       const b = v < EDGES[0] ? 0 : v < EDGES[1] ? 1 : v < EDGES[2] ? 2 : 3;
       document.getElementById("trophyNum").textContent = v.toFixed(1);
       const p = document.getElementById("trophyPill");
       p.textContent = NAMES[b]; p.style.setProperty("--band", COLS[b]);
+      document.getElementById("trophyGdp").textContent = "× debt ÷ GDP " + (GDP * 100).toFixed(1) + "%";
     }
+    const web = /^https?:$/.test(location.protocol);
     document.addEventListener("DOMContentLoaded", () => {
-      try { const f = JSON.parse(document.getElementById("feed").textContent); show(f.dxy, f.us10y); } catch (e) {}
+      try { const f = JSON.parse(document.getElementById("feed").textContent); DXY = f.dxy; Y = f.us10y; if (f.debt_gdp > 0) GDP = f.debt_gdp; } catch (e) {}
+      show();
     });
-    if (/^https?:$/.test(location.protocol)) {
-      fetch("https://mmri.magickmica.workers.dev/", { cache: "no-store" })
-        .then((r) => (r.ok ? r.json() : null))
-        .then((j) => { if (j && j.dxy > 0 && j.us10y > 0) show(j.dxy, j.us10y); })
-        .catch(() => {});
+    if (web) {
+      fetch("data/mmri.json", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null))
+        .then((j) => { if (j && j.debt_gdp > 0) { GDP = j.debt_gdp; show(); } }).catch(() => {});
+      fetch("https://mmri.magickmica.workers.dev/", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null))
+        .then((j) => { if (j && j.dxy > 0 && j.us10y > 0) { DXY = j.dxy; Y = j.us10y; show(); } }).catch(() => {});
     }
   })();
   </script>
