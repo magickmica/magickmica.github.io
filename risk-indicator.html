@@ -325,7 +325,10 @@ footer strong{color:var(--gold)}
     <p class="credit">
       Originally created by <a href="https://substack.com/@gregorymannarino" target="_blank" rel="noopener">Gregory Mannarino</a> as the MMRI (Mannarino Market Risk Indicator)
     </p>
-    <a class="mode-link play-pill" href="#game">✦ Play: cast today's prediction</a>
+    <div class="hdr-pills">
+      <a class="mode-link" href="#game">✦ Play: cast today's prediction</a>
+      <a class="mode-link trophy-pill" href="https://magickmica.github.io/mmri-modified.html">🏆 The Modified MMRI →</a>
+    </div>
   </header>
 
   <div class="reading" id="reading">
@@ -389,6 +392,77 @@ footer strong{color:var(--gold)}
       <span class="asof" id="asof">Nothing here is fixed — type in any box, tap ±, or drag the marker. The live reading is one click away.</span>
     </div>
   </div>
+
+  <!-- ✦ Trophy callout for the Modified MMRI -->
+  <style>
+  .hdr-pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+  .trophy-pill{color:#1b0a2e;border:0;background:var(--holo);box-shadow:0 0 22px rgba(245,192,68,.35)}
+  .trophy-pill:hover{color:#1b0a2e}
+  .trophy{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px 26px;align-items:center;
+    padding:22px clamp(18px,4vw,30px);border-radius:var(--radius);text-decoration:none;color:var(--pearl);
+    border:1px solid rgba(245,192,68,.55);
+    background:linear-gradient(120deg,rgba(245,192,68,.16),rgba(255,122,200,.10) 45%,rgba(183,156,255,.14)),linear-gradient(180deg,#22103a,#12061f);
+    box-shadow:0 0 0 1px rgba(245,192,68,.12) inset,0 18px 50px rgba(0,0,0,.45),0 0 40px rgba(245,192,68,.12);
+    overflow:hidden;transition:transform .2s,box-shadow .2s}
+  .trophy::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(105deg,transparent 35%,rgba(255,246,251,.10) 50%,transparent 65%);
+    background-size:250% 100%;animation:trophySheen 6s ease-in-out infinite}
+  .trophy:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(245,192,68,.3) inset,0 22px 60px rgba(0,0,0,.5),0 0 60px rgba(245,192,68,.22)}
+  .trophy:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .trophy-medal{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;font-size:2.1rem;
+    background:radial-gradient(circle at 35% 30%,#ffe6a8,#F5C044 45%,#9a6c1c);box-shadow:0 0 26px rgba(245,192,68,.55),inset 0 -4px 10px rgba(0,0,0,.25)}
+  .trophy-kicker{font-family:var(--mono);font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+  .trophy h2{margin:.2rem 0 .3rem;color:var(--pearl);font-size:clamp(1.3rem,3.2vw,1.8rem)}
+  .trophy p{margin:0;color:var(--pearl-dim);font-size:1.02rem;max-width:52ch}
+  .trophy-read{display:grid;justify-items:end;gap:8px;text-align:right}
+  .trophy-num{font-family:var(--display);font-weight:900;font-size:clamp(2.4rem,6vw,3.4rem);line-height:.95;font-variant-numeric:tabular-nums}
+  .trophy-cta{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan)}
+  .trophy:hover .trophy-cta{color:var(--gold)}
+  @keyframes trophySheen{0%,60%{background-position:120% 0}100%{background-position:-120% 0}}
+  @media (max-width:640px){
+    .trophy{grid-template-columns:auto minmax(0,1fr)}
+    .trophy-read{grid-column:1 / -1;justify-items:start;text-align:left;grid-template-columns:auto auto;align-items:center;gap:6px 14px}
+    .trophy-read .trophy-cta{grid-column:1 / -1}
+    .trophy-medal{width:60px;height:60px;font-size:1.6rem}
+  }
+  @media (prefers-reduced-motion:reduce){.trophy::after{animation:none}.trophy:hover{transform:none}}
+  </style>
+  <a class="trophy" id="trophy" href="https://magickmica.github.io/mmri-modified.html">
+    <span class="trophy-medal" aria-hidden="true">🏆</span>
+    <span>
+      <span class="trophy-kicker">✦ The trophy reading</span>
+      <h2>The Modified MMRI</h2>
+      <p>Mannarino's own modified version: the MMRI multiplied by federal debt over GDP, with lower band edges. The same market, read with the debt load included, so it runs hotter.</p>
+    </span>
+    <span class="trophy-read">
+      <span class="trophy-num sheen" id="trophyNum">429</span>
+      <span class="band-pill" id="trophyPill" style="--band: var(--extreme)">Extreme risk</span>
+      <span class="trophy-cta">Open the MMMRI →</span>
+    </span>
+  </a>
+  <script>
+  (function () {
+    const GDP = 1.29, EDGES = [100, 150, 200];              // MMMRI band edges
+    const NAMES = ["Low risk", "Moderate risk", "High risk", "Extreme risk"];
+    const COLS = ["var(--low)", "var(--moderate)", "var(--high)", "var(--extreme)"];
+    function show(dxy, y) {
+      const v = dxy * y / 1.61 * GDP;
+      const b = v < EDGES[0] ? 0 : v < EDGES[1] ? 1 : v < EDGES[2] ? 2 : 3;
+      document.getElementById("trophyNum").textContent = v.toFixed(1);
+      const p = document.getElementById("trophyPill");
+      p.textContent = NAMES[b]; p.style.setProperty("--band", COLS[b]);
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+      try { const f = JSON.parse(document.getElementById("feed").textContent); show(f.dxy, f.us10y); } catch (e) {}
+    });
+    if (/^https?:$/.test(location.protocol)) {
+      fetch("https://mmri.magickmica.workers.dev/", { cache: "no-store" })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((j) => { if (j && j.dxy > 0 && j.us10y > 0) show(j.dxy, j.us10y); })
+        .catch(() => {});
+    }
+  })();
+  </script>
 
   <section class="two">
     <div class="grid-wrap" style="display:grid; gap:12px; min-width:0">
