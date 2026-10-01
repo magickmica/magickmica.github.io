@@ -13,6 +13,20 @@
    fixed, so it never needs body padding on pages that already have
    their own header.
    ============================================================ */
+/* ── site icon: point every page at the crystal ball (pages that name their own icon keep it) ── */
+(function () {
+  if (document.querySelector('link[rel~="icon"]')) return;
+  var head = document.head || document.getElementsByTagName('head')[0];
+  [['icon', 'favicon.ico?v=2', null, 'any'], ['icon', 'favicon.svg?v=2', 'image/svg+xml', null],
+   ['apple-touch-icon', 'apple-touch-icon.png', null, null]].forEach(function (d) {
+    var l = document.createElement('link');
+    l.rel = d[0]; l.href = '/' + d[1];
+    if (d[2]) l.type = d[2];
+    if (d[3]) l.setAttribute('sizes', d[3]);
+    head.appendChild(l);
+  });
+})();
+
 (function () {
   'use strict';
 
