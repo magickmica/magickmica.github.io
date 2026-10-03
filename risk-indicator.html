@@ -4,17 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Magick Mica Risk Indicator — Magick Mica</title>
-<meta name="description" content="The MMRI market risk reading — dollar index times the 10-year yield — rendered as a Magick Mica instrument.">
-<meta property="og:title" content="Magick Mica Risk Indicator">
-<meta property="og:description" content="The MMRI market risk reading — dollar index times the 10-year yield — rendered as a Magick Mica instrument.">
+<meta name="description" content="The MMRI market risk reading — dollar index times the 10-year yield — rendered as a Magick Mica instrument. Try your own what-if numbers.">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Magick Mica Risk Indicator">
+<meta property="og:description" content="The MMRI market risk reading, rendered as a Magick Mica instrument. Originally created by Gregory Mannarino.">
 <meta property="og:url" content="https://magickmica.github.io/risk-indicator.html">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Magick Mica Risk Indicator">
+<meta name="twitter:description" content="The MMRI market risk reading, rendered as a Magick Mica instrument. Originally created by Gregory Mannarino.">
 <link rel="canonical" href="https://magickmica.github.io/risk-indicator.html">
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#0B0417">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
@@ -75,6 +74,7 @@ body::before{
 
 .wrap{position:relative;z-index:2;max-width:1000px;margin:0 auto;
   padding-inline:20px;padding-block:26px 64px;display:grid;gap:30px}
+main,.wrap{scroll-margin-top:72px}
 a{color:var(--cyan);text-underline-offset:3px}
 a:hover{color:var(--gold)}
 :focus-visible{outline:2px solid var(--violet);outline-offset:2px;border-radius:var(--radius)}
@@ -329,19 +329,18 @@ footer strong{color:var(--gold)}
     <p class="credit">
       Originally created by <a href="https://substack.com/@gregorymannarino" target="_blank" rel="noopener">Gregory Mannarino</a> as the MMRI (Mannarino Market Risk Indicator)
     </p>
-    <div class="hdr-pills">
-      <a class="mode-link" href="#game">✦ Play: cast today's prediction</a>
-      <a class="mode-link trophy-pill" href="https://magickmica.github.io/mmri-modified.html">🏆 The Modified MMRI →</a>
-    </div>
   </header>
 
   <div class="reading" id="reading">
     <canvas id="mica" aria-hidden="true"></canvas>
     <div class="live" id="live"><span class="dot"></span><b id="liveWord">Live</b><span id="liveText">Reading the market…</span></div>
+    <div class="modes">
+      <a class="mode-link" id="siblingLink" href="mmri-modified.html">Also see the modified MMMRI →</a>
+    </div>
     <div class="top">
       <div class="score">
         <div class="label" id="readLabel">Latest reading</div>
-        <div class="score-num sheen" id="score">332.5</div>
+        <div class="score-num sheen" id="score">331.2</div>
         <div class="band-pill" id="pill" style="--band: var(--extreme)">Extreme risk</div>
         <div class="delta" id="delta" hidden></div>
       </div>
@@ -352,7 +351,7 @@ footer strong{color:var(--gold)}
             <label for="dxy">DXY</label>
             <div class="ctl">
               <button class="step" type="button" data-for="dxy" data-step="-0.1" aria-label="Lower the dollar index">−</button>
-              <input id="dxy" type="number" step="0.001" inputmode="decimal" value="101.4">
+              <input id="dxy" type="number" step="0.001" inputmode="decimal" value="101.174">
               <button class="step" type="button" data-for="dxy" data-step="0.1" aria-label="Raise the dollar index">+</button>
             </div>
             <small>US Dollar Index</small>
@@ -361,7 +360,7 @@ footer strong{color:var(--gold)}
             <label for="us10y">US10Y %</label>
             <div class="ctl">
               <button class="step" type="button" data-for="us10y" data-step="-0.05" aria-label="Lower the 10-year yield">−</button>
-              <input id="us10y" type="number" step="0.01" inputmode="decimal" value="5.28">
+              <input id="us10y" type="number" step="0.01" inputmode="decimal" value="5.27">
               <button class="step" type="button" data-for="us10y" data-step="0.05" aria-label="Raise the 10-year yield">+</button>
             </div>
             <small>10-yr Treasury yield</small>
@@ -370,10 +369,10 @@ footer strong{color:var(--gold)}
             <label for="debtgdp">Debt ÷ GDP</label>
             <div class="ctl">
               <button class="step" type="button" data-for="debtgdp" data-step="-0.005" aria-label="Lower the debt to GDP ratio">−</button>
-              <input id="debtgdp" type="number" step="0.001" inputmode="decimal" value="1.234">
+              <input id="debtgdp" type="number" step="0.001" inputmode="decimal" value="1.29">
               <button class="step" type="button" data-for="debtgdp" data-step="0.005" aria-label="Raise the debt to GDP ratio">+</button>
             </div>
-            <small>US federal debt ÷ GDP · FRED / BEA</small>
+            <small>US federal debt ÷ GDP · Treasury daily</small>
           </div>
         </div>
       </div>
@@ -384,305 +383,18 @@ footer strong{color:var(--gold)}
         <span></span><span></span><span></span><span></span>
         <div class="marker" id="marker" tabindex="0" role="slider"
              aria-label="Risk reading — drag to solve for the 10-year yield"
-             aria-valuemin="50" aria-valuemax="400" aria-valuenow="332"></div>
+             aria-valuemin="50" aria-valuemax="400" aria-valuenow="331"></div>
       </div>
       <div class="ticks" id="ticks"></div>
       <div class="drag-hint" id="dragHint">✦ Drag the marker — the <b>10-year yield</b> moves to match, DXY stays put</div>
     </div>
 
-    <div class="formula" id="formula">MMRI = DXY × US10Y ÷ 1.61 = <b>101.4 × 5.28 ÷ 1.61 = 332.5</b></div>
+    <div class="formula" id="formula">MMRI = DXY × US10Y ÷ 1.61 = <b>101.174 × 5.27 ÷ 1.61 = 331.2</b></div>
     <div class="actions">
       <button id="resetBtn" type="button" hidden>Back to latest reading</button>
       <span class="asof" id="asof">Nothing here is fixed — type in any box, tap ±, or drag the marker. The live reading is one click away.</span>
     </div>
   </div>
-
-  <!-- ✦ The equation strip: DXY × US10Y ÷ 1.61 = MMRI, live, with today's move -->
-  <style>
-  .eq{position:relative;display:grid;gap:14px;padding:22px clamp(14px,3vw,26px) 18px;border-radius:var(--radius);
-    border:1px solid var(--line);background:linear-gradient(180deg,rgba(43,18,64,.55),rgba(11,4,23,.85));overflow:hidden}
-  .eq-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
-  .eq-kicker{font-family:var(--mono);font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
-  .eq-status{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
-  .eq-row{display:grid;grid-template-columns:minmax(0,1.25fr) auto minmax(0,1.25fr) auto minmax(0,.9fr) auto minmax(0,1.25fr);
-    align-items:stretch;gap:0 10px}
-  .eq-op{align-self:center;font-family:var(--display);font-size:1.9rem;line-height:1;color:var(--gold);
-    text-shadow:0 0 18px rgba(245,192,68,.45);user-select:none}
-  .eq-card{position:relative;display:grid;align-content:start;gap:4px;min-width:0;padding:14px 14px 0;border-radius:var(--radius);
-    background:rgba(14,6,32,.78);border:1px solid rgba(255,246,251,.08)}
-  .eq-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-  .eq-sym{font-family:var(--mono);font-weight:700;font-size:.82rem;letter-spacing:.08em;color:var(--pearl)}
-  .eq-name{flex:1 1 auto;min-width:0;text-align:right;font-family:var(--body);font-style:italic;font-size:.95rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .eq-sym{flex:none}
-  .eq-card>*{min-width:0}
-  .eq-val{font-family:var(--mono);font-size:clamp(1.45rem,2.6vw,2rem);line-height:1.15;color:var(--pearl);font-variant-numeric:tabular-nums}
-  .eq-chg{font-family:var(--mono);font-size:.74rem;font-variant-numeric:tabular-nums;color:var(--muted);min-height:1.2em}
-  .eq-chg.up{color:var(--pink)} .eq-chg.down{color:var(--cyan)}
-  .eq-spark{display:block;width:100%;height:56px;margin-top:6px}
-  .eq-note{font-family:var(--body);font-size:.95rem;color:var(--pearl-dim);line-height:1.35;padding-bottom:14px}
-  .eq-card.const .eq-val{background:var(--holo);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .eq-card.result{border-color:color-mix(in srgb,var(--band,var(--extreme)) 45%,transparent);
-    background:linear-gradient(160deg,color-mix(in srgb,var(--band,var(--extreme)) 14%,transparent),rgba(14,6,32,.85) 60%)}
-  .eq-card.result .eq-val{color:var(--band,var(--extreme))}
-  .eq-band{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--band,var(--extreme))}
-  .eq-foot{font-family:var(--mono);font-size:.66rem;color:var(--muted)}
-  @media (max-width:900px){
-    .eq-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
-    .eq-op{display:none}
-  }
-  @media (max-width:420px){ .eq-row{grid-template-columns:minmax(0,1fr)} }
-  </style>
-
-  <section class="eq" id="eqStrip" aria-labelledby="eqH">
-    <div class="eq-head">
-      <div class="eq-kicker" id="eqH">✦ The spell, term by term</div>
-      <div class="eq-status" id="eqStatus">Reading the market…</div>
-    </div>
-    <div class="eq-row">
-      <div class="eq-card" id="eqDxy">
-        <div class="eq-top"><span class="eq-sym">DXY</span><span class="eq-name">US Dollar Index</span></div>
-        <div class="eq-val" data-v>—</div>
-        <div class="eq-chg" data-c></div>
-        <svg class="eq-spark" data-s viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg>
-      </div>
-      <div class="eq-op" aria-hidden="true">×</div>
-      <div class="eq-card" id="eqY">
-        <div class="eq-top"><span class="eq-sym">US10Y</span><span class="eq-name">10-year Treasury yield</span></div>
-        <div class="eq-val" data-v>—</div>
-        <div class="eq-chg" data-c></div>
-        <svg class="eq-spark" data-s viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg>
-      </div>
-      <div class="eq-op" aria-hidden="true">÷</div>
-      <div class="eq-card const">
-        <div class="eq-top"><span class="eq-sym">1.61</span><span class="eq-name">The divisor</span></div>
-        <div class="eq-val">1.61</div>
-        <div class="eq-note">Fixed. Only the dollar and the yield move the reading.</div>
-      </div>
-      <div class="eq-op" aria-hidden="true">=</div>
-      <div class="eq-card result" id="eqM">
-        <div class="eq-top"><span class="eq-sym">MMRI</span><span class="eq-band" data-b>—</span></div>
-        <div class="eq-val" data-v>—</div>
-        <div class="eq-chg" data-c></div>
-        <svg class="eq-spark" data-s viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg>
-      </div>
-    </div>
-    <div class="eq-foot">Change is measured against the prior session's close. ▲ means the term rose, which pushes risk up.</div>
-  </section>
-
-  <script>
-  (function () {
-    const WORKER = "https://mmri.magickmica.workers.dev/";
-    const FILE = "data/mmri.json";
-    const BANDS = [["Low risk", "var(--low)"], ["Moderate risk", "var(--moderate)"], ["High risk", "var(--high)"], ["Extreme risk", "var(--extreme)"]];
-    const bandOf = (v) => (v < 100 ? 0 : v < 200 ? 1 : v < 300 ? 2 : 3);
-    const mmri = (d, y) => (d * y) / 1.61;
-    const root = document.getElementById("eqStrip");
-    if (!root) return;
-    const q = (id, sel) => document.getElementById(id).querySelector(sel);
-    let uid = 0;
-
-    function etTime(t) {
-      const d = typeof t === "number" ? new Date(t * 1000) : new Date(t);
-      if (isNaN(d)) return "";
-      return d.toLocaleString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" }) + " ET";
-    }
-    function etDay(t) {
-      return new Date(t).toLocaleDateString("en-CA", { timeZone: "America/New_York" });
-    }
-
-    function change(el, now, prev, dp) {
-      el.classList.remove("up", "down");
-      if (!(prev > 0) || !(now > 0)) { el.textContent = ""; return; }
-      const d = now - prev, pct = (d / prev) * 100;
-      const flat = Math.abs(d) < Math.pow(10, -dp) / 2;
-      const arrow = flat ? "•" : d > 0 ? "▲" : "▼";
-      if (!flat) el.classList.add(d > 0 ? "up" : "down");
-      el.textContent = `${arrow} ${Math.abs(d).toFixed(dp)} (${pct >= 0 ? "+" : "−"}${Math.abs(pct).toFixed(2)}%) today`;
-    }
-
-    function spark(svg, pts, prev, color) {
-      if (!pts || pts.length < 2) { svg.innerHTML = ""; return; }
-      const W = 300, H = 56, P = 4;
-      const vals = pts.map((p) => p[1]).concat(prev > 0 ? [prev] : []);
-      let lo = Math.min(...vals), hi = Math.max(...vals);
-      if (hi - lo < 1e-9) { lo -= 1; hi += 1; }
-      const t0 = pts[0][0], t1 = pts[pts.length - 1][0] || t0 + 1;
-      const x = (t) => ((t - t0) / Math.max(1, t1 - t0)) * W;
-      const y = (v) => P + (H - 2 * P) * (1 - (v - lo) / (hi - lo));
-      const line = pts.map((p, i) => (i ? "L" : "M") + x(p[0]).toFixed(1) + " " + y(p[1]).toFixed(1)).join(" ");
-      const id = "eqg" + ++uid;
-      let s = `<defs><linearGradient id="${id}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${color}" stop-opacity=".38"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>`;
-      if (prev > 0) s += `<line x1="0" x2="${W}" y1="${y(prev)}" y2="${y(prev)}" stroke="rgba(255,246,251,.28)" stroke-dasharray="3 4" vector-effect="non-scaling-stroke"/>`;
-      s += `<path d="${line} L${x(t1)} ${H} L0 ${H} Z" fill="url(#${id})"/>`;
-      s += `<path d="${line}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
-      svg.innerHTML = s;
-    }
-
-    // MMRI series: step through the dollar's timestamps, carrying the latest yield forward.
-    function mmriSeries(dp, yp) {
-      if (!dp.length || !yp.length) return [];
-      const out = [];
-      let j = 0;
-      for (const [t, d] of dp) {
-        while (j + 1 < yp.length && yp[j + 1][0] <= t) j++;
-        if (yp[j][0] <= t + 600) out.push([t, mmri(d, yp[j][1])]);
-      }
-      return out;
-    }
-
-    function render(r) {
-      const css = getComputedStyle(document.documentElement);
-      const cyan = css.getPropertyValue("--cyan").trim() || "#5FE8D0";
-      const violet = css.getPropertyValue("--violet").trim() || "#B79CFF";
-      const pink = css.getPropertyValue("--pink").trim() || "#FF7AC8";
-
-      q("eqDxy", "[data-v]").textContent = r.dxy.toFixed(2);
-      change(q("eqDxy", "[data-c]"), r.dxy, r.prev.dxy, 2);
-      spark(q("eqDxy", "[data-s]"), r.spark.dxy, r.prev.dxy, cyan);
-
-      q("eqY", "[data-v]").textContent = r.us10y.toFixed(3);
-      change(q("eqY", "[data-c]"), r.us10y, r.prev.us10y, 3);
-      spark(q("eqY", "[data-s]"), r.spark.us10y, r.prev.us10y, violet);
-
-      const m = mmri(r.dxy, r.us10y);
-      const pm = r.prev.dxy > 0 && r.prev.us10y > 0 ? mmri(r.prev.dxy, r.prev.us10y) : null;
-      const b = BANDS[bandOf(m)];
-      const card = document.getElementById("eqM");
-      card.style.setProperty("--band", b[1]);
-      q("eqM", "[data-v]").textContent = m.toFixed(2);
-      q("eqM", "[data-b]").textContent = b[0];
-      change(q("eqM", "[data-c]"), m, pm, 2);
-      spark(q("eqM", "[data-s]"), mmriSeries(r.spark.dxy || [], r.spark.us10y || []), pm, pink);
-
-      document.getElementById("eqStatus").textContent = r.live
-        ? `Live · ${r.source} · ${etTime(r.updated)} · refreshes every minute`
-        : `Last update ${etTime(r.updated)} · ${r.source || "site data"}`;
-    }
-
-    // Fallback: build the same shape from the site's own data file.
-    function fromFile(j) {
-      const h = (j.history || []).filter((p) => p.dxy > 0 && p.us10y > 0 && p.t);
-      const last = h.length ? etDay(h[h.length - 1].t) : null;
-      const today = h.filter((p) => etDay(p.t) === last);
-      const before = h.filter((p) => etDay(p.t) < last);
-      const prevRow = before[before.length - 1];
-      const sec = (p) => Math.floor(new Date(p.t).getTime() / 1000);
-      return {
-        dxy: j.dxy, us10y: j.us10y, updated: j.updated, source: j.source, live: false,
-        prev: prevRow ? { dxy: prevRow.dxy, us10y: prevRow.us10y } : {},
-        spark: { dxy: today.map((p) => [sec(p), p.dxy]), us10y: today.map((p) => [sec(p), p.us10y]) },
-      };
-    }
-
-    let gotLive = false;
-    async function load() {
-      try {
-        const r = await fetch(WORKER, { cache: "no-store" });
-        const j = r.ok ? await r.json() : null;
-        if (j && j.dxy > 0 && j.us10y > 0) {
-          gotLive = true;
-          render({ dxy: j.dxy, us10y: j.us10y, updated: j.updated, source: j.source || "live",
-                   prev: j.prev || {}, spark: j.spark || { dxy: [], us10y: [] }, live: true });
-          return;
-        }
-      } catch (e) { /* fall through to the file */ }
-      if (gotLive) return; // keep the last live view rather than stepping back to older data
-      try {
-        const r = await fetch(FILE, { cache: "no-store" });
-        const j = r.ok ? await r.json() : null;
-        if (j && j.dxy > 0 && j.us10y > 0) render(fromFile(j));
-      } catch (e) {
-        document.getElementById("eqStatus").textContent = "Live data is unavailable right now.";
-      }
-    }
-
-    if (/^https?:$/.test(location.protocol)) {
-      load();
-      setInterval(() => { if (!document.hidden) load(); }, 60 * 1000);
-      document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
-    }
-  })();
-  </script>
-
-  <!-- ✦ Trophy callout for the Modified MMRI -->
-  <style>
-  .hdr-pills{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-  .trophy-pill{color:#1b0a2e;border:0;background:var(--holo);box-shadow:0 0 22px rgba(245,192,68,.35)}
-  .trophy-pill:hover{color:#1b0a2e}
-  .trophy{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px 26px;align-items:center;
-    padding:22px clamp(18px,4vw,30px);border-radius:var(--radius);text-decoration:none;color:var(--pearl);
-    border:1px solid rgba(245,192,68,.55);
-    background:linear-gradient(120deg,rgba(245,192,68,.16),rgba(255,122,200,.10) 45%,rgba(183,156,255,.14)),linear-gradient(180deg,#22103a,#12061f);
-    box-shadow:0 0 0 1px rgba(245,192,68,.12) inset,0 18px 50px rgba(0,0,0,.45),0 0 40px rgba(245,192,68,.12);
-    overflow:hidden;transition:transform .2s,box-shadow .2s}
-  .trophy::after{content:"";position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(105deg,transparent 35%,rgba(255,246,251,.10) 50%,transparent 65%);
-    background-size:250% 100%;animation:trophySheen 6s ease-in-out infinite}
-  .trophy:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(245,192,68,.3) inset,0 22px 60px rgba(0,0,0,.5),0 0 60px rgba(245,192,68,.22)}
-  .trophy:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
-  .trophy-medal{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;font-size:2.1rem;
-    background:radial-gradient(circle at 35% 30%,#ffe6a8,#F5C044 45%,#9a6c1c);box-shadow:0 0 26px rgba(245,192,68,.55),inset 0 -4px 10px rgba(0,0,0,.25)}
-  .trophy-kicker{font-family:var(--mono);font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
-  .trophy h2{margin:.2rem 0 .3rem;color:var(--pearl);font-size:clamp(1.3rem,3.2vw,1.8rem)}
-  .trophy p{margin:0;color:var(--pearl-dim);font-size:1.02rem;max-width:52ch}
-  .trophy-read{display:grid;justify-items:end;gap:8px;text-align:right}
-  .trophy-num{font-family:var(--display);font-weight:900;font-size:clamp(2.4rem,6vw,3.4rem);line-height:.95;font-variant-numeric:tabular-nums}
-  .trophy-gdp{font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;color:var(--muted)}
-  .trophy-cta{font-family:var(--mono);font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan)}
-  .trophy:hover .trophy-cta{color:var(--gold)}
-  @keyframes trophySheen{0%,60%{background-position:120% 0}100%{background-position:-120% 0}}
-  @media (max-width:640px){
-    .trophy{grid-template-columns:auto minmax(0,1fr)}
-    .trophy-read{grid-column:1 / -1;justify-items:start;text-align:left;grid-template-columns:auto auto;align-items:center;gap:6px 14px}
-    .trophy-read .trophy-cta{grid-column:1 / -1}
-    .trophy-medal{width:60px;height:60px;font-size:1.6rem}
-  }
-  @media (prefers-reduced-motion:reduce){.trophy::after{animation:none}.trophy:hover{transform:none}}
-  </style>
-  <a class="trophy" id="trophy" href="https://magickmica.github.io/mmri-modified.html">
-    <span class="trophy-medal" aria-hidden="true">🏆</span>
-    <span>
-      <span class="trophy-kicker">✦ The trophy reading</span>
-      <h2>The Modified MMRI</h2>
-      <p>Mannarino's own modified version: the MMRI multiplied by federal debt over GDP, with lower band edges. The same market, read with the debt load included, so it runs hotter.</p>
-    </span>
-    <span class="trophy-read">
-      <span class="trophy-num sheen" id="trophyNum">410.4</span>
-      <span class="band-pill" id="trophyPill" style="--band: var(--extreme)">Extreme risk</span>
-      <span class="trophy-gdp" id="trophyGdp"></span>
-      <span class="trophy-cta">Open the MMMRI →</span>
-    </span>
-  </a>
-  <script>
-  (function () {
-    /* Same debt ÷ GDP source as the MMMRI page: the site's data file first,
-       then the page's built-in fallback, so the two numbers always agree. */
-    let GDP = 1.234, DXY = null, Y = null;
-    const EDGES = [100, 150, 200];                          // MMMRI band edges
-    const NAMES = ["Low risk", "Moderate risk", "High risk", "Extreme risk"];
-    const COLS = ["var(--low)", "var(--moderate)", "var(--high)", "var(--extreme)"];
-    function show() {
-      if (!(DXY > 0) || !(Y > 0)) return;
-      const v = DXY * Y / 1.61 * GDP;
-      const b = v < EDGES[0] ? 0 : v < EDGES[1] ? 1 : v < EDGES[2] ? 2 : 3;
-      document.getElementById("trophyNum").textContent = v.toFixed(1);
-      const p = document.getElementById("trophyPill");
-      p.textContent = NAMES[b]; p.style.setProperty("--band", COLS[b]);
-      document.getElementById("trophyGdp").textContent = "× debt ÷ GDP " + (GDP * 100).toFixed(1) + "%";
-    }
-    const web = /^https?:$/.test(location.protocol);
-    document.addEventListener("DOMContentLoaded", () => {
-      try { const f = JSON.parse(document.getElementById("feed").textContent); DXY = f.dxy; Y = f.us10y; if (f.debt_gdp > 0) GDP = f.debt_gdp; } catch (e) {}
-      show();
-    });
-    if (web) {
-      fetch("data/mmri.json", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null))
-        .then((j) => { if (j && j.debt_gdp > 0) { GDP = j.debt_gdp; show(); } }).catch(() => {});
-      fetch("https://mmri.magickmica.workers.dev/", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null))
-        .then((j) => { if (j && j.dxy > 0 && j.us10y > 0) { DXY = j.dxy; Y = j.us10y; show(); } }).catch(() => {});
-    }
-  })();
-  </script>
 
   <section class="two">
     <div class="grid-wrap" style="display:grid; gap:12px; min-width:0">
@@ -699,7 +411,6 @@ footer strong{color:var(--gold)}
         <div class="band-row" data-band="2" style="--c: var(--high)"><span class="dot"></span><span class="rng">200–300</span><span class="nm">High risk</span></div>
         <div class="band-row" data-band="3" style="--c: var(--extreme)"><span class="dot"></span><span class="rng">300+</span><span class="nm">Extreme risk</span></div>
       </div>
-      <div class="modes"><a class="mode-link" href="https://magickmica.github.io/mmri-modified.html">✦ Try the modified MMMRI →</a></div>
       <p class="mode-note" id="modeNote"></p>
       <p class="lede" style="font-size:1rem">The dollar index tracks the US dollar against a basket of major currencies. The 10-year yield is what the US government pays to borrow for ten years. When both climb together, financial conditions tighten, and the MMRI rises.</p>
     </div>
@@ -712,432 +423,22 @@ footer strong{color:var(--gold)}
     <div class="log-list" id="logList"></div>
   </section>
 
-  <!-- ✦ Cast your prediction — daily game + leaderboard (talks to the Magick Mica Worker) -->
-  <style>
-  .game{display:grid;gap:16px;scroll-margin-top:20px}
-  .game-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:20px;align-items:start}
-  @media (max-width:820px){.game-grid{grid-template-columns:1fr}}
-  .g-card{border:1px solid var(--line);border-radius:var(--radius);
-    background:linear-gradient(180deg,rgba(43,18,64,.66),rgba(11,4,23,.82));
-    padding:18px clamp(14px,3vw,22px);display:grid;gap:14px;min-width:0}
-  .g-meta{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;color:var(--muted);line-height:1.8}
-  .g-meta b{color:var(--gold);font-weight:700}
-  .g-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-  .g-card input{font-family:var(--mono);font-size:1.1rem;color:var(--pearl);
-    background:rgba(255,246,251,.06);border:0;border-bottom:1px dashed rgba(245,192,68,.5);
-    border-radius:3px 3px 0 0;padding:8px 10px;min-width:0;caret-color:var(--cyan)}
-  .g-card input:focus{outline:none;background:rgba(95,232,208,.13);border-bottom-color:var(--cyan)}
-  #gName{flex:1 1 180px}
-  #gVal{width:9ch;text-align:center;font-size:1.5rem;font-variant-numeric:tabular-nums}
-  .g-cast-ctl{display:flex;align-items:center;gap:8px}
-  .g-msg{font-family:var(--mono);font-size:.74rem;color:var(--muted);min-height:1.2em}
-  .g-msg.bad{color:var(--extreme)}
-  .g-msg.good{color:var(--cyan)}
-  .g-you{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;font-family:var(--mono);font-size:.76rem;color:var(--muted)}
-  .g-you .who{font-family:var(--display);font-size:1.15rem;color:var(--pearl)}
-  .g-badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.62rem;letter-spacing:.16em;
-    text-transform:uppercase;color:#1b0a2e;background:var(--holo);font-weight:700}
-  .g-you b{color:var(--pearl)}
-  .g-last{font-size:1rem;color:var(--pearl-dim);margin:0}
-  .g-last b{color:var(--pearl)}
-  .g-crystal{display:grid;gap:14px;padding:18px 18px 16px;border-radius:var(--radius);
-    border:1px solid rgba(245,192,68,.22);background:linear-gradient(180deg,#1f0c33,#14071f)}
-  .g-orb-head{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-weight:700;font-size:.72rem;
-    letter-spacing:.26em;text-transform:uppercase;color:var(--gold);padding-bottom:12px;border-bottom:1px solid rgba(255,246,251,.12)}
-  .g-crystal button.g-orb-btn{justify-self:center;display:grid;justify-items:center;background:none;border:0;padding:6px 0 0;
-    box-shadow:none;border-radius:50%;cursor:pointer;transform:none;letter-spacing:0}
-  .g-crystal button.g-orb-btn:hover{transform:none;box-shadow:none}
-  .g-crystal button.g-orb-btn:hover .g-orb{box-shadow:0 0 44px rgba(255,122,200,.55),0 0 90px rgba(183,156,255,.35),inset -10px -14px 30px rgba(20,7,31,.35)}
-  .g-orb{position:relative;width:128px;height:128px;border-radius:50%;display:grid;place-items:center;
-    background:
-      radial-gradient(circle at 32% 26%,rgba(255,255,255,.9) 0 3%,rgba(255,255,255,.35) 9%,transparent 30%),
-      radial-gradient(circle at 70% 30%,rgba(255,122,200,.6),transparent 55%),
-      radial-gradient(circle at 40% 80%,rgba(95,160,232,.75),transparent 60%),
-      radial-gradient(circle at 50% 50%,#c98bc0,#7d6aa8 70%,#5a4a8a);
-    box-shadow:0 0 32px rgba(255,122,200,.35),0 0 70px rgba(183,156,255,.22),inset -10px -14px 30px rgba(20,7,31,.35);
-    animation:gOrbFloat 6s ease-in-out infinite;transition:box-shadow .4s}
-  .g-orb::before{content:"";position:absolute;inset:0;border-radius:50%;mix-blend-mode:screen;
-    background:conic-gradient(from 0deg,transparent,rgba(255,255,255,.14),transparent 40%,rgba(255,122,200,.18),transparent 75%);
-    animation:gOrbSwirl 12s linear infinite}
-  .g-orb::after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;left:54%;top:72%;
-    box-shadow:0 0 8px #fff,-26px -34px 0 -1px rgba(255,255,255,.7),30px -18px 0 -1px rgba(255,255,255,.5);
-    animation:gOrbTwinkle 3s ease-in-out infinite}
-  .g-orb-num{position:relative;z-index:1;font-family:var(--display);font-weight:900;font-size:1.9rem;line-height:1;
-    color:var(--pearl);text-shadow:0 2px 14px rgba(20,7,31,.75),0 0 16px rgba(255,122,200,.6);font-variant-numeric:tabular-nums;
-    opacity:0;transform:scale(.6);transition:opacity .6s,transform .6s}
-  .g-crystal.revealed .g-orb-num{opacity:1;transform:none}
-  .g-stand{width:80px;height:19px;margin-top:-6px;background:linear-gradient(180deg,#d9a53a,#9a6c1c);
-    clip-path:polygon(18% 0,82% 0,100% 100%,0 100%)}
-  .g-crystal p{margin:0;font-size:1.12rem;line-height:1.45;color:rgba(255,246,251,.86)}
-  .g-crystal p b{color:var(--violet);font-family:var(--mono)}
-  .g-crystal em{color:var(--pearl)}
-  .g-crystal button.g-orb-cta{justify-self:start;background:none;border:0;box-shadow:none;padding:0;color:var(--cyan);
-    font-family:var(--mono);font-size:.74rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;cursor:pointer}
-  .g-crystal button.g-orb-cta:hover{color:var(--gold);transform:none;box-shadow:none}
-  @keyframes gOrbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-  @keyframes gOrbSwirl{to{transform:rotate(360deg)}}
-  @keyframes gOrbTwinkle{0%,100%{opacity:.5}50%{opacity:1}}
-  @media (prefers-reduced-motion:reduce){.g-orb,.g-orb::before,.g-orb::after{animation:none}}
-  .g-tabs{display:flex;gap:6px}
-  .g-tabs button{padding:.45rem .9rem;font-size:.62rem;letter-spacing:.16em}
-  .g-tabs button[aria-selected="false"]{color:var(--pearl);background:none;border:1px solid var(--line);box-shadow:none}
-  .g-board{list-style:none;margin:0;padding:0;display:grid}
-  .g-board li{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:10px;align-items:center;
-    padding:8px 2px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.78rem;font-variant-numeric:tabular-nums}
-  .g-board .rk{color:var(--gold);font-weight:700}
-  .g-board .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--pearl)}
-  .g-board .nm small{color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-size:.6rem;margin-left:6px}
-  .g-board li.me{background:rgba(95,232,208,.08)}
-  .g-board li.me .nm{color:var(--cyan)}
-  .g-board li.bot .nm{color:var(--violet)}
-  .g-board .pt{color:var(--pearl);font-weight:700}
-  .g-empty{color:var(--muted);font-family:var(--mono);font-size:.78rem;padding:8px 0}
-  .g-card h3{margin:0;font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700}
-  .g-card details{font-size:.98rem;color:var(--pearl-dim)}
-  .g-card summary{cursor:pointer;font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
-  .g-card details ul{margin:.6rem 0 0;padding-left:1.1rem}
-  .g-offline{font-size:1.02rem;color:var(--pearl-dim);margin:0}
-  .play-pill{justify-self:center}
-  .gstep{font-family:var(--mono);font-size:1.1rem;font-weight:700;line-height:1;letter-spacing:0;color:var(--gold);
-    background:rgba(245,192,68,.1);border:1px solid rgba(245,192,68,.32);border-radius:3px;
-    width:38px;height:38px;padding:0;display:grid;place-items:center;box-shadow:none}
-  .gstep:hover{background:var(--gold);color:#1b0a2e;transform:none;box-shadow:0 0 14px rgba(245,192,68,.4)}
-  </style>
-
-  <section class="game" id="game" aria-labelledby="gameH">
-    <h2 id="gameH">Cast your prediction</h2>
-    <p class="lede">Guess where the MMRI closes at 4 PM ET. The closer you land, the more points you earn, and the leaderboard resets its weekly race every Monday. Entries lock at 3:30 PM ET. Play money only, just for fun.</p>
-
-    <div class="game-grid">
-      <div class="g-card" id="gAltar">
-        <div class="g-meta" id="gMeta">Consulting the oracle…</div>
-
-        <p class="g-offline" id="gOffline" hidden>The oracle's table opens soon. Check back once the game goes live.</p>
-
-        <div id="gJoin" hidden>
-          <div class="g-row">
-            <input id="gName" maxlength="20" autocomplete="nickname" placeholder="Your seeker name" aria-label="Your seeker name">
-            <button type="button" id="gJoinBtn">Take your seat</button>
-          </div>
-          <div class="g-msg" id="gJoinMsg"></div>
-        </div>
-
-        <div id="gCast" hidden>
-          <div class="g-row">
-            <div class="g-cast-ctl">
-              <button class="gstep" type="button" data-g="-0.5" aria-label="Lower your cast">−</button>
-              <input id="gVal" type="number" step="0.1" inputmode="decimal" aria-label="Your MMRI prediction">
-              <button class="gstep" type="button" data-g="0.5" aria-label="Raise your cast">+</button>
-            </div>
-            <button type="button" id="gCastBtn">✦ Cast prediction</button>
-          </div>
-          <div class="g-msg" id="gCastMsg"></div>
-        </div>
-
-        <div class="g-you" id="gYou" hidden></div>
-        <p class="g-last" id="gLast" hidden></p>
-
-        <div class="g-crystal" id="gCrystalBox" hidden>
-          <div class="g-orb-head"><span aria-hidden="true">🔮</span>Cosmic Crystal Oracle</div>
-          <button type="button" class="g-orb-btn" id="gCrystalBtn" aria-label="Touch the crystal to see its cast">
-            <span class="g-orb"><span class="g-orb-num" id="gOrbNum"></span></span>
-            <span class="g-stand" aria-hidden="true"></span>
-          </button>
-          <p id="gCrystal">Think of your number. Don't say it out loud. The Crystal casts every day too, and beating it earns +10.</p>
-          <button type="button" class="g-orb-cta" id="gCrystalCta">Touch the crystal →</button>
-        </div>
-      </div>
-
-      <div class="g-side">
-      <div class="g-card">
-        <div class="g-row" style="justify-content:space-between">
-          <h3>Leaderboard</h3>
-          <div class="g-tabs" role="tablist">
-            <button type="button" role="tab" aria-selected="true" data-p="week">This week</button>
-            <button type="button" role="tab" aria-selected="false" data-p="all">All time</button>
-          </div>
-        </div>
-        <ol class="g-board" id="gBoard"><li class="g-empty">…</li></ol>
-        <h3 id="gWinH" hidden>Last close</h3>
-        <ol class="g-board" id="gWin" hidden></ol>
-        <details>
-          <summary>How scoring works</summary>
-          <ul>
-            <li>Up to <b>100 points</b> for accuracy: you lose 10 for every point you're off.</li>
-            <li><b>+25</b> for the closest cast of the day.</li>
-            <li><b>+10</b> when you beat the Crystal.</li>
-            <li><b>+3 a day</b> for your streak, up to +30.</li>
-            <li>Ranks: Apprentice, Adept (300), Seer (1,000), Oracle (3,000), Archmage (7,500).</li>
-            <li>You can change your cast until 3:30 PM ET. Market holidays roll to the next trading day.</li>
-          </ul>
-        </details>
-      </div>
-      <a class="csi-cta" href="https://magickmica.github.io/crystal-stress-index.html">
-        <span class="csi-tw" aria-hidden="true" style="left:10px;top:12px;--d:2.6s;--w:0s;color:#ffe6a8">✦</span><span class="csi-tw" aria-hidden="true" style="left:84px;top:18px;--d:2.2s;--w:.8s;font-size:.7rem;color:#fff6fb">✦</span><span class="csi-tw" aria-hidden="true" style="left:20px;bottom:14px;--d:3s;--w:1.5s;font-size:.8rem;color:#ff9fd6">✦</span><span class="csi-tw" aria-hidden="true" style="right:16px;top:14px;--d:2.8s;--w:.4s;color:#b79cff">✦</span><span class="csi-tw" aria-hidden="true" style="right:44px;bottom:16px;--d:2.4s;--w:1.9s;font-size:.65rem;color:#5fe8d0">✦</span>
-        <span class="csi-orb" aria-hidden="true"><span class="csi-orb-num" id="csiCtaNum">✦</span></span>
-        <span class="csi-cta-body">
-          <span class="csi-cta-kicker">✦ New · a Magick Mica original</span>
-          <span class="csi-cta-title">The Crystal Stress Index</span>
-          <span class="csi-cta-text">Fear, credit, the dollar, rates, oil, the curve and gold, read as one 0–100 number.</span>
-          <span class="csi-cta-row"><span class="csi-cta-pill" id="csiCtaPill" hidden></span><span class="csi-cta-go">Gaze into it →</span></span>
-        </span>
-      </a>
-      </div>
-    </div>
-  </section>
-  <style>
-  .g-side{display:grid;gap:20px;align-content:start;min-width:0}
-  .csi-cta{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;
-    padding:18px clamp(14px,3vw,20px);border-radius:var(--radius);text-decoration:none;color:var(--pearl);overflow:hidden;
-    border:1px solid rgba(183,156,255,.45);
-    background:radial-gradient(120% 140% at 0% 0%,rgba(255,122,200,.16),transparent 55%),linear-gradient(180deg,#22103a,#12061f);
-    box-shadow:0 14px 40px rgba(0,0,0,.4),0 0 30px rgba(183,156,255,.12);transition:transform .2s,box-shadow .2s,border-color .2s}
-  .csi-cta::after{content:"";position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(105deg,transparent 35%,rgba(255,246,251,.09) 50%,transparent 65%);background-size:250% 100%;
-    animation:csiSheen 7s ease-in-out infinite}
-  .csi-cta:hover{transform:translateY(-2px);border-color:var(--violet);box-shadow:0 18px 50px rgba(0,0,0,.5),0 0 44px rgba(183,156,255,.28)}
-  .csi-cta:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
-  .csi-orb{position:relative;width:74px;height:74px;border-radius:50%;display:grid;place-items:center;
-    background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.9) 0 4%,rgba(255,255,255,.3) 10%,transparent 30%),
-      radial-gradient(circle at 70% 30%,rgba(255,122,200,.65),transparent 55%),
-      radial-gradient(circle at 40% 80%,rgba(95,160,232,.75),transparent 60%),
-      radial-gradient(circle at 50% 50%,#c98bc0,#7d6aa8 70%,#5a4a8a);
-    box-shadow:0 0 22px rgba(255,122,200,.4),inset -6px -9px 18px rgba(20,7,31,.35);animation:csiFloat 5s ease-in-out infinite}
-  .csi-orb::after{content:"";position:absolute;bottom:-9px;left:50%;width:46px;height:12px;transform:translateX(-50%);
-    background:linear-gradient(180deg,#d9a53a,#9a6c1c);clip-path:polygon(18% 0,82% 0,100% 100%,0 100%)}
-  .csi-orb-num{font-family:var(--display);font-weight:900;font-size:1.15rem;color:var(--pearl);
-    text-shadow:0 2px 10px rgba(20,7,31,.8),0 0 12px rgba(255,122,200,.6);font-variant-numeric:tabular-nums}
-  .csi-cta-body{display:grid;gap:5px;min-width:0}
-  .csi-cta-kicker{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
-  .csi-cta-title{font-family:var(--display);font-weight:700;font-size:1.15rem;line-height:1.2}
-  .csi-cta-text{font-size:.98rem;line-height:1.35;color:var(--pearl-dim)}
-  .csi-cta-row{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-top:3px}
-  .csi-cta-pill{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--band,var(--moderate));border:1px solid color-mix(in srgb,var(--band,var(--moderate)) 55%,transparent);
-    background:color-mix(in srgb,var(--band,var(--moderate)) 14%,transparent);border-radius:999px;padding:3px 10px}
-  .csi-cta-go{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan)}
-  .csi-cta:hover .csi-cta-go{color:var(--gold)}
-  @keyframes csiSheen{0%,100%{background-position:100% 0}50%{background-position:0 0}}
-  @keyframes csiFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-  @media (prefers-reduced-motion:reduce){.csi-cta::after,.csi-orb{animation:none}.csi-cta:hover{transform:none}}
-  .csi-tw{position:absolute;z-index:1;pointer-events:none;font-size:.9rem;line-height:1;opacity:0;
-    text-shadow:0 0 8px currentColor;animation:csiTw var(--d,2.6s) ease-in-out infinite;animation-delay:var(--w,0s)}
-  @keyframes csiTw{0%,100%{opacity:0;transform:scale(.3) rotate(0)}45%{opacity:1;transform:scale(1) rotate(30deg)}}
-  .csi-orb::before{content:"";position:absolute;inset:-6px;border-radius:50%;pointer-events:none;
-    background:conic-gradient(from 0deg,transparent,rgba(255,246,251,.35),transparent 30%,rgba(255,122,200,.35),transparent 60%,rgba(95,232,208,.3),transparent 85%);
-    -webkit-mask:radial-gradient(circle,transparent 62%,#000 64%,#000 70%,transparent 72%);mask:radial-gradient(circle,transparent 62%,#000 64%,#000 70%,transparent 72%);
-    animation:csiRing 6s linear infinite}
-  @keyframes csiRing{to{transform:rotate(360deg)}}
-  @media (prefers-reduced-motion:reduce){.csi-tw,.csi-orb::before{animation:none}.csi-tw{opacity:.8}}
-  </style>
-  <script>
-  /* Today's Crystal Stress Index on the card (quietly skipped if the feed is unreachable). */
-  (function () {
-    if (!/^https?:$/.test(location.protocol)) return;
-    fetch("https://mmri.magickmica.workers.dev/csi").then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
-      if (!j || typeof j.value !== "number") return;
-      var cols = { Calm: "var(--low)", Watchful: "var(--moderate)", Stressed: "var(--high)", Storm: "var(--extreme)" };
-      var num = document.getElementById("csiCtaNum"), pill = document.getElementById("csiCtaPill");
-      if (num) num.textContent = Math.round(j.value);
-      if (pill) { pill.textContent = "Today " + j.value.toFixed(1) + " · " + j.band; pill.style.setProperty("--band", cols[j.band] || "var(--moderate)"); pill.hidden = false; }
-    }).catch(function () {});
-  })();
-  </script>
-
-  <script>
-  (function () {
-    const q = new URLSearchParams(location.search).get("api");
-    const API = (q && /^http:\/\/localhost(:\d+)?$/.test(q)) ? q : "https://mmri.magickmica.workers.dev";
-    const $ = (id) => document.getElementById(id);
-    const fx = () => window.MM_FX || { emit() {}, sfx: { cast() {}, band() {}, tap() {} } };
-    let PID = null, STATE = null, PERIOD = "week";
-    try { PID = localStorage.getItem("mm-player"); } catch (e) {}
-
-    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-    const dayName = (d) => new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { timeZone: "UTC", weekday: "short", month: "short", day: "numeric" });
-    const n1 = (v) => (+v).toFixed(1);
-
-    async function api(path, body) {
-      const r = await fetch(API + path, body ? {
-        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
-      } : { cache: "no-store" });
-      const j = await r.json().catch(() => null);
-      if (!j) throw new Error("offline");
-      if (!r.ok) throw Object.assign(new Error(j.error || "error"), { soft: true });
-      return j;
-    }
-
-    function countdown() {
-      if (!STATE) return;
-      const ms = new Date(STATE.locksAt) - Date.now();
-      let lock;
-      if (ms <= 0) lock = "locked, scoring after 4 PM ET";
-      else {
-        const h = Math.floor(ms / 36e5), m = Math.floor(ms / 6e4) % 60;
-        lock = "locks in <b>" + (h ? h + "h " : "") + m + "m</b>";
-      }
-      $("gMeta").innerHTML = `Casting for <b>${dayName(STATE.day)}</b> · ${lock} · ${STATE.casters} caster${STATE.casters === 1 ? "" : "s"} so far`;
-    }
-
-    function render() {
-      const s = STATE, you = s.you;
-      $("gOffline").hidden = true;
-      $("gJoin").hidden = !!you;
-      $("gCast").hidden = !you;
-      $("gCrystalBox").hidden = false;
-      countdown();
-      const val = $("gVal");
-      if (you) {
-        if (document.activeElement !== val) {
-          const guess = you.cast != null ? you.cast : s.live ? s.live.mmri : s.lastClose ? s.lastClose.mmri : 330;
-          val.value = n1(guess);
-        }
-        $("gCastMsg").className = "g-msg" + (you.cast != null ? " good" : "");
-        $("gCastMsg").textContent = you.cast != null
-          ? `Your cast: ${n1(you.cast)}. You can change it until 3:30 PM ET.`
-          : `No cast yet for ${dayName(s.day)}.${s.live ? " The market reads " + n1(s.live.mmri) + " right now." : ""}`;
-        $("gYou").hidden = false;
-        $("gYou").innerHTML = `<span class="who">${esc(you.name)}</span><span class="g-badge">${esc(you.title)}</span>` +
-          `<span>Rank <b>#${you.rank}</b> of ${you.of}</span><span><b>${you.points.toLocaleString()}</b> pts</span>` +
-          `<span><b>${you.streak}</b>-day streak</span>`;
-      } else {
-        $("gYou").hidden = true;
-      }
-      const lc = s.lastClose;
-      if (lc) {
-        let t = `${dayName(lc.day)} closed at <b>${n1(lc.mmri)}</b>.`;
-        if (you && you.last && you.last.points != null) t += ` You cast ${n1(you.last.value)}, off by ${(+you.last.err).toFixed(1)}, for <b>+${you.last.points}</b> pts.`;
-        if (s.crystal.last) t += ` The Crystal was off by ${(+s.crystal.last.err).toFixed(1)}.`;
-        $("gLast").innerHTML = t; $("gLast").hidden = false;
-        const w = s.lastResults;
-        $("gWinH").hidden = $("gWin").hidden = !w.length;
-        $("gWin").innerHTML = w.map((r, i) =>
-          `<li><span class="rk">${i + 1}</span><span class="nm">${esc(r.name)}<small>cast ${n1(r.value)}</small></span><span class="pt">+${r.points}</span></li>`).join("");
-      }
-    }
-
-    async function load() {
-      try {
-        STATE = await api("/game/state" + (PID ? "?player=" + encodeURIComponent(PID) : ""));
-        if (PID && !STATE.you) { PID = null; try { localStorage.removeItem("mm-player"); } catch (e) {} }
-        render();
-      } catch (e) {
-        STATE = null;
-        $("gMeta").textContent = "✦ Daily prediction game";
-        $("gOffline").hidden = false;
-        $("gJoin").hidden = $("gCast").hidden = $("gYou").hidden = $("gLast").hidden = $("gCrystalBox").hidden = true;
-      }
-      board();
-    }
-
-    async function board() {
-      try {
-        const j = await api("/game/leaderboard?period=" + PERIOD);
-        const me = STATE && STATE.you ? STATE.you.name : null;
-        let rank = 0;
-        $("gBoard").innerHTML = j.rows.length ? j.rows.map((r) => {
-          const cls = r.bot ? "bot" : r.name === me ? "me" : "";
-          const rk = r.bot ? "◇" : ++rank;
-          return `<li class="${cls}"><span class="rk">${rk}</span><span class="nm">${esc(r.name)}<small>${esc(r.title)}</small></span><span class="pt">${(+r.points).toLocaleString()}</span></li>`;
-        }).join("") : '<li class="g-empty">No scores yet. The first close will crown someone.</li>';
-      } catch (e) {
-        $("gBoard").innerHTML = '<li class="g-empty">The leaderboard appears once the game is live.</li>';
-      }
-    }
-
-    $("gJoinBtn").addEventListener("click", async () => {
-      const name = $("gName").value.trim(), msg = $("gJoinMsg");
-      if (!PID) PID = (crypto.randomUUID ? crypto.randomUUID() : Array.from(crypto.getRandomValues(new Uint8Array(16)), (b) => b.toString(16).padStart(2, "0")).join(""));
-      try {
-        await api("/game/join", { playerId: PID, name });
-        try { localStorage.setItem("mm-player", PID); } catch (e) {}
-        msg.textContent = "";
-        fx().sfx.tap();
-        await load();
-      } catch (e) {
-        msg.className = "g-msg bad";
-        msg.textContent = e.soft ? e.message : "The oracle is unreachable. Try again soon.";
-      }
-    });
-    $("gName").addEventListener("keydown", (e) => { if (e.key === "Enter") $("gJoinBtn").click(); });
-
-    document.querySelectorAll("[data-g]").forEach((b) => b.addEventListener("click", () => {
-      const v = parseFloat($("gVal").value) || 0;
-      $("gVal").value = n1(v + parseFloat(b.dataset.g));
-    }));
-
-    $("gCastBtn").addEventListener("click", async () => {
-      const v = parseFloat($("gVal").value), msg = $("gCastMsg");
-      try {
-        const j = await api("/game/predict", { playerId: PID, value: v });
-        const r = $("gCastBtn").getBoundingClientRect();
-        fx().emit(r.left + r.width / 2, r.top + r.height / 2, 60, 3.6);
-        fx().sfx.cast();
-        await load();
-        msg.className = "g-msg good";
-        msg.textContent = `✦ Cast ${n1(j.value)} for ${dayName(j.day)}. You can change it until 3:30 PM ET.`;
-      } catch (e) {
-        msg.className = "g-msg bad";
-        msg.textContent = e.soft ? e.message : "The oracle is unreachable. Your cast was not saved.";
-      }
-    });
-    $("gVal").addEventListener("keydown", (e) => { if (e.key === "Enter") $("gCastBtn").click(); });
-
-    function touchCrystal() {
-      if (!STATE) return;
-      const c = STATE.crystal, r = $("gCrystalBtn").getBoundingClientRect();
-      fx().emit(r.left + r.width / 2, r.top + r.height / 2 - 10, 50, 3.2);
-      fx().sfx.band(1);
-      $("gOrbNum").textContent = n1(c.value);
-      $("gCrystalBox").classList.add("revealed");
-      $("gCrystal").innerHTML = `<em>“${esc(c.prophecy)}”</em> The Crystal casts <b>${n1(c.value)}</b> for ${dayName(STATE.day)}. Beat it for +10.`;
-      $("gCrystalCta").textContent = "Ask again →";
-    }
-    $("gCrystalBtn").addEventListener("click", touchCrystal);
-    $("gCrystalCta").addEventListener("click", touchCrystal);
-
-    document.querySelectorAll(".g-tabs button").forEach((b) => b.addEventListener("click", () => {
-      PERIOD = b.dataset.p;
-      document.querySelectorAll(".g-tabs button").forEach((x) => x.setAttribute("aria-selected", x === b));
-      board();
-    }));
-
-    load();
-    setInterval(countdown, 30 * 1000);
-    setInterval(() => { if (!document.hidden) load(); }, 5 * 60 * 1000);
-  })();
-  </script>
-
   <footer>
-    <div class="collab">
-      <span class="collab-tw" aria-hidden="true" style="left:14px;top:46%;--d:2.4s;--w:.2s;font-size:1rem;color:#ffe6a8">✦</span><span class="collab-tw" aria-hidden="true" style="right:16px;top:10px;--d:2.9s;--w:1.1s;font-size:.9rem;color:#5fe8d0">✦</span><span class="collab-tw" aria-hidden="true" style="right:28%;top:42%;--d:2.2s;--w:.6s;font-size:.7rem;color:#fff6fb">✦</span><span class="collab-tw" aria-hidden="true" style="left:42%;top:8px;--d:3.1s;--w:1.7s;font-size:.8rem;color:#ff9fd6">✦</span><span class="collab-tw" aria-hidden="true" style="right:14px;bottom:18px;--d:2.6s;--w:2.2s;font-size:.75rem;color:#b79cff">✦</span>
-      <a class="collab-link" href="https://www.mannarino-market-risk-indicator.ai/" target="_blank" rel="noopener">
-        <span class="collab-art"><span class="collab-badge">✦ Collab</span><img src="abracaduh-mmri.jpg" width="840" height="560" loading="lazy" alt="Pop-art remix: a wide-eyed man shouts ABRACA-DUH! in a glittering crystal fantasy world"></span>
-        <span class="collab-body">
-          <span class="collab-kicker">✦ A fellow MMRI fan site</span>
-          <span class="collab-title">Abraca-DUH! Visit MMRI.ai</span>
-          <span class="collab-text">The live MMRI with a DUH-O-Meter, a prediction game and a meme maker. Tap for a little money magic.</span>
-          <span class="collab-go">♪ Cha-ching · open MMRI.ai ↗</span>
-        </span>
-      </a>
-      <p class="collab-credit">Art: a Magick Mica remix. Original image from <a href="https://www.mannarino-market-risk-indicator.com/" target="_blank" rel="noopener">mannarino-market-risk-indicator.com</a>.</p>
-    </div>
     <p><strong>Credit.</strong> The MMRI formula and risk bands were created by <a href="https://substack.com/@gregorymannarino" target="_blank" rel="noopener">Gregory Mannarino</a>. See his <a href="https://www.youtube.com/watch?v=G42bKHhawfg" target="_blank" rel="noopener">video explaining the indicator</a>. This Magick Mica edition is an independent fan rendition and is not affiliated with him. For a tick-by-tick chart, see the open-source <a href="https://www.tradingview.com/script/jOSQHVjB-Mannarino-Market-Risk-Indicator/" target="_blank" rel="noopener">TradingView version by kevindcarr</a>.</p>
     <p>For information only. This is not financial advice. Do your own research before making investment decisions.</p>
-        <p class="sig" style="display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;justify-content:center"><a href="https://magickmica.github.io/articles.html">The magazine</a><a href="https://magickmica.github.io/notes.html">All notes</a><a href="https://magickmica.github.io/arcade.html">The arcade</a><a href="https://magickmica.github.io/crystal-stress-index.html">Crystal Stress Index</a><a href="https://magickmica.github.io/crystals.html">Crystals</a><a href="https://magickmica.github.io/index.html">Back to the signal</a></p>
-    <p class="sig">✦ <a href="https://magickmicatv.store/" target="_blank" rel="noopener">Magick Mica TV store ↗</a> ✦</p>
+    <p class="sig"><a href="articles.html">The magazine</a> &nbsp;|&nbsp; <a href="notes.html">All notes</a> &nbsp;|&nbsp; <a href="arcade.html">The arcade</a> &nbsp;|&nbsp; <a href="index.html">Back to the signal</a> &nbsp;|&nbsp; <a href="https://magickmicatv.store/" target="_blank" rel="noopener">Store ↗</a></p>
   </footer>
 </div>
 
 <script id="feed" type="application/json">
-{"updated":"2026-09-29T16:58:36-04:00","dxy":101.4,"us10y":5.28,"source":"FXStreet","history":[{"t":"2026-09-28T11:55:00-04:00","dxy":101.174,"us10y":5.27},{"t":"2026-09-28T15:03:38-04:00","dxy":101.219,"us10y":5.26},{"t":"2026-09-28T16:58:01-04:00","dxy":101.219,"us10y":5.26},{"t":"2026-09-29T16:58:36-04:00","dxy":101.4,"us10y":5.28}]}
+{"updated":"2026-09-28T16:58:01-04:00","dxy":101.219,"us10y":5.26,"source":"Trading Economics / Investing.com","history":[{"t":"2026-09-28T11:55:00-04:00","dxy":101.174,"us10y":5.27},{"t":"2026-09-28T15:03:38-04:00","dxy":101.219,"us10y":5.26},{"t":"2026-09-28T16:58:01-04:00","dxy":101.219,"us10y":5.26}]}
 </script>
 
 <script>
 (function () {
   let FEED = { dxy: 101.174, us10y: 5.27, history: [] };
   try { FEED = JSON.parse(document.getElementById("feed").textContent); } catch (e) {}
-  const DEFAULT = { dxy: FEED.dxy, us10y: FEED.us10y, gdp: FEED.debt_gdp || 1.234 };
+  const DEFAULT = { dxy: FEED.dxy, us10y: FEED.us10y, gdp: FEED.debt_gdp || 1.29 };
   const BANDS = [
     { name: "Low risk", color: "var(--low)" },
     { name: "Moderate risk", color: "var(--moderate)" },
@@ -1155,7 +456,7 @@ footer strong{color:var(--gold)}
      Everything downstream (scale, ticks, bands, heat grid, chart shading,
      the drag) is derived from `edges`, so a mode is the only thing that
      has to change.                                                         */
-  const GDP_FALLBACK = 1.234;   // $40.10T debt ÷ $32.49T GDP (BEA Q2 2026) ≈ 123.4%, Sep 2026
+  const GDP_FALLBACK = 1.29;    // Treasury daily debt ÷ GDP, ~129%, Sep 2026
 
   function curGdp() {
     const g = parseFloat($("debtgdp").value);
@@ -1179,7 +480,7 @@ footer strong{color:var(--gold)}
       solveYield: (target, d) => target * 1.61 / (d * curGdp()),
       formula: (d, y, v) =>
         `MMMRI = (DXY × US10Y ÷ 1.61) × Debt÷GDP = <b>(${fmt(d, 3)} × ${fmt(y, 2)} ÷ 1.61) × ${curGdp().toFixed(3)} = ${v.toFixed(1)}</b>`,
-      note: "The modified version multiplies the reading by federal debt over GDP, and lowers every band edge. With debt above 120% of GDP both changes push the same way, so the MMMRI reads far hotter than the MMRI on identical market conditions — by design.",
+      note: "The modified version multiplies the reading by federal debt over GDP, and lowers every band edge. With debt near 130% of GDP both changes push the same way, so the MMMRI reads far hotter than the MMRI on identical market conditions — by design.",
     },
   };
   var PAGE_MODE = "mmri";            /* build_mmri_pages.py flips this */
@@ -1672,264 +973,7 @@ footer strong{color:var(--gold)}
 })();
 </script>
 
-<!-- ✦ Collab card: a fellow MMRI fan site, with the healing cha-ching -->
-<style id="collab-css">
-@media (min-width:900px){
-  footer{grid-template-columns:minmax(0,1fr) minmax(300px,400px);column-gap:34px;align-items:start}
-  footer > *:not(.collab){grid-column:1}
-  footer > .collab{grid-column:2;grid-row:1 / span 6}
-}
-.collab{position:relative;display:grid;gap:0;border-radius:var(--radius);overflow:hidden;text-decoration:none;color:var(--pearl);
-  text-align:left;border:1px solid transparent;
-  background:linear-gradient(#170a29,#170a29) padding-box,
-    linear-gradient(120deg,var(--gold),var(--pink),var(--cyan),var(--violet),var(--gold)) border-box;
-  background-size:100% 100%,300% 300%;animation:collabEdge 8s linear infinite;
-  box-shadow:0 18px 50px rgba(0,0,0,.5),0 0 34px rgba(255,122,200,.18);transition:transform .25s,box-shadow .25s}
-.collab:hover{transform:translateY(-3px) rotate(-.4deg);box-shadow:0 24px 60px rgba(0,0,0,.55),0 0 50px rgba(255,122,200,.35),0 0 80px rgba(95,232,208,.18)}
-.collab-link{display:grid;text-decoration:none;color:inherit}
-.collab-link:focus-visible{outline:2px solid var(--gold);outline-offset:-4px}
-.collab-art{position:relative;aspect-ratio:3 / 2;overflow:hidden;max-width:100%}
-.collab-art img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1),filter .6s}
-.collab:hover .collab-art img{transform:scale(1.06);filter:saturate(1.15) brightness(1.05)}
-.collab-art::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;
-  background:linear-gradient(105deg,transparent 30%,rgba(255,246,251,.45) 46%,rgba(183,156,255,.3) 52%,transparent 66%);
-  background-size:260% 100%;animation:collabSheen 5s ease-in-out infinite}
-.collab-badge{position:absolute;left:12px;top:12px;z-index:2;font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.2em;
-  text-transform:uppercase;color:#1b0a2e;background:var(--holo);border-radius:999px;padding:5px 11px;box-shadow:0 4px 16px rgba(0,0,0,.4)}
-.collab-body{display:grid;gap:7px;padding:15px 17px 16px}
-.collab-kicker{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
-.collab-title{font-family:var(--display);font-weight:900;font-size:1.3rem;line-height:1.15;
-  background:var(--holo);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:drift 10s ease-in-out infinite alternate}
-.collab-text{font-size:1rem;line-height:1.4;color:var(--pearl-dim)}
-.collab-go{display:inline-flex;align-items:center;gap:8px;justify-self:start;margin-top:4px;font-family:var(--mono);font-size:.68rem;
-  font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#1b0a2e;background:linear-gradient(135deg,var(--gold),var(--pink));
-  border-radius:999px;padding:.6rem 1.1rem;box-shadow:0 10px 26px rgba(255,122,200,.32)}
-.collab:hover .collab-go{background:linear-gradient(135deg,var(--cyan),var(--violet))}
-.collab-credit{font-size:.82rem;line-height:1.4;color:var(--muted);padding:0 17px 14px;text-align:left}
-.collab-credit a{color:var(--pearl-dim)}
-.collab-tw{position:absolute;z-index:3;pointer-events:none;line-height:1;opacity:0;text-shadow:0 0 10px currentColor;
-  animation:csiTw2 var(--d,2.6s) ease-in-out infinite;animation-delay:var(--w,0s)}
-@keyframes csiTw2{0%,100%{opacity:0;transform:scale(.3) rotate(0)}45%{opacity:1;transform:scale(1) rotate(30deg)}}
-@keyframes collabEdge{to{background-position:0 0,300% 0}}
-@keyframes collabSheen{0%{background-position:130% 0}55%,100%{background-position:-60% 0}}
-.collab.chime .collab-art img{animation:collabPop .7s cubic-bezier(.2,.8,.2,1)}
-@keyframes collabPop{0%{transform:scale(1)}35%{transform:scale(1.1) rotate(-1deg)}100%{transform:scale(1.06)}}
-@media (prefers-reduced-motion:reduce){.collab,.collab-art::after,.collab-title,.collab-tw{animation:none}.collab-tw{opacity:.8}.collab:hover{transform:none}}
-</style>
-<script>
-(function () {
-  /* The healing cha-ching: a soft drawer "ka", then a 528 Hz bell "ching" with a rising shimmer
-     and a 432 Hz glow underneath. Plays when the card is clicked (the link opens in a new tab). */
-  let ctx = null;
-  function ac() { if (!ctx) { const C = window.AudioContext || window.webkitAudioContext; if (C) ctx = new C(); } if (ctx && ctx.state === "suspended") ctx.resume(); return ctx; }
-  function tone(a, freq, t0, dur, type, vol, glide) {
-    const o = a.createOscillator(), g = a.createGain();
-    o.type = type; o.frequency.setValueAtTime(freq, t0);
-    if (glide) o.frequency.exponentialRampToValueAtTime(freq * glide, t0 + dur);
-    g.gain.setValueAtTime(0.0001, t0);
-    g.gain.exponentialRampToValueAtTime(vol, t0 + 0.008);
-    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-    o.connect(g).connect(master); o.start(t0); o.stop(t0 + dur + 0.05);
-  }
-  let master = null;
-  function chaChing() {
-    const a = ac(); if (!a) return;
-    master = a.createGain(); master.gain.value = 0.9;
-    const verb = a.createDelay(); verb.delayTime.value = 0.16;
-    const fb = a.createGain(); fb.gain.value = 0.32;
-    const wet = a.createGain(); wet.gain.value = 0.35;
-    master.connect(a.destination); master.connect(verb); verb.connect(fb).connect(verb); verb.connect(wet).connect(a.destination);
-    const t = a.currentTime + 0.02;
-    // "ka": a quick soft drawer click
-    const n = a.createBufferSource(), buf = a.createBuffer(1, a.sampleRate * 0.06, a.sampleRate), d = buf.getChannelData(0);
-    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 3);
-    n.buffer = buf; const bp = a.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 2400; bp.Q.value = 1.4;
-    const ng = a.createGain(); ng.gain.value = 0.5; n.connect(bp).connect(ng).connect(master); n.start(t);
-    tone(a, 180, t, 0.09, "sine", 0.35, 0.6);
-    // "ching": a bright 528 Hz bell, struck twice like a register bell
-    for (const [s, v] of [[0.11, 1], [0.24, 0.7]]) {
-      tone(a, 1056, t + s, 1.8, "sine", 0.22 * v);          // 528 x 2
-      tone(a, 1584, t + s, 1.2, "sine", 0.12 * v);          // 528 x 3
-      tone(a, 2640 * 1.003, t + s, 0.7, "sine", 0.06 * v);  // shimmer partial
-      tone(a, 528, t + s, 2.2, "triangle", 0.10 * v);
-    }
-    // rising sparkle on the 528 scale
-    [528, 660, 792, 1056, 1320].forEach((f, i) => tone(a, f * 2, t + 0.42 + i * 0.07, 0.5, "triangle", 0.05));
-    // a gentle 432 Hz glow underneath
-    const pad = a.createOscillator(), pg = a.createGain();
-    pad.type = "sine"; pad.frequency.value = 432; pg.gain.setValueAtTime(0.0001, t + 0.1);
-    pg.gain.exponentialRampToValueAtTime(0.09, t + 0.5); pg.gain.exponentialRampToValueAtTime(0.0001, t + 2.6);
-    pad.connect(pg).connect(master); pad.start(t + 0.1); pad.stop(t + 2.7);
-  }
-  window.MM_CHACHING = chaChing;
-  document.addEventListener("click", (e) => {
-    const link = e.target.closest && e.target.closest(".collab-link");
-    if (!link) return;
-    const card = link.closest(".collab");
-    chaChing();
-    card.classList.remove("chime"); void card.offsetWidth; card.classList.add("chime");
-    if (window.MM_FX) {
-      const r = card.getBoundingClientRect();
-      window.MM_FX.emit(r.left + r.width / 2, r.top + r.height * 0.35, 90, 4.6);
-    }
-  });
-})();
-</script>
-
-<!-- ✦ Magick wand: cursor, sparkle trail, spell sounds (sound off until the viewer turns it on) -->
-<style>
-@media (hover:hover) and (pointer:fine){
-  html,body,a,button,.track,.marker,input,label{
-    cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cdefs%3E%3ClinearGradient id='s' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23FFF6FB'/%3E%3Cstop offset='1' stop-color='%23B79CFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M11 11 L33 33' stroke='%230B0417' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M11 11 L33 33' stroke='url(%23s)' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M29 29 L33 33' stroke='%23F5C044' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M8 1 L9.8 6.2 L15 8 L9.8 9.8 L8 15 L6.2 9.8 L1 8 L6.2 6.2 Z' fill='%23F5C044' stroke='%230B0417' stroke-width='1'/%3E%3C/svg%3E") 8 8, auto;
-  }
-  input{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cpath d='M11 11 L33 33' stroke='%230B0417' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M11 11 L33 33' stroke='%235FE8D0' stroke-width='3.2' stroke-linecap='round'/%3E%3Cpath d='M8 1 L9.8 6.2 L15 8 L9.8 9.8 L8 15 L6.2 9.8 L1 8 L6.2 6.2 Z' fill='%235FE8D0' stroke='%230B0417' stroke-width='1'/%3E%3C/svg%3E") 8 8, text}
-}
-#wandFx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
-.spellbar{position:fixed;right:16px;bottom:16px;z-index:60;display:flex;gap:8px}
-.spellbar button{padding:.55rem 1rem;font-size:.64rem;letter-spacing:.16em}
-.spellbar button.ghost{background:rgba(11,4,23,.78);backdrop-filter:blur(6px)}
-.spellbar button[aria-pressed="true"]{color:#1b0a2e;background:var(--cyan);border-color:var(--cyan)}
-.score-num.cast{animation:castpop .9s cubic-bezier(.2,.8,.2,1)}
-@keyframes castpop{0%{transform:scale(1);filter:none}
-  30%{transform:scale(1.08);filter:drop-shadow(0 0 26px rgba(245,192,68,.9))}
-  100%{transform:scale(1);filter:none}}
-@media (prefers-reduced-motion:reduce){.score-num.cast{animation:none}}
-</style>
-<canvas id="wandFx" aria-hidden="true"></canvas>
-<div class="spellbar">
-  <button class="ghost" id="soundBtn" type="button" aria-pressed="false">♪ Sound off</button>
-  <button id="castBtn" type="button">✦ Cast</button>
-</div>
-<script>
-(function () {
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const $ = (id) => document.getElementById(id);
-
-  /* ── sparkles ── */
-  const cv = $("wandFx"), ctx = cv.getContext("2d");
-  const COLS = ["245,192,68", "255,122,200", "183,156,255", "95,232,208", "255,246,251"];
-  let parts = [], W = 0, H = 0, running = false;
-  function size() {
-    const d = Math.min(2, devicePixelRatio || 1);
-    W = innerWidth; H = innerHeight;
-    cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
-  }
-  size(); addEventListener("resize", size);
-  function star(x, y, r, rot) {
-    ctx.beginPath();
-    for (let i = 0; i < 8; i++) {
-      const a = rot + i * Math.PI / 4, rr = i % 2 ? r * .38 : r;
-      ctx[i ? "lineTo" : "moveTo"](x + Math.cos(a) * rr, y + Math.sin(a) * rr);
-    }
-    ctx.closePath(); ctx.fill();
-  }
-  function emit(x, y, n, speed) {
-    if (reduce) return;
-    for (let i = 0; i < n; i++) {
-      const a = Math.random() * Math.PI * 2, s = (Math.random() * .7 + .3) * speed;
-      parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - speed * .2,
-        r: 1.5 + Math.random() * 3.5, life: 1, decay: .012 + Math.random() * .02,
-        rot: Math.random() * 6, c: COLS[(Math.random() * COLS.length) | 0] });
-    }
-    if (parts.length > 500) parts.splice(0, parts.length - 500);
-    if (!running) { running = true; requestAnimationFrame(tick); }
-  }
-  function tick() {
-    ctx.clearRect(0, 0, W, H);
-    parts = parts.filter((p) => (p.life -= p.decay) > 0);
-    for (const p of parts) {
-      p.x += p.vx; p.y += p.vy; p.vy += .03; p.vx *= .985; p.rot += .08;
-      ctx.fillStyle = `rgba(${p.c},${p.life})`;
-      ctx.shadowColor = `rgba(${p.c},${p.life})`; ctx.shadowBlur = 8;
-      star(p.x, p.y, p.r * (.6 + p.life * .4), p.rot);
-    }
-    if (parts.length) requestAnimationFrame(tick); else { running = false; ctx.clearRect(0, 0, W, H); }
-  }
-  let lx = 0, ly = 0;
-  addEventListener("pointermove", (e) => {
-    if (e.pointerType !== "mouse") return;
-    const d = Math.hypot(e.clientX - lx, e.clientY - ly);
-    if (d > 6) { emit(e.clientX - 2, e.clientY - 2, Math.min(3, 1 + d / 30), .6); lx = e.clientX; ly = e.clientY; }
-  }, { passive: true });
-  addEventListener("pointerdown", (e) => { emit(e.clientX, e.clientY, 18, 2.4); sfx.tap(); }, { passive: true });
-
-  /* ── sound: synthesized, nothing to download. Off until the viewer turns it on. ── */
-  let on = false, ac = null;
-  try { on = localStorage.getItem("mm-sound") === "on"; } catch (e) {}
-  function A() {
-    if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } }
-    if (ac.state === "suspended") ac.resume();
-    return ac;
-  }
-  function tone(freq, t0, dur, type, vol) {
-    const a = A(); if (!a) return;
-    const o = a.createOscillator(), g = a.createGain(), t = a.currentTime + t0;
-    o.type = type || "sine"; o.frequency.setValueAtTime(freq, t);
-    g.gain.setValueAtTime(0, t);
-    g.gain.linearRampToValueAtTime(vol || .08, t + .01);
-    g.gain.exponentialRampToValueAtTime(.0001, t + dur);
-    o.connect(g).connect(a.destination); o.start(t); o.stop(t + dur + .05);
-  }
-  const PENT = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.5, 1568];
-  let lastTick = 0;
-  const sfx = {
-    tap() { if (on) { tone(1568, 0, .25, "sine", .04); tone(2093, .03, .3, "triangle", .025); } },
-    tick(v) {                           /* drag shimmer, pitch follows the reading */
-      if (!on) return; const now = performance.now(); if (now - lastTick < 45) return; lastTick = now;
-      tone(300 + Math.max(0, Math.min(1, v)) * 1300, 0, .12, "triangle", .035);
-    },
-    cast() {                            /* rising arpeggio + bell */
-      if (!on) return;
-      [0, 2, 4, 5, 7].forEach((n, i) => tone(PENT[n], i * .07, .6, "sine", .06));
-      tone(PENT[8], .38, 1.4, "triangle", .05); tone(PENT[8] * 2.01, .38, 1, "sine", .02);
-    },
-    band(b) {                           /* lower, darker gong the hotter the band */
-      if (!on) return; const f = [880, 659.25, 523.25, 392][b] || 440;
-      tone(f, 0, 1.6, "sine", .07); tone(f * 1.5, .02, 1.2, "triangle", .03); tone(f / 2, 0, 1.8, "sine", .05);
-    },
-  };
-  window.MM_FX = { emit, sfx };
-  const btn = $("soundBtn");
-  function paint() { btn.textContent = on ? "♪ Sound on" : "♪ Sound off"; btn.setAttribute("aria-pressed", on); }
-  paint();
-  btn.addEventListener("click", () => {
-    on = !on; paint();
-    try { localStorage.setItem("mm-sound", on ? "on" : "off"); } catch (e) {}
-    if (on) sfx.cast();
-  });
-
-  /* ── cast: flourish over the reading and chime ── */
-  const score = $("score");
-  function flourish() {
-    const r = score.getBoundingClientRect();
-    emit(r.left + r.width / 2, r.top + r.height / 2, 70, 4.2);
-    score.classList.remove("cast"); void score.offsetWidth; score.classList.add("cast");
-  }
-  $("castBtn").addEventListener("click", (e) => {
-    e.stopPropagation();
-    const reset = $("resetBtn"); if (reset && !reset.hidden) reset.click();
-    flourish(); sfx.cast();
-  });
-
-  /* ── react to the instrument ── */
-  let lastBand = null, lastScore = score.textContent;
-  new MutationObserver(() => {
-    if (score.textContent === lastScore) return; lastScore = score.textContent;
-    const txt = ($("pill").textContent || "").toLowerCase();
-    const b = ["low", "moderate", "high", "extreme"].findIndex((k) => txt.startsWith(k));
-    const m = $("marker"), lo = +m.getAttribute("aria-valuemin"), hi = +m.getAttribute("aria-valuemax");
-    sfx.tick((parseFloat(lastScore) - lo) / (hi - lo));
-    if (lastBand !== null && b !== lastBand) {
-      sfx.band(b);
-      const r = $("pill").getBoundingClientRect(); emit(r.left + r.width / 2, r.top + r.height / 2, 30, 2.8);
-    }
-    lastBand = b;
-  }).observe(score, { childList: true, characterData: true, subtree: true });
-  const t = ($("pill").textContent || "").toLowerCase();
-  lastBand = ["low", "moderate", "high", "extreme"].findIndex((k) => t.startsWith(k));
-})();
-</script>
-
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
 </body>
 </html>
