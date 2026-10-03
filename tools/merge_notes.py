@@ -39,10 +39,47 @@ def load_master(data_dir: str, notes_html: str | None = None) -> list:
     return []
 
 
+MUX_RE = re.compile(r"(?:image|stream)\.mux\.com/([A-Za-z0-9]+)[./]")
+
+
+def parse_getnotes(raw: dict) -> list:
+    """Turn a GET NOTES! file into compact records.
+
+    GET NOTES! (get-notes.html) writes {app, handle, notes: [...]} with flat
+    fields, where the older collect_notes.js wrote a list of {comment: {...}}.
+    Both end up in the same compact shape.
+    """
+    out = []
+    for n in raw.get("notes") or []:
+        nid, date = n.get("id"), (n.get("date") or "")[:10]
+        if nid is None or not date:
+            continue
+        rec = {
+            "d": date,
+            "l": int(n.get("likes") or 0),
+            "r": int(n.get("restacks") or 0),
+            "id": int(nid),
+            "b": n.get("text") or "",
+        }
+        if n.get("image"):
+            rec["t"] = cdn(n["image"])
+        else:
+            # The Mux playback id is embedded in the still/stream urls; the
+            # pages rebuild the thumbnail from it themselves.
+            m = MUX_RE.search(n.get("video_still") or n.get("video") or "")
+            if m:
+                rec["m"] = m.group(1)
+        out.append(rec)
+    return out
+
+
 def parse_refresh(refresh_path: str) -> list:
     """Turn raw collector output into compact records (own notes only)."""
     with open(refresh_path, encoding="utf-8") as f:
         raw = json.load(f)
+
+    if isinstance(raw, dict) and "notes" in raw:
+        return parse_getnotes(raw)
 
     out = []
     for item in raw:
