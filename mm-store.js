@@ -50,7 +50,19 @@
     '.mms-card:hover{transform:translateY(-3px);border-color:rgba(255,122,200,.55);',
     '  box-shadow:0 14px 34px rgba(0,0,0,.45)}',
     '.mms-shot{position:relative;aspect-ratio:1/1;background:#140a24;overflow:hidden}',
-    '.mms-shot img{width:100%;height:100%;object-fit:cover;display:block}',
+    '.mms-shot img{width:100%;height:100%;object-fit:cover;display:block;',
+    '  filter:brightness(.74) saturate(1.04) contrast(1.03);transition:filter .24s}',
+    /* Printify shoots on white, which punches four bright holes in a dark
+       page. Multiplying a plum wash over it did sink the white, but it
+       dirtied the artwork with it. Dimming the whole frame and laying a
+       thin violet veil over the top tints it without touching the colour
+       relationships inside the product, and both lift on hover so the art
+       comes back true when someone is actually looking at it. */
+    '.mms-shot::after{content:"";position:absolute;inset:0;pointer-events:none;',
+    '  background:linear-gradient(168deg,rgba(183,156,255,.26),rgba(43,18,64,.48));',
+    '  box-shadow:inset 0 0 64px 10px rgba(11,4,23,.6);transition:opacity .24s}',
+    '.mms-card:hover .mms-shot::after{opacity:.35}',
+    '.mms-card:hover .mms-shot img{filter:brightness(1.02) saturate(1.05) contrast(1.02)}',
     '.mms-body{padding:10px 11px 12px;display:flex;flex-direction:column;gap:5px;flex:1}',
     '.mms-name{font-family:Georgia,"Cormorant Garamond",serif;font-size:.92rem;line-height:1.25;',
     '  color:var(--mms-pearl);margin:0;display:-webkit-box;-webkit-line-clamp:2;',
@@ -87,7 +99,7 @@
     wrap.setAttribute('aria-label', 'From the Magick Mica TV store');
 
     var head = el('div', 'mms-head');
-    head.appendChild(el('h2', 'mms-title', '✦ From the Signal Shop'));
+    head.appendChild(el('h2', 'mms-title', '✦ Magick Mica TV Store'));
     var all = el('a', 'mms-all', 'See everything →');
     all.href = STORE; all.target = '_blank'; all.rel = 'noopener';
     head.appendChild(all);
