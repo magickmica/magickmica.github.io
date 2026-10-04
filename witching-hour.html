@@ -61,8 +61,8 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   background-size:300px 300px}
 .hw-web{position:fixed;z-index:3;font-size:4.2rem;opacity:.32;pointer-events:none;
   filter:drop-shadow(0 0 8px color-mix(in srgb,var(--purple) 50%,transparent))}
-.hw-web.tl{top:58px;left:-14px;transform:rotate(-15deg)}
-.hw-web.tr{top:58px;right:-14px;transform:scaleX(-1) rotate(-15deg)}
+.hw-web.tl{top:4px;left:-14px;transform:rotate(-15deg)}
+.hw-web.tr{top:4px;right:-14px;transform:scaleX(-1) rotate(-15deg)}
 .hw-bat{position:fixed;z-index:51;pointer-events:none;font-size:1.7rem;opacity:0;
   animation:hwBat 13s ease-in-out infinite;
   filter:drop-shadow(0 0 6px color-mix(in srgb,var(--pink) 70%,transparent))}
@@ -100,21 +100,21 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   background-repeat:repeat-x;background-size:190px 13px;opacity:.5}
 
 /* ---------- shell ---------- */
-.wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:14px 16px 64px}
-.top{display:flex;align-items:center;gap:14px;padding:6px 0 14px;flex-wrap:wrap}
+.wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:10px 16px 64px}
+.top{display:flex;align-items:center;gap:14px;padding:2px 0 8px;flex-wrap:wrap}
 .brand{font-family:Orbitron,monospace;font-weight:700;font-size:14px;letter-spacing:.16em}
 .top nav{display:flex;gap:13px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
 .top nav a:hover{color:var(--gold)}
 
-.title{text-align:center;padding:2px 0 14px}
-.title h1{font-family:Orbitron,monospace;font-weight:900;font-size:clamp(26px,7.4vw,46px);
+.title{text-align:center;padding:0 0 10px}
+.title h1{font-family:Orbitron,monospace;font-weight:900;font-size:clamp(24px,6.6vw,40px);
   line-height:1.02;letter-spacing:.02em;
   background:linear-gradient(115deg,var(--purple),var(--pink) 32%,var(--gold) 56%,var(--cyan) 82%,var(--purple));
   background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
   animation:sheen 7s linear infinite}
 @keyframes sheen{to{background-position:220% center}}
 .title p{font-family:Silkscreen,monospace;font-size:9.5px;letter-spacing:.22em;color:var(--gold);
-  margin-top:9px;text-transform:uppercase}
+  margin-top:7px;text-transform:uppercase}
 
 /* ---------- hud ---------- */
 .hud{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
@@ -136,7 +136,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   box-shadow:0 0 44px color-mix(in srgb,var(--purple) 20%,transparent),
              inset 0 0 70px rgba(0,0,0,.6)}
 canvas#board{display:block;width:100%;height:auto;touch-action:none}
-.veil{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:22px;
+.veil{position:absolute;inset:0;z-index:4;display:grid;place-items:center;text-align:center;padding:22px;
   background:radial-gradient(ellipse at 50% 42%,color-mix(in srgb,var(--deep) 72%,transparent),
     color-mix(in srgb,var(--deep) 95%,#000));
   backdrop-filter:blur(2px)}
@@ -151,6 +151,34 @@ canvas#board{display:block;width:100%;height:auto;touch-action:none}
   box-shadow:0 0 26px color-mix(in srgb,var(--gold) 55%,transparent);
   transition:transform .16s ease,box-shadow .16s ease}
 .play:hover{transform:translateY(-2px);box-shadow:0 0 38px color-mix(in srgb,var(--gold) 80%,transparent)}
+.play2{margin-top:11px;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:Silkscreen,monospace;font-size:9.5px;letter-spacing:.16em;
+  min-height:44px;padding:11px 20px;border-radius:999px;color:var(--ink);
+  border:1px solid color-mix(in srgb,var(--purple) 46%,transparent);
+  background:var(--surface);transition:border-color .16s ease,color .16s ease,transform .16s ease}
+.play2:hover{border-color:color-mix(in srgb,var(--gold) 65%,transparent);
+  color:var(--gold);transform:translateY(-1px)}
+
+/* The control people actually look for, in the corner of the board itself.
+   The board's top edge is above the fold on a laptop; the buttons under the
+   maze are not, which is the whole point of putting it here. */
+.fs-corner{position:absolute;top:10px;right:10px;z-index:3;
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  min-width:44px;min-height:40px;padding:8px 13px;border-radius:999px;
+  font-family:Silkscreen,monospace;font-size:8.5px;letter-spacing:.14em;color:var(--ink);
+  border:1px solid color-mix(in srgb,var(--purple) 46%,transparent);
+  background:color-mix(in srgb,var(--deep) 74%,transparent);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  transition:border-color .16s ease,background .16s ease,transform .12s ease}
+.fs-corner .ic{font-size:14px;line-height:1}
+.fs-corner:hover{border-color:color-mix(in srgb,var(--gold) 70%,transparent);
+  background:color-mix(in srgb,var(--deep) 90%,transparent);transform:translateY(-1px)}
+/* a soft pulse until the first time someone uses it, then never again */
+.fs-corner.unseen{animation:fsHint 2.8s ease-in-out infinite}
+@keyframes fsHint{0%,100%{box-shadow:0 0 0 0 rgba(0,0,0,0)}
+  50%{box-shadow:0 0 20px 2px color-mix(in srgb,var(--gold) 55%,transparent)}}
+#arena.fs .fs-corner{display:none}
+
 .flash{position:absolute;left:0;right:0;top:46%;text-align:center;pointer-events:none;
   font-family:Silkscreen,monospace;font-size:clamp(11px,3.4vw,15px);letter-spacing:.22em;
   color:var(--gold);text-shadow:0 0 18px color-mix(in srgb,var(--gold) 70%,transparent)}
@@ -236,13 +264,15 @@ h2.sec{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.22em;colo
 .foot a{color:var(--gold)}
 
 @media (max-width:560px){
+  .fs-corner .lbl{display:none}
+  .fs-corner{padding:8px;top:8px;right:8px}
   .hw-web{display:none}
   .wt-moon{width:70px;height:70px}
   .wt-candle.cr{display:none}
   .pad{grid-template-columns:repeat(3,58px);grid-template-rows:repeat(3,48px)}
 }
 @media (prefers-reduced-motion:reduce){
-  .hw-bat,.hw-fog,.wt-candle,.title h1{animation:none!important}
+  .hw-bat,.hw-fog,.wt-candle,.title h1,.fs-corner.unseen{animation:none!important}
   .hw-bat{display:none}
 }
 </style>
@@ -288,6 +318,8 @@ h2.sec{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.22em;colo
   <div class="moonbar" aria-hidden="true"><i id="moonBar"></i></div>
 
   <div class="stage">
+    <button class="fs-corner" id="fsCorner" type="button"
+      title="Play full screen" aria-label="Play full screen"><span class="ic">⛶</span><span class="lbl">FULL SCREEN</span></button>
     <canvas id="board" width="546" height="598" role="img"
       aria-label="A maze of spider-web walls filled with candle flames. A ghost drifts through it, chased by a witch, a goblin, a bat and a spider."></canvas>
     <div class="flash" id="flash" hidden></div>
@@ -299,6 +331,7 @@ h2.sec{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.22em;colo
           Arrows, WASD, swipe, or the pad below.</p>
         <div class="big" id="veilNote">◂ FOUR TUNNELS · TOP, BOTTOM AND BOTH SIDES ▸</div>
         <button class="play" id="playBtn">✦ ENTER THE HOUR</button>
+        <button class="play2" id="playFs" type="button">⛶ PLAY FULL SCREEN</button>
       </div>
     </div>
   </div>
@@ -318,7 +351,6 @@ h2.sec{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.22em;colo
     <button class="chip" data-theme="witches">🧪 WITCHES</button>
   </div>
   <div class="row">
-    <button class="chip" id="fsBtn" aria-pressed="false">⛶ FULL SCREEN</button>
     <button class="chip" id="diffBtn" aria-pressed="false">🕯 GENTLE HAUNT</button>
     <button class="chip" id="soundBtn" aria-pressed="false">🔇 SOUND OFF</button>
     <button class="chip" id="lightBtn" aria-pressed="true">🕯 CANDLELIGHT ON</button>
@@ -347,7 +379,7 @@ h2.sec{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.22em;colo
     <li><b>Four tunnels</b> — the gaps at the top, the bottom and both sides come out the opposite edge. The four move slowly through them; you don't.</li>
     <li><b>The cauldron</b> — the chamber in the middle. They start there and they return there when you catch them. You can't get in.</li>
     <li><b>Candlelight</b> — the maze starts dark and lights as you eat. Turn it off above if you'd rather see everything.</li>
-    <li><b>Full screen</b> — the button above, or the ✕ in the corner to come back. On a phone it fills the screen even where the browser has no real full-screen mode, and in landscape the pad moves beside the board so the maze gets the whole height.</li>
+    <li><b>Full screen</b> — the ⛶ button in the top corner of the maze, or the one on the start screen; ✕ or <b>Esc</b> to come back. On a phone it fills the screen even where the browser has no real full-screen mode, and in landscape the pad moves beside the board so the maze gets the whole height.</li>
     <li><b>Gentle haunt / full moon</b> — the button above. Gentle gives you a slower four, longer moons and a spare ghost. Speeds change as soon as you press it; the spare ghost arrives with your next game.</li>
     <li>An extra ghost at 10,000 points. Each new hour, everyone moves faster and the moons last less long.</li>
   </ul>
@@ -1180,6 +1212,7 @@ function draw(t){
 /* ===========================================================
    11. CHROME
    =========================================================== */
+var fsCorner=document.getElementById('fsCorner');
 var elScore=document.getElementById('hScore'), elBest=document.getElementById('hBest'),
     elLevel=document.getElementById('hLevel'), elLives=document.getElementById('hLives'),
     elMoon=document.getElementById('moonBar'), elFlash=document.getElementById('flash'),
@@ -1197,6 +1230,9 @@ function syncHud(){
 function showFlash(txt,secs){ elFlash.textContent=txt; elFlash.hidden=false; flashT=secs||1.4; }
 function hideFlash(){ elFlash.hidden=true; flashT=0; }
 function setVeil(on,title,text,note,btn){
+  /* the start screen carries its own full-screen button, so the one in the
+     board's corner stands down rather than ghosting through the overlay */
+  if(fsCorner) fsCorner.style.display = on ? 'none' : '';
   if(!on){ veil.hidden=true; return; }
   veil.hidden=false;
   if(title) veilTitle.textContent=title;
@@ -1267,7 +1303,13 @@ function applyTheme(name){
 })();
 
 var arenaEl=document.getElementById('arena'),
-    fsBtn=document.getElementById('fsBtn'), fsExit=document.getElementById('fsExit');
+    fsExit=document.getElementById('fsExit'),
+    playFs=document.getElementById('playFs');
+
+/* The corner control glows gently until it has been used once. */
+var KEY_FSSEEN='mm_witching_fsseen';
+if(load(KEY_FSSEEN,'0')!=='1') fsCorner.classList.add('unseen');
+function fsUsed(){ fsCorner.classList.remove('unseen'); save(KEY_FSSEEN,1); }
 
 function fsElement(){
   return document.fullscreenElement || document.webkitFullscreenElement ||
@@ -1278,8 +1320,6 @@ function setFs(on){
   arenaEl.classList.toggle('fs',fsOn);
   document.documentElement.classList.toggle('fsmode',fsOn);
   document.body.classList.toggle('fsmode',fsOn);
-  fsBtn.textContent=fsOn?'⛶ EXIT FULL SCREEN':'⛶ FULL SCREEN';
-  fsBtn.setAttribute('aria-pressed',fsOn?'true':'false');
   sizeCanvas();
 }
 function toggleFs(){
@@ -1303,8 +1343,13 @@ function onFsChange(){
 }
 document.addEventListener('fullscreenchange',onFsChange);
 document.addEventListener('webkitfullscreenchange',onFsChange);
-fsBtn.addEventListener('click',toggleFs);
+fsCorner.addEventListener('click',function(){ fsUsed(); toggleFs(); });
 fsExit.addEventListener('click',toggleFs);
+playFs.addEventListener('click',function(){
+  fsUsed(); audio(); paused=false;
+  toggleFs();      /* must happen inside the click for the browser to allow it */
+  newGame();
+});
 
 var soundBtn=document.getElementById('soundBtn'), lightBtn=document.getElementById('lightBtn'),
     diffBtn=document.getElementById('diffBtn');
@@ -1355,6 +1400,7 @@ buildMaze();
 resetMovers();          /* so the board is a real still life behind the veil */
 applyTheme(load(KEY_THEME,'halloween'));
 setDiff(load(KEY_DIFF,'gentle'));
+fsCorner.style.display='none';   /* the start screen is up to begin with */
 lives=diff.lives;
 syncHud();
 sizeCanvas();
@@ -1384,7 +1430,6 @@ window.__wh={ state:function(){ return {mode:mode,score:score,lives:lives,level:
 })();
 </script>
 
-<script src="mm-nav.js?v=3" defer></script>
 <script src="mm-store.js?v=1" defer></script>
 </body>
 </html>
