@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="halloween">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>The Witching Hour — Magick Mica Arcade 🎃</title>
+<meta name="description" content="A Halloween maze game. You are the ghost. Drift the spider-web lattice, swallow the candle flames, and stay ahead of the witch, the goblin, the bat and the spider. Eat a full moon and they run from you.">
+<link rel="canonical" href="https://magickmica.github.io/witching-hour.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Witching Hour — Magick Mica Arcade">
+<meta property="og:description" content="You are the ghost. Drift the spider-web lattice, swallow the candle flames, and stay ahead of the witch, the goblin, the bat and the spider.">
+<meta property="og:url" content="https://magickmica.github.io/witching-hour.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Witching Hour — Magick Mica Arcade">
+<meta name="twitter:description" content="You are the ghost. Drift the spider-web lattice, swallow the candle flames, and stay ahead of the witch, the goblin, the bat and the spider.">
+<meta name="theme-color" content="#07000f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=IBM+Plex+Mono:wght@400;500;700&family=Silkscreen&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ===========================================================
+   THE WITCHING HOUR
+   Three palettes lifted straight from the seasonal homepages:
+   halloween (orange/acid), witching (violet/ice), witches (green/purple).
+   =========================================================== */
+:root{
+  --pink:#ff7a1a; --cyan:#39ff14; --lime:#a3ff57; --purple:#c084fc;
+  --gold:#ffb02e; --teal:#8dff5e; --deep:#07000f; --ink:#efe6ff;
+  --surface:rgba(255,255,255,.03);
+  --dim:#9d94bd;
+}
+html[data-theme="witching"]{
+  --pink:#b45cff; --cyan:#c9d8ff; --lime:#a8e77e; --purple:#6ee7c8;
+  --gold:#ffcf6e; --teal:#6ee7c8; --deep:#070313; --ink:#efe6ff;
+  --dim:#a39cc4;
+}
+html[data-theme="witches"]{
+  --pink:#9be23f; --cyan:#5fd6c0; --lime:#d4f06a; --purple:#7a4bd8;
+  --gold:#ffc23d; --teal:#3fae94; --deep:#0a1108; --ink:#efe6ff;
+  --dim:#9bb08c;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+a{color:inherit;text-decoration:none}
+body{
+  background:var(--deep); color:var(--ink);
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  transition:background .5s ease;
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* ---------- atmosphere ---------- */
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.5),transparent),
+    radial-gradient(1px 1px at 70% 60%,rgba(255,255,255,.35),transparent),
+    radial-gradient(1px 1px at 45% 85%,rgba(255,255,255,.4),transparent),
+    radial-gradient(1.4px 1.4px at 86% 18%,color-mix(in srgb,var(--gold) 80%,transparent),transparent);
+  background-size:300px 300px}
+.hw-web{position:fixed;z-index:3;font-size:4.2rem;opacity:.32;pointer-events:none;
+  filter:drop-shadow(0 0 8px color-mix(in srgb,var(--purple) 50%,transparent))}
+.hw-web.tl{top:58px;left:-14px;transform:rotate(-15deg)}
+.hw-web.tr{top:58px;right:-14px;transform:scaleX(-1) rotate(-15deg)}
+.hw-bat{position:fixed;z-index:51;pointer-events:none;font-size:1.7rem;opacity:0;
+  animation:hwBat 13s ease-in-out infinite;
+  filter:drop-shadow(0 0 6px color-mix(in srgb,var(--pink) 70%,transparent))}
+.hw-bat.b2{animation-duration:17s;animation-delay:5s;font-size:1.25rem}
+@keyframes hwBat{
+  0%{opacity:0;transform:translate(-10vw,18vh) scale(.8)}
+  12%{opacity:.85}
+  50%{transform:translate(50vw,8vh) scale(1.05)}
+  88%{opacity:.8}
+  100%{opacity:0;transform:translate(110vw,24vh) scale(.8)}}
+.hw-fog{position:fixed;left:0;right:0;bottom:0;height:150px;z-index:1;pointer-events:none;
+  background:linear-gradient(0deg,color-mix(in srgb,var(--pink) 12%,transparent),
+    color-mix(in srgb,var(--purple) 7%,transparent) 55%,transparent);
+  animation:hwFog 7s ease-in-out infinite}
+@keyframes hwFog{0%,100%{opacity:.5}50%{opacity:.95}}
+.wt-moon{position:fixed;top:30px;right:3%;z-index:0;pointer-events:none;
+  width:104px;height:104px;border-radius:50%;overflow:hidden;
+  background:radial-gradient(circle at 62% 38%,#fdf6d8 0%,#e8ddb0 55%,#c9bd8a 100%);
+  box-shadow:0 0 40px rgba(255,247,214,.42),0 0 90px color-mix(in srgb,var(--purple) 24%,transparent);
+  opacity:.5}
+.wt-moon::before{content:'';position:absolute;top:-8%;left:-14%;width:82%;height:82%;
+  border-radius:50%;background:var(--deep);filter:blur(2px)}
+.wt-candle{position:fixed;bottom:.9rem;z-index:51;pointer-events:none;font-size:2rem;
+  filter:drop-shadow(0 0 14px color-mix(in srgb,var(--gold) 75%,transparent));
+  animation:wtFlicker 3s steps(1) infinite}
+.wt-candle.cl{left:1rem}
+.wt-candle.cr{right:1rem;bottom:4.4rem;animation-delay:1.3s;font-size:1.6rem}
+@keyframes wtFlicker{0%,100%{opacity:1}42%{opacity:.72}58%{opacity:.95}72%{opacity:.6}}
+.wg-drip{position:fixed;top:0;left:0;right:0;height:11px;z-index:52;pointer-events:none;
+  background:
+    radial-gradient(6px 11px at 10px 100%,var(--pink) 0 60%,transparent 61%),
+    radial-gradient(5px 8px at 46px 100%,var(--pink) 0 60%,transparent 61%),
+    radial-gradient(7px 13px at 92px 100%,var(--pink) 0 60%,transparent 61%),
+    radial-gradient(5px 9px at 148px 100%,var(--pink) 0 60%,transparent 61%);
+  background-repeat:repeat-x;background-size:190px 13px;opacity:.5}
+
+/* ---------- shell ---------- */
+.wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:14px 16px 64px}
+.top{display:flex;align-items:center;gap:14px;padding:6px 0 14px;flex-wrap:wrap}
+.brand{font-family:Orbitron,monospace;font-weight:700;font-size:14px;letter-spacing:.16em}
+.top nav{display:flex;gap:13px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.top nav a:hover{color:var(--gold)}
+
+.title{text-align:center;padding:2px 0 14px}
+.title h1{font-family:Orbitron,monospace;font-weight:900;font-size:clamp(26px,7.4vw,46px);
+  line-height:1.02;letter-spacing:.02em;
+  background:linear-gradient(115deg,var(--purple),var(--pink) 32%,var(--gold) 56%,var(--cyan) 82%,var(--purple));
+  background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:sheen 7s linear infinite}
+@keyframes sheen{to{background-position:220% center}}
+.title p{font-family:Silkscreen,monospace;font-size:9.5px;letter-spacing:.22em;color:var(--gold);
+  margin-top:9px;text-transform:uppercase}
+
+/* ---------- hud ---------- */
+.hud{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.14em;
+  border:1px solid color-mix(in srgb,var(--purple) 32%,transparent);
+  border-radius:12px;padding:9px 12px;background:var(--surface);margin-bottom:10px}
+.hud b{color:var(--gold);font-weight:400}
+.hud .sp{margin-left:auto}
+.hud .lives{letter-spacing:.06em;font-size:13px;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--cyan) 60%,transparent))}
+.moonbar{height:4px;border-radius:999px;background:color-mix(in srgb,var(--purple) 26%,transparent);
+  overflow:hidden;margin:8px 0 10px}
+.moonbar i{display:block;height:100%;width:0;border-radius:999px;
+  background:linear-gradient(90deg,var(--gold),var(--cyan));transition:width .12s linear}
+
+/* ---------- board ---------- */
+.stage{position:relative;border-radius:16px;overflow:hidden;
+  border:1px solid color-mix(in srgb,var(--purple) 34%,transparent);
+  background:color-mix(in srgb,var(--deep) 86%,#000);
+  box-shadow:0 0 44px color-mix(in srgb,var(--purple) 20%,transparent),
+             inset 0 0 70px rgba(0,0,0,.6)}
+canvas#board{display:block;width:100%;height:auto;touch-action:none}
+.veil{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:22px;
+  background:radial-gradient(ellipse at 50% 42%,color-mix(in srgb,var(--deep) 72%,transparent),
+    color-mix(in srgb,var(--deep) 95%,#000));
+  backdrop-filter:blur(2px)}
+.veil[hidden]{display:none}
+.veil h2{font-family:Orbitron,monospace;font-weight:900;font-size:clamp(19px,5.4vw,30px);
+  color:var(--gold);letter-spacing:.03em;text-shadow:0 0 22px color-mix(in srgb,var(--gold) 55%,transparent)}
+.veil p{font-size:12.5px;color:var(--ink);opacity:.86;margin-top:10px;line-height:1.6;max-width:30rem}
+.veil .big{font-family:Silkscreen,monospace;font-size:11px;letter-spacing:.2em;color:var(--cyan);margin-top:12px}
+.play{margin-top:16px;font-family:Silkscreen,monospace;font-size:12px;letter-spacing:.18em;
+  padding:12px 24px;border-radius:999px;color:var(--deep);
+  background:linear-gradient(100deg,var(--gold),var(--pink));
+  box-shadow:0 0 26px color-mix(in srgb,var(--gold) 55%,transparent);
+  transition:transform .16s ease,box-shadow .16s ease}
+.play:hover{transform:translateY(-2px);box-shadow:0 0 38px color-mix(in srgb,var(--gold) 80%,transparent)}
+.flash{position:absolute;left:0;right:0;top:46%;text-align:center;pointer-events:none;
+  font-family:Silkscreen,monospace;font-size:clamp(11px,3.4vw,15px);letter-spacing:.22em;
+  color:var(--gold);text-shadow:0 0 18px color-mix(in srgb,var(--gold) 70%,transparent)}
+.flash[hidden]{display:none}
+
+/* ---------- controls ---------- */
+.pad{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(3,52px);
+  gap:7px;justify-content:center;margin:16px auto 4px}
+.pad button{border-radius:12px;font-size:19px;
+  border:1px solid color-mix(in srgb,var(--purple) 40%,transparent);
+  background:color-mix(in srgb,var(--purple) 12%,transparent);color:var(--ink);
+  transition:background .12s ease,transform .08s ease}
+.pad button:active{background:color-mix(in srgb,var(--gold) 34%,transparent);transform:scale(.95)}
+.pad .u{grid-area:1/2}.pad .l{grid-area:2/1}.pad .p{grid-area:2/2;font-size:12px;font-family:Silkscreen,monospace}
+.pad .r{grid-area:2/3}.pad .d{grid-area:3/2}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.chip{font-family:Silkscreen,monospace;font-size:9.5px;letter-spacing:.14em;
+  min-height:44px;padding:8px 16px;border-radius:999px;color:var(--dim);
+  border:1px solid color-mix(in srgb,var(--purple) 34%,transparent);
+  background:var(--surface);transition:all .16s ease}
+.chip:hover{color:var(--ink);border-color:color-mix(in srgb,var(--gold) 60%,transparent)}
+.chip[aria-pressed="true"],.chip[data-on="true"]{color:var(--deep);border-color:transparent;
+  background:linear-gradient(100deg,var(--gold),var(--pink))}
+.hint{text-align:center;font-size:11px;color:var(--dim);margin-top:12px;line-height:1.7}
+
+/* ---------- full screen ----------
+   Real full screen where the browser has it, and the same thing done with
+   a fixed overlay where it doesn't — iPhones have no element full screen,
+   and that is most of the people who will play this. */
+#arena{position:relative}
+#fsExit{display:none}
+#arena.fs{position:fixed;inset:0;z-index:99990;margin:0;padding:10px 8px 12px;
+  --sideW:min(34vw,280px);
+  display:grid;gap:9px;align-content:center;justify-content:center;justify-items:center;
+  grid-template-areas:"hud" "bar" "stage" "pad";
+  background:var(--deep)}
+#arena.fs .hud{grid-area:hud;width:min(100%,560px);margin:0}
+#arena.fs .moonbar{grid-area:bar;width:min(100%,560px);margin:0}
+#arena.fs .stage{grid-area:stage;max-width:100%}
+#arena.fs .pad{grid-area:pad;margin:0}
+/* On anything wider than it is tall, the pad goes beside the board instead
+   of under it, so the board gets the whole height rather than half of it. */
+@media (min-aspect-ratio:1/1){
+  /* the empty rows above and below hold the side column together in the
+     middle instead of letting it stretch the height of the board */
+  #arena.fs{grid-template-areas:". stage" "hud stage" "bar stage" "pad stage" ". stage";
+    grid-template-columns:var(--sideW) auto;
+    grid-template-rows:1fr auto auto auto 1fr;gap:0 18px}
+  #arena.fs .hud,#arena.fs .moonbar,#arena.fs .pad{width:100%;margin:0}
+  #arena.fs .moonbar{margin:9px 0 14px}
+  #arena.fs .hud{flex-direction:column;align-items:flex-start;gap:4px}
+  #arena.fs .hud .sp{margin-left:0}
+}
+#arena.fs #fsExit{display:block;position:absolute;top:10px;right:12px;z-index:5;
+  font-family:Silkscreen,monospace;font-size:9.5px;letter-spacing:.14em;
+  min-height:44px;padding:8px 16px;border-radius:999px;color:var(--ink);cursor:pointer;
+  border:1px solid color-mix(in srgb,var(--purple) 44%,transparent);
+  background:color-mix(in srgb,var(--deep) 82%,#000)}
+#arena.fs #fsExit:hover{border-color:color-mix(in srgb,var(--gold) 60%,transparent)}
+html.fsmode,body.fsmode{overflow:hidden}
+/* .wrap is its own stacking context, so the overlay's z-index only counts
+   inside it; lift the wrapper too, and put the site bar away while we play. */
+body.fsmode .wrap{z-index:99990}
+body.fsmode .mm-bar,body.fsmode .mm-drawer{display:none!important}
+@media (max-height:620px){
+  #arena.fs .pad{grid-template-columns:repeat(3,52px);grid-template-rows:repeat(3,40px);gap:5px}
+  #arena.fs .pad button{font-size:16px}
+}
+
+/* ---------- cast ---------- */
+.cast{margin-top:30px;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
+.cast>div{border:1px solid color-mix(in srgb,var(--purple) 28%,transparent);border-radius:13px;
+  padding:12px 14px;background:var(--surface)}
+.cast .who{font-size:13px;font-weight:500}
+.cast .who i{font-style:normal;font-size:18px;margin-right:7px;
+  filter:drop-shadow(0 0 7px color-mix(in srgb,var(--pink) 60%,transparent))}
+.cast .how{font-size:11px;color:var(--dim);margin-top:5px;line-height:1.55}
+h2.sec{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.22em;color:var(--cyan);
+  margin:30px 0 12px;text-transform:uppercase}
+.rules{font-size:12.5px;color:var(--ink);opacity:.84;line-height:1.75}
+.rules li{margin:0 0 6px 18px}
+.foot{margin-top:34px;text-align:center;font-size:11px;color:var(--dim);line-height:1.9}
+.foot a{color:var(--gold)}
+
+@media (max-width:560px){
+  .hw-web{display:none}
+  .wt-moon{width:70px;height:70px}
+  .wt-candle.cr{display:none}
+  .pad{grid-template-columns:repeat(3,58px);grid-template-rows:repeat(3,48px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .hw-bat,.hw-fog,.wt-candle,.title h1{animation:none!important}
+  .hw-bat{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="stars" aria-hidden="true"></div>
+<div class="wg-drip" aria-hidden="true"></div>
+<span class="hw-web tl" aria-hidden="true">🕸️</span>
+<span class="hw-web tr" aria-hidden="true">🕸️</span>
+<div class="wt-moon" aria-hidden="true"></div>
+<span class="hw-bat" aria-hidden="true">🦇</span>
+<span class="hw-bat b2" aria-hidden="true">🦇</span>
+<div class="hw-fog" aria-hidden="true"></div>
+<span class="wt-candle cl" aria-hidden="true">🕯️</span>
+<span class="wt-candle cr" aria-hidden="true">🕯️</span>
+
+<div class="wrap">
+
+  <header class="top">
+    <a class="brand" href="index.html">MAGICK&nbsp;MICA&nbsp;TV</a>
+    <nav>
+      <a href="arcade.html">Arcade</a>
+      <a href="index-halloween.html">Haunted</a>
+      <a href="index-witching.html">Witching</a>
+      <a href="index-witches.html">Witches</a>
+    </nav>
+  </header>
+
+  <div class="title">
+    <h1>The Witching Hour</h1>
+    <p>You are the ghost · eat the candles · fear the four</p>
+  </div>
+
+  <div id="arena">
+  <button id="fsExit" type="button" aria-label="Leave full screen">✕ CLOSE</button>
+  <div class="hud">
+    <span>SCORE <b id="hScore">0</b></span>
+    <span>BEST <b id="hBest">0</b></span>
+    <span>HOUR <b id="hLevel">1</b></span>
+    <span class="sp">LIVES <span class="lives" id="hLives">👻👻</span></span>
+  </div>
+  <div class="moonbar" aria-hidden="true"><i id="moonBar"></i></div>
+
+  <div class="stage">
+    <canvas id="board" width="546" height="598" role="img"
+      aria-label="A maze of spider-web walls filled with candle flames. A ghost drifts through it, chased by a witch, a goblin, a bat and a spider."></canvas>
+    <div class="flash" id="flash" hidden></div>
+    <div class="veil" id="veil">
+      <div>
+        <h2 id="veilTitle">The Witching Hour</h2>
+        <p id="veilText">Drift the web lattice and swallow every candle flame. Four things hunt you.
+          Swallow a <b>full moon</b> and for a few seconds they flee instead — catch them then.
+          Arrows, WASD, swipe, or the pad below.</p>
+        <div class="big" id="veilNote">◂ FOUR TUNNELS · TOP, BOTTOM AND BOTH SIDES ▸</div>
+        <button class="play" id="playBtn">✦ ENTER THE HOUR</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pad" id="pad" aria-hidden="false">
+    <button class="u" data-dir="up" aria-label="Move up">▲</button>
+    <button class="l" data-dir="left" aria-label="Move left">◀</button>
+    <button class="p" data-act="pause" aria-label="Pause">II</button>
+    <button class="r" data-dir="right" aria-label="Move right">▶</button>
+    <button class="d" data-dir="down" aria-label="Move down">▼</button>
+  </div>
+  </div><!-- /arena -->
+
+  <div class="row">
+    <button class="chip" data-theme="halloween" data-on="true">🎃 HAUNTED</button>
+    <button class="chip" data-theme="witching">🕯 WITCHING</button>
+    <button class="chip" data-theme="witches">🧪 WITCHES</button>
+  </div>
+  <div class="row">
+    <button class="chip" id="fsBtn" aria-pressed="false">⛶ FULL SCREEN</button>
+    <button class="chip" id="diffBtn" aria-pressed="false">🕯 GENTLE HAUNT</button>
+    <button class="chip" id="soundBtn" aria-pressed="false">🔇 SOUND OFF</button>
+    <button class="chip" id="lightBtn" aria-pressed="true">🕯 CANDLELIGHT ON</button>
+    <button class="chip" id="newBtn">↺ NEW GAME</button>
+  </div>
+
+  <p class="hint">Keyboard: arrows or <b>WASD</b> to drift · <b>P</b> or space to pause · <b>Esc</b> leaves full screen<br>
+    Touch: swipe across the maze, or use the pad</p>
+
+  <h2 class="sec">The four that hunt you</h2>
+  <div class="cast">
+    <div><div class="who"><i>🧙</i>The Witch</div>
+      <div class="how">Comes straight for you. No tricks, no mercy, never lets go.</div></div>
+    <div><div class="who"><i>👹</i>The Goblin</div>
+      <div class="how">Doesn't chase you — chases where you're about to be. Cuts you off.</div></div>
+    <div><div class="who"><i>🦇</i>The Bat</div>
+      <div class="how">Half mad. Mostly random, but it drifts your way often enough to matter.</div></div>
+    <div><div class="who"><i>🕷️</i>The Spider</div>
+      <div class="how">Minds its own corner of the web until you come close. Then it pounces.</div></div>
+  </div>
+
+  <h2 class="sec">How the hour works</h2>
+  <ul class="rules">
+    <li><b>Candle flame</b> — 10 points. Clear every one to end the hour and start the next.</li>
+    <li><b>Full moon</b> — 50 points, and the four turn pale and run. Catch them for 200, 400, 800, 1600.</li>
+    <li><b>Four tunnels</b> — the gaps at the top, the bottom and both sides come out the opposite edge. The four move slowly through them; you don't.</li>
+    <li><b>The cauldron</b> — the chamber in the middle. They start there and they return there when you catch them. You can't get in.</li>
+    <li><b>Candlelight</b> — the maze starts dark and lights as you eat. Turn it off above if you'd rather see everything.</li>
+    <li><b>Full screen</b> — the button above, or the ✕ in the corner to come back. On a phone it fills the screen even where the browser has no real full-screen mode, and in landscape the pad moves beside the board so the maze gets the whole height.</li>
+    <li><b>Gentle haunt / full moon</b> — the button above. Gentle gives you a slower four, longer moons and a spare ghost. Speeds change as soon as you press it; the spare ghost arrives with your next game.</li>
+    <li>An extra ghost at 10,000 points. Each new hour, everyone moves faster and the moons last less long.</li>
+  </ul>
+
+  <p class="foot">
+    ✦ built from the Magick Mica seasonal palettes ✦<br>
+    <a href="arcade.html">← Back to the arcade</a> ·
+    <a href="index-halloween.html">Haunted transmissions</a> ·
+    <a href="https://magickmicatv.store/" target="_blank" rel="noopener">Store ↗</a>
+  </p>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ===========================================================
+   1. THE MAZE
+   Built from a lattice spec rather than a hand-typed picture, so it
+   stays symmetric by construction. Cells sit on odd rows and odd
+   columns; the lists below say which gaps between them are open.
+   =========================================================== */
+var COLS=21, ROWS=23, TILE=26;
+var W=COLS*TILE, H=ROWS*TILE;
+
+/* open horizontal gaps per cell-row (value ci -> grid column 2*ci+2) */
+var HCON=[
+  [0,1,2,3,4,5,6,7,8],
+  [0,1,3,4,5,7,8],
+  [0,1,2,3,4,5,6,7,8],
+  [0,2,3,5,6,8],
+  [0,1,2,3,4,5,6,7,8],
+  [0,1,2,6,7,8],
+  [0,1,2,3,4,5,6,7,8],
+  [0,2,3,5,6,8],
+  [0,1,2,3,4,5,6,7,8],
+  [0,1,3,4,5,7,8],
+  [0,1,2,3,4,5,6,7,8]
+];
+/* open vertical gaps between cell-row rj and rj+1 (ci -> grid column 2*ci+1) */
+var VCON=[
+  [0,2,4,5,7,9],
+  [0,3,6,9],
+  [0,2,4,5,7,9],
+  [0,1,3,6,8,9],
+  [0,2,3,6,7,9],   /* ci 3 and 6 keep the two side arms from dead-ending */
+  [0,2,3,6,7,9],
+  [0,1,3,6,8,9],
+  [0,2,4,5,7,9],
+  [0,3,6,9],
+  [0,2,4,5,7,9]
+];
+
+var MOONS=[[1,3],[19,3],[1,19],[19,19]];
+var START=[10,17];            /* the ghost starts on the bottom corridor */
+var DOOR_OUT=[10,9];          /* tile just above the cauldron door       */
+var DOOR_IN=[10,10];          /* the door itself                         */
+var PEN_Y=11, PEN_X0=9, PEN_X1=11;
+var TUNNELS=[[10,0],[10,22],[0,11],[20,11]];
+
+var wall=[], dot=[], totalDots=0, dotsLeft=0;
+
+function buildMaze(){
+  var x,y,i,j;
+  wall=[]; dot=[];
+  for(y=0;y<ROWS;y++){
+    wall.push([]); dot.push([]);
+    for(x=0;x<COLS;x++){ wall[y][x]=1; dot[y][x]=0; }
+  }
+  function carve(cx,cy,d){ wall[cy][cx]=0; dot[cy][cx]=(d===undefined?1:d); }
+
+  for(j=0;j<11;j++) for(i=0;i<10;i++) carve(2*i+1, 2*j+1);
+  for(j=0;j<HCON.length;j++) for(i=0;i<HCON[j].length;i++) carve(2*HCON[j][i]+2, 2*j+1);
+  for(j=0;j<VCON.length;j++) for(i=0;i<VCON[j].length;i++) carve(2*VCON[j][i]+1, 2*j+2);
+
+  /* the cauldron chamber: a sealed box with one door at the top */
+  for(x=8;x<=12;x++){ wall[10][x]=1; dot[10][x]=0; wall[12][x]=1; dot[12][x]=0; }
+  wall[11][8]=1; dot[11][8]=0; wall[11][12]=1; dot[11][12]=0;
+  for(x=PEN_X0;x<=PEN_X1;x++){ wall[PEN_Y][x]=0; dot[PEN_Y][x]=0; }
+  carve(DOOR_IN[0],DOOR_IN[1],0);
+  carve(DOOR_OUT[0],DOOR_OUT[1],0);
+
+  /* tunnel mouths in the border */
+  for(i=0;i<TUNNELS.length;i++) carve(TUNNELS[i][0],TUNNELS[i][1],0);
+
+  for(i=0;i<MOONS.length;i++) dot[MOONS[i][1]][MOONS[i][0]]=2;
+  dot[START[1]][START[0]]=0;
+
+  totalDots=0;
+  for(y=0;y<ROWS;y++) for(x=0;x<COLS;x++) if(dot[y][x]) totalDots++;
+  dotsLeft=totalDots;
+}
+
+function wx(x){ return (x%COLS+COLS)%COLS; }
+function wy(y){ return (y%ROWS+ROWS)%ROWS; }
+function isWall(x,y){ return wall[wy(y)][wx(x)]===1; }
+function inPen(x,y){ return y===PEN_Y && x>=PEN_X0 && x<=PEN_X1; }
+function isDoor(x,y){ return x===DOOR_IN[0] && y===DOOR_IN[1]; }
+function inTunnel(x,y){
+  return (y===11 && (x<=1 || x>=19)) || (x===10 && (y<=1 || y>=21));
+}
+/* shortest separation on a wrapping board */
+function dAxis(a,b,n){ var d=Math.abs(a-b); return Math.min(d,n-d); }
+function dist2(ax,ay,bx,by){ var dx=dAxis(ax,bx,COLS), dy=dAxis(ay,by,ROWS); return dx*dx+dy*dy; }
+
+/* ===========================================================
+   2. PALETTES
+   =========================================================== */
+var PALETTES={
+  halloween:{ wall:'#1b0a2a', wall2:'#2a0f18', edge:'#ff7a1a', web:'rgba(192,132,252,.5)',
+    glow:'#c084fc', flame:'#ffb02e', flame2:'#fff2c2', moon:'#fff6d8', moonGlow:'#a3ff57',
+    brew:'#39ff14', ghost:'#efe6ff', ghostGlow:'#8dff5e', fright:'#2f6bff', score:'#39ff14',
+    dark:'rgba(4,0,10,1)' },
+  witching:{ wall:'#140a30', wall2:'#1e1240', edge:'#b45cff', web:'rgba(201,216,255,.5)',
+    glow:'#6ee7c8', flame:'#ffcf6e', flame2:'#fff4d2', moon:'#fdf6d8', moonGlow:'#c9d8ff',
+    brew:'#6ee7c8', ghost:'#efe6ff', ghostGlow:'#c9d8ff', fright:'#17a085', score:'#c9d8ff',
+    dark:'rgba(3,1,14,1)' },
+  witches:{ wall:'#10220c', wall2:'#1d1340', edge:'#9be23f', web:'rgba(212,240,106,.45)',
+    glow:'#7a4bd8', flame:'#ffc23d', flame2:'#fff0c0', moon:'#f4ffd8', moonGlow:'#9be23f',
+    brew:'#9be23f', ghost:'#f2ffe6', ghostGlow:'#5fd6c0', fright:'#7a4bd8', score:'#9be23f',
+    dark:'rgba(4,10,3,1)' }
+};
+var themeName='halloween', pal=PALETTES.halloween;
+
+/* ===========================================================
+   3. STORED PREFERENCES  (any of this may throw in private mode)
+   =========================================================== */
+var KEY_BEST='mm_witching_best', KEY_THEME='mm_witching_theme',
+    KEY_SND='mm_witching_sound', KEY_LIT='mm_witching_light',
+    KEY_DIFF='mm_witching_diff';
+function load(k,d){ try{ var v=localStorage.getItem(k); return v===null?d:v; }catch(e){ return d; } }
+function save(k,v){ try{ localStorage.setItem(k,String(v)); }catch(e){} }
+
+var best=parseInt(load(KEY_BEST,'0'),10) || 0;
+var soundOn=load(KEY_SND,'0')==='1';
+var lightOn=load(KEY_LIT,'1')==='1';
+
+/* ===========================================================
+   4. SOUND  (created on the first gesture, as browsers require)
+   =========================================================== */
+var ac=null;
+function audio(){
+  if(ac) return ac;
+  try{
+    var C=window.AudioContext||window.webkitAudioContext;
+    if(C) ac=new C();
+  }catch(e){ ac=null; }
+  return ac;
+}
+function blip(freq,len,type,vol){
+  if(!soundOn) return;
+  var a=audio(); if(!a) return;
+  try{
+    if(a.state==='suspended') a.resume();
+    var o=a.createOscillator(), g=a.createGain();
+    o.type=type||'square'; o.frequency.value=freq;
+    g.gain.value=0; o.connect(g); g.connect(a.destination);
+    var t=a.currentTime;
+    g.gain.linearRampToValueAtTime(vol===undefined?0.055:vol, t+0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t+len);
+    o.start(t); o.stop(t+len+0.02);
+  }catch(e){}
+}
+function sweep(f1,f2,len,type){
+  if(!soundOn) return;
+  var a=audio(); if(!a) return;
+  try{
+    if(a.state==='suspended') a.resume();
+    var o=a.createOscillator(), g=a.createGain();
+    o.type=type||'triangle'; o.frequency.setValueAtTime(f1,a.currentTime);
+    o.frequency.exponentialRampToValueAtTime(Math.max(40,f2), a.currentTime+len);
+    g.gain.value=0.06; o.connect(g); g.connect(a.destination);
+    g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime+len);
+    o.start(); o.stop(a.currentTime+len+0.02);
+  }catch(e){}
+}
+
+/* ===========================================================
+   5. MOVERS
+   Every mover sits on a tile and carries a progress value toward the
+   next tile, so it can only turn where turning is legal. That keeps it
+   honest about walls without any pixel-level collision work.
+   =========================================================== */
+function mover(tx,ty,dx,dy){ return {tx:tx,ty:ty,dx:dx,dy:dy,p:0}; }
+
+function advance(e,dist,choose){
+  var guard=0;
+  while(dist>1e-9 && guard++<80){
+    if(!e.dx && !e.dy){ choose(e); if(!e.dx && !e.dy) return; }
+    var remain=1-e.p;
+    if(dist<remain){ e.p+=dist; return; }
+    dist-=remain;
+    /* A mover's tile is only ever assigned here and in flip(), and neither
+       will put one inside a wall. The direction was already checked when it
+       was chosen; this is the backstop that makes that a property of the
+       code rather than of the argument for it. */
+    var nx=wx(e.tx+e.dx), ny=wy(e.ty+e.dy);
+    if(wall[ny][nx]){ e.dx=0; e.dy=0; e.p=0; return; }
+    e.tx=nx; e.ty=ny; e.p=0;
+    choose(e);
+    if(!e.dx && !e.dy) return;
+  }
+}
+/* turn round mid-corridor without cheating through a wall */
+function flip(e){
+  if(e.p>0){
+    var nx=wx(e.tx+e.dx), ny=wy(e.ty+e.dy);
+    if(wall[ny][nx]) e.p=0;                       /* snap back, never into a wall */
+    else { e.tx=nx; e.ty=ny; e.p=1-e.p; }
+  }
+  e.dx=-e.dx; e.dy=-e.dy;
+}
+function fx(e){ return e.tx+e.dx*e.p; }
+function fy(e){ return e.ty+e.dy*e.p; }
+
+var DIRS=[[0,-1],[1,0],[0,1],[-1,0]];
+var DIRNAME={up:[0,-1],right:[1,0],down:[0,1],left:[-1,0]};
+
+/* ===========================================================
+   6. GAME STATE
+   =========================================================== */
+var player, hunts, score=0, level=1, lives=4, mode='idle';
+/* mode: idle | ready | play | dying | clear | over */
+var want=null, wantT=0, frightT=0, frightMax=0, chain=0, phaseI=0, phaseT=0, phaseMode='scatter';
+var readyT=0, dieT=0, clearT=0, flashT=0, nextLife=10000, pops=[];
+/* 'hunt' means chase; the two names are the hunter states themselves so a
+   phase change can be assigned straight across without translating. */
+var PHASES=[['scatter',8],['hunt',18],['scatter',7],['hunt',20],['scatter',5],['hunt',1e9]];
+
+var CAST=[
+  {kind:'witch',  glyph:'🧙', corner:[19,1],  start:[10,9],  pen:0  },
+  {kind:'goblin', glyph:'👹', corner:[1,1],   start:[10,11], pen:3  },
+  {kind:'bat',    glyph:'🦇', corner:[19,21], start:[9,11],  pen:7  },
+  {kind:'spider', glyph:'🕷️', corner:[1,21],  start:[11,11], pen:12 }
+];
+
+/* Two settings, because a maze chase is either a nice evening or a wall,
+   depending on who is holding it. Speeds and moons change the moment you
+   switch; the number of spare ghosts applies from the next game. */
+var DIFF={
+  gentle:{ chip:'🕯 GENTLE HAUNT', hunt:-0.65, climb:0.22, lives:4, fright:1.4, pen:1.5 },
+  full:  { chip:'🌕 FULL MOON',    hunt:0,     climb:0.30, lives:3, fright:1,   pen:1   }
+};
+var diffName='gentle', diff=DIFF.gentle;
+
+/* The ghost keeps a clear edge in the early hours and loses it slowly, so
+   the first hour is winnable and the tenth is not. */
+function playerSpeed(){ return Math.min(8.6, 6.2+0.2*(level-1)) * (frightT>0?1.05:1); }
+function huntSpeed(h){
+  if(h.state==='home') return 11;
+  if(h.state==='exit') return 5.2;
+  if(h.state==='fright') return 2.9;
+  var s=Math.min(7.9, 4.5+diff.hunt+diff.climb*(level-1));
+  if(inTunnel(h.tx,h.ty)) s*=0.58;
+  return s;
+}
+function frightLen(){ return Math.max(2, (8.4-0.62*(level-1))*diff.fright); }
+
+function resetMovers(){
+  player=mover(START[0],START[1],-1,0); player.p=0;
+  want=null;
+  hunts=[];
+  for(var i=0;i<CAST.length;i++){
+    var c=CAST[i];
+    var h=mover(c.start[0],c.start[1],0,0);
+    h.kind=c.kind; h.glyph=c.glyph; h.corner=c.corner;
+    h.state = c.pen>0 ? 'pen' : PHASES[0][0];
+    h.penT = c.pen>0 ? Math.max(0.5, (c.pen - (level-1)*0.6) * diff.pen) : 0;
+    h.bob=Math.random()*6.28;
+    if(h.state!=='pen'){ h.dx=-1; h.dy=0; }
+    hunts.push(h);
+  }
+  frightT=0; frightMax=0; chain=0;
+  phaseI=0; phaseT=PHASES[0][1]; phaseMode=PHASES[0][0];
+}
+
+function newGame(){
+  score=0; level=1; lives=diff.lives; nextLife=10000; pops=[];
+  buildMaze(); resetMovers();
+  mode='ready'; readyT=1.9;
+  renderMaze();
+  setVeil(false);
+  syncHud();
+  showFlash('READY',1.9);
+}
+
+function nextLevel(){
+  level++;
+  buildMaze(); resetMovers();
+  mode='ready'; readyT=1.7;
+  renderMaze(); syncHud();
+  showFlash('HOUR '+level,1.7);
+}
+
+/* ===========================================================
+   7. PLAYER
+   =========================================================== */
+function blockedForPlayer(x,y){
+  x=wx(x); y=wy(y);
+  return isWall(x,y) || inPen(x,y) || isDoor(x,y);
+}
+function eatAt(x,y){
+  var d=dot[y][x];
+  if(!d) return;
+  dot[y][x]=0; dotsLeft--;
+  if(d===1){
+    score+=10;
+    blip(dotsLeft%2 ? 540:470, 0.055,'square',0.035);
+  }else{
+    score+=50; chain=0;
+    frightT=frightMax=frightLen();
+    sweep(300,110,0.4,'sawtooth');
+    for(var i=0;i<hunts.length;i++){
+      var h=hunts[i];
+      if(h.state==='hunt'||h.state==='scatter'){ h.state='fright'; flip(h); }
+    }
+  }
+  if(score>=nextLife){ lives++; nextLife+=10000; blip(880,0.18,'triangle',0.05); }
+  if(score>best){ best=score; save(KEY_BEST,best); }
+  syncHud();
+  if(dotsLeft<=0){
+    score+=500*level;
+    mode='clear'; clearT=2.1;
+    sweep(420,1200,0.5,'triangle');
+    showFlash('THE CANDLES ARE OUT',2.1);
+    syncHud();
+  }
+}
+function choosePlayer(p){
+  eatAt(p.tx,p.ty);
+  /* A turn you asked for is held for a moment and then spent, so running a
+     long corridor doesn't keep flinging you down every side passage. */
+  if(want && wantT>0 && !blockedForPlayer(p.tx+want[0], p.ty+want[1])){
+    p.dx=want[0]; p.dy=want[1]; want=null; wantT=0; return;
+  }
+  if((p.dx||p.dy) && !blockedForPlayer(p.tx+p.dx, p.ty+p.dy)) return;
+  p.dx=0; p.dy=0;
+}
+function steer(d){
+  if(!d) return;
+  want=d; wantT=0.45;
+  if(mode!=='play') return;
+  if((player.dx||player.dy) && player.dx===-d[0] && player.dy===-d[1]){
+    flip(player); want=null; wantT=0; return;
+  }
+  if(player.p===0 && !blockedForPlayer(player.tx+d[0], player.ty+d[1])){
+    player.dx=d[0]; player.dy=d[1]; want=null; wantT=0;
+  }
+}
+
+/* ===========================================================
+   8. THE FOUR
+   =========================================================== */
+function huntTarget(h){
+  if(h.state==='home'||h.state==='exit') return DOOR_OUT;
+  if(h.state==='fright'||h.state==='scatter') return h.corner;
+  switch(h.kind){
+    case 'goblin': return [wx(player.tx+player.dx*4), wy(player.ty+player.dy*4)];
+    case 'spider': return dist2(h.tx,h.ty,player.tx,player.ty)<36 ? [player.tx,player.ty] : h.corner;
+    default: return [player.tx,player.ty];
+  }
+}
+function chooseHunt(h){
+  /* arrival transitions first, then the scripted walk in and out of the pen */
+  if(h.state==='exit' && h.tx===DOOR_OUT[0] && h.ty===DOOR_OUT[1]){
+    h.state = frightT>0 ? 'fright' : phaseMode;
+  }
+  if(h.state==='home'){
+    if(h.tx===DOOR_OUT[0] && h.ty===DOOR_OUT[1]){ h.dx=0; h.dy=1; return; }
+    if(h.tx===DOOR_IN[0]  && h.ty===DOOR_IN[1]) { h.dx=0; h.dy=1; return; }
+    if(inPen(h.tx,h.ty)){ h.state='pen'; h.penT=0.9; h.dx=0; h.dy=0; return; }
+  }
+  if(h.state==='exit'){
+    if(h.ty===PEN_Y){
+      if(h.tx!==DOOR_IN[0]){ h.dx=(h.tx<DOOR_IN[0]?1:-1); h.dy=0; return; }
+      h.dx=0; h.dy=-1; return;
+    }
+    if(h.ty===DOOR_IN[1]){ h.dx=0; h.dy=-1; return; }
+  }
+  if(h.state==='pen'){ h.dx=0; h.dy=0; return; }
+
+  var allowPen=(h.state==='home'||h.state==='exit');
+  var t=huntTarget(h), opts=[], i, d, nx, ny;
+  for(i=0;i<4;i++){
+    d=DIRS[i]; nx=wx(h.tx+d[0]); ny=wy(h.ty+d[1]);
+    if(isWall(nx,ny)) continue;
+    if(!allowPen && (inPen(nx,ny)||isDoor(nx,ny))) continue;
+    if((h.dx||h.dy) && d[0]===-h.dx && d[1]===-h.dy) continue;
+    opts.push([d,nx,ny]);
+  }
+  if(!opts.length){ h.dx=-h.dx; h.dy=-h.dy; return; }   /* dead end: turn round */
+
+  if(h.kind==='bat' && h.state!=='home' && h.state!=='exit'){
+    var wildness = h.state==='fright' ? 0.85 : 0.58;
+    if(Math.random()<wildness){
+      var r=opts[(Math.random()*opts.length)|0];
+      h.dx=r[0][0]; h.dy=r[0][1]; return;
+    }
+  }
+  var bestOpt=opts[0], bestD=Infinity;
+  for(i=0;i<opts.length;i++){
+    var sc=dist2(opts[i][1],opts[i][2],t[0],t[1]);
+    if(h.state==='fright') sc=-sc;
+    if(sc<bestD){ bestD=sc; bestOpt=opts[i]; }
+  }
+  h.dx=bestOpt[0][0]; h.dy=bestOpt[0][1];
+}
+
+/* ===========================================================
+   9. UPDATE
+   =========================================================== */
+function update(dt){
+  var i,h;
+
+  if(mode==='ready'){
+    readyT-=dt;
+    if(readyT<=0){ mode='play'; hideFlash(); }
+    return;
+  }
+  if(mode==='dying'){
+    dieT-=dt;
+    if(dieT<=0){
+      if(lives<=0){
+        mode='over';
+        setVeil(true,'The hour took you','You scored '+score+'. Best so far: '+best+
+          '. The four always come back — so do you.','◂ '+(level>1?('YOU REACHED HOUR '+level):'ONE HOUR SURVIVED')+' ▸','✦ TRY AGAIN');
+      }else{
+        resetMovers(); mode='ready'; readyT=1.6; showFlash('READY',1.6);
+      }
+      syncHud();
+    }
+    return;
+  }
+  if(mode==='clear'){
+    clearT-=dt;
+    if(clearT<=0) nextLevel();
+    return;
+  }
+  if(mode!=='play') return;
+
+  /* scatter / chase alternation */
+  if(frightT<=0){
+    phaseT-=dt;
+    if(phaseT<=0 && phaseI<PHASES.length-1){
+      phaseI++; phaseMode=PHASES[phaseI][0]; phaseT=PHASES[phaseI][1];
+      for(i=0;i<hunts.length;i++){
+        h=hunts[i];
+        if(h.state==='hunt'||h.state==='scatter'){ h.state=phaseMode; flip(h); }
+      }
+    }
+  }else{
+    frightT-=dt;
+    if(frightT<=0){
+      frightT=0; chain=0;
+      for(i=0;i<hunts.length;i++) if(hunts[i].state==='fright') hunts[i].state=phaseMode;
+    }
+  }
+
+  if(wantT>0){ wantT-=dt; if(wantT<=0) want=null; }
+  advance(player, playerSpeed()*dt, choosePlayer);
+  if(mode!=='play') return;   /* the last candle may have ended the hour */
+
+  for(i=0;i<hunts.length;i++){
+    h=hunts[i];
+    if(h.state==='pen'){
+      h.penT-=dt;
+      h.bob+=dt*3;
+      if(h.penT<=0){ h.state='exit'; h.dx=0; h.dy=0; }
+      continue;
+    }
+    advance(h, huntSpeed(h)*dt, chooseHunt);
+  }
+
+  /* contact */
+  var pxp=fx(player), pyp=fy(player);
+  for(i=0;i<hunts.length;i++){
+    h=hunts[i];
+    if(h.state==='pen'||h.state==='home'||h.state==='exit') continue;
+    var dx=dAxis(pxp,fx(h),COLS), dy=dAxis(pyp,fy(h),ROWS);
+    if(dx*dx+dy*dy > 0.26) continue;   /* about half a tile apart */
+    if(h.state==='fright'){
+      chain=Math.min(chain+1,4);
+      var pts=200*Math.pow(2,chain-1);
+      score+=pts;
+      pops.push({x:fx(h),y:fy(h),text:'+'+pts,t:1.1});
+      h.state='home';
+      sweep(220,900,0.26,'square');
+      if(score>=nextLife){ lives++; nextLife+=10000; }
+      if(score>best){ best=score; save(KEY_BEST,best); }
+      syncHud();
+    }else{
+      lives--; mode='dying'; dieT=1.5; frightT=0;
+      sweep(520,70,0.9,'sawtooth');
+      showFlash(lives>0?'THE WICK GOES OUT':'DARK',1.5);
+      syncHud();
+      return;
+    }
+  }
+
+  for(i=pops.length-1;i>=0;i--){ pops[i].t-=dt; if(pops[i].t<=0) pops.splice(i,1); }
+}
+
+/* ===========================================================
+   10. DRAWING
+   The web walls never change during an hour, so they are painted once
+   into an offscreen canvas and blitted. Candles get a prepainted
+   sprite each theme, because there are two hundred of them.
+   =========================================================== */
+var canvas=document.getElementById('board'), ctx=canvas.getContext('2d');
+var mz=document.createElement('canvas');
+var scale=1;
+
+var fsOn=false;
+function sizeCanvas(){
+  var stage=canvas.parentNode;
+  if(fsOn){
+    var vw=window.innerWidth||400, vh=window.innerHeight||600, availH, availW;
+    if(vw>vh){
+      /* side by side: the readout and pad sit in a column of their own */
+      var sideW=Math.min(vw*0.34,280);
+      availH=Math.max(200, vh-26);
+      availW=Math.max(200, vw-sideW-36);
+    }else{
+      /* stacked: height is the scarce thing, so work back from what is left
+         once the readout and the pad have taken their share */
+      var chrome=58;   /* the arena's own padding and the gaps between its parts */
+      var bits=[document.getElementById('pad'),
+                document.querySelector('.hud'),
+                document.querySelector('.moonbar')];
+      for(var i=0;i<bits.length;i++) if(bits[i]) chrome+=bits[i].getBoundingClientRect().height;
+      availH=Math.max(200, vh-chrome);
+      availW=Math.max(200, vw-18);
+    }
+    stage.style.width=Math.round(Math.min(availW, availH*COLS/ROWS))+'px';
+  }else{
+    stage.style.width='';
+  }
+  var cssW=canvas.clientWidth || 320;
+  var dpr=Math.min(window.devicePixelRatio||1, 2);
+  canvas.width=Math.max(1,Math.round(cssW*dpr));
+  canvas.height=Math.max(1,Math.round(cssW*dpr*ROWS/COLS));
+  scale=canvas.width/W;
+  renderMaze();
+}
+
+/* a rounded rect whose corners only round where no wall touches */
+function wallTilePath(c,x,y){
+  var R=TILE*0.34, px=x*TILE, py=y*TILE, s=TILE;
+  var tl=(isWall(x-1,y)||isWall(x,y-1))?0:R;
+  var tr=(isWall(x+1,y)||isWall(x,y-1))?0:R;
+  var br=(isWall(x+1,y)||isWall(x,y+1))?0:R;
+  var bl=(isWall(x-1,y)||isWall(x,y+1))?0:R;
+  c.moveTo(px+tl,py);
+  c.lineTo(px+s-tr,py); if(tr) c.quadraticCurveTo(px+s,py,px+s,py+tr);
+  c.lineTo(px+s,py+s-br); if(br) c.quadraticCurveTo(px+s,py+s,px+s-br,py+s);
+  c.lineTo(px+bl,py+s); if(bl) c.quadraticCurveTo(px,py+s,px,py+s-bl);
+  c.lineTo(px,py+tl); if(tl) c.quadraticCurveTo(px,py,px+tl,py);
+  c.closePath();
+}
+
+function renderMaze(){
+  if(!wall.length) return;
+  mz.width=canvas.width; mz.height=canvas.height;
+  var c=mz.getContext('2d');
+  c.setTransform(scale,0,0,scale,0,0);
+  c.clearRect(0,0,W,H);
+
+  /* floor */
+  var fg=c.createRadialGradient(W/2,H/2,0,W/2,H/2,W*0.78);
+  fg.addColorStop(0,'rgba(255,255,255,.035)');
+  fg.addColorStop(1,'rgba(0,0,0,0)');
+  c.fillStyle=fg; c.fillRect(0,0,W,H);
+
+  /* the walls as one shape */
+  c.beginPath();
+  for(var y=0;y<ROWS;y++) for(var x=0;x<COLS;x++) if(wall[y][x]) wallTilePath(c,x,y);
+
+  var wg=c.createLinearGradient(0,0,W,H);
+  wg.addColorStop(0,pal.wall); wg.addColorStop(1,pal.wall2);
+  c.fillStyle=wg; c.fill();
+
+  /* spider webs, visible only where there is wall to catch them */
+  c.save(); c.clip();
+  c.strokeStyle=pal.web; c.lineWidth=0.9; c.globalAlpha=0.55;
+  var anchors=[[0,0],[W,0],[0,H],[W,H]], a,i,k;
+  for(a=0;a<anchors.length;a++){
+    var ax=anchors[a][0], ay=anchors[a][1];
+    for(i=1;i<=13;i++){
+      c.beginPath(); c.arc(ax,ay,i*44,0,Math.PI*2); c.stroke();
+    }
+    /* spokes fan out from the corner into the board */
+    var sgx=ax?-1:1, sgy=ay?-1:1;
+    for(k=0;k<=8;k++){
+      var ang=(Math.PI/2)*(k/8);
+      c.beginPath(); c.moveTo(ax,ay);
+      c.lineTo(ax+sgx*Math.cos(ang)*W*1.4, ay+sgy*Math.sin(ang)*H*1.4);
+      c.stroke();
+    }
+  }
+  c.restore();
+
+  /* wall edges */
+  c.beginPath();
+  for(y=0;y<ROWS;y++) for(x=0;x<COLS;x++) if(wall[y][x]) wallTilePath(c,x,y);
+  c.lineWidth=1.5; c.strokeStyle=pal.edge; c.globalAlpha=0.5;
+  c.shadowColor=pal.edge; c.shadowBlur=7; c.stroke();
+  c.shadowBlur=0; c.globalAlpha=1;
+
+  /* the cauldron chamber, brewing */
+  var bx=(PEN_X0-0.1)*TILE, by=PEN_Y*TILE+TILE*0.18,
+      bw=(PEN_X1-PEN_X0+1.2)*TILE, bh=TILE*0.7;
+  var bg=c.createLinearGradient(bx,by,bx,by+bh);
+  bg.addColorStop(0,pal.brew); bg.addColorStop(1,'rgba(0,0,0,0)');
+  c.globalAlpha=0.3; c.fillStyle=bg;
+  c.fillRect(bx,by,bw,bh);
+  c.globalAlpha=1;
+  /* the door, a torn web gate */
+  c.strokeStyle=pal.brew; c.globalAlpha=0.65; c.lineWidth=2.4;
+  c.setLineDash([4,4]);
+  c.beginPath();
+  c.moveTo(DOOR_IN[0]*TILE+2, DOOR_IN[1]*TILE+TILE*0.5);
+  c.lineTo(DOOR_IN[0]*TILE+TILE-2, DOOR_IN[1]*TILE+TILE*0.5);
+  c.stroke();
+  c.setLineDash([]); c.globalAlpha=1;
+}
+
+/* ---- sprites ---- */
+var candleSprite=null, moonSprite=null;
+function makeSprite(size,draw){
+  var cv=document.createElement('canvas');
+  cv.width=cv.height=size;
+  draw(cv.getContext('2d'),size);
+  return cv;
+}
+function buildSprites(){
+  candleSprite=makeSprite(48,function(c,s){
+    var m=s/2;
+    c.shadowColor=pal.flame; c.shadowBlur=11;
+    c.fillStyle=pal.flame;
+    c.beginPath();
+    c.moveTo(m,m-9);
+    c.bezierCurveTo(m+6,m-2,m+4,m+6,m,m+6);
+    c.bezierCurveTo(m-4,m+6,m-6,m-2,m,m-9);
+    c.closePath(); c.fill();
+    c.shadowBlur=0;
+    c.fillStyle=pal.flame2;
+    c.beginPath();
+    c.moveTo(m,m-5);
+    c.bezierCurveTo(m+2.6,m-1,m+1.6,m+3.4,m,m+3.4);
+    c.bezierCurveTo(m-1.6,m+3.4,m-2.6,m-1,m,m-5);
+    c.closePath(); c.fill();
+  });
+  moonSprite=makeSprite(64,function(c,s){
+    var m=s/2;
+    c.shadowColor=pal.moonGlow; c.shadowBlur=18;
+    var g=c.createRadialGradient(m+3,m-3,1,m,m,16);
+    g.addColorStop(0,'#ffffff'); g.addColorStop(.55,pal.moon); g.addColorStop(1,pal.moonGlow);
+    c.fillStyle=g;
+    c.beginPath(); c.arc(m,m,15,0,Math.PI*2); c.fill();
+  });
+}
+
+function drawDots(c,t){
+  var x,y,cx,cy,f;
+  for(y=0;y<ROWS;y++) for(x=0;x<COLS;x++){
+    var d=dot[y][x];
+    if(!d) continue;
+    cx=x*TILE+TILE/2; cy=y*TILE+TILE/2;
+    if(d===1){
+      f=0.84+0.16*Math.sin(t*7 + (x*7+y*13)*0.9);
+      c.globalAlpha=f;
+      var sz=TILE*(0.92+0.1*(f-0.84));
+      c.drawImage(candleSprite, cx-sz/2, cy-sz/2, sz, sz);
+    }else{
+      f=0.86+0.14*Math.sin(t*3.1 + x);
+      c.globalAlpha=1;
+      var ms=TILE*1.22*f;
+      c.drawImage(moonSprite, cx-ms/2, cy-ms/2, ms, ms);
+    }
+  }
+  c.globalAlpha=1;
+}
+
+/* the ghost: drawn rather than an emoji, so it can be tinted and aimed */
+function drawGhost(c,px,py,dx,dy,t,powered){
+  var r=TILE*0.40;
+  c.save(); c.translate(px,py);
+  var g=c.createLinearGradient(0,-r,0,r*1.3);
+  g.addColorStop(0,'#ffffff'); g.addColorStop(.55,pal.ghost);
+  g.addColorStop(1,powered?pal.flame:pal.ghostGlow);
+  c.shadowColor=powered?pal.flame:pal.ghostGlow;
+  c.shadowBlur=powered?20:13;
+  c.fillStyle=g;
+  c.beginPath();
+  c.arc(0,-r*0.18,r,Math.PI,0);
+  c.lineTo(r,r*0.52);
+  var n=3, wob=Math.sin(t*9)*r*0.11;
+  for(var i=0;i<n;i++){
+    var x0=r-(2*r)*(i/n), x1=r-(2*r)*((i+1)/n), xm=(x0+x1)/2;
+    var lift=(i%2===0? -1:1)*(r*0.3)+wob*(i%2?1:-1);
+    c.quadraticCurveTo(xm, r*0.52+lift, x1, r*0.52);
+  }
+  c.closePath(); c.fill();
+  c.shadowBlur=0;
+  /* eyes follow the drift */
+  var ex=(dx||0)*r*0.2, ey=(dy||0)*r*0.2;
+  c.fillStyle='#ffffff';
+  c.beginPath(); c.arc(-r*0.36,-r*0.26,r*0.27,0,6.3); c.fill();
+  c.beginPath(); c.arc( r*0.36,-r*0.26,r*0.27,0,6.3); c.fill();
+  c.fillStyle='#1a0b2b';
+  c.beginPath(); c.arc(-r*0.36+ex,-r*0.26+ey,r*0.14,0,6.3); c.fill();
+  c.beginPath(); c.arc( r*0.36+ex,-r*0.26+ey,r*0.14,0,6.3); c.fill();
+  c.restore();
+}
+
+function drawFright(c,px,py,flashing,t){
+  /* deliberately not the player's shape: a cold hunched thing with a
+     scared mouth, so there is never a moment of "which one am I?" */
+  var r=TILE*0.38, white=flashing && (Math.floor(t*7)%2===0);
+  var body=white?'#ffffff':pal.fright, mark=white?'#1a0b2b':'#ffffff';
+  c.save(); c.translate(px,py);
+  c.shadowColor=body; c.shadowBlur=13; c.fillStyle=body;
+  c.beginPath(); c.arc(0,-r*0.12,r,Math.PI,0);
+  c.lineTo(r,r*0.52); c.lineTo(r*0.45,r*0.14); c.lineTo(0,r*0.52);
+  c.lineTo(-r*0.45,r*0.14); c.lineTo(-r,r*0.52);
+  c.closePath(); c.fill();
+  c.shadowBlur=0;
+  c.fillStyle=mark;
+  c.fillRect(-r*0.5,-r*0.34,r*0.3,r*0.3);
+  c.fillRect( r*0.2,-r*0.34,r*0.3,r*0.3);
+  c.strokeStyle=mark; c.lineWidth=Math.max(1,r*0.13); c.lineJoin='round';
+  c.beginPath();
+  for(var i=0;i<=4;i++){
+    var x=-r*0.52+(r*1.04)*(i/4), y=r*0.14+(i%2?-r*0.12:0);
+    if(i===0) c.moveTo(x,y); else c.lineTo(x,y);
+  }
+  c.stroke();
+  c.restore();
+}
+
+function drawEyes(c,px,py,dx,dy){
+  var r=TILE*0.34;
+  c.save(); c.translate(px,py);
+  c.fillStyle='rgba(255,255,255,.9)';
+  c.shadowColor=pal.fright; c.shadowBlur=9;
+  c.beginPath(); c.arc(-r*0.36,0,r*0.26,0,6.3); c.fill();
+  c.beginPath(); c.arc( r*0.36,0,r*0.26,0,6.3); c.fill();
+  c.shadowBlur=0; c.fillStyle='#2a1050';
+  c.beginPath(); c.arc(-r*0.36+(dx||0)*r*0.13,(dy||0)*r*0.13,r*0.13,0,6.3); c.fill();
+  c.beginPath(); c.arc( r*0.36+(dx||0)*r*0.13,(dy||0)*r*0.13,r*0.13,0,6.3); c.fill();
+  c.restore();
+}
+
+var EMOJI_FONT='"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",serif';
+function drawHunter(c,h,t){
+  var px=(fx(h)+0.5)*TILE, py=(fy(h)+0.5)*TILE;
+  if(h.state==='pen') py+=Math.sin(h.bob)*TILE*0.12;
+  var each=function(ox,oy){
+    var X=px+ox, Y=py+oy;
+    if(h.state==='home'){ drawEyes(c,X,Y,h.dx,h.dy); return; }
+    if(h.state==='fright'){ drawFright(c,X,Y, frightT<2.2, t); return; }
+    c.save();
+    c.font=Math.round(TILE*0.84)+'px '+EMOJI_FONT;
+    c.textAlign='center'; c.textBaseline='middle';
+    c.shadowColor=pal.edge; c.shadowBlur=10;
+    if(h.state==='exit') c.globalAlpha=0.8;
+    c.fillText(h.glyph, X, Y+1);
+    c.restore();
+  };
+  wrapDraw(px,py,each);
+}
+/* anything near an edge is painted twice so tunnel crossings look right */
+function wrapDraw(px,py,fn){
+  fn(0,0);
+  if(px<TILE) fn(W,0);
+  else if(px>W-TILE) fn(-W,0);
+  if(py<TILE) fn(0,H);
+  else if(py>H-TILE) fn(0,-H);
+}
+
+function draw(t){
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.setTransform(scale,0,0,scale,0,0);
+  ctx.drawImage(mz,0,0,W,H);
+  drawDots(ctx,t);
+
+  var ppx=(fx(player)+0.5)*TILE, ppy=(fy(player)+0.5)*TILE;
+
+  /* candlelight: the maze starts dark and opens up as it is eaten */
+  if(lightOn && totalDots){
+    var prog=1-(dotsLeft/totalDots);
+    var rad=TILE*(4.6+13*prog);
+    var alpha=0.5*(1-prog*0.92);
+    var vg=ctx.createRadialGradient(ppx,ppy,rad*0.3,ppx,ppy,rad);
+    vg.addColorStop(0,'rgba(0,0,0,0)');
+    vg.addColorStop(0.72,'rgba(0,0,0,'+(alpha*0.4).toFixed(3)+')');
+    vg.addColorStop(1,pal.dark.replace(/,1\)$/,','+alpha.toFixed(3)+')'));
+    ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
+  }
+
+  for(var i=0;i<hunts.length;i++) drawHunter(ctx,hunts[i],t);
+
+  if(mode!=='dying'){
+    wrapDraw(ppx,ppy,function(ox,oy){
+      drawGhost(ctx,ppx+ox,ppy+oy,player.dx,player.dy,t,frightT>0);
+    });
+  }else{
+    /* the ghost thins out and lifts away */
+    var k=Math.max(0,dieT/1.5);
+    ctx.save(); ctx.globalAlpha=k;
+    ctx.translate(0,-(1-k)*TILE*1.6);
+    drawGhost(ctx,ppx,ppy,player.dx,player.dy,t,false);
+    ctx.restore();
+  }
+
+  for(i=0;i<pops.length;i++){
+    var p=pops[i];
+    ctx.save();
+    ctx.globalAlpha=Math.min(1,p.t);
+    ctx.fillStyle=pal.score; ctx.textAlign='center';
+    ctx.font='700 '+Math.round(TILE*0.52)+'px "IBM Plex Mono",monospace';
+    ctx.shadowColor=pal.score; ctx.shadowBlur=8;
+    ctx.fillText(p.text,(p.x+0.5)*TILE,(p.y+0.3)*TILE-(1.1-p.t)*TILE);
+    ctx.restore();
+  }
+}
+
+/* ===========================================================
+   11. CHROME
+   =========================================================== */
+var elScore=document.getElementById('hScore'), elBest=document.getElementById('hBest'),
+    elLevel=document.getElementById('hLevel'), elLives=document.getElementById('hLives'),
+    elMoon=document.getElementById('moonBar'), elFlash=document.getElementById('flash'),
+    veil=document.getElementById('veil'), veilTitle=document.getElementById('veilTitle'),
+    veilText=document.getElementById('veilText'), veilNote=document.getElementById('veilNote'),
+    playBtn=document.getElementById('playBtn');
+
+function syncHud(){
+  elScore.textContent=score;
+  elBest.textContent=best;
+  elLevel.textContent=level;
+  var n=Math.max(0,Math.min(6,lives-1));
+  elLives.textContent=n? new Array(n+1).join('👻') : '—';
+}
+function showFlash(txt,secs){ elFlash.textContent=txt; elFlash.hidden=false; flashT=secs||1.4; }
+function hideFlash(){ elFlash.hidden=true; flashT=0; }
+function setVeil(on,title,text,note,btn){
+  if(!on){ veil.hidden=true; return; }
+  veil.hidden=false;
+  if(title) veilTitle.textContent=title;
+  if(text) veilText.textContent=text;
+  if(note) veilNote.textContent=note;
+  if(btn) playBtn.textContent=btn;
+}
+
+/* ---- input ---- */
+var KEYMAP={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',
+  w:'up',a:'left',s:'down',d:'right',W:'up',A:'left',S:'down',D:'right'};
+window.addEventListener('keydown',function(e){
+  var k=e.key;
+  if(KEYMAP[k]){ e.preventDefault(); steer(DIRNAME[KEYMAP[k]]); return; }
+  if(k==='p'||k==='P'||k===' '){ e.preventDefault(); togglePause(); return; }
+  if(k==='Escape' && fsOn && !fsElement()){ e.preventDefault(); toggleFs(); }
+},{passive:false});
+
+var padEl=document.getElementById('pad');
+padEl.addEventListener('click',function(e){
+  var b=e.target.closest('button'); if(!b) return;
+  if(b.dataset.dir) steer(DIRNAME[b.dataset.dir]);
+  else if(b.dataset.act==='pause') togglePause();
+});
+
+var sx=0, sy=0, swiping=false;
+canvas.addEventListener('pointerdown',function(e){ swiping=true; sx=e.clientX; sy=e.clientY; });
+canvas.addEventListener('pointerup',function(e){
+  if(!swiping) return; swiping=false;
+  var dx=e.clientX-sx, dy=e.clientY-sy;
+  if(Math.abs(dx)<16 && Math.abs(dy)<16) return;
+  steer(Math.abs(dx)>Math.abs(dy) ? (dx>0?DIRNAME.right:DIRNAME.left)
+                                  : (dy>0?DIRNAME.down:DIRNAME.up));
+});
+canvas.addEventListener('pointercancel',function(){ swiping=false; });
+
+var paused=false;
+function togglePause(){
+  if(mode==='idle'||mode==='over') return;
+  paused=!paused;
+  if(paused) showFlash('PAUSED',1e6); else hideFlash();
+}
+
+playBtn.addEventListener('click',function(){
+  audio(); paused=false; newGame();
+});
+document.getElementById('newBtn').addEventListener('click',function(){
+  audio(); paused=false; newGame();
+});
+
+/* ---- theme ---- */
+function applyTheme(name){
+  if(!PALETTES[name]) name='halloween';
+  themeName=name; pal=PALETTES[name];
+  document.documentElement.setAttribute('data-theme',name);
+  var btns=document.querySelectorAll('[data-theme]');
+  for(var i=0;i<btns.length;i++)
+    btns[i].setAttribute('data-on', btns[i].dataset.theme===name ? 'true':'false');
+  buildSprites();
+  renderMaze();
+  save(KEY_THEME,name);
+}
+(function(){
+  var btns=document.querySelectorAll('.chip[data-theme]');
+  for(var i=0;i<btns.length;i++) btns[i].addEventListener('click',function(){
+    applyTheme(this.dataset.theme);
+  });
+})();
+
+var arenaEl=document.getElementById('arena'),
+    fsBtn=document.getElementById('fsBtn'), fsExit=document.getElementById('fsExit');
+
+function fsElement(){
+  return document.fullscreenElement || document.webkitFullscreenElement ||
+         document.msFullscreenElement || null;
+}
+function setFs(on){
+  fsOn=!!on;
+  arenaEl.classList.toggle('fs',fsOn);
+  document.documentElement.classList.toggle('fsmode',fsOn);
+  document.body.classList.toggle('fsmode',fsOn);
+  fsBtn.textContent=fsOn?'⛶ EXIT FULL SCREEN':'⛶ FULL SCREEN';
+  fsBtn.setAttribute('aria-pressed',fsOn?'true':'false');
+  sizeCanvas();
+}
+function toggleFs(){
+  if(fsOn){
+    if(fsElement()){
+      var ex=document.exitFullscreen||document.webkitExitFullscreen||document.msExitFullscreen;
+      if(ex){ try{ var r=ex.call(document); if(r&&r['catch']) r['catch'](function(){}); }catch(e){} }
+    }
+    setFs(false);
+    return;
+  }
+  /* Ask for real full screen, but don't wait on it: where the browser has no
+     element full screen (every iPhone) the overlay alone does the job. */
+  var req=arenaEl.requestFullscreen||arenaEl.webkitRequestFullscreen||arenaEl.msRequestFullscreen;
+  if(req){ try{ var q=req.call(arenaEl); if(q&&q['catch']) q['catch'](function(){}); }catch(e){} }
+  setFs(true);
+}
+function onFsChange(){
+  if(!fsElement() && fsOn) setFs(false);   /* left by Esc or the browser's own control */
+  else sizeCanvas();
+}
+document.addEventListener('fullscreenchange',onFsChange);
+document.addEventListener('webkitfullscreenchange',onFsChange);
+fsBtn.addEventListener('click',toggleFs);
+fsExit.addEventListener('click',toggleFs);
+
+var soundBtn=document.getElementById('soundBtn'), lightBtn=document.getElementById('lightBtn'),
+    diffBtn=document.getElementById('diffBtn');
+function syncToggles(){
+  soundBtn.textContent=soundOn?'🔊 SOUND ON':'🔇 SOUND OFF';
+  soundBtn.setAttribute('aria-pressed',soundOn?'true':'false');
+  lightBtn.textContent=lightOn?'🕯 CANDLELIGHT ON':'💡 CANDLELIGHT OFF';
+  lightBtn.setAttribute('aria-pressed',lightOn?'true':'false');
+  diffBtn.textContent=diff.chip;
+  diffBtn.setAttribute('aria-pressed',diffName==='full'?'true':'false');
+}
+function setDiff(name){
+  diffName=DIFF[name]?name:'gentle';
+  diff=DIFF[diffName];
+  save(KEY_DIFF,diffName);
+  syncToggles();
+}
+diffBtn.addEventListener('click',function(){
+  setDiff(diffName==='gentle'?'full':'gentle');
+  if(mode==='idle') { lives=diff.lives; syncHud(); }
+  showFlash(diffName==='gentle'?'GENTLE HAUNT':'FULL MOON',1.2);
+});
+soundBtn.addEventListener('click',function(){
+  soundOn=!soundOn; save(KEY_SND,soundOn?1:0); syncToggles();
+  if(soundOn){ audio(); blip(660,0.1,'triangle',0.05); }
+});
+lightBtn.addEventListener('click',function(){
+  lightOn=!lightOn; save(KEY_LIT,lightOn?1:0); syncToggles();
+});
+
+/* ===========================================================
+   12. LOOP
+   =========================================================== */
+var last=0;
+function frame(now){
+  if(!last) last=now;
+  var dt=Math.min(0.05,(now-last)/1000);
+  last=now;
+  if(!paused && mode!=='idle') update(dt);
+  if(!paused && flashT>0){ flashT-=dt; if(flashT<=0) hideFlash(); }
+  elMoon.style.width=(frightMax? Math.max(0,frightT/frightMax)*100:0)+'%';
+  draw(now/1000);
+  requestAnimationFrame(frame);
+}
+
+/* ---- boot ---- */
+buildMaze();
+resetMovers();          /* so the board is a real still life behind the veil */
+applyTheme(load(KEY_THEME,'halloween'));
+setDiff(load(KEY_DIFF,'gentle'));
+lives=diff.lives;
+syncHud();
+sizeCanvas();
+var rt=null;
+window.addEventListener('resize',function(){
+  clearTimeout(rt); rt=setTimeout(sizeCanvas,120);
+});
+requestAnimationFrame(frame);
+
+/* expose a little state for a quick console check */
+window.__wh={ state:function(){ return {mode:mode,score:score,lives:lives,level:level,
+  dotsLeft:dotsLeft,totalDots:totalDots,frightT:frightT,
+  player:[player.tx,player.ty],pdir:[player.dx,player.dy],pp:player.p,
+  want:want,wantT:wantT,
+  hunts:hunts.map(function(h){return [h.kind,h.state,h.tx,h.ty];})}; },
+  steer:function(n){ steer(DIRNAME[n]); },
+  start:function(){ newGame(); },
+  grid:function(){ return {wall:wall,dot:dot}; },
+  /* blow out all but a handful of candles — used to check the end of an hour */
+  drain:function(keep){
+    keep=keep===undefined?2:keep;
+    for(var y=0;y<ROWS;y++) for(var x=0;x<COLS;x++){
+      if(dot[y][x] && dotsLeft>keep){ dot[y][x]=0; dotsLeft--; }
+    }
+    syncHud(); return dotsLeft;
+  } };
+})();
+</script>
+
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>
