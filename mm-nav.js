@@ -44,11 +44,8 @@
     ]},
     { name: 'Play', items: [
       ['arcade.html', 'The Arcade'],
-      ['quest.html', 'Dream Quest'],
+      ['witching-hour.html', 'The Witching Hour'],
       ['songmaker.html', 'Song Maker'],
-      ['daily-sigil.html', 'Daily Sigil'],
-      ['haunted-house.html', 'The Hollow House'],
-      ['stardust.html', 'Stardust Foundry'],
       ['cosmic-echo.html', 'Cosmic Echo'],
       ['moon-shot.html', 'Moon Shot'],
       ['blender.html', 'Astral Blender'],
