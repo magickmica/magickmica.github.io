@@ -502,7 +502,39 @@ function render() {
     });
     loadBtn.style.display = filtered.length > displayCount ? 'block' : 'none';
   }
+  placeStoreStrip();
 }
+
+/* mm-store.js hangs the Magick Mica TV strip above the footer. Lift it two
+   rows into the note grid instead. render() clears #grid on every filter,
+   sort and Load More, which takes the strip out with it, so this runs at the
+   end of render() and re-inserts the same element. */
+function placeStoreStrip() {
+  var grid = document.getElementById('grid');
+  var strip = window.__mmsStrip || document.querySelector('.mms-wrap');
+  if (!grid || !strip) return;
+  window.__mmsStrip = strip;
+  var cards = grid.querySelectorAll('.card');
+  var cols = (getComputedStyle(grid).gridTemplateColumns.match(/px/g) || []).length || 1;
+  /* floor of 4 so a one-column phone still shows a few notes first —
+     the same rule articles.html and archive.html use */
+  var after = Math.max(cols * 2, 4);
+  if (cards.length > after) {
+    strip.style.gridColumn = '1 / -1';
+    strip.style.margin = '1.4rem auto';
+    grid.insertBefore(strip, cards[after]);
+  } else {
+    strip.style.gridColumn = '';
+    strip.style.margin = '';
+    var foot = document.querySelector('footer');
+    if (foot && foot.parentNode) foot.parentNode.insertBefore(strip, foot);
+  }
+}
+window.addEventListener('load', placeStoreStrip);
+var mmsRT;
+window.addEventListener('resize', function () {
+  clearTimeout(mmsRT); mmsRT = setTimeout(placeStoreStrip, 200);
+});
 
 function escapeHtml(str) {
   const div = document.createElement('div');

@@ -265,4 +265,74 @@ document.getElementById('mBtn').addEventListener('click',()=>{document.getElemen
 <script src="mm-store.js?v=1" defer></script>
 <script src="products.js"></script>
 <script src="mm-ads.js?v=1" defer></script>
+<script>
+/* mm-store.js and mm-ads.js both drop their strip above the footer. Lift them
+   into whichever issues grid is on screen: the TV store two rows down, the
+   Signal Shop two rows below that. Each strip spans 1 / -1, so it takes a
+   grid row of its own and the card rows stay intact. Card positions are read
+   from .issue-card only, so an already-placed strip never skews the count. */
+(function () {
+  var TV = '.mms-wrap', SHOP = '.mm-ads:not(.mm-ads-compact)';
+
+  function visibleGrid() {
+    var g = document.querySelectorAll('.issues-grid');
+    for (var i = 0; i < g.length; i++)
+      if (!g[i].classList.contains('hidden')) return g[i];
+    return null;
+  }
+
+  function place() {
+    var grid = visibleGrid();
+    if (!grid) return;
+    var foot = document.querySelector('footer');
+
+    function park(el) {                 /* not enough cards — leave it at the foot */
+      el.style.gridColumn = '';
+      el.style.margin = '';
+      if (foot && foot.parentNode && el.parentNode !== foot.parentNode)
+        foot.parentNode.insertBefore(el, foot);
+    }
+
+    function put(el, afterCards) {
+      if (!el) return;
+      var cards = grid.querySelectorAll('.issue-card');
+      if (cards.length <= afterCards) { park(el); return; }
+      el.style.gridColumn = '1 / -1';
+      el.style.margin = '1.4rem auto';
+      grid.insertBefore(el, cards[afterCards]);
+    }
+
+    /* floors of 4 and 8 so a one-column phone still shows a few issues
+       before each strip — the same rule articles.html and archive.html use */
+    var cols = (getComputedStyle(grid).gridTemplateColumns.match(/px/g) || []).length || 1;
+    put(document.querySelector(TV), Math.max(cols * 2, 4));
+    put(document.querySelector(SHOP), Math.max(cols * 4, 8));
+  }
+
+  /* Both strips are built by deferred scripts, and mm-ads.js waits on
+     products.js, so poll briefly rather than assume they are up yet. */
+  var tries = 0;
+  function tick() {
+    place();
+    if (++tries < 40 &&
+        !(document.querySelector(TV) && document.querySelector(SHOP)))
+      setTimeout(tick, 100);
+  }
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', tick);
+  else tick();
+  window.addEventListener('load', place);
+
+  /* Weekly / Monthly swaps which grid is visible, so the strips follow. */
+  ['wBtn', 'mBtn'].forEach(function (id) {
+    var b = document.getElementById(id);
+    if (b) b.addEventListener('click', function () { setTimeout(place, 0); });
+  });
+
+  var rt;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt); rt = setTimeout(place, 200);
+  });
+})();
+</script>
 </body></html>
