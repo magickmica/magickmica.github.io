@@ -17,6 +17,27 @@ import json, os, re, shutil, datetime, glob
 CURATED = {"QUEST", "POS", "AFFIRMATIONS", "DREAM_POOL",
            "PROMPTS", "SYMBOLS", "MOODS", "TYPE_LABELS", "NL_LABELS", "NL_URLS"}
 
+# Weeks with no issue page of their own, by Monday date. Must stay in step
+# with SKIP_WEEKS in tools/build_digests.py, which is what decides whether
+# the page exists; this copy is what stops anything linking to it.
+SKIP_WEEKS = {
+    "2025-05-19",   # 1 note
+    "2025-06-09",   # 1 note
+    "2025-08-18",   # 1 note
+}
+
+
+def group_by_week(notes):
+    """Notes bucketed by ISO week (Monday date), skipped weeks dropped."""
+    weeks = {}
+    for n in notes:
+        d = datetime.date.fromisoformat(n["d"])
+        wk = (d - datetime.timedelta(days=d.weekday())).isoformat()
+        if wk in SKIP_WEEKS:
+            continue
+        weeks.setdefault(wk, []).append(n)
+    return weeks
+
 
 def dumps(obj):
     return json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
@@ -104,11 +125,7 @@ def rebuild_mag_grid(html_text, notes, n_cards=8):
     if end is None:
         return html_text, False
 
-    weeks = {}
-    for n in notes:
-        d = datetime.date.fromisoformat(n["d"])
-        wk = (d - datetime.timedelta(days=d.weekday())).isoformat()
-        weeks.setdefault(wk, []).append(n)
+    weeks = group_by_week(notes)
 
     cards = []
     for wk in sorted(weeks, reverse=True)[:n_cards]:
@@ -262,11 +279,7 @@ def rebuild_minimags(repo, out_dir, notes):
         return sorted(imgs, key=lambda x: -(x.get("l") or 0))[0]["t"]
 
     # weekly cards, newest first
-    weeks = {}
-    for n in notes:
-        d = datetime.date.fromisoformat(n["d"])
-        wk = (d - datetime.timedelta(days=d.weekday())).isoformat()
-        weeks.setdefault(wk, []).append(n)
+    weeks = group_by_week(notes)
     wcards = []
     for wk in sorted(weeks, reverse=True):
         s = datetime.date.fromisoformat(wk)
@@ -403,9 +416,7 @@ if __name__ == "__main__":
     with open(os.path.join(data_dir, "magazine_articles.json"), encoding="utf-8") as f:
         articles = json.load(f)
 
-    weeks = sorted({(datetime.date.fromisoformat(n["d"])
-                     - datetime.timedelta(days=datetime.date.fromisoformat(n["d"]).weekday())
-                     ).isoformat() for n in notes})
+    weeks = sorted(group_by_week(notes))
 
     changed = update_all(repo, out_dir, notes, articles, weeks)
     # the Y3K hub: run tools/build_digests.py first so the week-/month-

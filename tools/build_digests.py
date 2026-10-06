@@ -15,6 +15,17 @@ from collections import Counter
 NOTE_URL = "https://substack.com/@magickmica/note/c-{}"
 SITE = "https://magickmica.github.io/"
 
+# Weeks that should not get an issue page of their own, by their Monday
+# date. Their notes still count toward the month digest and the totals —
+# this only suppresses the week-YYYY-MM-DD.html page and, because the
+# week list is filtered before the Prev/Next chain is built, nothing
+# links to it either. tools/update_pages.py keeps its own matching copy.
+SKIP_WEEKS = {
+    "2025-05-19",   # 1 note
+    "2025-06-09",   # 1 note
+    "2025-08-18",   # 1 note
+}
+
 # Accent palettes, reverse-engineered from the existing digests and
 # verified against every file that carries an --accent (41/41 weeks,
 # 10/10 months). Months cycle by absolute month number; weeks cycle by
@@ -389,7 +400,14 @@ def build_all(repo, data_dir, out_dir):
         d = datetime.date.fromisoformat(n["d"])
         wk = (d - datetime.timedelta(days=d.weekday())).isoformat()
         by_week.setdefault(wk, []).append(n)
-    weeks = sorted(by_week)
+    # filtered here, before the Prev/Next chain, so a skipped week leaves
+    # no dangling link behind it
+    all_weeks = sorted(by_week)
+    weeks = [w for w in all_weeks if w not in SKIP_WEEKS]
+    # Accents are keyed off each week's place in the UNFILTERED list, so
+    # skipping a week does not re-colour every page after it. Without this
+    # the whole run rewrites 68 files for nothing.
+    accent_ix = {w: i for i, w in enumerate(all_weeks)}
 
     for i, w in enumerate(weeks):
         group = by_week[w]
@@ -402,7 +420,7 @@ def build_all(repo, data_dir, out_dir):
             css, head_links, tail_scripts=tail_scripts,
             filename=f"week-{w}.html",
             title=label, kind="Week", issue_label=f"WEEKLY \u00b7 {label}",
-            accent=week_accent(i), cover_url=cover_image(group),
+            accent=week_accent(accent_ix[w]), cover_url=cover_image(group),
             cover_title=label,
             cover_sub=f"{len(group):,} notes \u00b7 a week of cosmic transmissions",
             notes=group, articles=articles,
