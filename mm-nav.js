@@ -106,6 +106,7 @@
       ['the-art-wing-gallery.html', 'Art Wing Gallery']
     ]},
     { name: 'Extended Universe', items: [
+      ['crystal-stress-index.html', 'Crystal Stress Index'],
       ['alien.html', 'Visitor'],
       ['ecard.html', 'Send a Visitor'],
       ['chest.html', 'The Chest'],

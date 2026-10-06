@@ -134,6 +134,35 @@
     return wrap;
   }
 
+  /* A homepage tile can borrow the product shots: give it
+     data-mms-rotate and an <img>, and the picture cycles. The markup keeps
+     a real first image so the tile still looks right with JS off. */
+  function rotateTiles() {
+    var tiles = document.querySelectorAll('[data-mms-rotate]');
+    if (!tiles.length) return;
+    var shots = PRODUCTS.filter(function (p) { return p.img; });
+    if (shots.length < 2) return;
+    Array.prototype.forEach.call(tiles, function (tile, n) {
+      var img = tile.querySelector('img');
+      if (!img) return;
+      img.style.transition = 'opacity .55s ease';
+      var i = n % shots.length;
+      setInterval(function () {
+        if (document.hidden) return;              // don't churn in a background tab
+        i = (i + 1) % shots.length;
+        var next = new Image();
+        next.onload = function () {
+          img.style.opacity = '0';
+          setTimeout(function () {
+            img.src = next.src;
+            img.style.opacity = '';
+          }, 550);
+        };
+        next.src = shots[i].img;
+      }, 5000 + n * 700);
+    });
+  }
+
   function mount() {
     if (document.querySelector('.mms-wrap')) return;   // never twice
     var style = document.createElement('style');
@@ -146,6 +175,8 @@
     var foot = document.querySelector('footer, .site-footer, #footer');
     if (foot && foot.parentNode) foot.parentNode.insertBefore(strip, foot);
     else document.body.appendChild(strip);
+
+    rotateTiles();
   }
 
   if (document.readyState === 'loading') {
