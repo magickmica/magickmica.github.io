@@ -469,7 +469,39 @@ function render() {
     `;
     grid.appendChild(card);
   });
+  placeStore();
 }
+
+/* The shop strip is built by mm-store.js, which drops it at the foot of the
+   page. On this page it reads better two rows into the articles, so it is
+   moved into the grid itself. render() wipes the grid on every filter, so
+   this runs again each time and the strip is re-inserted rather than lost.
+   The row count is read from the live grid, so "two rows" holds at any
+   width — three columns on a desktop, one on a phone. */
+function placeStore() {
+  var grid = document.getElementById('magGrid');
+  var strip = window.__mmsStrip || document.querySelector('.mms-wrap');
+  if (!grid || !strip) return;
+  window.__mmsStrip = strip;
+  var cards = grid.querySelectorAll('.mag-card');
+  var cols = (getComputedStyle(grid).gridTemplateColumns.match(/px/g) || []).length || 1;
+  var after = Math.max(cols * 2, 4);
+  if (cards.length > after) {
+    strip.style.gridColumn = '1 / -1';
+    strip.style.margin = '1.4rem auto';
+    grid.insertBefore(strip, cards[after]);
+  } else {
+    strip.style.gridColumn = '';
+    strip.style.margin = '';
+    var foot = document.querySelector('footer');
+    if (foot && foot.parentNode) foot.parentNode.insertBefore(strip, foot);
+  }
+}
+window.addEventListener('load', placeStore);
+var mmsT;
+window.addEventListener('resize', function () {
+  clearTimeout(mmsT); mmsT = setTimeout(placeStore, 200);
+});
 
 document.getElementById('search').addEventListener('input', e => {
   searchVal = e.target.value;
