@@ -402,7 +402,39 @@ function render() {
       grid.appendChild(el);
     });
   }
+  placeStore();
 }
+
+/* A second shop strip, a couple of rows into the archive. mm-store.js still
+   puts its own one above the footer; this asks it for an extra element and
+   drops it into the grid. render() wipes the grid on every filter, so the
+   same element is re-inserted each time rather than piling up copies. The
+   row count is read from the live grid, so "two rows" holds at any width. */
+function placeStore() {
+  var grid = document.getElementById('grid');
+  if (!grid || typeof window.mmStoreStrip !== 'function') return;
+  var extra = window.__mmsExtra;
+  if (!extra) {
+    extra = window.mmStoreStrip();
+    if (!extra) return;
+    window.__mmsExtra = extra;
+  }
+  var cards = grid.querySelectorAll('.card');
+  var cols = (getComputedStyle(grid).gridTemplateColumns.match(/px/g) || []).length || 1;
+  var after = Math.max(cols * 2, 4);
+  if (cards.length > after) {
+    extra.style.gridColumn = '1 / -1';
+    extra.style.margin = '1.4rem auto';
+    grid.insertBefore(extra, cards[after]);
+  } else if (extra.parentNode) {
+    extra.parentNode.removeChild(extra);   // too few results to sit inside
+  }
+}
+window.addEventListener('load', placeStore);
+var mmsT2;
+window.addEventListener('resize', function () {
+  clearTimeout(mmsT2); mmsT2 = setTimeout(placeStore, 200);
+});
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
