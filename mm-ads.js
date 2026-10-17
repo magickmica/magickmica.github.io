@@ -177,7 +177,16 @@
 		if (adj && adj.parentNode) { adj.parentNode.insertBefore(box, adj); return; }
 		var foot = document.querySelector('footer');
 		if (foot && foot.parentNode) { foot.parentNode.insertBefore(box, foot); return; }
+		/* No footer and no slot: the end of the body is only safe on a page
+		   that actually flows. The full-screen pages pin their stage with a
+		   fixed-height body, so an appended strip adds no height and just
+		   floats over the artwork. Append, measure, take it back if the page
+		   could not make room. Matches the same guard in mm-store.js. */
+		var before = document.body.scrollHeight;
 		document.body.appendChild(box);
+		if (document.body.scrollHeight - before < box.offsetHeight - 8) {
+			box.parentNode.removeChild(box);
+		}
 	}
 
 	function place() {

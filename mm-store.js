@@ -206,11 +206,31 @@
     ensureCss();
 
     var strip = build();
-    // Above the footer where there is one, otherwise at the end of the page,
-    // but always before the nav script's drawer so it cannot sit on top of it.
+
+    /* A page can name its own spot. */
+    var slot = document.querySelector('[data-mms]');
+    if (slot) { slot.appendChild(strip); rotateTiles(); return; }
+
+    /* Otherwise above the footer, where there is one. */
     var foot = document.querySelector('footer, .site-footer, #footer');
-    if (foot && foot.parentNode) foot.parentNode.insertBefore(strip, foot);
-    else document.body.appendChild(strip);
+    if (foot && foot.parentNode) {
+      foot.parentNode.insertBefore(strip, foot);
+      rotateTiles();
+      return;
+    }
+
+    /* No footer: the end of the body is only safe on a page that actually
+       flows. The full-screen pages — fireplace, cone, chest, the wand —
+       pin their stage with a fixed-height body, so an appended strip adds
+       no height and just floats on top of the artwork. Append, measure,
+       and take it back if the page could not make room for it. */
+    var before = document.body.scrollHeight;
+    document.body.appendChild(strip);
+    var grew = document.body.scrollHeight - before;
+    if (grew < strip.offsetHeight - 8) {
+      strip.parentNode.removeChild(strip);
+      return;
+    }
 
     rotateTiles();
   }
