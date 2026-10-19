@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Orbit — Magick Mica</title>
+<meta name="description" content="Everyone who comments on Magick Mica, who is new, who has gone quiet, and which conversations are still waiting on a reply.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://magickmica.github.io/people.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   THE ORBIT — who talks back.
+   Reads ENGAGEMENT from engagement.js. All counting happens
+   here at runtime, so refreshing the data is a one-file job.
+   ========================================================== */
+:root{
+  --void:#0B0417; --deep:#160A2B; --plum:#2B1240; --plum-2:#3A1A55;
+  --pink:#FF7AC8; --hotpink:#FF4FA3; --mint:#5FE8D0;
+  --gold:#F5C044; --lav:#B79CFF; --cyan:#4EE1FF; --cream:#FFF6FB;
+  --ink:rgba(255,246,251,.86); --ink-dim:rgba(255,246,251,.52);
+  --line:rgba(245,192,68,.22);
+  --f-display:"Cinzel Decorative",serif;
+  --f-body:"Cormorant Garamond",Georgia,serif;
+  --f-mono:"Space Mono",monospace;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--void); color:var(--ink); font-family:var(--f-body);
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 15% 0%, rgba(183,156,255,.14), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 12%, rgba(255,122,200,.10), transparent 62%);
+  background-attachment:fixed;
+}
+#stars{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.55;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%,rgba(255,255,255,.7),transparent),
+    radial-gradient(1.2px 1.2px at 31% 68%,rgba(255,255,255,.45),transparent),
+    radial-gradient(1.7px 1.7px at 62% 16%,var(--gold),transparent),
+    radial-gradient(1.3px 1.3px at 79% 54%,var(--lav),transparent),
+    radial-gradient(1.2px 1.2px at 44% 88%,rgba(255,255,255,.5),transparent),
+    radial-gradient(1.4px 1.4px at 92% 28%,var(--mint),transparent);
+  background-size:420px 420px}
+
+.wrap{position:relative; z-index:2; max-width:1200px; margin:0 auto; padding:0 20px}
+
+header.top{text-align:center; padding:clamp(2.4rem,6vw,4rem) 20px 1.6rem}
+.eyebrow{font-family:var(--f-mono); font-size:.58rem; letter-spacing:.34em;
+  text-transform:uppercase; color:var(--gold)}
+h1{font-family:var(--f-display); font-weight:900; margin:.7rem 0 .5rem;
+  font-size:clamp(2.1rem,6vw,3.4rem); line-height:1.05;
+  background:linear-gradient(100deg,var(--lav),var(--pink) 40%,var(--gold) 72%,var(--mint));
+  -webkit-background-clip:text; background-clip:text; color:transparent}
+.sub{font-size:clamp(1rem,2.2vw,1.2rem); color:var(--ink-dim); max-width:46ch; margin:0 auto}
+
+/* ---- the numbers ---- */
+.stats{display:grid; gap:.8rem; margin:2rem auto 1.4rem;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.stat{border:1px solid var(--line); border-radius:14px; padding:1rem .9rem;
+  background:linear-gradient(180deg,rgba(43,18,64,.55),rgba(11,4,23,.35)); text-align:center}
+.stat b{display:block; font-family:var(--f-display); font-weight:700;
+  font-size:1.8rem; color:var(--cream); line-height:1.1}
+.stat span{font-family:var(--f-mono); font-size:.55rem; letter-spacing:.17em;
+  text-transform:uppercase; color:var(--ink-dim)}
+.stat.warn b{color:var(--gold)}
+
+/* ---- tabs ---- */
+.tabs{display:flex; flex-wrap:wrap; gap:.4rem; justify-content:center; margin:1.6rem 0 1.2rem}
+.tab{font-family:var(--f-mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink-dim); background:rgba(43,18,64,.45); border:1px solid var(--line);
+  padding:.6rem 1.05rem; border-radius:999px; cursor:pointer; min-height:44px;
+  display:inline-flex; align-items:center; gap:.45rem; transition:.18s}
+.tab:hover{color:var(--gold); border-color:var(--gold)}
+.tab.on{color:var(--void); background:linear-gradient(100deg,var(--gold),var(--pink));
+  border-color:transparent; font-weight:700}
+.tab i{font-style:normal; opacity:.75}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:.6rem; align-items:center;
+  justify-content:center; margin-bottom:1.5rem}
+input[type=search], select{
+  font-family:var(--f-mono); font-size:.72rem; color:var(--ink);
+  background:rgba(11,4,23,.6); border:1px solid var(--line);
+  border-radius:999px; padding:.65rem 1rem; min-height:44px; min-width:200px}
+input[type=search]:focus, select:focus{outline:none; border-color:var(--gold)}
+select{min-width:auto}
+
+/* ---- people ---- */
+.grid{display:grid; gap:.9rem; grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.card{border:1px solid var(--line); border-radius:14px; padding:1rem;
+  background:linear-gradient(180deg,rgba(43,18,64,.5),rgba(11,4,23,.3));
+  display:flex; gap:.85rem; align-items:flex-start; transition:.18s}
+.card:hover{border-color:rgba(245,192,68,.5); transform:translateY(-2px)}
+.av{width:46px; height:46px; border-radius:50%; flex:0 0 auto; object-fit:cover;
+  border:1px solid rgba(183,156,255,.4); background:var(--plum)}
+.av.ph{display:grid; place-items:center; font-family:var(--f-display);
+  color:var(--gold); font-size:1.05rem}
+.who{min-width:0; flex:1}
+.nm{font-size:1.08rem; color:var(--cream); font-weight:600; line-height:1.25;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.nm a{color:inherit; text-decoration:none; border-bottom:1px solid transparent}
+.nm a:hover{border-bottom-color:var(--gold)}
+.meta{font-family:var(--f-mono); font-size:.56rem; letter-spacing:.09em;
+  color:var(--ink-dim); margin-top:.3rem; line-height:1.7}
+.chips{display:flex; flex-wrap:wrap; gap:.3rem; margin-top:.5rem}
+.chip{font-family:var(--f-mono); font-size:.5rem; letter-spacing:.13em;
+  text-transform:uppercase; padding:.26rem .55rem; border-radius:999px;
+  border:1px solid var(--line); color:var(--ink-dim)}
+.chip.talking{color:var(--mint); border-color:rgba(95,232,208,.45)}
+.chip.new{color:var(--pink); border-color:rgba(255,122,200,.45)}
+.chip.quiet{color:var(--lav); border-color:rgba(183,156,255,.4)}
+.chip.owed{color:var(--gold); border-color:rgba(245,192,68,.5)}
+.chip.paid{color:var(--cyan); border-color:rgba(78,225,255,.4)}
+
+/* ---- threads ---- */
+.thread{border:1px solid var(--line); border-radius:14px; padding:1rem 1.1rem;
+  background:linear-gradient(180deg,rgba(43,18,64,.45),rgba(11,4,23,.28));
+  margin-bottom:.8rem}
+.thread .hd{display:flex; gap:.6rem; align-items:center; flex-wrap:wrap}
+.thread .hd .nm{font-size:.98rem; white-space:normal}
+.thread .on-post{font-family:var(--f-mono); font-size:.55rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--gold); margin-top:.45rem}
+.thread .body{margin-top:.55rem; font-size:1.02rem; line-height:1.55; color:var(--ink)}
+.thread .when{font-family:var(--f-mono); font-size:.55rem; color:var(--ink-dim)}
+.thread a.go{font-family:var(--f-mono); font-size:.55rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--mint); text-decoration:none;
+  border-bottom:1px solid rgba(95,232,208,.4)}
+
+/* ---- posts table ---- */
+.posts{width:100%; border-collapse:collapse; font-size:.98rem}
+.posts th{font-family:var(--f-mono); font-size:.55rem; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--gold); text-align:left;
+  padding:.6rem .5rem; border-bottom:1px solid var(--line); font-weight:400}
+.posts td{padding:.6rem .5rem; border-bottom:1px solid rgba(245,192,68,.08);
+  vertical-align:top}
+.posts td.n{font-family:var(--f-mono); font-size:.8rem; color:var(--cream);
+  text-align:right; white-space:nowrap}
+.posts tr:hover td{background:rgba(183,156,255,.05)}
+
+.empty{text-align:center; color:var(--ink-dim); padding:3rem 1rem; font-size:1.05rem}
+.view{display:none}
+.view.on{display:block}
+.note{text-align:center; font-family:var(--f-mono); font-size:.55rem;
+  letter-spacing:.12em; color:var(--ink-dim); margin:1.6rem 0 0}
+
+footer{position:relative; z-index:2; text-align:center;
+  font-family:var(--f-mono); font-size:.58rem; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--ink-dim);
+  margin-top:clamp(40px,6vw,64px); padding:1.4rem 20px clamp(24px,4vw,40px);
+  border-top:1px solid rgba(245,192,68,.1)}
+footer a{color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(245,192,68,.35)}
+.f-links{display:flex; flex-wrap:wrap; gap:.4rem; justify-content:center;
+  margin:1.1rem auto 1rem; max-width:860px}
+.f-links a{display:inline-flex; align-items:center;
+  font-size:.55rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink-dim); border:1px solid var(--line); border-bottom-color:var(--line);
+  background:rgba(43,18,64,.4); padding:.42rem .85rem; border-radius:999px}
+.f-links a:hover{color:var(--gold); border-color:var(--gold)}
+
+@media (max-width:560px){
+  .grid{grid-template-columns:1fr}
+  .f-links a{font-size:.5rem; padding:.38rem .8rem; min-height:44px}
+  .posts th:nth-child(3), .posts td:nth-child(3){display:none}
+}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+
+<header class="top">
+  <div class="eyebrow">Magick Mica &middot; Signal Return</div>
+  <h1>The Orbit</h1>
+  <p class="sub">Everyone who talks back &mdash; who is new, who has gone quiet,
+    and which conversations are still waiting on you.</p>
+</header>
+
+<div class="wrap">
+  <div class="stats" id="stats"></div>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab on" data-v="people"><i>&#9733;</i>People</button>
+    <button class="tab" data-v="owed"><i>&#9998;</i>Waiting on you</button>
+    <button class="tab" data-v="new"><i>&#10022;</i>New faces</button>
+    <button class="tab" data-v="posts"><i>&#9671;</i>By post</button>
+  </nav>
+
+  <div class="toolbar" id="toolbar">
+    <input type="search" id="q" placeholder="Search a name…" aria-label="Search people">
+    <select id="sort" aria-label="Sort people">
+      <option value="comments">Most comments</option>
+      <option value="recent">Most recent</option>
+      <option value="posts">Most posts</option>
+      <option value="owed">Most unanswered</option>
+      <option value="oldest">Longest known</option>
+    </select>
+  </div>
+
+  <section class="view on" id="v-people"><div class="grid" id="peopleGrid"></div></section>
+  <section class="view" id="v-owed"><div id="owedList"></div></section>
+  <section class="view" id="v-new"><div class="grid" id="newGrid"></div></section>
+  <section class="view" id="v-posts"><table class="posts"><thead><tr>
+      <th>Post</th><th class="n">People</th><th class="n">Comments</th><th class="n">Last</th>
+    </tr></thead><tbody id="postRows"></tbody></table></section>
+
+  <p class="note" id="stamp"></p>
+</div>
+
+<footer>
+<div class="f-mark">&#10022; <a href="https://magickmica.substack.com" target="_blank" rel="noopener">Magick Mica TV</a> &middot; where magick meets the pixel &#10022;</div>
+<nav class="f-links">
+  <a href="index.html">Home</a><a href="notes.html">Notes</a><a href="articles.html">Magazine</a>
+  <a href="blog.html">Blog</a><a href="minimags.html">Y3K</a><a href="arcade.html">Arcade</a>
+  <a href="archive.html">Archive</a><a href="https://magickmicatv.store/" target="_blank" rel="noopener">Store &#8599;</a>
+</nav>
+</footer>
+
+<script src="engagement.js"></script>
+<script>
+(function () {
+  'use strict';
+  /* engagement.js declares `const ENGAGEMENT`, and a top-level const does not
+     hang off window — same as PRODUCTS in products.js. Read the binding. */
+  var D = (typeof ENGAGEMENT !== 'undefined') ? ENGAGEMENT : null;
+  if (!D) { document.getElementById('peopleGrid').innerHTML =
+    '<p class="empty">engagement.js did not load.</p>'; return; }
+
+  /* "Now" is the day the data was collected, not today — otherwise every
+     person slowly drifts to Quiet just because the snapshot is ageing. */
+  var NOW = new Date(D.collected + 'T23:59:59Z').getTime();
+  var DAY = 864e5, PUB = 'https://magickmica.substack.com';
+
+  var esc = function (s) { return String(s == null ? '' : s)
+    .replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var days = function (iso) { return Math.round((NOW - new Date(iso).getTime()) / DAY); };
+  var ago = function (iso) {
+    var d = days(iso);
+    if (d <= 0) return 'today';
+    if (d === 1) return 'yesterday';
+    if (d < 30) return d + ' days ago';
+    if (d < 365) return Math.round(d / 30) + ' months ago';
+    return (d / 365).toFixed(1) + ' years ago';
+  };
+  var postUrl = function (id) {
+    var s = D.postSlugs && D.postSlugs[id];     // filled in by a newer collector
+    return s ? PUB + '/p/' + s : null;
+  };
+
+  /* ---- shape the people list ---- */
+  var people = D.people.map(function (p) {
+    var since = days(p.last), met = days(p.first);
+    var status = since <= 30 ? 'talking' : since <= 90 ? 'around' : 'quiet';
+    return {
+      name: p.name, handle: p.handle, photo: p.photo, tier: p.tier,
+      comments: p.comments, posts: p.posts, unanswered: p.unanswered,
+      likes: p.likesReceived, first: p.first, last: p.last,
+      since: since, met: met, status: status,
+      isNew: met <= 45 && p.comments >= 1,
+      /* someone who used to be a regular and has stopped */
+      lapsed: p.comments >= 3 && since > 90
+    };
+  });
+
+  var byId = {};
+  people.forEach(function (p) { byId[p.handle || p.name] = p; });
+
+  /* ---- headline numbers ---- */
+  var owed = D.comments.filter(function (c) {
+    if (c.handle === D.me) return false;
+    return !D.comments.some(function (r) { return r.parent === c.id && r.handle === D.me; });
+  }).sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+
+  var stats = [
+    ['People', people.length, ''],
+    ['Their comments', D.comments.length - D.comments.filter(function (c) { return c.handle === D.me; }).length, ''],
+    ['Waiting on you', owed.length, 'warn'],
+    ['Talking lately', people.filter(function (p) { return p.status === 'talking'; }).length, ''],
+    ['Gone quiet', people.filter(function (p) { return p.lapsed; }).length, 'warn'],
+    ['Posts with talk', Object.keys(D.postTitles).filter(function (id) {
+      return D.comments.some(function (c) { return String(c.post_id) === String(id); }); }).length, '']
+  ];
+  document.getElementById('stats').innerHTML = stats.map(function (s) {
+    return '<div class="stat ' + s[2] + '"><b>' + s[1] + '</b><span>' + s[0] + '</span></div>';
+  }).join('');
+
+  /* ---- cards ---- */
+  function avatar(p) {
+    if (p.photo) return '<img class="av" src="' + esc(p.photo) + '" alt="" loading="lazy" ' +
+      'onerror="this.outerHTML=\'<div class=&quot;av ph&quot;>' +
+      esc((p.name || '?').charAt(0).toUpperCase()) + '</div>\'">';
+    return '<div class="av ph">' + esc((p.name || '?').charAt(0).toUpperCase()) + '</div>';
+  }
+  function card(p) {
+    var chips = [];
+    if (p.status === 'talking') chips.push('<span class="chip talking">Talking</span>');
+    if (p.isNew) chips.push('<span class="chip new">New</span>');
+    if (p.lapsed) chips.push('<span class="chip quiet">Gone quiet</span>');
+    if (p.unanswered) chips.push('<span class="chip owed">' + p.unanswered + ' unanswered</span>');
+    if (p.tier) chips.push('<span class="chip paid">Paid</span>');
+    var nm = p.handle
+      ? '<a href="https://substack.com/@' + esc(p.handle) + '" target="_blank" rel="noopener">' + esc(p.name) + '</a>'
+      : esc(p.name);
+    return '<article class="card">' + avatar(p) +
+      '<div class="who"><div class="nm">' + nm + '</div>' +
+      '<div class="meta">' + p.comments + ' comment' + (p.comments === 1 ? '' : 's') +
+        ' &middot; ' + p.posts + ' post' + (p.posts === 1 ? '' : 's') +
+        (p.likes ? ' &middot; ' + p.likes + ' likes' : '') +
+        '<br>last ' + ago(p.last) + ' &middot; known ' + ago(p.first) + '</div>' +
+      (chips.length ? '<div class="chips">' + chips.join('') + '</div>' : '') +
+      '</div></article>';
+  }
+
+  var q = document.getElementById('q'), sortSel = document.getElementById('sort');
+  function renderPeople() {
+    var term = q.value.trim().toLowerCase();
+    var list = people.filter(function (p) {
+      return !term || (p.name || '').toLowerCase().indexOf(term) > -1 ||
+             (p.handle || '').toLowerCase().indexOf(term) > -1;
+    });
+    var s = sortSel.value;
+    list.sort(function (a, b) {
+      if (s === 'recent') return a.since - b.since;
+      if (s === 'posts') return b.posts - a.posts || b.comments - a.comments;
+      if (s === 'owed') return b.unanswered - a.unanswered || b.comments - a.comments;
+      if (s === 'oldest') return b.met - a.met;
+      return b.comments - a.comments || a.since - b.since;
+    });
+    document.getElementById('peopleGrid').innerHTML =
+      list.length ? list.map(card).join('') : '<p class="empty">Nobody by that name.</p>';
+  }
+
+  function renderNew() {
+    var list = people.filter(function (p) { return p.isNew; })
+      .sort(function (a, b) { return a.met - b.met; });
+    document.getElementById('newGrid').innerHTML = list.length
+      ? list.map(card).join('')
+      : '<p class="empty">No first-time commenters in the last 45 days.</p>';
+  }
+
+  function renderOwed() {
+    document.getElementById('owedList').innerHTML = owed.length ? owed.map(function (c) {
+      var p = byId[c.handle || c.name] || {};
+      var title = D.postTitles[c.post_id] || 'a post';
+      var url = postUrl(c.post_id);
+      var body = c.body.length > 420 ? c.body.slice(0, 420) + '…' : c.body;
+      var nm = c.handle
+        ? '<a href="https://substack.com/@' + esc(c.handle) + '" target="_blank" rel="noopener">' + esc(c.name) + '</a>'
+        : esc(c.name);
+      return '<article class="thread"><div class="hd">' + avatar(p.photo ? p : c) +
+        '<div><div class="nm">' + nm + '</div>' +
+        '<div class="when">' + ago(c.date) + ' &middot; ' + c.date.slice(0, 10) +
+        (c.likes ? ' &middot; ' + c.likes + ' likes' : '') + '</div></div></div>' +
+        '<div class="on-post">on &ldquo;' + esc(title) + '&rdquo;</div>' +
+        '<div class="body">' + esc(body) + '</div>' +
+        (url ? '<div style="margin-top:.6rem"><a class="go" href="' + url + '/comment/' + c.id +
+               '" target="_blank" rel="noopener">Go reply &rarr;</a></div>' : '') +
+        '</article>';
+    }).join('') : '<p class="empty">Nothing waiting. All caught up.</p>';
+  }
+
+  function renderPosts() {
+    var rows = Object.keys(D.postTitles).map(function (id) {
+      var cs = D.comments.filter(function (c) { return String(c.post_id) === String(id); });
+      var theirs = cs.filter(function (c) { return c.handle !== D.me; });
+      if (!theirs.length) return null;
+      var who = {}; theirs.forEach(function (c) { who[c.handle || c.name] = 1; });
+      var last = theirs.map(function (c) { return c.date; }).sort().pop();
+      return { title: D.postTitles[id], id: id, people: Object.keys(who).length,
+               comments: theirs.length, last: last };
+    }).filter(Boolean).sort(function (a, b) { return b.comments - a.comments; });
+
+    document.getElementById('postRows').innerHTML = rows.map(function (r) {
+      var url = postUrl(r.id);
+      var t = url ? '<a href="' + url + '" target="_blank" rel="noopener" style="color:var(--cream);text-decoration:none;border-bottom:1px solid rgba(245,192,68,.3)">' + esc(r.title) + '</a>' : esc(r.title);
+      return '<tr><td>' + t + '</td><td class="n">' + r.people + '</td><td class="n">' +
+        r.comments + '</td><td class="n">' + ago(r.last) + '</td></tr>';
+    }).join('');
+  }
+
+  /* ---- tabs ---- */
+  document.getElementById('tabs').addEventListener('click', function (e) {
+    var b = e.target.closest('.tab'); if (!b) return;
+    [].forEach.call(document.querySelectorAll('.tab'), function (t) { t.classList.toggle('on', t === b); });
+    var v = b.getAttribute('data-v');
+    [].forEach.call(document.querySelectorAll('.view'), function (s) {
+      s.classList.toggle('on', s.id === 'v-' + v); });
+    document.getElementById('toolbar').style.display = v === 'people' ? '' : 'none';
+  });
+  q.addEventListener('input', renderPeople);
+  sortSel.addEventListener('change', renderPeople);
+
+  renderPeople(); renderNew(); renderOwed(); renderPosts();
+  document.getElementById('stamp').textContent =
+    'Collected ' + D.collected + ' · ' + D.posts + ' posts · ' + D.comments.length +
+    ' comments in all · re-run the collector to refresh';
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>
