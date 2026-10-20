@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MagickVision Signal Band</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Tune through every week of Magick Mica TV. Each bar is a week of transmissions; its height is how many went out.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Share+Tech+Mono&family=VT323&display=swap">
+<style>
+/* Layout: one centred column; the band is the only piece of hardware, everything below it is plain reading. */
+:root {
+  --void: #07020f;          /* the digests' --dark */
+  --ink: #f4eefe;
+  --quiet: #a597c0;
+  --line: rgba(214, 190, 255, .14);
+  --needle: #fff4dc;
+  --f-display: "Cinzel Decorative", "Cormorant Garamond", Georgia, serif;
+  --f-read: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --f-mono: "Share Tech Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--void); }
+body {
+  margin: 0;
+  background:
+    radial-gradient(900px 420px at 18% -8%, rgba(176, 110, 255, .13), transparent 70%),
+    radial-gradient(700px 380px at 92% 4%, rgba(110, 247, 255, .07), transparent 70%),
+    var(--void);
+  color: var(--ink);
+  font: 16px/1.5 var(--f-read);
+  min-height: 100vh;
+}
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 36px 72px;
+}
+.mast { display: grid; gap: 10px; margin-bottom: 26px; }
+.eyebrow {
+  margin: 0;
+  font: 12px/1.4 var(--f-mono);
+  letter-spacing: .24em;
+  color: var(--quiet);
+}
+.eyebrow b { color: #ff8fa3; font-weight: 400; }
+h1 {
+  margin: 0;
+  font: 700 clamp(34px, 6.4vw, 62px)/1.02 var(--f-display);
+  letter-spacing: .01em;
+  text-wrap: balance;
+  background: linear-gradient(100deg, #ffd9f6 0%, #f4eefe 30%, #c9f7ff 55%, #f6ffd0 75%, #ffd9f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lede {
+  margin: 0;
+  max-width: 60ch;
+  font: 500 clamp(18px, 2.2vw, 21px)/1.4 var(--f-read);
+  color: var(--quiet);
+  text-wrap: pretty;
+}
+.lede strong { color: var(--ink); font-weight: 600; }
+.mm-band-fallback { font: 14px var(--f-mono); color: var(--needle); }
+.foot {
+  margin-top: 56px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  justify-content: space-between;
+  font: 12.5px/1.6 var(--f-mono);
+  color: var(--quiet);
+  letter-spacing: .06em;
+}
+.foot nav { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.foot a { color: var(--ink); text-decoration: none; }
+.foot a:hover, .foot a:focus-visible { text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--needle); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="mast">
+    <p class="eyebrow"><b>&#9679;</b> CH 01 &middot; MAGICKVISION RECEIVER</p>
+    <h1>Signal Band</h1>
+    <p class="lede" id="lede">Every bar is one week of Magick Mica TV. Its height is how many transmissions went out. Drag the needle, tap a bar or use the arrow keys to tune to any week.</p>
+  </header>
+
+  <div class="mm-band" data-mode="home">
+    <a class="mm-band-fallback" href="../minimags.html">Browse all weekly issues &rarr;</a>
+  </div>
+  <div class="mm-receive"></div>
+
+  <footer class="foot">
+    <span id="asof">Magick Mica TV &middot; where magick meets the pixel</span>
+    <nav aria-label="Magick Mica">
+      <a class="site" href="../index.html">Home</a>
+      <a class="site" href="../notes.html">All Notes</a>
+      <a class="site" href="../minimags.html">Y3K Magazine</a>
+      <a class="site" href="../articles.html">Magazine</a>
+    </nav>
+  </footer>
+</main>
+
+<script src="signal.js"></script>
+<script src="mm-band.js"></script>
+<script>
+(function () {
+  var onSite = /magickmica\.github\.io$/.test(location.hostname);
+  if (onSite) {
+    // the site's shared top bar, only where it exists
+    var s = document.createElement('script'); s.src = '../mm-nav.js?v=3'; s.defer = true;
+    document.body.appendChild(s);
+  } else {
+    document.querySelectorAll('a.site, .mm-band-fallback').forEach(function (a) {
+      a.href = 'https://magickmica.github.io/' + a.getAttribute('href').replace('../', '');
+    });
+  }
+  if (typeof SIGNAL === 'undefined') return;
+  var W = SIGNAL.weeks, first = W[0].w, last = W[W.length - 1].w;
+  var MON = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function my(iso) { var p = iso.split('-'); return MON[+p[1] - 1] + ' ' + p[0]; }
+  document.getElementById('lede').innerHTML =
+    '<strong>' + SIGNAL.total.toLocaleString('en-US') + ' transmissions</strong> across ' + W.length +
+    ' weeks, ' + my(first) + ' to ' + my(last) + '. Every bar is one week; its height is how many went out. ' +
+    'Drag the needle, tap a bar or use the arrow keys to tune.';
+  document.getElementById('asof').textContent = 'Signal data as of ' + SIGNAL.built + ' · ' +
+    SIGNAL.articles + ' articles · ' + W.filter(function (w) { return w.iss; }).length + ' weekly issues';
+})();
+</script>
+</body>
+</html>
