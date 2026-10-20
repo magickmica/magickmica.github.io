@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Y3K Almanac</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="A book of days kept by Magick Mica TV: every date of the year, with what was transmitted on it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=swap">
+<style>
+/* Layout: a printed book of days on scratch-board. One reading column for the day, the year's contents as a ledger below. */
+:root {
+  --board: #0e0c0d;         /* matte black scratch-board */
+  --board-2: #171315;
+  --bone: #efe6d6;          /* the scratched-through white */
+  --quiet: #ab9f8d;
+  --hair: rgba(239, 230, 214, .16);
+  --rainbow: linear-gradient(90deg, #ff6e9d 0%, #ff9d6e 16%, #ffd76e 32%, #6effa0 50%, #6ef7ff 66%, #b06eff 83%, #ff6ef7 100%);
+  --f-mast: "Cinzel Decorative", "IM Fell English", Georgia, serif;
+  --f-read: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --f-print: "IM Fell English", Georgia, serif;
+  --f-sc: "IM Fell English SC", "IM Fell English", Georgia, serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--board); }
+body {
+  margin: 0;
+  color: var(--bone);
+  font: 19px/1.5 var(--f-read);
+  background-color: var(--board);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .95  0 0 0 0 .88  0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 72px;
+}
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--bone); outline-offset: 3px; }
+
+/* scratch-etched rainbow: colour shows only through hatched strokes */
+.etch {
+  background:
+    repeating-linear-gradient(118deg, transparent 0 2.2px, rgba(14, 12, 13, .78) 2.2px 3.4px),
+    var(--rainbow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.rule {
+  height: 3px;
+  border: 0;
+  margin: 0;
+  background: var(--rainbow);
+  -webkit-mask: repeating-linear-gradient(90deg, #000 0 19px, transparent 19px 22px, #000 22px 31px, transparent 31px 33px, #000 33px 47px, transparent 47px 51px);
+  mask: repeating-linear-gradient(90deg, #000 0 19px, transparent 19px 22px, #000 22px 31px, transparent 31px 33px, #000 33px 47px, transparent 47px 51px);
+  opacity: .85;
+}
+
+/* running head */
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--hair);
+}
+.book { margin: 0; font: 15px/1.3 var(--f-sc); letter-spacing: .22em; }
+.book span { display: block; margin-top: 2px; font: italic 15px/1.3 var(--f-print); letter-spacing: 0; color: var(--quiet); }
+.turn { display: flex; flex-wrap: wrap; gap: 6px; }
+.turn button {
+  font: 15px/1 var(--f-sc);
+  letter-spacing: .08em;
+  color: var(--bone);
+  background: transparent;
+  border: 1px solid var(--hair);
+  border-radius: 3px;
+  padding: 9px 12px;
+  min-height: 40px;
+  cursor: pointer;
+}
+.turn button:hover { border-color: rgba(239, 230, 214, .45); }
+
+/* the day */
+.day { display: grid; gap: 28px; padding-top: 30px; }
+.date { display: grid; gap: 8px; }
+.date h1 {
+  margin: 0;
+  font: 900 clamp(46px, 10vw, 104px)/.95 var(--f-mast);
+  letter-spacing: -.005em;
+  text-wrap: balance;
+}
+.dateline {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  font: italic 18px/1.4 var(--f-print);
+  color: var(--quiet);
+}
+.dateline svg { width: 22px; height: 22px; flex: none; }
+.moon { display: inline-flex; align-items: center; gap: 8px; }
+
+.label { margin: 0 0 12px; font: 14px/1.3 var(--f-sc); letter-spacing: .24em; color: var(--quiet); }
+
+.saying { max-width: 46rem; }
+.saying blockquote {
+  margin: 0;
+  font: 500 clamp(28px, 4.4vw, 44px)/1.16 var(--f-read);
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+.saying blockquote::first-letter {
+  float: left;
+  font: 900 3.05em/.78 var(--f-mast);
+  margin: .04em .1em 0 0;
+  background:
+    repeating-linear-gradient(118deg, transparent 0 2.2px, rgba(14, 12, 13, .78) 2.2px 3.4px),
+    var(--rainbow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.saying .glyphs { font-size: clamp(40px, 7vw, 64px); letter-spacing: .12em; }
+.saying .glyphs::first-letter { float: none; font: inherit; margin: 0; background: none; color: inherit; -webkit-background-clip: border-box; background-clip: border-box; }
+.attrib { margin: 14px 0 0; font: italic 17px/1.5 var(--f-print); color: var(--quiet); }
+.attrib a { color: var(--bone); }
+
+.leaves { display: grid; gap: 34px; }
+@media (min-width: 880px) { .leaves { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 48px; } }
+
+.plates { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+.plate { margin: 0; display: grid; gap: 8px; }
+.plate .frame {
+  display: block;
+  position: relative;
+  aspect-ratio: 1;
+  border: 1px solid var(--hair);
+  padding: 6px;
+  background: #050405;
+}
+.plate img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.plate .etched {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background:
+    repeating-linear-gradient(118deg, transparent 0 3px, #050405 3px 5px),
+    repeating-linear-gradient(28deg, transparent 0 6px, #050405 6px 7px),
+    var(--rainbow);
+  opacity: .5;
+}
+.plate figcaption { font: italic 15px/1.35 var(--f-print); color: var(--quiet); }
+.plate figcaption b { font: 13px/1 var(--f-sc); letter-spacing: .16em; color: var(--bone); font-weight: 400; display: block; margin-bottom: 4px; }
+.plate figcaption a { color: var(--bone); }
+
+.years { display: grid; gap: 22px; }
+.year h3 { margin: 0 0 8px; display: flex; align-items: baseline; gap: 10px; font: 600 26px/1 var(--f-read); }
+.year h3 small { font: italic 15px/1 var(--f-print); color: var(--quiet); }
+.year ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.year li { font: 500 19px/1.35 var(--f-read); padding-left: 18px; position: relative; overflow-wrap: anywhere; }
+.year li::before { content: "\2766"; position: absolute; left: 0; top: .1em; font-size: 12px; color: var(--quiet); }
+.year li .meta { white-space: nowrap; font: italic 14px var(--f-print); color: var(--quiet); }
+.year li .meta a { color: var(--quiet); }
+
+.essay { padding: 20px 22px; border: 1px solid var(--hair); background: var(--board-2); }
+.essay h3 { margin: 0; font: 600 28px/1.15 var(--f-read); text-wrap: balance; }
+.essay h3 a { text-decoration: none; }
+.essay h3 a:hover { text-decoration: underline; }
+.essay .sub { margin: 6px 0 0; font: italic 17px/1.4 var(--f-print); color: var(--quiet); }
+.essay .pv { margin: 12px 0 0; font: 18px/1.45 var(--f-read); }
+.essay .tag { font: 13px var(--f-sc); letter-spacing: .16em; color: var(--quiet); }
+
+.ledger { display: grid; gap: 8px; }
+.ledger a {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--hair);
+  text-decoration: none;
+  font: 18px/1.3 var(--f-read);
+}
+.ledger a span { font: italic 15px var(--f-print); color: var(--quiet); white-space: nowrap; }
+.ledger a:hover { color: #fff; }
+
+.blank { padding: 28px; border: 1px dashed var(--hair); font: italic 22px/1.4 var(--f-print); }
+
+/* the contents: every day of the year */
+.contents { margin-top: 64px; display: grid; gap: 14px; }
+.contents h2 { margin: 0; font: 700 clamp(26px, 3.6vw, 34px)/1.1 var(--f-mast); }
+.contents p.how { margin: 0; max-width: 60ch; font: italic 17px/1.45 var(--f-print); color: var(--quiet); }
+.cal-scroll { overflow-x: auto; padding-bottom: 6px; }
+.cal { display: grid; gap: 5px; }
+.mrow { display: grid; grid-template-columns: 44px repeat(31, minmax(0, 1fr)); gap: 3px; align-items: center; }
+.mrow > span { font: 13px var(--f-sc); letter-spacing: .14em; color: var(--quiet); }
+.cell {
+  aspect-ratio: 1;
+  border: 0;
+  padding: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  background: var(--hue);
+  opacity: var(--a);
+  min-width: 0;
+}
+.cell.none { background: transparent; box-shadow: inset 0 0 0 1px rgba(239, 230, 214, .14); opacity: 1; }
+.cell.on { opacity: 1; outline: 2px solid var(--bone); outline-offset: 1px; }
+.cell.today { box-shadow: inset 0 0 0 2px var(--board), 0 0 0 1px var(--bone); }
+.cell:focus-visible { outline: 2px solid #fff; outline-offset: 2px; opacity: 1; }
+.cal-key { display: flex; flex-wrap: wrap; gap: 6px 18px; font: italic 15px var(--f-print); color: var(--quiet); }
+.cal-key i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; vertical-align: -1px; margin-right: 6px; background: #ffd76e; }
+
+.foot {
+  margin-top: 56px;
+  padding-top: 16px;
+  border-top: 1px solid var(--hair);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  justify-content: space-between;
+  font: italic 15px/1.5 var(--f-print);
+  color: var(--quiet);
+}
+.foot nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-style: normal; font-family: var(--f-sc); letter-spacing: .1em; }
+.foot a { color: var(--bone); text-decoration: none; }
+.foot a:hover { text-decoration: underline; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (max-width: 640px) {
+  body { font-size: 18px; }
+  .turn { width: 100%; }
+  .turn button { flex: 1 1 auto; min-height: 44px; }
+  .mrow { grid-template-columns: 32px repeat(31, minmax(0, 1fr)); gap: 2px; }
+  .mrow > span { font-size: 11px; letter-spacing: .06em; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .day.turning { animation: fold .32s ease-out; }
+  @keyframes fold { from { opacity: .25; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="head">
+    <p class="book">THE Y3K ALMANAC<span>a Book of Days kept by Magick Mica TV</span></p>
+    <nav class="turn" aria-label="Turn the page">
+      <button type="button" id="prev">&#9666; <span id="prevL">Prev day</span></button>
+      <button type="button" id="today">Today</button>
+      <button type="button" id="rand">A day at random</button>
+      <button type="button" id="next"><span id="nextL">Next day</span> &#9656;</button>
+    </nav>
+  </header>
+
+  <article class="day" id="day" aria-live="polite">
+    <noscript><p class="blank">The almanac needs JavaScript. Every note is also in the <a href="../notes.html">notes archive</a>.</p></noscript>
+  </article>
+
+  <section class="contents" aria-labelledby="contents-h">
+    <h2 id="contents-h" class="etch">The Contents</h2>
+    <p class="how">Every square is a date in the year. The brighter it glows, the more transmissions have gone out on that date across every year. Choose one to turn to it.</p>
+    <div class="cal-scroll"><div class="cal" id="cal" role="group" aria-label="Every day of the year"></div></div>
+    <p class="cal-key"><span><i style="opacity:.25"></i>a few</span><span><i></i>many</span><span><i style="background:transparent;box-shadow:inset 0 0 0 1px rgba(239,230,214,.3)"></i>none yet</span></p>
+  </section>
+
+  <footer class="foot">
+    <span id="asof">Magick Mica TV</span>
+    <nav aria-label="Magick Mica">
+      <a class="site" href="../index.html">Home</a>
+      <a class="site" href="../notes.html">All Notes</a>
+      <a class="site" href="../minimags.html">Y3K Magazine</a>
+      <a class="site" href="../articles.html">Magazine</a>
+    </nav>
+  </footer>
+</main>
+
+<script src="almanac.js"></script>
+<script>
+(function () {
+  'use strict';
+  var ON_SITE = /magickmica\.github\.io$/.test(location.hostname);
+  var SITE = ON_SITE ? '../' : 'https://magickmica.github.io/';
+  if (ON_SITE) {
+    var nav = document.createElement('script'); nav.src = '../mm-nav.js?v=3'; nav.defer = true; document.body.appendChild(nav);
+  } else {
+    document.querySelectorAll('a.site').forEach(function (a) { a.href = SITE + a.getAttribute('href').replace('../', ''); });
+  }
+  if (typeof ALMANAC === 'undefined') return;
+
+  var A = ALMANAC;
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var LEN = [31,29,31,30,31,30,31,31,30,31,30,31];
+  var HUES = ['#ff6e9d','#ff8a7a','#ff9d6e','#ffbf6e','#ffd76e','#c6f27a','#6effa0','#6ef7d4','#6ef7ff','#8fb6ff','#b06eff','#ff6ef7'];
+  var ROMAN = ['I','II','III','IV','V','VI'];
+  var issued = {}; A.issued.forEach(function (k) { issued[k] = 1; });
+  var NOW = new Date(), YEAR = NOW.getFullYear();
+  var TODAY = pad(NOW.getMonth() + 1) + '-' + pad(NOW.getDate());
+  var MAXC = 0;
+  Object.keys(A.counts).forEach(function (k) { MAXC = Math.max(MAXC, total(k)); });
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function total(md) { var c = A.counts[md] || {}, t = 0; for (var y in c) t += c[y]; return t; }
+  function mdParts(md) { return md.split('-').map(Number); }
+  function nice(md) { var p = mdParts(md); return MONTHS[p[0] - 1] + ' ' + p[1]; }
+  function long(iso) { var p = iso.split('-').map(Number); return MONTHS[p[1] - 1] + ' ' + p[2] + ', ' + p[0]; }
+  function shift(md, n) {
+    var p = mdParts(md), d = new Date(Date.UTC(2024, p[0] - 1, p[1] + n));   // 2024 is a leap year: Feb 29 exists
+    return pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
+  }
+  function ordinal(n) { var s = ['th','st','nd','rd'], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
+  function mondayOf(iso) {
+    var p = iso.split('-').map(Number), d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+    d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7));
+    return d.toISOString().slice(0, 10);
+  }
+  function img(t) { return t.indexOf('http') === 0 ? t : A.imgPrefix + t; }
+  function noteUrl(id) { return 'https://substack.com/@magickmica/note/c-' + id; }
+
+  /* ---- the moon, for this date in the current year ---- */
+  function moon(md) {
+    var p = mdParts(md);
+    if (p[0] === 2 && p[1] === 29 && YEAR % 4) return null;
+    var t = Date.UTC(YEAR, p[0] - 1, p[1], 12) / 86400000 + 2440587.5;   // Julian day at noon UTC
+    var syn = 29.530588853, ph = ((t - 2451550.1) / syn) % 1; if (ph < 0) ph += 1;
+    var lit = Math.round((1 - Math.cos(2 * Math.PI * ph)) / 2 * 100);
+    var names = [[.034,'new moon'],[.216,'waxing crescent'],[.284,'first quarter'],[.466,'waxing gibbous'],[.534,'full moon'],[.716,'waning gibbous'],[.784,'last quarter'],[.966,'waning crescent'],[1.01,'new moon']];
+    var name = ''; for (var i = 0; i < names.length; i++) if (ph < names[i][0]) { name = names[i][1]; break; }
+    var r = 10, cx = 11, cy = 11, rx = Math.abs(Math.cos(2 * Math.PI * ph)) * r, d;
+    if (ph < .5) d = 'M' + cx + ' ' + (cy - r) + 'A' + r + ' ' + r + ' 0 0 1 ' + cx + ' ' + (cy + r) + 'A' + rx.toFixed(2) + ' ' + r + ' 0 0 ' + (ph < .25 ? 0 : 1) + ' ' + cx + ' ' + (cy - r) + 'Z';
+    else d = 'M' + cx + ' ' + (cy - r) + 'A' + r + ' ' + r + ' 0 0 0 ' + cx + ' ' + (cy + r) + 'A' + rx.toFixed(2) + ' ' + r + ' 0 0 ' + (ph < .75 ? 0 : 1) + ' ' + cx + ' ' + (cy - r) + 'Z';
+    var svg = '<svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="10" fill="#26201f" stroke="rgba(239,230,214,.35)" stroke-width=".8"/>' +
+      (lit > 1 ? '<path d="' + d + '" fill="#efe6d6"/>' : '') + '</svg>';
+    return { name: name, lit: lit, svg: svg };
+  }
+
+  /* ---- render one day ---- */
+  var dayEl = document.getElementById('day'), cur = null;
+
+  function render(md, animate) {
+    cur = md;
+    var p = mdParts(md), notes = A.days[md] || [], arts = A.articles[md] || [], counts = A.counts[md] || {};
+    var doy = Math.round((Date.UTC(YEAR, p[0] - 1, p[1]) - Date.UTC(YEAR, 0, 1)) / 86400000) + 1;
+    var leapGap = p[0] === 2 && p[1] === 29 && YEAR % 4;
+    var wd = leapGap ? '' : new Date(Date.UTC(YEAR, p[0] - 1, p[1])).toLocaleDateString('en-US', { weekday: 'long', timeZone: 'UTC' });
+    var m = moon(md);
+
+    var h = '<header class="date"><h1>' + nice(md) + '</h1><p class="dateline">' +
+      (leapGap ? '<span>A leap day, absent from ' + YEAR + '</span>' : '<span>The ' + ordinal(doy) + ' day of the year</span><span>' + wd + ' in ' + YEAR + '</span>') +
+      (m ? '<span class="moon">' + m.svg + 'Moon: ' + m.name + ', ' + m.lit + '% lit</span>' : '') +
+      (md === TODAY ? '<span>&middot; today</span>' : '') + '</p></header><hr class="rule">';
+
+    if (!notes.length && !arts.length) {
+      var b = md, a = md;
+      for (var i = 0; i < 366 && !(A.days[b] || []).length; i++) b = shift(b, -1);
+      for (var j = 0; j < 366 && !(A.days[a] || []).length; j++) a = shift(a, 1);
+      h += '<div class="blank">No transmission has gone out on ' + nice(md) + ' in any year yet. The page is kept blank for one.' +
+        '<div class="ledger" style="margin-top:18px"><a href="#d' + b + '">&#9666; ' + nice(b) + '<span>the nearest earlier page</span></a>' +
+        '<a href="#d' + a + '">' + nice(a) + ' &#9656;<span>the nearest later page</span></a></div></div>';
+      return paint(h, animate);
+    }
+
+    // the saying: most-loved note with a real sentence, else the most-loved note
+    var lead = null;
+    notes.forEach(function (n) { if (!lead && n[2].length >= 12 && /[A-Za-z]/.test(n[2])) lead = n; });
+    if (!lead) notes.forEach(function (n) { if (!lead && n[2]) lead = n; });
+    var plates = notes.filter(function (n) { return n[4] && n !== lead; }).slice(0, 3);
+    var rest = notes.filter(function (n) { return n !== lead && plates.indexOf(n) < 0 && n[2]; });
+
+    if (lead) {
+      var glyph = !/[A-Za-z0-9]/.test(lead[2]);
+      h += '<section class="saying"><h2 class="label">THE SAYING FOR THE DAY</h2>' +
+        '<blockquote class="' + (glyph ? 'glyphs' : '') + '">' + esc(lead[2]) + '</blockquote>' +
+        '<p class="attrib">Transmitted ' + long(lead[0]) + ' &middot; &hearts; ' + lead[3] + ' &middot; <a href="' + noteUrl(lead[1]) + '" target="_blank" rel="noopener">read it on Substack &#8599;</a></p></section>';
+    }
+
+    var left = '', right = '';
+    if (plates.length) {
+      left += '<section><h2 class="label">PLATES</h2><div class="plates">' + plates.map(function (n, i) {
+        return '<figure class="plate"><a class="frame" href="' + noteUrl(n[1]) + '" target="_blank" rel="noopener" aria-label="Plate ' + ROMAN[i] + ', open on Substack">' +
+          '<img src="' + esc(img(n[4])) + '" alt="" loading="lazy" decoding="async"></a>' +
+          '<figcaption><b>PLATE ' + ROMAN[i] + '.</b>' + (n[2] ? esc(n[2].length > 90 ? n[2].slice(0, 88).replace(/\s+\S*$/, '') + '…' : n[2]) : '<a href="' + noteUrl(n[1]) + '" target="_blank" rel="noopener">see it on Substack</a>') +
+          ' <span>(' + n[0].slice(0, 4) + ')</span></figcaption></figure>';
+      }).join('') + '</div></section>';
+    }
+    if (arts.length) {
+      left += arts.map(function (a) {
+        return '<section class="essay"><h2 class="label">THE ESSAY FOR THE DAY</h2><span class="tag">' + (a.nl === 'Art' ? 'MAGICKMICA ART' : 'MAGICKMICA TV') + ' &middot; ' + long(a.d) + '</span>' +
+          '<h3><a href="' + esc(a.u) + '" target="_blank" rel="noopener">' + esc(a.t) + '</a></h3>' +
+          (a.s ? '<p class="sub">' + esc(a.s) + '</p>' : '') + (a.p ? '<p class="pv">' + esc(a.p) + (/[.!?\u2026"\u201D]$/.test(a.p) ? '' : '\u2026') + '</p>' : '') + '</section>';
+      }).join('');
+    }
+
+    var years = Object.keys(counts).sort().reverse();
+    if (years.length) {
+      right += '<section><h2 class="label">FURTHER SAYINGS, BY YEAR</h2><div class="years">' + years.map(function (y) {
+        var list = rest.filter(function (n) { return n[0].slice(0, 4) === y; }).slice(0, 6);
+        var c = counts[y];
+        return '<div class="year"><h3>' + y + ' <small>' + c + ' transmission' + (c === 1 ? '' : 's') + '</small></h3>' +
+          (list.length ? '<ul>' + list.map(function (n) {
+            return '<li>' + esc(n[2]) + ' <span class="meta">&hearts; ' + n[3] + ' &middot; <a href="' + noteUrl(n[1]) + '" target="_blank" rel="noopener">&#8599;</a></span></li>';
+          }).join('') + '</ul>' : '') + '</div>';
+      }).join('') + '</div></section>';
+    }
+
+    var ledger = '';
+    years.forEach(function (y) {
+      var iso = y + '-' + md, wk = mondayOf(iso);
+      ledger += '<a href="' + SITE + 'notes.html?from=' + iso + '&amp;to=' + iso + '">Every note from ' + long(iso) + '<span>' + counts[y] + ' in the archive &rarr;</span></a>';
+      if (issued['week-' + wk]) ledger += '<a href="' + SITE + 'week-' + wk + '.html">That week&rsquo;s chapter in Y3K Magazine<span>week of ' + MON[+wk.slice(5, 7) - 1] + ' ' + (+wk.slice(8)) + ', ' + wk.slice(0, 4) + ' &rarr;</span></a>';
+    });
+    if (ledger) right += '<section><h2 class="label">FURTHER READING</h2><nav class="ledger" aria-label="Further reading">' + ledger + '</nav></section>';
+
+    h += '<div class="leaves"><div style="display:grid;gap:34px;min-width:0;align-content:start">' + left + '</div><div style="display:grid;gap:34px;min-width:0;align-content:start">' + right + '</div></div>';
+    paint(h, animate);
+  }
+
+  function paint(h, animate) {
+    dayEl.innerHTML = h;
+    dayEl.querySelectorAll('.plate img').forEach(function (im) {
+      im.addEventListener('error', function () { var e = document.createElement('div'); e.className = 'etched'; im.replaceWith(e); });
+    });
+    if (animate) { dayEl.classList.remove('turning'); void dayEl.offsetWidth; dayEl.classList.add('turning'); }
+    document.getElementById('prevL').textContent = nice(shift(cur, -1));
+    document.getElementById('nextL').textContent = nice(shift(cur, 1));
+    document.title = nice(cur) + ' · The Y3K Almanac';
+    markCal();
+  }
+
+  /* ---- the contents ---- */
+  var cal = document.getElementById('cal'), html = '';
+  for (var mo = 0; mo < 12; mo++) {
+    html += '<div class="mrow"><span>' + MON[mo].toUpperCase() + '</span>';
+    for (var d = 1; d <= 31; d++) {
+      if (d > LEN[mo]) { html += '<i></i>'; continue; }
+      var md = pad(mo + 1) + '-' + pad(d), t = total(md);
+      var a = t ? (0.22 + 0.78 * Math.sqrt(t / MAXC)).toFixed(2) : 1;
+      html += '<button type="button" tabindex="-1" class="cell' + (t ? '' : ' none') + (md === TODAY ? ' today' : '') + '" data-md="' + md + '" style="--hue:' + HUES[mo] + ';--a:' + a + '" aria-label="' + MONTHS[mo] + ' ' + d + ', ' + (t ? t + ' transmission' + (t === 1 ? '' : 's') : 'none yet') + '"></button>';
+    }
+    html += '</div>';
+  }
+  cal.innerHTML = html;
+  var cells = {}; cal.querySelectorAll('.cell').forEach(function (c) { cells[c.getAttribute('data-md')] = c; });
+  function markCal() {
+    cal.querySelectorAll('.cell.on').forEach(function (c) { c.classList.remove('on'); c.removeAttribute('aria-current'); c.tabIndex = -1; });
+    var c = cells[cur]; if (c) { c.classList.add('on'); c.setAttribute('aria-current', 'date'); c.tabIndex = 0; }
+  }
+  cal.addEventListener('click', function (e) {
+    var c = e.target.closest('.cell'); if (c) go(c.getAttribute('data-md'));
+  });
+  cal.addEventListener('keydown', function (e) {
+    var c = e.target.closest('.cell'); if (!c) return;
+    var md = c.getAttribute('data-md'), n = { ArrowLeft: -1, ArrowRight: 1 }[e.key];
+    var target = null;
+    if (n) target = shift(md, n);
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      var p = mdParts(md), m2 = (p[0] - 1 + (e.key === 'ArrowUp' ? -1 : 1) + 12) % 12;
+      target = pad(m2 + 1) + '-' + pad(Math.min(p[1], LEN[m2]));
+    }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(md); return; }
+    if (target && cells[target]) { e.preventDefault(); c.tabIndex = -1; cells[target].tabIndex = 0; cells[target].focus(); }
+  });
+
+  /* ---- turning pages ---- */
+  function go(md) {
+    if (location.hash !== '#d' + md) location.hash = 'd' + md;
+    else render(md, true);
+  }
+  function fromHash() { var m = /^#d(\d{2}-\d{2})$/.exec(location.hash || ''); return m && cells[m[1]] ? m[1] : null; }
+  window.addEventListener('hashchange', function () {
+    var md = fromHash(); if (md) { render(md, true); window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
+  });
+  document.getElementById('prev').onclick = function () { go(shift(cur, -1)); };
+  document.getElementById('next').onclick = function () { go(shift(cur, 1)); };
+  document.getElementById('today').onclick = function () { go(TODAY); };
+  document.getElementById('rand').onclick = function () {
+    var ks = Object.keys(A.days).filter(function (k) { return k !== cur && A.days[k].length; });
+    go(ks[Math.floor(Math.random() * ks.length)]);
+  };
+  document.addEventListener('keydown', function (e) {
+    if (e.target.closest && e.target.closest('input,textarea,.cal')) return;
+    if (e.key === 'ArrowLeft' && !e.altKey) go(shift(cur, -1));
+    if (e.key === 'ArrowRight' && !e.altKey) go(shift(cur, 1));
+  });
+
+  document.getElementById('asof').textContent = A.total.toLocaleString('en-US') + ' transmissions kept, ' + long(A.first) + ' to ' + long(A.last) + ' · bound ' + A.built;
+  render(fromHash() || TODAY, false);
+})();
+</script>
+</body>
+</html>
