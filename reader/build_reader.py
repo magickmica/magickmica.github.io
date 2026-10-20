@@ -15,6 +15,10 @@ import datetime as dt
 import json
 import os
 import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from build_issues import write_issues  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -25,6 +29,9 @@ NOTE_PREFIX = ("https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_we
                "q_auto:good,fl_progressive:steep/"
                "https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F")
 COVER_PREFIX = NOTE_PREFIX.replace("w_400", "w_600")
+THEMES = {"cosmic": "Cosmic", "queen": "Queens", "animals": "Animals", "wonderland": "Wonderland",
+          "food": "Food & Treats", "egypt": "Ancient Egypt", "gothic": "Gothic", "glitch": "Glitch",
+          "art": "Art", "y2k": "Y2K"}
 
 
 def load(p):
@@ -55,23 +62,9 @@ def main():
              tail(n.get("t"), NOTE_PREFIX), ",".join(n.get("c") or []), 1 if n.get("m") else 0]
             for n in notes]
 
-    weeks, months = {}, {}
-    for n in notes:
-        for key, bucket in ((monday(n["d"]), weeks), (n["d"][:7], months)):
-            b = bucket.setdefault(key, {"n": 0, "l": 0, "best": []})
-            b["n"] += 1
-            b["l"] += n.get("l", 0)
-            b["best"].append((n.get("l", 0), n["id"]))
-
-    def issues(bucket, kind):
-        out = []
-        for k in sorted(bucket, reverse=True):
-            if f"{kind}-{k}" not in issued:
-                continue
-            b = bucket[k]
-            out.append({"k": k, "n": b["n"], "l": b["l"],
-                        "top": [i for _, i in sorted(b["best"], reverse=True)[:3]]})
-        return out
+    # one Reader-styled page per week and per month, written into reader/issues/
+    weekly, monthly, n_pages = write_issues(notes, articles, os.path.join(HERE, "issues"),
+                                            THEMES, NOTE_PREFIX, issued)
 
     arts = [{"d": a["date"], "t": a["title"].strip(), "s": (a.get("subtitle") or "").strip(),
              "u": a["url"], "nl": "Art" if "Art" in a.get("newsletter", "") else "TV",
@@ -84,8 +77,8 @@ def main():
         "notePrefix": NOTE_PREFIX,
         "coverPrefix": COVER_PREFIX,
         "notes": rows,
-        "weekly": issues(weeks, "week"),
-        "monthly": issues(months, "month"),
+        "weekly": weekly,
+        "monthly": monthly,
         "articles": arts,
     }
     payload = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
@@ -95,6 +88,7 @@ def main():
     print(f"mailbox.js: {len(rows):,} notes, {len(data['weekly'])} weekly + "
           f"{len(data['monthly'])} monthly issues, {len(arts)} articles, "
           f"{os.path.getsize(OUT)/1024:.0f} KB")
+    print(f"issues/: {n_pages} Reader-styled issue pages")
 
 
 if __name__ == "__main__":

@@ -11,7 +11,9 @@ Once uploaded, it lives at **https://magickmica.github.io/reader/**
 | --- | --- |
 | `index.html` | The reader |
 | `mailbox.js` | Every note, issue and article (generated, about 990 KB) |
-| `build_reader.py` | Rebuilds `mailbox.js` from `_data/` |
+| `build_reader.py` | Rebuilds `mailbox.js` and the issue pages from `_data/` |
+| `build_issues.py` | Writes the issue pages (called by `build_reader.py`) |
+| `issues/` | One Reader-styled page per weekly and monthly issue |
 
 **Install:** drag the `reader` folder into the repo root on GitHub.
 
@@ -36,3 +38,19 @@ browser only.
 
 **Building from a different data copy:** set `MM_DATA` to that folder, e.g.
 `MM_DATA=/path/to/_data python3 reader/build_reader.py`. Without it, the repo's `_data/` is used.
+
+## Issue pages
+
+`build_reader.py` also writes one Reader-styled page per week and per month into
+`reader/issues/` (`week-YYYY-MM-DD.html`, `month-YYYY-MM.html`), using `build_issues.py`.
+Each has the same six chapters as the classic Y3K issues: Recap, Most-Loved
+Transmissions, In Their Words, Every Transmission In Order, By the Numbers, and
+Related Reading. They never touch the classic `week-….html` / `month-….html` pages at
+the site root; each new page links to its classic edition in the status bar.
+
+- Every week and month with notes gets a page, including weeks with no classic issue yet.
+- `issues/week-…html#n<note id>` opens that transmission; `#d2026-06-10` jumps to a day.
+- `issue.css` and `issue.js` are shared by all issue pages and are not regenerated.
+- Pages for periods that no longer have notes are removed on the next build.
+
+Upload the whole `reader/issues/` folder after each rebuild.

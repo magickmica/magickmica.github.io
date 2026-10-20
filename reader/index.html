@@ -288,9 +288,7 @@ button, input, select { font: inherit; color: inherit; }
 
   /* ---------- the messages ---------- */
   var URL_RE = /https?:\/\/\S+/g;
-  var byId = {}, weeksIssued = {}, monthsIssued = {};
-  M.weekly.forEach(function (w) { weeksIssued[w.k] = 1; });
-  M.monthly.forEach(function (m) { monthsIssued[m.k] = 1; });
+  var byId = {};
 
   var notes = M.notes.map(function (r) {
     var text = r[4], first = text.replace(URL_RE, '').split(/\n/).map(function (l) { return l.trim(); }).filter(Boolean)[0] || '';
@@ -463,8 +461,8 @@ button, input, select { font: inherit; color: inherit; }
         (it.img ? picture(noteImg(it.img), 'Picture attached to this transmission') : '') +
         (it.video ? '<div class="att"><svg viewBox="0 0 8 8" aria-hidden="true"><rect x="0" y="1" width="8" height="6" fill="#2b1f72"/><rect x="3" y="3" width="1" height="2" fill="#fff"/><rect x="4" y="3" width="1" height="2" fill="#fff"/><rect x="5" y="4" width="1" height="1" fill="#fff"/></svg>This transmission carries a video. Play it on Substack.</div>' : '') +
         '<div class="acts"><a class="btn primary" href="https://substack.com/@magickmica/note/c-' + it.id + '" target="_blank" rel="noopener">Open on Substack ↗</a>' +
-        (weeksIssued[wk] ? '<a class="btn" href="' + SITE + 'week-' + wk + '.html">That week’s issue</a>' : '') +
-        '<a class="btn" href="' + SITE + 'notes.html?from=' + it.date + '&amp;to=' + it.date + '">Every note that day</a></div></div>';
+        '<a class="btn" href="issues/week-' + wk + '.html#n' + it.id + '">See it in that week’s issue</a>' +
+        '<a class="btn" href="issues/week-' + wk + '.html#d' + it.date + '">Every note that day</a></div></div>';
     } else if (it.k === 'w' || it.k === 'm') {
       var page = (it.k === 'w' ? 'week-' : 'month-') + it.key + '.html';
       h += '<header class="ph"><h2>' + esc(it.subj) + '</h2><dl class="meta">' +
@@ -473,7 +471,7 @@ button, input, select { font: inherit; color: inherit; }
           var n = byId[id]; if (!n) return '';
           return '<li>' + esc(n.subj) + ' <small>♥ ' + num(n.a) + ' · ' + short(n.date) + '</small></li>';
         }).join('') + '</ol></div>' +
-        '<div class="acts"><a class="btn primary" href="' + SITE + page + '">Open the issue →</a></div></div>';
+        '<div class="acts"><a class="btn primary" href="issues/' + page + '">Open the issue →</a></div></div>';
     } else {
       h += '<header class="ph"><h2>' + esc(it.subj) + '</h2><dl class="meta">' +
         '<dt>From:</dt><dd>MagickMica ' + (it.nl === 'Art' ? 'Art' : 'TV') + '</dd><dt>Published:</dt><dd>' + longDate(it.date) + '</dd>' +
