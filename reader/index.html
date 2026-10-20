@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Transmission Reader 98</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Every Magick Mica transmission, received in a recovered late-90s mail reader: folders, sortable columns, search and a preview pane.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&display=swap">
+<style>
+/* Layout: one application window on a night desktop. Folders left; message list top-right; preview bottom-right. Phones get list, then message. */
+:root {
+  --desk: #0d0820;
+  --pearl: #e8e3f1;          /* window face */
+  --pearl-hi: #ffffff;
+  --pearl-lo: #8a819f;
+  --pearl-dk: #4a4360;
+  --paper: #fbfaff;          /* list and preview */
+  --ink: #1a1530;
+  --quiet: #625a78;
+  --select: #2b1f72;
+  --select-ink: #ffffff;
+  --hover: #ece6fa;
+  --holo: linear-gradient(90deg, #2b1f72 0%, #6a3bb0 30%, #c24c9e 55%, #3f8fc0 80%, #2b1f72 100%);
+  --f-chrome: "Pixelify Sans", Tahoma, Verdana, "Segoe UI", sans-serif;
+  --f-ui: Tahoma, Verdana, "Segoe UI", "DejaVu Sans", sans-serif;
+  --f-read: Georgia, "Times New Roman", serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { background: var(--desk); }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font: 13px/1.35 var(--f-ui);
+  background:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.6), transparent 60%),
+    radial-gradient(1px 1px at 72% 9%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(1px 1px at 38% 82%, rgba(255,255,255,.4), transparent 60%),
+    radial-gradient(1.5px 1.5px at 88% 64%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(900px 500px at 80% 110%, rgba(194,76,158,.22), transparent 70%),
+    radial-gradient(800px 500px at 0% -10%, rgba(63,143,192,.18), transparent 70%),
+    var(--desk);
+}
+.desk {
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 28px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px dotted var(--select); outline-offset: 1px; }
+
+/* bevels */
+.out { border: 2px solid; border-color: var(--pearl-hi) var(--pearl-dk) var(--pearl-dk) var(--pearl-hi); }
+.in  { border: 2px solid; border-color: var(--pearl-lo) var(--pearl-hi) var(--pearl-hi) var(--pearl-lo); }
+
+.win {
+  display: flex;
+  flex-direction: column;
+  height: clamp(560px, calc(100vh - 92px), 900px);
+  background: var(--pearl);
+  box-shadow: 0 0 0 1px #000, 0 30px 60px -20px rgba(0,0,0,.8);
+}
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 2px;
+  padding: 4px 6px;
+  background: var(--holo);
+  color: #fff;
+  font: 600 14px/1.2 var(--f-chrome);
+  letter-spacing: .02em;
+  position: relative;
+  overflow: hidden;
+}
+.title::after {             /* the pearlescent sheen */
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 55%);
+  pointer-events: none;
+}
+.title h1 { margin: 0; font: inherit; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.title svg { width: 18px; height: 18px; flex: none; image-rendering: pixelated; }
+
+.tools { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 6px; border-bottom: 1px solid var(--pearl-lo); }
+.btn {
+  background: var(--pearl);
+  border: 2px solid; border-color: var(--pearl-hi) var(--pearl-dk) var(--pearl-dk) var(--pearl-hi);
+  padding: 4px 12px;
+  min-height: 32px;
+  font: 14px/1 var(--f-chrome);
+  cursor: pointer;
+}
+.btn:active { border-color: var(--pearl-dk) var(--pearl-hi) var(--pearl-hi) var(--pearl-dk); }
+.btn:disabled { color: var(--pearl-lo); cursor: default; }
+.find { display: flex; align-items: center; gap: 6px; flex: 1 1 240px; min-width: 0; font: 14px var(--f-chrome); }
+.find input { flex: 1; min-width: 0; padding: 5px 7px; background: var(--paper); border: 2px solid; border-color: var(--pearl-lo) var(--pearl-hi) var(--pearl-hi) var(--pearl-lo); font: 13px var(--f-ui); }
+.folder-pick { display: none; flex: 1 1 100%; padding: 6px; background: var(--paper); font: 14px var(--f-ui); border: 2px solid; border-color: var(--pearl-lo) var(--pearl-hi) var(--pearl-hi) var(--pearl-lo); }
+
+.panes { flex: 1; min-height: 0; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 4px; padding: 4px; }
+.folders { overflow: auto; background: var(--paper); padding: 6px 4px; }
+.folders h2 { margin: 10px 6px 4px; font: 600 12px/1 var(--f-chrome); letter-spacing: .1em; text-transform: uppercase; color: var(--quiet); }
+.folders h2:first-child { margin-top: 2px; }
+.folders ul { list-style: none; margin: 0; padding: 0; }
+.fbtn {
+  width: 100%;
+  display: flex; align-items: center; gap: 7px;
+  padding: 4px 6px;
+  background: none; border: 1px dotted transparent;
+  text-align: left; cursor: pointer;
+  font: 13px/1.3 var(--f-ui);
+}
+.fbtn:hover { background: var(--hover); }
+.fbtn[aria-current="true"] { background: var(--select); color: var(--select-ink); }
+.fbtn .n { margin-left: auto; color: var(--quiet); font-size: 12px; font-variant-numeric: tabular-nums; }
+.fbtn[aria-current="true"] .n { color: #d8d0ff; }
+.fbtn .u { font-weight: 700; }
+.fbtn svg { width: 16px; height: 16px; flex: none; image-rendering: pixelated; }
+
+.right { display: grid; grid-template-rows: minmax(160px, 44%) minmax(0, 1fr); gap: 4px; min-height: 0; min-width: 0; }
+.listwrap { display: flex; flex-direction: column; min-height: 0; background: var(--paper); }
+.cols, .row { display: grid; grid-template-columns: 22px minmax(0, 1fr) 132px 58px 58px; align-items: center; }
+.cols { background: var(--pearl); border-bottom: 1px solid var(--pearl-lo); }
+.cols > * {
+  background: var(--pearl);
+  border: 0; border-right: 1px solid var(--pearl-lo); box-shadow: inset 1px 1px 0 var(--pearl-hi);
+  padding: 4px 6px; text-align: left;
+  font: 12px/1.2 var(--f-ui);
+  white-space: nowrap; overflow: hidden;
+  cursor: pointer;
+}
+.cols > span { cursor: default; }
+.cols .num, .row .num { text-align: right; }
+.cols [aria-sort="ascending"]::after { content: " \25B4"; }
+.cols [aria-sort="descending"]::after { content: " \25BE"; }
+.list { flex: 1; min-height: 0; overflow: auto; position: relative; outline: none; }
+.list:focus-visible { box-shadow: inset 0 0 0 2px var(--select); }
+.inner { position: relative; }
+.row {
+  position: absolute; left: 0; right: 0;
+  height: var(--rh);
+  padding: 0;
+  cursor: default;
+  border-bottom: 1px solid rgba(98, 90, 120, .1);
+}
+.row > span { padding: 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+.row:hover { background: var(--hover); }
+.row.unread .s { font-weight: 700; }
+.row .dot { text-align: center; color: #c24c9e; font-size: 11px; }
+.row[aria-selected="true"] { background: var(--select); color: var(--select-ink); }
+.row[aria-selected="true"] .dot { color: #ffb8f0; }
+.row .sub { display: none; }
+.empty { padding: 28px 16px; color: var(--quiet); text-align: center; font: 15px var(--f-chrome); }
+
+.preview { overflow: auto; background: var(--paper); min-height: 0; }
+.ph { padding: 12px 16px 10px; border-bottom: 1px solid rgba(98,90,120,.2); background: linear-gradient(180deg, #f3effb, var(--paper)); }
+.ph h2 { margin: 0 0 8px; font: 700 17px/1.3 var(--f-ui); overflow-wrap: anywhere; }
+.meta { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 10px; margin: 0; font-size: 12.5px; }
+.meta dt { color: var(--quiet); }
+.meta dd { margin: 0; overflow-wrap: anywhere; }
+.pb { padding: 16px 18px 20px; display: grid; gap: 16px; max-width: 760px; }
+.body { margin: 0; font: 19px/1.5 var(--f-read); white-space: pre-wrap; overflow-wrap: anywhere; }
+.body.glyph { font-size: 34px; letter-spacing: .1em; }
+.pic { max-width: 100%; max-height: 380px; width: auto; display: block; border: 1px solid rgba(98,90,120,.3); }
+.att {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; max-width: 420px;
+  background: #f1edf9;
+  border: 1px dashed var(--pearl-lo);
+  font-size: 12.5px; color: var(--quiet);
+}
+.att svg { width: 28px; height: 28px; flex: none; }
+.acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.acts a { text-decoration: none; color: var(--ink); display: inline-flex; align-items: center; }
+.acts a.primary { background: var(--select); color: #fff; border-color: #8b7fd6 #120c3a #120c3a #8b7fd6; }
+.toplist { margin: 0; padding-left: 20px; display: grid; gap: 10px; font: 17px/1.4 var(--f-read); }
+.toplist small { font: 12px var(--f-ui); color: var(--quiet); }
+.idle { height: 100%; display: grid; place-items: center; text-align: center; color: var(--quiet); font: 15px var(--f-chrome); padding: 24px; }
+.idle svg { width: 48px; height: 48px; margin: 0 auto 10px; display: block; image-rendering: pixelated; }
+.back { display: none; }
+
+.status { display: flex; gap: 4px; padding: 3px 4px 4px; font-size: 12px; }
+.status > span { padding: 3px 8px; border: 1px solid; border-color: var(--pearl-lo) var(--pearl-hi) var(--pearl-hi) var(--pearl-lo); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.status > span:first-child { flex: 1; min-width: 0; }
+
+.below { margin-top: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; color: #b9b0d6; font: 14px var(--f-chrome); }
+.below nav { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.below a { color: #fff; text-decoration: none; }
+.below a:hover { text-decoration: underline; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* phones: folder menu, list, then the message on its own */
+@media (max-width: 760px) {
+  .desk { padding-block: 10px 18px; }
+  .win { height: calc(100vh - 70px); min-height: 520px; }
+  .folder-pick { display: block; }
+  .panes { grid-template-columns: minmax(0, 1fr); }
+  .folders { display: none; }
+  .right { grid-template-rows: minmax(0, 1fr); }
+  .preview { display: none; }
+  .win.reading .listwrap { display: none; }
+  .win.reading .preview { display: block; }
+  .back { display: inline-flex; margin: 10px 12px 0; }
+  .cols { display: none; }
+  .row { grid-template-columns: 18px minmax(0, 1fr); align-content: center; }
+  .row .d, .row .a, .row .b { display: none; }
+  .row .sub { display: block; grid-column: 2; font-size: 12px; color: var(--quiet); }
+  .row[aria-selected="true"] .sub { color: #d8d0ff; }
+  .status > span:not(:first-child) { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="desk">
+  <div class="win out" id="win">
+    <div class="title">
+      <svg viewBox="0 0 12 12" aria-hidden="true"><rect x="4" y="1" width="4" height="1" fill="#fff"/><rect x="2" y="2" width="8" height="1" fill="#fff"/><rect x="1" y="3" width="10" height="5" fill="#fff"/><rect x="2" y="8" width="8" height="1" fill="#fff"/><rect x="3" y="3" width="2" height="2" fill="#6ef7ff"/><rect x="5" y="5" width="3" height="2" fill="#ff6ef7"/><rect x="7" y="3" width="2" height="1" fill="#ffd76e"/><rect x="3" y="9" width="6" height="1" fill="#c9a6ff"/><rect x="2" y="10" width="8" height="1" fill="#8a6bd6"/></svg>
+      <h1 id="title">MAGICKVISION Reader 98</h1>
+    </div>
+    <div class="tools">
+      <label class="find" for="q">Find: <input id="q" type="search" placeholder="words in this folder" autocomplete="off"></label>
+      <button type="button" class="btn" id="random">Random</button>
+      <button type="button" class="btn" id="markall">Mark all read</button>
+      <label class="sr" for="pick">Folder</label>
+      <select id="pick" class="folder-pick"></select>
+    </div>
+    <div class="panes">
+      <nav class="folders in" id="folders" aria-label="Folders"></nav>
+      <div class="right">
+        <div class="listwrap in">
+          <div class="cols" id="cols" role="presentation"></div>
+          <div class="list" id="list" role="listbox" tabindex="0" aria-label="Messages"><div class="inner" id="inner"></div></div>
+        </div>
+        <article class="preview in" id="preview" aria-live="polite"></article>
+      </div>
+    </div>
+    <div class="status" id="status"><span>Receiving&hellip;</span></div>
+  </div>
+  <div class="below">
+    <span id="asof">Transmission Reader 98 &middot; Magick Mica TV</span>
+    <nav aria-label="Magick Mica">
+      <a class="site" href="../index.html">Home</a>
+      <a class="site" href="../notes.html">All Notes</a>
+      <a class="site" href="../minimags.html">Y3K Magazine</a>
+      <a class="site" href="../articles.html">Magazine</a>
+    </nav>
+  </div>
+</div>
+
+<script src="mailbox.js"></script>
+<script>
+(function () {
+  'use strict';
+  var ON_SITE = /magickmica\.github\.io$/.test(location.hostname);
+  var SITE = ON_SITE ? '../' : 'https://magickmica.github.io/';
+  if (ON_SITE) {
+    var s = document.createElement('script'); s.src = '../mm-nav.js?v=3'; s.defer = true; document.body.appendChild(s);
+  } else {
+    document.querySelectorAll('a.site').forEach(function (a) { a.href = SITE + a.getAttribute('href').replace('../', ''); });
+  }
+  if (typeof MAILBOX === 'undefined') return;
+
+  var M = MAILBOX;
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var THEMES = { cosmic: 'Cosmic', queen: 'Queens', animals: 'Animals', wonderland: 'Wonderland', food: 'Food & Treats', egypt: 'Ancient Egypt', gothic: 'Gothic', glitch: 'Glitch', art: 'Art', y2k: 'Y2K' };
+  var THEME_HUE = { cosmic: '#6a3bb0', queen: '#c24c9e', animals: '#3f9c5a', wonderland: '#3f8fc0', food: '#d0803a', egypt: '#b8962a', gothic: '#4a4360', glitch: '#2bb3a6', art: '#d04f6a', y2k: '#9a5fd6' };
+
+  /* ---------- helpers ---------- */
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function num(n) { return n.toLocaleString('en-US'); }
+  function p(iso) { return iso.split('-').map(Number); }
+  function short(iso) { var a = p(iso); return MON[a[1] - 1] + ' ' + a[2] + ', ' + a[0]; }
+  function longDate(iso) {
+    var a = p(iso), d = new Date(Date.UTC(a[0], a[1] - 1, a[2]));
+    return d.toLocaleDateString('en-US', { weekday: 'long', timeZone: 'UTC' }) + ', ' + MONTHS[a[1] - 1] + ' ' + a[2] + ', ' + a[0];
+  }
+  function addDays(iso, n) { var a = p(iso); return new Date(Date.UTC(a[0], a[1] - 1, a[2] + n)).toISOString().slice(0, 10); }
+  function monday(iso) { var a = p(iso), d = new Date(Date.UTC(a[0], a[1] - 1, a[2])); return addDays(iso, -((d.getUTCDay() + 6) % 7)); }
+  function weekRange(w) { var e = addDays(w, 6), a = p(w), b = p(e); return MON[a[1] - 1] + ' ' + a[2] + ' – ' + (a[1] === b[1] ? '' : MON[b[1] - 1] + ' ') + b[2] + ', ' + b[0]; }
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+
+  /* ---------- the messages ---------- */
+  var URL_RE = /https?:\/\/\S+/g;
+  var byId = {}, weeksIssued = {}, monthsIssued = {};
+  M.weekly.forEach(function (w) { weeksIssued[w.k] = 1; });
+  M.monthly.forEach(function (m) { monthsIssued[m.k] = 1; });
+
+  var notes = M.notes.map(function (r) {
+    var text = r[4], first = text.replace(URL_RE, '').split(/\n/).map(function (l) { return l.trim(); }).filter(Boolean)[0] || '';
+    var it = { k: 'n', id: r[0], date: r[1], a: r[2], b: r[3], text: text, img: r[5], tags: r[6] ? r[6].split(',') : [], video: r[7],
+      subj: first || (r[5] ? '(picture)' : r[7] ? '(video)' : '(no words)') };
+    it.hay = (text + ' ' + it.tags.join(' ')).toLowerCase();
+    byId[it.id] = it;
+    return it;
+  });
+  var weekly = M.weekly.map(function (w) { return { k: 'w', id: 'w' + w.k, key: w.k, date: w.k, a: w.l, b: w.n, top: w.top, subj: 'Y3K Weekly · ' + weekRange(w.k), hay: weekRange(w.k).toLowerCase() }; });
+  var monthly = M.monthly.map(function (m) { var a = p(m.k + '-01'); return { k: 'm', id: 'm' + m.k, key: m.k, date: m.k + '-01', a: m.l, b: m.n, top: m.top, subj: 'Y3K Monthly · ' + MONTHS[a[1] - 1] + ' ' + a[0], hay: (MONTHS[a[1] - 1] + ' ' + a[0]).toLowerCase() }; });
+  var articles = M.articles.map(function (x, i) { return { k: 'a', id: 'a' + i, date: x.d, a: x.l == null ? -1 : x.l, b: 0, cm: x.cm, rs: x.r, wd: x.wd, nl: x.nl, url: x.u, sub: x.s, cover: x.c, pv: x.p, subj: x.t, hay: (x.t + ' ' + x.s).toLowerCase() }; });
+  var NEWEST = notes[0].date;
+
+  /* ---------- unread: anything received after your last visit ---------- */
+  var lastSeen = store('mmr98-seen') || addDays(NEWEST, -6);    // first visit: the latest week arrives unread
+  var readIds = {};
+  try { (JSON.parse(store('mmr98-read') || '[]')).forEach(function (id) { readIds[id] = 1; }); } catch (e) { /* none */ }
+  function isUnread(it) { return it.k === 'n' && it.date >= lastSeen && !readIds[it.id]; }
+  function markRead(it) {
+    if (!isUnread(it)) return;
+    readIds[it.id] = 1;
+    store('mmr98-read', JSON.stringify(Object.keys(readIds)));
+  }
+  function unreadCount() { var n = 0; for (var i = 0; i < notes.length && notes[i].date >= lastSeen; i++) if (!readIds[notes[i].id]) n++; return n; }
+
+  /* ---------- folders ---------- */
+  var COLS = {
+    n: [['', null], ['Subject', 'subj'], ['Received', 'date'], ['♥', 'a'], ['↻', 'b']],
+    w: [['', null], ['Issue', 'subj'], ['Week of', 'date'], ['♥', 'a'], ['Notes', 'b']],
+    m: [['', null], ['Issue', 'subj'], ['Month', 'date'], ['♥', 'a'], ['Notes', 'b']],
+    a: [['', null], ['Title', 'subj'], ['Published', 'date'], ['♥', 'a'], ['From', 'nl']]
+  };
+  var FOLDERS = [
+    { g: 'Transmissions', key: 'inbox', name: 'Inbox', kind: 'n', icon: 'inbox', items: function () { return notes; } },
+    { g: 'Transmissions', key: 'loved', name: 'Most Loved', kind: 'n', icon: 'heart', sort: ['a', -1], items: function () { return notes; } },
+    { g: 'Transmissions', key: 'pictures', name: 'With Pictures', kind: 'n', icon: 'pic', items: function () { return notes.filter(function (n) { return n.img; }); } },
+    { g: 'Transmissions', key: 'words', name: 'Words Only', kind: 'n', icon: 'note', items: function () { return notes.filter(function (n) { return !n.img && !n.video; }); } }
+  ];
+  Object.keys(THEMES).forEach(function (t) {
+    FOLDERS.push({ g: 'Themes', key: 'theme-' + t, name: THEMES[t], kind: 'n', hue: THEME_HUE[t], items: function () { return notes.filter(function (n) { return n.tags.indexOf(t) >= 0; }); } });
+  });
+  FOLDERS.push(
+    { g: 'Y3K Magazine', key: 'weekly', name: 'Weekly Issues', kind: 'w', icon: 'mag', items: function () { return weekly; } },
+    { g: 'Y3K Magazine', key: 'monthly', name: 'Monthly Issues', kind: 'm', icon: 'mag', items: function () { return monthly; } },
+    { g: 'Magazine', key: 'tv', name: 'MagickMica TV', kind: 'a', icon: 'tv', items: function () { return articles.filter(function (a) { return a.nl === 'TV'; }); } },
+    { g: 'Magazine', key: 'art', name: 'MagickMica Art', kind: 'a', icon: 'art', items: function () { return articles.filter(function (a) { return a.nl === 'Art'; }); } }
+  );
+  var FBY = {}; FOLDERS.forEach(function (f) { f.all = f.items(); FBY[f.key] = f; });
+
+  function icon(f) {
+    var c = f.hue || { inbox: '#2b1f72', heart: '#c24c9e', pic: '#3f8fc0', note: '#6a3bb0', mag: '#b8962a', tv: '#d04fa0', art: '#2bb3a6' }[f.icon];
+    return '<svg viewBox="0 0 8 8" aria-hidden="true"><rect x="0" y="1" width="3" height="1" fill="' + c + '"/><rect x="0" y="2" width="8" height="5" fill="' + c + '"/><rect x="1" y="3" width="6" height="1" fill="rgba(255,255,255,.55)"/></svg>';
+  }
+
+  var foldersEl = document.getElementById('folders'), pick = document.getElementById('pick');
+  function drawFolders() {
+    var h = '', g = '', opt = '', un = unreadCount();
+    FOLDERS.forEach(function (f) {
+      if (f.g !== g) { if (g) h += '</ul>'; g = f.g; h += '<h2>' + g + '</h2><ul>'; opt += (opt ? '</optgroup>' : '') + '<optgroup label="' + g + '">'; }
+      var n = f.key === 'inbox' && un ? '<span class="n u">' + num(un) + ' new</span>' : '<span class="n">' + num(f.all.length) + '</span>';
+      h += '<li><button type="button" class="fbtn" data-f="' + f.key + '"' + (f.key === state.f ? ' aria-current="true"' : '') + '>' + icon(f) + '<span>' + esc(f.name) + '</span>' + n + '</button></li>';
+      opt += '<option value="' + f.key + '"' + (f.key === state.f ? ' selected' : '') + '>' + esc(f.name) + ' (' + num(f.all.length) + ')</option>';
+    });
+    foldersEl.innerHTML = h + '</ul>';
+    pick.innerHTML = opt + '</optgroup>';
+  }
+
+  /* ---------- list state ---------- */
+  var state = { f: 'inbox', sort: ['date', -1], q: '', items: [], sel: -1 };
+  var listEl = document.getElementById('list'), inner = document.getElementById('inner'), colsEl = document.getElementById('cols');
+  var winEl = document.getElementById('win'), preview = document.getElementById('preview');
+  var narrow = window.matchMedia('(max-width: 760px)');
+  function rowH() { return narrow.matches ? 58 : 26; }
+
+  function openFolder(key, keepSel) {
+    var f = FBY[key] || FBY.inbox;
+    state.f = f.key;
+    state.sort = f.sort ? f.sort.slice() : ['date', -1];
+    if (!keepSel) state.sel = -1;
+    try { history.replaceState(null, '', '#' + f.key); } catch (e) { /* preview frame */ }
+    drawFolders();
+    refresh();
+    if (!keepSel) { listEl.scrollTop = 0; showIdle(); }
+  }
+  function refresh() {
+    var f = FBY[state.f], q = state.q.trim().toLowerCase(), k = state.sort[0], dir = state.sort[1];
+    var items = q ? f.all.filter(function (it) { return it.hay.indexOf(q) >= 0; }) : f.all.slice();
+    items.sort(function (x, y) {
+      var a = x[k], b = y[k];
+      if (a === b) return x.date < y.date ? 1 : x.date > y.date ? -1 : 0;
+      return (a < b ? -1 : 1) * dir;
+    });
+    var selId = state.sel >= 0 && state.items[state.sel] ? state.items[state.sel].id : null;
+    state.items = items;
+    state.sel = selId ? items.findIndex(function (it) { return it.id === selId; }) : -1;
+    drawCols(f.kind);
+    inner.style.height = (items.length * rowH()) + 'px';
+    listEl.style.setProperty('--rh', rowH() + 'px');
+    paintRows(true);
+    status();
+    document.getElementById('title').textContent = 'MAGICKVISION Reader 98 — ' + f.name + (q ? ' (' + num(items.length) + ' found)' : '');
+  }
+  function drawCols(kind) {
+    colsEl.innerHTML = COLS[kind].map(function (c, i) {
+      var cls = i >= 3 ? ' class="num"' : '';
+      if (!c[1]) return '<span' + cls + '>' + c[0] + '</span>';
+      var srt = state.sort[0] === c[1] ? (state.sort[1] > 0 ? 'ascending' : 'descending') : 'none';
+      return '<button type="button"' + cls + ' data-sort="' + c[1] + '" aria-sort="' + srt + '">' + c[0] + '</button>';
+    }).join('');
+  }
+
+  var lastRange = '';
+  function paintRows(force) {
+    var h = rowH(), items = state.items;
+    if (!items.length) { inner.innerHTML = '<div class="empty">' + (state.q ? 'Nothing in this folder matches “' + esc(state.q) + '”.' : 'This folder is empty.') + '</div>'; lastRange = ''; listEl.removeAttribute('aria-activedescendant'); return; }
+    var start = Math.max(0, Math.floor(listEl.scrollTop / h) - 6);
+    var end = Math.min(items.length, start + Math.ceil(listEl.clientHeight / h) + 14);
+    var key = start + ':' + end + ':' + state.sel;
+    if (!force && key === lastRange) return;
+    lastRange = key;
+    var out = '';
+    for (var i = start; i < end; i++) {
+      var it = items[i], unread = isUnread(it);
+      var c3 = short(it.date), c4 = it.k === 'a' ? (it.a < 0 ? '' : num(it.a)) : num(it.a), c5 = it.k === 'a' ? (it.nl === 'Art' ? 'Art' : 'TV') : num(it.b);
+      if (it.k === 'm') c3 = MON[p(it.date)[1] - 1] + ' ' + p(it.date)[0];
+      var sub = it.k === 'n' ? c3 + ' · ♥ ' + c4 + ' · ↻ ' + c5 : it.k === 'a' ? c3 + ' · MagickMica ' + c5 + (it.a < 0 ? '' : ' · ♥ ' + c4) : num(it.b) + ' notes · ♥ ' + c4;
+      out += '<div class="row' + (unread ? ' unread' : '') + '" role="option" id="r' + i + '" data-i="' + i + '" aria-selected="' + (i === state.sel) + '" style="top:' + (i * h) + 'px">' +
+        '<span class="dot" aria-hidden="true">' + (unread ? '●' : '') + '</span>' +
+        '<span class="s">' + (unread ? '<span class="sr">New: </span>' : '') + esc(it.subj) + '<span class="sub">' + sub + '</span></span>' +
+        '<span class="d">' + c3 + '</span><span class="a num">' + c4 + '</span><span class="b num">' + c5 + '</span></div>';
+    }
+    inner.innerHTML = out;
+    if (state.sel >= 0) listEl.setAttribute('aria-activedescendant', 'r' + state.sel); else listEl.removeAttribute('aria-activedescendant');
+  }
+  listEl.addEventListener('scroll', function () { paintRows(false); }, { passive: true });
+
+  function select(i, open) {
+    if (i < 0 || i >= state.items.length) return;
+    state.sel = i;
+    var h = rowH(), top = i * h;
+    if (top < listEl.scrollTop) listEl.scrollTop = top;
+    else if (top + h > listEl.scrollTop + listEl.clientHeight) listEl.scrollTop = top + h - listEl.clientHeight;
+    var it = state.items[i];
+    markRead(it);
+    paintRows(true);
+    show(it);
+    status();
+    if (open && narrow.matches) { winEl.classList.add('reading'); preview.scrollTop = 0; var b = preview.querySelector('.back'); if (b) b.focus(); }
+  }
+
+  /* ---------- the preview pane ---------- */
+  function noteImg(t) { return t.indexOf('http') === 0 ? t : M.notePrefix + t; }
+  function coverImg(t) { return t.indexOf('http') === 0 ? t : M.coverPrefix + t; }
+  function picture(src, label) {
+    return '<img class="pic" src="' + esc(src) + '" alt="' + esc(label) + '" loading="lazy" data-fallback="' + esc(label) + '">';
+  }
+  var BACK = '<button type="button" class="btn back" id="back">◂ Back to messages</button>';
+
+  function show(it) {
+    var h = BACK;
+    if (it.k === 'n') {
+      var wk = monday(it.date), glyph = !/[A-Za-z0-9]/.test(it.text);
+      h += '<header class="ph"><h2>' + esc(it.subj) + '</h2><dl class="meta">' +
+        '<dt>From:</dt><dd>Magick Mica TV</dd><dt>Received:</dt><dd>' + longDate(it.date) + '</dd>' +
+        '<dt>Signal:</dt><dd>♥ ' + num(it.a) + ' hearts · ↻ ' + num(it.b) + ' restacks</dd>' +
+        (it.tags.length ? '<dt>Themes:</dt><dd>' + it.tags.map(function (t) { return THEMES[t] || t; }).join(', ') + '</dd>' : '') +
+        '</dl></header><div class="pb">' +
+        (it.text ? '<p class="body' + (glyph ? ' glyph' : '') + '">' + esc(it.text) + '</p>' : '') +
+        (it.img ? picture(noteImg(it.img), 'Picture attached to this transmission') : '') +
+        (it.video ? '<div class="att"><svg viewBox="0 0 8 8" aria-hidden="true"><rect x="0" y="1" width="8" height="6" fill="#2b1f72"/><rect x="3" y="3" width="1" height="2" fill="#fff"/><rect x="4" y="3" width="1" height="2" fill="#fff"/><rect x="5" y="4" width="1" height="1" fill="#fff"/></svg>This transmission carries a video. Play it on Substack.</div>' : '') +
+        '<div class="acts"><a class="btn primary" href="https://substack.com/@magickmica/note/c-' + it.id + '" target="_blank" rel="noopener">Open on Substack ↗</a>' +
+        (weeksIssued[wk] ? '<a class="btn" href="' + SITE + 'week-' + wk + '.html">That week’s issue</a>' : '') +
+        '<a class="btn" href="' + SITE + 'notes.html?from=' + it.date + '&amp;to=' + it.date + '">Every note that day</a></div></div>';
+    } else if (it.k === 'w' || it.k === 'm') {
+      var page = (it.k === 'w' ? 'week-' : 'month-') + it.key + '.html';
+      h += '<header class="ph"><h2>' + esc(it.subj) + '</h2><dl class="meta">' +
+        '<dt>From:</dt><dd>Y3K Magazine</dd><dt>Contains:</dt><dd>' + num(it.b) + ' transmissions · ♥ ' + num(it.a) + ' hearts</dd></dl></header>' +
+        '<div class="pb"><div><p class="sr">Most-loved in this issue</p><ol class="toplist">' + it.top.map(function (id) {
+          var n = byId[id]; if (!n) return '';
+          return '<li>' + esc(n.subj) + ' <small>♥ ' + num(n.a) + ' · ' + short(n.date) + '</small></li>';
+        }).join('') + '</ol></div>' +
+        '<div class="acts"><a class="btn primary" href="' + SITE + page + '">Open the issue →</a></div></div>';
+    } else {
+      h += '<header class="ph"><h2>' + esc(it.subj) + '</h2><dl class="meta">' +
+        '<dt>From:</dt><dd>MagickMica ' + (it.nl === 'Art' ? 'Art' : 'TV') + '</dd><dt>Published:</dt><dd>' + longDate(it.date) + '</dd>' +
+        (it.sub ? '<dt>Subtitle:</dt><dd>' + esc(it.sub) + '</dd>' : '') +
+        (it.a >= 0 ? '<dt>Signal:</dt><dd>♥ ' + num(it.a) + ' hearts · ' + num(it.cm || 0) + ' comments · ↻ ' + num(it.rs || 0) + ' restacks' + (it.wd ? ' · ' + num(it.wd) + ' words' : '') + '</dd>' : '') +
+        '</dl></header><div class="pb">' +
+        (it.cover ? picture(coverImg(it.cover), 'Cover image for ' + it.subj) : '') +
+        (it.pv ? '<p class="body" style="font-size:17px">' + esc(it.pv) + (/[.!?…"”]$/.test(it.pv) ? '' : '…') + '</p>' : '') +
+        '<div class="acts"><a class="btn primary" href="' + esc(it.url) + '" target="_blank" rel="noopener">Read on Substack ↗</a></div></div>';
+    }
+    preview.innerHTML = h;
+    preview.querySelectorAll('img.pic').forEach(function (im) {
+      im.addEventListener('error', function () {
+        var d = document.createElement('div'); d.className = 'att';
+        d.innerHTML = '<svg viewBox="0 0 8 8" aria-hidden="true"><rect x="0" y="1" width="8" height="6" fill="#8a819f"/><rect x="1" y="2" width="6" height="4" fill="#fbfaff"/><rect x="2" y="4" width="2" height="2" fill="#3f9c5a"/><rect x="4" y="3" width="2" height="3" fill="#3f8fc0"/><rect x="5" y="2" width="1" height="1" fill="#ffd76e"/></svg>' +
+          esc(im.getAttribute('data-fallback')) + ' could not be received here. It shows on Substack.';
+        im.replaceWith(d);
+      });
+    });
+    var back = document.getElementById('back');
+    if (back) back.onclick = function () { winEl.classList.remove('reading'); listEl.focus(); };
+  }
+  function showIdle() {
+    preview.innerHTML = '<div class="idle"><div><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="4" y="1" width="4" height="1" fill="#8a819f"/><rect x="2" y="2" width="8" height="1" fill="#8a819f"/><rect x="1" y="3" width="10" height="5" fill="#c9bfe0"/><rect x="2" y="8" width="8" height="1" fill="#8a819f"/><rect x="3" y="3" width="2" height="2" fill="#6ef7ff"/><rect x="5" y="5" width="3" height="2" fill="#ff6ef7"/><rect x="3" y="9" width="6" height="1" fill="#8a819f"/><rect x="2" y="10" width="8" height="1" fill="#4a4360"/></svg>Choose a message to read it.</div></div>';
+  }
+
+  function status() {
+    var f = FBY[state.f], un = unreadCount(), it = state.items[state.sel];
+    document.getElementById('status').innerHTML =
+      '<span>' + num(state.items.length) + ' ' + (f.kind === 'n' ? 'message' : f.kind === 'a' ? 'article' : 'issue') + (state.items.length === 1 ? '' : 's') +
+      (f.kind === 'n' ? ', ' + num(un) + ' unread' : '') + (it ? ' · #' + (state.sel + 1) + ' selected' : '') + '</span>' +
+      '<span>' + esc(f.name) + '</span><span>Received through ' + short(NEWEST) + '</span>';
+    document.getElementById('markall').disabled = !un;
+  }
+
+  /* ---------- input ---------- */
+  foldersEl.addEventListener('click', function (e) { var b = e.target.closest('.fbtn'); if (b) openFolder(b.getAttribute('data-f')); });
+  pick.addEventListener('change', function () { openFolder(pick.value); winEl.classList.remove('reading'); });
+  colsEl.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-sort]'); if (!b) return;
+    var k = b.getAttribute('data-sort');
+    state.sort = state.sort[0] === k ? [k, -state.sort[1]] : [k, k === 'subj' || k === 'nl' ? 1 : -1];
+    refresh();
+    if (state.sel >= 0) select(state.sel);
+  });
+  inner.addEventListener('click', function (e) {
+    var r = e.target.closest('.row'); if (!r) return;
+    select(+r.getAttribute('data-i'), true);
+    if (!narrow.matches) listEl.focus({ preventScroll: true });
+  });
+  listEl.addEventListener('keydown', function (e) {
+    var i = state.sel, n = state.items.length, page = Math.max(1, Math.floor(listEl.clientHeight / rowH()) - 1);
+    if (e.key === 'ArrowDown') i = i < 0 ? 0 : Math.min(n - 1, i + 1);
+    else if (e.key === 'ArrowUp') i = Math.max(0, i - 1);
+    else if (e.key === 'PageDown') i = Math.min(n - 1, Math.max(0, i) + page);
+    else if (e.key === 'PageUp') i = Math.max(0, i - page);
+    else if (e.key === 'Home') i = 0;
+    else if (e.key === 'End') i = n - 1;
+    else if (e.key === 'Enter') { if (i >= 0) select(i, true); return; }
+    else return;
+    e.preventDefault();
+    select(i, false);
+  });
+  var qEl = document.getElementById('q'), qT = 0;
+  qEl.addEventListener('input', function () {
+    clearTimeout(qT);
+    qT = setTimeout(function () { state.q = qEl.value; state.sel = -1; listEl.scrollTop = 0; refresh(); showIdle(); }, 120);
+  });
+  qEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { qEl.value = ''; state.q = ''; refresh(); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); listEl.focus(); select(Math.max(0, state.sel), false); }
+  });
+  document.getElementById('random').addEventListener('click', function () {
+    if (!state.items.length) return;
+    select(Math.floor(Math.random() * state.items.length), true);
+  });
+  document.getElementById('markall').addEventListener('click', function () {
+    lastSeen = addDays(NEWEST, 1); readIds = {};
+    store('mmr98-seen', lastSeen); store('mmr98-read', '[]');
+    drawFolders(); paintRows(true); status();
+  });
+  narrow.addEventListener('change', function () { refresh(); });
+  window.addEventListener('resize', function () { paintRows(true); });
+  window.addEventListener('hashchange', function () { var k = location.hash.slice(1); if (FBY[k] && k !== state.f) openFolder(k); });
+  window.addEventListener('pagehide', function () { store('mmr98-seen', addDays(NEWEST, 1)); });   // next visit: only newer transmissions are unread
+
+  document.getElementById('asof').textContent = num(notes.length) + ' transmissions, ' + num(M.weekly.length + M.monthly.length) + ' issues and ' + articles.length + ' articles · mailbox built ' + M.built;
+  openFolder(location.hash.slice(1) || 'inbox');
+  if (!narrow.matches) select(0, false);
+})();
+</script>
+</body>
+</html>
