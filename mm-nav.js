@@ -35,7 +35,7 @@
     { name: 'Read', items: [
       ['notes.html', 'All Notes'],
       ['blog.html', 'The Blog'],
-      ['articles.html', 'Magazine'],
+      ['articles.html', 'Articles'],
       ['archive.html', 'Archive'],
       ['minimags.html', 'Y3K Magazine'],
       ['newsstand.html', 'Newsstand'],
