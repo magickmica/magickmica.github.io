@@ -225,6 +225,9 @@ border-radius:12px;padding:10px}
 """
 
 
+NOTE_COUNT = 0   # set from _data/notes_with_media_compact.json in __main__
+
+
 def hero_tile(theme, name, img):
     """Hero carries the real Magick Mica TV logo, then the frequency name."""
     im = (f'<img src="{esc(img)}" alt="" loading="eager" onerror="this.remove()">'
@@ -235,7 +238,7 @@ def hero_tile(theme, name, img):
             f'<img class="hero-logo" src="magick-mica-tv-logo.png" '
             f'alt="Magick Mica TV" decoding="async" fetchpriority="high">'
             f'<div class="ttl">{esc(name)}</div>'
-            f'<div class="sm">5,615 transmissions and counting. Daily art notes, '
+            f'<div class="sm">{NOTE_COUNT:,} transmissions and counting. Daily art notes, '
             f'cosmic curiosities, and a small universe of games.</div></div></a>')
 
 
@@ -365,7 +368,7 @@ def render(theme, themes, articles, nav):
 <div class="sect"><h2 class="holo">PLAY &amp; LISTEN</h2><div class="rule"></div>
 <span class="meta">CH 03</span></div>
 <div class="strip3">
-{scard("arcade.html","CH 03 \u00b7 ARCADE","The Arcade","Jigsaw, memory, slots, object hunt")}
+{scard("arcade.html","CH 03 · ARCADE","The Arcade","Jigsaw, memory, slots, object hunt")}
 {scard("quest.html","CH 03b","Dream Quest","Ten realms, forty artifacts")}
 {scard("songmaker.html","CH 03c","Song Maker","Build a tune from the signal")}
 </div>
@@ -376,14 +379,14 @@ def render(theme, themes, articles, nav):
 <div class="strip3">
 {scard("crystals.html","LIVE","Every Crystal","The whole shelf, priced and sorted")}
 {scard("herkimer-vault.html","VAULT","Herkimer and Friends","Seven crystal vaults, curated")}
-{scard("https://www.themysticalspiralstore.com/","STORE \u2197","Mystical Spiral","The full shop")}
+{scard("https://www.themysticalspiralstore.com/","STORE ↗","Mystical Spiral","The full shop")}
 </div>
 
 <div class="sect"><h2 class="holo">SUBSTACK ARCHIVE</h2><div class="rule"></div>
 <span class="meta">{len(articles)} ARTICLES</span></div>
 <div class="strip3">
-{scard("https://magickmica.substack.com","TV \u2197","MagickMica TV","The main broadcast")}
-{scard("https://magickmicaart.substack.com","ART \u2197","MagickMica Art","The art channel")}
+{scard("https://magickmica.substack.com","TV ↗","MagickMica TV","The main broadcast")}
+{scard("https://magickmicaart.substack.com","ART ↗","MagickMica Art","The art channel")}
 {scard("articles.html","ON SITE","Every Article","Searchable, with covers")}
 </div>
 
@@ -429,6 +432,7 @@ if __name__ == "__main__":
     themes = json.load(open(os.path.join(data_dir, "themes.json"), encoding="utf-8"))
     articles = json.load(open(os.path.join(data_dir, "magazine_articles.json"), encoding="utf-8"))
     nav = json.load(open(os.path.join(data_dir, "sitemap_nav.json"), encoding="utf-8"))
+    NOTE_COUNT = len(json.load(open(os.path.join(data_dir, "notes_with_media_compact.json"), encoding="utf-8")))
     os.makedirs(out_dir, exist_ok=True)
 
     for fname, theme in themes.items():
