@@ -26,6 +26,12 @@ SKIP_WEEKS = {
     "2025-08-18",   # 1 note
 }
 
+# Months with no issue page, by YYYY-MM. Must stay in step with
+# SKIP_MONTHS in tools/build_digests.py.
+SKIP_MONTHS = {
+    "2025-05",      # 1 note; deleted 21 Oct 2026
+}
+
 
 def group_by_week(notes):
     """Notes bucketed by ISO week (Monday date), skipped weeks dropped."""
@@ -293,6 +299,8 @@ def rebuild_minimags(repo, out_dir, notes):
         months.setdefault(n["d"][:7], []).append(n)
     mcards = []
     for m in sorted(months, reverse=True):
+        if m in SKIP_MONTHS:
+            continue
         label = datetime.date(int(m[:4]), int(m[5:7]), 1).strftime("%B %Y")
         mcards.append(issue_card(f"month-{m}.html", cover_of(months[m]),
                                  len(months[m]), label))

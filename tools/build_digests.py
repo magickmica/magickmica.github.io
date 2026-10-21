@@ -26,6 +26,13 @@ SKIP_WEEKS = {
     "2025-08-18",   # 1 note
 }
 
+# Months with no issue page of their own, by YYYY-MM. Same idea as
+# SKIP_WEEKS: the notes still count toward the totals, but no page is
+# written and nothing links to it. Keep in step with tools/update_pages.py.
+SKIP_MONTHS = {
+    "2025-05",      # 1 note; deleted 21 Oct 2026
+}
+
 # Accent palettes, reverse-engineered from the existing digests and
 # verified against every file that carries an --accent (41/41 weeks,
 # 10/10 months). Months cycle by absolute month number; weeks cycle by
@@ -365,7 +372,7 @@ def build_all(repo, data_dir, out_dir):
     by_month = {}
     for n in notes:
         by_month.setdefault(n["d"][:7], []).append(n)
-    months = sorted(by_month)
+    months = sorted(m for m in by_month if m not in SKIP_MONTHS)
 
     for i, m in enumerate(months):
         y, mo = int(m[:4]), int(m[5:7])
