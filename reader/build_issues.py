@@ -335,7 +335,7 @@ def page(kind, key, label, notes, arts, themes, prev, nxt, built, extra_reading,
   </div>
   <div class="below">
     <span>Transmission Reader 98 · Magick Mica TV</span>
-    <nav aria-label="Magick Mica"><a href="{SITE}">Home</a><a href="../index.html">Reader 98</a><a href="{SITE}notes.html">All Notes</a><a href="{SITE}articles.html">Magazine</a></nav>
+    <nav aria-label="Magick Mica"><a href="{SITE}">Home</a><a href="../index.html">Reader 98</a><a href="{SITE}notes.html">All Notes</a><a href="{SITE}articles.html">Articles</a></nav>
   </div>
 </div>
 <script src="issue.js"></script>
