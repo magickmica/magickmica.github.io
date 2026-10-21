@@ -214,7 +214,9 @@ def load_template(repo):
     # the scripts added after the footer since this generator was written
     # (mm-nav.js, products.js, mm-ads.js); copied so their ?v= stays in step
     tail = h[h.rfind("</footer>") + len("</footer>"):h.rfind("</body>")]
-    tail_scripts = "".join(s + "\n" for s in re.findall(r'<script src="[^"]+"[^>]*></script>', tail))
+    # mm-store.js is left out: issue pages carry the Signal Shop strip only
+    tail_scripts = "".join(s + "\n" for s in re.findall(r'<script src="[^"]+"[^>]*></script>', tail)
+                           if "mm-store.js" not in s)
     return css, head_links, tail_scripts
 
 
