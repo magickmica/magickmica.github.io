@@ -408,7 +408,7 @@ def render(theme, themes, articles, nav):
 
 <footer>\u2726 <a href="https://magickmica.substack.com" target="_blank" rel="noopener">Magick Mica TV</a>
 \u00b7 where magick meets the pixel \u2726<br>
-<a href="notes.html">Notes</a> \u00b7 <a href="articles.html">Magazine</a> \u00b7
+<a href="notes.html">Notes</a> \u00b7 <a href="articles.html">Articles</a> \u00b7
 <a href="blog.html">Blog</a> \u00b7 <a href="minimags.html">Y3K</a> \u00b7
 <a href="arcade.html">Arcade</a> \u00b7 <a href="archive.html">Archive</a>
 </footer>
