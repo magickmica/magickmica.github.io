@@ -13,7 +13,7 @@
 
    Placement, in order of preference:
      1. an element with data-mm-ads (if a page wants to choose)
-     2. before .adjacent-nav (the prev/next row on issue pages)
+     2. after .adjacent-nav (the prev/next row on issue pages)
      3. before <footer>
      4. end of <body>
 
@@ -174,7 +174,7 @@
 		var slot = document.querySelector('[data-mm-ads]');
 		if (slot) { slot.appendChild(box); return; }
 		var adj = document.querySelector('.adjacent-nav');
-		if (adj && adj.parentNode) { adj.parentNode.insertBefore(box, adj); return; }
+		if (adj && adj.parentNode) { adj.parentNode.insertBefore(box, adj.nextSibling); return; }
 		var foot = document.querySelector('footer');
 		if (foot && foot.parentNode) { foot.parentNode.insertBefore(box, foot); return; }
 		/* No footer and no slot: the end of the body is only safe on a page

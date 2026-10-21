@@ -203,6 +203,9 @@
 
   function mount() {
     if (document.querySelector('.mms-wrap')) return;   // never twice
+    /* Weekly and monthly Y3K issues carry the Signal Shop strip only.
+       Their prev/next row (.adjacent-nav) is what marks them. */
+    if (document.querySelector('.adjacent-nav')) return;
     ensureCss();
 
     var strip = build();
