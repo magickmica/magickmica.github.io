@@ -137,8 +137,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--bone); outline-
 .leaves { display: grid; gap: 34px; }
 @media (min-width: 880px) { .leaves { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 48px; } }
 
-.plates { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
-.plate { margin: 0; display: grid; gap: 8px; }
+.plates { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr)); gap: 16px; }
+.plate { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 8px; min-width: 0; }
 .plate .frame {
   display: block;
   position: relative;
@@ -159,7 +159,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--bone); outline-
     var(--rainbow);
   opacity: .5;
 }
-.plate figcaption { font: italic 15px/1.35 var(--f-print); color: var(--quiet); }
+.plate figcaption { font: italic 15px/1.35 var(--f-print); color: var(--quiet); overflow-wrap: anywhere; }
 .plate figcaption b { font: 13px/1 var(--f-sc); letter-spacing: .16em; color: var(--bone); font-weight: 400; display: block; margin-bottom: 4px; }
 .plate figcaption a { color: var(--bone); }
 
