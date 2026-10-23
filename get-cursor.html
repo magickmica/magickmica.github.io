@@ -248,6 +248,9 @@ a{color:inherit}
 .arrows button:hover{border-color:var(--mint)}
 .arrows button[aria-pressed="true"]{border-color:var(--yellow); box-shadow:0 0 0 2px var(--yellow) inset}
 .arrows img{width:32px; height:32px}
+.rb-preview{display:block; margin-top:1.8rem; border-radius:8px; overflow:hidden; border:1px solid var(--line); box-shadow:0 14px 40px rgba(0,0,0,.45)}
+.rb-preview img{display:block; width:100%; height:auto}
+.rb-preview + .freebie{margin-top:.8rem}
 .freebie{
   display:grid; grid-template-columns:auto minmax(0,1fr); gap:1.2rem; align-items:center; margin-top:1.6rem;
   padding:1.2rem 1.4rem; border-radius:8px; border:1px dashed rgba(247,185,40,.55); background:rgba(247,185,40,.05);
@@ -329,7 +332,7 @@ html.wearing, html.wearing *{cursor:var(--wear) !important}
       <h2>What's it for?<small>The AI uses this to make the cursor feel like it belongs to you.</small></h2></div>
     <div class="two">
       <div class="field"><label class="lab" for="name">Name <i>(newsletter, site or you)</i></label>
-        <div class="box"><span>✦</span><input id="name" type="text" placeholder="Magick Mica TV" autocomplete="off"></div></div>
+        <div class="box"><span>✦</span><input id="name" type="text" placeholder="My Newsletter" autocomplete="off"></div></div>
       <div class="field"><label class="lab" for="link">Link <i>(optional)</i></label>
         <div class="box"><span>↗</span><input id="link" type="text" placeholder="yourname.substack.com" autocomplete="off" autocapitalize="off" spellcheck="false"></div></div>
     </div>
@@ -354,13 +357,13 @@ html.wearing, html.wearing *{cursor:var(--wear) !important}
 
     <div id="objectBox">
       <div class="field"><label class="lab" for="object">The object</label>
-        <div class="box"><span>✦</span><input id="object" type="text" placeholder="a crystal ball" autocomplete="off"></div></div>
+        <div class="box"><span>✦</span><input id="object" type="text" placeholder="a paper airplane" autocomplete="off"></div></div>
       <div class="picks" data-fill="object">
-        <button type="button" class="fill">crystal ball</button><button type="button" class="fill">teacup</button>
-        <button type="button" class="fill">paintbrush</button><button type="button" class="fill">little ghost</button>
-        <button type="button" class="fill">mushroom</button><button type="button" class="fill">crescent moon</button>
-        <button type="button" class="fill">black cat</button><button type="button" class="fill">vintage TV</button>
-        <button type="button" class="fill">cassette tape</button><button type="button" class="fill">potion bottle</button>
+        <button type="button" class="fill">quill pen</button><button type="button" class="fill">open book</button>
+        <button type="button" class="fill">paper airplane</button><button type="button" class="fill">butterfly</button>
+        <button type="button" class="fill">little ghost</button><button type="button" class="fill">mushroom</button>
+        <button type="button" class="fill">crescent moon</button><button type="button" class="fill">black cat</button>
+        <button type="button" class="fill">Christmas tree</button><button type="button" class="fill">potion bottle</button>
         <button type="button" class="fill">star wand</button><button type="button" class="fill">daisy</button>
       </div>
     </div>
@@ -374,7 +377,7 @@ html.wearing, html.wearing *{cursor:var(--wear) !important}
         <button type="button" class="fill">a sparkle trail behind it</button>
         <button type="button" class="fill">a flame-shaped tail</button>
         <button type="button" class="fill">the arrow filled with a holographic gradient</button>
-        <button type="button" class="fill">a tiny TV riding on the tail</button>
+        <button type="button" class="fill">a tiny heart on the tail</button>
         <button type="button" class="fill">a daisy tucked on the tail</button>
         <button type="button" class="fill">candy stripes inside the arrow</button>
       </div>
@@ -439,6 +442,9 @@ html.wearing, html.wearing *{cursor:var(--wear) !important}
   <div class="arrows" id="arrows" aria-label="Rainbow arrows"></div>
   <div class="actions"><button class="btn" id="unwear" type="button" hidden>↺ back to the normal cursor</button></div>
 
+  <figure class="rb-preview">
+    <img src="get-cursor-rainbow-arrows.png" width="1200" height="250" loading="lazy" alt="The eight Rainbow Arrows cursors: red, orange, yellow, green, blue, indigo, violet and rainbow, each with a matching sparkle">
+  </figure>
   <div class="freebie">
     <div class="badge">free</div>
     <div>
@@ -596,7 +602,7 @@ html.wearing, html.wearing *{cursor:var(--wear) !important}
     var thing = arrow ? s.detail : s.object;
     var label = arrow ? '- The detail I want on the arrow: ' : '- The object I want as my cursor: ';
     if (s.ideas) L.push(label + (thing ? thing + '. But first, suggest 3 ideas based on my topic (this can be one of them) and let me pick before you draw.' : 'I\'m not sure yet. Suggest 3 ideas based on my topic, and let me pick one before you draw.'));
-    else L.push(label + (thing || (arrow ? '[e.g. a tiny crescent moon riding on the tail]' : '[e.g. a crystal ball]')));
+    else L.push(label + (thing || (arrow ? '[e.g. a tiny crescent moon riding on the tail]' : '[e.g. a paper airplane]')));
     if (s.notes) L.push('- Design notes: ' + s.notes);
     L.push('- My colors: ' + (s.colors.length ? s.colors.join(', ') + '. Use these hex codes exactly.' : '[your colors, as hex codes if you have them]'));
     L.push('- The feel: ' + (feels.length ? list(feels) : '[e.g. Y2K neon, cozy cottagecore, clean and minimal]'));
