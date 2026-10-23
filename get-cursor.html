@@ -314,7 +314,7 @@ html.wearing, html.wearing *{cursor:var(--wear) !important}
   <div class="poster">
     <span class="tape t1"></span><span class="tape t2"></span>
     <figure>
-      <img src="cursors/poster.jpg" width="960" height="560" alt="Custom cursors drawn in a glossy Y2K style: a crystal ball, a teacup, a TV with a star, a paintbrush, a holographic arrow towing a tiny TV, and an arc of rainbow arrows">
+      <img src="get-cursor-poster.jpg" width="960" height="560" alt="Custom cursors drawn in a glossy Y2K style: a crystal ball, a teacup, a TV with a star, a paintbrush, a holographic arrow towing a tiny TV, and an arc of rainbow arrows">
       <figcaption>your pointer, <span>your universe</span></figcaption>
     </figure>
     <div class="sticker">works for any Substack</div>
@@ -430,11 +430,11 @@ html.wearing, html.wearing *{cursor:var(--wear) !important}
   <h2>try one on</h2>
   <p>Click a cursor to wear it on this page, so you can see how a custom pointer feels. These were all made with prompts like the one above. It works on a computer; phones have no pointer to change.</p>
   <div class="wear" id="wear">
-    <button type="button" data-cur="cursors/crystal-ball-32.png" data-x="3" data-y="3"><img src="cursors/crystal-ball-64.png" alt="">crystal ball</button>
-    <button type="button" data-cur="cursors/teacup-32.png" data-x="2" data-y="2"><img src="cursors/teacup-64.png" alt="">teacup</button>
-    <button type="button" data-cur="cursors/portal-star-32.png" data-x="3" data-y="3"><img src="cursors/portal-star-64.png" alt="">portal star</button>
-    <button type="button" data-cur="cursors/art-brush-32.png" data-x="1" data-y="1"><img src="cursors/art-brush-64.png" alt="">paintbrush</button>
-    <button type="button" data-cur="cursors/tv-arrow-32.png" data-x="1" data-y="1"><img src="cursors/tv-arrow-64.png" alt="">TV arrow</button>
+    <button type="button" data-cur="get-cursor-crystal-ball-32.png" data-x="3" data-y="3"><img src="get-cursor-crystal-ball-64.png" alt="">crystal ball</button>
+    <button type="button" data-cur="get-cursor-teacup-32.png" data-x="2" data-y="2"><img src="get-cursor-teacup-64.png" alt="">teacup</button>
+    <button type="button" data-cur="get-cursor-portal-star-32.png" data-x="3" data-y="3"><img src="get-cursor-portal-star-64.png" alt="">portal star</button>
+    <button type="button" data-cur="get-cursor-art-brush-32.png" data-x="1" data-y="1"><img src="get-cursor-art-brush-64.png" alt="">paintbrush</button>
+    <button type="button" data-cur="get-cursor-tv-arrow-32.png" data-x="1" data-y="1"><img src="get-cursor-tv-arrow-64.png" alt="">TV arrow</button>
   </div>
   <div class="arrows" id="arrows" aria-label="Rainbow arrows"></div>
   <div class="actions"><button class="btn" id="unwear" type="button" hidden>↺ back to the normal cursor</button></div>
@@ -443,7 +443,7 @@ html.wearing, html.wearing *{cursor:var(--wear) !important}
     <div class="badge">free</div>
     <div>
       <p><b>The Magick Mica Rainbow Arrows.</b> Eight glossy arrows (red, orange, yellow, green, blue, indigo, violet and full rainbow) in 128, 64 and 32px, with the SVG masters and a read-me.</p>
-      <a class="btn big" href="cursors/magick-mica-rainbow-arrows.zip" download>⤓ download the set</a>
+      <a class="btn big" href="magick-mica-rainbow-arrows.zip" download>⤓ download the set</a>
     </div>
   </div>
 </section>
@@ -518,8 +518,8 @@ html.wearing, html.wearing *{cursor:var(--wear) !important}
   ARROWS.forEach(function (c) {
     var b = document.createElement('button');
     b.type = 'button'; b.title = c + ' arrow';
-    b.setAttribute('data-cur', 'cursors/arrow-' + c + '-32.png'); b.setAttribute('data-x', '1'); b.setAttribute('data-y', '1');
-    b.innerHTML = '<img src="cursors/arrow-' + c + '-32.png" alt="' + c + ' arrow">';
+    b.setAttribute('data-cur', 'get-cursor-arrow-' + c + '-32.png'); b.setAttribute('data-x', '1'); b.setAttribute('data-y', '1');
+    b.innerHTML = '<img src="get-cursor-arrow-' + c + '-32.png" alt="' + c + ' arrow">';
     arrowsEl.appendChild(b);
   });
 
