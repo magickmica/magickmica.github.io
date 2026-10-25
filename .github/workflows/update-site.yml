@@ -1,0 +1,60 @@
+name: Update site from exports
+
+# Upload GET NOTES! / GET ARTICLES! files into incoming/ and this rebuilds
+# every page that shows notes or articles, in one commit:
+#   _data/, week-*/month-* issues, notes, articles, archive, minimags, blog,
+#   random-note, arcade, index*.html, pools.js, signal/, almanac/, reader/
+# Run it by hand from the Actions tab ("Run workflow") to rebuild everything
+# from the current _data/ without new exports.
+on:
+  push:
+    paths:
+      - "incoming/*.json"
+  workflow_dispatch: {}
+
+# One update at a time; a second upload waits for the first to finish.
+concurrency:
+  group: site-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Rebuild every page
+        run: |
+          if ls incoming/*.json >/dev/null 2>&1; then
+            python tools/update_all.py
+          else
+            python tools/update_all.py --rebuild
+          fi
+
+      - name: Commit and publish
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -q --ignore-unmatch incoming/*.json
+          find . -name "__pycache__" -type d -prune -exec rm -rf {} +
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git commit -m "Site update from exports $(date -u +'%Y-%m-%d %H:%M UTC')"
+          # the MMRI job may have pushed meanwhile: replay on top and retry
+          for i in 1 2 3; do
+            git pull --rebase -q && git push && exit 0
+            sleep 5
+          done
+          exit 1
