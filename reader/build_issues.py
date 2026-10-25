@@ -15,6 +15,7 @@ import re
 
 SITE = "https://magickmica.github.io/"
 URL_RE = re.compile(r"https?://[^\s<>\"']+")
+BUILT_RE = re.compile(r"Built \d{4}-\d{2}-\d{2}")
 ORD = ["One", "Two", "Three", "Four", "Five", "Six"]
 FONTS = "https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&display=swap"
 
@@ -390,8 +391,17 @@ def write_issues(notes, articles, out_dir, themes, note_prefix, issued):
             classic = f"{SITE}{kind}-{k}.html" if f"{kind}-{k}" in issued else ""
             html_text = page(kind, k, label, bucket[k], arts_between(a, b), themes, prev, nxt, built, extra, up, classic)
             fname = f"{kind}-{k}.html"
-            with open(os.path.join(out_dir, fname), "w", encoding="utf-8") as f:
-                f.write(html_text)
+            path = os.path.join(out_dir, fname)
+            # only rewrite a page whose content changed (ignoring its "Built" date),
+            # so an update touches just the issues that got new notes
+            if os.path.exists(path):
+                with open(path, encoding="utf-8") as f:
+                    old = f.read()
+                if BUILT_RE.sub("", old) == BUILT_RE.sub("", html_text):
+                    html_text = None
+            if html_text is not None:
+                with open(path, "w", encoding="utf-8") as f:
+                    f.write(html_text)
             written.add(fname)
             grp = bucket[k]
             out.append({"k": k, "n": len(grp), "l": sum(n["l"] for n in grp),
