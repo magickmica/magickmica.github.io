@@ -13,6 +13,7 @@ Runs, in order:
   4. update_pages.py     notes.html, articles.html, archive.html, minimags.html,
                          blog.html, random-note.html, arcade.html, index*.html, pools.js
      update_home.py      the homepage's big tile: newest article cover + note count
+     build_whatsnew.py   the homepage's NEW THIS WEEK section (home-preview.html until it goes live)
   5. signal/build_signal.py, almanac/build_almanac.py, reader/build_reader.py
 
 Run it from anywhere; it finds the repo from its own location. Files are
@@ -111,8 +112,9 @@ def main(argv):
     run(os.path.join(TOOLS, "update_pages.py"), REPO, DATA, BUILD)
     pages = copy_build_into_repo()
 
-    step("Homepage tile: newest article cover and transmissions count")
+    step("Homepage: newest article tile, count, and the New This Week section")
     run(os.path.join(TOOLS, "update_home.py"), REPO, DATA)
+    run(os.path.join(TOOLS, "build_whatsnew.py"))
 
     step("Signal Band, Almanac, Transmission Reader 98")
     for b in ("signal/build_signal.py", "almanac/build_almanac.py", "reader/build_reader.py"):
