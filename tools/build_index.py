@@ -12,12 +12,44 @@ To restyle every frequency at once, edit TEMPLATE / CSS here and rerun.
 To retheme one page, edit its entry in _data/themes.json.
 
     python3 tools/build_index.py <repo> _data build
+
+This writes the page STRUCTURE. The live content inside it is filled in
+afterwards, in place, by the tools update_all.py runs on every update:
+  update_pages.py  the Y3K magazine cards (also repainted from pools.js)
+  update_home.py   the big tile's picture and "N transmissions" count
+So after copying build/index*.html into the repo, run those two (or run
+the "Update site from exports" workflow by hand) before uploading.
+
+Brought up to date with the live homepages on 30 Oct 2026: og-card tags,
+CH 05 Crystal Stress Index (Substack tile on index.html), CH 06 store tile
+with data-mms-rotate, CH 03b The Witching Hour, the footer Store link,
+the mm-store.js strip, and arrows on off-site links in the Transmission Map.
 """
-import json, os, html, datetime
+import json, os, re, html, datetime
 from ctas import CTA_CSS, CTA_JS, CTAS
 from chrome import chrome_for
 
 SITE = "https://magickmica.github.io/"
+STORE = "https://magickmicatv.store/"
+OG_CARD = SITE + "og-card.png"          # 1200x630, built by tools/build_og_card.py
+# The CH 06 store tile shows this product until mm-store.js starts rotating
+# through the rest (and with JS off). Looked up by name so the picture URL
+# stays current when the store data is refreshed.
+STORE_TILE_PRODUCT = "Egyptian Goddess Graffiti Coffee Mug"
+
+
+def store_tile_img(repo):
+    """Picture for the CH 06 tile, read from mm-store.js."""
+    try:
+        src = open(os.path.join(repo, "mm-store.js"), encoding="utf-8").read()
+        m = re.search(r"var PRODUCTS = (\[.*?\]);\n", src, re.S)
+        products = [p for p in json.loads(m.group(1)) if p.get("img")]
+    except (OSError, AttributeError, ValueError):
+        return ""
+    for p in products:
+        if p.get("name", "").startswith(STORE_TILE_PRODUCT):
+            return p["img"]
+    return products[0]["img"] if products else ""
 
 
 def esc(s):
@@ -228,6 +260,15 @@ border-radius:12px;padding:10px}
 NOTE_COUNT = 0   # set from _data/notes_with_media_compact.json in __main__
 
 
+def store_tile(img):
+    im = (f'<img src="{esc(img)}" alt="" loading="lazy" onerror="this.remove()"><div class="scrim"></div>'
+          if img else "")
+    return (f'<a class="tile w2" href="{STORE}" target="_blank" rel="noopener" data-mms-rotate>{im}'
+            f'<div class="in"><div class="lab">CH 06 \u00b7 STORE</div>'
+            f'<div class="ttl">Magick Mica TV Store</div>'
+            f'<div class="sm">Prints, mugs, totes and candles</div></div></a>')
+
+
 def hero_tile(theme, name, img):
     """Hero carries the real Magick Mica TV logo, then the frequency name."""
     im = (f'<img src="{esc(img)}" alt="" loading="eager" onerror="this.remove()">'
@@ -247,12 +288,19 @@ def scard(href, lab, ttl, sm=""):
             f'<div class="ttl">{esc(ttl)}</div><div class="sm">{esc(sm)}</div></a>')
 
 
+def map_label(href, label):
+    """Off-site links get an arrow, as in the top bar (other magickmica.github.io
+    sites like the Crystal Ball don't)."""
+    off = href.startswith("http") and "magickmica.github.io" not in href
+    return label + " \u2197" if off and not label.endswith("\u2197") else label
+
+
 def tmap(nav):
     cols = []
     for group, items in nav.items():
         if group.startswith("_"):   # _primary drives the top bar, not the map
             continue
-        links = "".join(f'<a href="{esc(h)}">{esc(l)}</a>' for h, l in items)
+        links = "".join(f'<a href="{esc(h)}">{esc(map_label(h, l))}</a>' for h, l in items)
         # long groups get a double-width column with two text columns, so one
         # list of 17 doesn't drop to its own full-width row
         wide = " wide" if len(items) > 12 else ""
@@ -304,7 +352,7 @@ SCHEMA = """<script type="application/ld+json">
 }
 </script>"""
 
-def render(theme, themes, articles, nav):
+def render(theme, themes, articles, nav, store_img=""):
     c = dict(theme["colors"])
     c.setdefault("ink", "#efe6ff")
     root = ":root{" + "".join(f"--{k}:{v};" for k, v in c.items()) + "}"
@@ -330,9 +378,17 @@ def render(theme, themes, articles, nav):
              "Weekly + monthly issues", "minimags.html"),
         tile("w2", "CH 03", "The Arcade", "Six games from the archive", "arcade.html"),
         tile("w2", "CH 04", "The Vaults", "Every stone, then the seven vaults", "crystals.html"),
-        tile("w2", "CH 05 \u00b7 NEWSSTAND", "Nine issues", "On the rack now", "newsstand.html"),
-        tile("w2", "CH 06", "Blog & Archive",
-             (second or {}).get("title", "Every transmission by date"), "blog.html"),
+        # CH 05: the main homepage points new visitors at Substack; the themed
+        # frequencies carry the Crystal Stress Index instrument.
+        (f'<a class="tile w2" href="https://substack.com/@magickmica" target="_blank" rel="noopener">'
+         f'<div class="in"><div class="lab">CH 05 \u00b7 SUBSTACK \u2197</div>'
+         f'<div class="ttl">@magickmica on Substack</div>'
+         f'<div class="sm">Follow for daily notes, articles and art</div></div></a>')
+        if is_home else
+        tile("w2", "CH 05 \u00b7 INSTRUMENT", "Crystal Stress Index",
+             "Seven market pressures, read as one number", "crystal-stress-index.html"),
+        # CH 06: the store, with a product picture mm-store.js rotates
+        store_tile(store_img),
     ]
 
     return f"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
@@ -350,7 +406,10 @@ def render(theme, themes, articles, nav):
 <meta name="twitter:description" content="{esc(desc)}">
 {SCHEMA}
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
-<style>{css}</style></head>
+<style>{css}</style><meta property="og:image" content="{OG_CARD}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+</head>
 <body><div id="stars"></div>
 {deco['html']}
 <div class="wrap">
@@ -369,7 +428,7 @@ def render(theme, themes, articles, nav):
 <span class="meta">CH 03</span></div>
 <div class="strip3">
 {scard("arcade.html","CH 03 · ARCADE","The Arcade","Jigsaw, memory, slots, object hunt")}
-{scard("quest.html","CH 03b","Dream Quest","Ten realms, forty artifacts")}
+{scard("witching-hour.html","CH 03b · NEW","The Witching Hour","Eat the candles, outrun the four")}
 {scard("songmaker.html","CH 03c","Song Maker","Build a tune from the signal")}
 </div>
 <div class="cta-row" style="margin-top:16px">{CTAS["oracle"]}{CTAS["mbox"]}</div>
@@ -410,7 +469,7 @@ def render(theme, themes, articles, nav):
 \u00b7 where magick meets the pixel \u2726<br>
 <a href="notes.html">Notes</a> \u00b7 <a href="articles.html">Articles</a> \u00b7
 <a href="blog.html">Blog</a> \u00b7 <a href="minimags.html">Y3K</a> \u00b7
-<a href="arcade.html">Arcade</a> \u00b7 <a href="archive.html">Archive</a>
+<a href="arcade.html">Arcade</a> \u00b7 <a href="archive.html">Archive</a> \u00b7 <a href="{STORE}" target="_blank" rel="noopener">Store \u2197</a>
 </footer>
 </div>
 {dial(themes, fname)}
@@ -420,6 +479,7 @@ def render(theme, themes, articles, nav):
 <script>{CTA_JS}</script>
 <script>{deco.get('js','')}</script>
 <script src="mm-nav.js" defer></script>
+<script src="mm-store.js?v=1" defer></script>
 </body></html>"""
 
 
@@ -435,7 +495,10 @@ if __name__ == "__main__":
     NOTE_COUNT = len(json.load(open(os.path.join(data_dir, "notes_with_media_compact.json"), encoding="utf-8")))
     os.makedirs(out_dir, exist_ok=True)
 
+    store_img = store_tile_img(repo)
+    if not store_img:
+        print("warning: no product picture found in mm-store.js; CH 06 tile will be text only")
     for fname, theme in themes.items():
-        page = render(theme, themes, articles, nav)
+        page = render(theme, themes, articles, nav, store_img)
         open(os.path.join(out_dir, fname), "w", encoding="utf-8").write(page)
     print(f"generated {len(themes)} index pages from one template")
