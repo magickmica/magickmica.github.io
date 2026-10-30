@@ -38,6 +38,9 @@
       ['articles.html', 'Articles'],
       ['archive.html', 'Archive'],
       ['minimags.html', 'Y3K Magazine'],
+      ['reader/', 'Transmission Reader'],
+      ['almanac/', 'Y3K Almanac'],
+      ['signal/', 'Signal Band'],
       ['newsstand.html', 'Newsstand'],
       ['random-note.html', 'Random Note TV'],
       ['tv-notes.html', 'TV Notes']
@@ -192,12 +195,28 @@
     return e;
   }
 
-  var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  /* Links in SECTIONS/PRIMARY are written relative to the site root
+     (e.g. 'crystals.html'). Pages in subfolders (reader/, almanac/,
+     signal/) load this file as '../mm-nav.js', so resolve every link
+     against the folder this script lives in, not the page's folder. */
+  var ROOT = (function () {
+    var s = document.currentScript;
+    if (s && s.src) return s.src.replace(/[?#].*$/, '').replace(/[^\/]*$/, '');
+    return location.origin + '/';
+  })();
+  function abs(href) {
+    if (/^([a-z][a-z0-9+.-]*:|\/|#)/i.test(href)) return href;
+    try { return new URL(href, ROOT).href; } catch (e) { return href; }
+  }
+  function norm(path) {
+    return decodeURIComponent(path).toLowerCase().replace(/index\.html$/, '').replace(/\.html$/, '');
+  }
+  var here = norm(location.pathname);
 
   function link(href, label) {
     var a = el('a', null, label);
-    a.href = href;
-    if (href.toLowerCase() === here) a.setAttribute('aria-current', 'page');
+    a.href = abs(href);
+    if (norm(a.pathname) === here && a.host === location.host) a.setAttribute('aria-current', 'page');
     if (/^https?:/.test(href) && href.indexOf('magickmica.github.io') === -1) {
       a.target = '_blank';
       a.rel = 'noopener';
@@ -218,7 +237,7 @@
     bar.setAttribute('aria-label', 'Site');
 
     var brand = el('a', 'mm-brand', '\u2726 MAGICKMICA');
-    brand.href = 'index.html';
+    brand.href = abs('index.html');
     bar.appendChild(brand);
 
     var links = el('div', 'mm-links');
