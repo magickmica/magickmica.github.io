@@ -207,6 +207,30 @@ a.chip{display:inline-flex;align-items:center}
 .chip:hover{color:var(--ink);border-color:color-mix(in srgb,var(--gold) 60%,transparent)}
 .chip[aria-pressed="true"],.chip[data-on="true"]{color:var(--deep);border-color:transparent;
   background:linear-gradient(100deg,var(--gold),var(--pink))}
+/* ---------- theme picker ----------
+   Each swatch wears its own palette, whatever theme is active, so you can
+   see what you'd get before you press it. */
+.themes{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 0 12px}
+.themes .lab{font-family:Silkscreen,monospace;font-size:9.5px;letter-spacing:.2em;color:var(--gold);
+  width:100%;text-align:center;margin-bottom:-2px}
+.sw{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:7px 15px 7px 9px;border-radius:999px;
+  font-family:Silkscreen,monospace;font-size:9.5px;letter-spacing:.13em;color:var(--ink);
+  border:1.5px solid color-mix(in srgb,var(--a) 45%,transparent);
+  background:linear-gradient(100deg,color-mix(in srgb,var(--c) 92%,transparent),color-mix(in srgb,var(--c) 70%,#000));
+  transition:transform .14s ease,box-shadow .14s ease,border-color .14s ease}
+.sw .dots{display:inline-flex}
+.sw .dots i{width:16px;height:16px;border-radius:50%;margin-left:-5px;border:2px solid var(--c)}
+.sw .dots i:first-child{margin-left:0;background:var(--a)}
+.sw .dots i:nth-child(2){background:var(--b)}
+.sw .dots i:nth-child(3){background:var(--d)}
+.sw:hover{transform:translateY(-2px);border-color:var(--a)}
+.sw[data-on="true"]{border-color:var(--a);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--a) 40%,transparent),0 0 22px color-mix(in srgb,var(--a) 55%,transparent)}
+.sw[data-on="true"]::after{content:'✓';color:var(--a);margin-left:2px}
+.hudbtn{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.12em;color:var(--ink);
+  padding:4px 10px;border-radius:999px;min-height:28px;
+  border:1px solid color-mix(in srgb,var(--gold) 50%,transparent);background:color-mix(in srgb,var(--gold) 12%,transparent)}
+.hudbtn:hover{background:color-mix(in srgb,var(--gold) 26%,transparent)}
 .hint{text-align:center;font-size:11px;color:var(--dim);margin-top:12px;line-height:1.7}
 
 /* ---------- full screen ----------
@@ -268,6 +292,11 @@ h2.sec{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.22em;colo
 .foot a{color:var(--gold)}
 
 @media (max-width:560px){
+  .themes{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .themes .lab{grid-column:1/-1;margin-bottom:0}
+  .sw{flex-direction:column;justify-content:center;gap:6px;border-radius:14px;padding:9px 4px;
+    font-size:8.5px;letter-spacing:.1em;text-align:center;line-height:1.3}
+  .sw[data-on="true"]::after{display:none}
   .fs-corner .lbl{display:none}
   .fs-corner{padding:8px;top:8px;right:8px}
   .hw-web{display:none}
@@ -312,12 +341,20 @@ h2.sec{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.22em;colo
     <p>You are the pumpkin · eat the candy · fear the four</p>
   </div>
 
+  <div class="themes" role="group" aria-label="Choose a theme">
+    <span class="lab">🎨 PICK YOUR NIGHT</span>
+    <button class="sw" data-theme="graveyard" style="--a:#ff7a1a;--b:#7dff4a;--d:#ffd23f;--c:#2a2622"><span class="dots"><i></i><i></i><i></i></span>GRAVEYARD</button>
+    <button class="sw" data-theme="bloodmoon" style="--a:#ff2e4d;--b:#ffd2c2;--d:#ff7a5c;--c:#2b1418"><span class="dots"><i></i><i></i><i></i></span>BLOOD MOON</button>
+    <button class="sw" data-theme="pumpkin" style="--a:#ff8c1a;--b:#a6e34a;--d:#ffe14a;--c:#1f2a12"><span class="dots"><i></i><i></i><i></i></span>PUMPKIN PATCH</button>
+  </div>
+
   <div id="arena">
   <button id="fsExit" type="button" aria-label="Leave full screen">✕ CLOSE</button>
   <div class="hud">
     <span>SCORE <b id="hScore">0</b></span>
     <span>BEST <b id="hBest">0</b></span>
     <span>NIGHT <b id="hLevel">1</b></span>
+    <button class="hudbtn" id="themeCycle" type="button" title="Switch theme (T)" aria-label="Switch theme">🎨 THEME</button>
     <span class="sp">LIVES <span class="lives" id="hLives">🎃🎃</span></span>
   </div>
   <div class="moonbar" aria-hidden="true"><i id="moonBar"></i></div>
@@ -334,7 +371,7 @@ h2.sec{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.22em;colo
         <p id="veilText">Roll through the graveyard and gobble every piece of candy corn. Four things
           climb out of the crypt to hunt you. Drink a <b>witch's brew</b> and for a few seconds they
           flee instead — catch them then. Arrows, WASD, swipe, or the pad below.</p>
-        <div class="big" id="veilNote">◂ FOUR TUNNELS · TOP, BOTTOM AND BOTH SIDES ▸</div>
+        <div class="big" id="veilNote">🎨 THREE THEMES — PICK ONE ABOVE THE MAZE, OR PRESS T</div>
         <button class="play" id="playBtn">✦ START THE SHIFT</button>
         <button class="play2" id="playFs" type="button">⛶ PLAY FULL SCREEN</button>
       </div>
@@ -351,11 +388,6 @@ h2.sec{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.22em;colo
   </div><!-- /arena -->
 
   <div class="row">
-    <button class="chip" data-theme="graveyard" data-on="true">🪦 GRAVEYARD</button>
-    <button class="chip" data-theme="bloodmoon">🩸 BLOOD MOON</button>
-    <button class="chip" data-theme="pumpkin">🎃 PUMPKIN PATCH</button>
-  </div>
-  <div class="row">
     <button class="chip" id="diffBtn" aria-pressed="false">🍬 TREAT MODE</button>
     <button class="chip" id="soundBtn" aria-pressed="false">🔇 SOUND OFF</button>
     <button class="chip" id="lightBtn" aria-pressed="true">🎃 LANTERN LIGHT ON</button>
@@ -363,7 +395,7 @@ h2.sec{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.22em;colo
     <a class="chip" href="graveyard-shift-rules.html">📜 HOW TO PLAY</a>
   </div>
 
-  <p class="hint">Keyboard: arrows or <b>WASD</b> to drift · <b>P</b> or space to pause · <b>Esc</b> leaves full screen<br>
+  <p class="hint">Keyboard: arrows or <b>WASD</b> to roll · <b>T</b> switches theme · <b>P</b> or space to pause · <b>Esc</b> leaves full screen<br>
     Touch: swipe across the maze, or use the pad</p>
 
 
@@ -1263,6 +1295,7 @@ var KEYMAP={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',
 window.addEventListener('keydown',function(e){
   var k=e.key;
   if(KEYMAP[k]){ e.preventDefault(); steer(DIRNAME[KEYMAP[k]]); return; }
+  if(k==='t'||k==='T'){ e.preventDefault(); cycleTheme(); return; }
   if(k==='p'||k==='P'||k===' '){ e.preventDefault(); togglePause(); return; }
   if(k==='Escape' && fsOn && !fsElement()){ e.preventDefault(); toggleFs(); }
 },{passive:false});
@@ -1304,7 +1337,7 @@ function applyTheme(name){
   if(!PALETTES[name]) name='graveyard';
   themeName=name; pal=PALETTES[name];
   document.documentElement.setAttribute('data-theme',name);
-  var btns=document.querySelectorAll('[data-theme]');
+  var btns=document.querySelectorAll('button[data-theme]');
   for(var i=0;i<btns.length;i++)
     btns[i].setAttribute('data-on', btns[i].dataset.theme===name ? 'true':'false');
   buildSprites();
@@ -1312,11 +1345,22 @@ function applyTheme(name){
   save(KEY_THEME,name);
 }
 (function(){
-  var btns=document.querySelectorAll('.chip[data-theme]');
+  var btns=document.querySelectorAll('button[data-theme]');
   for(var i=0;i<btns.length;i++) btns[i].addEventListener('click',function(){
-    applyTheme(this.dataset.theme);
+    applyTheme(this.dataset.theme); themeToast();
   });
 })();
+
+/* one press = the next theme; used by T and the scoreboard button,
+   which is the way in when the picker is out of sight in full screen */
+var THEME_ORDER=['graveyard','bloodmoon','pumpkin'],
+    THEME_LABEL={graveyard:'🪦 GRAVEYARD',bloodmoon:'🩸 BLOOD MOON',pumpkin:'🎃 PUMPKIN PATCH'};
+function themeToast(){ if(!paused) showFlash(THEME_LABEL[themeName],1.1); }
+function cycleTheme(){
+  applyTheme(THEME_ORDER[(THEME_ORDER.indexOf(themeName)+1)%THEME_ORDER.length]);
+  themeToast();
+}
+document.getElementById('themeCycle').addEventListener('click',cycleTheme);
 
 var arenaEl=document.getElementById('arena'),
     fsExit=document.getElementById('fsExit'),
