@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="graveyard">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>How to Play Graveyard Shift — Magick Mica Arcade 🎃</title>
+<meta name="description" content="A Halloween maze game. You are the jack-o'-lantern. Roll the graveyard paths, gobble the candy corn, and stay ahead of the vampire, the werewolf, the zombie and the skeleton. Drink a witch's brew and they run from you.">
+<link rel="canonical" href="https://magickmica.github.io/graveyard-shift-rules.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Graveyard Shift — Magick Mica Arcade">
+<meta property="og:description" content="You are the jack-o'-lantern. Roll the graveyard, gobble the candy corn, and stay ahead of the vampire, the werewolf, the zombie and the skeleton.">
+<meta property="og:url" content="https://magickmica.github.io/graveyard-shift-rules.html">
+<meta property="og:image" content="https://magickmica.github.io/og-graveyard-shift.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://magickmica.github.io/og-graveyard-shift.png">
+<meta name="twitter:title" content="Graveyard Shift — Magick Mica Arcade">
+<meta name="twitter:description" content="You are the jack-o'-lantern. Roll the graveyard, gobble the candy corn, and stay ahead of the vampire, the werewolf, the zombie and the skeleton.">
+<meta name="theme-color" content="#0b0605">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=IBM+Plex+Mono:wght@400;500;700&family=Silkscreen&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ===========================================================
+   GRAVEYARD SHIFT
+   Three palettes: graveyard (pumpkin/bone/acid), blood moon (crimson/ash),
+   pumpkin patch (orange/vine green).
+   =========================================================== */
+:root{
+  --pink:#ff6a00; --cyan:#7dff4a; --lime:#c6ff6b; --purple:#8a7f9e;
+  --gold:#ffa62b; --teal:#7dff4a; --deep:#0b0605; --ink:#f3ece0;
+  --surface:rgba(255,255,255,.03);
+  --dim:#a89e94;
+}
+html[data-theme="bloodmoon"]{
+  --pink:#ff2e4d; --cyan:#ffd2c2; --lime:#ff9a7a; --purple:#b0283c;
+  --gold:#ff7a5c; --teal:#ffb3a1; --deep:#0d0204; --ink:#f7e8e6;
+  --dim:#b8938f;
+}
+html[data-theme="pumpkin"]{
+  --pink:#ff8c1a; --cyan:#a6e34a; --lime:#d8f26b; --purple:#5d8a2c;
+  --gold:#ffc23d; --teal:#7bc043; --deep:#0a0c04; --ink:#f6efdc;
+  --dim:#a6a68a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+a{color:inherit;text-decoration:none}
+body{
+  background:var(--deep); color:var(--ink);
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  transition:background .5s ease;
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* ---------- atmosphere ---------- */
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.5),transparent),
+    radial-gradient(1px 1px at 70% 60%,rgba(255,255,255,.35),transparent),
+    radial-gradient(1px 1px at 45% 85%,rgba(255,255,255,.4),transparent),
+    radial-gradient(1.4px 1.4px at 86% 18%,color-mix(in srgb,var(--gold) 80%,transparent),transparent);
+  background-size:300px 300px}
+.hw-web{position:fixed;z-index:3;font-size:4.2rem;opacity:.32;pointer-events:none;
+  filter:drop-shadow(0 0 8px color-mix(in srgb,var(--purple) 50%,transparent))}
+.hw-web.tl{top:4px;left:-14px;transform:rotate(-15deg)}
+.hw-web.tr{top:4px;right:-14px;transform:scaleX(-1) rotate(-15deg)}
+.hw-bat{position:fixed;z-index:51;pointer-events:none;font-size:1.7rem;opacity:0;
+  animation:hwBat 13s ease-in-out infinite;
+  filter:drop-shadow(0 0 6px color-mix(in srgb,var(--pink) 70%,transparent))}
+.hw-bat.b2{animation-duration:17s;animation-delay:5s;font-size:1.25rem}
+@keyframes hwBat{
+  0%{opacity:0;transform:translate(-10vw,18vh) scale(.8)}
+  12%{opacity:.85}
+  50%{transform:translate(50vw,8vh) scale(1.05)}
+  88%{opacity:.8}
+  100%{opacity:0;transform:translate(110vw,24vh) scale(.8)}}
+.hw-fog{position:fixed;left:0;right:0;bottom:0;height:150px;z-index:1;pointer-events:none;
+  background:linear-gradient(0deg,color-mix(in srgb,var(--pink) 12%,transparent),
+    color-mix(in srgb,var(--purple) 7%,transparent) 55%,transparent);
+  animation:hwFog 7s ease-in-out infinite}
+@keyframes hwFog{0%,100%{opacity:.5}50%{opacity:.95}}
+.wt-moon{position:fixed;top:30px;right:3%;z-index:0;pointer-events:none;
+  width:104px;height:104px;border-radius:50%;overflow:hidden;
+  background:radial-gradient(circle at 62% 38%,#fdf6d8 0%,#e8ddb0 55%,#c9bd8a 100%);
+  box-shadow:0 0 40px rgba(255,247,214,.42),0 0 90px color-mix(in srgb,var(--purple) 24%,transparent);
+  opacity:.5}
+.wt-moon::before{content:'';position:absolute;top:-8%;left:-14%;width:82%;height:82%;
+  border-radius:50%;background:var(--deep);filter:blur(2px)}
+.wt-candle{position:fixed;bottom:.9rem;z-index:51;pointer-events:none;font-size:2rem;
+  filter:drop-shadow(0 0 14px color-mix(in srgb,var(--gold) 75%,transparent));
+  animation:wtFlicker 3s steps(1) infinite}
+.wt-candle.cl{left:1rem}
+.wt-candle.cr{right:1rem;bottom:4.4rem;animation-delay:1.3s;font-size:1.6rem}
+@keyframes wtFlicker{0%,100%{opacity:1}42%{opacity:.72}58%{opacity:.95}72%{opacity:.6}}
+.wg-drip{position:fixed;top:0;left:0;right:0;height:11px;z-index:52;pointer-events:none;
+  background:
+    radial-gradient(6px 11px at 10px 100%,var(--pink) 0 60%,transparent 61%),
+    radial-gradient(5px 8px at 46px 100%,var(--pink) 0 60%,transparent 61%),
+    radial-gradient(7px 13px at 92px 100%,var(--pink) 0 60%,transparent 61%),
+    radial-gradient(5px 9px at 148px 100%,var(--pink) 0 60%,transparent 61%);
+  background-repeat:repeat-x;background-size:190px 13px;opacity:.5}
+
+/* ---------- shell ---------- */
+.wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:10px 16px 64px}
+.top{display:flex;align-items:center;gap:14px;padding:2px 0 8px;flex-wrap:wrap}
+.brand{font-family:Orbitron,monospace;font-weight:700;font-size:14px;letter-spacing:.16em}
+.top nav{display:flex;gap:13px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.top nav a:hover{color:var(--gold)}
+
+.title{text-align:center;padding:0 0 10px}
+.title h1{font-family:Orbitron,monospace;font-weight:900;font-size:clamp(24px,6.6vw,40px);
+  line-height:1.02;letter-spacing:.02em;
+  background:linear-gradient(115deg,var(--purple),var(--pink) 32%,var(--gold) 56%,var(--cyan) 82%,var(--purple));
+  background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:sheen 7s linear infinite}
+@keyframes sheen{to{background-position:220% center}}
+.title p{font-family:Silkscreen,monospace;font-size:9.5px;letter-spacing:.22em;color:var(--gold);
+  margin-top:7px;text-transform:uppercase}
+
+/* ---------- hud ---------- */
+.hud{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.14em;
+  border:1px solid color-mix(in srgb,var(--purple) 32%,transparent);
+  border-radius:12px;padding:9px 12px;background:var(--surface);margin-bottom:10px}
+.hud b{color:var(--gold);font-weight:400}
+.hud .sp{margin-left:auto}
+.hud .lives{letter-spacing:.06em;font-size:13px;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--cyan) 60%,transparent))}
+.moonbar{height:4px;border-radius:999px;background:color-mix(in srgb,var(--purple) 26%,transparent);
+  overflow:hidden;margin:8px 0 10px}
+.moonbar i{display:block;height:100%;width:0;border-radius:999px;
+  background:linear-gradient(90deg,var(--gold),var(--cyan));transition:width .12s linear}
+
+/* ---------- board ---------- */
+.stage{position:relative;border-radius:16px;overflow:hidden;
+  border:1px solid color-mix(in srgb,var(--purple) 34%,transparent);
+  background:color-mix(in srgb,var(--deep) 86%,#000);
+  box-shadow:0 0 44px color-mix(in srgb,var(--purple) 20%,transparent),
+             inset 0 0 70px rgba(0,0,0,.6)}
+canvas#board{display:block;width:100%;height:auto;touch-action:none}
+.veil{position:absolute;inset:0;z-index:4;display:grid;place-items:center;text-align:center;padding:22px;
+  background:radial-gradient(ellipse at 50% 42%,color-mix(in srgb,var(--deep) 72%,transparent),
+    color-mix(in srgb,var(--deep) 95%,#000));
+  backdrop-filter:blur(2px)}
+.veil[hidden]{display:none}
+.veil h2{font-family:Orbitron,monospace;font-weight:900;font-size:clamp(19px,5.4vw,30px);
+  color:var(--gold);letter-spacing:.03em;text-shadow:0 0 22px color-mix(in srgb,var(--gold) 55%,transparent)}
+.veil p{font-size:12.5px;color:var(--ink);opacity:.86;margin-top:10px;line-height:1.6;max-width:30rem}
+.veil .big{font-family:Silkscreen,monospace;font-size:11px;letter-spacing:.2em;color:var(--cyan);margin-top:12px}
+.play{margin-top:16px;font-family:Silkscreen,monospace;font-size:12px;letter-spacing:.18em;
+  padding:12px 24px;border-radius:999px;color:var(--deep);
+  background:linear-gradient(100deg,var(--gold),var(--pink));
+  box-shadow:0 0 26px color-mix(in srgb,var(--gold) 55%,transparent);
+  transition:transform .16s ease,box-shadow .16s ease}
+.play:hover{transform:translateY(-2px);box-shadow:0 0 38px color-mix(in srgb,var(--gold) 80%,transparent)}
+.play2{margin-top:11px;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:Silkscreen,monospace;font-size:9.5px;letter-spacing:.16em;
+  min-height:44px;padding:11px 20px;border-radius:999px;color:var(--ink);
+  border:1px solid color-mix(in srgb,var(--purple) 46%,transparent);
+  background:var(--surface);transition:border-color .16s ease,color .16s ease,transform .16s ease}
+.play2:hover{border-color:color-mix(in srgb,var(--gold) 65%,transparent);
+  color:var(--gold);transform:translateY(-1px)}
+
+/* The control people actually look for, in the corner of the board itself.
+   The board's top edge is above the fold on a laptop; the buttons under the
+   maze are not, which is the whole point of putting it here. */
+.fs-corner{position:absolute;top:10px;right:10px;z-index:3;
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  min-width:44px;min-height:40px;padding:8px 13px;border-radius:999px;
+  font-family:Silkscreen,monospace;font-size:8.5px;letter-spacing:.14em;color:var(--ink);
+  border:1px solid color-mix(in srgb,var(--purple) 46%,transparent);
+  background:color-mix(in srgb,var(--deep) 74%,transparent);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  transition:border-color .16s ease,background .16s ease,transform .12s ease}
+.fs-corner .ic{font-size:14px;line-height:1}
+.fs-corner:hover{border-color:color-mix(in srgb,var(--gold) 70%,transparent);
+  background:color-mix(in srgb,var(--deep) 90%,transparent);transform:translateY(-1px)}
+/* a soft pulse until the first time someone uses it, then never again */
+.fs-corner.unseen{animation:fsHint 2.8s ease-in-out infinite}
+@keyframes fsHint{0%,100%{box-shadow:0 0 0 0 rgba(0,0,0,0)}
+  50%{box-shadow:0 0 20px 2px color-mix(in srgb,var(--gold) 55%,transparent)}}
+#arena.fs .fs-corner{display:none}
+
+.flash{position:absolute;left:0;right:0;top:46%;text-align:center;pointer-events:none;
+  font-family:Silkscreen,monospace;font-size:clamp(11px,3.4vw,15px);letter-spacing:.22em;
+  color:var(--gold);text-shadow:0 0 18px color-mix(in srgb,var(--gold) 70%,transparent)}
+.flash[hidden]{display:none}
+
+/* ---------- controls ---------- */
+.pad{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(3,52px);
+  gap:7px;justify-content:center;margin:16px auto 4px}
+.pad button{border-radius:12px;font-size:19px;
+  border:1px solid color-mix(in srgb,var(--purple) 40%,transparent);
+  background:color-mix(in srgb,var(--purple) 12%,transparent);color:var(--ink);
+  transition:background .12s ease,transform .08s ease}
+.pad button:active{background:color-mix(in srgb,var(--gold) 34%,transparent);transform:scale(.95)}
+.pad .u{grid-area:1/2}.pad .l{grid-area:2/1}.pad .p{grid-area:2/2;font-size:12px;font-family:Silkscreen,monospace}
+.pad .r{grid-area:2/3}.pad .d{grid-area:3/2}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.chip{font-family:Silkscreen,monospace;font-size:9.5px;letter-spacing:.14em;
+  min-height:44px;padding:8px 16px;border-radius:999px;color:var(--dim);
+  border:1px solid color-mix(in srgb,var(--purple) 34%,transparent);
+  background:var(--surface);transition:all .16s ease}
+a.chip{display:inline-flex;align-items:center}
+.chip:hover{color:var(--ink);border-color:color-mix(in srgb,var(--gold) 60%,transparent)}
+.chip[aria-pressed="true"],.chip[data-on="true"]{color:var(--deep);border-color:transparent;
+  background:linear-gradient(100deg,var(--gold),var(--pink))}
+.hint{text-align:center;font-size:11px;color:var(--dim);margin-top:12px;line-height:1.7}
+
+/* ---------- full screen ----------
+   Real full screen where the browser has it, and the same thing done with
+   a fixed overlay where it doesn't — iPhones have no element full screen,
+   and that is most of the people who will play this. */
+#arena{position:relative}
+#fsExit{display:none}
+#arena.fs{position:fixed;inset:0;z-index:99990;margin:0;padding:10px 8px 12px;
+  --sideW:min(34vw,280px);
+  display:grid;gap:9px;align-content:center;justify-content:center;justify-items:center;
+  grid-template-areas:"hud" "bar" "stage" "pad";
+  background:var(--deep)}
+#arena.fs .hud{grid-area:hud;width:min(100%,560px);margin:0}
+#arena.fs .moonbar{grid-area:bar;width:min(100%,560px);margin:0}
+#arena.fs .stage{grid-area:stage;max-width:100%}
+#arena.fs .pad{grid-area:pad;margin:0}
+/* On anything wider than it is tall, the pad goes beside the board instead
+   of under it, so the board gets the whole height rather than half of it. */
+@media (min-aspect-ratio:1/1){
+  /* the empty rows above and below hold the side column together in the
+     middle instead of letting it stretch the height of the board */
+  #arena.fs{grid-template-areas:". stage" "hud stage" "bar stage" "pad stage" ". stage";
+    grid-template-columns:var(--sideW) auto;
+    grid-template-rows:1fr auto auto auto 1fr;gap:0 18px}
+  #arena.fs .hud,#arena.fs .moonbar,#arena.fs .pad{width:100%;margin:0}
+  #arena.fs .moonbar{margin:9px 0 14px}
+  #arena.fs .hud{flex-direction:column;align-items:flex-start;gap:4px}
+  #arena.fs .hud .sp{margin-left:0}
+}
+#arena.fs #fsExit{display:block;position:absolute;top:10px;right:12px;z-index:5;
+  font-family:Silkscreen,monospace;font-size:9.5px;letter-spacing:.14em;
+  min-height:44px;padding:8px 16px;border-radius:999px;color:var(--ink);cursor:pointer;
+  border:1px solid color-mix(in srgb,var(--purple) 44%,transparent);
+  background:color-mix(in srgb,var(--deep) 82%,#000)}
+#arena.fs #fsExit:hover{border-color:color-mix(in srgb,var(--gold) 60%,transparent)}
+html.fsmode,body.fsmode{overflow:hidden}
+/* .wrap is its own stacking context, so the overlay's z-index only counts
+   inside it; lift the wrapper too, and put the site bar away while we play. */
+body.fsmode .wrap{z-index:99990}
+@media (max-height:620px){
+  #arena.fs .pad{grid-template-columns:repeat(3,52px);grid-template-rows:repeat(3,40px);gap:5px}
+  #arena.fs .pad button{font-size:16px}
+}
+
+/* ---------- cast ---------- */
+.cast{margin-top:30px;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
+.cast>div{border:1px solid color-mix(in srgb,var(--purple) 28%,transparent);border-radius:13px;
+  padding:12px 14px;background:var(--surface)}
+.cast .who{font-size:13px;font-weight:500}
+.cast .who i{font-style:normal;font-size:18px;margin-right:7px;
+  filter:drop-shadow(0 0 7px color-mix(in srgb,var(--pink) 60%,transparent))}
+.cast .how{font-size:11px;color:var(--dim);margin-top:5px;line-height:1.55}
+h2.sec{font-family:Silkscreen,monospace;font-size:10px;letter-spacing:.22em;color:var(--cyan);
+  margin:30px 0 12px;text-transform:uppercase}
+.rules{font-size:12.5px;color:var(--ink);opacity:.84;line-height:1.75}
+.rules li{margin:0 0 6px 18px}
+.foot{margin-top:34px;text-align:center;font-size:11px;color:var(--dim);line-height:1.9}
+.foot a{color:var(--gold)}
+
+@media (max-width:560px){
+  .fs-corner .lbl{display:none}
+  .fs-corner{padding:8px;top:8px;right:8px}
+  .hw-web{display:none}
+  .wt-moon{width:70px;height:70px}
+  .wt-candle.cr{display:none}
+  .pad{grid-template-columns:repeat(3,58px);grid-template-rows:repeat(3,48px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .hw-bat,.hw-fog,.wt-candle,.title h1,.fs-corner.unseen{animation:none!important}
+  .hw-bat{display:none}
+}
+.back{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:6px 0 4px}
+.back .play{display:inline-flex;align-items:center;text-decoration:none}
+.lede{text-align:center;font-size:12.5px;line-height:1.7;opacity:.86;max-width:34rem;margin:4px auto 0}
+</style>
+</head>
+<body>
+
+<div id="stars" aria-hidden="true"></div>
+<div class="wg-drip" aria-hidden="true"></div>
+<span class="hw-web tl" aria-hidden="true">🕸️</span>
+<span class="hw-web tr" aria-hidden="true">🕸️</span>
+<div class="wt-moon" aria-hidden="true"></div>
+<span class="hw-bat" aria-hidden="true">🦇</span>
+<span class="hw-bat b2" aria-hidden="true">🦇</span>
+<div class="hw-fog" aria-hidden="true"></div>
+<span class="wt-candle cl" aria-hidden="true">🎃</span>
+<span class="wt-candle cr" aria-hidden="true">🪦</span>
+
+<div class="wrap">
+
+  <header class="top">
+    <a class="brand" href="index.html">MAGICK&nbsp;MICA&nbsp;TV</a>
+    <nav>
+      <a href="arcade.html">Arcade</a>
+      <a href="graveyard-shift.html">Play</a>
+      <a href="index-halloween.html">Haunted</a>
+    </nav>
+  </header>
+
+  <div class="title">
+    <h1>Graveyard Shift</h1>
+    <p>How to play</p>
+  </div>
+
+  <p class="lede">You are the jack-o'-lantern. Roll through the graveyard and gobble every piece of
+    candy corn while four things climb out of the crypt to hunt you.</p>
+
+  <div class="back"><a class="play" href="graveyard-shift.html">✦ PLAY GRAVEYARD SHIFT</a></div>
+
+  <h2 class="sec">Controls</h2>
+  <ul class="rules">
+    <li><b>Keyboard</b> — arrows or <b>WASD</b> to roll · <b>P</b> or space to pause · <b>Esc</b> leaves full screen.</li>
+    <li><b>Touch</b> — swipe across the maze, or use the pad under it.</li>
+  </ul>
+
+  <h2 class="sec">The four that hunt you</h2>
+  <div class="cast">
+    <div><div class="who"><i>🧛</i>The Vampire</div>
+      <div class="how">Smells you from across the yard and comes straight at you. Never tires.</div></div>
+    <div><div class="who"><i>🐺</i>The Werewolf</div>
+      <div class="how">Hunts like a wolf — runs for where you're headed, not where you are.</div></div>
+    <div><div class="who"><i>🧟</i>The Zombie</div>
+      <div class="how">Shambles about with no plan at all, then lurches your way when you least expect it.</div></div>
+    <div><div class="who"><i>💀</i>The Skeleton</div>
+      <div class="how">Guards its own corner of the graveyard. Wander too close and it rattles after you.</div></div>
+  </div>
+
+  <h2 class="sec">How the night works</h2>
+  <ul class="rules">
+    <li><b>Candy corn</b> — 10 points. Clear every piece to end the night and start the next.</li>
+    <li><b>Witch's brew</b> — 50 points, and the four turn pale and run. Catch them for 200, 400, 800, 1600.</li>
+    <li><b>Four tunnels</b> — the gaps at the top, the bottom and both sides come out the opposite edge. The four move slowly through them; you don't.</li>
+    <li><b>The crypt</b> — the vault in the middle. They start there and they crawl back there when you catch them. You can't get in.</li>
+    <li><b>Lantern light</b> — the graveyard starts dark and your glow grows as you eat. Turn it off with the Lantern Light button under the maze if you'd rather see everything.</li>
+    <li><b>Full screen</b> — the ⛶ button in the top corner of the maze, or the one on the start screen; ✕ or <b>Esc</b> to come back. On a phone it fills the screen even where the browser has no real full-screen mode, and in landscape the pad moves beside the board so the maze gets the whole height.</li>
+    <li><b>Treat / trick</b> — the button under the maze. Treat gives you a slower four, longer brews and a spare pumpkin. Speeds change as soon as you press it; the spare pumpkin arrives with your next game.</li>
+    <li>An extra pumpkin at 10,000 points. Each new night, everyone moves faster and the brews wear off sooner.</li>
+  </ul>
+
+  <div class="back" style="margin-top:28px"><a class="play" href="graveyard-shift.html">✦ BACK TO THE GRAVEYARD</a></div>
+
+  <p class="foot">
+    ✦ built from the Magick Mica seasonal palettes ✦<br>
+    <a href="arcade.html">← Back to the arcade</a> ·
+    <a href="witching-hour.html">Play The Witching Hour</a>
+  </p>
+
+</div>
+
+<script>
+/* wear whichever palette was last picked in the game */
+(function(){
+  try{
+    var t=localStorage.getItem('mm_graveyard_theme');
+    if(t==='graveyard'||t==='bloodmoon'||t==='pumpkin')
+      document.documentElement.setAttribute('data-theme',t);
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
