@@ -140,7 +140,7 @@
     ['minimags.html', 'Magazine'],
     ['articles.html', 'Articles'],
     ['arcade.html', 'Arcade'],
-    ['songmaker.html', 'Songs']
+    ['https://substack.com/@magickmica', 'Substack']
   ];
 
   var CSS = ''
