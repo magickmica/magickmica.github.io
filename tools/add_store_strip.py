@@ -26,6 +26,7 @@ NAV = re.compile(r'(<script src="mm-nav\.js[^"]*"[^>]*></script>)')
 SKIP = {
     "google7a658e18c43e8a60.html",
     "404.html",
+    "turn-down-the-static.html",   # owner asked for no shop strip (4 Nov 2026)
 }
 
 
