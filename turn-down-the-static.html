@@ -66,7 +66,7 @@ a{color:var(--mint)}
   box-shadow:inset 0 0 0 3px #0b0614,inset 0 0 40px rgba(0,0,0,.9),0 0 0 6px #120820}
 .screen .slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s;filter:saturate(1.1) contrast(1.05)}
 .screen .slide.on{opacity:1}
-.screen .fallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;
+.screen .fallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:56px 24px 96px;
   font-family:var(--display);font-size:clamp(1.3rem,4vw,2.2rem);line-height:1.1;color:var(--cream);
   background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--ch) 45%,#160A2B),#0b0614)}
 .screen::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:4;
@@ -94,6 +94,8 @@ a{color:var(--mint)}
 .arrows{display:flex;gap:7px;width:100%}
 .arrows .chbtn{flex:1;font-family:var(--mono);font-size:.8rem;padding:9px 0}
 .sound{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;background:none;border:1px dashed rgba(183,156,255,.45);color:#cbbfe6;border-radius:999px;padding:6px 10px;cursor:pointer}
+.hint .touch{display:none}
+@media (hover:none) and (pointer:coarse){.hint .kb{display:none}.hint .touch{display:inline}}
 .hint{text-align:center;font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;color:#bfb2da;margin-top:16px}
 
 /* ---------- broadcasts ---------- */
@@ -216,6 +218,8 @@ footer a{color:var(--gold)}
 @media (max-width:720px){
   .set{margin-top:26px;grid-template-columns:minmax(0,1fr);padding:14px;border-radius:24px}
   .ears{display:none}
+  .screen .fallback{font-size:1.15rem;padding:44px 18px 84px}
+  .eyebrow span{display:block}.eyebrow .dot{display:none}
   .panel{flex-direction:row;flex-wrap:wrap;justify-content:center}
   .brandplate{display:none}
   .dial{width:78px;height:78px}
@@ -234,7 +238,7 @@ footer a{color:var(--gold)}
 <div class="stars" aria-hidden="true"></div>
 <main>
 <header class="hero wrap">
-  <div class="eyebrow">Magick Mica TV · Six transmissions · Oct 25 – Nov 3, 2026</div>
+  <div class="eyebrow"><span>Magick Mica TV · Six transmissions</span><span class="dot"> · </span><span>Oct 25 – Nov 3, 2026</span></div>
   <h1>Turn Down the Static</h1>
   <div class="sub">your power was never somewhere else</div>
   <p class="lede">Six articles, one TV set. Change the channel, try the little ritual on each one, then read the full transmission on Substack.</p>
@@ -258,7 +262,7 @@ footer a{color:var(--gold)}
       <button class="sound" id="sound" type="button" aria-pressed="false">Sound: off</button>
     </div>
   </div>
-  <p class="hint">Turn the dial, tap a number, or use the ← → keys.</p>
+  <p class="hint"><span class="kb">Turn the dial, tap a number, or use the ← → keys.</span><span class="touch">Turn the dial, tap a number, or swipe the screen.</span></p>
 </section>
 
 <div class="broadcasts wrap" id="broadcasts">
@@ -608,6 +612,10 @@ footer a{color:var(--gold)}
     if(user){ tune(reduce?0:420); if(history.replaceState) history.replaceState(null,'','#ch'+(i+1)); }
   }
   dial.addEventListener('click',function(){go(cur+1,true)});
+  var tx=null,ty=0;
+  screen.addEventListener('touchstart',function(e){var t=e.touches[0];tx=t.clientX;ty=t.clientY},{passive:true});
+  screen.addEventListener('touchend',function(e){if(tx===null)return;var t=e.changedTouches[0],dx=t.clientX-tx,dy=t.clientY-ty;tx=null;
+    if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.5) go(cur+(dx<0?1:-1),true);},{passive:true});
   document.getElementById('next').addEventListener('click',function(){go(cur+1,true)});
   document.getElementById('prev').addEventListener('click',function(){go(cur-1,true)});
   document.addEventListener('keydown',function(e){
@@ -707,6 +715,5 @@ footer a{color:var(--gold)}
 })();
 </script>
 <script src="mm-nav.js?v=3" defer></script>
-<script src="mm-store.js?v=1" defer></script>
 </body>
 </html>
