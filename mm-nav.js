@@ -106,7 +106,8 @@
       ['copper-the-ancient-issue.html', 'Ancient Issue'],
       ['the-sampler-three-transmissions.html', 'The Sampler'],
       ['prism-parlour-crystal-living.html', 'Prism Parlour'],
-      ['the-art-wing-gallery.html', 'Art Wing Gallery']
+      ['the-art-wing-gallery.html', 'Art Wing Gallery'],
+      ['turn-down-the-static.html', 'Turn Down the Static']
     ]},
     { name: 'Extended Universe', items: [
       ['crystal-stress-index.html', 'Crystal Stress Index'],
