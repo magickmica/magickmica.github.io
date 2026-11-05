@@ -362,7 +362,7 @@ footer a{color:var(--mint); text-decoration:none; border-bottom:1px solid rgba(9
         <ol>
           <li><b>Drag</b> the orange button up to your bookmarks bar.<br><span class="hint">No bookmarks bar? Press <code>Ctrl+Shift+B</code> (<code>⌘+Shift+B</code> on a Mac).</span></li>
           <li>Open your newsletter (link below). Log in if you want paid posts in full.</li>
-          <li>Click <b>GET ARTICLES!</b> in your bookmarks bar. A counter appears; your file downloads when it's done.</li>
+          <li>Click <b>GET ARTICLES!</b> in your bookmarks bar. A counter appears. When it's done, click <b>download my file</b> in the box.</li>
         </ol>
       </div>
       <div class="way">
@@ -441,91 +441,112 @@ footer a{color:var(--mint); text-decoration:none; border-bottom:1px solid rgba(9
    one argument.
    ============================================================ */
 async function getArticlesCollector(CFG) {
+  /* No innerHTML anywhere: some sites (Substack included) block it with a
+     Trusted Types policy, which used to stop the collector silently. */
   var PAUSE = 300, PAGE = 50, MAX_PAGES = 400;
   var box = document.getElementById('ga-box');
-  if (!box) {
-    box = document.createElement('div'); box.id = 'ga-box';
-    box.style.cssText = 'position:fixed;z-index:2147483647;right:18px;bottom:18px;width:300px;padding:14px 16px 15px;' +
-      'border-radius:14px;background:#160A2B;color:#FFF6FB;font:500 13px/1.5 system-ui,-apple-system,sans-serif;' +
-      'box-shadow:5px 5px 0 #7B4BA0,0 16px 44px rgba(0,0,0,.45);border:2px solid #F0572A';
-    document.body.appendChild(box);
+  if (box) box.remove();
+  box = document.createElement('div'); box.id = 'ga-box';
+  box.style.cssText = 'position:fixed;z-index:2147483647;right:18px;bottom:18px;width:300px;padding:14px 16px 15px;' +
+    'border-radius:14px;background:#160A2B;color:#FFF6FB;font:500 13px/1.5 system-ui,-apple-system,sans-serif;white-space:pre-line;' +
+    'box-shadow:5px 5px 0 #7B4BA0,0 16px 44px rgba(0,0,0,.45);border:2px solid #F0572A';
+  (document.body || document.documentElement).appendChild(box);
+  function el(tag, text, css) { var n = document.createElement(tag); if (text != null) n.textContent = text; if (css) n.style.cssText = css; return n; }
+  function say(text, extra) {
+    while (box.firstChild) box.removeChild(box.firstChild);
+    box.appendChild(el('div', 'GET ARTICLES!', 'font:900 17px/1 system-ui,sans-serif;letter-spacing:.02em;color:#F0572A;margin-bottom:8px'));
+    box.appendChild(el('div', text));
+    if (extra) box.appendChild(extra);
   }
-  function say(html) {
-    box.innerHTML = '<div style="font:900 17px/1 system-ui,sans-serif;letter-spacing:.02em;color:#F0572A;margin-bottom:8px">GET ARTICLES!</div>' + html;
+  function closeLink() {
+    var c = el('a', 'close', 'color:#FFF6FB;opacity:.7;cursor:pointer');
+    c.href = '#'; c.onclick = function (e) { e.preventDefault(); box.remove(); };
+    return c;
   }
   async function getJSON(u) {
-    var r = await fetch(u, { credentials: 'include' });
+    var r = await fetch(u, { credentials: 'include', headers: { 'Accept': 'application/json' } });
     if (!r.ok) throw new Error('HTTP ' + r.status);
     return r.json();
   }
   function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
-  say('Checking this is a newsletter…');
-  var probe = null;
-  try { probe = await getJSON('/api/v1/archive?sort=new&offset=0&limit=1'); } catch (e) {}
-  if (!Array.isArray(probe)) {
-    alert('GET ARTICLES! runs on your newsletter\'s own site.\n\nOpen https://' + (CFG.site || 'yourname.substack.com') +
-          ' and click it (or paste the code) there.');
-    box.remove(); return;
-  }
-  var site = location.hostname, since = CFG.since || '';
-  var posts = [], seen = {}, offset = 0, pages = 0, stop = false, oldest = null, note = '';
-  while (!stop && pages < MAX_PAGES) {
-    pages++;
-    var batch;
-    try { batch = await getJSON('/api/v1/archive?sort=new&search=&offset=' + offset + '&limit=' + PAGE); }
-    catch (e) { note = 'Your newsletter stopped answering (' + e.message + '), so this file is partial. Run it again as an update to fill the rest.'; break; }
-    if (!Array.isArray(batch) || !batch.length) break;
-    for (var i = 0; i < batch.length; i++) {
-      var p = batch[i]; if (!p || p.id == null) continue;
-      var d = p.post_date || '', day = d.slice(0, 10);
-      if (day && (!oldest || day < oldest)) oldest = day;
-      if (since && day && day < since) { stop = true; continue; }
-      if (seen[p.id]) continue; seen[p.id] = 1;
-      var likes = p.reaction_count;
-      if (likes == null && p.reactions) { likes = 0; for (var k in p.reactions) likes += +p.reactions[k] || 0; }
-      posts.push({
-        id: p.id, date: d, title: p.title || '', subtitle: p.subtitle || '', description: p.description || '',
-        type: p.type || 'newsletter', audience: p.audience || '', words: p.wordcount == null ? null : p.wordcount,
-        likes: likes || 0, comments: p.comment_count || 0, restacks: p.restacks || 0,
-        cover: p.cover_image || null, slug: p.slug || '',
-        url: p.canonical_url || ('https://' + site + '/p/' + p.slug),
-        site: site, body_html: null
-      });
+  try {
+    say('Checking this is a newsletter…');
+    var probe = null, probeErr = '';
+    try { probe = await getJSON('/api/v1/archive?sort=new&offset=0&limit=1'); } catch (e) { probeErr = e.message; }
+    if (!Array.isArray(probe)) {
+      var row0 = el('div', null, 'margin-top:10px'); row0.appendChild(closeLink());
+      say('This page didn\'t answer like a Substack newsletter' + (probeErr ? ' (' + probeErr + ')' : '') + '.\n\n' +
+          'Open https://' + (CFG.site || 'yourname.substack.com') + ' itself (not substack.com or the app) and run it there.', row0);
+      return;
     }
-    offset += batch.length;
-    say('<b style="font-size:18px">' + posts.length + '</b> posts<br>back to ' + (oldest || '…') +
-        (since ? '<br><span style="opacity:.7">stopping at ' + since + '</span>' : ''));
-    await wait(PAUSE);
-  }
-  var missed = 0;
-  if (CFG.full && !note) {
-    for (var j = 0; j < posts.length; j++) {
-      say('Reading full text<br><b style="font-size:18px">' + (j + 1) + '</b> of ' + posts.length +
-          '<br><span style="opacity:.7">' + String(posts[j].title).replace(/</g, '&lt;').slice(0, 60) + '</span>');
-      try { var full = await getJSON('/api/v1/posts/' + encodeURIComponent(posts[j].slug));
-            posts[j].body_html = full.body_html || null; if (!full.body_html) missed++; }
-      catch (e) { missed++; }
+    var site = location.hostname, since = CFG.since || '';
+    var posts = [], seen = {}, offset = 0, pages = 0, stop = false, oldest = null, note = '';
+    while (!stop && pages < MAX_PAGES) {
+      pages++;
+      var batch;
+      try { batch = await getJSON('/api/v1/archive?sort=new&search=&offset=' + offset + '&limit=' + PAGE); }
+      catch (e) { note = 'Your newsletter stopped answering (' + e.message + '), so this file is partial. Run it again as an update to fill the rest.'; break; }
+      if (!Array.isArray(batch) || !batch.length) break;
+      for (var i = 0; i < batch.length; i++) {
+        var p = batch[i]; if (!p || p.id == null) continue;
+        var d = p.post_date || '', day = d.slice(0, 10);
+        if (day && (!oldest || day < oldest)) oldest = day;
+        if (since && day && day < since) { stop = true; continue; }
+        if (seen[p.id]) continue; seen[p.id] = 1;
+        var likes = p.reaction_count;
+        if (likes == null && p.reactions) { likes = 0; for (var k in p.reactions) likes += +p.reactions[k] || 0; }
+        posts.push({
+          id: p.id, date: d, title: p.title || '', subtitle: p.subtitle || '', description: p.description || '',
+          type: p.type || 'newsletter', audience: p.audience || '', words: p.wordcount == null ? null : p.wordcount,
+          likes: likes || 0, comments: p.comment_count || 0, restacks: p.restacks || 0,
+          cover: p.cover_image || null, slug: p.slug || '',
+          url: p.canonical_url || ('https://' + site + '/p/' + p.slug),
+          site: site, body_html: null
+        });
+      }
+      offset += batch.length;
+      say(posts.length + ' posts\nback to ' + (oldest || '…') + (since ? '\nstopping at ' + since : ''));
       await wait(PAUSE);
     }
+    var missed = 0;
+    if (CFG.full && !note) {
+      for (var j = 0; j < posts.length; j++) {
+        say('Reading full text\n' + (j + 1) + ' of ' + posts.length + '\n' + String(posts[j].title).slice(0, 60));
+        try { var full = await getJSON('/api/v1/posts/' + encodeURIComponent(posts[j].slug));
+              posts[j].body_html = full.body_html || null; if (!full.body_html) missed++; }
+        catch (e) { missed++; }
+        await wait(PAUSE);
+      }
+    }
+    posts.sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+    var out = { app: 'GET ARTICLES!', version: 1, site: site, collected_at: new Date().toISOString(),
+                since: since || null, full_text: !!CFG.full, partial: !!note, count: posts.length, posts: posts };
+    var json = JSON.stringify(out);
+    var fname = 'get-articles-' + site.replace(/[^a-z0-9.-]/gi, '') + '-' + out.collected_at.slice(0, 10) + (since ? '-update' : '') + '.json';
+    var url = URL.createObjectURL(new Blob([json], { type: 'application/json' }));
+    window.__getArticles = out;
+    /* The big button is the reliable path: browsers often block a download
+       that starts on its own after a long wait, but never one you click. */
+    var row = el('div', null, 'margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center');
+    var dl = el('a', '⤓ download my file', 'color:#fff;background:#F0572A;padding:7px 12px;border-radius:99px;text-decoration:none;font-weight:800');
+    dl.href = url; dl.download = fname;
+    var cp = el('a', 'copy instead', 'color:#FFF6FB;text-decoration:underline;cursor:pointer');
+    cp.href = '#';
+    cp.onclick = function (e) {
+      e.preventDefault();
+      var ok = function () { cp.textContent = '✓ copied: paste into a file named .json'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(json).then(ok, function () { cp.textContent = 'copy blocked: use download'; });
+    };
+    row.appendChild(dl); row.appendChild(cp); row.appendChild(closeLink());
+    say('Done: ' + posts.length + ' ' + (since ? 'new ' : '') + 'posts' + (oldest && !since ? ', back to ' + oldest : '') + '.' +
+        (CFG.full ? '\nFull text for ' + (posts.length - missed) + ' of ' + posts.length + '.' : '') +
+        (note ? '\n' + note : '') +
+        '\nClick the button to save your file, then take it back to GET ARTICLES! (step 3).', row);
+    try { dl.click(); } catch (e) {}
+  } catch (err) {
+    var msg = 'Something went wrong: ' + (err && err.message || err) + '\nTell Magick Mica what this says.';
+    try { var r2 = el('div', null, 'margin-top:10px'); r2.appendChild(closeLink()); say(msg, r2); } catch (x) { alert('GET ARTICLES! ' + msg); }
   }
-  posts.sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
-  var out = { app: 'GET ARTICLES!', version: 1, site: site, collected_at: new Date().toISOString(),
-              since: since || null, full_text: !!CFG.full, partial: !!note, count: posts.length, posts: posts };
-  var blob = new Blob([JSON.stringify(out)], { type: 'application/json' });
-  var a2 = document.createElement('a');
-  a2.href = URL.createObjectURL(blob);
-  a2.download = 'get-articles-' + site.replace(/[^a-z0-9.-]/gi, '') + '-' + out.collected_at.slice(0, 10) + (since ? '-update' : '') + '.json';
-  document.body.appendChild(a2); a2.click();
-  window.__getArticles = out;
-  say('Done: <b>' + posts.length + '</b> ' + (since ? 'new ' : '') + 'posts' + (oldest && !since ? ', back to ' + oldest : '') + '.' +
-      (CFG.full ? '<br>Full text for ' + (posts.length - missed) + ' of ' + posts.length + '.' : '') +
-      (note ? '<br><span style="color:#E9557F">' + note + '</span>' : '') +
-      '<br>Your file is downloading. Take it back to GET ARTICLES! (step 3).' +
-      '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">' +
-      '<a href="#" id="ga-again" style="color:#fff;background:#F0572A;padding:5px 10px;border-radius:99px;text-decoration:none;font-weight:700">download again</a>' +
-      '<a href="#" id="ga-close" style="color:#FFF6FB;opacity:.7">close</a></div>');
-  document.getElementById('ga-again').onclick = function (e) { e.preventDefault(); a2.click(); };
-  document.getElementById('ga-close').onclick = function (e) { e.preventDefault(); box.remove(); };
 }
 
 /* ============================================================
