@@ -443,7 +443,7 @@ footer a{color:var(--mint); text-decoration:none; border-bottom:1px solid rgba(9
 async function getArticlesCollector(CFG) {
   /* No innerHTML anywhere: some sites (Substack included) block it with a
      Trusted Types policy, which used to stop the collector silently. */
-  var PAUSE = 300, PAGE = 50, MAX_PAGES = 400;
+  var PAUSE = 300, PAGE = 12, MAX_PAGES = 2000;
   var box = document.getElementById('ga-box');
   if (box) box.remove();
   box = document.createElement('div'); box.id = 'ga-box';
@@ -464,16 +464,32 @@ async function getArticlesCollector(CFG) {
     return c;
   }
   async function getJSON(u) {
-    var r = await fetch(u, { credentials: 'include', headers: { 'Accept': 'application/json' } });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
+    var r = await fetch(u, { credentials: 'include' });
+    if (!r.ok) {
+      var why = ''; try { why = (await r.text()).replace(/\s+/g, ' ').slice(0, 160); } catch (x) {}
+      throw new Error('HTTP ' + r.status + (why ? ': ' + why : ''));
+    }
     return r.json();
   }
   function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
   try {
     say('Checking this is a newsletter…');
-    var probe = null, probeErr = '';
-    try { probe = await getJSON('/api/v1/archive?sort=new&offset=0&limit=1'); } catch (e) { probeErr = e.message; }
-    if (!Array.isArray(probe)) {
+    /* Substack's post list isn't documented and its rules keep shifting
+       (in 2026 it began rejecting some page sizes with HTTP 400). Try the
+       request the Substack site itself makes first, then fallbacks, and
+       keep whichever answers with a list. */
+    var LISTS = [
+      function (o) { return '/api/v1/archive?sort=new&search=&offset=' + o + '&limit=' + PAGE; },
+      function (o) { return '/api/v1/archive?sort=new&offset=' + o + '&limit=' + PAGE; },
+      function (o) { return '/api/v1/archive?offset=' + o + '&limit=' + PAGE; },
+      function (o) { return '/api/v1/posts?offset=' + o + '&limit=' + PAGE; }
+    ];
+    var listURL = null, probe = null, probeErr = '';
+    for (var li = 0; li < LISTS.length && !listURL; li++) {
+      try { probe = await getJSON(LISTS[li](0)); if (Array.isArray(probe)) listURL = LISTS[li]; }
+      catch (e) { if (!probeErr) probeErr = e.message; }
+    }
+    if (!listURL) {
       var row0 = el('div', null, 'margin-top:10px'); row0.appendChild(closeLink());
       say('This page didn\'t answer like a Substack newsletter' + (probeErr ? ' (' + probeErr + ')' : '') + '.\n\n' +
           'Open https://' + (CFG.site || 'yourname.substack.com') + ' itself (not substack.com or the app) and run it there.', row0);
@@ -484,7 +500,7 @@ async function getArticlesCollector(CFG) {
     while (!stop && pages < MAX_PAGES) {
       pages++;
       var batch;
-      try { batch = await getJSON('/api/v1/archive?sort=new&search=&offset=' + offset + '&limit=' + PAGE); }
+      try { batch = await getJSON(listURL(offset)); }
       catch (e) { note = 'Your newsletter stopped answering (' + e.message + '), so this file is partial. Run it again as an update to fill the rest.'; break; }
       if (!Array.isArray(batch) || !batch.length) break;
       for (var i = 0; i < batch.length; i++) {
