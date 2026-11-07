@@ -474,59 +474,99 @@ async function getArticlesCollector(CFG) {
   function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
   try {
     say('Checking this is a newsletter…');
-    /* Substack's post list isn't documented and its rules keep shifting
-       (in 2026 it began rejecting some page sizes with HTTP 400). Try the
-       request the Substack site itself makes first, then fallbacks, and
-       keep whichever answers with a list. */
+    /* Substack's post list isn't documented and its rules keep shifting:
+       in 2026 it began answering HTTP 400 to some page sizes, and then to
+       "offset=0". So: the first page never sends an offset, several request
+       shapes are tried, and if paging still fails we fall back to the
+       newsletter's sitemap, which lists every post, and read each post. */
     var LISTS = [
-      function (o) { return '/api/v1/archive?sort=new&search=&offset=' + o + '&limit=' + PAGE; },
-      function (o) { return '/api/v1/archive?sort=new&offset=' + o + '&limit=' + PAGE; },
-      function (o) { return '/api/v1/archive?offset=' + o + '&limit=' + PAGE; },
-      function (o) { return '/api/v1/posts?offset=' + o + '&limit=' + PAGE; }
+      function (o) { return '/api/v1/archive?sort=new&search=' + (o ? '&offset=' + o : '') + '&limit=' + PAGE; },
+      function (o) { return '/api/v1/archive?sort=new' + (o ? '&offset=' + o : '') + '&limit=' + PAGE; },
+      function (o) { return '/api/v1/archive?sort=new' + (o ? '&offset=' + o : ''); },
+      function (o) { return '/api/v1/posts?limit=' + PAGE + (o ? '&offset=' + o : ''); }
     ];
-    var listURL = null, probe = null, probeErr = '';
+    function asList(j) { return Array.isArray(j) ? j : j && Array.isArray(j.posts) ? j.posts : null; }
+    var errs = [];
+    var listURL = null, first = null;
     for (var li = 0; li < LISTS.length && !listURL; li++) {
-      try { probe = await getJSON(LISTS[li](0)); if (Array.isArray(probe)) listURL = LISTS[li]; }
-      catch (e) { if (!probeErr) probeErr = e.message; }
-    }
-    if (!listURL) {
-      var row0 = el('div', null, 'margin-top:10px'); row0.appendChild(closeLink());
-      say('This page didn\'t answer like a Substack newsletter' + (probeErr ? ' (' + probeErr + ')' : '') + '.\n\n' +
-          'Open https://' + (CFG.site || 'yourname.substack.com') + ' itself (not substack.com or the app) and run it there.', row0);
-      return;
+      try { first = asList(await getJSON(LISTS[li](0))); if (first) listURL = LISTS[li]; }
+      catch (e) { errs.push(e.message); }
     }
     var site = location.hostname, since = CFG.since || '';
-    var posts = [], seen = {}, offset = 0, pages = 0, stop = false, oldest = null, note = '';
-    while (!stop && pages < MAX_PAGES) {
+    var posts = [], seen = {}, offset = 0, pages = 0, stop = false, oldest = null, note = '', viaSitemap = false;
+    function add(p) {
+      if (!p || p.id == null) return;
+      var d = p.post_date || '', day = d.slice(0, 10);
+      if (day && (!oldest || day < oldest)) oldest = day;
+      if (since && day && day < since) { stop = true; return; }
+      if (seen[p.id]) return; seen[p.id] = 1;
+      var likes = p.reaction_count;
+      if (likes == null && p.reactions) { likes = 0; for (var k in p.reactions) likes += +p.reactions[k] || 0; }
+      posts.push({
+        id: p.id, date: d, title: p.title || '', subtitle: p.subtitle || '', description: p.description || '',
+        type: p.type || 'newsletter', audience: p.audience || '', words: p.wordcount == null ? null : p.wordcount,
+        likes: likes || 0, comments: p.comment_count || 0, restacks: p.restacks || 0,
+        cover: p.cover_image || null, slug: p.slug || '',
+        url: p.canonical_url || ('https://' + site + '/p/' + p.slug),
+        site: site, body_html: p.body_html && CFG.full ? p.body_html : null
+      });
+    }
+    var pagingFailed = !listURL;
+    while (listURL && !stop && pages < MAX_PAGES) {
       pages++;
       var batch;
-      try { batch = await getJSON(listURL(offset)); }
-      catch (e) { note = 'Your newsletter stopped answering (' + e.message + '), so this file is partial. Run it again as an update to fill the rest.'; break; }
-      if (!Array.isArray(batch) || !batch.length) break;
-      for (var i = 0; i < batch.length; i++) {
-        var p = batch[i]; if (!p || p.id == null) continue;
-        var d = p.post_date || '', day = d.slice(0, 10);
-        if (day && (!oldest || day < oldest)) oldest = day;
-        if (since && day && day < since) { stop = true; continue; }
-        if (seen[p.id]) continue; seen[p.id] = 1;
-        var likes = p.reaction_count;
-        if (likes == null && p.reactions) { likes = 0; for (var k in p.reactions) likes += +p.reactions[k] || 0; }
-        posts.push({
-          id: p.id, date: d, title: p.title || '', subtitle: p.subtitle || '', description: p.description || '',
-          type: p.type || 'newsletter', audience: p.audience || '', words: p.wordcount == null ? null : p.wordcount,
-          likes: likes || 0, comments: p.comment_count || 0, restacks: p.restacks || 0,
-          cover: p.cover_image || null, slug: p.slug || '',
-          url: p.canonical_url || ('https://' + site + '/p/' + p.slug),
-          site: site, body_html: null
-        });
+      if (pages === 1) batch = first;
+      else {
+        try { batch = asList(await getJSON(listURL(offset))); }
+        catch (e) { errs.push(e.message); pagingFailed = true; break; }
       }
+      if (!batch || !batch.length) break;
+      var before = posts.length;
+      for (var i = 0; i < batch.length; i++) add(batch[i]);
+      if (posts.length === before && !stop) break;   /* same page again: paging is ignored */
       offset += batch.length;
       say(posts.length + ' posts\nback to ' + (oldest || '…') + (since ? '\nstopping at ' + since : ''));
       await wait(PAUSE);
     }
+    /* Plan B: the sitemap. Every post is listed there as /p/<slug>. */
+    if (pagingFailed || (!since && pages <= 2 && posts.length > 0 && posts.length < PAGE * 2)) {
+      say('Asking the sitemap for the full list…');
+      var slugs = [], seenSlug = {};
+      for (var k2 = 0; k2 < posts.length; k2++) seenSlug[posts[k2].slug] = 1;
+      async function readMap(u, depth) {
+        var r = await fetch(u, { credentials: 'include' }); if (!r.ok) throw new Error('sitemap HTTP ' + r.status);
+        var xml = await r.text(), locs = xml.match(/<loc>[^<]+<\/loc>/g) || [], mods = xml.match(/<url>[\s\S]*?<\/url>/g) || [];
+        if (/<sitemapindex/i.test(xml) && depth < 2) {
+          for (var q = 0; q < locs.length; q++) { var lu = locs[q].slice(5, -6); try { await readMap(new URL(lu).pathname + new URL(lu).search, depth + 1); } catch (e) {} }
+          return;
+        }
+        for (var m = 0; m < mods.length; m++) {
+          var loc = (mods[m].match(/<loc>([^<]+)<\/loc>/) || [])[1] || '', lm = (mods[m].match(/<lastmod>([^<]+)<\/lastmod>/) || [])[1] || '';
+          var sm = loc.match(/\/p\/([^\/?#<]+)/); if (!sm) continue;
+          if (since && lm && lm.slice(0, 10) < since) continue;
+          if (!seenSlug[sm[1]]) { seenSlug[sm[1]] = 1; slugs.push(sm[1]); }
+        }
+      }
+      try { await readMap('/sitemap.xml', 0); } catch (e) { errs.push(e.message); }
+      for (var s2 = 0; s2 < slugs.length; s2++) {
+        say('Reading posts from the sitemap\n' + (s2 + 1) + ' of ' + slugs.length + '\n' + posts.length + ' collected');
+        try { var one = await getJSON('/api/v1/posts/' + encodeURIComponent(slugs[s2])); stop = false; add(one); viaSitemap = true; }
+        catch (e) { if (errs.length < 6) errs.push(e.message); }
+        await wait(PAUSE);
+      }
+      if (pagingFailed && !viaSitemap && posts.length) note = 'Substack stopped the list early (' + errs[errs.length - 1] + '), so this file may be partial.';
+    }
+    if (!posts.length) {
+      var row0 = el('div', null, 'margin-top:10px'); row0.appendChild(closeLink());
+      say('Couldn\'t get your post list from this page.\n\nSubstack said: ' + (errs.join(' / ') || 'nothing') + '\n\n' +
+          'Make sure you\'re on https://' + (CFG.site || 'yourname.substack.com') + ' itself (not substack.com or the app). ' +
+          'If you are, send Magick Mica a screenshot of this box.', row0);
+      return;
+    }
     var missed = 0;
     if (CFG.full && !note) {
       for (var j = 0; j < posts.length; j++) {
+        if (posts[j].body_html) continue;
         say('Reading full text\n' + (j + 1) + ' of ' + posts.length + '\n' + String(posts[j].title).slice(0, 60));
         try { var full = await getJSON('/api/v1/posts/' + encodeURIComponent(posts[j].slug));
               posts[j].body_html = full.body_html || null; if (!full.body_html) missed++; }
