@@ -196,12 +196,20 @@
   /* A page can ask for a strip of its own on top of the one at the foot —
      archive.html puts a second one a couple of rows into its grid. Returns
      a fresh element each time; the caller decides where it goes. */
+  /* Strips switched off 12 Nov 2026 at the owner's request. The page
+     hook stays so archive.html's call is harmless (it skips on null), and
+     the homepage tile keeps its rotating picture. To bring the strips
+     back, set STRIPS_ON to true. */
+  var STRIPS_ON = false;
+
   window.mmStoreStrip = function () {
+    if (!STRIPS_ON) return null;
     ensureCss();
     return build();
   };
 
   function mount() {
+    if (!STRIPS_ON) { rotateTiles(); return; }
     if (document.querySelector('.mms-wrap')) return;   // never twice
     /* Weekly and monthly Y3K issues carry the Signal Shop strip only.
        Their prev/next row (.adjacent-nav) is what marks them. */

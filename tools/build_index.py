@@ -104,6 +104,7 @@ border-radius:99px;padding:4px 10px;margin-bottom:12px;width:max-content}
 .tv{grid-column:span 2;grid-row:span 4;border-color:color-mix(in srgb,var(--cyan) 40%,transparent)}
 .w2{grid-column:span 2}
 .w3{grid-column:span 3}
+.w4{grid-column:span 4}
 .h2{grid-row:span 2}
 .pill{position:absolute;top:12px;right:12px;z-index:3;font-size:9px;letter-spacing:.16em;
 padding:4px 9px;border-radius:99px;border:1px solid color-mix(in srgb,var(--cyan) 50%,transparent);color:var(--cyan)}
@@ -183,7 +184,7 @@ margin-bottom:9px;text-transform:uppercase}
 .tmap-col a:hover{color:var(--pink)}
 @media(max-width:820px){.mos{grid-template-columns:repeat(2,1fr);grid-auto-rows:96px}
 .hero{grid-column:span 2;grid-row:span 3}.tv{grid-column:span 2;grid-row:span 2}
-.w2,.w3{grid-column:span 2}.mag-grid{grid-template-columns:repeat(2,1fr)}.strip3{grid-template-columns:1fr}.cta-row{grid-template-columns:1fr}}
+.w2,.w3,.w4{grid-column:span 2}.mag-grid{grid-template-columns:repeat(2,1fr)}.strip3{grid-template-columns:1fr}.cta-row{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.tile{transition:none}
 .hero-logo,.live b{animation:none}}
 """
@@ -300,6 +301,8 @@ def tmap(nav):
     for group, items in nav.items():
         if group.startswith("_"):   # _primary drives the top bar, not the map
             continue
+        # the store link stays in the drawer menu but not on the homepage map
+        items = [(h, l) for h, l in items if not h.startswith(STORE)]
         links = "".join(f'<a href="{esc(h)}">{esc(map_label(h, l))}</a>' for h, l in items)
         # long groups get a double-width column with two text columns, so one
         # list of 17 doesn't drop to its own full-width row
@@ -380,15 +383,16 @@ def render(theme, themes, articles, nav, store_img=""):
         tile("w2", "CH 04", "The Vaults", "Every stone, then the seven vaults", "crystals.html"),
         # CH 05: the main homepage points new visitors at Substack; the themed
         # frequencies carry the Crystal Stress Index instrument.
-        (f'<a class="tile w2" href="https://substack.com/@magickmica" target="_blank" rel="noopener">'
+        # CH 05 is w4 (four columns) so it fills the row the store tile used to share
+        (f'<a class="tile w4" href="https://substack.com/@magickmica" target="_blank" rel="noopener">'
          f'<div class="in"><div class="lab">CH 05 \u00b7 SUBSTACK \u2197</div>'
          f'<div class="ttl">@magickmica on Substack</div>'
          f'<div class="sm">Follow for daily notes, articles and art</div></div></a>')
         if is_home else
-        tile("w2", "CH 05 \u00b7 INSTRUMENT", "Crystal Stress Index",
+        tile("w4", "CH 05 \u00b7 INSTRUMENT", "Crystal Stress Index",
              "Seven market pressures, read as one number", "crystal-stress-index.html"),
-        # CH 06: the store, with a product picture mm-store.js rotates
-        store_tile(store_img),
+        # CH 06 store tile removed at the owner's request (12 Nov 2026);
+        # store_tile() is kept above in case it ever comes back.
     ]
 
     return f"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
@@ -469,7 +473,7 @@ def render(theme, themes, articles, nav, store_img=""):
 \u00b7 where magick meets the pixel \u2726<br>
 <a href="notes.html">Notes</a> \u00b7 <a href="articles.html">Articles</a> \u00b7
 <a href="blog.html">Blog</a> \u00b7 <a href="minimags.html">Y3K</a> \u00b7
-<a href="arcade.html">Arcade</a> \u00b7 <a href="archive.html">Archive</a> \u00b7 <a href="{STORE}" target="_blank" rel="noopener">Store \u2197</a>
+<a href="arcade.html">Arcade</a> \u00b7 <a href="archive.html">Archive</a>
 </footer>
 </div>
 {dial(themes, fname)}

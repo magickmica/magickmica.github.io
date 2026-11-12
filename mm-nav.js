@@ -135,7 +135,6 @@
   // shown inline on wide screens; everything else lives in the drawer
   var PRIMARY = [
     ['index.html', 'Home'],
-    ['https://magickmicatv.store/', 'Store'],
     ['crystals.html', 'Crystals'],
     ['notes.html', 'Notes'],
     ['minimags.html', 'Magazine'],
