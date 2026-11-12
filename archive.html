@@ -275,6 +275,7 @@ footer a:hover{color:var(--cream)}
 <meta property="og:image" content="https://magickmica.github.io/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<link rel="stylesheet" href="mm-pagebar.css?v=1">
 </head>
 <body>
 
@@ -302,16 +303,22 @@ footer a:hover{color:var(--cream)}
   <div class="notes-mosaic" id="notesMosaic"></div>
 </div>
 
-<div class="controls">
-  <div class="search-wrap">
-    <input id="search" type="text" placeholder="search the cosmic archive..." autocomplete="off" />
+<div class="controls toolbar">
+  <div class="tb-search">
+    <div class="search-wrap">
+      <input id="search" type="text" placeholder="search the cosmic archive..." autocomplete="off" />
+    </div>
   </div>
-  <div class="filters">
-    <button class="filter-btn all active" data-filter="all">✦ ALL</button>
-    <button class="filter-btn tv" data-filter="tv">📺 MAGICK MICA TV</button>
-    <button class="filter-btn art" data-filter="art">🎨 MAGICK MICA ART</button>
-    <button class="filter-btn restack" data-filter="restack">↩ RESTACKS</button>
-    <select class="month-select" id="monthFilter">
+  <div class="tb-rule"></div>
+  <div class="tb-section">
+    <div class="tb-head"><span class="tb-label">Show</span></div>
+    <div class="tb-seg tb-grid">
+      <button class="filter-btn all active" data-filter="all">✦ ALL</button>
+      <button class="filter-btn tv" data-filter="tv">📺 MICA TV</button>
+      <button class="filter-btn art" data-filter="art">🎨 MICA ART</button>
+      <button class="filter-btn restack" data-filter="restack">↩ RESTACKS</button>
+    </div>
+    <select class="month-select tb-push" id="monthFilter" aria-label="Month">
       <option value="">ALL DATES</option>
     </select>
   </div>

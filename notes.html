@@ -294,6 +294,7 @@ footer a:hover{color:var(--cream)}
 <meta property="og:image" content="https://magickmica.github.io/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<link rel="stylesheet" href="mm-pagebar.css?v=1">
 </head>
 <body>
 
@@ -315,36 +316,43 @@ footer a:hover{color:var(--cream)}
 
 <div class="pixel-row">·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·</div>
 
-<div class="controls">
-  <div class="search-wrap">
-    <input id="search" type="text" placeholder="search every note ever posted..." autocomplete="off" />
+<div class="controls toolbar">
+  <div class="tb-search">
+    <div class="search-wrap">
+      <input id="search" type="text" placeholder="search every note ever posted..." autocomplete="off" />
+    </div>
+    <button class="filter-btn random-btn tb-icon-btn" id="randomBtn" title="Random note" aria-label="Random note">🔀<span class="tb-txt"> RANDOM</span></button>
   </div>
-  <div class="filters">
-    <button class="filter-btn" id="copyLinkBtn" onclick="copyShareLink()">🔗 COPY SHAREABLE LINK</button>
-  </div>
-  <div class="filters">
-    <select class="month-select" id="monthFilter">
+  <div class="tb-rule"></div>
+  <div class="tb-section">
+    <div class="tb-head"><span class="tb-label">Show</span></div>
+    <div class="tb-seg">
+      <button class="filter-btn" id="mediaOnlyBtn">📷 IMAGES/VIDEOS</button>
+      <button class="filter-btn" id="textOnlyBtn">📝 TEXT ONLY</button>
+    </div>
+    <select class="month-select" id="monthFilter" aria-label="Month">
       <option value="">ALL DATES</option>
     </select>
-    <select class="sort-select" id="sortSelect">
+    <select class="sort-select" id="sortSelect" aria-label="Sort">
       <option value="newest">NEWEST FIRST</option>
       <option value="oldest">OLDEST FIRST</option>
       <option value="popular">MOST LIKED</option>
     </select>
-    <button class="filter-btn" id="mediaOnlyBtn">📷 IMAGES/VIDEOS ONLY</button>
-    <button class="filter-btn" id="textOnlyBtn">📝 TEXT ONLY</button>
-    <button class="filter-btn random-btn" id="randomBtn">🔀 RANDOM NOTE</button>
+    <button class="filter-btn tb-push tb-wide" id="copyLinkBtn" onclick="copyShareLink()">🔗 COPY LINK</button>
   </div>
-  <div class="filters date-range-row">
-    <button class="filter-btn preset-btn" data-preset="today">TODAY</button>
-    <button class="filter-btn preset-btn" data-preset="week">THIS WEEK</button>
-    <button class="filter-btn preset-btn" data-preset="lastweek">LAST WEEK</button>
-    <button class="filter-btn preset-btn" data-preset="month">THIS MONTH</button>
-    <span class="date-range-label">CUSTOM:</span>
-    <input type="date" id="dateFrom" class="date-input" />
-    <span class="date-range-sep">→</span>
-    <input type="date" id="dateTo" class="date-input" />
-    <button class="filter-btn" id="clearRangeBtn">✕ CLEAR</button>
+  <div class="tb-section date-range-row">
+    <div class="tb-head"><span class="tb-label">Dates</span><button class="filter-btn tb-clear" id="clearRangeBtn">✕ CLEAR</button></div>
+    <div class="tb-seg tb-grid">
+      <button class="filter-btn preset-btn" data-preset="today">TODAY</button>
+      <button class="filter-btn preset-btn" data-preset="week">THIS WEEK</button>
+      <button class="filter-btn preset-btn" data-preset="lastweek">LAST WEEK</button>
+      <button class="filter-btn preset-btn" data-preset="month">THIS MONTH</button>
+    </div>
+    <div class="tb-custom">
+      <input type="date" id="dateFrom" class="date-input" aria-label="From date" />
+      <span class="date-range-sep">→</span>
+      <input type="date" id="dateTo" class="date-input" aria-label="To date" />
+    </div>
   </div>
 </div>
 
