@@ -24,12 +24,20 @@ Brought up to date with the live homepages on 30 Oct 2026: og-card tags,
 CH 05 Crystal Stress Index (Substack tile on index.html), CH 06 store tile
 with data-mms-rotate, CH 03b The Witching Hour, the footer Store link,
 the mm-store.js strip, and arrows on off-site links in the Transmission Map.
+14 Nov 2026: the site-wide search box (mm-search.js) under the header of
+index.html only; tools/build_search.py builds the search-index.json it reads.
+16 Nov 2026: the Substack subscribe box (mm-subscribe.js) on index.html only,
+between Y3K MAGAZINE and PLAY & LISTEN. tools/add_subscribe.py adds the same.
+Both appear only when their .js file is in the repo.
 """
 import json, os, re, html, datetime
 from ctas import CTA_CSS, CTA_JS, CTAS
 from chrome import chrome_for
 
 SITE = "https://magickmica.github.io/"
+_REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HAS_SEARCH = os.path.exists(os.path.join(_REPO, "mm-search.js"))
+HAS_SUBSCRIBE = os.path.exists(os.path.join(_REPO, "mm-subscribe.js"))
 STORE = "https://magickmicatv.store/"
 OG_CARD = SITE + "og-card.png"          # 1200x630, built by tools/build_og_card.py
 # The CH 06 store tile shows this product until mm-store.js starts rotating
@@ -421,12 +429,14 @@ def render(theme, themes, articles, nav, store_img=""):
   <a class="brand holo" href="index.html">\u2726 MAGICKMICA</a>
   <span class="chnow">CH {theme['ch']} \u00b7 {esc(theme['label'])}</span>
 </header>
+{'<div id="mm-search"></div>' if is_home and HAS_SEARCH else ''}
 
 <div class="mos">{''.join(tiles)}</div>
 
 <div class="sect"><h2 class="holo">Y3K MAGAZINE</h2><div class="rule"></div>
 <span class="meta">WEEKLY ISSUES</span></div>
 <div class="mag-grid"></div>
+{'<div data-mm-subscribe="full"><a href="https://magickmica.substack.com/subscribe">Subscribe to Magick Mica TV on Substack</a></div>' if is_home and HAS_SUBSCRIBE else ''}
 
 <div class="sect"><h2 class="holo">PLAY &amp; LISTEN</h2><div class="rule"></div>
 <span class="meta">CH 03</span></div>
@@ -484,6 +494,8 @@ def render(theme, themes, articles, nav, store_img=""):
 <script>{deco.get('js','')}</script>
 <script src="mm-nav.js" defer></script>
 <script src="mm-store.js?v=1" defer></script>
+{'<script src="mm-search.js?v=1" defer></script>' if is_home and HAS_SEARCH else ''}
+{'<script src="mm-subscribe.js?v=1" defer></script>' if is_home and HAS_SUBSCRIBE else ''}
 </body></html>"""
 
 

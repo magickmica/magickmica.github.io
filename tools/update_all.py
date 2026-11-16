@@ -14,7 +14,11 @@ Runs, in order:
                          blog.html, random-note.html, arcade.html, index*.html, pools.js
      update_home.py      the homepage's big tile: newest article cover + note count
      build_whatsnew.py   the homepage's NEW THIS WEEK section (home-preview.html until it goes live)
-  5. signal/build_signal.py, almanac/build_almanac.py, reader/build_reader.py
+  5. signal/build_signal.py, almanac/build_almanac.py, reader/build_reader.py,
+     explore/build_explore.py (the Explore pages' shared notes-data.js)
+  6. build_search.py     search-index.json + the search box on index.html
+  7. add_subscribe.py    the Substack subscribe box on index, notes and blog (if missing)
+  Steps 5-7 are skipped quietly for any tool that is not in the repo.
 
 Run it from anywhere; it finds the repo from its own location. Files are
 written straight into the repo, so the changes are ready to commit.
@@ -116,10 +120,19 @@ def main(argv):
     run(os.path.join(TOOLS, "update_home.py"), REPO, DATA)
     run(os.path.join(TOOLS, "build_whatsnew.py"))
 
-    step("Signal Band, Almanac, Transmission Reader 98")
-    for b in ("signal/build_signal.py", "almanac/build_almanac.py", "reader/build_reader.py"):
+    step("Signal Band, Almanac, Transmission Reader 98, Explore")
+    for b in ("signal/build_signal.py", "almanac/build_almanac.py", "reader/build_reader.py",
+              "explore/build_explore.py"):
         if os.path.exists(os.path.join(REPO, b)):
             run(os.path.join(REPO, b))
+
+    if os.path.exists(os.path.join(TOOLS, "build_search.py")):
+        step("Site search index")
+        run(os.path.join(TOOLS, "build_search.py"))
+
+    if os.path.exists(os.path.join(TOOLS, "add_subscribe.py")):
+        step("Substack subscribe box")
+        run(os.path.join(TOOLS, "add_subscribe.py"), REPO)
 
     with open(os.path.join(DATA, "notes_with_media_compact.json"), encoding="utf-8") as f:
         notes = json.load(f)
@@ -128,7 +141,7 @@ def main(argv):
     print("\n=== Done")
     print(f"{len(notes):,} notes through {max(n['d'] for n in notes)}, {len(arts)} articles")
     print(f"{len(digests)} issue pages and {len(pages)} site files updated, "
-          "plus the Signal Band, Almanac and Reader data.")
+          "plus the Signal Band, Almanac, Reader and Explore data.")
     return 0
 
 
