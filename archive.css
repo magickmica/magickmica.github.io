@@ -119,6 +119,9 @@
 .ar-page *,.ar-page *::before,.ar-page *::after{box-sizing:border-box}
 .ar-page img{max-width:100%}
 .ar-page a{color:var(--ar-link)}
+/* links styled as buttons keep the button's own text colour */
+.ar-page a.ar-btn{color:var(--ar-text)}
+.ar-page a.ar-btn--signal{color:var(--ar-text-on-accent)}
 .ar-page :focus{outline:none}
 .ar-page :focus-visible{outline:2px solid var(--ar-focus); outline-offset:3px; border-radius:var(--ar-r-sm)}
 
@@ -271,6 +274,14 @@
 .ar-skeleton{border-radius:var(--ar-r); background:linear-gradient(100deg,rgba(213,194,220,.06) 30%,rgba(213,194,220,.13) 50%,rgba(213,194,220,.06) 70%);
   background-size:300% 100%; animation:ar-sheen 1.6s linear infinite}
 @keyframes ar-sheen{to{background-position:-150% 0}}
+
+/* video with no loadable thumbnail: a "tape" screen, clearly a placeholder */
+.ar-media--video{display:grid; place-items:center; min-height:140px; color:var(--ar-text);
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 3px),
+             radial-gradient(70% 70% at 50% 40%,rgba(95,242,230,.18),transparent 70%),
+             linear-gradient(160deg,#1b2350,#0a0d1c)}
+.ar-media--video::before{content:"\25B6  " attr(data-fallback); font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs);
+  letter-spacing:var(--ar-track-label); text-transform:uppercase; text-align:center; padding:var(--ar-s4)}
 
 /* ── 8. MEDIA CARD BASICS (both pages build on these) ───────── */
 .ar-card{position:relative; display:flex; flex-direction:column; overflow:hidden; color:inherit; text-decoration:none;

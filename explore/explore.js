@@ -161,8 +161,8 @@
     var img = el.querySelector('img');
     if (img) img.addEventListener('error', function () {
       var w = img.parentNode;
-      w.classList.add('ar-media--none');
-      w.setAttribute('data-fallback', n.kind === 'video' ? 'Video · thumbnail unavailable' : 'Image unavailable');
+      w.classList.add(n.kind === 'video' ? 'ar-media--video' : 'ar-media--none');
+      w.setAttribute('data-fallback', n.kind === 'video' ? 'Video · watch on Substack' : 'Image unavailable');
       w.style.aspectRatio = '';
       img.remove();
     }, { once: true });
@@ -212,13 +212,16 @@
         var im = stage.querySelector('img');
         im.addEventListener('error', function () {
           if (im.src !== n.thumb && n.thumb) { im.src = n.thumb; return; }   /* big size refused: use the original */
-          stage.innerHTML = '<div class="ar-media ar-media--none" data-fallback="Image unavailable"></div>';
+          stage.innerHTML = n.kind === 'video'
+            ? '<a class="ar-media ar-media--video mmx-viewer__video" href="' + n.url + '" target="_blank" rel="noopener" data-fallback="Video · watch it on Substack"><span class="ar-sr-only">Watch this video on Substack</span></a>'
+            : '<div class="ar-media ar-media--none" data-fallback="Image unavailable"></div>';
         });
         stage.hidden = false;
       } else { stage.innerHTML = ''; stage.hidden = true; }
       dlg.querySelector('#mmx-v-meta').textContent = A.dates.label(n.d, 'long') + ' · ♥ ' + n.l + (n.r ? ' · ↻ ' + n.r : '');
       dlg.querySelector('#mmx-v-text').textContent = n.b || '(no text)';
       dlg.querySelector('#mmx-v-link').href = n.url;
+      dlg.querySelector('#mmx-v-link').textContent = (n.kind === 'video' ? 'Watch' : 'Read') + ' on Substack \u2197';
       dlg.querySelector('#mmx-v-pos').textContent = list.length > 1 ? (idx + 1) + ' of ' + fmt(list.length) : '';
       dlg.querySelector('[data-act="prev"]').disabled = idx <= 0;
       dlg.querySelector('[data-act="next"]').disabled = idx >= list.length - 1;

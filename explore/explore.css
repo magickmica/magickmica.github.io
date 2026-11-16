@@ -37,6 +37,7 @@ main#main{min-height:50vh}
   border-bottom:1px solid var(--ar-line)}
 .mmx-viewer__stage{position:relative; background:var(--ar-bg); display:grid; place-items:center}
 .mmx-viewer__stage img{display:block; max-width:100%; max-height:62vh; width:auto; height:auto}
+.mmx-viewer__video{width:100%; min-height:240px; text-decoration:none}
 .mmx-viewer__badge{position:absolute; left:12px; top:12px}
 .mmx-viewer__info{padding:var(--ar-s5); display:flex; flex-direction:column; gap:var(--ar-s3)}
 .mmx-viewer__text{white-space:pre-line; overflow-wrap:anywhere; max-height:30vh; overflow:auto}

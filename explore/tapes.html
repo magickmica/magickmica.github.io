@@ -38,6 +38,7 @@
   background:linear-gradient(180deg,#f1ebf4 0 18%,#e9e1ee 18% 100%); position:relative; overflow:hidden}
 .tp-label::before{content:""; position:absolute; left:0; right:0; top:18%; height:3px; background:var(--ar-holo); opacity:.85}
 .tp-win{position:relative; border-radius:3px; overflow:hidden; background:#0b0d18; margin-top:16%}
+.tp-static::before{content:"\25B6" !important; padding:0 !important; font-size:.9rem !important}
 .tp-win img{display:block; width:100%; height:100%; object-fit:cover; filter:saturate(1.05)}
 .tp-text{display:flex; flex-direction:column; gap:2px; min-width:0; margin-top:16%}
 .tp-title{font-family:"Fraunces",Georgia,serif; font-style:italic; font-size:.92rem; line-height:1.2; color:#1b1630; overflow:hidden;
@@ -91,7 +92,7 @@ MMX.ready(function (notes) {
       '<span class="tp-rec">REC ' + d[0] + '·' + d[1] + '·' + d[2] + '</span></span></div>' +
       '<div class="tp-reels" aria-hidden="true"><i></i><i></i></div>';
     var im = b.querySelector('img');
-    im.addEventListener('error', function () { im.replaceWith(Object.assign(document.createElement('span'), { className: 'ar-media--none', style: 'display:grid;height:100%' })); }, { once: true });
+    im.addEventListener('error', function () { im.replaceWith(Object.assign(document.createElement('span'), { className: 'ar-media--video tp-static', style: 'display:grid;height:100%;min-height:0' })); }, { once: true });
     b.addEventListener('click', function () { MMX.viewer.open(n, list); });
     return b;
   }
