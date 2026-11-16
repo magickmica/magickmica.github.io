@@ -29,10 +29,13 @@ index.html only; tools/build_search.py builds the search-index.json it reads.
 16 Nov 2026: the Substack subscribe box (mm-subscribe.js) on index.html only,
 between Y3K MAGAZINE and PLAY & LISTEN. tools/add_subscribe.py adds the same.
 Both appear only when their .js file is in the repo.
+16 Nov 2026: the NEW! Explore banner (index.html) and the NEW! tag on Explore the
+Notes in the Transmission Map, from tools/explore_promo.py.
 """
 import json, os, re, html, datetime
 from ctas import CTA_CSS, CTA_JS, CTAS
 from chrome import chrome_for
+import explore_promo as XP   # the NEW! Explore banner + map tag (tools/explore_promo.py)
 
 SITE = "https://magickmica.github.io/"
 _REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -311,7 +314,7 @@ def tmap(nav):
             continue
         # the store link stays in the drawer menu but not on the homepage map
         items = [(h, l) for h, l in items if not h.startswith(STORE)]
-        links = "".join(f'<a href="{esc(h)}">{esc(map_label(h, l))}</a>' for h, l in items)
+        links = "".join(f'<a href="{esc(h)}">{esc(map_label(h, l))}{XP.tag_for(h)}</a>' for h, l in items)
         # long groups get a double-width column with two text columns, so one
         # list of 17 doesn't drop to its own full-width row
         wide = " wide" if len(items) > 12 else ""
@@ -421,6 +424,7 @@ def render(theme, themes, articles, nav, store_img=""):
 <style>{css}</style><meta property="og:image" content="{OG_CARD}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+{XP.css_block()}
 </head>
 <body><div id="stars"></div>
 {deco['html']}
@@ -433,7 +437,7 @@ def render(theme, themes, articles, nav, store_img=""):
 
 <div class="mos">{''.join(tiles)}</div>
 
-<div class="sect"><h2 class="holo">Y3K MAGAZINE</h2><div class="rule"></div>
+{XP.cta_block() if is_home else ''}<div class="sect"><h2 class="holo">Y3K MAGAZINE</h2><div class="rule"></div>
 <span class="meta">WEEKLY ISSUES</span></div>
 <div class="mag-grid"></div>
 {'<div data-mm-subscribe="full"><a href="https://magickmica.substack.com/subscribe">Subscribe to Magick Mica TV on Substack</a></div>' if is_home and HAS_SUBSCRIBE else ''}
