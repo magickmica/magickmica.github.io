@@ -8,6 +8,7 @@ the one data file shared by every page in explore/.
     python3 explore/build_explore.py          # from anywhere
 
 Input  (never modified): _data/notes_with_media_compact.json
+                         _data/explore_hidden.json  (optional: note ids to leave out)
 Output:                  explore/notes-data.js  ->  window.MM_NOTES = {...};
 
 tools/update_all.py runs this after every site update, the same way it runs
@@ -38,6 +39,12 @@ IMG = ("https://substackcdn.com/image/fetch/$s_!G4Yk!,w_400,c_limit,f_webp,"
 def main():
     with open(os.path.join(DATA, "notes_with_media_compact.json"), encoding="utf-8") as f:
         notes = json.load(f)
+    hidden = set()
+    hp = os.path.join(DATA, "explore_hidden.json")
+    if os.path.exists(hp):
+        with open(hp, encoding="utf-8") as f:
+            hidden = {int(h["id"]) for h in json.load(f).get("hidden", [])}
+    notes = [n for n in notes if int(n["id"]) not in hidden]
     notes.sort(key=lambda n: (n["d"], int(n["id"])))
     rows = []
     for n in notes:
@@ -71,7 +78,7 @@ def main():
         return 0
     with open(OUT, "w", encoding="utf-8") as f:
         f.write(text)
-    print(f"explore/notes-data.js: {len(rows):,} notes, {len(text) / 1024:,.0f} KB")
+    print(f"explore/notes-data.js: {len(rows):,} notes ({len(hidden)} hidden), {len(text) / 1024:,.0f} KB")
     return 0
 
 

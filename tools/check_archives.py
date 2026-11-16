@@ -231,9 +231,13 @@ def check_explore(notes):
         fail("explore/notes-data.js is not readable")
         return
     have = {row[0] for row in data.get("notes", [])}
-    want = {int(n["id"]) for n in notes}
+    hidden = set()
+    hp = os.path.join(DATA, "explore_hidden.json")
+    if os.path.exists(hp):
+        hidden = {int(h["id"]) for h in json.load(open(hp, encoding="utf-8")).get("hidden", [])}
+    want = {int(n["id"]) for n in notes} - hidden
     if have == want:
-        ok(f"notes-data.js holds all {len(want):,} notes")
+        ok(f"notes-data.js holds all {len(want):,} notes" + (f" ({len(hidden)} hidden on purpose)" if hidden else ""))
     else:
         fail(f"notes-data.js is out of step with _data/ ({len(have):,} vs {len(want):,}): "
              "run python3 explore/build_explore.py")

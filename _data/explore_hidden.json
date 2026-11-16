@@ -1,0 +1,6 @@
+{
+  "_about": "Notes left out of every page in explore/. Add a note's id (the number at the end of its Substack link, after c-) and re-run python3 explore/build_explore.py, or let the next site update do it. Removing an id brings the note back.",
+  "hidden": [
+    {"id": 120016832, "date": "2025-05-25", "note": "AI hands image (Dalle-3), hidden at Mica's request 16 Nov 2026"}
+  ]
+}
