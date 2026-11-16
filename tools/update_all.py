@@ -11,7 +11,7 @@ Runs, in order:
   2. merge_articles.py   GET ARTICLES! file(s)  -> _data/magazine_articles.json
   3. build_digests.py    week-*.html, month-*.html
   4. update_pages.py     notes.html, articles.html, archive.html, minimags.html,
-                         blog.html, random-note.html, arcade.html, index*.html, pools.js
+                         blog.html, random-note.html, six-in-one.html, index*.html, pools.js
      update_home.py      the homepage's big tile: newest article cover + note count
      build_whatsnew.py   the homepage's NEW THIS WEEK section (home-preview.html until it goes live)
   5. signal/build_signal.py, almanac/build_almanac.py, reader/build_reader.py,

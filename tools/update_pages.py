@@ -227,7 +227,8 @@ def update_all(repo, out_dir, notes, articles, digest_weeks):
                              ("SIDEBAR_DATA", sidebar),
                              ("SIDEBAR_EXTRA", extra),
                              ("SIDEBAR_ISSUES", issues)],
-        "arcade.html":      [("POOL", top_notes(notes, 400, True, f6))],
+        # the six mini games (scratch, slots, jigsaw...) moved here from arcade.html
+        "six-in-one.html":  [("POOL", top_notes(notes, 400, True, f6))],
     }
 
     # index.html + every frequency variant share the MTV_NOTES pool
@@ -346,7 +347,9 @@ PAGE_META = {
  "minimags.html": ("Y3K Magazine \u2014 Magick Mica",
    "Weekly and monthly Y3K Magazine issues collecting every Magick Mica transmission."),
  "arcade.html": ("Arcade \u2014 Magick Mica",
-   "Play jigsaw, memory match, dream slots and more, built from Magick Mica's own artwork."),
+   "A neon arcade of Magick Mica games and toys: Cosmic Clown Splash, The Witching Hour, Moon Shot, Comet Rally, the Six-in-One cabinet and more."),
+ "six-in-one.html": ("Six-in-One \u2014 Magick Mica Arcade",
+   "Six mini games in one cabinet: Crystal Scratch, Memory Match, Guess the Likes, Dream Slots, Object Hunt and Dream Jigsaw, built from Magick Mica's own artwork."),
 }
 
 

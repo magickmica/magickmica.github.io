@@ -26,6 +26,7 @@ PRIORITY = [
     ("archive.html", "0.8", "weekly"),
     ("minimags.html", "0.8", "weekly"),
     ("arcade.html", "0.7", "monthly"),
+    ("six-in-one.html", "0.6", "monthly"),
 ]
 
 

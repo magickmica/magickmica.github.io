@@ -3,7 +3,7 @@ name: Update site from exports
 # Upload GET NOTES! / GET ARTICLES! files into incoming/ and this rebuilds
 # every page that shows notes or articles, in one commit:
 #   _data/, week-*/month-* issues, notes, articles, archive, minimags, blog,
-#   random-note, arcade, index*.html, pools.js, signal/, almanac/, reader/
+#   random-note, six-in-one, index*.html, pools.js, signal/, almanac/, reader/
 # Run it by hand from the Actions tab ("Run workflow") to rebuild everything
 # from the current _data/ without new exports.
 on:

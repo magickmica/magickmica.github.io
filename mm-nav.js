@@ -49,6 +49,7 @@
     { name: 'Play', items: [
       ['arcade.html', 'The Arcade'],
       ['cosmic-clown-splash.html', 'Cosmic Clown Splash'],
+      ['six-in-one.html', 'Six-in-One'],
       ['witching-hour.html', 'The Witching Hour'],
       ['songmaker.html', 'Song Maker'],
       ['cosmic-echo.html', 'Cosmic Echo'],

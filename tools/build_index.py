@@ -390,7 +390,7 @@ def render(theme, themes, articles, nav, store_img=""):
         f'<div class="ttl">Tune in \u2192</div></div></a>',
         tile("w2 h2", "CH 02 \u00b7 Y3K MAGAZINE", "This Week",
              "Weekly + monthly issues", "minimags.html"),
-        tile("w2", "CH 03", "The Arcade", "Six games from the archive", "arcade.html"),
+        tile("w2", "CH 03", "The Arcade", "Games, toys and the Six-in-One", "arcade.html"),
         tile("w2", "CH 04", "The Vaults", "Every stone, then the seven vaults", "crystals.html"),
         # CH 05: the main homepage points new visitors at Substack; the themed
         # frequencies carry the Crystal Stress Index instrument.
@@ -445,7 +445,7 @@ def render(theme, themes, articles, nav, store_img=""):
 <div class="sect"><h2 class="holo">PLAY &amp; LISTEN</h2><div class="rule"></div>
 <span class="meta">CH 03</span></div>
 <div class="strip3">
-{scard("arcade.html","CH 03 · ARCADE","The Arcade","Jigsaw, memory, slots, object hunt")}
+{scard("arcade.html","CH 03 · ARCADE","The Arcade","Clown Splash, Witching Hour, Six-in-One")}
 {scard("witching-hour.html","CH 03b · NEW","The Witching Hour","Eat the candles, outrun the four")}
 {scard("songmaker.html","CH 03c","Song Maker","Build a tune from the signal")}
 </div>
