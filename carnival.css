@@ -1,0 +1,114 @@
+/* MAGICKMICA · shared look for the Cosmic Circus midway games
+   (ring toss, moon striker, star darts, prize wheel). Cosmic Clown Splash
+   carries its own copy inline. */
+
+:root{
+  --void:#040509; --navy:#131c3f; --indigo:#2f2f70; --iris:#5146a2; --orchid:#9667ba; --lilac:#d5c2dc;
+  --aqua:#5ff3e8; --pink:#ff4fa3; --gold:#ffd166;
+  --holo:linear-gradient(96deg,var(--aqua),var(--lilac) 30%,var(--pink) 60%,var(--orchid) 85%,var(--aqua));
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{min-height:100dvh;background:var(--void);color:var(--lilac);font-family:"IBM Plex Mono",Menlo,monospace;
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(60% 40% at 50% -6%,rgba(150,103,186,.32),transparent 70%),
+             radial-gradient(40% 30% at 0% 40%,rgba(255,79,163,.10),transparent 70%),
+             radial-gradient(40% 30% at 100% 60%,rgba(95,243,232,.08),transparent 70%)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--aqua);outline-offset:3px}
+a{color:var(--aqua)}
+.wrap{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:14px 16px 48px}
+
+header{text-align:center;padding:10px 0 14px}
+.eyebrow{font-family:Silkscreen,monospace;font-size:.7rem;letter-spacing:.18em;color:var(--aqua);margin:0 0 6px;text-transform:uppercase}
+.eyebrow a{color:inherit;text-decoration:none}
+.eyebrow a:hover{color:var(--pink)}
+h1{font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(1.7rem,7vw,3rem);line-height:1.02;margin:0;letter-spacing:.03em;
+  background:var(--holo);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 18px rgba(255,79,163,.35));animation:holo 7s linear infinite}
+@keyframes holo{to{background-position:220% 0}}
+.tag{margin:8px 0 0;font-size:.82rem;color:rgba(213,194,220,.8)}
+
+/* the booth */
+.booth{position:relative;margin-top:12px}
+.awning{position:relative;height:46px;overflow:hidden;
+  background:repeating-linear-gradient(90deg,var(--pink) 0 34px,var(--lilac) 34px 68px);
+  box-shadow:0 0 30px rgba(255,79,163,.35)}
+.scallop{height:14px;margin-top:-1px;position:relative;z-index:10;
+  background:radial-gradient(circle at 50% 0,var(--pink) 0 12px,transparent 13px) 0 0/68px 14px repeat-x,
+             radial-gradient(circle at 50% 0,var(--lilac) 0 12px,transparent 13px) 34px 0/68px 14px repeat-x;
+  margin-bottom:-14px;pointer-events:none;filter:drop-shadow(0 3px 2px rgba(0,0,0,.4))}
+.awning .sign{position:absolute;inset:0;display:grid;place-items:center;font-family:Silkscreen,monospace;font-size:.9rem;
+  letter-spacing:.2em;color:#fff;text-shadow:0 0 6px var(--pink),0 0 2px #000,0 2px 0 var(--iris);z-index:1;padding-bottom:8px}
+.awning .sign{padding-bottom:0}
+.awning .sign span{white-space:nowrap;background:rgba(4,5,9,.72);padding:3px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.35)}
+.bulbs{border-radius:14px 14px 0 0;display:flex;justify-content:space-between;padding:0 10px;height:12px;align-items:center;
+  background:linear-gradient(180deg,#1b2554,#131c3f)}
+.bulbs i{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:bulb 1.2s steps(1) infinite}
+.bulbs i:nth-child(2n){animation-delay:.6s;background:var(--aqua);box-shadow:0 0 8px var(--aqua)}
+@keyframes bulb{50%{opacity:.25}}
+.stage{position:relative;border:2px solid rgba(213,194,220,.18);border-top:0;border-radius:0 0 14px 14px;overflow:hidden;
+  background:var(--navy);box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 6px rgba(47,47,112,.35)}
+canvas{display:block;width:100%;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;cursor:crosshair}
+
+/* overlays */
+.veil{position:absolute;inset:0;display:none;place-items:center;padding:18px;text-align:center;
+  background:radial-gradient(80% 70% at 50% 40%,rgba(19,28,63,.92),rgba(4,5,9,.95));z-index:5}
+.veil[data-on="true"]{display:grid;animation:fade .3s ease both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.card{max-width:440px;width:100%}
+.card h2{font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(1.4rem,6vw,2.1rem);margin:0 0 6px;color:#fff;
+  text-shadow:0 0 18px rgba(255,79,163,.6),2px 2px 0 var(--iris)}
+.card p{margin:0 0 12px;font-size:.86rem;color:rgba(213,194,220,.88)}
+.lbl{font-family:Silkscreen,monospace;font-size:.62rem;letter-spacing:.2em;color:var(--aqua);margin:12px 0 6px;text-transform:uppercase}
+.seg{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.seg button{font-family:Silkscreen,monospace;font-size:.72rem;letter-spacing:.06em;padding:9px 14px;border-radius:999px;
+  border:1px solid rgba(213,194,220,.35);background:rgba(47,47,112,.45);color:var(--lilac);transition:.15s}
+.seg button:hover{border-color:var(--aqua);color:#fff}
+.seg button[aria-pressed="true"]{background:var(--aqua);color:var(--void);border-color:var(--aqua);box-shadow:0 0 16px rgba(95,243,232,.5)}
+.go{margin-top:16px;font-family:Orbitron,sans-serif;font-weight:900;font-size:1rem;letter-spacing:.08em;padding:14px 26px;border-radius:999px;
+  color:#fff;background:linear-gradient(180deg,#ff6cb6,#e0338a);box-shadow:0 5px 0 #8a1a55,0 0 28px rgba(255,79,163,.55);transition:transform .08s,box-shadow .08s}
+.go:hover{transform:translateY(-1px)}
+.go:active{transform:translateY(4px);box-shadow:0 1px 0 #8a1a55,0 0 18px rgba(255,79,163,.5)}
+.ghost{margin-top:16px;margin-left:6px;font-family:Silkscreen,monospace;font-size:.72rem;padding:12px 18px;border-radius:999px;
+  border:1px solid rgba(213,194,220,.4);color:var(--lilac);text-decoration:none;display:inline-block}
+.ghost:hover{border-color:var(--aqua);color:#fff}
+.howto{font-size:.74rem;color:rgba(213,194,220,.7);margin-top:12px;line-height:1.6}
+.howto b{color:var(--aqua);font-weight:500}
+.prize{margin:10px auto 4px;display:inline-flex;align-items:center;gap:12px;padding:10px 16px;border-radius:14px;
+  border:1px solid rgba(255,209,102,.5);background:rgba(255,209,102,.08);text-align:left}
+.prize .em{font-size:2.4rem;line-height:1;filter:drop-shadow(0 0 10px rgba(255,209,102,.6))}
+.prize .tier{font-family:Silkscreen,monospace;font-size:.6rem;letter-spacing:.16em;color:var(--gold);display:block}
+.prize .nm{font-size:.9rem;color:#fff}
+
+/* bar under the booth */
+.bar{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:12px}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.stat{font-family:Silkscreen,monospace;font-size:.62rem;letter-spacing:.1em;padding:6px 10px;border-radius:8px;
+  background:rgba(47,47,112,.4);border:1px solid rgba(213,194,220,.15);color:rgba(213,194,220,.75)}
+.stat b{color:var(--gold);font-weight:400;margin-left:4px}
+.mini{font-family:Silkscreen,monospace;font-size:.62rem;letter-spacing:.08em;padding:7px 12px;border-radius:999px;
+  border:1px solid rgba(213,194,220,.3);color:var(--lilac)}
+.mini:hover{border-color:var(--aqua);color:#fff}
+
+.shelf{margin-top:26px;padding:16px;border-radius:14px;border:1px solid rgba(255,209,102,.25);
+  background:linear-gradient(180deg,rgba(47,47,112,.35),rgba(19,28,63,.25))}
+.shelf h3{margin:0 0 4px;font-family:Orbitron,sans-serif;font-size:.95rem;letter-spacing:.06em;color:#fff}
+.shelf p{margin:0 0 10px;font-size:.74rem;color:rgba(213,194,220,.7)}
+.shelf-row{display:flex;flex-wrap:wrap;gap:8px;min-height:52px;padding:8px 6px 12px;border-bottom:6px solid #5146a2;
+  border-radius:4px;background:linear-gradient(0deg,rgba(81,70,162,.25),transparent 60%)}
+.shelf-row .it{position:relative;font-size:1.9rem;line-height:1;width:46px;height:46px;display:grid;place-items:center}
+.shelf-row .it.medium{font-size:2.4rem;width:54px;height:54px}
+.shelf-row .it.jumbo{font-size:3.1rem;width:66px;height:66px;filter:drop-shadow(0 0 12px rgba(255,209,102,.55))}
+.shelf-row .empty{font-size:.72rem;color:rgba(213,194,220,.5);align-self:center;padding-left:6px}
+.back{display:block;text-align:center;margin-top:26px;font-family:Silkscreen,monospace;font-size:.72rem;letter-spacing:.12em;text-decoration:none}
+
+@media (max-width:520px){
+  .awning .sign{font-size:.66rem;letter-spacing:.12em}
+  header{padding:4px 0 8px}
+  .tag{font-size:.76rem}
+}
+@media (prefers-reduced-motion:reduce){
+  h1,.bulbs i{animation:none}
+}

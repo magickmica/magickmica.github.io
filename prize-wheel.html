@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cosmic Prize Wheel &middot; MagickMica</title>
+<meta name="description" content="Spin the Cosmic Prize Wheel once a day, plus a bonus spin for every prize you win on the Magick Mica midway. Prizes land on your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/prize-wheel.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Cosmic Prize Wheel · Magick Mica Arcade">
+<meta property="og:description" content="One free spin a day. Win prizes on the midway for bonus spins.">
+<meta property="og:url" content="https://magickmica.github.io/prize-wheel.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=1">
+<style>
+.spinbar{position:absolute;left:0;right:0;bottom:14px;display:flex;justify-content:center;z-index:3;pointer-events:none}
+.spinbar .go{pointer-events:auto;margin:0}
+.spinbar .go:disabled{opacity:.45;filter:grayscale(.6);cursor:not-allowed}
+.fortune{font-family:Orbitron,sans-serif;font-size:1.05rem;line-height:1.5;color:#fff;margin:6px 0 14px;text-shadow:0 0 14px rgba(95,243,232,.5)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus Midway</p>
+    <h1>COSMIC PRIZE WHEEL</h1>
+    <p class="tag">One free spin a day. Win prizes on the midway for bonus spins.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ STEP UP · GIVE IT A WHIRL ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Prize wheel. Tap the middle or flick the wheel to spin."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">🎡 BACK TO THE WHEEL</button>
+            <a class="ghost" href="arcade.html#midway">Back to the midway</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">FREE SPIN<b id="sFree">–</b></span>
+      <span class="stat">BONUS SPINS<b id="sTok">0</b></span>
+      <span class="stat">SPINS<b id="sSpins">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>Whatever the wheel gives you goes straight on the shelf. Prizes from every game on the midway land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=1"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+startVeil.dataset.on = 'false';
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_prizewheel_v1', { day: '', spins: 0, won: 0 });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(w * .95, 420), 560)); });
+var ctx = view.ctx;
+
+var SEG = [
+  { k: 'small',  e: '⭐', t: 'PRIZE',   c: '#ff4fa3' },
+  { k: 'fortune',e: '🔮', t: 'FORTUNE', c: '#2f2f70' },
+  { k: 'small',  e: '🛸', t: 'PRIZE',   c: '#5ff3e8' },
+  { k: 'medium', e: '🧸', t: 'BIG',     c: '#9667ba' },
+  { k: 'small',  e: '💎', t: 'PRIZE',   c: '#ff4fa3' },
+  { k: 'again',  e: '↻',  t: 'AGAIN',   c: '#ffd166' },
+  { k: 'small',  e: '🍬', t: 'PRIZE',   c: '#5ff3e8' },
+  { k: 'fortune',e: '🌙', t: 'FORTUNE', c: '#2f2f70' },
+  { k: 'medium', e: '🪐', t: 'BIG',     c: '#9667ba' },
+  { k: 'small',  e: '☄️', t: 'PRIZE',   c: '#ff4fa3' },
+  { k: 'dust',   e: '✨', t: 'STARDUST',c: '#131c3f' },
+  { k: 'jumbo',  e: '🌈', t: 'JUMBO',   c: '#ffd166' }
+];
+var N = SEG.length, ARC = Math.PI * 2 / N;
+var FORTUNES = [
+  'Something you lost a long time ago is about to turn up in a coat pocket.',
+  'Say yes to the weird invitation.',
+  'The static is clearing. Keep the channel on.',
+  'A small green pilot is rooting for you.',
+  'Your next good idea arrives in the shower. Keep a towel close.',
+  'Drink the water. Then make the thing.',
+  'Somebody will quote you back to yourself soon. Make it something kind.',
+  'The moon says rest is part of the work.',
+  'Change one color in your room and see what follows.',
+  'You are allowed to be a beginner at something new.',
+  'The answer is in the second drawer you open.',
+  'Somebody far away just thought of you and smiled.'
+];
+
+var rot = Math.random() * 6.28, w = 0, spinning = false, flap = 0, lastPeg = 0, freeAgain = false, t0 = 0;
+var drag = null;
+
+function today() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+function freeReady() { return st.data.day !== today(); }
+function canSpin() { return !spinning && (freeAgain || freeReady() || MMPrizes.tokens() > 0); }
+function geo() { var W = view.W, H = view.H; var R = Math.min(W * .42, (H - 130) * .48); return { cx: W / 2, cy: 34 + R + 18, R: R }; }
+
+/* spin button lives in the stage */
+var bar = document.createElement('div'); bar.className = 'spinbar';
+bar.innerHTML = '<button class="go" id="spinBtn" type="button">🎡 SPIN</button>';
+stage.appendChild(bar);
+var spinBtn = document.getElementById('spinBtn');
+spinBtn.addEventListener('click', function () { spin(10 + Math.random() * 5); });
+
+function refresh() {
+  document.getElementById('sFree').textContent = freeReady() ? 'READY' : 'TOMORROW';
+  document.getElementById('sTok').textContent = MMPrizes.tokens();
+  document.getElementById('sSpins').textContent = st.data.spins;
+  var label = freeAgain ? '🎡 FREE RE-SPIN' : freeReady() ? '🎡 SPIN (FREE TODAY)' : MMPrizes.tokens() > 0 ? '🎡 SPIN (USE 1 BONUS)' : 'NO SPINS LEFT TODAY';
+  spinBtn.textContent = spinning ? 'SPINNING…' : label;
+  spinBtn.disabled = !canSpin();
+}
+addEventListener('mm-prizes', refresh);
+
+function spin(speed) {
+  if (!canSpin()) { refresh(); return; }
+  S.boot();
+  if (freeAgain) freeAgain = false;
+  else if (freeReady()) st.data.day = today();
+  else MMPrizes.useToken();
+  st.data.spins++; st.save();
+  w = Math.max(7, Math.min(17, speed)); spinning = true; t0 = 0;
+  refresh();
+}
+
+/* flick the wheel itself */
+cv.addEventListener('pointerdown', function (e) {
+  var p = MMC.pt(cv, e), g = geo(), dx = p.x - g.cx, dy = p.y - g.cy;
+  if (dx * dx + dy * dy > g.R * g.R * 1.1) return;
+  if (dx * dx + dy * dy < (g.R * .22) * (g.R * .22)) { spin(10 + Math.random() * 5); return; }
+  if (spinning) return;
+  drag = { a: Math.atan2(dy, dx), r0: rot, samples: [] };
+  try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+});
+cv.addEventListener('pointermove', function (e) {
+  if (!drag) return; var p = MMC.pt(cv, e), g = geo(), a = Math.atan2(p.y - g.cy, p.x - g.cx);
+  var d = a - drag.a; while (d > Math.PI) d -= 6.28; while (d < -Math.PI) d += 6.28;
+  rot = drag.r0 + d; drag.samples.push({ t: performance.now(), r: rot }); if (drag.samples.length > 6) drag.samples.shift();
+});
+function release() {
+  if (!drag) return; var s = drag.samples; drag = null;
+  if (s.length < 2) return;
+  var a = s[0], b = s[s.length - 1], dt = (b.t - a.t) / 1000; if (dt <= 0) return;
+  var v = (b.r - a.r) / dt;
+  if (Math.abs(v) > 3) spin(Math.abs(v) * 1.1 * (v < 0 ? 1 : 1)); // wheel always spins clockwise for fairness
+}
+cv.addEventListener('pointerup', release); cv.addEventListener('pointercancel', release);
+addEventListener('keydown', function (e) { if ((e.key === ' ' || e.key === 'Enter') && document.activeElement === document.body) { e.preventDefault(); spin(10 + Math.random() * 5); } });
+
+function segAtPointer() {
+  // pointer at angle -PI/2 (top). segment i spans [rot + i*ARC, rot + (i+1)*ARC]
+  var a = (-Math.PI / 2 - rot) % 6.283185; if (a < 0) a += 6.283185;
+  return Math.floor(a / ARC) % N;
+}
+
+function finish() {
+  var seg = SEG[segAtPointer()], title = '', text = '', prizeHtml = '';
+  if (seg.k === 'small' || seg.k === 'medium' || seg.k === 'jumbo') {
+    var p = MMPrizes.pick(seg.k); MMPrizes.add(p, 'Prize Wheel'); st.data.won++; st.save();
+    title = seg.k === 'jumbo' ? 'JUMBO WIN!' : seg.k === 'medium' ? 'BIG PRIZE!' : 'WINNER!';
+    text = 'The wheel picked a prize for your shelf.'; prizeHtml = MMC.prizeCard(p);
+    S.fanfare(); bits.confetti(view.W, view.H);
+  } else if (seg.k === 'fortune') {
+    title = 'A FORTUNE'; text = ''; prizeHtml = '<p class="fortune">“' + FORTUNES[Math.floor(Math.random() * FORTUNES.length)] + '”</p>'; S.bell();
+  } else if (seg.k === 'again') {
+    freeAgain = true; title = 'SPIN AGAIN!'; text = 'This one is on the house.'; S.ding(true);
+  } else {
+    title = 'STARDUST'; text = 'Nothing for the shelf this time, but your hair is a little sparklier now.'; S.womp();
+  }
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endText').textContent = text;
+  document.getElementById('endPrize').innerHTML = prizeHtml;
+  setTimeout(function () { endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true }); }, 500);
+  refresh();
+}
+document.getElementById('againBtn').addEventListener('click', function () { endVeil.dataset.on = 'false'; refresh(); });
+
+function step(dt) {
+  if (spinning) {
+    t0 += dt;
+    w -= (0.9 + w * 0.32) * dt;
+    if (w <= 0.05) { w = 0; spinning = false; finish(); }
+    rot += w * dt;
+  }
+  var peg = Math.floor((rot + Math.PI / 2) / ARC);
+  if (peg !== lastPeg) { lastPeg = peg; flap = 1; if (spinning || drag) S.click(); }
+  flap = Math.max(0, flap - dt * (6 + w));
+  bits.step(dt, view.H);
+}
+
+function draw(t) {
+  var W = view.W, H = view.H, g = geo(), R = g.R;
+  MMC.sky(ctx, W, H, t);
+  // glow
+  var gl = ctx.createRadialGradient(g.cx, g.cy, R * .6, g.cx, g.cy, R * 1.35);
+  gl.addColorStop(0, 'rgba(255,79,163,.25)'); gl.addColorStop(1, 'rgba(255,79,163,0)');
+  ctx.fillStyle = gl; ctx.fillRect(0, 0, W, H);
+  // stand
+  ctx.fillStyle = '#2f2f70'; ctx.beginPath(); ctx.moveTo(g.cx - R * .12, g.cy); ctx.lineTo(g.cx + R * .12, g.cy); ctx.lineTo(g.cx + R * .45, H); ctx.lineTo(g.cx - R * .45, H); ctx.closePath(); ctx.fill();
+  // rim
+  ctx.fillStyle = '#131c3f'; ctx.beginPath(); ctx.arc(g.cx, g.cy, R * 1.08, 0, 6.28); ctx.fill();
+  ctx.strokeStyle = '#d5c2dc'; ctx.lineWidth = 3; ctx.stroke();
+  // segments
+  ctx.save(); ctx.translate(g.cx, g.cy); ctx.rotate(rot);
+  for (var i = 0; i < N; i++) {
+    var s = SEG[i], a0 = i * ARC, a1 = a0 + ARC;
+    var sg = ctx.createRadialGradient(0, 0, R * .15, 0, 0, R);
+    sg.addColorStop(0, MMC.shade(s.c, .35)); sg.addColorStop(1, s.c);
+    ctx.fillStyle = sg; ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, R, a0, a1); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = 'rgba(4,5,9,.5)'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.save(); ctx.rotate(a0 + ARC / 2);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = Math.round(R * .15) + 'px serif'; ctx.fillText(s.e, R * .8, 0);
+    var dark = s.c === '#5ff3e8' || s.c === '#ffd166';
+    ctx.font = Math.max(8, Math.round(R * .055)) + 'px Silkscreen, monospace'; ctx.fillStyle = dark ? '#131c3f' : '#ffffff';
+    ctx.fillText(s.t, R * .47, 1);
+    ctx.restore();
+  }
+  // pegs
+  for (var k = 0; k < N; k++) { var pa = k * ARC; ctx.fillStyle = '#ffd166'; ctx.beginPath(); ctx.arc(Math.cos(pa) * R * .99, Math.sin(pa) * R * .99, Math.max(3, R * .022), 0, 6.28); ctx.fill(); }
+  ctx.restore();
+  // chasing rim bulbs
+  var nb = 28;
+  for (var b = 0; b < nb; b++) {
+    var ba = b / nb * 6.28, on = reduce ? b % 2 === 0 : (Math.floor(t * 6) + b) % 3 === 0;
+    ctx.fillStyle = on ? '#fff6c8' : 'rgba(255,209,102,.35)';
+    if (on) { ctx.shadowColor = '#ffd166'; ctx.shadowBlur = 10; }
+    ctx.beginPath(); ctx.arc(g.cx + Math.cos(ba) * R * 1.045, g.cy + Math.sin(ba) * R * 1.045, Math.max(2.5, R * .018), 0, 6.28); ctx.fill();
+    ctx.shadowBlur = 0;
+  }
+  // hub
+  var hg = ctx.createRadialGradient(g.cx - R * .05, g.cy - R * .05, 2, g.cx, g.cy, R * .2);
+  hg.addColorStop(0, '#ffffff'); hg.addColorStop(.4, '#ff7ac8'); hg.addColorStop(1, '#a3195f');
+  ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(g.cx, g.cy, R * .2, 0, 6.28); ctx.fill();
+  ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 3; ctx.stroke();
+  MMC.label(ctx, spinning ? '★' : 'SPIN', g.cx, g.cy + R * .03, '#ffffff', Math.max(10, Math.round(R * .08)));
+  // flapper
+  ctx.save(); ctx.translate(g.cx, g.cy - R * 1.1); ctx.rotate(-flap * .5);
+  ctx.fillStyle = '#ff4fa3'; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(-R * .07, -R * .05); ctx.lineTo(R * .07, -R * .05); ctx.lineTo(0, R * .13); ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#ffd166'; ctx.beginPath(); ctx.arc(0, -R * .05, R * .035, 0, 6.28); ctx.fill();
+  ctx.restore();
+  bits.draw(ctx);
+}
+
+refresh();
+MMC.loop(function (dt, t) { step(dt); draw(t); });
+window.__wheel = { seg: function () { return SEG[segAtPointer()]; }, get spinning() { return spinning; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>

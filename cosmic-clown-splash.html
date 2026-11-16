@@ -189,13 +189,14 @@ canvas{display:block;width:100%;touch-action:none;-webkit-user-select:none;user-
 
   <section class="shelf" aria-label="Your prize shelf">
     <h3>Your Prize Shelf</h3>
-    <p>Win to take home a little prize. Win 3 in a row to trade up to a medium one, 5 in a row for a JUMBO.</p>
+    <p>Win to take home a little prize. Win 3 in a row to trade up to a medium one, 5 in a row for a JUMBO. Every win also earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>. This shelf holds prizes from every game on the midway.</p>
     <div class="shelf-row" id="shelf"></div>
   </section>
 
   <a class="back" href="arcade.html">← Back to the Arcade</a>
 </div>
 
+<script src="mm-prizes.js?v=1"></script>
 <script>
 (function(){
 'use strict';
@@ -835,6 +836,7 @@ function showEnd(){
     store.wins++; store.streak++;
     var best = store.best && store.best < winner.time ? store.best : winner.time; var isBest = best === winner.time; store.best = best;
     var prize = pickPrize(); store.prizes.push({e:prize.e, n:prize.n, tier:prize.tier}); if(store.prizes.length > 60) store.prizes.shift();
+    if(window.MMPrizes){ MMPrizes.add(prize, 'Clown Splash'); MMPrizes.addToken(1); }
     save(); renderStats();
     title.textContent = 'YOU POPPED IT!';
     text.textContent = 'First balloon down in ' + secs + ' seconds with ' + acc + '% of your water in the mouth.' + (isBest ? ' New best!' : '');
@@ -856,6 +858,7 @@ function renderStats(){
   document.getElementById('sStreak').textContent = store.streak;
   document.getElementById('sBest').textContent = store.best ? store.best.toFixed(1) + 's' : '–';
   var shelf = document.getElementById('shelf');
+  if(window.MMPrizes){ MMPrizes.render(shelf); return; }
   if(!store.prizes.length){ shelf.innerHTML = '<span class="empty">Nothing yet. The shelf is waiting.</span>'; return; }
   shelf.innerHTML = store.prizes.map(function(p){ return '<span class="it ' + p.tier + '" title="' + p.n + '">' + p.e + '</span>'; }).join('');
 }
