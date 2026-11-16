@@ -65,7 +65,7 @@
 <footer class="ar-wrap mmx-foot" id="mmx-foot"></footer>
 <script src="../archive.js?v=1"></script>
 <script src="notes-data.js"></script>
-<script src="explore.js?v=1"></script>
+<script src="explore.js?v=2"></script>
 <script>
 MMX.chrome({ here: 'index.html', title: 'EXPLORE THE TRANSMISSIONS',
   subtitle: 'Six ways to wander through every note, from the first transmission to the latest.' });
@@ -92,7 +92,7 @@ MMX.ready(function (notes) {
     ['tapes.html', 'The Tape Library', fmt(vids.length) + ' video notes, shelved as labelled tapes.', vids[vids.length - 1]],
     ['sky.html', 'The Sky Map', 'Every note as a star in one spiral sky. The more loved, the brighter it shines.', null],
     ['themes.html', 'Theme Rooms', fmt(Object.keys(tags).length) + ' rooms for the themes tagged by hand, from cosmic to y2k.', top(cosmic)],
-    ['hall.html', 'The Hall of Fame', 'The most-loved and most-restacked notes of all time, every year and every month.', top(notes.filter(function (n) { return n.thumb; }))]
+    ['hall.html', 'The Hall of Fame', 'The most-loved and most-restacked notes of all time, every year and every month.', top(notes.filter(function (n) { return n.img; }))]
   ];
   var box = document.getElementById('rooms');
   rooms.forEach(function (r, i) {

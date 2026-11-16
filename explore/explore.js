@@ -33,6 +33,27 @@
 
   /* ── data ─────────────────────────────────────────────────── */
   var notes = [], byId = {};
+  /* a drawn cover for a video note: two colours picked from the note id,
+     scan lines, a play mark and the recording date. Not a still from the video. */
+  var HUES = [258, 280, 300, 322, 205, 186, 236];
+  function cover(n) {
+    var h = Math.abs(n.id) % 7919, a = HUES[h % HUES.length], b = HUES[(h >> 3) % HUES.length];
+    if (a === b) b = (b + 40) % 360;
+    var d = n.d.split('-');
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">' +
+      '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0" stop-color="hsl(' + a + ',62%,30%)"/><stop offset=".6" stop-color="hsl(' + ((a + b) >> 1) + ',55%,14%)"/>' +
+      '<stop offset="1" stop-color="hsl(' + b + ',70%,34%)"/></linearGradient>' +
+      '<pattern id="s" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1.4" fill="#fff" opacity=".05"/></pattern>' +
+      '<radialGradient id="r" cx=".5" cy=".46" r=".5"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>' +
+      '<rect width="400" height="300" fill="url(#g)"/><rect width="400" height="300" fill="url(#r)"/><rect width="400" height="300" fill="url(#s)"/>' +
+      '<circle cx="200" cy="138" r="44" fill="none" stroke="#f4eefc" stroke-opacity=".85" stroke-width="3"/>' +
+      '<path d="M186 116 L224 138 L186 160 Z" fill="#f4eefc" fill-opacity=".92"/>' +
+      '<g font-family="Space Mono,Courier New,monospace" font-size="15" fill="#f4eefc" letter-spacing="2">' +
+      '<text x="18" y="30" opacity=".75">MMTV</text><text x="382" y="30" text-anchor="end" opacity=".75">&#9679; REC</text>' +
+      '<text x="18" y="282" opacity=".9">VIDEO NOTE</text><text x="382" y="282" text-anchor="end" opacity=".9">' + d[0] + '·' + d[1] + '·' + d[2] + '</text></g></svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
   function decode(raw) {
     var pre = raw.img || '';
     return raw.notes.map(function (r, i) {
@@ -44,7 +65,11 @@
       var wh = /_(\d{2,5})x(\d{2,5})\.\w+$/.exec(t);
       if (wh) { n.w = +wh[1]; n.h = +wh[2]; }
       n.url = NOTE_URL + n.id;
-      n.thumb = img || (n.m ? 'https://image.mux.com/' + n.m + '/thumbnail.jpg?width=400' : '');
+      /* Substack's video host refuses outside requests for video stills, so a
+         video note gets a drawn tape cover (its own colours, its real date)
+         instead of a picture that would never load. */
+      n.thumb = img || (n.m ? cover(n) : '');
+      if (n.m && !img) { n.w = 4; n.h = 3; n.drawn = true; }
       n.kind = n.m ? 'video' : img ? 'image' : 'text';
       return n;
     });
@@ -207,8 +232,10 @@
       var n = list[idx];
       var stage = dlg.querySelector('#mmx-v-stage');
       if (n.thumb) {
-        stage.innerHTML = '<img alt="' + esc(n.b ? excerpt(n.b, 100) : 'Note image') + '" src="' + esc(n.kind === 'image' ? big(n) : n.thumb) + '">' +
-          (n.kind === 'video' ? '<span class="ar-badge mmx-viewer__badge">▶ Video · plays on Substack</span>' : '');
+        stage.innerHTML = n.drawn
+          ? '<a href="' + n.url + '" target="_blank" rel="noopener" style="display:block;max-width:100%"><img style="width:min(100%,640px)" alt="Play this video on Substack" src="' + esc(n.thumb) + '"></a>'
+          : '<img alt="' + esc(n.b ? excerpt(n.b, 100) : 'Note image') + '" src="' + esc(n.kind === 'image' ? big(n) : n.thumb) + '">' +
+            (n.kind === 'video' ? '<span class="ar-badge mmx-viewer__badge">▶ Video · plays on Substack</span>' : '');
         var im = stage.querySelector('img');
         im.addEventListener('error', function () {
           if (im.src !== n.thumb && n.thumb) { im.src = n.thumb; return; }   /* big size refused: use the original */
