@@ -1,0 +1,55 @@
+name: Search index
+
+# Keeps search-index.json (the search box on the homepage) up to date, and
+# puts the box into index.html the first time it runs.
+# Runs whenever a .html page is uploaded or changed, so new pages show up in
+# search without anyone running anything. Run it by hand from the Actions tab
+# ("Run workflow") to rebuild the index at any time.
+# The full site update (update-site.yml) also rebuilds it on every export.
+on:
+  push:
+    paths:
+      - "**.html"
+      - "_data/*.json"
+      - "tools/build_search.py"
+  workflow_dispatch: {}
+
+# Its own queue: sharing the site update's queue could drop a waiting update.
+# If both push at once, the retry loop below replays on top and pushes again.
+concurrency:
+  group: search-index
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build the search index
+        run: python tools/build_search.py
+
+      - name: Commit if it changed
+        run: |
+          if [ -z "$(git status --porcelain search-index.json index.html)" ]; then
+            echo "Search index already up to date."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add search-index.json index.html
+          git commit -m "Search index $(date -u +'%Y-%m-%d %H:%M UTC')"
+          for i in 1 2 3; do
+            git pull --rebase -q && git push && exit 0
+            sleep 5
+          done
+          exit 1

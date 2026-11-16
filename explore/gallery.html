@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Gallery Wing — Magick Mica</title>
+<meta name="description" content="Every image Magick Mica has posted in a note, hung room by room, one room for each month.">
+<link rel="canonical" href="https://magickmica.github.io/explore/gallery.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Gallery Wing — Magick Mica">
+<meta property="og:description" content="Every image Magick Mica has posted in a note, hung room by room, one room for each month.">
+<meta property="og:url" content="https://magickmica.github.io/explore/gallery.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#040509">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../archive.css?v=1">
+<link rel="stylesheet" href="explore.css?v=1">
+<style>
+.gw-lobby{display:flex; flex-wrap:wrap; gap:var(--ar-s3); align-items:end; margin:var(--ar-s4) 0 var(--ar-s5)}
+.gw-lobby .gw-pick{flex:1 1 280px}
+.gw-room{margin-top:var(--ar-s5)}
+.gw-roomhead{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:var(--ar-s5); align-items:center; padding:var(--ar-s5);
+  border-radius:var(--ar-r-lg); border:1px solid var(--ar-line); background:var(--ar-surface)}
+.gw-roomhead h2{font-family:var(--ar-font-display); font-weight:700; font-size:clamp(1.6rem,4vw,2.8rem); line-height:1.05; margin:var(--ar-s2) 0}
+.gw-roomhead p{margin:var(--ar-s2) 0 0; color:var(--ar-text-muted)}
+.gw-pickof{margin:0; text-align:center}
+.gw-pickof button{all:unset; cursor:zoom-in; display:inline-block; border-radius:4px}
+.gw-pickof button:focus-visible{outline:2px solid var(--ar-focus); outline-offset:4px}
+.gw-pickof img{display:block; max-width:100%; max-height:340px; margin:0 auto}
+.gw-pickof figcaption{margin-top:var(--ar-s2)}
+.gw-frame{padding:10px; border-radius:3px; background:linear-gradient(145deg,#2a2f4a,#0b0e1c); box-shadow:0 10px 26px rgba(0,0,0,.55),inset 0 0 0 1px rgba(213,194,220,.18)}
+.gw-wall{columns:4 240px; column-gap:var(--ar-s5); margin-top:var(--ar-s6)}
+.gw-piece{break-inside:avoid; margin:0 0 var(--ar-s5); position:relative}
+.gw-piece button{all:unset; display:block; width:100%; cursor:zoom-in; border-radius:3px}
+.gw-piece button:focus-visible{outline:2px solid var(--ar-focus); outline-offset:3px}
+.gw-piece .gw-img{position:relative; background:var(--ar-bg-raised); overflow:hidden}
+.gw-piece img{display:block; width:100%; height:auto; transition:transform var(--ar-t-slow) var(--ar-ease)}
+.gw-piece button:hover img{transform:scale(1.025)}
+.gw-placard{display:flex; justify-content:space-between; gap:var(--ar-s2); margin-top:var(--ar-s2); padding:6px 10px; border-radius:2px;
+  background:#e9e2ee; color:#1b1630; font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); letter-spacing:.02em}
+.gw-placard b{font-weight:700}
+.gw-roomnav{display:flex; justify-content:space-between; gap:var(--ar-s3); flex-wrap:wrap; margin-top:var(--ar-s6)}
+@media (max-width:720px){
+  .gw-roomhead{grid-template-columns:1fr; padding:var(--ar-s4)}
+  .gw-wall{columns:2 140px; column-gap:var(--ar-s3)}
+  .gw-piece{margin-bottom:var(--ar-s4)}
+  .gw-frame{padding:5px}
+  .gw-placard{flex-direction:column; gap:0}
+}
+@media (prefers-reduced-motion:reduce){.gw-piece button:hover img{transform:none}}
+</style>
+</head>
+<body class="ar-page mmx-page-gallery">
+<a class="ar-skip" href="#main">Skip to the gallery</a>
+<div class="ar-sky" aria-hidden="true"></div>
+<header class="ar-wrap mmx-head" id="mmx-head"></header>
+<main id="main" class="ar-wrap" tabindex="-1">
+<div class="gw-lobby">
+  <div class="gw-pick"><label class="ar-label" for="room">Choose a room</label><select class="ar-select" id="room"></select></div>
+  <div><span class="ar-label" id="hangL">Hang by</span>
+    <div class="ar-seg" role="group" aria-labelledby="hangL"><button type="button" data-sort="old" aria-pressed="true">Date</button><button type="button" data-sort="love" aria-pressed="false">Most loved</button></div></div>
+  <button type="button" class="ar-btn ar-btn--signal" id="rand">Random artwork</button>
+</div>
+<section class="gw-room" id="roomBox" aria-live="polite"></section>
+<div class="gw-roomnav"><button type="button" class="ar-btn" id="older">&larr; Older room</button><button type="button" class="ar-btn" id="newer">Newer room &rarr;</button></div>
+</main>
+<footer class="ar-wrap mmx-foot" id="mmx-foot"></footer>
+<script src="../archive.js?v=1"></script>
+<script src="notes-data.js"></script>
+<script src="explore.js?v=1"></script>
+<script>
+MMX.chrome({ here: 'gallery.html', title: 'THE GALLERY WING',
+  subtitle: 'Every image from the notes, hung room by room. One room for each month on air.' });
+MMX.ready(function (notes) {
+  var A = MMArchive, esc = MMX.esc, fmt = MMX.fmt;
+  var art = notes.filter(function (n) { return n.kind === 'image'; });
+  var rooms = [], byYm = {};
+  art.forEach(function (n) {
+    var ym = n.d.slice(0, 7);
+    if (!byYm[ym]) { byYm[ym] = { ym: ym, works: [] }; rooms.push(byYm[ym]); }
+    byYm[ym].works.push(n);
+  });
+  rooms.forEach(function (r, i) {
+    r.no = i + 1;
+    r.works.forEach(function (n, k) { n.cat = k + 1; });        /* catalogue number within the room, in hanging order */
+    r.pick = r.works.slice().sort(function (a, b) { return b.l - a.l || a.id - b.id; })[0];
+  });
+  MMX.status('<span class="ar-count">' + fmt(art.length) + '</span> works in ' + rooms.length + ' rooms');
+
+  var sel = document.getElementById('room');
+  rooms.slice().reverse().forEach(function (r) {
+    var o = document.createElement('option'); o.value = r.ym;
+    o.textContent = 'Room ' + r.no + ' · ' + A.dates.monthLabel(r.ym) + ' (' + fmt(r.works.length) + ' works)';
+    sel.appendChild(o);
+  });
+  var state = A.url.read({ room: '', hang: 'old' });
+  if (!byYm[state.room]) state.room = rooms[rooms.length - 1].ym;
+  var box = document.getElementById('roomBox'), feed = null;
+
+  function figure(n, ofList) {
+    var f = document.createElement('figure');
+    f.className = 'gw-piece';
+    var label = MMX.excerpt(n.b, 100) || 'Untitled image note';
+    f.innerHTML = '<button type="button" aria-label="View work ' + n.cat + ': ' + esc(label) + '"><div class="gw-frame"><div class="gw-img"' +
+      (n.w ? ' style="aspect-ratio:' + n.w + '/' + n.h + '"' : '') + '><img src="' + esc(n.thumb) + '" alt="' + esc(label) + '" loading="lazy" decoding="async"' +
+      (n.w ? ' width="' + n.w + '" height="' + n.h + '"' : '') + '></div></div></button>' +
+      '<figcaption class="gw-placard"><span><b>No. ' + n.cat + '</b> · ' + A.dates.label(n.d) + '</span><span>♥ ' + n.l + '</span></figcaption>';
+    f.querySelector('button').addEventListener('click', function () { MMX.viewer.open(n, ofList); });
+    var im = f.querySelector('img');
+    im.addEventListener('error', function () { var w = im.parentNode; w.classList.add('ar-media--none'); w.setAttribute('data-fallback', 'Image unavailable'); w.style.minHeight = '140px'; im.remove(); }, { once: true });
+    return f;
+  }
+  function open(ym, focus) {
+    var r = byYm[ym]; state.room = ym; sel.value = ym; A.url.write(state, { room: '', hang: 'old' });
+    var list = state.hang === 'love' ? r.works.slice().sort(function (a, b) { return b.l - a.l || a.id - b.id; }) : r.works;
+    var p = r.pick;
+    box.innerHTML = '<div class="gw-roomhead"><div><p class="ar-kicker">Room ' + r.no + ' of ' + rooms.length + '</p><h2 id="roomTitle">' +
+      A.dates.monthLabel(ym).toUpperCase() + '</h2><p>' + fmt(r.works.length) + ' works on the walls, posted ' + A.dates.label(r.works[0].d) +
+      ' to ' + A.dates.label(r.works[r.works.length - 1].d) + '.</p><p>Most loved in this room: ♥ ' + p.l + '</p></div>' +
+      '<figure class="gw-pickof"><button type="button" aria-label="View the most loved work in this room"><div class="gw-frame"><img src="' + esc(p.thumb) + '" alt="' +
+      esc(MMX.excerpt(p.b, 100) || 'Most loved image this month') + '" decoding="async"></div></button><figcaption class="ar-meta">The room’s most loved work · No. ' + p.cat + '</figcaption></figure></div>' +
+      '<div class="gw-wall" id="wall" aria-labelledby="roomTitle"></div>';
+    box.querySelector('.gw-pickof button').addEventListener('click', function () { MMX.viewer.open(p, list); });
+    if (feed) feed.disconnect();
+    feed = MMX.batches(document.getElementById('wall'), list, function (n) { return figure(n, list); }, 40);
+    var i = rooms.indexOf(r);
+    document.getElementById('older').disabled = i <= 0;
+    document.getElementById('newer').disabled = i >= rooms.length - 1;
+    document.querySelectorAll('[data-sort]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.sort === state.hang ? 'true' : 'false'); });
+    if (focus) { document.getElementById('roomTitle').setAttribute('tabindex', '-1'); document.getElementById('roomTitle').focus(); }
+    A.announce('Room ' + r.no + ', ' + A.dates.monthLabel(ym) + ', ' + r.works.length + ' works');
+  }
+  sel.addEventListener('change', function () { open(sel.value); });
+  document.querySelectorAll('[data-sort]').forEach(function (b) {
+    b.addEventListener('click', function () { state.hang = b.dataset.sort; open(state.room); });
+  });
+  function move(d) { var i = rooms.indexOf(byYm[state.room]) + d; if (rooms[i]) { open(rooms[i].ym, true); box.scrollIntoView({ block: 'start' }); } }
+  document.getElementById('older').addEventListener('click', function () { move(-1); });
+  document.getElementById('newer').addEventListener('click', function () { move(1); });
+  document.getElementById('rand').addEventListener('click', function () {
+    var n = A.random.pick(art);
+    A.random.tune('Finding a work…').then(function () {
+      var ym = n.d.slice(0, 7); if (ym !== state.room) open(ym);
+      var r = byYm[ym]; MMX.viewer.open(n, r.works);
+    });
+  });
+  open(state.room);
+});
+</script>
+<script src="../mm-nav.js?v=3" defer></script>
+</body>
+</html>

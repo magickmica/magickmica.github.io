@@ -1,0 +1,377 @@
+/* ============================================================
+   MAGICK MICA · ARCHIVE DESIGN SYSTEM            archive.css
+   ------------------------------------------------------------
+   Shared tokens and components for the two archive pages:
+     notes.html     The Cosmic Transmission Center
+     minimags.html  The Y3K Digital Magazine Library
+
+   Every class is prefixed .ar- so nothing here can collide with
+   a page's own styles, mm-nav.js (.mm-), mm-pagebar.css (.tb-),
+   mm-store.js (.mms-) or mm-ads.js (.mm-ads).
+
+   Nothing in this file is generated. tools/update_pages.py only
+   rewrites the notes data and the issue card grids, never this.
+
+   Fonts are loaded by each page (one Google Fonts <link>):
+     Unbounded 500/700 · Fraunces 400/600 (+italic) · Space Mono 400/700
+   ============================================================ */
+
+/* ── 1. TOKENS ─────────────────────────────────────────────── */
+:root{
+  /* brand palette, from the build brief */
+  --ar-cosmic-black:#040509;
+  --ar-midnight-indigo:#131c3f;
+  --ar-deep-violet:#2f2f70;
+  --ar-synth-purple:#5146a2;
+  --ar-holo-lavender:#9667ba;
+  --ar-iridescent-mist:#d5c2dc;
+
+  /* accents: used sparingly */
+  --ar-aqua:#5ff2e6;
+  --ar-cyan:#8fd8ff;
+  --ar-pink:#ff7ad9;
+  --ar-silver:#c9cfe0;
+
+  /* backgrounds and surfaces */
+  --ar-bg:var(--ar-cosmic-black);
+  --ar-bg-raised:#0a0d1c;
+  --ar-surface:rgba(19,28,63,.62);          /* midnight glass */
+  --ar-surface-strong:rgba(19,28,63,.86);
+  --ar-surface-hover:rgba(47,47,112,.55);
+  --ar-scrim:rgba(4,5,9,.9);
+
+  /* text: all pairs below pass WCAG AA on --ar-bg and --ar-surface */
+  --ar-text:#eee8f2;                        /* 16.2:1 on cosmic black */
+  --ar-text-muted:#b7aec4;                  /*  9.0:1 */
+  --ar-text-faint:#8d86a0;                  /*  5.6:1 — labels only, never body */
+  --ar-text-on-accent:#0b0a1a;
+
+  /* accents as roles */
+  --ar-accent:var(--ar-holo-lavender);
+  --ar-accent-strong:#b48ad6;               /* lavender lifted for text use, 7.4:1 */
+  --ar-link:var(--ar-cyan);
+  --ar-live:var(--ar-aqua);                 /* "signal ready" light */
+  --ar-warn:#ffcf70;
+  --ar-error:#ff8a9a;
+
+  /* borders */
+  --ar-line:rgba(213,194,220,.16);
+  --ar-line-strong:rgba(213,194,220,.34);
+  --ar-focus:var(--ar-aqua);
+
+  /* chrome + holo: for edges and small accents, never behind text */
+  --ar-chrome:linear-gradient(135deg,#f4f6ff 0%,#9aa3bd 22%,#eef0f8 38%,#6f7894 58%,#dfe3ef 78%,#a8b0c8 100%);
+  --ar-holo:linear-gradient(100deg,#ff7ad9 0%,#9667ba 24%,#5ff2e6 48%,#8fd8ff 66%,#d5c2dc 84%,#ff7ad9 100%);
+
+  /* shadows and glows */
+  --ar-shadow-sm:0 2px 10px rgba(0,0,0,.35);
+  --ar-shadow:0 12px 34px rgba(0,0,0,.5);
+  --ar-shadow-lg:0 24px 60px rgba(0,0,0,.6);
+  --ar-glow:0 0 0 1px rgba(150,103,186,.35),0 0 22px rgba(150,103,186,.28);
+  --ar-glow-live:0 0 8px rgba(95,242,230,.75);
+
+  /* radii */
+  --ar-r-sm:6px;
+  --ar-r:12px;
+  --ar-r-lg:20px;
+  --ar-r-pill:999px;
+
+  /* spacing scale (4px base) */
+  --ar-s1:4px;  --ar-s2:8px;  --ar-s3:12px; --ar-s4:16px;
+  --ar-s5:24px; --ar-s6:32px; --ar-s7:48px; --ar-s8:72px;
+  --ar-gutter:clamp(16px,4vw,40px);
+  --ar-max:1240px;
+
+  /* typography */
+  --ar-font-display:"Unbounded","Space Grotesk",system-ui,sans-serif;
+  --ar-font-body:"Fraunces",Georgia,"Times New Roman",serif;
+  --ar-font-mono:"Space Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --ar-fs-xs:.8125rem;    /* 13px: smallest size anywhere */
+  --ar-fs-sm:.875rem;     /* 14px: labels, meta */
+  --ar-fs-base:1.0625rem; /* 17px: body */
+  --ar-fs-lg:1.25rem;
+  --ar-fs-xl:clamp(1.5rem,3.2vw,2rem);
+  --ar-fs-hero:clamp(2rem,6.4vw,4.25rem);
+  --ar-lh:1.6;
+  --ar-track-label:.12em;
+
+  /* motion */
+  --ar-t-fast:140ms;
+  --ar-t:240ms;
+  --ar-t-slow:600ms;
+  --ar-ease:cubic-bezier(.2,.7,.2,1);
+
+  /* layers */
+  --ar-z-bg:0;
+  --ar-z-content:2;
+  --ar-z-overlay:90;
+
+  /* minimum touch target */
+  --ar-tap:44px;
+}
+
+/* ── 2. BASE (only inside an .ar-page body) ─────────────────── */
+.ar-page{
+  margin:0; background:var(--ar-bg); color:var(--ar-text);
+  font-family:var(--ar-font-body); font-size:var(--ar-fs-base); line-height:var(--ar-lh);
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.ar-page *,.ar-page *::before,.ar-page *::after{box-sizing:border-box}
+.ar-page img{max-width:100%}
+.ar-page a{color:var(--ar-link)}
+.ar-page :focus{outline:none}
+.ar-page :focus-visible{outline:2px solid var(--ar-focus); outline-offset:3px; border-radius:var(--ar-r-sm)}
+
+.ar-wrap{position:relative; z-index:var(--ar-z-content); max-width:var(--ar-max); margin:0 auto; padding:0 var(--ar-gutter)}
+
+.ar-sr-only{position:absolute!important; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
+.ar-skip{position:absolute; left:var(--ar-s3); top:-60px; z-index:var(--ar-z-overlay);
+  background:var(--ar-aqua); color:var(--ar-text-on-accent); padding:var(--ar-s2) var(--ar-s4);
+  border-radius:var(--ar-r-sm); font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm); text-decoration:none}
+.ar-skip:focus{top:var(--ar-s3)}
+
+/* ── 3. ATMOSPHERE: starfield, glow, scanlines ──────────────── */
+/* <div class="ar-sky" aria-hidden="true"></div> as the first child of body */
+.ar-sky{position:fixed; inset:0; z-index:var(--ar-z-bg); pointer-events:none; overflow:hidden;
+  background:
+    radial-gradient(60% 45% at 80% 0%, rgba(81,70,162,.32), transparent 65%),
+    radial-gradient(50% 40% at 0% 20%, rgba(47,47,112,.45), transparent 70%),
+    radial-gradient(80% 50% at 50% 110%, rgba(19,28,63,.9), transparent 70%),
+    var(--ar-bg)}
+.ar-sky::before{content:""; position:absolute; inset:-50%; opacity:.7;
+  background-image:
+    radial-gradient(1.2px 1.2px at 12% 18%,#fff,transparent),
+    radial-gradient(1px 1px at 74% 8%,var(--ar-iridescent-mist),transparent),
+    radial-gradient(1.4px 1.4px at 38% 62%,#fff,transparent),
+    radial-gradient(1px 1px at 88% 44%,var(--ar-cyan),transparent),
+    radial-gradient(1.1px 1.1px at 22% 84%,var(--ar-holo-lavender),transparent),
+    radial-gradient(1px 1px at 62% 30%,#fff,transparent),
+    radial-gradient(1.3px 1.3px at 92% 72%,#fff,transparent),
+    radial-gradient(1px 1px at 50% 92%,var(--ar-aqua),transparent);
+  background-size:520px 520px,700px 700px,460px 460px,800px 800px,560px 560px,640px 640px,740px 740px,480px 480px;
+  animation:ar-drift 240s linear infinite}
+@keyframes ar-drift{to{transform:translate3d(-120px,-80px,0)}}
+
+/* faint CRT texture for terminal-style panels; sits under content */
+.ar-scanlines{position:relative; isolation:isolate}
+.ar-scanlines::after{content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; border-radius:inherit;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.028) 0 1px,transparent 1px 3px)}
+
+/* ── 4. TYPE ────────────────────────────────────────────────── */
+.ar-kicker{font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm); letter-spacing:var(--ar-track-label);
+  text-transform:uppercase; color:var(--ar-accent-strong); margin:0}
+.ar-title{font-family:var(--ar-font-display); font-weight:700; font-size:var(--ar-fs-hero);
+  line-height:1.04; letter-spacing:-.01em; margin:var(--ar-s2) 0 0; color:var(--ar-text)}
+/* liquid-chrome title: solid colour fallback first, gradient only where clip is supported */
+@supports (-webkit-background-clip:text) or (background-clip:text){
+  .ar-title--chrome{background:var(--ar-chrome); -webkit-background-clip:text; background-clip:text;
+    color:transparent; filter:drop-shadow(0 2px 18px rgba(150,103,186,.35))}
+}
+.ar-subtitle{font-family:var(--ar-font-body); font-style:italic; font-size:var(--ar-fs-lg);
+  color:var(--ar-text-muted); margin:var(--ar-s3) 0 0; max-width:40ch}
+.ar-h2{font-family:var(--ar-font-display); font-weight:500; font-size:var(--ar-fs-xl); margin:0; letter-spacing:.01em}
+.ar-meta{font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ar-text-muted)}
+
+/* ── 5. PANELS: iridescent glass ────────────────────────────── */
+.ar-panel{position:relative; background:var(--ar-surface); border:1px solid var(--ar-line);
+  border-radius:var(--ar-r-lg); box-shadow:var(--ar-shadow);
+  -webkit-backdrop-filter:blur(10px) saturate(1.2); backdrop-filter:blur(10px) saturate(1.2)}
+/* thin holographic rim along the top edge only */
+.ar-panel--holo::before{content:""; position:absolute; left:var(--ar-s5); right:var(--ar-s5); top:-1px; height:1px;
+  background:var(--ar-holo); opacity:.75; border-radius:1px}
+/* floating "window" with a title bar, for terminal and OS-style blocks */
+.ar-window{overflow:hidden}
+.ar-window__bar{display:flex; align-items:center; gap:var(--ar-s2); padding:var(--ar-s2) var(--ar-s4);
+  border-bottom:1px solid var(--ar-line); background:linear-gradient(90deg,rgba(81,70,162,.35),rgba(19,28,63,.2));
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); letter-spacing:var(--ar-track-label);
+  text-transform:uppercase; color:var(--ar-text-muted)}
+.ar-window__dots{display:inline-flex; gap:5px}
+.ar-window__dots i{width:8px; height:8px; border-radius:50%; background:var(--ar-line-strong)}
+.ar-window__body{padding:var(--ar-s5)}
+
+/* ── 6. CONTROLS ────────────────────────────────────────────── */
+.ar-btn{display:inline-flex; align-items:center; justify-content:center; gap:var(--ar-s2);
+  min-height:var(--ar-tap); padding:0 var(--ar-s4); border-radius:var(--ar-r-pill);
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm); letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ar-text); background:var(--ar-surface); border:1px solid var(--ar-line-strong);
+  cursor:pointer; text-decoration:none; white-space:nowrap;
+  transition:background var(--ar-t-fast) var(--ar-ease),border-color var(--ar-t-fast),box-shadow var(--ar-t-fast),transform var(--ar-t-fast)}
+.ar-btn:hover{background:var(--ar-surface-hover); border-color:var(--ar-accent)}
+.ar-btn:active{transform:translateY(1px)}
+.ar-btn[disabled],.ar-btn[aria-disabled="true"]{opacity:.45; cursor:not-allowed}
+/* the one big call to action per page (Random Transmission / Random Edition) */
+.ar-btn--signal{color:var(--ar-text-on-accent); border-color:transparent; font-weight:700;
+  background:linear-gradient(100deg,var(--ar-aqua),var(--ar-cyan) 45%,var(--ar-iridescent-mist));
+  box-shadow:0 6px 24px rgba(95,242,230,.22)}
+.ar-btn--signal:hover{background:linear-gradient(100deg,#7ff7ee,#a9e2ff 45%,#e6d8eb); border-color:transparent}
+.ar-btn--ghost{background:transparent; border-color:transparent; color:var(--ar-text-muted)}
+.ar-btn--ghost:hover{color:var(--ar-text); background:var(--ar-surface)}
+
+/* toggle buttons announce state with aria-pressed; the tick means state is not colour-only */
+.ar-toggle[aria-pressed="true"]{background:var(--ar-synth-purple); border-color:var(--ar-accent-strong); box-shadow:var(--ar-glow)}
+.ar-toggle[aria-pressed="true"]::before{content:"\2713"; font-weight:700}
+
+/* segmented control: a role="radiogroup" or a set of aria-pressed buttons */
+.ar-seg{display:inline-flex; flex-wrap:wrap; gap:2px; padding:3px; border-radius:var(--ar-r-pill);
+  background:rgba(4,5,9,.55); border:1px solid var(--ar-line)}
+.ar-seg > button{min-height:calc(var(--ar-tap) - 6px); padding:0 var(--ar-s4); border:0; border-radius:var(--ar-r-pill);
+  background:transparent; color:var(--ar-text-muted); cursor:pointer;
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm); letter-spacing:.05em; text-transform:uppercase}
+.ar-seg > button:hover{color:var(--ar-text)}
+.ar-seg > button[aria-pressed="true"],.ar-seg > button[aria-checked="true"]{color:var(--ar-text);
+  background:linear-gradient(180deg,var(--ar-synth-purple),var(--ar-deep-violet)); box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+
+.ar-input,.ar-select{min-height:var(--ar-tap); width:100%; padding:0 var(--ar-s4);
+  font-family:var(--ar-font-body); font-size:var(--ar-fs-base); color:var(--ar-text);
+  background:rgba(4,5,9,.6); border:1px solid var(--ar-line-strong); border-radius:var(--ar-r-pill)}
+.ar-input::placeholder{color:var(--ar-text-faint); font-style:italic}
+.ar-input:focus-visible,.ar-select:focus-visible{outline:none; border-color:var(--ar-focus); box-shadow:0 0 0 3px rgba(95,242,230,.22)}
+.ar-select{appearance:none; -webkit-appearance:none; font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm);
+  padding-right:var(--ar-s6); cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ar-text-muted) 50%),linear-gradient(135deg,var(--ar-text-muted) 50%,transparent 50%);
+  background-position:calc(100% - 20px) 50%,calc(100% - 15px) 50%; background-size:5px 5px; background-repeat:no-repeat}
+.ar-select option{background:var(--ar-midnight-indigo); color:var(--ar-text)}
+.ar-input[type="date"]{font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm); color-scheme:dark}
+.ar-label{display:block; font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); letter-spacing:var(--ar-track-label);
+  text-transform:uppercase; color:var(--ar-text-muted); margin-bottom:var(--ar-s2)}
+
+/* active filter chips, each one removable */
+.ar-chips{display:flex; flex-wrap:wrap; gap:var(--ar-s2); list-style:none; margin:0; padding:0}
+.ar-chip{display:inline-flex; align-items:center; gap:var(--ar-s2); min-height:36px; padding:0 var(--ar-s2) 0 var(--ar-s3);
+  border-radius:var(--ar-r-pill); border:1px solid var(--ar-line-strong); background:rgba(81,70,162,.28);
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); letter-spacing:.04em; color:var(--ar-text)}
+.ar-chip__x{display:inline-grid; place-items:center; width:28px; height:28px; border-radius:50%; border:0;
+  background:transparent; color:var(--ar-text-muted); cursor:pointer; font-size:1rem; line-height:1}
+.ar-chip__x:hover{background:var(--ar-surface-hover); color:var(--ar-text)}
+
+/* ── 7. STATUS: signal light, loading, empty, error ─────────── */
+.ar-light{display:inline-block; width:9px; height:9px; border-radius:50%; flex:none;
+  background:var(--ar-text-faint); vertical-align:middle}
+.ar-light--live{background:var(--ar-live); box-shadow:var(--ar-glow-live); animation:ar-pulse 2.6s ease-in-out infinite}
+.ar-light--tuning{background:var(--ar-warn); animation:ar-pulse 1s ease-in-out infinite}
+.ar-light--error{background:var(--ar-error)}
+@keyframes ar-pulse{50%{opacity:.45}}
+
+.ar-status{display:inline-flex; align-items:center; gap:var(--ar-s2);
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm); letter-spacing:.06em; text-transform:uppercase; color:var(--ar-text-muted)}
+.ar-count{font-family:var(--ar-font-display); font-weight:500; color:var(--ar-text); font-variant-numeric:tabular-nums}
+
+.ar-state{text-align:center; padding:var(--ar-s8) var(--ar-s5); max-width:560px; margin:0 auto}
+.ar-state__title{font-family:var(--ar-font-display); font-weight:700; font-size:var(--ar-fs-xl); margin:0 0 var(--ar-s3); letter-spacing:.02em}
+.ar-state__body{color:var(--ar-text-muted); margin:0 0 var(--ar-s5)}
+.ar-state--error .ar-state__title{color:var(--ar-error)}
+/* static "no signal" bars for empty states: gentle, never flashing */
+.ar-noise{height:56px; margin:0 auto var(--ar-s5); max-width:240px; border-radius:var(--ar-r-sm);
+  border:1px solid var(--ar-line); opacity:.8;
+  background:repeating-linear-gradient(90deg,#d5c2dc 0 12%,#5ff2e6 12% 25%,#8fd8ff 25% 37%,#9667ba 37% 50%,#ff7ad9 50% 62%,#5146a2 62% 75%,#2f2f70 75% 87%,#131c3f 87% 100%)}
+
+/* skeleton blocks while data tunes in */
+.ar-skeleton{border-radius:var(--ar-r); background:linear-gradient(100deg,rgba(213,194,220,.06) 30%,rgba(213,194,220,.13) 50%,rgba(213,194,220,.06) 70%);
+  background-size:300% 100%; animation:ar-sheen 1.6s linear infinite}
+@keyframes ar-sheen{to{background-position:-150% 0}}
+
+/* ── 8. MEDIA CARD BASICS (both pages build on these) ───────── */
+.ar-card{position:relative; display:flex; flex-direction:column; overflow:hidden; color:inherit; text-decoration:none;
+  background:var(--ar-surface-strong); border:1px solid var(--ar-line); border-radius:var(--ar-r);
+  box-shadow:var(--ar-shadow-sm);
+  transition:transform var(--ar-t) var(--ar-ease),border-color var(--ar-t),box-shadow var(--ar-t)}
+.ar-card:hover,.ar-card:focus-within{transform:translateY(-3px); border-color:var(--ar-line-strong); box-shadow:var(--ar-shadow)}
+/* whole-card link: one real <a> whose ::after covers the card */
+.ar-card__link{color:inherit; text-decoration:none}
+.ar-card__link::after{content:""; position:absolute; inset:0; z-index:1}
+.ar-card__link:focus-visible{outline:none}
+.ar-card:has(.ar-card__link:focus-visible){outline:2px solid var(--ar-focus); outline-offset:3px}
+.ar-card .ar-above{position:relative; z-index:2}   /* buttons that must stay clickable over the link */
+
+.ar-media{position:relative; background:var(--ar-bg-raised); overflow:hidden}
+.ar-media img{display:block; width:100%; height:auto}
+.ar-media--square{aspect-ratio:1/1}
+.ar-media--square img{height:100%; object-fit:cover}
+/* fallback when an image is missing or fails: branded, clearly not artwork */
+.ar-media--none{display:grid; place-items:center; min-height:140px;
+  background:radial-gradient(60% 60% at 30% 30%,rgba(150,103,186,.28),transparent 70%),
+             radial-gradient(50% 50% at 75% 75%,rgba(95,242,230,.14),transparent 70%),var(--ar-bg-raised)}
+.ar-media--none::before{content:attr(data-fallback); padding:var(--ar-s4); text-align:center; font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs);
+  letter-spacing:var(--ar-track-label); text-transform:uppercase; color:var(--ar-text-faint)}
+
+.ar-badge{display:inline-flex; align-items:center; gap:4px; padding:3px 9px; border-radius:var(--ar-r-pill);
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); letter-spacing:.06em; text-transform:uppercase;
+  background:rgba(4,5,9,.78); color:var(--ar-text); border:1px solid var(--ar-line-strong)}
+
+/* ── 9. LAYOUT HELPERS ──────────────────────────────────────── */
+.ar-row{display:flex; flex-wrap:wrap; align-items:center; gap:var(--ar-s3)}
+.ar-stack{display:flex; flex-direction:column; gap:var(--ar-s4)}
+.ar-section{padding-top:var(--ar-s7); padding-bottom:var(--ar-s7)}
+.ar-divider{height:1px; border:0; margin:var(--ar-s6) 0; background:linear-gradient(90deg,transparent,var(--ar-line-strong),transparent)}
+.ar-crumbs{display:flex; flex-wrap:wrap; gap:var(--ar-s2); list-style:none; margin:0; padding:0;
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); letter-spacing:.08em; text-transform:uppercase; color:var(--ar-text-muted)}
+.ar-crumbs li+li::before{content:"/"; margin-right:var(--ar-s2); color:var(--ar-text-faint)}
+.ar-crumbs a{color:var(--ar-text-muted); text-decoration:none}
+.ar-crumbs a:hover{color:var(--ar-text)}
+.ar-crumbs [aria-current]{color:var(--ar-text)}
+
+/* the archive's own link row: Home · Blog · Articles · Notes · Y3K · Subscribe */
+.ar-nav{display:flex; flex-wrap:wrap; gap:var(--ar-s2); list-style:none; margin:0; padding:0}
+.ar-nav a{display:inline-flex; align-items:center; min-height:var(--ar-tap); padding:0 var(--ar-s4); border-radius:var(--ar-r-pill);
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm); letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ar-text-muted); text-decoration:none; border:1px solid transparent}
+.ar-nav a:hover{color:var(--ar-text); border-color:var(--ar-line-strong)}
+.ar-nav a[aria-current="page"]{color:var(--ar-text); border-color:var(--ar-accent); background:rgba(81,70,162,.3)}
+
+/* ── 10. ARCHIVE TIME MACHINE ───────────────────────────────── */
+.ar-tm{display:flex; gap:var(--ar-s2); overflow-x:auto; padding:var(--ar-s3) var(--ar-s1) var(--ar-s4);
+  scroll-snap-type:x proximity; scrollbar-width:thin}
+.ar-tm__year{flex:none; scroll-snap-align:start; display:flex; flex-direction:column; gap:var(--ar-s2)}
+.ar-tm__ylabel{position:sticky; left:0; align-self:flex-start; font-family:var(--ar-font-display); font-weight:500; font-size:var(--ar-fs-lg)}
+.ar-tm__months{display:grid; grid-template-columns:repeat(12,minmax(30px,1fr)); gap:3px}
+.ar-tm__m{position:relative; min-height:var(--ar-tap); min-width:30px; border-radius:var(--ar-r-sm); border:1px solid var(--ar-line);
+  background:rgba(4,5,9,.5); color:var(--ar-text-faint); cursor:default;
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs)}
+/* months with content: lit marker, brighter with more entries (level 1-4 set by archive.js) */
+.ar-tm__m[data-level]{cursor:pointer; color:var(--ar-text); border-color:var(--ar-line-strong)}
+.ar-tm__m[data-level="1"]{background:rgba(81,70,162,.32)}
+.ar-tm__m[data-level="2"]{background:rgba(81,70,162,.55)}
+.ar-tm__m[data-level="3"]{background:rgba(150,103,186,.6)}
+.ar-tm__m[data-level="4"]{background:rgba(150,103,186,.85); box-shadow:0 0 12px rgba(150,103,186,.45)}
+.ar-tm__m[data-level]:hover{border-color:var(--ar-aqua)}
+.ar-tm__m[aria-pressed="true"]{outline:2px solid var(--ar-aqua); outline-offset:1px}
+/* months without content are shown, struck and dimmed, so gaps are visible not hidden */
+.ar-tm__m:not([data-level]){text-decoration:line-through; opacity:.55}
+
+/* ── 11. TUNING EFFECT (random discovery) ───────────────────── */
+.ar-tune{position:fixed; inset:0; z-index:var(--ar-z-overlay); display:grid; place-items:center; pointer-events:none;
+  background:var(--ar-scrim); opacity:0; transition:opacity var(--ar-t) var(--ar-ease)}
+.ar-tune.is-on{opacity:1}
+.ar-tune__dial{font-family:var(--ar-font-mono); font-size:var(--ar-fs-lg); letter-spacing:.2em; text-transform:uppercase; color:var(--ar-aqua); text-align:center}
+.ar-tune__bars{display:block; width:min(320px,70vw); height:3px; margin:var(--ar-s4) auto 0; border-radius:2px;
+  background:var(--ar-holo); background-size:200% 100%; animation:ar-sweep .9s linear infinite}
+@keyframes ar-sweep{to{background-position:-200% 0}}
+
+/* ── 12. RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width:720px){
+  :root{--ar-fs-base:1rem}
+  .ar-window__body{padding:var(--ar-s4)}
+  .ar-seg{display:flex; width:100%}
+  .ar-seg > button{flex:1 1 auto; padding:0 var(--ar-s3)}
+  /* phones: each year stays one row of 12 and the strip scrolls sideways;
+     the Jump to a month select above it is the main control */
+  .ar-tm__months{grid-template-columns:repeat(12,40px)}
+}
+
+/* ── 13. REDUCED MOTION ─────────────────────────────────────── */
+@media (prefers-reduced-motion:reduce){
+  .ar-sky::before,.ar-light--live,.ar-light--tuning,.ar-skeleton,.ar-tune__bars{animation:none}
+  .ar-card,.ar-btn,.ar-tune{transition:none}
+  .ar-card:hover,.ar-card:focus-within{transform:none}
+}
+/* sites can also force it: <html data-ar-motion="off"> */
+[data-ar-motion="off"] .ar-sky::before,[data-ar-motion="off"] .ar-light--live,
+[data-ar-motion="off"] .ar-skeleton,[data-ar-motion="off"] .ar-tune__bars{animation:none}
+
+/* ── 14. PRINT ──────────────────────────────────────────────── */
+@media print{
+  .ar-sky,.ar-tune,.ar-btn--signal{display:none}
+  .ar-page{background:#fff; color:#000}
+}

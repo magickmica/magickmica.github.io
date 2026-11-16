@@ -1,0 +1,56 @@
+/* ============================================================
+   MAGICK MICA · EXPLORE                    explore/explore.css
+   Builds on ../archive.css (tokens + components). Shared layout
+   for every Explore page; each page adds its own small style block.
+   ============================================================ */
+.mmx-head{padding-top:var(--ar-s6); padding-bottom:var(--ar-s4)}
+.mmx-head .ar-crumbs{margin-bottom:var(--ar-s5)}
+.mmx-status{margin-top:var(--ar-s4)}
+.mmx-nav{margin-top:var(--ar-s5); padding-top:var(--ar-s3); border-top:1px solid var(--ar-line)}
+.mmx-foot{padding-top:var(--ar-s7); padding-bottom:var(--ar-s7); border-top:1px solid var(--ar-line); margin-top:var(--ar-s7)}
+.mmx-built{margin-top:var(--ar-s3)}
+main#main{min-height:50vh}
+
+/* toolbar row used by several pages */
+.mmx-tools{display:flex; flex-wrap:wrap; gap:var(--ar-s3); align-items:end; margin:var(--ar-s4) 0 var(--ar-s5)}
+.mmx-tools > *{flex:0 1 auto}
+.mmx-tools .mmx-grow{flex:1 1 220px}
+
+/* note cards */
+.mmx-masonry{columns:4 260px; column-gap:var(--ar-s4)}
+.mmx-masonry > *{break-inside:avoid; margin-bottom:var(--ar-s4)}
+.mmx-grid{display:grid; gap:var(--ar-s4); grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.mmx-card__media img{width:100%; height:auto}
+.mmx-card__badge{position:absolute; left:10px; top:10px}
+.mmx-card__body{display:flex; flex-direction:column; gap:var(--ar-s2); padding:var(--ar-s4)}
+.mmx-card__text{margin:0; white-space:pre-line; overflow-wrap:anywhere}
+.mmx-card__meta{display:flex; justify-content:space-between; gap:var(--ar-s3); margin:0;
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); color:var(--ar-text-muted); text-transform:uppercase; letter-spacing:.04em}
+.mmx-card__link{font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); letter-spacing:.06em; text-transform:uppercase; color:var(--ar-link)}
+.mmx-more{display:flex; margin:var(--ar-s5) auto 0}
+
+/* viewer dialog */
+.mmx-viewer{border:0; padding:0; background:transparent; color:var(--ar-text); max-width:min(960px,94vw); width:100%; max-height:94vh}
+.mmx-viewer::backdrop{background:rgba(4,5,9,.88); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px)}
+.mmx-viewer__inner{display:flex; flex-direction:column; max-height:94vh; overflow:auto; background:var(--ar-surface-strong)}
+.mmx-viewer__bar{display:flex; justify-content:space-between; align-items:center; padding:var(--ar-s2) var(--ar-s3) var(--ar-s2) var(--ar-s5);
+  border-bottom:1px solid var(--ar-line)}
+.mmx-viewer__stage{position:relative; background:var(--ar-bg); display:grid; place-items:center}
+.mmx-viewer__stage img{display:block; max-width:100%; max-height:62vh; width:auto; height:auto}
+.mmx-viewer__badge{position:absolute; left:12px; top:12px}
+.mmx-viewer__info{padding:var(--ar-s5); display:flex; flex-direction:column; gap:var(--ar-s3)}
+.mmx-viewer__text{white-space:pre-line; overflow-wrap:anywhere; max-height:30vh; overflow:auto}
+.mmx-viewer .ar-meta{margin:0}
+
+/* section headers inside pages */
+.mmx-sect{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:var(--ar-s3); margin:var(--ar-s7) 0 var(--ar-s4)}
+.mmx-sect .ar-h2{margin:0}
+
+@media (max-width:720px){
+  .mmx-head{padding-top:var(--ar-s4)}
+  .mmx-masonry{columns:2 150px; column-gap:var(--ar-s3)}
+  .mmx-masonry > *{margin-bottom:var(--ar-s3)}
+  .mmx-card__body{padding:var(--ar-s3)}
+  .mmx-viewer__info{padding:var(--ar-s4)}
+  .mmx-nav .ar-nav a{padding:0 var(--ar-s3)}
+}

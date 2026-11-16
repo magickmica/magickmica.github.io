@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore the Transmissions — Magick Mica</title>
+<meta name="description" content="Six ways to wander through every Magick Mica note: a book, a gallery, a tape library, a sky map, theme rooms and a hall of fame.">
+<link rel="canonical" href="https://magickmica.github.io/explore/index.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Explore the Transmissions — Magick Mica">
+<meta property="og:description" content="Six ways to wander through every Magick Mica note: a book, a gallery, a tape library, a sky map, theme rooms and a hall of fame.">
+<meta property="og:url" content="https://magickmica.github.io/explore/index.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#040509">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../archive.css?v=1">
+<link rel="stylesheet" href="explore.css?v=1">
+<style>
+.hub-stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:var(--ar-s3); margin:var(--ar-s5) 0 var(--ar-s6); padding:0; list-style:none}
+.hub-stats li{padding:var(--ar-s4); border-radius:var(--ar-r); border:1px solid var(--ar-line); background:var(--ar-surface)}
+.hub-stats b{display:block; font-family:var(--ar-font-display); font-weight:500; font-size:var(--ar-fs-xl); font-variant-numeric:tabular-nums}
+.hub-stats span{font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); text-transform:uppercase; letter-spacing:.08em; color:var(--ar-text-muted)}
+.hub-rooms{display:grid; gap:var(--ar-s4); grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.hub-room .ar-media{aspect-ratio:16/10}
+.hub-room .ar-media img{width:100%; height:100%; object-fit:cover; transition:transform var(--ar-t-slow) var(--ar-ease)}
+.hub-room:hover .ar-media img{transform:scale(1.03)}
+.hub-room__body{padding:var(--ar-s4) var(--ar-s5) var(--ar-s5); display:flex; flex-direction:column; gap:var(--ar-s2)}
+.hub-room__name{font-family:var(--ar-font-display); font-weight:500; font-size:var(--ar-fs-lg); margin:0}
+.hub-room__name a{color:var(--ar-text); text-decoration:none}
+.hub-room__desc{margin:0; color:var(--ar-text-muted)}
+.hub-room__num{position:absolute; right:12px; top:12px; z-index:2}
+.hub-also{display:grid; gap:var(--ar-s3); grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); list-style:none; padding:0; margin:0}
+.hub-also a{display:flex; flex-direction:column; gap:4px; min-height:var(--ar-tap); padding:var(--ar-s4); border-radius:var(--ar-r); border:1px solid var(--ar-line);
+  background:var(--ar-surface); color:var(--ar-text); text-decoration:none}
+.hub-also a:hover{border-color:var(--ar-accent)}
+.hub-also small{color:var(--ar-text-muted); font-size:var(--ar-fs-sm)}
+.hub-random{margin:var(--ar-s6) 0 0; display:flex; flex-wrap:wrap; gap:var(--ar-s3); align-items:center}
+@media (prefers-reduced-motion:reduce){.hub-room:hover .ar-media img{transform:none}}
+</style>
+</head>
+<body class="ar-page mmx-page-index">
+<a class="ar-skip" href="#main">Skip to the rooms</a>
+<div class="ar-sky" aria-hidden="true"></div>
+<header class="ar-wrap mmx-head" id="mmx-head"></header>
+<main id="main" class="ar-wrap" tabindex="-1">
+<ul class="hub-stats" id="stats" aria-label="The archive in numbers"></ul>
+<h2 class="ar-h2 mmx-sect">Six rooms to wander</h2>
+<div class="hub-rooms" id="rooms"></div>
+<div class="hub-random"><button type="button" class="ar-btn ar-btn--signal" id="rand">Tune into a random transmission</button>
+<span class="ar-meta">Opens a real note from anywhere in the archive</span></div>
+<h2 class="ar-h2 mmx-sect">Elsewhere in the archive</h2>
+<ul class="hub-also">
+  <li><a href="../notes.html"><b>All Notes</b><small>Search and filter every transmission</small></a></li>
+  <li><a href="../minimags.html"><b>Y3K Magazine</b><small>Weekly and monthly editions</small></a></li>
+  <li><a href="../almanac/"><b>The Y3K Almanac</b><small>A book of days: what went out on each date</small></a></li>
+  <li><a href="../signal/"><b>MagickVision Signal Band</b><small>Tune through every week</small></a></li>
+  <li><a href="../reader/"><b>Transmission Reader 98</b><small>The archive in a late-90s mail reader</small></a></li>
+  <li><a href="../random-note.html"><b>Random Note TV</b><small>Channel-surf the notes</small></a></li>
+</ul>
+</main>
+<footer class="ar-wrap mmx-foot" id="mmx-foot"></footer>
+<script src="../archive.js?v=1"></script>
+<script src="notes-data.js"></script>
+<script src="explore.js?v=1"></script>
+<script>
+MMX.chrome({ here: 'index.html', title: 'EXPLORE THE TRANSMISSIONS',
+  subtitle: 'Six ways to wander through every note, from the first transmission to the latest.' });
+MMX.ready(function (notes) {
+  var fmt = MMX.fmt, esc = MMX.esc;
+  var imgs = notes.filter(function (n) { return n.kind === 'image'; });
+  var vids = notes.filter(function (n) { return n.kind === 'video'; });
+  var tagged = notes.filter(function (n) { return n.c.length; });
+  var tags = {}; tagged.forEach(function (n) { n.c.forEach(function (t) { tags[t] = 1; }); });
+  var months = {}; notes.forEach(function (n) { months[n.d.slice(0, 7)] = 1; });
+  var first = notes[0], last = notes[notes.length - 1];
+  MMX.status('Signal locked · <span class="ar-count">' + fmt(notes.length) + '</span> transmissions');
+  document.getElementById('stats').innerHTML = [
+    [fmt(notes.length), 'transmissions'], [fmt(imgs.length), 'images'], [fmt(vids.length), 'videos'],
+    [fmt(Object.keys(months).length), 'months on air'], [MMArchive.dates.label(first.d), 'first signal'],
+    [MMArchive.dates.label(last.d), 'latest signal']
+  ].map(function (s) { return '<li><b>' + s[0] + '</b><span>' + s[1] + '</span></li>'; }).join('');
+
+  function top(list) { return list.slice().sort(function (a, b) { return b.l - a.l || a.id - b.id; })[0]; }
+  var cosmic = tagged.filter(function (n) { return n.kind === 'image'; });
+  var rooms = [
+    ['book.html', 'The Transmission Book', 'Every note bound as a book, one per page, a chapter for each month. ' + fmt(notes.length) + ' pages.', first.thumb ? first : top(imgs.slice(0, 50))],
+    ['gallery.html', 'The Gallery Wing', fmt(imgs.length) + ' images hung room by room, one room for each month.', top(imgs)],
+    ['tapes.html', 'The Tape Library', fmt(vids.length) + ' video notes, shelved as labelled tapes.', vids[vids.length - 1]],
+    ['sky.html', 'The Sky Map', 'Every note as a star in one spiral sky. The more loved, the brighter it shines.', null],
+    ['themes.html', 'Theme Rooms', fmt(Object.keys(tags).length) + ' rooms for the themes tagged by hand, from cosmic to y2k.', top(cosmic)],
+    ['hall.html', 'The Hall of Fame', 'The most-loved and most-restacked notes of all time, every year and every month.', top(notes.filter(function (n) { return n.thumb; }))]
+  ];
+  var box = document.getElementById('rooms');
+  rooms.forEach(function (r, i) {
+    var n = r[3], el = document.createElement('article');
+    el.className = 'ar-card hub-room';
+    var media = n && n.thumb
+      ? '<div class="ar-media"><img src="' + esc(n.thumb) + '" alt="" loading="lazy" decoding="async"></div>'
+      : '<div class="ar-media ar-media--none" data-fallback="' + (r[0] === 'sky.html' ? '✦ · ✧ · ✦' : '') + '"></div>';
+    el.innerHTML = media + '<span class="ar-badge hub-room__num">Room ' + (i + 1) + '</span>' +
+      '<div class="hub-room__body"><h3 class="hub-room__name"><a class="ar-card__link" href="' + r[0] + '">' + esc(r[1]) + '</a></h3>' +
+      '<p class="hub-room__desc">' + esc(r[2]) + '</p></div>';
+    var im = el.querySelector('img');
+    if (im) im.addEventListener('error', function () { im.parentNode.classList.add('ar-media--none'); im.remove(); });
+    box.appendChild(el);
+  });
+  document.getElementById('rand').addEventListener('click', function () {
+    var n = MMArchive.random.pick(notes, function (x) { return x.id; });
+    if (!n) return;
+    MMArchive.random.tune('Tuning in…').then(function () { MMX.viewer.open(n); });
+  });
+});
+</script>
+<script src="../mm-nav.js?v=3" defer></script>
+</body>
+</html>

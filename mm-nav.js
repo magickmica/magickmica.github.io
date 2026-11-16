@@ -38,6 +38,7 @@
       ['articles.html', 'Articles'],
       ['archive.html', 'Archive'],
       ['minimags.html', 'Y3K Magazine'],
+      ['explore/', 'Explore the Notes'],
       ['reader/', 'Transmission Reader'],
       ['almanac/', 'Y3K Almanac'],
       ['signal/', 'Signal Band'],

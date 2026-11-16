@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theme Rooms — Magick Mica</title>
+<meta name="description" content="Rooms for the themes Magick Mica has tagged by hand: cosmic, queen, animals, wonderland, food and more.">
+<link rel="canonical" href="https://magickmica.github.io/explore/themes.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Theme Rooms — Magick Mica">
+<meta property="og:description" content="Rooms for the themes Magick Mica has tagged by hand: cosmic, queen, animals, wonderland, food and more.">
+<meta property="og:url" content="https://magickmica.github.io/explore/themes.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#040509">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../archive.css?v=1">
+<link rel="stylesheet" href="explore.css?v=1">
+<style>
+.th-doors{display:flex; flex-wrap:wrap; gap:var(--ar-s2); list-style:none; padding:0; margin:var(--ar-s4) 0 var(--ar-s3)}
+.th-doors a{display:inline-flex; align-items:center; gap:var(--ar-s2); min-height:var(--ar-tap); padding:0 var(--ar-s4); border-radius:var(--ar-r-pill);
+  border:1px solid var(--ar-line-strong); background:var(--ar-surface); color:var(--ar-text); text-decoration:none;
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm); text-transform:uppercase; letter-spacing:.05em}
+.th-doors a small{color:var(--ar-text-muted)}
+.th-doors a:hover{border-color:var(--ar-accent)}
+.th-doors a[aria-current="true"]{background:linear-gradient(180deg,var(--ar-synth-purple),var(--ar-deep-violet)); border-color:var(--ar-accent-strong)}
+.th-note{margin:0 0 var(--ar-s5)}
+.th-hero{position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.2fr); gap:var(--ar-s5); align-items:center; padding:var(--ar-s5);
+  border-radius:var(--ar-r-lg); border:1px solid var(--ar-line); overflow:hidden; background:var(--ar-surface)}
+.th-hero h2{font-family:var(--ar-font-display); font-weight:700; font-size:clamp(2rem,6vw,4rem); line-height:1; margin:var(--ar-s2) 0; text-transform:uppercase}
+.th-hero p{margin:var(--ar-s2) 0 0; color:var(--ar-text-muted)}
+.th-trip{display:grid; grid-template-columns:1.3fr 1fr; grid-template-rows:1fr 1fr; gap:8px; height:clamp(220px,30vw,340px)}
+.th-trip button{all:unset; cursor:zoom-in; position:relative; overflow:hidden; border-radius:8px; background:var(--ar-bg-raised)}
+.th-trip button:first-child{grid-row:1 / 3}
+.th-trip button:focus-visible{outline:2px solid var(--ar-focus); outline-offset:2px}
+.th-trip img{width:100%; height:100%; object-fit:cover; display:block}
+.th-trip button:only-child{grid-column:1 / 3}
+.th-also{display:inline-flex; gap:6px; flex-wrap:wrap}
+.th-also a{font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); color:var(--ar-link)}
+@media (max-width:720px){.th-hero{grid-template-columns:1fr; padding:var(--ar-s4)} .th-trip{height:220px}}
+</style>
+</head>
+<body class="ar-page mmx-page-themes">
+<a class="ar-skip" href="#main">Skip to the theme rooms</a>
+<div class="ar-sky" aria-hidden="true"></div>
+<header class="ar-wrap mmx-head" id="mmx-head"></header>
+<main id="main" class="ar-wrap" tabindex="-1">
+<nav aria-label="Theme rooms"><ul class="th-doors" id="doors"></ul></nav>
+<p class="ar-meta th-note" id="note"></p>
+<section id="room" aria-live="polite"></section>
+</main>
+<footer class="ar-wrap mmx-foot" id="mmx-foot"></footer>
+<script src="../archive.js?v=1"></script>
+<script src="notes-data.js"></script>
+<script src="explore.js?v=1"></script>
+<script>
+MMX.chrome({ here: 'themes.html', title: 'THEME ROOMS',
+  subtitle: 'Rooms for the themes Mica has tagged by hand. Step through a door.' });
+MMX.ready(function (notes) {
+  var A = MMArchive, esc = MMX.esc, fmt = MMX.fmt;
+  var rooms = {}, tagged = 0;
+  notes.forEach(function (n) {
+    if (n.c.length) tagged++;
+    n.c.forEach(function (t) { (rooms[t] = rooms[t] || []).push(n); });
+  });
+  var names = Object.keys(rooms).sort(function (a, b) { return rooms[b].length - rooms[a].length || (a < b ? -1 : 1); });
+  MMX.status('<span class="ar-count">' + names.length + '</span> rooms · ' + fmt(tagged) + ' hand-tagged transmissions');
+  document.getElementById('note').textContent = 'These rooms hold only the notes Mica tagged by hand: ' + fmt(tagged) + ' of ' + fmt(notes.length) +
+    '. A note can hang in more than one room. To see everything, use All Notes.';
+  var doors = document.getElementById('doors');
+  names.forEach(function (t) {
+    doors.insertAdjacentHTML('beforeend', '<li><a href="#' + encodeURIComponent(t) + '" data-t="' + esc(t) + '">' + esc(t) + ' <small>' + rooms[t].length + '</small></a></li>');
+  });
+  var box = document.getElementById('room'), feed = null, sort = 'new';
+  function top(list, k) { return list.filter(function (n) { return n.thumb; }).sort(function (a, b) { return b.l - a.l || a.id - b.id; }).slice(0, k); }
+  function open(t, focus) {
+    if (!rooms[t]) t = names[0];
+    doors.querySelectorAll('a').forEach(function (a) { a.setAttribute('aria-current', a.dataset.t === t ? 'true' : 'false'); });
+    var list = rooms[t].slice();
+    if (sort === 'new') list.reverse(); else if (sort === 'love') list.sort(function (a, b) { return b.l - a.l || b.id - a.id; });
+    var trip = top(rooms[t], 3);
+    var first = rooms[t][0], last = rooms[t][rooms[t].length - 1];
+    box.innerHTML = '<div class="th-hero"><div><p class="ar-kicker">Theme room · ' + (names.indexOf(t) + 1) + ' of ' + names.length + '</p><h2 id="roomH" tabindex="-1">' + esc(t) + '</h2>' +
+      '<p>' + fmt(rooms[t].length) + ' hand-tagged transmissions, ' + A.dates.label(first.d) + ' to ' + A.dates.label(last.d) + '.</p></div>' +
+      '<div class="th-trip">' + trip.map(function (n, i) { return '<button type="button" data-i="' + i + '" aria-label="View: ' + esc(MMX.excerpt(n.b, 80) || 'image') + '"><img src="' + esc(n.thumb) + '" alt="" decoding="async"></button>'; }).join('') + '</div></div>' +
+      '<div class="mmx-sect"><h3 class="ar-h2" style="font-size:var(--ar-fs-lg)">Everything in this room</h3>' +
+      '<div class="ar-seg" role="group" aria-label="Order"><button type="button" data-s="new" aria-pressed="' + (sort === 'new') + '">Newest</button><button type="button" data-s="old" aria-pressed="' + (sort === 'old') + '">Oldest</button><button type="button" data-s="love" aria-pressed="' + (sort === 'love') + '">Most loved</button></div></div>' +
+      '<div class="mmx-masonry" id="wall"></div>';
+    if (!trip.length) box.querySelector('.th-trip').remove();
+    box.querySelectorAll('.th-trip button').forEach(function (b) { b.onclick = function () { MMX.viewer.open(trip[+b.dataset.i], list); }; });
+    box.querySelectorAll('[data-s]').forEach(function (b) { b.onclick = function () { sort = b.dataset.s; open(t); }; });
+    if (feed) feed.disconnect();
+    feed = MMX.batches(document.getElementById('wall'), list, function (n) {
+      var c = MMX.card(n, { onOpen: function (x) { MMX.viewer.open(x, list); } });
+      var others = n.c.filter(function (x) { return x !== t; });
+      if (others.length) c.querySelector('.mmx-card__body').insertAdjacentHTML('beforeend',
+        '<p class="th-also ar-above"><span class="ar-meta">Also in:</span>' + others.map(function (o) { return '<a href="#' + encodeURIComponent(o) + '">' + esc(o) + '</a>'; }).join('') + '</p>');
+      return c;
+    }, 36);
+    if (focus) document.getElementById('roomH').focus();
+    A.announce('Theme room ' + t + ', ' + rooms[t].length + ' transmissions');
+  }
+  function fromHash() { return decodeURIComponent(location.hash.slice(1)); }
+  window.addEventListener('hashchange', function () { open(fromHash(), true); });
+  open(fromHash());
+});
+</script>
+<script src="../mm-nav.js?v=3" defer></script>
+</body>
+</html>

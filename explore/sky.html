@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sky Map — Magick Mica</title>
+<meta name="description" content="Every Magick Mica note as a star in one spiral sky, laid out by date. The more loved the note, the brighter the star.">
+<link rel="canonical" href="https://magickmica.github.io/explore/sky.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Sky Map — Magick Mica">
+<meta property="og:description" content="Every Magick Mica note as a star in one spiral sky, laid out by date. The more loved the note, the brighter the star.">
+<meta property="og:url" content="https://magickmica.github.io/explore/sky.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#040509">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../archive.css?v=1">
+<link rel="stylesheet" href="explore.css?v=1">
+<style>
+.sk-tools{display:flex; flex-wrap:wrap; gap:var(--ar-s3); align-items:end; margin:var(--ar-s4) 0}
+.sk-stage{position:relative; height:min(78vh,820px); min-height:420px; border-radius:var(--ar-r-lg); overflow:hidden; border:1px solid var(--ar-line);
+  background:radial-gradient(60% 60% at 50% 50%,#131c3f,#06070f 75%); touch-action:none}
+.sk-stage canvas{display:block; width:100%; height:100%; cursor:grab}
+.sk-stage canvas:active{cursor:grabbing}
+.sk-stage canvas:focus-visible{outline:2px solid var(--ar-focus); outline-offset:-2px}
+.sk-zoom{position:absolute; right:12px; top:12px; display:flex; flex-direction:column; gap:6px; z-index:3}
+.sk-zoom .ar-btn{width:var(--ar-tap); padding:0; font-size:1.1rem}
+.sk-legend{position:absolute; left:12px; bottom:12px; z-index:3; display:flex; flex-wrap:wrap; gap:var(--ar-s3); padding:6px 12px; border-radius:var(--ar-r-pill);
+  background:rgba(4,5,9,.72); font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); color:var(--ar-text-muted)}
+.sk-legend i{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; vertical-align:middle}
+.sk-tip{position:absolute; z-index:4; pointer-events:none; max-width:260px; padding:8px 10px; border-radius:8px; background:rgba(4,5,9,.92);
+  border:1px solid var(--ar-line-strong); font-size:var(--ar-fs-sm); line-height:1.35; transform:translate(-50%,calc(-100% - 14px))}
+.sk-tip b{display:block; font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); color:var(--ar-aqua); font-weight:400; text-transform:uppercase; letter-spacing:.06em}
+.sk-panel{position:absolute; z-index:5; right:12px; bottom:12px; width:min(340px,calc(100% - 24px)); max-height:calc(100% - 24px); overflow:auto}
+.sk-panel .ar-window__body{display:flex; flex-direction:column; gap:var(--ar-s3); padding:var(--ar-s4)}
+.sk-panel img{display:block; width:100%; max-height:200px; object-fit:contain; background:var(--ar-bg); border-radius:6px}
+.sk-panel p{margin:0}
+.sk-panel .sk-ptext{white-space:pre-line; overflow-wrap:anywhere; max-height:150px; overflow:auto}
+.sk-cat{margin-top:var(--ar-s6)}
+.sk-cat ol{list-style:none; padding:0; margin:var(--ar-s3) 0 0; display:grid; gap:var(--ar-s2); grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.sk-cat li button{all:unset; box-sizing:border-box; cursor:pointer; display:flex; gap:var(--ar-s3); align-items:center; width:100%; min-height:var(--ar-tap);
+  padding:var(--ar-s2) var(--ar-s3); border-radius:var(--ar-r); border:1px solid var(--ar-line); background:var(--ar-surface)}
+.sk-cat li button:hover{border-color:var(--ar-accent)}
+.sk-cat li button:focus-visible{outline:2px solid var(--ar-focus); outline-offset:2px}
+.sk-cat .mag{font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); color:var(--ar-aqua); min-width:48px}
+.sk-cat .t{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.sk-help{margin:var(--ar-s3) 0 0}
+@media (max-width:720px){.sk-stage{height:68vh} .sk-panel{left:8px; right:8px; bottom:8px; width:auto; max-height:60%} .sk-legend{display:none}}
+</style>
+</head>
+<body class="ar-page mmx-page-sky">
+<a class="ar-skip" href="#main">Skip to the sky map</a>
+<div class="ar-sky" aria-hidden="true"></div>
+<header class="ar-wrap mmx-head" id="mmx-head"></header>
+<main id="main" class="ar-wrap" tabindex="-1">
+<div class="sk-tools">
+  <div><label class="ar-label" for="month">Light up a month</label><select class="ar-select" id="month"><option value="">The whole sky</option></select></div>
+  <div><span class="ar-label" id="kindL">Show stars</span><div class="ar-seg" role="group" aria-labelledby="kindL">
+    <button type="button" data-k="image" aria-pressed="true">Images</button><button type="button" data-k="video" aria-pressed="true">Videos</button><button type="button" data-k="text" aria-pressed="true">Text</button></div></div>
+  <button type="button" class="ar-btn ar-btn--signal" id="rand">Wish on a random star</button>
+</div>
+<div class="sk-stage" id="stage">
+  <canvas id="sky" tabindex="0" role="img" aria-label="Sky map of every note. Use the star catalogue below for a list. With the map focused, left and right arrow keys step from star to star in date order; Enter opens the selected star."></canvas>
+  <div class="sk-zoom"><button type="button" class="ar-btn" id="zin" aria-label="Zoom in">+</button><button type="button" class="ar-btn" id="zout" aria-label="Zoom out">&minus;</button><button type="button" class="ar-btn" id="zreset" aria-label="Reset view">&#x27F2;</button></div>
+  <div class="sk-legend" aria-hidden="true"><span><i style="background:#c9a2ec"></i>image</span><span><i style="background:#5ff2e6"></i>video</span><span><i style="background:#f3eef8"></i>text</span><span>bigger = more loved</span></div>
+  <div class="sk-tip" id="tip" hidden></div>
+  <div class="sk-panel ar-panel ar-window" id="panel" hidden></div>
+</div>
+<p class="ar-meta sk-help">The sky spirals outward from the first transmission at the centre to the newest at the edge. Drag to move, scroll or pinch to zoom, tap a star to read it.</p>
+<section class="sk-cat" aria-labelledby="catH">
+  <div class="mmx-sect"><h2 class="ar-h2" id="catH">Star catalogue: the brightest</h2><span class="ar-meta" id="catN"></span></div>
+  <ol id="cat"></ol>
+</section>
+</main>
+<footer class="ar-wrap mmx-foot" id="mmx-foot"></footer>
+<script src="../archive.js?v=1"></script>
+<script src="notes-data.js"></script>
+<script src="explore.js?v=1"></script>
+<script>
+MMX.chrome({ here: 'sky.html', title: 'THE SKY MAP',
+  subtitle: 'Every note is a star. The first transmission sits at the centre; the sky spirals out to the newest.' });
+MMX.ready(function (notes) {
+  var A = MMArchive, esc = MMX.esc, fmt = MMX.fmt;
+  var COLOR = { image: '#c9a2ec', video: '#5ff2e6', text: '#f3eef8' };
+  var day0 = A.dates.parse(notes[0].d).getTime(), DAY = 864e5;
+  var span = Math.max(1, (A.dates.parse(notes[notes.length - 1].d).getTime() - day0) / DAY);
+  /* stable pseudo-random from the note id, so the sky is the same on every visit */
+  function hash(n) { var x = n % 2147483647; x = (x * 16807) % 2147483647; x = (x * 16807) % 2147483647; return x / 2147483647; }
+  var TURNS = 2.6, R0 = 40, R1 = 520;
+  var peak = 0; notes.forEach(function (n) { peak = Math.max(peak, n.l); });
+  var stars = notes.map(function (n) {
+    var day = (A.dates.parse(n.d).getTime() - day0) / DAY, t = day / span;
+    var a = t * TURNS * Math.PI * 2, r = R0 + (R1 - R0) * Math.sqrt(t);
+    var j1 = hash(n.id), j2 = hash(n.id + 7919);
+    var spread = 10 + 18 * t;                               /* the arm widens as it grows */
+    var rr = r + (j1 - .5) * spread * 2, aa = a + (j2 - .5) * 0.06;
+    return { n: n, x: Math.cos(aa) * rr, y: Math.sin(aa) * rr,
+             s: 0.7 + Math.log2(1 + n.l) * 0.75, glow: n.l >= Math.max(10, peak * 0.3) };
+  });
+  /* month labels sit just outside the arm, at the month's first day */
+  var monthMarks = [], seen = {};
+  stars.forEach(function (s) { var ym = s.n.d.slice(0, 7); if (!seen[ym]) { seen[ym] = 1; var ang = Math.atan2(s.y, s.x), rad = Math.hypot(s.x, s.y) + 34; monthMarks.push({ ym: ym, x: Math.cos(ang) * rad, y: Math.sin(ang) * rad }); } });
+  MMX.status('<span class="ar-count">' + fmt(stars.length) + '</span> stars · ' + monthMarks.length + ' months of sky');
+
+  var cv = document.getElementById('sky'), stage = document.getElementById('stage'), ctx = cv.getContext('2d');
+  var tip = document.getElementById('tip'), panel = document.getElementById('panel');
+  var view = { x: 0, y: 0, k: 1 }, show = { image: true, video: true, text: true }, month = '', sel = null, hover = null, W = 0, H = 0, dpr = 1;
+  function fit() { view.x = 0; view.y = 0; view.k = Math.min(W, H) / (2 * (R1 + 60)); }
+  function size() {
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    var r = stage.getBoundingClientRect(); W = r.width; H = r.height;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+  }
+  function toScreen(s) { return [W / 2 + (s.x - view.x) * view.k, H / 2 + (s.y - view.y) * view.k]; }
+  function visible(s) { return show[s.n.kind] && (!month || s.n.d.slice(0, 7) === month); }
+  var raf = 0;
+  function draw() { if (!raf) raf = requestAnimationFrame(paint); }
+  function paint() {
+    raf = 0;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    var zk = Math.max(0.6, Math.min(2.2, Math.sqrt(view.k * 2)));
+    /* faint arm path */
+    ctx.globalAlpha = 0.12; ctx.strokeStyle = '#9667ba'; ctx.lineWidth = 1; ctx.beginPath();
+    for (var t = 0; t <= 1.0001; t += 0.004) {
+      var a = t * TURNS * Math.PI * 2, r = R0 + (R1 - R0) * Math.sqrt(t);
+      var px = W / 2 + (Math.cos(a) * r - view.x) * view.k, py = H / 2 + (Math.sin(a) * r - view.y) * view.k;
+      t === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    for (var i = 0; i < stars.length; i++) {
+      var s = stars[i], on = visible(s), p = toScreen(s);
+      if (p[0] < -20 || p[1] < -20 || p[0] > W + 20 || p[1] > H + 20) continue;
+      var rad = s.s * zk;
+      ctx.globalAlpha = on ? (0.55 + Math.min(0.45, s.n.l / 30)) : 0.06;
+      ctx.fillStyle = COLOR[s.n.kind];
+      if (on && s.glow) { ctx.shadowColor = COLOR[s.n.kind]; ctx.shadowBlur = 10; } else ctx.shadowBlur = 0;
+      ctx.beginPath(); ctx.arc(p[0], p[1], rad, 0, 6.2832); ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+    /* month labels */
+    ctx.globalAlpha = 0.75; ctx.fillStyle = '#b7aec4'; ctx.font = '11px "Space Mono", monospace'; ctx.textAlign = 'center';
+    monthMarks.forEach(function (m) {
+      if (view.k < 0.45 && m.ym.slice(5) !== '01' && m.ym !== monthMarks[0].ym) return;   /* zoomed out: years only */
+      var px = W / 2 + (m.x - view.x) * view.k, py = H / 2 + (m.y - view.y) * view.k;
+      ctx.globalAlpha = month && m.ym !== month ? 0.25 : 0.8;
+      ctx.fillText(view.k < 0.45 ? m.ym.slice(0, 4) : A.dates.label(m.ym + '-01', 'monthShort') + (m.ym.slice(5) === '01' || m === monthMarks[0] ? ' ' + m.ym.slice(0, 4) : ''), px, py);
+    });
+    [sel, hover].forEach(function (s, k) {
+      if (!s) return; var p = toScreen(s);
+      ctx.globalAlpha = 1; ctx.strokeStyle = k ? '#ffffff' : '#5ff2e6'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(p[0], p[1], s.s * zk + 6, 0, 6.2832); ctx.stroke();
+    });
+    ctx.globalAlpha = 1;
+  }
+  function nearest(mx, my) {
+    var best = null, bd = 18 * 18;
+    for (var i = 0; i < stars.length; i++) {
+      var s = stars[i]; if (!visible(s)) continue;
+      var p = toScreen(s), dx = p[0] - mx, dy = p[1] - my, d = dx * dx + dy * dy;
+      if (d < bd) { bd = d; best = s; }
+    }
+    return best;
+  }
+  function select(s, center) {
+    sel = s; tip.hidden = true;
+    if (!s) { panel.hidden = true; draw(); return; }
+    var n = s.n;
+    if (center) { view.x = s.x; view.y = s.y; view.k = Math.max(view.k, 1.6); }
+    panel.innerHTML = '<div class="ar-window__bar"><span class="ar-light ar-light--live"></span> Star ' + fmt(n.i + 1) + ' of ' + fmt(stars.length) +
+      '<button type="button" class="ar-btn ar-btn--ghost" style="margin-left:auto;min-height:32px" id="pclose" aria-label="Close star">✕</button></div>' +
+      '<div class="ar-window__body">' + (n.thumb ? '<img src="' + esc(n.thumb) + '" alt="' + esc(MMX.excerpt(n.b, 90) || 'Note image') + '">' : '') +
+      '<p class="ar-meta">' + A.dates.label(n.d, 'long') + ' · ♥ ' + n.l + (n.r ? ' · ↻ ' + n.r : '') + '</p>' +
+      (n.b ? '<p class="sk-ptext">' + esc(MMX.excerpt(n.b, 600)) + '</p>' : '') +
+      '<div class="ar-row"><button type="button" class="ar-btn" id="pprev" aria-label="Previous star in time">←</button><button type="button" class="ar-btn" id="pnext" aria-label="Next star in time">→</button>' +
+      '<a class="ar-btn ar-btn--signal" href="' + n.url + '" target="_blank" rel="noopener">' + (n.kind === 'video' ? 'Watch' : 'Read') + ' on Substack ↗</a></div></div>';
+    panel.hidden = false;
+    panel.querySelector('#pclose').onclick = function () { select(null); cv.focus(); };
+    panel.querySelector('#pprev').onclick = function () { stepSel(-1); };
+    panel.querySelector('#pnext').onclick = function () { stepSel(1); };
+    var im = panel.querySelector('img'); if (im) im.onerror = function () { im.remove(); };
+    A.announce('Star from ' + A.dates.label(n.d) + '. ' + MMX.excerpt(n.b, 120));
+    draw();
+  }
+  function stepSel(d) {
+    var i = sel ? stars.indexOf(sel) : (d > 0 ? -1 : stars.length);
+    for (var k = i + d; k >= 0 && k < stars.length; k += d) if (visible(stars[k])) { select(stars[k], true); return; }
+  }
+  /* pointer: drag to pan, pinch to zoom, tap to select */
+  var pts = {}, drag = null, moved = false, pinch = null;
+  cv.addEventListener('pointerdown', function (e) {
+    cv.setPointerCapture(e.pointerId); pts[e.pointerId] = [e.offsetX, e.offsetY]; moved = false;
+    var ids = Object.keys(pts);
+    if (ids.length === 2) { var a = pts[ids[0]], b = pts[ids[1]]; pinch = { d: Math.hypot(a[0] - b[0], a[1] - b[1]), k: view.k }; drag = null; }
+    else drag = { x: e.offsetX, y: e.offsetY, vx: view.x, vy: view.y };
+  });
+  cv.addEventListener('pointermove', function (e) {
+    if (pts[e.pointerId]) pts[e.pointerId] = [e.offsetX, e.offsetY];
+    var ids = Object.keys(pts);
+    if (pinch && ids.length === 2) {
+      var a = pts[ids[0]], b = pts[ids[1]];
+      view.k = Math.max(0.15, Math.min(12, pinch.k * Math.hypot(a[0] - b[0], a[1] - b[1]) / pinch.d)); moved = true; draw(); return;
+    }
+    if (drag) {
+      var dx = e.offsetX - drag.x, dy = e.offsetY - drag.y;
+      if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
+      view.x = drag.vx - dx / view.k; view.y = drag.vy - dy / view.k; draw(); return;
+    }
+    if (e.pointerType === 'mouse') {
+      var s = nearest(e.offsetX, e.offsetY);
+      if (s !== hover) { hover = s; draw(); }
+      if (s) { var p = toScreen(s); tip.style.left = p[0] + 'px'; tip.style.top = p[1] + 'px';
+        tip.innerHTML = '<b>' + A.dates.label(s.n.d) + ' · ♥ ' + s.n.l + '</b>' + esc(MMX.excerpt(s.n.b, 90) || (s.n.kind === 'video' ? 'Video note' : 'Image note')); tip.hidden = false; }
+      else tip.hidden = true;
+    }
+  });
+  function up(e) {
+    delete pts[e.pointerId];
+    if (!moved && drag) { var s = nearest(e.offsetX, e.offsetY); select(s); }
+    if (Object.keys(pts).length < 2) pinch = null;
+    drag = null;
+  }
+  cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+  cv.addEventListener('pointerleave', function () { if (hover) { hover = null; tip.hidden = true; draw(); } });
+  function zoomAt(f, mx, my) {
+    mx = mx == null ? W / 2 : mx; my = my == null ? H / 2 : my;
+    var wx = view.x + (mx - W / 2) / view.k, wy = view.y + (my - H / 2) / view.k;
+    view.k = Math.max(0.15, Math.min(12, view.k * f));
+    view.x = wx - (mx - W / 2) / view.k; view.y = wy - (my - H / 2) / view.k; draw();
+  }
+  cv.addEventListener('wheel', function (e) { e.preventDefault(); zoomAt(Math.exp(-e.deltaY * 0.0015), e.offsetX, e.offsetY); }, { passive: false });
+  document.getElementById('zin').onclick = function () { zoomAt(1.5); };
+  document.getElementById('zout').onclick = function () { zoomAt(1 / 1.5); };
+  document.getElementById('zreset').onclick = function () { fit(); draw(); };
+  cv.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { stepSel(1); e.preventDefault(); }
+    else if (e.key === 'ArrowLeft') { stepSel(-1); e.preventDefault(); }
+    else if (e.key === 'Enter' && sel) { MMX.viewer.open(sel.n); e.preventDefault(); }
+    else if (e.key === '+' || e.key === '=') zoomAt(1.4);
+    else if (e.key === '-') zoomAt(1 / 1.4);
+    else if (e.key === 'Escape') select(null);
+  });
+
+  /* filters */
+  var msel = document.getElementById('month');
+  monthMarks.slice().reverse().forEach(function (m) { var o = document.createElement('option'); o.value = m.ym; o.textContent = A.dates.monthLabel(m.ym); msel.appendChild(o); });
+  msel.onchange = function () {
+    month = msel.value;
+    if (month) { var ms = stars.filter(function (s) { return s.n.d.slice(0, 7) === month; });
+      var cx = 0, cy = 0; ms.forEach(function (s) { cx += s.x; cy += s.y; }); view.x = cx / ms.length; view.y = cy / ms.length; view.k = Math.max(view.k, 1.4); }
+    else fit();
+    if (sel && !visible(sel)) select(null);
+    catalogue(); draw();
+  };
+  document.querySelectorAll('[data-k]').forEach(function (b) {
+    b.onclick = function () {
+      var k = b.dataset.k; show[k] = !show[k];
+      if (!show.image && !show.video && !show.text) show[k] = true;     /* never an empty sky */
+      b.setAttribute('aria-pressed', show[k] ? 'true' : 'false');
+      if (sel && !visible(sel)) select(null);
+      catalogue(); draw();
+    };
+  });
+  document.getElementById('rand').onclick = function () {
+    var s = A.random.pick(stars, visible);
+    if (!s) return;
+    A.random.tune('Wishing…').then(function () { select(s, true); });
+  };
+  /* catalogue: the accessible list view */
+  function catalogue() {
+    var list = stars.filter(visible).sort(function (a, b) { return b.n.l - a.n.l || a.n.id - b.n.id; }).slice(0, 30);
+    document.getElementById('catN').textContent = 'Top ' + list.length + (month ? ' in ' + A.dates.monthLabel(month) : ' in the whole sky');
+    var ol = document.getElementById('cat'); ol.innerHTML = '';
+    list.forEach(function (s) {
+      var li = document.createElement('li'), b = document.createElement('button'); b.type = 'button';
+      b.innerHTML = '<span class="mag">♥ ' + s.n.l + '</span><span class="t">' + esc(MMX.excerpt(s.n.b, 80) || (s.n.kind === 'video' ? 'Video note' : 'Image note')) + '</span><span class="ar-meta">' + A.dates.label(s.n.d) + '</span>';
+      b.onclick = function () { select(s, true); stage.scrollIntoView({ block: 'center' }); cv.focus({ preventScroll: true }); };
+      li.appendChild(b); ol.appendChild(li);
+    });
+  }
+  window.addEventListener('resize', A.util.debounce(function () { var k = view.k; size(); draw(); }, 150));
+  size(); fit(); catalogue(); draw();
+});
+</script>
+<script src="../mm-nav.js?v=3" defer></script>
+</body>
+</html>

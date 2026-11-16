@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hall of Fame — Magick Mica</title>
+<meta name="description" content="The most-loved and most-restacked Magick Mica notes of all time, of every year and of every month.">
+<link rel="canonical" href="https://magickmica.github.io/explore/hall.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Hall of Fame — Magick Mica">
+<meta property="og:description" content="The most-loved and most-restacked Magick Mica notes of all time, of every year and of every month.">
+<meta property="og:url" content="https://magickmica.github.io/explore/hall.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#040509">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../archive.css?v=1">
+<link rel="stylesheet" href="explore.css?v=1">
+<style>
+.hf-tools{display:flex; flex-wrap:wrap; gap:var(--ar-s3); align-items:end; margin:var(--ar-s4) 0 var(--ar-s5)}
+.hf-podium{display:grid; grid-template-columns:1fr 1.15fr 1fr; gap:var(--ar-s4); align-items:end; list-style:none; padding:0; margin:0}
+.hf-podium li:nth-child(1){order:2} .hf-podium li:nth-child(2){order:1} .hf-podium li:nth-child(3){order:3}
+.hf-plaque{position:relative; display:flex; flex-direction:column; border-radius:var(--ar-r-lg); overflow:hidden; background:var(--ar-surface-strong);
+  border:1px solid var(--ar-line-strong); box-shadow:var(--ar-shadow)}
+.hf-plaque::before{content:""; position:absolute; inset:0 0 auto; height:3px; background:var(--ar-chrome)}
+.hf-podium li:nth-child(1) .hf-plaque::before{background:var(--ar-holo); height:4px}
+.hf-plaque .ar-media{aspect-ratio:1/1}
+.hf-plaque .ar-media img{width:100%; height:100%; object-fit:cover}
+.hf-plaque__body{padding:var(--ar-s4); display:flex; flex-direction:column; gap:var(--ar-s2)}
+.hf-rank{font-family:var(--ar-font-display); font-weight:700; font-size:2rem; line-height:1}
+.hf-score{font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm); color:var(--ar-aqua)}
+.hf-plaque p{margin:0}
+.hf-plaque__text{white-space:pre-line; overflow-wrap:anywhere}
+.hf-plaque a{position:relative; z-index:2; font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); text-transform:uppercase; letter-spacing:.06em}
+.hf-plaque__open{all:unset; cursor:zoom-in}
+.hf-plaque__open::after{content:""; position:absolute; inset:0; z-index:1}
+.hf-plaque:focus-within{outline:2px solid var(--ar-focus); outline-offset:3px}
+.hf-list{list-style:none; padding:0; margin:var(--ar-s6) 0 0; display:flex; flex-direction:column; gap:var(--ar-s2)}
+.hf-row{display:grid; grid-template-columns:56px 64px minmax(0,1fr) auto; gap:var(--ar-s3); align-items:center; padding:var(--ar-s2) var(--ar-s3);
+  border-radius:var(--ar-r); border:1px solid var(--ar-line); background:var(--ar-surface); position:relative}
+.hf-row:hover{border-color:var(--ar-accent)}
+.hf-row .n{font-family:var(--ar-font-display); font-weight:500; font-size:1.2rem; text-align:center}
+.hf-row .th{width:64px; height:64px; border-radius:8px; overflow:hidden; background:var(--ar-bg-raised)}
+.hf-row .th img{width:100%; height:100%; object-fit:cover; display:block}
+.hf-row .tx{min-width:0}
+.hf-row .tx button{all:unset; cursor:pointer; display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:100%}
+.hf-row .tx button::after{content:""; position:absolute; inset:0}
+.hf-row:focus-within{outline:2px solid var(--ar-focus); outline-offset:2px}
+.hf-row .sc{font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm); color:var(--ar-aqua); white-space:nowrap}
+.hf-sum{margin:var(--ar-s4) 0 0}
+@media (max-width:720px){
+  .hf-podium{grid-template-columns:1fr}
+  .hf-podium li:nth-child(n){order:0}
+  .hf-row{grid-template-columns:40px 52px minmax(0,1fr); }
+  .hf-row .th{width:52px; height:52px}
+  .hf-row .sc{grid-column:3}
+}
+</style>
+</head>
+<body class="ar-page mmx-page-hall">
+<a class="ar-skip" href="#main">Skip to the hall of fame</a>
+<div class="ar-sky" aria-hidden="true"></div>
+<header class="ar-wrap mmx-head" id="mmx-head"></header>
+<main id="main" class="ar-wrap" tabindex="-1">
+<div class="hf-tools">
+  <div><span class="ar-label" id="byL">Ranked by</span><div class="ar-seg" role="group" aria-labelledby="byL"><button type="button" data-by="l" aria-pressed="true">&hearts; Most loved</button><button type="button" data-by="r" aria-pressed="false">&#x21bb; Most restacked</button></div></div>
+  <div><label class="ar-label" for="when">Period</label><select class="ar-select" id="when"></select></div>
+</div>
+<section aria-labelledby="podH"><h2 class="ar-sr-only" id="podH">Top three</h2><ol class="hf-podium" id="podium"></ol></section>
+<p class="ar-meta hf-sum" id="sum" role="status"></p>
+<ol class="hf-list" id="list" start="4"></ol>
+</main>
+<footer class="ar-wrap mmx-foot" id="mmx-foot"></footer>
+<script src="../archive.js?v=1"></script>
+<script src="notes-data.js"></script>
+<script src="explore.js?v=1"></script>
+<script>
+MMX.chrome({ here: 'hall.html', title: 'THE HALL OF FAME',
+  subtitle: 'The transmissions readers loved and shared the most: of all time, of every year and of every month.' });
+MMX.ready(function (notes) {
+  var A = MMArchive, esc = MMX.esc, fmt = MMX.fmt;
+  var schema = { by: 'l', when: '' }, st = A.url.read(schema);
+  var when = document.getElementById('when');
+  var years = {}, months = {};
+  notes.forEach(function (n) { years[n.d.slice(0, 4)] = 1; months[n.d.slice(0, 7)] = 1; });
+  when.insertAdjacentHTML('beforeend', '<option value="">All time</option>');
+  Object.keys(years).sort().reverse().forEach(function (y) {
+    var g = '<optgroup label="' + y + '"><option value="' + y + '">All of ' + y + '</option>';
+    Object.keys(months).filter(function (m) { return m.slice(0, 4) === y; }).sort().reverse().forEach(function (m) { g += '<option value="' + m + '">' + A.dates.monthLabel(m) + '</option>'; });
+    when.insertAdjacentHTML('beforeend', g + '</optgroup>');
+  });
+  if (st.when && !years[st.when] && !months[st.when]) st.when = '';
+  when.value = st.when;
+  MMX.status('<span class="ar-count">' + fmt(notes.length) + '</span> transmissions judged');
+  var label = { l: ['♥', 'like', 'likes'], r: ['↻', 'restack', 'restacks'] };
+
+  function draw() {
+    var by = st.by, pool = notes.filter(function (n) { return !st.when || n.d.indexOf(st.when) === 0; });
+    var other = by === 'l' ? 'r' : 'l';
+    var ranked = pool.filter(function (n) { return n[by] > 0; }).sort(function (a, b) { return b[by] - a[by] || b[other] - a[other] || a.id - b.id; }).slice(0, 25);
+    /* competition ranking: equal scores share a rank (1, 2, 2, 4) */
+    ranked.forEach(function (n, i) { n._rank = i && n[by] === ranked[i - 1][by] ? ranked[i - 1]._rank : i + 1; });
+    var L = label[by], period = st.when ? (st.when.length === 4 ? st.when : A.dates.monthLabel(st.when)) : 'all time';
+    var total = pool.reduce(function (s, n) { return s + n[by]; }, 0);
+    document.getElementById('sum').textContent = ranked.length
+      ? fmt(total) + ' ' + L[2] + ' across ' + fmt(pool.length) + ' transmissions in ' + period + '.'
+      : 'No ' + L[2] + ' recorded in ' + period + ' yet.';
+    var pod = document.getElementById('podium'), list = document.getElementById('list');
+    pod.innerHTML = ''; list.innerHTML = '';
+    ranked.forEach(function (n, i) {
+      var score = L[0] + ' ' + fmt(n[by]) + ' ' + (n[by] === 1 ? L[1] : L[2]);
+      var tied = ranked.some(function (m) { return m !== n && m._rank === n._rank; });
+      var text = MMX.excerpt(n.b, i < 3 ? 220 : 120) || (n.kind === 'video' ? 'Video note' : 'Image note');
+      var li = document.createElement('li');
+      if (i < 3) {
+        li.innerHTML = '<article class="hf-plaque">' + (n.thumb ? '<div class="ar-media"><img src="' + esc(n.thumb) + '" alt="" loading="lazy" decoding="async"></div>' : '') +
+          '<div class="hf-plaque__body"><span class="hf-rank">No. ' + n._rank + (tied ? ' <small class="ar-meta">tied</small>' : '') + '</span><span class="hf-score">' + score + '</span>' +
+          '<p class="ar-meta">' + A.dates.label(n.d) + '</p><p class="hf-plaque__text"><button type="button" class="hf-plaque__open">' + esc(text) + '</button></p>' +
+          '<a href="' + n.url + '" target="_blank" rel="noopener">Read on Substack ↗</a></div></article>';
+        pod.appendChild(li);
+      } else {
+        li.className = 'hf-row';
+        li.innerHTML = '<span class="n" aria-label="Rank ' + n._rank + (tied ? ', tied' : '') + '">' + n._rank + '</span>' +
+          '<span class="th">' + (n.thumb ? '<img src="' + esc(n.thumb) + '" alt="" loading="lazy" decoding="async">' : '') + '</span>' +
+          '<span class="tx"><button type="button">' + esc(text) + '</button><span class="ar-meta">' + A.dates.label(n.d) + '</span></span><span class="sc">' + score + '</span>';
+        list.appendChild(li);
+      }
+      li.querySelector('button').onclick = function () { MMX.viewer.open(n, ranked); };
+      var im = li.querySelector('img'); if (im) im.onerror = function () { im.remove(); };
+    });
+    document.querySelectorAll('[data-by]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.by === by ? 'true' : 'false'); });
+    A.url.write(st, schema);
+  }
+  document.querySelectorAll('[data-by]').forEach(function (b) { b.onclick = function () { st.by = b.dataset.by; draw(); }; });
+  when.onchange = function () { st.when = when.value; draw(); };
+  draw();
+});
+</script>
+<script src="../mm-nav.js?v=3" defer></script>
+</body>
+</html>

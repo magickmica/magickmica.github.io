@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Transmission Book — Magick Mica</title>
+<meta name="description" content="Every Magick Mica note bound as a book: one transmission per page, a chapter for every month, from the first page to the latest.">
+<link rel="canonical" href="https://magickmica.github.io/explore/book.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Transmission Book — Magick Mica">
+<meta property="og:description" content="Every Magick Mica note bound as a book: one transmission per page, a chapter for every month, from the first page to the latest.">
+<meta property="og:url" content="https://magickmica.github.io/explore/book.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#040509">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../archive.css?v=1">
+<link rel="stylesheet" href="explore.css?v=1">
+<style>
+:root{--paper:#efe8f2; --paper-2:#e4dbea; --ink:#1b1630; --ink-soft:#4a4163; --ink-faint:#6e6488}
+.bk-tools{display:flex; flex-wrap:wrap; gap:var(--ar-s3); align-items:end; margin:var(--ar-s4) 0}
+.bk-tools .bk-slider{flex:1 1 260px}
+.bk-slider input{width:100%; accent-color:var(--ar-holo-lavender); min-height:var(--ar-tap)}
+.bk-book{position:relative; display:grid; grid-template-columns:1fr 1fr; gap:0; margin:var(--ar-s4) auto 0; max-width:1100px;
+  height:min(78vh,760px); min-height:520px; border-radius:6px 6px 6px 6px; box-shadow:var(--ar-shadow-lg);
+  background:linear-gradient(90deg,var(--paper-2),var(--paper) 48%,#d5cadf 50%,var(--paper) 52%,var(--paper-2))}
+.bk-book::before{content:""; position:absolute; left:-6px; right:-6px; top:-6px; bottom:-6px; z-index:-1; border-radius:10px; background:var(--ar-chrome); opacity:.55}
+.bk-page{position:relative; display:flex; flex-direction:column; min-width:0; padding:clamp(20px,3.4vw,44px) clamp(20px,3.4vw,46px) 56px; color:var(--ink);
+  overflow:hidden; transition:opacity var(--ar-t) var(--ar-ease), transform var(--ar-t) var(--ar-ease)}
+.bk-page:first-child{border-right:1px solid rgba(27,22,48,.12); box-shadow:inset -18px 0 24px -20px rgba(27,22,48,.35)}
+.bk-page:last-child{box-shadow:inset 18px 0 24px -20px rgba(27,22,48,.35)}
+.bk-book.is-turning .bk-page{opacity:.15; transform:translateX(var(--turn,0))}
+.bk-page__run{display:flex; justify-content:space-between; gap:var(--ar-s3); font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs);
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 var(--ar-s4); border-bottom:1px solid rgba(27,22,48,.14); padding-bottom:var(--ar-s2)}
+.bk-page__date{font-family:var(--ar-font-display); font-weight:500; font-size:1.05rem; margin:0 0 var(--ar-s3); color:var(--ink)}
+.bk-page__fig{margin:0 0 var(--ar-s4); flex:0 1 auto; min-height:0; display:flex; justify-content:center}
+.bk-page__fig img{display:block; max-width:100%; max-height:min(40vh,380px); width:auto; height:auto; border-radius:4px; box-shadow:0 6px 18px rgba(27,22,48,.25); background:#ddd}
+.bk-page__fig .bk-vid{position:relative}
+.bk-page__fig .ar-badge{position:absolute; left:8px; top:8px}
+.bk-page__text{flex:1 1 auto; min-height:0; overflow:auto; white-space:pre-line; overflow-wrap:anywhere; font-size:1.06rem; line-height:1.65; padding-right:4px}
+.bk-page__text--big{font-size:clamp(1.15rem,2vw,1.45rem); line-height:1.5}
+.bk-page__foot{position:absolute; left:0; right:0; bottom:16px; display:flex; justify-content:space-between; align-items:center; padding:0 clamp(20px,3.4vw,46px);
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); color:var(--ink-faint)}
+.bk-page__foot a{color:#3b2a8f; font-weight:700; text-decoration:none; padding:8px 0}
+.bk-page__foot a:hover{text-decoration:underline}
+.bk-page__foot a:focus-visible,.bk-page a:focus-visible,.bk-page button:focus-visible{outline:2px solid #3b2a8f; outline-offset:2px}
+.bk-cover{justify-content:center; align-items:center; text-align:center; background:radial-gradient(70% 60% at 50% 35%,#2f2f70,#131c3f 60%,#040509); color:var(--ar-text)}
+.bk-cover h2{font-family:var(--ar-font-display); font-weight:700; font-size:clamp(1.6rem,3.6vw,2.6rem); line-height:1.08; margin:var(--ar-s3) 0}
+@supports (-webkit-background-clip:text){.bk-cover h2{background:var(--ar-chrome); -webkit-background-clip:text; background-clip:text; color:transparent}}
+.bk-cover p{margin:var(--ar-s2) 0; color:var(--ar-text-muted)}
+.bk-cover .bk-page__foot{color:var(--ar-text-faint)}
+.bk-chapter{justify-content:center; text-align:center}
+.bk-chapter .k{font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm); letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint)}
+.bk-chapter h2{font-family:var(--ar-font-display); font-weight:700; font-size:clamp(1.8rem,4vw,3rem); margin:var(--ar-s3) 0; color:var(--ink)}
+.bk-chapter p{color:var(--ink-soft); margin:var(--ar-s1) 0}
+.bk-toc h2{font-family:var(--ar-font-display); font-weight:500; font-size:1.4rem; margin:0 0 var(--ar-s3)}
+.bk-toc ol{list-style:none; margin:0; padding:0; overflow:auto; flex:1 1 auto}
+.bk-toc li a{display:flex; gap:var(--ar-s2); align-items:baseline; min-height:34px; padding:4px 0; color:var(--ink); text-decoration:none}
+.bk-toc li a::after{content:""; order:1; flex:1; border-bottom:1px dotted rgba(27,22,48,.35)}
+.bk-toc li a span{order:2; font-family:var(--ar-font-mono); font-size:var(--ar-fs-sm); color:var(--ink-soft)}
+.bk-toc li a:hover{color:#3b2a8f}
+.bk-toc .yr{font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); letter-spacing:.14em; color:var(--ink-faint); margin:var(--ar-s3) 0 2px}
+.bk-blank{background:transparent}
+.bk-nav{display:flex; justify-content:center; align-items:center; gap:var(--ar-s3); margin:var(--ar-s5) 0}
+.bk-nav .ar-btn{min-width:120px}
+.bk-hint{text-align:center; margin:0}
+@media (max-width:860px){
+  .bk-book{grid-template-columns:1fr; height:auto; min-height:70vh; background:var(--paper)}
+  .bk-page:nth-child(2){display:none}
+  .bk-page:first-child{border-right:0; box-shadow:none}
+  .bk-page{min-height:70vh}
+  .bk-page__fig img{max-height:46vh}
+}
+@media (prefers-reduced-motion:reduce){.bk-page{transition:none}.bk-book.is-turning .bk-page{opacity:1; transform:none}}
+</style>
+</head>
+<body class="ar-page mmx-page-book">
+<a class="ar-skip" href="#main">Skip to the book</a>
+<div class="ar-sky" aria-hidden="true"></div>
+<header class="ar-wrap mmx-head" id="mmx-head"></header>
+<main id="main" class="ar-wrap" tabindex="-1">
+<div class="bk-tools">
+  <div class="bk-slider"><label class="ar-label" for="slider">Page <span id="pgLabel"></span></label>
+    <input type="range" id="slider" min="0" max="1" value="0" step="1"></div>
+  <div><label class="ar-label" for="jump">Jump to a date</label><input class="ar-input" type="date" id="jump"></div>
+  <button type="button" class="ar-btn" id="toc">Contents</button>
+  <button type="button" class="ar-btn ar-btn--signal" id="rand">Random page</button>
+</div>
+<div class="bk-book" id="book" aria-live="polite">
+  <section class="bk-page" id="pL"></section>
+  <section class="bk-page" id="pR"></section>
+</div>
+<div class="bk-nav">
+  <button type="button" class="ar-btn" id="prev">← Previous</button>
+  <button type="button" class="ar-btn" id="next">Next →</button>
+</div>
+<p class="ar-meta bk-hint">Arrow keys turn the page. On a phone, swipe.</p>
+</main>
+<footer class="ar-wrap mmx-foot" id="mmx-foot"></footer>
+<script src="../archive.js?v=1"></script>
+<script src="notes-data.js"></script>
+<script src="explore.js?v=1"></script>
+<script>
+MMX.chrome({ here: 'book.html', title: 'THE TRANSMISSION BOOK',
+  subtitle: 'Every note bound in order: one transmission per page, a chapter for every month.' });
+MMX.ready(function (notes) {
+  var A = MMArchive, esc = MMX.esc, fmt = MMX.fmt;
+  /* ── bind the book: cover, contents, then a chapter page before each month ── */
+  var pages = [{ type: 'cover' }, { type: 'toc' }], chapters = [], cur = '';
+  notes.forEach(function (n) {
+    var ym = n.d.slice(0, 7);
+    if (ym !== cur) {
+      cur = ym;
+      var ch = { type: 'chapter', ym: ym, no: chapters.length + 1, count: 0, at: pages.length };
+      chapters.push(ch); pages.push(ch);
+    }
+    chapters[chapters.length - 1].count++;
+    pages.push({ type: 'note', n: n, ch: chapters[chapters.length - 1] });
+  });
+  var total = pages.length, firstOfDate = {};
+  pages.forEach(function (p, i) { if (p.type === 'note' && !(p.n.d in firstOfDate)) firstOfDate[p.n.d] = i; });
+  MMX.status('<span class="ar-count">' + fmt(notes.length) + '</span> transmissions · ' + chapters.length + ' chapters · ' + fmt(total - 1) + ' pages');
+
+  var book = document.getElementById('book'), L = document.getElementById('pL'), R = document.getElementById('pR');
+  var slider = document.getElementById('slider'), pgLabel = document.getElementById('pgLabel');
+  var jump = document.getElementById('jump');
+  jump.min = notes[0].d; jump.max = notes[notes.length - 1].d;
+  slider.max = total - 1;
+  var mq = matchMedia('(max-width:860px)');
+  function single() { return mq.matches; }
+  var pos = 0;
+
+  function run(p, i) {
+    var left = p.type === 'note' ? 'Chapter ' + p.ch.no + ' · ' + A.dates.monthLabel(p.ch.ym) : 'The Transmission Book';
+    return '<p class="bk-page__run"><span>' + esc(left) + '</span><span>Magick Mica TV</span></p>';
+  }
+  function foot(i, extra) {
+    return '<div class="bk-page__foot"><span>' + (i > 0 ? 'p. ' + fmt(i) : '') + '</span>' + (extra || '') + '</div>';
+  }
+  function render(el, i) {
+    var p = pages[i];
+    el.className = 'bk-page';
+    if (!p) { el.className += ' bk-blank'; el.innerHTML = ''; el.removeAttribute('aria-label'); return; }
+    el.setAttribute('aria-label', i === 0 ? 'Cover' : 'Page ' + i);
+    if (p.type === 'cover') {
+      el.className += ' bk-cover';
+      el.innerHTML = '<p class="ar-kicker">Magick Mica TV</p><h2>THE TRANSMISSION BOOK</h2>' +
+        '<p>' + A.dates.label(notes[0].d) + ' — ' + A.dates.label(notes[notes.length - 1].d) + '</p>' +
+        '<p>' + fmt(notes.length) + ' transmissions in ' + chapters.length + ' chapters</p>' + foot(0, '<span>Turn the page →</span>');
+    } else if (p.type === 'toc') {
+      el.className += ' bk-toc';
+      var yr = '', rows = '';
+      chapters.forEach(function (c) {
+        var y = c.ym.slice(0, 4);
+        if (y !== yr) { yr = y; rows += '<li class="yr">' + y + '</li>'; }
+        rows += '<li><a href="#p' + c.at + '" data-go="' + c.at + '">' + c.no + '. ' + A.dates.monthLabel(c.ym) +
+          ' <small>(' + fmt(c.count) + ')</small><span>' + fmt(c.at) + '</span></a></li>';
+      });
+      el.innerHTML = run(p, i) + '<h2 id="tocH">Contents</h2><ol aria-labelledby="tocH">' + rows + '</ol>' + foot(i);
+    } else if (p.type === 'chapter') {
+      el.className += ' bk-chapter';
+      el.innerHTML = '<p class="k">Chapter ' + p.no + '</p><h2>' + A.dates.monthLabel(p.ym).toUpperCase() + '</h2>' +
+        '<p>' + fmt(p.count) + ' transmission' + (p.count === 1 ? '' : 's') + '</p>' +
+        '<p>pages ' + fmt(p.at + 1) + '–' + fmt(p.at + p.count) + '</p>' + foot(i);
+    } else {
+      var n = p.n, fig = '';
+      if (n.thumb) {
+        fig = '<figure class="bk-page__fig"><div class="bk-vid"><img src="' + esc(n.thumb) + '" alt="' + esc(n.b ? MMX.excerpt(n.b, 100) : 'Note image') + '"' +
+          (n.w ? ' width="' + n.w + '" height="' + n.h + '"' : '') + ' decoding="async">' +
+          (n.kind === 'video' ? '<span class="ar-badge">▶ Video</span>' : '') + '</div></figure>';
+      }
+      var big = !n.thumb && n.b.length < 320;
+      el.innerHTML = run(p, i) + '<p class="bk-page__date"><time datetime="' + n.d + '">' + A.dates.label(n.d, 'long') + '</time></p>' + fig +
+        '<div class="bk-page__text' + (big ? ' bk-page__text--big' : '') + '" tabindex="0">' + esc(n.b || '') + '</div>' +
+        foot(i, '<a href="' + n.url + '" target="_blank" rel="noopener">' + (n.kind === 'video' ? 'Watch' : 'Read') + ' on Substack ↗</a>');
+      var im = el.querySelector('img');
+      if (im) im.addEventListener('error', function () { im.closest('figure').remove(); }, { once: true });
+    }
+  }
+  /* preload the next spread's images */
+  function preload(i) { [i, i + 1, i + 2, i + 3].forEach(function (k) { var p = pages[k]; if (p && p.n && p.n.thumb) { var im = new Image(); im.src = p.n.thumb; } }); }
+
+  function show(i, dir) {
+    i = Math.max(0, Math.min(total - 1, i | 0));
+    if (!single()) i = i - (i % 2);
+    var go = function () {
+      pos = i;
+      render(L, i);
+      render(R, single() ? -1 : i + 1);
+      slider.value = i;
+      var a = i, b = single() ? i : Math.min(i + 1, total - 1);
+      pgLabel.textContent = (a === 0 ? 'cover' : fmt(a)) + (b !== a ? '–' + fmt(b) : '') + ' of ' + fmt(total - 1);
+      slider.setAttribute('aria-valuetext', a === 0 ? 'Cover' : 'Page ' + fmt(a));
+      document.getElementById('prev').disabled = i <= 0;
+      document.getElementById('next').disabled = i + (single() ? 1 : 2) > total - 1;
+      var p = pages[i].type === 'note' ? pages[i] : pages[i + 1];
+      if (p && p.n) jump.value = p.n.d;
+      try { history.replaceState(null, '', '#p' + i); } catch (e) {}
+      preload(i + 2);
+    };
+    if (dir && !A.util.reducedMotion()) {
+      book.style.setProperty('--turn', dir > 0 ? '-14px' : '14px');
+      book.classList.add('is-turning');
+      setTimeout(function () { go(); book.classList.remove('is-turning'); }, 160);
+    } else go();
+  }
+  function step(d) { show(pos + d * (single() ? 1 : 2), d); }
+
+  document.getElementById('prev').addEventListener('click', function () { step(-1); });
+  document.getElementById('next').addEventListener('click', function () { step(1); });
+  document.getElementById('toc').addEventListener('click', function () { show(1, -1); book.focus && L.focus(); });
+  slider.addEventListener('input', function () { show(+slider.value); });
+  jump.addEventListener('change', function () {
+    if (!jump.value) return;
+    var ds = Object.keys(firstOfDate).sort(), target = null;
+    for (var k = 0; k < ds.length; k++) if (ds[k] >= jump.value) { target = ds[k]; break; }
+    if (!target) target = ds[ds.length - 1];
+    show(firstOfDate[target], 1);
+    A.announce(target === jump.value ? 'Opened ' + A.dates.label(target) : 'No transmissions on that date; opened the next one, ' + A.dates.label(target));
+  });
+  document.getElementById('rand').addEventListener('click', function () {
+    var p = A.random.pick(pages, function (x) { return x.type === 'note'; });
+    A.random.tune('Turning to a random page…').then(function () { show(pages.indexOf(p), 1); });
+  });
+  book.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-go]');
+    if (a) { e.preventDefault(); show(+a.getAttribute('data-go'), 1); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.target.matches('input,select,textarea') || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (document.querySelector('dialog[open]')) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { step(1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { step(-1); e.preventDefault(); }
+    if (e.key === 'Home') { show(0, -1); e.preventDefault(); }
+    if (e.key === 'End') { show(total - 1, 1); e.preventDefault(); }
+  });
+  /* swipe */
+  var sx = null, sy = 0;
+  book.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  book.addEventListener('touchend', function (e) {
+    if (sx === null) return;
+    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+    sx = null;
+  }, { passive: true });
+  mq.addEventListener ? mq.addEventListener('change', function () { show(pos); }) : mq.addListener(function () { show(pos); });
+  window.addEventListener('hashchange', function () { var m = /^#p(\d+)$/.exec(location.hash); if (m && +m[1] !== pos) show(+m[1]); });
+  var m = /^#p(\d+)$/.exec(location.hash);
+  show(m ? +m[1] : 0);
+});
+</script>
+<script src="../mm-nav.js?v=3" defer></script>
+</body>
+</html>

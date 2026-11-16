@@ -126,3 +126,55 @@ The `--patch` flag performs the one-time surgery on the pages. It has
 already been run; you do not need it again.
 
 Each page keeps its own design completely — only the shared data moved.
+
+---
+
+## THE ARCHIVE REDESIGN (notes.html + minimags.html)
+
+Shared files, hand-written, never touched by the update tools:
+
+- **`archive.css`** — design tokens and components for both archive pages (classes start `.ar-`)
+- **`archive.js`** — shared helpers on `window.MMArchive`: local-time date presets,
+  filters in the address bar, random pick + tuning effect, the Archive Time Machine
+
+**Run this after any change to either archive page or to `tools/update_pages.py`:**
+
+```bash
+python3 tools/check_archives.py
+```
+
+It never writes anything. It confirms every note and every weekly/monthly issue is
+still on the pages, every issue link works, and that `update_pages.py` can still
+find the spots it rewrites. Those spots must not move:
+
+- `notes.html`: exactly one `const NOTES = [...]` block
+- `minimags.html`: `id="wGrid"` and `id="mGrid"`, closed by `</div>` + newline +
+  `<div class="issues-grid hidden" id="mGrid"` and by `</div>` + newline + `<footer>`
+
+If either marker goes missing, `update_pages.py` does not error: it just stops adding
+new editions. The check catches that.
+
+---
+
+## EXPLORE (explore/) — six ways to browse the notes
+
+| Page | What it is |
+|---|---|
+| `explore/index.html` | Front page: links every room plus Almanac, Signal Band, Reader, Random Note TV |
+| `explore/book.html` | The Transmission Book: one note per page, a chapter per month (`#p123` links a page) |
+| `explore/gallery.html` | The Gallery Wing: every image note, one room per month (`?room=2026-11`) |
+| `explore/tapes.html` | The Tape Library: every video note as a labelled tape |
+| `explore/sky.html` | The Sky Map: every note as a star, spiralling out by date |
+| `explore/themes.html` | Theme Rooms: one room per hand-added tag (`#cosmic`) |
+| `explore/hall.html` | The Hall of Fame: top 25 by likes or restacks, all time / year / month |
+
+All seven read **one** generated file, `explore/notes-data.js`, written by
+`explore/build_explore.py` from `_data/notes_with_media_compact.json`.
+`tools/update_all.py` runs it after every update, so the pages never need editing.
+Shared look: `archive.css`, `archive.js`, `explore/explore.css`, `explore/explore.js`.
+The site menu entry ("Explore the Notes") is in `_data/sitemap_nav.json`.
+
+**If `tools/update_all.py` is ever replaced** (e.g. by another upload), keep
+`"explore/build_explore.py"` in its list of builders next to the Almanac,
+Signal Band and Reader, or the Explore pages stop getting new notes.
+`python3 tools/check_archives.py` reports it if `notes-data.js` falls behind.
