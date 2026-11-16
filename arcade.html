@@ -625,7 +625,7 @@ body::before{background:
 
 /* ---------- cabinets: mini arcade machines ---------- */
 .floor{max-width:960px;margin:0 auto}
-#cabinets,#toys{scroll-margin-top:64px}
+#midway,#cabinets,#toys{scroll-margin-top:64px}
 .cab-row{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,20px)}
 .cab{position:relative;display:flex;flex-direction:column;text-decoration:none;color:var(--pearl);
   border-radius:16px 16px 10px 10px;overflow:hidden;
@@ -730,6 +730,34 @@ body::before{background:
   .fb-balloon{transform:scale(.9)}
   .cab:hover,.feature:hover,.toy:hover{transform:none}
 }
+
+/* ---------- midway: 4-up and 5-up rows, prize counter ---------- */
+.cab-row--4{grid-template-columns:repeat(4,1fr)}
+.cab-row--5{grid-template-columns:repeat(5,1fr)}
+.cab-row--5 .cab-mq{font-size:.68rem;letter-spacing:.06em}
+.counter{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(12px,2vw,20px);margin-top:clamp(14px,2vw,20px)}
+.wheel-cta{display:flex;align-items:center;gap:14px;padding:16px;border-radius:16px;text-decoration:none;color:var(--pearl);
+  background:radial-gradient(120% 140% at 0% 0%,rgba(255,209,102,.22),transparent 60%),linear-gradient(160deg,#2f2f70,#131c3f);
+  border:2px solid rgba(255,209,102,.55);box-shadow:0 0 0 4px rgba(4,5,9,.6),0 0 30px rgba(255,209,102,.18);transition:transform .18s,box-shadow .18s}
+.wheel-cta:hover,.wheel-cta:focus-visible{transform:translateY(-3px);box-shadow:0 0 0 4px rgba(4,5,9,.6),0 0 44px rgba(255,209,102,.4)}
+.wheel-ico{flex:none;font-size:2.6rem;line-height:1;filter:drop-shadow(0 0 12px rgba(255,209,102,.7));animation:wspin 9s linear infinite}
+@keyframes wspin{to{transform:rotate(360deg)}}
+.wheel-t{min-width:0;flex:1}
+.wheel-t b{display:block;font-family:var(--arcade);font-size:.92rem;color:#fff}
+.wheel-t i{display:block;font-style:normal;font-size:.76rem;line-height:1.45;color:var(--pearl-dim);margin-top:3px}
+.wheel-cta .cab-btn{margin:0;flex:none;padding:.5rem .9rem}
+.counter-shelf{padding:12px 14px;border-radius:16px;border:1px solid rgba(255,209,102,.25);background:linear-gradient(180deg,rgba(47,47,112,.45),rgba(19,28,63,.35))}
+.cs-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-family:var(--pixel);font-size:.7rem;letter-spacing:.12em;color:var(--gold)}
+.cs-head b{font-weight:400}
+.cs-head span{color:var(--pearl-dim);font-size:.62rem}
+.counter .shelf-row{display:flex;flex-wrap:wrap;gap:6px;min-height:48px;margin-top:8px;padding:6px 4px 10px;border-bottom:6px solid #5146a2;border-radius:4px;
+  background:linear-gradient(0deg,rgba(81,70,162,.25),transparent 60%);max-height:150px;overflow:hidden}
+.counter .shelf-row .it{font-size:1.6rem;line-height:1;width:38px;height:38px;display:grid;place-items:center}
+.counter .shelf-row .it.medium{font-size:2rem;width:44px;height:44px}
+.counter .shelf-row .it.jumbo{font-size:2.5rem;width:52px;height:52px;filter:drop-shadow(0 0 10px rgba(255,209,102,.55))}
+.counter .shelf-row .empty{font-size:.74rem;color:var(--pearl-dim);align-self:center;padding-left:4px}
+@media(max-width:860px){ .cab-row--4,.cab-row--5{grid-template-columns:repeat(2,1fr)} .cab-row--5>.cab:last-child{grid-column:1 / -1} .counter{grid-template-columns:1fr} }
+@media(prefers-reduced-motion:reduce){ .wheel-ico{animation:none} }
 </style>
 <meta property="og:image" content="https://magickmica.github.io/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -753,22 +781,23 @@ body::before{background:
   <div class="hud-row">
     <span class="hud"><b>1UP</b> YOU</span>
     <span class="hud blink">CREDITS ∞</span>
-    <span class="hud"><b>GAMES+TOYS</b> 23</span>
+    <span class="hud"><b>GAMES+TOYS</b> 27</span>
   </div>
   <nav class="jump" aria-label="Jump to">
-    <a href="cosmic-clown-splash.html" class="j-new">🎈 New game</a>
+    <a href="#midway" class="j-new">🎪 The Midway</a>
     <a href="#cabinets">🕹 Cabinets</a>
     <a href="#toys">✨ Toys &amp; rituals</a>
-    <a href="six-in-one.html">🕹 Six-in-One</a>
+    <a href="six-in-one.html">🎰 Six-in-One</a>
+    <a href="prize-wheel.html">🎡 Prize Wheel</a>
   </nav>
 </header>
 
 <div class="ticker" aria-hidden="true"><div class="ticker-in">
-  <span>★ NOW PLAYING: COSMIC CLOWN SPLASH</span><span>★ HIGH SCORE TO BEAT: YOURS</span><span>★ THE WITCHING HOUR IS OPEN ALL NIGHT</span><span>★ MOON SHOT · COMET RALLY · COSMIC ECHO</span><span>★ SIX MORE GAMES IN THE SIX-IN-ONE</span>
-  <span>★ NOW PLAYING: COSMIC CLOWN SPLASH</span><span>★ HIGH SCORE TO BEAT: YOURS</span><span>★ THE WITCHING HOUR IS OPEN ALL NIGHT</span><span>★ MOON SHOT · COMET RALLY · COSMIC ECHO</span><span>★ SIX MORE GAMES IN THE SIX-IN-ONE</span>
+  <span>★ THE COSMIC CIRCUS MIDWAY IS OPEN</span><span>★ CLOWN SPLASH · RING TOSS · MOON STRIKER · STAR DARTS</span><span>★ ONE FREE SPIN A DAY ON THE PRIZE WHEEL</span><span>★ THE WITCHING HOUR IS OPEN ALL NIGHT</span><span>★ SIX MORE GAMES IN THE SIX-IN-ONE</span>
+  <span>★ THE COSMIC CIRCUS MIDWAY IS OPEN</span><span>★ CLOWN SPLASH · RING TOSS · MOON STRIKER · STAR DARTS</span><span>★ ONE FREE SPIN A DAY ON THE PRIZE WHEEL</span><span>★ THE WITCHING HOUR IS OPEN ALL NIGHT</span><span>★ SIX MORE GAMES IN THE SIX-IN-ONE</span>
 </div></div>
 
-<a class="feature" href="cosmic-clown-splash.html">
+<a class="feature" href="#midway">
   <span class="burst" aria-hidden="true"><span>NEW!</span></span>
   <span class="feat-art" aria-hidden="true">
     <svg viewBox="0 0 220 260" width="220" height="260">
@@ -797,32 +826,56 @@ body::before{background:
     </svg>
   </span>
   <span class="feat-txt">
-    <span class="kicker">JUST OPENED ON THE COSMIC CIRCUS MIDWAY</span>
-    <span class="feat-h">Cosmic Clown Splash</span>
-    <span class="feat-p">Squirt the clown in the mouth, blow up the balloon, and pop it before the Pixel Witch does. Race the circus solo, or put two players on one phone. Winners take home a prize.</span>
-    <span class="feat-cta">🎈 PLAY NOW</span>
+    <span class="kicker">JUST OPENED · STEP RIGHT UP</span>
+    <span class="feat-h">The Cosmic Circus Midway</span>
+    <span class="feat-p">Five carnival games under one striped tent: squirt the clown, ring a planet, ring the moon bell, pop the balloons and spin the prize wheel. Every win puts a prize on your shelf.</span>
+    <span class="feat-cta">🎪 ENTER THE MIDWAY</span>
   </span>
 </a>
 
-<section class="floor" id="cabinets">
+<section class="floor" id="midway">
   <div class="sec-head">
     <span class="sec-kick">LEVEL 1</span>
+    <h2>The Midway</h2>
+    <p>Carnival games from the Cosmic Circus. Win a round and a prize lands on your shelf.</p>
+  </div>
+  <div class="cab-row cab-row--4">
+    <a class="cab is-new" href="cosmic-clown-splash.html" style="--c:#ff4fa3;--c2:#5ff3e8"><span class="cab-mq">CLOWN SPLASH</span><span class="cab-scr"><span class="cab-ico">🎈</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Squirt the clown’s mouth, blow up the balloon, pop it first. Solo or two players.</span><span class="cab-btn">PLAY ▸</span></a>
+    <a class="cab is-new" href="ring-toss.html" style="--c:#5ff3e8;--c2:#9667ba"><span class="cab-mq">RING TOSS</span><span class="cab-scr"><span class="cab-ico">🪐</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Flick glowing rings onto drifting planet bottles. The back row pays more.</span><span class="cab-btn">PLAY ▸</span></a>
+    <a class="cab is-new" href="moon-striker.html" style="--c:#ffd166;--c2:#ff4fa3"><span class="cab-mq">MOON STRIKER</span><span class="cab-scr"><span class="cab-ico">🔨</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Swing at the perfect moment and send the puck up to ring the moon bell.</span><span class="cab-btn">PLAY ▸</span></a>
+    <a class="cab is-new" href="star-darts.html" style="--c:#9667ba;--c2:#ffd166"><span class="cab-mq">STAR DARTS</span><span class="cab-scr"><span class="cab-ico">🌠</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Throw shooting stars at a wall of drifting balloons. Gold ones score triple.</span><span class="cab-btn">PLAY ▸</span></a>
+  </div>
+  <div class="counter">
+    <a class="wheel-cta" href="prize-wheel.html">
+      <span class="wheel-ico" aria-hidden="true">🎡</span>
+      <span class="wheel-t"><b>Cosmic Prize Wheel</b><i>One free spin a day, plus a bonus spin for every prize you win on the midway.</i></span>
+      <span class="cab-btn" style="--c:#ffd166">SPIN ▸</span>
+    </a>
+    <div class="counter-shelf">
+      <div class="cs-head"><b>Your prize shelf</b><span id="prizeCount"></span></div>
+      <div class="shelf-row" id="arcadeShelf"><span class="empty">Win a midway game and your first prize shows up here.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="floor" id="cabinets">
+  <div class="sec-head">
+    <span class="sec-kick">LEVEL 2</span>
     <h2>The Cabinets</h2>
     <p>Real games with high scores. Each one opens in its own machine.</p>
   </div>
-  <div class="cab-row">
-    <a class="cab is-new" href="cosmic-clown-splash.html" style="--c:#ff4fa3;--c2:#5ff3e8"><span class="cab-mq">CLOWN SPLASH</span><span class="cab-scr"><span class="cab-ico">🎈</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Squirt, inflate, POP. Race the circus or a friend.</span><span class="cab-btn">PLAY ▸</span></a>
+  <div class="cab-row cab-row--5">
     <a class="cab" href="witching-hour.html" style="--c:#ffd166;--c2:#9667ba"><span class="cab-mq">WITCHING HOUR</span><span class="cab-scr"><span class="cab-ico">👻</span></span><span class="cab-ds">You’re the ghost. Eat the candles, outrun the four. Swallow a moon and they run.</span><span class="cab-btn">PLAY ▸</span></a>
     <a class="cab" href="moon-shot.html" style="--c:#ffd166;--c2:#ff4fa3"><span class="cab-mq">MOON SHOT</span><span class="cab-scr"><span class="cab-ico">🌕</span></span><span class="cab-ds">Drag back from the moon and let go. Three misses ends the night.</span><span class="cab-btn">PLAY ▸</span></a>
     <a class="cab" href="pong.html" style="--c:#ff4fa3;--c2:#5146a2"><span class="cab-mq">COMET RALLY</span><span class="cab-scr"><span class="cab-ico">☄️</span></span><span class="cab-ds">Keep the comet in play. It gets faster. You do not.</span><span class="cab-btn">PLAY ▸</span></a>
     <a class="cab" href="cosmic-echo.html" style="--c:#5ff3e8;--c2:#9667ba"><span class="cab-mq">COSMIC ECHO</span><span class="cab-scr"><span class="cab-ico">◈</span></span><span class="cab-ds">Watch the lights. Repeat the phrase. How far can you get?</span><span class="cab-btn">PLAY ▸</span></a>
-    <a class="cab" href="six-in-one.html" style="--c:#d5c2dc;--c2:#5ff3e8"><span class="cab-mq">SIX-IN-ONE</span><span class="cab-scr"><span class="cab-ico">🕹</span></span><span class="cab-ds">Six mini games in one cabinet: scratch, slots, memory, jigsaw and more.</span><span class="cab-btn">PLAY ▸</span></a>
+    <a class="cab" href="six-in-one.html" style="--c:#d5c2dc;--c2:#5ff3e8"><span class="cab-mq">SIX-IN-ONE</span><span class="cab-scr"><span class="cab-ico">🎰</span></span><span class="cab-ds">Six mini games in one cabinet: scratch, slots, memory, jigsaw and more.</span><span class="cab-btn">PLAY ▸</span></a>
   </div>
 </section>
 
 <section class="floor" id="toys">
   <div class="sec-head">
-    <span class="sec-kick">LEVEL 2</span>
+    <span class="sec-kick">LEVEL 3</span>
     <h2>Toys &amp; Rituals</h2>
     <p>No score to beat. Things to wind up, ask, send and sit with.</p>
   </div>
@@ -853,6 +906,13 @@ body::before{background:
 // the six mini games moved to six-in-one.html: keep old links like arcade.html#jigsaw=123 working
 (function(){var g=(location.hash||'').slice(1).split('=')[0].toLowerCase();
 if(['scratch','memory','guess','slots','hunt','jigsaw','play'].indexOf(g)>-1){location.replace('six-in-one.html'+(g==='play'?'':location.hash));}})();
+</script>
+<script src="mm-prizes.js?v=1"></script>
+<script>
+// the visitor's own prize shelf from the midway games (saved in their browser only)
+(function(){ if(!window.MMPrizes) return; var el=document.getElementById('arcadeShelf'), c=document.getElementById('prizeCount');
+  function draw(){ var n=MMPrizes.read().length; if(n){ MMPrizes.render(el,{limit:40}); } c.textContent=n?(n+(n===1?' prize':' prizes')):''; }
+  draw(); addEventListener('mm-prizes',draw); })();
 </script>
 <script src="mm-nav.js?v=3" defer></script>
 <script src="mm-store.js?v=1" defer></script>

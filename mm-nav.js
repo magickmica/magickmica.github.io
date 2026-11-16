@@ -49,6 +49,10 @@
     { name: 'Play', items: [
       ['arcade.html', 'The Arcade'],
       ['cosmic-clown-splash.html', 'Cosmic Clown Splash'],
+      ['ring-toss.html', 'Saturn Ring Toss'],
+      ['moon-striker.html', 'Moon Striker'],
+      ['star-darts.html', 'Star Darts'],
+      ['prize-wheel.html', 'Cosmic Prize Wheel'],
       ['six-in-one.html', 'Six-in-One'],
       ['witching-hour.html', 'The Witching Hour'],
       ['songmaker.html', 'Song Maker'],

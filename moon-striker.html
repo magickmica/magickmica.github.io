@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Moon Striker &middot; MagickMica</title>
+<meta name="description" content="A Cosmic Circus midway game: time your swing on the power meter and send the puck all the way up to ring the moon bell. Five swings, win prizes for your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/moon-striker.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Moon Striker · Magick Mica Arcade">
+<meta property="og:description" content="Swing at the perfect moment and ring the moon bell.">
+<meta property="og:url" content="https://magickmica.github.io/moon-striker.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=1">
+<style>
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus Midway</p>
+    <h1>MOON STRIKER</h1>
+    <p class="tag">Swing at the perfect moment and ring the moon bell.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ TEST YOUR COSMIC STRENGTH ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="High striker. Tap when the needle is in the middle of the meter to swing the mallet."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+          <p>Five swings of the mallet. Tap when the needle hits the bright middle of the meter and the puck flies up the tower. Reach the top and the moon bell rings.</p>
+          <div class="lbl">How wild</div>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="wild" aria-pressed="false">Wild</button>
+          </div>
+          <button class="go" id="startBtn" type="button">🔨 PICK UP THE MALLET</button>
+          <div class="howto"><b>Touch or mouse:</b> tap anywhere on the booth to swing.<br><b>Keyboard:</b> space or Enter.<br>Each bell makes the needle a little faster.<br><b>Prizes:</b> ring the bell once for a small prize, 3 times for a big one, all 5 for a JUMBO.</div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">🔨 SWING AGAIN</button>
+            <a class="ghost" href="arcade.html#midway">Back to the midway</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">BELLS<b id="sBells">0</b></span>
+      <span class="stat">BEST ROUND<b id="sBest">0</b></span>
+      <span class="stat">SWINGS<b id="sSwings">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>Ring the moon bell once for a small prize, 3 times for a big one, all 5 for a JUMBO. Prizes from every game on the midway land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=1"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_moonstriker_v1', { bells: 0, best: 0, swings: 0 });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .66, 480), 620)); });
+var ctx = view.ctx;
+
+var DIFF = { easy: { speed: 1.5, bell: .93 }, normal: { speed: 2.1, bell: .955 }, wild: { speed: 2.9, bell: .97 } };
+var diffKey = 'normal', SWINGS = 5;
+var LEVELS = ['WEAK SIGNAL', 'STATIC', 'WARMING UP', 'TUNED IN', 'COSMIC', 'MOON!'];
+
+var state = 'menu', phase = 0, swingsLeft = SWINGS, bells = 0, total = 0;
+var puck = { h: 0, v: 0, flying: false, peak: 0 }, hammer = 0, swingQueued = false, moonGlow = 0, shake = 0, msg = null, endT = 0;
+var lastPower = 0, pendingPower = null;
+
+function needle() { return Math.sin(phase); }           // -1 .. 1
+function geo() {
+  var W = view.W, H = view.H, top = 70, padY = H - 120;
+  return { W: W, H: H, x: W * .5, top: top, padY: padY, tw: Math.max(28, Math.min(46, W * .07)) };
+}
+
+function newRound() { state = 'play'; swingsLeft = SWINGS; bells = 0; total = 0; puck = { h: 0, v: 0, flying: false, peak: 0 }; phase = Math.random() * 6; msg = null; }
+
+function swing() {
+  if (state !== 'play' || puck.flying || hammer > 0 || swingsLeft <= 0) return;
+  S.boot();
+  var p = 1 - Math.abs(needle());
+  pendingPower = p; hammer = 1; swingsLeft--;
+  st.data.swings++; st.save();
+}
+cv.addEventListener('pointerdown', function (e) { if (state === 'play') { e.preventDefault(); swing(); } });
+addEventListener('keydown', function (e) {
+  if (state !== 'play') return;
+  if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); swing(); }
+});
+
+function launch(p) {
+  var d = DIFF[diffKey];
+  var ring = p >= d.bell;
+  var target = ring ? 1 : Math.min(.95, Math.pow(p / d.bell, 1.8) * .95);
+  puck.flying = true; puck.target = target; puck.h = 0; puck.peak = 0; puck.ring = ring; puck.t = 0;
+  lastPower = p; S.thud(); if (!reduce) shake = .6;
+  bits.sparkle(geo().x, geo().padY, '#ffd166', 12);
+}
+function onTop() {
+  bells++; moonGlow = 1; S.bell(); bits.burst(geo().x, geo().top + 20, '#ffd166', true);
+  msg = { txt: 'DING!', life: 1.2 };
+}
+
+function step(dt) {
+  var d = DIFF[diffKey];
+  if (state === 'play' && !puck.flying && hammer <= 0) phase += dt * d.speed * (1 + .16 * bells);
+  if (hammer > 0) {
+    hammer -= dt * 4;
+    if (hammer <= .5 && pendingPower != null) { launch(pendingPower); pendingPower = null; }
+    if (hammer < 0) hammer = 0;
+  }
+  if (puck.flying) {
+    puck.t += dt;
+    // rise with ease-out, hang, fall
+    var up = .55 + puck.target * .35;
+    if (puck.t < up) { var u = puck.t / up; puck.h = puck.target * (1 - Math.pow(1 - u, 3)); }
+    else {
+      if (!puck.topped) {
+        puck.topped = true; puck.peak = puck.target;
+        total += Math.round(puck.target * 100);
+        if (puck.ring) onTop(); else { S.tone(300 + puck.target * 500, 0, .25, .12, 'triangle'); msg = { txt: LEVELS[Math.min(4, Math.floor(puck.target * 5))], life: 1.1, small: true }; }
+      }
+      var f = puck.t - up - .35;
+      if (f > 0) puck.h = Math.max(0, puck.target - f * f * 3.2);
+      if (f > 0 && puck.h <= 0) { puck.flying = false; puck.topped = false; puck.h = 0; if (swingsLeft <= 0) { state = 'ending'; endT = .8; } }
+    }
+  }
+  moonGlow = Math.max(0, moonGlow - dt * .7);
+  shake = Math.max(0, shake - dt * 3);
+  if (msg) { msg.life -= dt; if (msg.life <= 0) msg = null; }
+  if (state === 'ending') { endT -= dt; if (endT <= 0) end(); }
+  bits.step(dt, view.H);
+}
+function end() {
+  state = 'done';
+  st.data.bells += bells; var isBest = total > st.data.best; if (isBest) st.data.best = total; st.save(); stats();
+  var tier = bells >= 5 ? 'jumbo' : bells >= 3 ? 'medium' : bells >= 1 ? 'small' : null;
+  var title = document.getElementById('endTitle'), text = document.getElementById('endText'), pz = document.getElementById('endPrize');
+  if (tier) {
+    var p = MMC.award(tier, 'Moon Striker'); S.fanfare(); bits.confetti(view.W, view.H);
+    title.textContent = bells >= 5 ? 'FIVE FOR FIVE!' : 'YOU RANG THE MOON!';
+    text.textContent = 'The bell rang ' + bells + (bells === 1 ? ' time' : ' times') + '. Strength score ' + total + '.' + (isBest ? ' New best!' : '');
+    pz.innerHTML = p ? MMC.prizeCard(p) : '';
+  } else {
+    S.womp(); title.textContent = 'ALMOST!';
+    text.textContent = 'Strength score ' + total + ', but the bell stayed quiet. Wait for the needle to hit the bright middle.';
+    pz.innerHTML = '';
+  }
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+function stats() {
+  document.getElementById('sBells').textContent = st.data.bells;
+  document.getElementById('sBest').textContent = st.data.best;
+  document.getElementById('sSwings').textContent = st.data.swings;
+}
+
+/* ---------- drawing */
+function drawMoon(x, y, r, glow) {
+  ctx.save();
+  if (glow > 0) {
+    var gg = ctx.createRadialGradient(x, y, r * .5, x, y, r * 3.2);
+    gg.addColorStop(0, 'rgba(255,209,102,' + (.55 * glow) + ')'); gg.addColorStop(1, 'rgba(255,209,102,0)');
+    ctx.fillStyle = gg; ctx.beginPath(); ctx.arc(x, y, r * 3.2, 0, 6.28); ctx.fill();
+    if (!reduce) { ctx.strokeStyle = 'rgba(255,209,102,' + (.6 * glow) + ')'; ctx.lineWidth = 2;
+      for (var i = 0; i < 12; i++) { var a = i / 12 * 6.28; ctx.beginPath(); ctx.moveTo(x + Math.cos(a) * r * 1.4, y + Math.sin(a) * r * 1.4); ctx.lineTo(x + Math.cos(a) * r * (1.9 + glow), y + Math.sin(a) * r * (1.9 + glow)); ctx.stroke(); } }
+  }
+  var mg = ctx.createRadialGradient(x - r * .3, y - r * .3, r * .1, x, y, r);
+  mg.addColorStop(0, '#fffbe6'); mg.addColorStop(.6, glow > .1 ? '#ffe08a' : '#e9dcb4'); mg.addColorStop(1, '#b89a52');
+  ctx.fillStyle = mg; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.28); ctx.fill();
+  ctx.fillStyle = 'rgba(150,120,60,.35)';
+  [[-.3, -.2, .18], [.25, .1, .14], [-.05, .38, .1], [.35, -.35, .08]].forEach(function (c) { ctx.beginPath(); ctx.arc(x + c[0] * r, y + c[1] * r, c[2] * r, 0, 6.28); ctx.fill(); });
+  // sleepy face, wide awake when ringing
+  ctx.strokeStyle = '#6b5426'; ctx.lineWidth = Math.max(1.5, r * .06); ctx.lineCap = 'round';
+  if (glow > .1) { ctx.fillStyle = '#6b5426'; ctx.beginPath(); ctx.arc(x - r * .3, y - r * .05, r * .08, 0, 6.28); ctx.arc(x + r * .3, y - r * .05, r * .08, 0, 6.28); ctx.fill();
+    ctx.beginPath(); ctx.arc(x, y + r * .2, r * .2, 0, 3.14); ctx.stroke(); }
+  else { ctx.beginPath(); ctx.arc(x - r * .3, y - r * .05, r * .1, 0, 3.14); ctx.moveTo(x + r * .4, y - r * .05); ctx.arc(x + r * .3, y - r * .05, r * .1, 0, 3.14); ctx.stroke();
+    ctx.beginPath(); ctx.arc(x, y + r * .28, r * .1, 0, 3.14); ctx.stroke(); }
+  ctx.restore();
+}
+function drawTower(g, t) {
+  var x = g.x, tw = g.tw, top = g.top + 46, bot = g.padY - 10, hgt = bot - top;
+  // tower body
+  var bg = ctx.createLinearGradient(x - tw, 0, x + tw, 0); bg.addColorStop(0, '#2f2f70'); bg.addColorStop(.5, '#5146a2'); bg.addColorStop(1, '#2f2f70');
+  ctx.fillStyle = bg; MMC.rr(ctx, x - tw, top, tw * 2, hgt, 8); ctx.fill();
+  ctx.strokeStyle = 'rgba(213,194,220,.3)'; ctx.lineWidth = 1.5; ctx.stroke();
+  // rainbow scale
+  var steps = 20;
+  for (var i = 0; i < steps; i++) {
+    var y = bot - (i + 1) / steps * hgt, lit = puck.h * steps > i, hue = 300 - i * 9;
+    ctx.fillStyle = lit ? 'hsl(' + hue + ',95%,65%)' : 'rgba(213,194,220,.08)';
+    if (lit) { ctx.shadowColor = 'hsl(' + hue + ',95%,65%)'; ctx.shadowBlur = 10; }
+    MMC.rr(ctx, x - tw * .55, y + 2, tw * 1.1, hgt / steps - 4, 3); ctx.fill(); ctx.shadowBlur = 0;
+  }
+  // level labels
+  for (var k = 0; k < 6; k++) {
+    var ly = bot - (k + .5) / 6 * hgt; if (k === 5) ly = top + 8;
+    var right = k % 2 === 1;
+    MMC.label(ctx, LEVELS[k], right ? x + tw + 8 : x - tw - 8, ly + 4, k === 5 ? '#ffd166' : 'rgba(213,194,220,.75)', Math.max(8, Math.min(11, view.W * .026)), right ? 'left' : 'right');
+  }
+  // rail + puck
+  ctx.fillStyle = 'rgba(4,5,9,.6)'; ctx.fillRect(x - 3, top, 6, hgt);
+  var py = bot - puck.h * (hgt - 6) - 6;
+  var pg = ctx.createRadialGradient(x - 4, py - 4, 2, x, py, tw * .55);
+  pg.addColorStop(0, '#ffffff'); pg.addColorStop(.4, '#5ff3e8'); pg.addColorStop(1, '#1d8f88');
+  ctx.fillStyle = pg; ctx.shadowColor = '#5ff3e8'; ctx.shadowBlur = puck.flying ? 18 : 6;
+  MMC.rr(ctx, x - tw * .6, py - 9, tw * 1.2, 18, 9); ctx.fill(); ctx.shadowBlur = 0;
+  // moon bell on top
+  drawMoon(x, g.top + 18, Math.max(24, tw * .9), moonGlow);
+}
+function drawPad(g, t) {
+  // strike pad
+  var x = g.x, y = g.padY;
+  ctx.fillStyle = '#2f2f70'; MMC.rr(ctx, x - 50, y - 6, 100, 22, 6); ctx.fill();
+  ctx.fillStyle = hammer > 0 && hammer < .55 ? '#ffd166' : '#ff4fa3'; MMC.rr(ctx, x - 36, y - 14, 72, 12, 6); ctx.fill();
+  // mallet
+  var ang = -2.0;
+  if (hammer > .5) ang = -2.0 + (1 - hammer) * 1.0;
+  else if (hammer > 0) ang = -1.5 - Math.min(1, (.5 - hammer) * 6) * 1.14;
+  ctx.save(); ctx.translate(x + 72, y + 36); ctx.rotate(ang);
+  ctx.fillStyle = '#d5c2dc'; MMC.rr(ctx, -4, -4, 80, 8, 4); ctx.fill();
+  var hg = ctx.createLinearGradient(0, -18, 0, 18); hg.addColorStop(0, '#ff7ac8'); hg.addColorStop(1, '#a3195f');
+  ctx.fillStyle = hg; MMC.rr(ctx, 70, -18, 30, 36, 8); ctx.fill();
+  ctx.fillStyle = '#ffd166'; MMC.star(ctx, 85, 0, 7, 5, .45); ctx.fill();
+  ctx.restore();
+}
+function drawMeter(g, t) {
+  var W = g.W, mw = Math.min(W - 40, 420), mx = (W - mw) / 2, my = g.H - 52, mh = 20, d = DIFF[diffKey];
+  var mg = ctx.createLinearGradient(mx, 0, mx + mw, 0);
+  mg.addColorStop(0, '#2f2f70'); mg.addColorStop(.35, '#9667ba'); mg.addColorStop(.5, '#5ff3e8'); mg.addColorStop(.65, '#9667ba'); mg.addColorStop(1, '#2f2f70');
+  MMC.rr(ctx, mx, my, mw, mh, 10); ctx.fillStyle = mg; ctx.fill(); ctx.strokeStyle = 'rgba(213,194,220,.4)'; ctx.lineWidth = 1.5; ctx.stroke();
+  // bell zone
+  var zw = (1 - d.bell) * mw; ctx.fillStyle = '#ffd166'; ctx.shadowColor = '#ffd166'; ctx.shadowBlur = 10;
+  ctx.fillRect(mx + mw / 2 - zw, my + 2, zw * 2, mh - 4); ctx.shadowBlur = 0;
+  // needle
+  var nx = mx + mw / 2 + needle() * (mw / 2 - 4);
+  ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.moveTo(nx, my - 4); ctx.lineTo(nx - 7, my - 16); ctx.lineTo(nx + 7, my - 16); ctx.closePath(); ctx.fill();
+  ctx.fillRect(nx - 1.5, my - 4, 3, mh + 8);
+  MMC.label(ctx, 'POWER', mx, my - 8, 'rgba(95,243,232,.85)', 9, 'left');
+  // swings left
+  for (var i = 0; i < SWINGS; i++) {
+    ctx.fillStyle = i < swingsLeft ? '#ff4fa3' : 'rgba(213,194,220,.18)';
+    ctx.beginPath(); ctx.arc(mx + mw - (SWINGS - 1 - i) * 14 - 4, my - 12, 4.5, 0, 6.28); ctx.fill();
+  }
+}
+function draw(time) {
+  var g = geo();
+  ctx.save();
+  if (shake > 0) ctx.translate((Math.random() - .5) * 8 * shake, (Math.random() - .5) * 8 * shake);
+  MMC.sky(ctx, g.W, g.H, time);
+  for (var x = 0; x < g.W; x += 56) { ctx.fillStyle = 'rgba(81,70,162,.14)'; ctx.fillRect(x, 0, 28, g.H); }
+  var sp = ctx.createRadialGradient(g.x, g.H * .5, 10, g.x, g.H * .5, g.W * .6);
+  sp.addColorStop(0, 'rgba(213,194,220,.12)'); sp.addColorStop(1, 'rgba(213,194,220,0)'); ctx.fillStyle = sp; ctx.fillRect(0, 0, g.W, g.H);
+  // floor
+  var fg = ctx.createLinearGradient(0, g.padY + 10, 0, g.H); fg.addColorStop(0, '#2f2f70'); fg.addColorStop(1, '#131c3f');
+  ctx.fillStyle = fg; ctx.fillRect(0, g.padY + 10, g.W, g.H - g.padY - 10);
+  drawTower(g, time); drawPad(g, time); drawMeter(g, time);
+  MMC.label(ctx, 'BELLS ' + bells, 14, g.padY + 34, '#ffd166', 11, 'left');
+  if (msg) {
+    ctx.globalAlpha = Math.min(1, msg.life * 1.5);
+    if (msg.small) MMC.label(ctx, msg.txt, g.x, g.top + 74, '#5ff3e8', 14);
+    else MMC.bigText(ctx, msg.txt, g.x, g.top + 82, Math.min(56, g.W * .13), '#ffd166');
+    ctx.globalAlpha = 1;
+  }
+  if (state === 'play' && swingsLeft === SWINGS && !puck.flying && hammer <= 0) {
+    ctx.globalAlpha = reduce ? 1 : .55 + .45 * Math.sin(time * 4);
+    MMC.label(ctx, 'TAP WHEN THE NEEDLE HITS GOLD', g.x, g.H - 12, '#5ff3e8', 10); ctx.globalAlpha = 1;
+  }
+  bits.draw(ctx);
+  ctx.restore();
+}
+
+/* ---------- menus */
+document.getElementById('diffSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
+  this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; newRound(); }
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+stats();
+MMC.loop(function (dt, time) { step(dt); draw(time); });
+window.__strike = { get state() { return state; }, needle: needle, swing: swing, get bells() { return bells; }, get busy() { return puck.flying || hammer > 0; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>

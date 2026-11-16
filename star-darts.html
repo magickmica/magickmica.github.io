@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Star Darts &middot; MagickMica</title>
+<meta name="description" content="A Cosmic Circus midway game: throw shooting-star darts at a wall of drifting balloons. Gold balloons score 3, comet balloons give an extra dart. Win prizes for your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/star-darts.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Star Darts · Magick Mica Arcade">
+<meta property="og:description" content="Throw shooting stars at the drifting balloons. Pop the gold ones.">
+<meta property="og:url" content="https://magickmica.github.io/star-darts.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=1">
+<style>
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus Midway</p>
+    <h1>STAR DARTS</h1>
+    <p class="tag">Throw shooting stars at the drifting balloons. Pop the gold ones.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ POP 'EM ALL · WIN A PRIZE ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Balloon darts. Aim at a balloon and let go to throw a star."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+          <p>Six shooting-star darts. The balloons drift and your aim wobbles a little, so let go at the right moment. Gold balloons score 3, the rest score 1, and a comet balloon gives you an extra dart.</p>
+          <div class="lbl">How wild</div>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="wild" aria-pressed="false">Wild</button>
+          </div>
+          <button class="go" id="startBtn" type="button">🌠 GRAB SOME STARS</button>
+          <div class="howto"><b>Touch:</b> hold anywhere, slide the crosshair (it floats above your finger) and let go to throw.<br><b>Mouse:</b> aim and click.<br><b>Keyboard:</b> arrow keys to aim, space to throw.<br><b>Prizes:</b> 4 points for a small prize, 7 for a big one, 10 for a JUMBO.</div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">🌠 THROW AGAIN</button>
+            <a class="ghost" href="arcade.html#midway">Back to the midway</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">BEST<b id="sBest">0</b></span>
+      <span class="stat">POPPED<b id="sPopped">0</b></span>
+      <span class="stat">ROUNDS<b id="sRounds">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>4 points for a small prize, 7 for a big one, 10 for a JUMBO. Prizes from every game on the midway land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=1"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_stardarts_v1', { best: 0, popped: 0, rounds: 0 });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .64, 470), 600)); });
+var ctx = view.ctx;
+
+var DIFF = { easy: { speed: .55, wob: 4 }, normal: { speed: 1, wob: 9 }, wild: { speed: 1.6, wob: 15 } };
+var diffKey = 'normal', DARTS = 6;
+var COLS = ['#ff4fa3', '#5ff3e8', '#9667ba', '#d5c2dc', '#ff7ac8', '#7fd8ff'];
+
+var rows = [], darts = DARTS, score = 0, popped = 0, state = 'menu', flying = [], stuck = [], msgs = [], endT = 0, t = 0;
+var aim = { x: 0, y: 0, on: false, touch: false }, keys = {};
+
+function boardTop() { return 34; }
+function boardBot() { return view.H - 120; }
+function makeBoard() {
+  var W = view.W, nRows = 4, sp = Math.max(56, Math.min(84, W / 6.5)), top = boardTop() + 34, gap = (boardBot() - top - 20) / (nRows - 1);
+  rows = [];
+  for (var r = 0; r < nRows; r++) {
+    var n = Math.ceil((W + sp) / sp) + 1, list = [];
+    for (var i = 0; i < n; i++) list.push({ i: i, col: COLS[(i * 3 + r) % COLS.length], kind: 'plain', popped: false, wob: Math.random() * 6 });
+    rows.push({ y: top + r * gap, sp: sp, off: Math.random() * sp, dir: r % 2 ? -1 : 1, v: (22 + r * 9) * (r % 2 ? 1.15 : 1), list: list });
+  }
+  // two gold balloons and one comet balloon, on different rows
+  var pickRows = [0, 1, 2, 3].sort(function () { return Math.random() - .5; });
+  [['gold', pickRows[0]], ['gold', pickRows[1]], ['comet', pickRows[2]]].forEach(function (k) {
+    var row = rows[k[1]], b = row.list[Math.floor(Math.random() * row.list.length)]; b.kind = k[0];
+  });
+}
+function bx(row, b) {
+  var span = row.list.length * row.sp, x = (b.i * row.sp + row.off) % span; if (x < 0) x += span;
+  return x - row.sp / 2;
+}
+function radius(row) { return row.sp * .34; }
+
+function newRound() { makeBoard(); darts = DARTS; score = 0; popped = 0; flying = []; stuck = []; msgs = []; state = 'play'; aim.x = view.W / 2; aim.y = view.H * .45; }
+
+/* ---------- aiming + throwing */
+function wobble() { var d = DIFF[diffKey].wob; return { x: Math.sin(t * 2.3) * d + Math.sin(t * 5.1) * d * .35, y: Math.cos(t * 1.9) * d * .8 + Math.sin(t * 4.3) * d * .3 }; }
+function reticle() { var w = wobble(); return { x: aim.x + w.x, y: aim.y + w.y }; }
+function throwDart() {
+  if (state !== 'play' || darts <= 0) return;
+  S.boot();
+  var r = reticle(); darts--;
+  flying.push({ sx: view.W / 2, sy: view.H - 40, tx: r.x, ty: r.y, u: 0 });
+  S.whoosh();
+}
+cv.addEventListener('pointerdown', function (e) {
+  if (state !== 'play') return; e.preventDefault(); S.boot();
+  var p = MMC.pt(cv, e); aim.touch = e.pointerType !== 'mouse'; aim.on = true;
+  aim.x = p.x; aim.y = p.y - (aim.touch ? 70 : 0);
+  try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+  if (!aim.touch) throwDart();
+});
+cv.addEventListener('pointermove', function (e) {
+  var p = MMC.pt(cv, e);
+  if (e.pointerType === 'mouse') { aim.on = true; aim.touch = false; aim.x = p.x; aim.y = p.y; }
+  else if (aim.on) { aim.x = p.x; aim.y = p.y - 70; }
+});
+cv.addEventListener('pointerup', function (e) { if (aim.touch && aim.on && state === 'play') throwDart(); if (e.pointerType !== 'mouse') aim.on = false; });
+cv.addEventListener('pointercancel', function () { aim.on = false; });
+cv.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') aim.on = false; });
+addEventListener('keydown', function (e) {
+  if (state !== 'play') return;
+  if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' '].indexOf(e.key) > -1) { e.preventDefault(); aim.on = true; }
+  keys[e.key] = true;
+  if (e.key === ' ' && !e.repeat) throwDart();
+});
+addEventListener('keyup', function (e) { keys[e.key] = false; });
+
+/* ---------- simulation */
+function arrive(f) {
+  var hit = null, hitRow = null;
+  rows.forEach(function (row) {
+    var R = radius(row);
+    row.list.forEach(function (b) {
+      if (b.popped) return; var x = bx(row, b), dx = f.tx - x, dy = f.ty - row.y;
+      if ((dx * dx) / (R * R) + (dy * dy) / (R * R * 1.2) < 1.05) { hit = b; hitRow = row; }
+    });
+  });
+  if (hit) {
+    hit.popped = true; popped++;
+    var x = bx(hitRow, hit), pts = hit.kind === 'gold' ? 3 : 1;
+    score += pts; S.pop(hit.kind !== 'plain');
+    bits.burst(x, hitRow.y, hit.kind === 'gold' ? '#ffd166' : hit.kind === 'comet' ? '#5ff3e8' : hit.col, hit.kind !== 'plain');
+    var txt = '+' + pts;
+    if (hit.kind === 'comet') { darts++; txt = '+1 DART'; S.ding(true); }
+    if (hit.kind === 'gold') S.ding(false);
+    msgs.push({ txt: txt, x: x, y: hitRow.y - 20, life: 1, gold: hit.kind !== 'plain' });
+  } else {
+    stuck.push({ x: f.tx, y: f.ty }); S.thud();
+  }
+}
+function step(dt) {
+  t += dt;
+  var d = DIFF[diffKey];
+  rows.forEach(function (row) { row.off += row.dir * row.v * d.speed * dt; });
+  if (state === 'play') {
+    var kx = (keys.ArrowRight ? 1 : 0) - (keys.ArrowLeft ? 1 : 0), ky = (keys.ArrowDown ? 1 : 0) - (keys.ArrowUp ? 1 : 0);
+    aim.x = Math.max(10, Math.min(view.W - 10, aim.x + kx * 260 * dt)); aim.y = Math.max(boardTop(), Math.min(boardBot() + 20, aim.y + ky * 260 * dt));
+  }
+  for (var i = flying.length - 1; i >= 0; i--) { var f = flying[i]; f.u += dt / .24; if (f.u >= 1) { arrive(f); flying.splice(i, 1); } }
+  msgs.forEach(function (m) { m.life -= dt * 1.1; m.y -= dt * 34; }); msgs = msgs.filter(function (m) { return m.life > 0; });
+  if (state === 'play' && darts <= 0 && !flying.length) { state = 'ending'; endT = 1; }
+  if (state === 'ending') { endT -= dt; if (endT <= 0) end(); }
+  bits.step(dt, view.H);
+}
+function end() {
+  state = 'done';
+  st.data.rounds++; st.data.popped += popped; var isBest = score > st.data.best; if (isBest) st.data.best = score; st.save(); stats();
+  var tier = score >= 10 ? 'jumbo' : score >= 7 ? 'medium' : score >= 4 ? 'small' : null;
+  var title = document.getElementById('endTitle'), text = document.getElementById('endText'), pz = document.getElementById('endPrize');
+  if (tier) {
+    var p = MMC.award(tier, 'Star Darts'); S.fanfare(); bits.confetti(view.W, view.H);
+    title.textContent = tier === 'jumbo' ? 'BULLSEYE BONANZA!' : 'WINNER!';
+    text.textContent = popped + ' balloon' + (popped === 1 ? '' : 's') + ' popped for ' + score + ' points.' + (isBest ? ' New best!' : '');
+    pz.innerHTML = p ? MMC.prizeCard(p) : '';
+  } else {
+    S.womp(); title.textContent = 'SO CLOSE!';
+    text.textContent = score + ' point' + (score === 1 ? '' : 's') + '. You need 4 for a prize. Let go when the wobble swings onto the balloon.';
+    pz.innerHTML = '';
+  }
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+function stats() {
+  document.getElementById('sBest').textContent = st.data.best;
+  document.getElementById('sPopped').textContent = st.data.popped;
+  document.getElementById('sRounds').textContent = st.data.rounds;
+}
+
+/* ---------- drawing */
+function drawBalloon(x, y, r, b) {
+  var col = b.kind === 'gold' ? '#ffd166' : b.kind === 'comet' ? '#5ff3e8' : b.col;
+  var w = reduce ? 0 : Math.sin(t * 2 + b.wob) * 2;
+  ctx.strokeStyle = 'rgba(213,194,220,.45)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(x, y + r * 1.1); ctx.quadraticCurveTo(x + 4, y + r * 1.5, x, y + r * 1.9); ctx.stroke();
+  var g = ctx.createRadialGradient(x - r * .35, y - r * .4 + w, r * .1, x, y + w, r * 1.15);
+  g.addColorStop(0, '#ffffff'); g.addColorStop(.2, col); g.addColorStop(1, MMC.shade(col, -.45));
+  ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(x, y + w, r * .9, r * 1.05, 0, 0, 6.28); ctx.fill();
+  ctx.fillStyle = MMC.shade(col, -.3); ctx.beginPath(); ctx.moveTo(x - 3, y + w + r * 1.04); ctx.lineTo(x + 3, y + w + r * 1.04); ctx.lineTo(x, y + w + r * 1.04 - 5); ctx.closePath(); ctx.fill();
+  if (b.kind === 'gold') { ctx.fillStyle = '#fff'; MMC.star(ctx, x, y + w + r * .1, r * .38, 5, .45); ctx.fill(); }
+  if (b.kind === 'comet') { ctx.font = Math.round(r * .8) + 'px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('☄️', x, y + w + r * .1); }
+}
+function drawStar(x, y, s, rot, glow) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+  ctx.fillStyle = '#ffd166'; ctx.shadowColor = '#ffd166'; ctx.shadowBlur = glow ? 14 : 0;
+  MMC.star(ctx, 0, 0, s, 5, .45); ctx.fill(); ctx.restore();
+}
+function draw(time) {
+  var W = view.W, H = view.H;
+  MMC.sky(ctx, W, H, time);
+  // board
+  var bt = boardTop(), bb = boardBot() + 34;
+  var bg = ctx.createLinearGradient(0, bt, 0, bb); bg.addColorStop(0, '#2f2f70'); bg.addColorStop(1, '#1c2453');
+  ctx.fillStyle = bg; ctx.fillRect(10, bt, W - 20, bb - bt);
+  ctx.strokeStyle = 'rgba(255,209,102,.35)'; ctx.lineWidth = 2; ctx.strokeRect(10, bt, W - 20, bb - bt);
+  for (var gx = 20; gx < W - 10; gx += 26) { ctx.fillStyle = 'rgba(213,194,220,.05)'; ctx.fillRect(gx, bt, 1, bb - bt); }
+  ctx.save(); ctx.beginPath(); ctx.rect(12, bt + 2, W - 24, bb - bt - 4); ctx.clip();
+  rows.forEach(function (row) { var R = radius(row); row.list.forEach(function (b) { if (!b.popped) drawBalloon(bx(row, b), row.y, R, b); }); });
+  stuck.forEach(function (s) { drawStar(s.x, s.y, 7, .3, false); });
+  ctx.restore();
+  // flying stars
+  flying.forEach(function (f) {
+    var u = f.u, x = f.sx + (f.tx - f.sx) * u, y = f.sy + (f.ty - f.sy) * u - Math.sin(Math.PI * u) * 30, s = 14 - 7 * u;
+    ctx.strokeStyle = 'rgba(255,209,102,.4)'; ctx.lineWidth = s * .6; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(f.sx + (f.tx - f.sx) * Math.max(0, u - .25), f.sy + (f.ty - f.sy) * Math.max(0, u - .25)); ctx.lineTo(x, y); ctx.stroke();
+    drawStar(x, y, s, u * 8, true);
+  });
+  // counter + quiver
+  var cy = H - 64;
+  var cg = ctx.createLinearGradient(0, cy, 0, H); cg.addColorStop(0, '#5146a2'); cg.addColorStop(1, '#2f2f70');
+  ctx.fillStyle = cg; ctx.fillRect(0, cy, W, 64); ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.fillRect(0, cy, W, 2);
+  for (var k = 0; k < darts; k++) drawStar(22 + k * 24, cy + 30, 9, 0, false);
+  MMC.label(ctx, 'SCORE ' + score, W - 12, cy + 34, '#ffd166', 12, 'right');
+  // reticle
+  if (state === 'play' && (aim.on || keys.ArrowLeft || keys.ArrowRight || keys.ArrowUp || keys.ArrowDown)) {
+    var r = reticle();
+    ctx.strokeStyle = '#5ff3e8'; ctx.lineWidth = 2; ctx.shadowColor = '#5ff3e8'; ctx.shadowBlur = 8;
+    ctx.beginPath(); ctx.arc(r.x, r.y, 12, 0, 6.28); ctx.moveTo(r.x - 18, r.y); ctx.lineTo(r.x - 6, r.y); ctx.moveTo(r.x + 6, r.y); ctx.lineTo(r.x + 18, r.y);
+    ctx.moveTo(r.x, r.y - 18); ctx.lineTo(r.x, r.y - 6); ctx.moveTo(r.x, r.y + 6); ctx.lineTo(r.x, r.y + 18); ctx.stroke(); ctx.shadowBlur = 0;
+  } else if (state === 'play' && darts === DARTS) {
+    ctx.globalAlpha = reduce ? 1 : .55 + .45 * Math.sin(time * 4);
+    MMC.label(ctx, 'AIM AT A BALLOON AND LET GO', W / 2, cy - 10, '#5ff3e8', 10); ctx.globalAlpha = 1;
+  }
+  msgs.forEach(function (m) { ctx.globalAlpha = Math.max(0, m.life); MMC.bigText(ctx, m.txt, m.x, m.y, m.gold ? 26 : 22, m.gold ? '#ffd166' : '#ff4fa3'); ctx.globalAlpha = 1; });
+  bits.draw(ctx);
+}
+
+/* ---------- menus */
+document.getElementById('diffSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
+  this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; newRound(); }
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+view.onResize = function () { if (state !== 'play') makeBoard(); };
+makeBoard(); stats();
+MMC.loop(function (dt, time) { step(dt); draw(time); });
+window.__darts = { get state() { return state; }, rows: function () { return rows; }, bx: bx, aimAt: function (x, y) { aim.x = x; aim.y = y; aim.on = true; }, throwDart: throwDart, get score() { return score; }, get darts() { return darts; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>

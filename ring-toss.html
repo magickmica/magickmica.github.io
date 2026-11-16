@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Saturn Ring Toss &middot; MagickMica</title>
+<meta name="description" content="A Cosmic Circus midway game: flick glowing rings onto drifting planet bottles. Ten rings, back rows score more. Win prizes for your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/ring-toss.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Saturn Ring Toss · Magick Mica Arcade">
+<meta property="og:description" content="Flick a ring onto a planet bottle. The back rows are worth more.">
+<meta property="og:url" content="https://magickmica.github.io/ring-toss.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=1">
+<style>
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus Midway</p>
+    <h1>SATURN RING TOSS</h1>
+    <p class="tag">Flick a ring onto a planet bottle. The back rows are worth more.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ RING A PLANET · WIN A PRIZE ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Ring toss. Flick upward to throw a ring at the planet bottles."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+          <p>Ten glowing rings. Flick one up at the planet bottles and land it around a neck. Front row scores 1, middle 2, back 3, and the gold bottle 5.</p>
+          <div class="lbl">How wild</div>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="wild" aria-pressed="false">Wild</button>
+          </div>
+          <button class="go" id="startBtn" type="button">💫 START TOSSING</button>
+          <div class="howto"><b>Touch or mouse:</b> press near the bottom and flick up. The direction aims, the speed decides how far it flies.<br><b>Keyboard:</b> ← / → to aim, hold space to power up, let go to throw.<br><b>Prizes:</b> 6 points for a small prize, 12 for a big one, 20 for a JUMBO.</div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">💫 TOSS AGAIN</button>
+            <a class="ghost" href="arcade.html#midway">Back to the midway</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">BEST<b id="sBest">0</b></span>
+      <span class="stat">RINGERS<b id="sRingers">0</b></span>
+      <span class="stat">ROUNDS<b id="sRounds">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>Score 6 for a small prize, 12 for a big one, 20 for a JUMBO. Prizes from every game on the midway land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=1"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_ringtoss_v1', { best: 0, ringers: 0, rounds: 0 });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .64, 460), 600)); });
+var ctx = view.ctx;
+
+var DIFF = { easy: { drift: [0, 0, .25], tol: 1.35 }, normal: { drift: [0, .5, .8], tol: 1 }, wild: { drift: [.5, .9, 1.2], tol: .85 } };
+var diffKey = 'normal';
+var COLORS = ['#ff4fa3', '#5ff3e8', '#9667ba', '#d5c2dc', '#ff7ac8', '#7fd8ff'];
+var RINGCOL = ['#5ff3e8', '#ff4fa3', '#ffd166'];
+var TOTAL = 10;
+
+var rows = [], ring = null, landed = [], score = 0, left = TOTAL, state = 'menu', ringers = 0, msg = null, endT = 0;
+var aimAng = 0, charging = false, power = 0, keys = {}, drag = null, t = 0;
+
+function horizon() { return view.H * .2; }
+function baseY() { return view.H - 92; }
+function rowY(z) { return baseY() + (horizon() - baseY()) * z; }
+function scaleAt(z) { var k = Math.min(1.4, Math.max(1, view.H / 430)); return k * (1 - .58 * z); }
+function cx() { return view.W / 2; }
+
+function makeRows() {
+  var Z = [.14, .45, .74], counts = view.W < 500 ? [3, 4, 5] : [4, 5, 6];
+  rows = Z.map(function (z, i) {
+    var n = counts[i], s = scaleAt(z), span = Math.min(view.W * .86, view.W - 40) * (1 - z * .25), list = [];
+    for (var k = 0; k < n; k++) list.push({ bx: (k - (n - 1) / 2) * span / n, col: COLORS[(k + i * 2) % COLORS.length], gold: false, rings: [] });
+    return { z: z, s: s, pts: i + 1, list: list, ph: Math.random() * 6, amp: span / n * .45 };
+  });
+  var back = rows[2].list; back[Math.floor(Math.random() * back.length)].gold = true;
+}
+function bottleX(row, b) { return cx() + b.bx + Math.sin(t * .9 + row.ph) * row.amp * DIFF[diffKey].drift[rows.indexOf(row)]; }
+
+function newRound() {
+  makeRows(); landed = []; score = 0; left = TOTAL; ringers = 0; ring = null; msg = null; state = 'play'; aimAng = 0;
+}
+
+/* ---------- throwing */
+function throwRing(vx, vy) {
+  if (state !== 'play' || ring || left <= 0) return;
+  if (vy > -80) return; // needs an upward flick
+  S.boot();
+  var d = Math.max(.05, Math.min(.98, (-vy) / (view.H * 2.4)));
+  var sx = cx(), sy = baseY() + 52, ly = rowY(d);
+  var lx = sx + (vx / -vy) * (sy - ly);
+  lx += (Math.random() - .5) * 4;
+  ring = { sx: sx, sy: sy, lx: lx, ly: ly, d: d, u: 0, T: .55 + d * .3, col: RINGCOL[(TOTAL - left) % 3], spin: Math.random() * 6, fall: null };
+  left--; S.whoosh();
+}
+cv.addEventListener('pointerdown', function (e) {
+  if (state !== 'play') return; e.preventDefault(); S.boot();
+  var p = MMC.pt(cv, e); drag = { s: [{ x: p.x, y: p.y, t: performance.now() }] };
+  try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+});
+cv.addEventListener('pointermove', function (e) {
+  if (!drag) return; var p = MMC.pt(cv, e); drag.s.push({ x: p.x, y: p.y, t: performance.now() }); if (drag.s.length > 8) drag.s.shift();
+});
+function up() {
+  if (!drag) return; var s = drag.s; drag = null; if (s.length < 2) return;
+  var b = s[s.length - 1], a = s[0];
+  for (var i = s.length - 1; i >= 0; i--) { if (b.t - s[i].t > 110) break; a = s[i]; }
+  var dt = Math.max(.016, (b.t - a.t) / 1000);
+  throwRing((b.x - a.x) / dt, (b.y - a.y) / dt);
+}
+cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+addEventListener('keydown', function (e) {
+  if (state !== 'play') return;
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === ' ') e.preventDefault();
+  keys[e.key] = true;
+  if (e.key === ' ' && !charging && !ring) { charging = true; power = 0; S.boot(); }
+});
+addEventListener('keyup', function (e) {
+  keys[e.key] = false;
+  if (e.key === ' ' && charging) {
+    charging = false; var pw = .15 + power * .87, vy = -pw * view.H * 2.4;
+    throwRing(Math.tan(aimAng) * -vy, vy);
+  }
+});
+
+/* ---------- simulation */
+function land() {
+  var r = ring, best = null, bestRow = null, bestDx = 1e9;
+  rows.forEach(function (row) {
+    if (Math.abs(r.d - row.z) > .1) return;
+    row.list.forEach(function (b) { var dx = Math.abs(r.lx - bottleX(row, b)); if (dx < bestDx) { bestDx = dx; best = b; bestRow = row; } });
+  });
+  var tol = 9 * (bestRow ? bestRow.s : 1) * DIFF[diffKey].tol;
+  if (best && bestDx < tol) {
+    var pts = best.gold ? 5 : bestRow.pts;
+    best.rings.push(r.col); score += pts; ringers++;
+    msg = { txt: '+' + pts, x: bottleX(bestRow, best), y: rowY(bestRow.z) - 70 * bestRow.s, life: 1 };
+    S.clink(); setTimeout(function () { S.ding(best.gold); }, 80);
+    bits.sparkle(bottleX(bestRow, best), rowY(bestRow.z) - 50 * bestRow.s, best.gold ? '#ffd166' : r.col, 16);
+    ring = null;
+  } else {
+    var near = best && bestDx < tol * 3;
+    if (near) S.clink(); else S.thud();
+    r.fall = { x: r.lx, y: r.ly - (near ? 50 * scaleAt(r.d) : 6), vx: (Math.random() - .5) * (near ? 160 : 60), vy: near ? -160 : -40, s: scaleAt(r.d), life: 1 };
+  }
+}
+function step(dt) {
+  t += dt;
+  if (state === 'play') {
+    var dir = (keys.ArrowRight ? 1 : 0) - (keys.ArrowLeft ? 1 : 0);
+    aimAng = Math.max(-.6, Math.min(.6, aimAng + dir * dt * .8));
+    if (charging) power = (Math.sin((t * 2.2) % 6.28 - Math.PI / 2) + 1) / 2;
+  }
+  if (ring) {
+    if (!ring.fall) { ring.u += dt / ring.T; ring.spin += dt * 9; if (ring.u >= 1) { ring.u = 1; land(); } }
+    else { var f = ring.fall; f.vy += 900 * dt; f.x += f.vx * dt; f.y += f.vy * dt; f.life -= dt * 1.4; if (f.life <= 0 || f.y > view.H + 20) ring = null; }
+  }
+  if (msg) { msg.life -= dt * 1.2; msg.y -= dt * 30; if (msg.life <= 0) msg = null; }
+  if (state === 'play' && left <= 0 && !ring) { state = 'ending'; endT = 1; }
+  if (state === 'ending') { endT -= dt; if (endT <= 0) end(); }
+  bits.step(dt, view.H);
+}
+function end() {
+  state = 'done';
+  st.data.rounds++; st.data.ringers += ringers; var isBest = score > st.data.best; if (isBest) st.data.best = score; st.save(); stats();
+  var tier = score >= 20 ? 'jumbo' : score >= 12 ? 'medium' : score >= 6 ? 'small' : null;
+  var title = document.getElementById('endTitle'), text = document.getElementById('endText'), pz = document.getElementById('endPrize');
+  if (tier) {
+    var p = MMC.award(tier, 'Ring Toss'); S.fanfare(); bits.confetti(view.W, view.H);
+    title.textContent = tier === 'jumbo' ? 'JUMBO RINGER!' : 'WINNER!';
+    text.textContent = score + ' points from ' + ringers + ' ringer' + (ringers === 1 ? '' : 's') + '.' + (isBest ? ' New best!' : '');
+    pz.innerHTML = p ? MMC.prizeCard(p) : '';
+  } else {
+    S.womp(); title.textContent = 'SO CLOSE!';
+    text.textContent = score + ' point' + (score === 1 ? '' : 's') + ' this time. You need 6 for a prize. Flick a little softer for the front row.';
+    pz.innerHTML = '';
+  }
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+function stats() {
+  document.getElementById('sBest').textContent = st.data.best;
+  document.getElementById('sRingers').textContent = st.data.ringers;
+  document.getElementById('sRounds').textContent = st.data.rounds;
+}
+
+/* ---------- drawing */
+function drawRingShape(x, y, s, col, spin, alpha) {
+  var rx = 24 * s, ry = 9 * s * (1 + .25 * Math.sin(spin));
+  ctx.save(); ctx.globalAlpha = alpha == null ? 1 : alpha;
+  ctx.strokeStyle = col; ctx.lineWidth = Math.max(2, 6 * s); ctx.shadowColor = col; ctx.shadowBlur = 14 * s;
+  ctx.beginPath(); ctx.ellipse(x, y, rx, Math.abs(ry), 0, 0, 6.28); ctx.stroke();
+  ctx.shadowBlur = 0; ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = Math.max(1, 1.5 * s);
+  ctx.beginPath(); ctx.ellipse(x, y - 1, rx * .9, Math.abs(ry) * .8, 0, 3.4, 5.9); ctx.stroke();
+  ctx.restore();
+}
+function drawBottle(x, y, s, b) {
+  var col = b.gold ? '#ffd166' : b.col, bw = 24 * s, bh = 34 * s, nw = 7 * s, nh = 24 * s;
+  // shadow
+  ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(x, y, bw * .7, 4 * s, 0, 0, 6.28); ctx.fill();
+  // body
+  var g = ctx.createLinearGradient(x - bw / 2, 0, x + bw / 2, 0);
+  g.addColorStop(0, MMC.shade(col, -.35)); g.addColorStop(.35, MMC.shade(col, .35)); g.addColorStop(1, MMC.shade(col, -.5));
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.moveTo(x - bw / 2, y); ctx.lineTo(x - bw / 2, y - bh * .7);
+  ctx.quadraticCurveTo(x - bw / 2, y - bh, x - nw / 2, y - bh - 4 * s); ctx.lineTo(x - nw / 2, y - bh - nh);
+  ctx.lineTo(x + nw / 2, y - bh - nh); ctx.lineTo(x + nw / 2, y - bh - 4 * s);
+  ctx.quadraticCurveTo(x + bw / 2, y - bh, x + bw / 2, y - bh * .7); ctx.lineTo(x + bw / 2, y); ctx.closePath(); ctx.fill();
+  // planet ring on the belly
+  ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = Math.max(1, 1.6 * s);
+  ctx.beginPath(); ctx.ellipse(x, y - bh * .42, bw * .78, 5 * s, -.2, 0, 6.28); ctx.stroke();
+  // lip
+  ctx.fillStyle = MMC.shade(col, .5); ctx.beginPath(); ctx.ellipse(x, y - bh - nh, nw * .75, 2.5 * s, 0, 0, 6.28); ctx.fill();
+  if (b.gold) { ctx.fillStyle = '#fff'; MMC.star(ctx, x, y - bh * .45, 6 * s, 5, .45); ctx.fill(); }
+  // rings already on it
+  b.rings.forEach(function (c, i) { drawRingShape(x, y - bh - nh * .35 + i * 5 * s, s * .62, c, 0); });
+}
+function drawShelf(row) {
+  var y = rowY(row.z), s = row.s, half = Math.min(view.W * .47, view.W / 2 - 8) * (1 - row.z * .2);
+  var g = ctx.createLinearGradient(0, y, 0, y + 16 * s); g.addColorStop(0, '#5146a2'); g.addColorStop(1, '#2f2f70');
+  ctx.fillStyle = g; ctx.fillRect(cx() - half, y, half * 2, 16 * s);
+  ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.fillRect(cx() - half, y, half * 2, 1.5);
+  // front lip label
+  MMC.label(ctx, row.pts + (row.pts === 1 ? ' POINT' : ' POINTS'), cx() - half + 6, y + 12 * s, 'rgba(213,194,220,.7)', Math.max(7, Math.round(9 * s)), 'left');
+}
+function drawFlying() {
+  var r = ring; if (!r) return;
+  if (r.fall) { drawRingShape(r.fall.x, r.fall.y, r.fall.s, r.col, 0, Math.max(0, r.fall.life)); return; }
+  var u = r.u, z = r.d * u, s = 1 + (scaleAt(r.d) - 1) * u;
+  var x = r.sx + (r.lx - r.sx) * u, y = r.sy + (r.ly - 34 * scaleAt(r.d) - r.sy) * u - (60 + 120 * r.d) * Math.sin(Math.PI * u);
+  drawRingShape(x, y, s, r.col, r.spin);
+}
+function ringZ() { return ring && !ring.fall ? ring.d * ring.u : -1; }
+function draw(time) {
+  var W = view.W, H = view.H;
+  MMC.sky(ctx, W, H, time);
+  // back wall stripes
+  for (var x = 0; x < W; x += 56) { ctx.fillStyle = 'rgba(81,70,162,.14)'; ctx.fillRect(x, 0, 28, H); }
+  // glow behind shelves
+  var gl = ctx.createRadialGradient(W / 2, horizon() + 60, 10, W / 2, horizon() + 60, W * .6);
+  gl.addColorStop(0, 'rgba(213,194,220,.14)'); gl.addColorStop(1, 'rgba(213,194,220,0)'); ctx.fillStyle = gl; ctx.fillRect(0, 0, W, H);
+  var drawn = false, rz = ringZ();
+  for (var i = rows.length - 1; i >= 0; i--) {
+    var row = rows[i];
+    if (!drawn && rz > row.z + .02) { drawFlying(); drawn = true; }
+    drawShelf(row);
+    row.list.forEach(function (b) { drawBottle(bottleX(row, b), rowY(row.z), row.s, b); });
+  }
+  if (!drawn) drawFlying();
+  // counter + ring basket
+  var cy = H - 40;
+  var cg = ctx.createLinearGradient(0, cy, 0, H); cg.addColorStop(0, '#5146a2'); cg.addColorStop(1, '#2f2f70');
+  ctx.fillStyle = cg; ctx.fillRect(0, cy, W, 40); ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.fillRect(0, cy, W, 2);
+  for (var k = 0; k < left; k++) drawRingShape(18 + k * 16, cy + 22, .42, RINGCOL[(TOTAL - left + k) % 3], 0);
+  MMC.label(ctx, 'SCORE ' + score, W - 12, cy + 26, '#ffd166', 12, 'right');
+  // ring in hand
+  if (state === 'play' && !ring && left > 0) {
+    drawRingShape(cx(), baseY() + 52, 1, RINGCOL[(TOTAL - left) % 3], time * 2);
+    if (charging || keys.ArrowLeft || keys.ArrowRight) {
+      ctx.save(); ctx.strokeStyle = 'rgba(95,243,232,.6)'; ctx.setLineDash([5, 6]); ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(cx(), baseY() + 40); ctx.lineTo(cx() + Math.tan(aimAng) * 260, baseY() + 40 - 260); ctx.stroke(); ctx.restore();
+    }
+    if (charging) { MMC.rr(ctx, W - 24, H * .3, 10, H * .4, 5); ctx.fillStyle = 'rgba(4,5,9,.6)'; ctx.fill();
+      ctx.fillStyle = '#ff4fa3'; ctx.fillRect(W - 22, H * .3 + H * .4 * (1 - power), 6, H * .4 * power); }
+    if (left === TOTAL && !charging) {
+      var a = reduce ? 1 : .5 + .5 * Math.sin(time * 4);
+      ctx.globalAlpha = a; MMC.label(ctx, '↑ FLICK UP ↑', cx(), baseY() + 18, '#5ff3e8', 12); ctx.globalAlpha = 1;
+    }
+  }
+  if (msg) { ctx.globalAlpha = Math.max(0, msg.life); MMC.bigText(ctx, msg.txt, msg.x, msg.y, 30, '#ffd166'); ctx.globalAlpha = 1; }
+  bits.draw(ctx);
+}
+
+/* ---------- menus */
+document.getElementById('diffSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
+  this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; newRound(); }
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+view.onResize = function () { if (!rows.length || state === 'menu') makeRows(); };
+
+makeRows(); stats();
+MMC.loop(function (dt, time) { step(dt); draw(time); });
+window.__ring = { throwRing: throwRing, get state() { return state; }, get score() { return score; }, rows: function () { return rows; }, bottleX: bottleX, rowY: rowY, get ring() { return ring; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>
