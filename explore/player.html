@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tape Player — Magick Mica</title>
+<meta name="description" content="A little VCR that plays a random Magick Mica video note. Flip the channels for moods and years.">
+<link rel="canonical" href="https://magickmica.github.io/explore/player.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Tape Player — Magick Mica">
+<meta property="og:description" content="A little VCR that plays a random Magick Mica video note. Flip the channels for moods and years.">
+<meta property="og:url" content="https://magickmica.github.io/explore/player.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#040509">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../archive.css?v=1">
+<link rel="stylesheet" href="explore.css?v=1">
+<style>
+/* everything on this page is prefixed vp- so it cannot touch the other Explore rooms */
+.vp{max-width:880px; margin:var(--ar-s5) auto 0}
+
+/* ── the TV ───────────────────────────────────────────── */
+.vp-tv{position:relative; padding:clamp(14px,3vw,26px); border-radius:28px;
+  background:linear-gradient(160deg,#2a2550,#151634 55%,#0d0f22);
+  box-shadow:var(--ar-shadow-lg),inset 0 0 0 1px rgba(213,194,220,.18),inset 0 2px 0 rgba(255,255,255,.08)}
+.vp-tv::after{content:""; position:absolute; left:22%; right:22%; bottom:-14px; height:14px; border-radius:0 0 12px 12px;
+  background:linear-gradient(180deg,#1b1a3c,#0b0c1c)}
+.vp-screen{all:unset; box-sizing:border-box; cursor:pointer; position:relative; display:block; width:100%; aspect-ratio:4/3;
+  border-radius:22px/26px; overflow:hidden; background:#05060d;
+  box-shadow:inset 0 0 0 3px #05060d,inset 0 0 60px rgba(0,0,0,.85),0 0 0 2px rgba(150,103,186,.35)}
+.vp-screen:focus-visible{outline:3px solid var(--ar-focus); outline-offset:4px}
+.vp-pic{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4%;
+  padding:12% 10%; text-align:center; transition:filter var(--ar-t) var(--ar-ease)}
+.vp-pic::before{content:""; position:absolute; inset:0; background:radial-gradient(circle at 50% 44%,rgba(255,255,255,.18),transparent 60%)}
+.vp-play{position:relative; width:clamp(64px,15%,110px); aspect-ratio:1; border-radius:50%; border:3px solid rgba(244,238,252,.88);
+  display:grid; place-items:center; transition:transform var(--ar-t) var(--ar-ease),box-shadow var(--ar-t) var(--ar-ease)}
+.vp-play::after{content:""; margin-left:9%; border-style:solid; border-width:15px 0 15px 26px; border-color:transparent transparent transparent rgba(244,238,252,.95)}
+.vp-screen:hover .vp-play{transform:scale(1.07); box-shadow:0 0 30px rgba(95,242,230,.55)}
+.vp-cap{position:relative; max-width:30ch; font-family:var(--ar-font-body); font-style:italic; color:#f4eefc;
+  font-size:clamp(1rem,2.6vw,1.55rem); line-height:1.3; text-shadow:0 2px 12px rgba(0,0,0,.6);
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+.vp-hint{position:relative; font-family:var(--ar-font-mono); font-size:clamp(.7rem,1.6vw,.85rem); letter-spacing:.14em; color:rgba(244,238,252,.82)}
+/* on-screen display, in the corners */
+.vp-osd{position:absolute; z-index:3; font-family:var(--ar-font-mono); font-weight:700; letter-spacing:.1em; color:#7ff7ee;
+  font-size:clamp(.72rem,1.9vw,1.05rem); text-shadow:0 0 8px rgba(95,242,230,.7),2px 0 0 rgba(255,122,217,.45)}
+.vp-osd--tl{top:5%; left:5%} .vp-osd--tr{top:5%; right:5%} .vp-osd--bl{bottom:5%; left:5%} .vp-osd--br{bottom:5%; right:5%}
+.vp-osd--tr .vp-dot{display:inline-block; width:.6em; height:.6em; border-radius:50%; background:#ff7ad9; margin-right:.4em; box-shadow:0 0 8px #ff7ad9; animation:vp-blink 1.2s steps(2) infinite}
+@keyframes vp-blink{50%{opacity:0}}
+/* glass: scan lines, vignette, a slow roll bar */
+.vp-glass{position:absolute; inset:0; z-index:2; pointer-events:none;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.05) 0 1px,transparent 1px 3px),
+             radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55) 100%)}
+.vp-glass::after{content:""; position:absolute; left:0; right:0; height:18%; top:-20%;
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,.06),transparent); animation:vp-roll 7s linear infinite}
+@keyframes vp-roll{to{top:110%}}
+.vp-static{position:absolute; inset:0; z-index:4; width:100%; height:100%; opacity:0; pointer-events:none; transition:opacity 120ms}
+.vp-screen.is-tuning .vp-static{opacity:1}
+.vp-screen.is-tuning .vp-pic{filter:blur(3px) saturate(2)}
+.vp-tv__foot{display:flex; justify-content:space-between; align-items:center; gap:var(--ar-s3); margin-top:var(--ar-s3); padding:0 var(--ar-s2)}
+.vp-brand{font-family:var(--ar-font-display); font-weight:700; font-size:.8rem; letter-spacing:.22em;
+  background:var(--ar-chrome); -webkit-background-clip:text; background-clip:text; color:transparent}
+.vp-knobs{display:flex; gap:10px} .vp-knobs i{width:18px; height:18px; border-radius:50%; background:radial-gradient(circle at 35% 35%,#c9cfe0,#4b4f6e 70%); box-shadow:0 2px 4px rgba(0,0,0,.5)}
+
+/* ── the VCR ──────────────────────────────────────────── */
+.vp-vcr{margin-top:calc(14px + var(--ar-s5)); padding:var(--ar-s4) clamp(14px,3vw,24px); border-radius:14px;
+  background:linear-gradient(180deg,#232140,#141530); box-shadow:var(--ar-shadow),inset 0 1px 0 rgba(255,255,255,.08),inset 0 0 0 1px rgba(213,194,220,.14)}
+.vp-vcr__top{display:grid; grid-template-columns:1fr auto; gap:var(--ar-s4); align-items:center}
+.vp-slot{position:relative; display:flex; align-items:center; gap:var(--ar-s3); min-width:0; padding:10px 12px; border-radius:6px;
+  background:#07080f; box-shadow:inset 0 2px 8px rgba(0,0,0,.8)}
+.vp-label{flex:1; min-width:0; padding:6px 10px 8px; border-radius:3px; background:#ece4f1}
+.vp-label b{display:block; padding-bottom:5px; font-family:var(--ar-font-mono); font-size:.66rem; letter-spacing:.14em; color:#4a4163; font-weight:400;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; border-bottom:3px solid; border-image:var(--ar-holo) 1}
+.vp-label span{display:block; margin-top:5px; font-family:var(--ar-font-body); font-style:italic; color:#1b1630; font-size:.95rem;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.vp-lcd{font-family:var(--ar-font-mono); font-weight:700; font-size:1.05rem; letter-spacing:.12em; color:#7ff7ee; padding:8px 12px;
+  border-radius:6px; background:#04120f; box-shadow:inset 0 0 0 1px rgba(95,242,230,.25),inset 0 0 16px rgba(95,242,230,.12);
+  text-shadow:0 0 6px rgba(95,242,230,.8); white-space:nowrap}
+.vp-keys{display:flex; flex-wrap:wrap; gap:var(--ar-s2); margin-top:var(--ar-s4); align-items:center}
+.vp-key{all:unset; box-sizing:border-box; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  min-width:52px; min-height:44px; padding:0 14px; border-radius:8px; font-family:var(--ar-font-mono); font-weight:700; font-size:.85rem;
+  letter-spacing:.06em; color:var(--ar-text); background:linear-gradient(180deg,#3a3768,#24234a); box-shadow:0 3px 0 #0c0d1e,inset 0 1px 0 rgba(255,255,255,.14)}
+.vp-key:hover{background:linear-gradient(180deg,#4a4580,#2d2b5a)}
+.vp-key:active{transform:translateY(2px); box-shadow:0 1px 0 #0c0d1e}
+.vp-key:focus-visible{outline:2px solid var(--ar-focus); outline-offset:3px}
+.vp-key[disabled]{opacity:.4; cursor:not-allowed}
+.vp-key--big{background:linear-gradient(100deg,#ff7ad9,#9667ba 45%,#5ff2e6); color:var(--ar-text-on-accent)}
+.ar-page a.vp-key--big{color:var(--ar-text-on-accent)}
+.vp-key--big:hover{background:linear-gradient(100deg,#ff9be3,#ab80cb 45%,#7ff7ee)}
+.vp-keys .vp-watch{margin-left:auto}
+.vp-pos{font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); color:var(--ar-text-muted); margin:var(--ar-s3) 0 0}
+
+/* ── the channels ─────────────────────────────────────── */
+.vp-ch{margin-top:var(--ar-s6)}
+.vp-ch h2{font-family:var(--ar-font-display); font-weight:500; font-size:var(--ar-fs-lg); margin:0 0 var(--ar-s1)}
+.vp-ch p{margin:0 0 var(--ar-s3); color:var(--ar-text-muted)}
+.vp-chgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:var(--ar-s2); list-style:none; padding:0; margin:0}
+.vp-chbtn{all:unset; box-sizing:border-box; cursor:pointer; display:flex; flex-direction:column; gap:2px; width:100%; min-height:64px; padding:10px 12px;
+  border-radius:10px; background:var(--ar-surface); border:1px solid var(--ar-line); transition:background var(--ar-t-fast),border-color var(--ar-t-fast)}
+.vp-chbtn:hover{background:var(--ar-surface-hover); border-color:var(--ar-accent)}
+.vp-chbtn:focus-visible{outline:2px solid var(--ar-focus); outline-offset:3px}
+.vp-chbtn[aria-pressed="true"]{border-color:var(--ar-aqua); box-shadow:var(--ar-glow-live); background:rgba(95,242,230,.08)}
+.vp-chbtn small{font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); color:var(--ar-aqua); letter-spacing:.1em}
+.vp-chbtn strong{font-family:var(--ar-font-display); font-weight:500; font-size:.95rem; color:var(--ar-text)}
+.vp-chbtn em{font-style:normal; font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); color:var(--ar-text-faint)}
+.vp-note{margin-top:var(--ar-s6); padding:var(--ar-s4) var(--ar-s5); border-radius:var(--ar-r); border:1px dashed var(--ar-line-strong); color:var(--ar-text-muted); font-size:var(--ar-fs-sm)}
+.vp-note a{color:var(--ar-link)}
+
+@media (max-width:600px){
+  .vp-vcr__top{grid-template-columns:1fr}
+  .vp-lcd{justify-self:start}
+  .vp-keys .vp-watch{margin-left:0; flex:1 1 100%}
+  .vp-key{flex:1 1 auto}
+  .vp-cap{-webkit-line-clamp:2}
+}
+@media (prefers-reduced-motion:reduce){
+  .vp-glass::after,.vp-osd--tr .vp-dot{animation:none}
+  .vp-screen.is-tuning .vp-pic{filter:none}
+}
+</style>
+</head>
+<body class="ar-page mmx-page-player">
+<a class="ar-skip" href="#main">Skip to the tape player</a>
+<div class="ar-sky" aria-hidden="true"></div>
+<header class="ar-wrap mmx-head" id="mmx-head"></header>
+<main id="main" class="ar-wrap" tabindex="-1">
+<div class="vp">
+  <section class="vp-tv" aria-label="The TV">
+    <button type="button" class="vp-screen" id="screen" aria-describedby="vp-cap">
+      <span class="vp-pic" id="pic">
+        <span class="vp-play" aria-hidden="true"></span>
+        <span class="vp-cap" id="vp-cap">Tuning in…</span>
+        <span class="vp-hint" aria-hidden="true">PRESS TO WATCH ON SUBSTACK ↗</span>
+      </span>
+      <span class="vp-osd vp-osd--tl" id="osd-ch" aria-hidden="true">CH 01</span>
+      <span class="vp-osd vp-osd--tr" aria-hidden="true"><span class="vp-dot"></span>PLAY</span>
+      <span class="vp-osd vp-osd--bl" id="osd-name" aria-hidden="true">EVERYTHING</span>
+      <span class="vp-osd vp-osd--br" id="osd-date" aria-hidden="true">--·--·--</span>
+      <span class="vp-glass" aria-hidden="true"></span>
+      <canvas class="vp-static" id="static" width="160" height="120" aria-hidden="true"></canvas>
+    </button>
+    <div class="vp-tv__foot"><span class="vp-brand">MAGICK MICA TV</span><span class="vp-knobs" aria-hidden="true"><i></i><i></i></span></div>
+  </section>
+
+  <section class="vp-vcr" aria-label="The tape deck">
+    <div class="vp-vcr__top">
+      <div class="vp-slot"><div class="vp-label"><b id="lab-code">MMTV · T-0000</b><span id="lab-title">no tape</span></div></div>
+      <div class="vp-lcd" id="lcd" aria-hidden="true">CH01 ▶ 0:00</div>
+    </div>
+    <div class="vp-keys">
+      <button type="button" class="vp-key" id="prev" aria-label="Previous tape on this channel">◀◀</button>
+      <button type="button" class="vp-key vp-key--big" id="shuffle">⏏ New random tape</button>
+      <button type="button" class="vp-key" id="next" aria-label="Next tape on this channel">▶▶</button>
+      <a class="vp-key vp-key--big vp-watch" id="watch" target="_blank" rel="noopener">▶ Watch on Substack ↗</a>
+    </div>
+    <p class="vp-pos" id="pos" role="status"></p>
+  </section>
+
+  <section class="vp-ch" aria-labelledby="ch-h">
+    <h2 id="ch-h">Channels</h2>
+    <p>Each channel plays tapes from one mood or one year. Changing channel puts in a random tape from it.</p>
+    <ul class="vp-chgrid" id="channels"></ul>
+  </section>
+
+  <p class="vp-note">The videos themselves live on Substack, which only plays them on its own site. So the screen shows each tape's drawn cover and words, and pressing it opens the video on Substack in a new tab. Want to browse every tape instead? Visit <a href="tapes.html">the Tape Library</a>.</p>
+</div>
+</main>
+<footer class="ar-wrap mmx-foot" id="mmx-foot"></footer>
+<script src="../archive.js?v=1"></script>
+<script src="notes-data.js"></script>
+<script src="explore.js?v=3"></script>
+<script>
+MMX.chrome({ here: 'player.html', title: 'THE TAPE PLAYER',
+  subtitle: 'Put in a random tape from the library. Flip the channels for a mood or a year.' });
+MMX.ready(function (notes) {
+  var A = MMArchive, fmt = MMX.fmt;
+  var tapes = notes.filter(function (n) { return n.kind === 'video'; });
+  MMX.status('<span class="ar-count">' + fmt(tapes.length) + '</span> tapes ready to play');
+
+  /* channels: everything, Mica's own hand-tagged moods, the years, and the newest */
+  var MOODS = [['cosmic', 'Cosmic'], ['queen', 'Queen'], ['animals', 'Animals'], ['gothic', 'Gothic'],
+               ['egypt', 'Egypt'], ['wonderland', 'Wonderland'], ['food', 'Food'], ['glitch', 'Glitch']];
+  var last = tapes.length ? tapes[tapes.length - 1].d : '';
+  var monthAgo = last ? new Date(Date.parse(last) - 30 * 864e5).toISOString().slice(0, 10) : '';
+  var CH = [{ key: 'all', name: 'Everything', list: tapes }];
+  MOODS.forEach(function (m) {
+    CH.push({ key: m[0], name: m[1], list: tapes.filter(function (n) { return n.c.indexOf(m[0]) !== -1; }) });
+  });
+  var years = {};
+  tapes.forEach(function (n) { years[n.d.slice(0, 4)] = 1; });
+  Object.keys(years).sort().forEach(function (y) {
+    CH.push({ key: y, name: 'The ' + y + ' tapes', list: tapes.filter(function (n) { return n.d.slice(0, 4) === y; }) });
+  });
+  CH.push({ key: 'new', name: 'Fresh this month', list: tapes.filter(function (n) { return n.d >= monthAgo; }) });
+  CH = CH.filter(function (c) { return c.list.length; });
+  CH.forEach(function (c, i) { c.num = ('0' + (i + 1)).slice(-2); });
+
+  var $ = function (id) { return document.getElementById(id); };
+  var screen = $('screen'), pic = $('pic');
+  var ch = CH[0], idx = 0;
+
+  /* the same two colours the Tape Library's drawn cover uses for this tape */
+  var HUES = [258, 280, 300, 322, 205, 186, 236];
+  function colours(n) {
+    var h = Math.abs(n.id) % 7919, a = HUES[h % HUES.length], b = HUES[(h >> 3) % HUES.length];
+    if (a === b) b = (b + 40) % 360;
+    return 'linear-gradient(135deg,hsl(' + a + ',62%,30%),hsl(' + ((a + b) >> 1) + ',55%,14%) 60%,hsl(' + b + ',70%,34%))';
+  }
+
+  /* ── channel buttons ── */
+  var chList = $('channels');
+  CH.forEach(function (c) {
+    var li = document.createElement('li');
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'vp-chbtn'; b.dataset.ch = c.key;
+    b.innerHTML = '<small>CH ' + c.num + '</small><strong>' + MMX.esc(c.name) + '</strong><em>' + fmt(c.list.length) + ' tape' + (c.list.length === 1 ? '' : 's') + '</em>';
+    b.addEventListener('click', function () { tuneTo(c, null, true); });
+    li.appendChild(b); chList.appendChild(li);
+  });
+
+  /* ── static noise on the glass while changing tapes ── */
+  var cv = $('static'), cx = cv.getContext('2d'), noiseT = 0;
+  function noise() {
+    var img = cx.createImageData(cv.width, cv.height), d = img.data;
+    for (var i = 0; i < d.length; i += 4) { var v = Math.random() * 255 | 0; d[i] = v; d[i + 1] = v * .9 | 0; d[i + 2] = v; d[i + 3] = 255; }
+    cx.putImageData(img, 0, 0);
+  }
+  function fuzz(ms) {
+    return new Promise(function (res) {
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { res(); return; }
+      screen.classList.add('is-tuning');
+      var end = Date.now() + ms;
+      (function loop() {
+        noise();
+        if (Date.now() < end) noiseT = requestAnimationFrame(loop);
+        else { screen.classList.remove('is-tuning'); res(); }
+      })();
+    });
+  }
+
+  /* ── show one tape ── */
+  function show() {
+    var n = ch.list[idx], d = n.d.split('-');
+    var title = MMX.firstLine(n.b, 110);
+    pic.style.background = colours(n);
+    $('vp-cap').textContent = title || 'A tape with no words, only pictures.';
+    $('osd-ch').textContent = 'CH ' + ch.num;
+    $('osd-name').textContent = ch.name.toUpperCase();
+    $('osd-date').textContent = d[0] + '·' + d[1] + '·' + d[2];
+    $('lab-code').textContent = 'MMTV · T-' + d[0].slice(2) + d[1] + ' · REC ' + d[0] + '·' + d[1] + '·' + d[2];
+    $('lab-title').textContent = title || 'no label';
+    $('lcd').textContent = 'CH' + ch.num + ' ▶ ' + (idx + 1) + '/' + ch.list.length;
+    $('watch').href = n.url;
+    screen.setAttribute('aria-label', 'Watch on Substack: the tape from ' + A.dates.label(n.d, 'long') + ' (opens a new tab)');
+    $('pos').textContent = 'Channel ' + ch.num + ', ' + ch.name + ': tape ' + (idx + 1) + ' of ' + fmt(ch.list.length) + ', recorded ' + A.dates.label(n.d, 'long') + '.';
+    $('prev').disabled = idx <= 0;
+    $('next').disabled = idx >= ch.list.length - 1;
+    document.querySelectorAll('.vp-chbtn').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.ch === ch.key ? 'true' : 'false'); });
+    var p = new URLSearchParams(location.search);
+    p.set('ch', ch.key); p.set('tape', n.id);
+    history.replaceState(null, '', '?' + p.toString());
+  }
+  function randomIdx(c, avoid) {
+    if (c.list.length < 2) return 0;
+    var n = A.random.pick(c.list, function (x) { return x !== avoid; });
+    return c.list.indexOf(n);
+  }
+  function tuneTo(c, i, animate) {
+    var before = ch.list[idx];
+    ch = c;
+    idx = i == null ? randomIdx(c, before) : i;
+    return (animate ? fuzz(420) : Promise.resolve()).then(show);
+  }
+
+  screen.addEventListener('click', function () { A.random.go(ch.list[idx].url, { newTab: true }); });
+  $('shuffle').addEventListener('click', function () { tuneTo(ch, null, true); });
+  $('prev').addEventListener('click', function () { if (idx > 0) tuneTo(ch, idx - 1, true); });
+  $('next').addEventListener('click', function () { if (idx < ch.list.length - 1) tuneTo(ch, idx + 1, true); });
+
+  /* start where a shared link points, else a random tape on channel 1 */
+  var p = new URLSearchParams(location.search);
+  var start = CH.filter(function (c) { return c.key === p.get('ch'); })[0] || CH[0];
+  var at = -1, want = +p.get('tape');
+  if (want) start.list.some(function (n, i) { if (n.id === want) { at = i; return true; } });
+  tuneTo(start, at >= 0 ? at : null, true);
+});
+</script>
+<script src="../mm-nav.js?v=3" defer></script>
+</body>
+</html>

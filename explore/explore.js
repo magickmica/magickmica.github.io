@@ -26,6 +26,7 @@
     { href: 'book.html',    name: 'The Transmission Book', short: 'Book' },
     { href: 'gallery.html', name: 'The Gallery Wing',   short: 'Gallery' },
     { href: 'tapes.html',   name: 'The Tape Library',   short: 'Tapes' },
+    { href: 'player.html',  name: 'The Tape Player',    short: 'Tape Player' },
     { href: 'sky.html',     name: 'The Sky Map',        short: 'Sky Map' },
     { href: 'stars.html',   name: 'The Daily Constellation', short: 'Constellation' },
     { href: 'themes.html',  name: 'Theme Rooms',        short: 'Themes' },
