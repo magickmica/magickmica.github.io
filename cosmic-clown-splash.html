@@ -116,6 +116,8 @@ canvas{display:block;width:100%;touch-action:none;-webkit-user-select:none;user-
 .shelf-row .it{position:relative;font-size:1.9rem;line-height:1;width:46px;height:46px;display:grid;place-items:center}
 .shelf-row .it.medium{font-size:2.4rem;width:54px;height:54px}
 .shelf-row .it.jumbo{font-size:3.1rem;width:66px;height:66px;filter:drop-shadow(0 0 12px rgba(255,209,102,.55))}
+.shelf-row .it.rare{font-size:2.3rem;width:54px;height:54px;border-radius:12px;background:radial-gradient(circle,rgba(95,243,232,.22),transparent 70%);filter:drop-shadow(0 0 10px rgba(95,243,232,.6))}
+.shelf-row .it.fortune{font-size:1.7rem;width:40px;height:50px;border-radius:6px;border:1px solid rgba(255,209,102,.55);background:linear-gradient(160deg,rgba(150,103,186,.35),rgba(19,28,63,.6))}
 .shelf-row .empty{font-size:.72rem;color:rgba(213,194,220,.5);align-self:center;padding-left:6px}
 .back{display:block;text-align:center;margin-top:26px;font-family:Silkscreen,monospace;font-size:.72rem;letter-spacing:.12em;text-decoration:none}
 
@@ -196,7 +198,7 @@ canvas{display:block;width:100%;touch-action:none;-webkit-user-select:none;user-
   <a class="back" href="arcade.html">← Back to the Arcade</a>
 </div>
 
-<script src="mm-prizes.js?v=1"></script>
+<script src="mm-prizes.js?v=2"></script>
 <script>
 (function(){
 'use strict';
@@ -848,6 +850,7 @@ function showEnd(){
     title.textContent = 'AWW, SO CLOSE!';
     text.textContent = winner.r.name + ' popped first in ' + secs + ' seconds. Your balloon was at ' + Math.floor(booths[0].fill) + '% (' + ['','1st','2nd','3rd','4th'][place] + ' place). Lead the mouth a little.';
   }
+  if(window.MMPrizes) MMPrizes.addTickets(2, 'Clown Splash');
   endVeil.dataset.on = 'true';
   document.getElementById('againBtn').focus({preventScroll:true});
 }

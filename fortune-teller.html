@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Madame Nebula's Fortunes &middot; MagickMica</title>
+<meta name="description" content="A Cosmic Circus fortune machine. Ask Madame Nebula and she deals you a fortune from one of Magick Mica's own notes. Keep the card on your prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/fortune-teller.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Madame Nebula's Fortunes · Magick Mica Arcade">
+<meta property="og:description" content="Ask the crystal ball. Your fortune comes from one of Magick Mica's notes.">
+<meta property="og:url" content="https://magickmica.github.io/fortune-teller.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+.awning{background:repeating-linear-gradient(90deg,var(--iris) 0 34px,var(--orchid) 34px 68px)}
+.scallop{background:radial-gradient(circle at 50% 0,var(--iris) 0 12px,transparent 13px) 0 0/68px 14px repeat-x,
+  radial-gradient(circle at 50% 0,var(--orchid) 0 12px,transparent 13px) 34px 0/68px 14px repeat-x}
+.cabinet{position:relative;padding:26px 16px 0;text-align:center;overflow:hidden;
+  background:radial-gradient(70% 55% at 50% 42%,rgba(150,103,186,.45),transparent 70%),
+             repeating-linear-gradient(90deg,#3a1240 0 22px,#4a1752 22px 30px,#3a1240 30px 52px);}
+.cabinet::before,.cabinet::after{content:"";position:absolute;top:0;bottom:0;width:18%;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(90deg,#7a1f5c 0 10px,#a12a78 10px 16px,#7a1f5c 16px 26px);
+  box-shadow:inset -10px 0 20px rgba(0,0,0,.5)}
+.cabinet::before{left:0;border-radius:0 0 60% 0}
+.cabinet::after{right:0;border-radius:0 0 0 60%;box-shadow:inset 10px 0 20px rgba(0,0,0,.5)}
+.glass{position:relative;z-index:1;max-width:420px;margin:0 auto}
+.glass svg{display:block;width:100%;height:auto}
+.ball-glow{transform-origin:200px 300px;transition:opacity .4s}
+.swirl{transform-origin:200px 300px}
+.asking .swirl{animation:spin 1.8s cubic-bezier(.5,0,.3,1) both}
+.asking .ball-core{animation:pulse .45s ease-in-out 4 alternate}
+.asking .eye{animation:eyes 1.8s both}
+@keyframes spin{to{transform:rotate(720deg)}}
+@keyframes pulse{to{opacity:1;filter:brightness(1.6)}}
+@keyframes eyes{30%,90%{fill:#5ff3e8;filter:drop-shadow(0 0 6px #5ff3e8)}}
+.eye{fill:#2f2f70}
+.idle .float{animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-4px)}}
+.slot{position:relative;z-index:3;margin:0 auto;width:min(320px,80%);height:16px;border-radius:8px;background:#05060c;
+  box-shadow:inset 0 3px 6px rgba(0,0,0,.9),0 0 0 3px #ffd166,0 0 18px rgba(255,209,102,.5)}
+.plate{position:relative;z-index:3;margin:14px auto 0;padding:14px 0 18px}
+.ask{font-family:Silkscreen,monospace;font-size:1rem;letter-spacing:.14em;color:#040509;padding:15px 26px;border-radius:999px;
+  background:linear-gradient(90deg,var(--gold),var(--pink));box-shadow:0 6px 0 #8a2a5c,0 0 26px rgba(255,79,163,.45)}
+.ask:hover{filter:brightness(1.08)}
+.ask:active{transform:translateY(3px);box-shadow:0 3px 0 #8a2a5c}
+.ask[disabled]{opacity:.55;cursor:wait}
+.hint{font-size:.72rem;color:rgba(213,194,220,.72);margin:12px 0 0}
+
+/* the dealt card */
+.deal{min-height:0;perspective:900px}
+.fcard{position:relative;max-width:440px;margin:18px auto 0;padding:24px 22px 18px;border-radius:16px;text-align:center;color:#2a1a3a;
+  background:linear-gradient(170deg,#fff6e3,#f3dcef 55%,#d8ccf3);border:2px solid #ffd166;
+  box-shadow:0 0 0 5px rgba(81,70,162,.55),0 24px 60px rgba(0,0,0,.6),0 0 40px rgba(255,209,102,.25)}
+.fcard.out{animation:dealt .9s cubic-bezier(.2,.9,.25,1.05) both}
+@keyframes dealt{from{transform:translateY(-60px) rotateX(70deg) scale(.7);opacity:0}to{transform:none;opacity:1}}
+.fcard .fh{font-family:Silkscreen,monospace;font-size:.7rem;letter-spacing:.24em;color:#7a3b9a}
+.fcard .fh::before,.fcard .fh::after{content:"✦";margin:0 8px;color:#d4a01a}
+.fcard blockquote{margin:14px 0 12px;font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:600;
+  font-size:clamp(1.25rem,4.6vw,1.6rem);line-height:1.25;color:#2a1640}
+.fcard .fby{font-size:.72rem;color:#5d4a73}
+.fcard .fnum{position:absolute;top:10px;right:14px;font-family:Silkscreen,monospace;font-size:.6rem;color:#9a7ab0}
+.fcard .corner{position:absolute;font-size:1rem}
+.fcard .c1{top:8px;left:12px}.fcard .c2{bottom:8px;right:12px;transform:rotate(180deg)}
+.facts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.facts a,.facts button{font-family:Silkscreen,monospace;font-size:.66rem;letter-spacing:.1em;padding:9px 12px;border-radius:999px;
+  text-decoration:none;color:#2a1640;border:1.5px solid #7a3b9a;background:rgba(255,255,255,.5)}
+.facts button.keep{background:#2a1640;color:#ffd166;border-color:#2a1640}
+.facts button[disabled]{opacity:.6;cursor:default}
+.kept{font-size:.72rem;color:#7a3b9a;margin-top:10px;font-weight:500}
+
+.deck{margin-top:26px}
+.deck h3{margin:0 0 4px;font-family:Orbitron,sans-serif;font-size:.95rem;letter-spacing:.06em;color:#fff}
+.deck p.sub{margin:0 0 10px;font-size:.74rem;color:rgba(213,194,220,.7)}
+.decklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.mini-card{padding:12px 12px 10px;border-radius:10px;background:linear-gradient(170deg,rgba(255,246,227,.1),rgba(150,103,186,.18));
+  border:1px solid rgba(255,209,102,.35);font-size:.78rem;line-height:1.4}
+.mini-card i{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.05rem;color:#fff3dc;margin-bottom:6px}
+.mini-card span{font-size:.64rem;color:rgba(213,194,220,.6)}
+.deck .empty{font-size:.72rem;color:rgba(213,194,220,.5)}
+@media (prefers-reduced-motion:reduce){.asking .swirl,.asking .ball-core,.idle .float,.fcard.out{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
+    <h1>MADAME NEBULA'S FORTUNES</h1>
+    <p class="tag">Ask the crystal ball. Every fortune is a line from one of Magick Mica's notes.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ YOUR FUTURE · ONE TAP AWAY ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage">
+      <div class="cabinet">
+        <div class="glass idle" id="glass">
+          <svg viewBox="0 0 400 420" role="img" aria-label="Madame Nebula, a hooded fortune teller with glowing eyes, holding her hands over a crystal ball">
+            <defs>
+              <radialGradient id="ballG" cx="42%" cy="38%" r="62%"><stop offset="0" stop-color="#ffffff"/><stop offset=".25" stop-color="#bff9f4"/><stop offset=".6" stop-color="#9667ba"/><stop offset="1" stop-color="#2f2f70"/></radialGradient>
+              <radialGradient id="haloG" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#5ff3e8" stop-opacity=".55"/><stop offset="1" stop-color="#5ff3e8" stop-opacity="0"/></radialGradient>
+              <linearGradient id="hoodG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5146a2"/><stop offset="1" stop-color="#1c1648"/></linearGradient>
+              <linearGradient id="faceG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9dcf3"/><stop offset="1" stop-color="#b9a3d6"/></linearGradient>
+              <clipPath id="ballClip"><circle cx="200" cy="300" r="70"/></clipPath>
+            </defs>
+            <g class="float">
+              <!-- hood and robe -->
+              <path d="M200 30 C120 34 86 110 90 190 C92 240 70 290 40 330 L360 330 C330 290 308 240 310 190 C314 110 280 34 200 30 Z" fill="url(#hoodG)"/>
+              <path d="M200 52 C150 56 128 110 132 160 C136 210 166 236 200 236 C234 236 264 210 268 160 C272 110 250 56 200 52 Z" fill="#0c0b22"/>
+              <!-- face -->
+              <path d="M200 92 C168 92 152 120 154 152 C156 190 178 214 200 214 C222 214 244 190 246 152 C248 120 232 92 200 92 Z" fill="url(#faceG)"/>
+              <path d="M164 118 C176 100 224 100 236 118 C226 108 174 108 164 118 Z" fill="#9667ba" opacity=".6"/>
+              <ellipse class="eye" cx="181" cy="150" rx="9" ry="6"/>
+              <ellipse class="eye" cx="219" cy="150" rx="9" ry="6"/>
+              <path d="M170 140 q11 -8 22 0 M208 140 q11 -8 22 0" stroke="#5146a2" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M200 160 l-4 16 h8 z" fill="#c9b5e0"/>
+              <path d="M188 190 q12 7 24 0" stroke="#ff4fa3" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <circle cx="200" cy="124" r="5" fill="#ffd166"/>
+              <!-- crescent on the hood -->
+              <path d="M200 40 a18 18 0 1 0 14 30 a14 14 0 1 1 -14 -30 z" fill="#ffd166" transform="translate(-6 -2)"/>
+              <!-- stars on the robe -->
+              <g fill="#ffd166" opacity=".85"><circle cx="110" cy="250" r="2.4"/><circle cx="292" cy="236" r="2"/><circle cx="96" cy="300" r="1.8"/><circle cx="316" cy="296" r="2.4"/><circle cx="128" cy="210" r="1.6"/><circle cx="276" cy="200" r="1.6"/></g>
+              <!-- hands -->
+              <path d="M112 280 C120 250 150 246 160 262 C150 270 140 286 136 300 Z" fill="url(#faceG)"/>
+              <path d="M288 280 C280 250 250 246 240 262 C250 270 260 286 264 300 Z" fill="url(#faceG)"/>
+            </g>
+            <!-- table -->
+            <path d="M20 352 Q200 330 380 352 L380 420 L20 420 Z" fill="#2f2f70"/>
+            <path d="M20 352 Q200 330 380 352" stroke="#ffd166" stroke-width="3" fill="none"/>
+            <g fill="#ffd166"><path d="M60 372 l3 7 7 1 -5 5 1 7 -6 -3 -6 3 1 -7 -5 -5 7 -1z"/><path d="M330 376 l3 7 7 1 -5 5 1 7 -6 -3 -6 3 1 -7 -5 -5 7 -1z"/></g>
+            <!-- ball -->
+            <circle class="ball-glow" cx="200" cy="300" r="110" fill="url(#haloG)"/>
+            <path d="M156 360 h88 l-10 -16 h-68 z" fill="#ffd166"/>
+            <circle class="ball-core" cx="200" cy="300" r="70" fill="url(#ballG)" opacity=".92"/>
+            <g clip-path="url(#ballClip)"><g class="swirl" opacity=".7">
+              <path d="M150 300 C170 250 240 250 250 300 C258 340 200 350 190 310" stroke="#ff4fa3" stroke-width="7" fill="none" stroke-linecap="round"/>
+              <path d="M170 330 C190 360 250 340 240 290" stroke="#5ff3e8" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <circle cx="222" cy="272" r="4" fill="#fff"/><circle cx="176" cy="318" r="3" fill="#fff"/>
+            </g></g>
+            <ellipse cx="178" cy="272" rx="18" ry="10" fill="#fff" opacity=".5" transform="rotate(-30 178 272)"/>
+          </svg>
+        </div>
+        <div class="slot" aria-hidden="true"></div>
+        <div class="plate">
+          <button class="ask" id="askBtn" type="button" disabled>🔮 WAKING THE BALL…</button>
+          <p class="hint" id="hint">Your first fortune each day goes on your prize shelf and pays 3 tickets.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="deal" id="deal" aria-live="polite"></div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">FORTUNES<b id="sCount">0</b></span>
+      <span class="stat">CARDS KEPT<b id="sKept">0</b></span>
+      <span class="stat">TICKETS<b id="sTix">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="deck" aria-label="Your fortune cards">
+    <h3>Your Fortune Cards</h3>
+    <p class="sub">Every card you keep, newest first. They also sit on your prize shelf.</p>
+    <div class="decklist" id="deck"></div>
+  </section>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>Fortune cards and prizes from every game at the circus. Trade tickets for rare collectibles at the <a href="ticket-booth.html">Ticket Booth</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html#circus">← Back to the Circus</a>
+</div>
+
+<script src="mm-prizes.js?v=2"></script>
+<script src="carnival.js?v=1"></script>
+<script src="circus-notes.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var S = MMC.Sound, reduce = MMC.reduce;
+var st = MMC.store('mm_fortune_v1', { count: 0, day: '', kept: [] });
+var askBtn = document.getElementById('askBtn'), glass = document.getElementById('glass'), deal = document.getElementById('deal');
+var pool = [], current = null, busy = false;
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+
+function today() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function stats() {
+  document.getElementById('sCount').textContent = st.data.count;
+  document.getElementById('sKept').textContent = st.data.kept.length;
+  document.getElementById('sTix').textContent = MMPrizes.tickets();
+}
+addEventListener('mm-prizes', stats);
+function deck() {
+  var el = document.getElementById('deck'), list = st.data.kept.slice().reverse().slice(0, 24);
+  if (!list.length) { el.innerHTML = '<span class="empty">No cards yet. Ask Madame Nebula for your first fortune.</span>'; return; }
+  el.innerHTML = list.map(function (k) {
+    return '<div class="mini-card"><i>' + esc(k.text) + '</i><span>' + esc(MMNotes.pretty(k.d)) + ' · <a href="' + esc(k.url) + '" target="_blank" rel="noopener">the note ↗</a></span></div>';
+  }).join('');
+}
+function isKept(f) { return st.data.kept.some(function (k) { return k.id === f.id; }); }
+function keep(f, auto) {
+  if (isKept(f)) return;
+  st.data.kept.push({ id: f.id, d: f.d, text: f.text, url: f.url });
+  if (st.data.kept.length > 60) st.data.kept.shift();
+  st.save();
+  var short = f.text.length > 70 ? f.text.slice(0, 68) + '…' : f.text;
+  MMPrizes.add({ e: '🔮', n: 'Fortune card: ' + short, tier: 'fortune' }, 'Fortune Teller');
+  if (auto) MMPrizes.addTickets(3, 'Fortune Teller');
+  deck(); stats();
+}
+
+function choose() {
+  var seen = {}; st.data.kept.forEach(function (k) { seen[k.id] = 1; });
+  for (var i = 0; i < 12; i++) { var f = pool[Math.floor(Math.random() * pool.length)]; if (!seen[f.id] && (!current || f.id !== current.id)) return f; }
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function show(f, first) {
+  var n = st.data.count;
+  deal.innerHTML =
+    '<div class="fcard out" id="fcard">' +
+      '<span class="corner c1">☾</span><span class="corner c2">☾</span><span class="fnum">No. ' + n + '</span>' +
+      '<div class="fh">YOUR FORTUNE</div>' +
+      '<blockquote>' + esc(f.text) + '</blockquote>' +
+      '<div class="fby">from a Magick Mica note · ' + esc(MMNotes.pretty(f.d)) + '</div>' +
+      '<div class="facts">' +
+        '<button type="button" class="keep" id="keepBtn">' + (isKept(f) ? '✓ ON YOUR SHELF' : '🃏 KEEP THIS CARD') + '</button>' +
+        '<a href="photo-booth.html?note=' + f.id + '">📸 PHOTO BOOTH CARD</a>' +
+        '<a href="' + esc(f.url) + '" target="_blank" rel="noopener">READ THE NOTE ↗</a>' +
+      '</div>' +
+      (first ? '<div class="kept">Your first fortune today went on your prize shelf. +3 tickets!</div>' : '') +
+    '</div>';
+  var kb = document.getElementById('keepBtn');
+  if (isKept(f)) kb.disabled = true;
+  kb.addEventListener('click', function () { keep(f, false); kb.textContent = '✓ ON YOUR SHELF'; kb.disabled = true; S.ding(true); });
+  var card = document.getElementById('fcard');
+  setTimeout(function () { card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' }); }, 120);
+}
+
+function ask() {
+  if (busy || !pool.length) return;
+  busy = true; S.boot(); askBtn.disabled = true; askBtn.textContent = '🔮 THE BALL IS SWIRLING…';
+  glass.classList.remove('idle'); void glass.offsetWidth; glass.classList.add('asking');
+  S.whoosh();
+  [523, 659, 784, 988, 1175].forEach(function (f, i) { S.tone(f, .15 + i * .22, .9, .07, 'sine'); });
+  var f = choose();
+  setTimeout(function () {
+    glass.classList.remove('asking'); glass.classList.add('idle');
+    current = f; st.data.count++;
+    var first = st.data.day !== today();
+    if (first) st.data.day = today();
+    st.save();
+    if (first) keep(f, true);
+    S.bell(); show(f, first); stats();
+    busy = false; askBtn.disabled = false; askBtn.textContent = '🔮 ASK AGAIN';
+    document.getElementById('hint').textContent = 'Ask as often as you like. Tap Keep on the ones you love.';
+  }, reduce ? 300 : 1900);
+}
+askBtn.addEventListener('click', ask);
+glass.addEventListener('click', ask);
+
+MMNotes.load().then(function (list) {
+  pool = list;
+  if (!pool.length) { askBtn.textContent = 'THE BALL IS CLOUDY'; document.getElementById('hint').textContent = 'The fortunes did not load. Refresh to try again.'; return; }
+  askBtn.disabled = false; askBtn.textContent = '🔮 ASK MADAME NEBULA';
+  if (st.data.day === today()) document.getElementById('hint').textContent = 'Today\'s shelf card is already yours. Ask as often as you like and keep the ones you love.';
+});
+stats(); deck();
+window.__fortune = { ask: ask, get pool() { return pool; }, get busy() { return busy; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>
