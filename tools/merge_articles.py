@@ -5,8 +5,11 @@ Merges GET ARTICLES! files (get-articles.html) into _data/magazine_articles.json
 
     python3 tools/merge_articles.py _data get-articles-magickmica.substack.com-2026-10-25.json [...]
 
-- Posts already in the archive keep their cover and preview, and gain fresh
-  likes / comments / restacks / words.
+- Posts already in the archive keep their preview and gain fresh
+  likes / comments / restacks / words. Their cover follows the thumbnail set
+  on Substack whenever the file came from the collector, so changing a
+  post's thumbnail on Substack shows up on the site at the next update.
+  Covers from export-based files (no engagement numbers) never replace one.
 - New posts are added with a cover in the same CDN format build_articles.py uses.
 - Restacks of the other newsletter's posts are never added as new posts.
 - Which newsletter a file belongs to comes from its "site" field.
@@ -49,6 +52,11 @@ def merge(archive, raw):
         a = by_slug.get(slug)
         if a:
             a.update(stats)
+            # The collector reads the thumbnail set on Substack (cover_image);
+            # files built from an export zip have no likes and only a guessed
+            # cover, so those never replace one.
+            if p.get("cover") and p.get("likes") is not None:
+                a["cover_url"] = cover_of(p["cover"])
             updated += 1
             continue
         if p.get("type") == "restack":
