@@ -48,7 +48,7 @@
 <header class="ar-wrap mmx-head" id="mmx-head"></header>
 <main id="main" class="ar-wrap" tabindex="-1">
 <ul class="hub-stats" id="stats" aria-label="The archive in numbers"></ul>
-<h2 class="ar-h2 mmx-sect">Eight rooms to wander</h2>
+<h2 class="ar-h2 mmx-sect">Nine rooms to wander</h2>
 <div class="hub-rooms" id="rooms"></div>
 <div class="hub-random"><button type="button" class="ar-btn ar-btn--signal" id="rand">Tune into a random transmission</button>
 <span class="ar-meta">Opens a real note from anywhere in the archive</span></div>
@@ -66,7 +66,7 @@
 <script src="explore.js?v=2"></script>
 <script>
 MMX.chrome({ here: 'index.html', title: 'EXPLORE THE TRANSMISSIONS',
-  subtitle: 'Eight ways to wander through every note, from the first transmission to the latest.' });
+  subtitle: 'Nine ways to wander through every note, from the first transmission to the latest.' });
 MMX.ready(function (notes) {
   var fmt = MMX.fmt, esc = MMX.esc;
   var imgs = notes.filter(function (n) { return n.kind === 'image'; });
@@ -92,7 +92,8 @@ MMX.ready(function (notes) {
     ['themes.html', 'Theme Rooms', fmt(Object.keys(tags).length) + ' rooms for the themes tagged by hand, from cosmic to y2k.', top(cosmic)],
     ['hall.html', 'The Hall of Fame', 'The most-loved and most-restacked notes of all time, every year and every month.', top(notes.filter(function (n) { return n.img; }))],
     ['../almanac/', 'The Y3K Almanac', 'A book of days: open any date and see what went out on it in every year. Opens on today.', null, '\u263D  ' + new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' }).toUpperCase()],
-    ['../reader/', 'Transmission Reader 98', 'The whole archive in a recovered late-90s mail reader: folders, sortable columns and a preview pane. Best on a computer.', null, '\u2709 INBOX']
+    ['../reader/', 'Transmission Reader 98', 'The whole archive in a recovered late-90s mail reader: folders, sortable columns and a preview pane. Best on a computer.', null, '\u2709 INBOX'],
+    ['stars.html', 'The Daily Constellation', 'A new figure in the sky every month. One star lights up each night, and every star opens a transmission from its date.', null, '\u2727 TONIGHT\u2019S STAR']
   ];
   var box = document.getElementById('rooms');
   rooms.forEach(function (r, i) {

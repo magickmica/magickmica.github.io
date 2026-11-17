@@ -41,6 +41,7 @@
       ['explore/', 'Explore the Notes'],
       ['reader/', 'Transmission Reader'],
       ['almanac/', 'Y3K Almanac'],
+      ['explore/stars.html', 'Daily Constellation'],
       ['signal/', 'Signal Band'],
       ['newsstand.html', 'Newsstand'],
       ['random-note.html', 'Random Note TV'],

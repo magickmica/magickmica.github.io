@@ -28,6 +28,7 @@
     { href: 'tapes.html',   name: 'The Tape Library',   short: 'Tapes' },
     { href: 'player.html',  name: 'The Tape Player',    short: 'Tape Player' },
     { href: 'sky.html',     name: 'The Sky Map',        short: 'Sky Map' },
+    { href: 'stars.html',   name: 'The Daily Constellation', short: 'Constellation' },
     { href: 'themes.html',  name: 'Theme Rooms',        short: 'Themes' },
     { href: 'hall.html',    name: 'The Hall of Fame',   short: 'Hall of Fame' },
     /* rooms 7 and 8 live in their own folders */
