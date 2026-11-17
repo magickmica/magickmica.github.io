@@ -48,7 +48,7 @@
 <header class="ar-wrap mmx-head" id="mmx-head"></header>
 <main id="main" class="ar-wrap" tabindex="-1">
 <ul class="hub-stats" id="stats" aria-label="The archive in numbers"></ul>
-<h2 class="ar-h2 mmx-sect">Six rooms to wander</h2>
+<h2 class="ar-h2 mmx-sect">Eight rooms to wander</h2>
 <div class="hub-rooms" id="rooms"></div>
 <div class="hub-random"><button type="button" class="ar-btn ar-btn--signal" id="rand">Tune into a random transmission</button>
 <span class="ar-meta">Opens a real note from anywhere in the archive</span></div>
@@ -56,9 +56,7 @@
 <ul class="hub-also">
   <li><a href="../notes.html"><b>All Notes</b><small>Search and filter every transmission</small></a></li>
   <li><a href="../minimags.html"><b>Y3K Magazine</b><small>Weekly and monthly editions</small></a></li>
-  <li><a href="../almanac/"><b>The Y3K Almanac</b><small>A book of days: what went out on each date</small></a></li>
   <li><a href="../signal/"><b>MagickVision Signal Band</b><small>Tune through every week</small></a></li>
-  <li><a href="../reader/"><b>Transmission Reader 98</b><small>The archive in a late-90s mail reader</small></a></li>
   <li><a href="../random-note.html"><b>Random Note TV</b><small>Channel-surf the notes</small></a></li>
 </ul>
 </main>
@@ -68,7 +66,7 @@
 <script src="explore.js?v=2"></script>
 <script>
 MMX.chrome({ here: 'index.html', title: 'EXPLORE THE TRANSMISSIONS',
-  subtitle: 'Six ways to wander through every note, from the first transmission to the latest.' });
+  subtitle: 'Eight ways to wander through every note, from the first transmission to the latest.' });
 MMX.ready(function (notes) {
   var fmt = MMX.fmt, esc = MMX.esc;
   var imgs = notes.filter(function (n) { return n.kind === 'image'; });
@@ -92,7 +90,9 @@ MMX.ready(function (notes) {
     ['tapes.html', 'The Tape Library', fmt(vids.length) + ' video notes, shelved as labelled tapes.', vids[vids.length - 1]],
     ['sky.html', 'The Sky Map', 'Every note as a star in one spiral sky. The more loved, the brighter it shines.', null],
     ['themes.html', 'Theme Rooms', fmt(Object.keys(tags).length) + ' rooms for the themes tagged by hand, from cosmic to y2k.', top(cosmic)],
-    ['hall.html', 'The Hall of Fame', 'The most-loved and most-restacked notes of all time, every year and every month.', top(notes.filter(function (n) { return n.img; }))]
+    ['hall.html', 'The Hall of Fame', 'The most-loved and most-restacked notes of all time, every year and every month.', top(notes.filter(function (n) { return n.img; }))],
+    ['../almanac/', 'The Y3K Almanac', 'A book of days: open any date and see what went out on it in every year. Opens on today.', null, '\u263D  ' + new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' }).toUpperCase()],
+    ['../reader/', 'Transmission Reader 98', 'The whole archive in a recovered late-90s mail reader: folders, sortable columns and a preview pane. Best on a computer.', null, '\u2709 INBOX']
   ];
   var box = document.getElementById('rooms');
   rooms.forEach(function (r, i) {
@@ -100,7 +100,7 @@ MMX.ready(function (notes) {
     el.className = 'ar-card hub-room';
     var media = n && n.thumb
       ? '<div class="ar-media"><img src="' + esc(n.thumb) + '" alt="" loading="lazy" decoding="async"></div>'
-      : '<div class="ar-media ar-media--none" data-fallback="' + (r[0] === 'sky.html' ? '✦ · ✧ · ✦' : '') + '"></div>';
+      : '<div class="ar-media ar-media--none" data-fallback="' + esc(r[4] || (r[0] === 'sky.html' ? '✦ · ✧ · ✦' : '')) + '"></div>';
     el.innerHTML = media + '<span class="ar-badge hub-room__num">Room ' + (i + 1) + '</span>' +
       '<div class="hub-room__body"><h3 class="hub-room__name"><a class="ar-card__link" href="' + r[0] + '">' + esc(r[1]) + '</a></h3>' +
       '<p class="hub-room__desc">' + esc(r[2]) + '</p></div>';

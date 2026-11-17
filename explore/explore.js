@@ -28,7 +28,10 @@
     { href: 'tapes.html',   name: 'The Tape Library',   short: 'Tapes' },
     { href: 'sky.html',     name: 'The Sky Map',        short: 'Sky Map' },
     { href: 'themes.html',  name: 'Theme Rooms',        short: 'Themes' },
-    { href: 'hall.html',    name: 'The Hall of Fame',   short: 'Hall of Fame' }
+    { href: 'hall.html',    name: 'The Hall of Fame',   short: 'Hall of Fame' },
+    /* rooms 7 and 8 live in their own folders */
+    { href: '../almanac/',  name: 'The Y3K Almanac',    short: 'Almanac' },
+    { href: '../reader/',   name: 'Transmission Reader 98', short: 'Reader 98' }
   ];
 
   /* ── data ─────────────────────────────────────────────────── */

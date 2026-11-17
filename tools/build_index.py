@@ -437,7 +437,7 @@ def render(theme, themes, articles, nav, store_img=""):
 
 <div class="mos">{''.join(tiles)}</div>
 
-{XP.cta_block() if is_home else ''}<div class="sect"><h2 class="holo">Y3K MAGAZINE</h2><div class="rule"></div>
+{XP.cta_block() + XP.otd_block() if is_home else ''}<div class="sect"><h2 class="holo">Y3K MAGAZINE</h2><div class="rule"></div>
 <span class="meta">WEEKLY ISSUES</span></div>
 <div class="mag-grid"></div>
 {'<div data-mm-subscribe="full"><a href="https://magickmica.substack.com/subscribe">Subscribe to Magick Mica TV on Substack</a></div>' if is_home and HAS_SUBSCRIBE else ''}

@@ -9,6 +9,11 @@ running this file directly (which patches the live homepages in place):
      index.html only, just above the Y3K MAGAZINE section.
   2. A small "NEW!" tag next to "Explore the Notes" in THE TRANSMISSION MAP,
      on index.html and every index-*.html variant.
+  3. An "On this day" strip on index.html, right under the banner: the
+     most-loved note from today's date in an earlier year, how many went out
+     on this date, and a button into the Y3K Almanac. Its data is
+     almanac/today.js, written by almanac/build_almanac.py; the strip loads it
+     only when it scrolls into view. Turn it off with SHOW_ON_THIS_DAY = False.
 
     python3 tools/explore_promo.py            # add both to the live pages (safe to re-run)
     python3 tools/explore_promo.py --remove   # take them off again
@@ -27,10 +32,12 @@ import re
 import sys
 
 SHOW_PROMO = True
+SHOW_ON_THIS_DAY = True
 NEW_LINKS = {"explore/"}            # Transmission Map links that get a NEW! tag
 
 M_CSS = ("<!-- mm-explore-new:css -->", "<!-- /mm-explore-new:css -->")
 M_CTA = ("<!-- mm-explore-new:cta -->", "<!-- /mm-explore-new:cta -->")
+M_OTD = ("<!-- mm-onthisday -->", "<!-- /mm-onthisday -->")
 
 
 def _burst(points=16, inner=0.80):
@@ -80,14 +87,63 @@ CSS = """
 """.replace("BURST", BURST).strip()
 
 CTA = (
-    '<a class="xnew" href="explore/" aria-label="New: Explore the Notes. Six new ways to wander the archive.">'
+    '<a class="xnew" href="explore/" aria-label="New: Explore the Notes. Eight ways to wander the archive.">'
     '<span class="xnew-burst" aria-hidden="true"><span>NEW!</span></span>'
-    '<span class="xnew-body"><span class="xnew-k">Just opened · 6 new rooms</span>'
+    '<span class="xnew-body"><span class="xnew-k">Just opened · 8 rooms</span>'
     '<span class="xnew-t">EXPLORE THE NOTES</span>'
-    '<span class="xnew-s">A book, a gallery, a tape library, a sky map, theme rooms and a hall of fame, '
-    'built from every transmission.</span></span>'
+    '<span class="xnew-s">A book, a gallery, a tape library, a sky map, theme rooms, a hall of fame, '
+    'the Y3K Almanac and Transmission Reader 98, built from every transmission.</span></span>'
     '<span class="xnew-go">Step inside →</span></a>'
 )
+
+OTD_CSS = """
+.otd{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px 22px;margin:14px 0 8px;padding:18px 22px;
+  border-radius:18px;color:#f4eefc;background:linear-gradient(115deg,rgba(19,28,63,.92),rgba(37,22,64,.92));
+  border:1px solid rgba(213,194,220,.28)}
+.otd-moon{font:400 34px/1 Georgia,serif;color:#ffd400;text-shadow:0 0 18px rgba(255,212,0,.45)}
+.otd-k{font:700 11px/1.2 "IBM Plex Mono",monospace;letter-spacing:.18em;color:#9fe8ff;text-transform:uppercase;margin:0 0 6px}
+.otd-note{display:flex;gap:12px;align-items:center;color:#f4eefc;text-decoration:none;min-width:0}
+.otd-note:hover .otd-text,.otd-note:focus-visible .otd-text{text-decoration:underline;text-underline-offset:3px}
+.otd-note:focus-visible,.otd-go:focus-visible{outline:3px solid #ffd400;outline-offset:3px;border-radius:6px}
+.otd-note img{flex:none;width:56px;height:56px;object-fit:cover;border-radius:8px;border:1px solid rgba(213,194,220,.3)}
+.otd-when{display:block;font:700 12px/1.3 "IBM Plex Mono",monospace;color:#ffd400;letter-spacing:.06em;text-transform:uppercase}
+.otd-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  font:400 16px/1.4 Georgia,"Times New Roman",serif;font-style:italic;color:#f4eefc;overflow-wrap:anywhere}
+.otd-count{margin:6px 0 0;font:400 12px/1.4 "IBM Plex Mono",monospace;color:#d5c2dc}
+.otd-go{flex:none;font:700 13px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;
+  color:#120418;background:#9fe8ff;padding:12px 18px;border-radius:999px;white-space:nowrap}
+.otd-go:hover{background:#d4f6ff}
+@media(max-width:640px){.otd{grid-template-columns:1fr;padding:16px 18px}.otd-moon{display:none}.otd-go{justify-self:start}}
+""".strip()
+
+OTD_HTML = (
+    '<section class="otd" id="otd" aria-labelledby="otd-k">'
+    '<span class="otd-moon" aria-hidden="true">☽</span>'
+    '<div class="otd-body"><p class="otd-k" id="otd-k">On this day</p>'
+    '<div id="otd-fill"><p class="otd-count">Every date of the year has a page in the Y3K Almanac.</p></div></div>'
+    '<a class="otd-go" id="otd-go" href="almanac/">Open the Almanac →</a></section>'
+)
+
+# fills the strip from almanac/today.js once it scrolls near the screen
+OTD_JS = r"""
+(function(){var box=document.getElementById('otd');if(!box)return;
+var now=new Date(),y=now.getFullYear(),md=('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);
+var day=now.toLocaleDateString('en-US',{month:'long',day:'numeric'});
+document.getElementById('otd-k').textContent='On this day · '+day;
+var go=document.getElementById('otd-go');go.href='almanac/#d'+md;go.textContent='Open '+day+' in the Almanac →';
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function fill(){var D=window.MM_ONTHISDAY,d=D&&D.days[md],f=document.getElementById('otd-fill');if(!d||!f)return;
+var past=d.top.filter(function(r){return +r[0].slice(0,4)<y}),r=(past.length?past:d.top)[past.length?past.length-1:0];
+var ry=+r[0].slice(0,4),when=ry===y?'Earlier today':ry===y-1?'A year ago today':'On this day in '+ry;
+var img=r[3]?(/^https?:/.test(r[3])?r[3]:D.imgPrefix+r[3]):'';
+var tot=0,parts=[];Object.keys(d.n).sort().forEach(function(k){tot+=d.n[k];parts.push(k+': '+d.n[k])});
+f.innerHTML='<a class="otd-note" href="https://substack.com/@magickmica/note/c-'+r[1]+'" target="_blank" rel="noopener">'+
+(img?'<img src="'+esc(img)+'" alt="" loading="lazy" decoding="async" onerror="this.remove()">':'')+
+'<span><span class="otd-when">'+when+(r[4]?' · video':'')+'</span><span class="otd-text">'+(r[2]?'“'+esc(r[2])+'”':'(a picture note)')+'</span></span></a>'+
+'<p class="otd-count">'+tot+' transmission'+(tot===1?'':'s')+' on '+day+(parts.length>1?' · '+parts.join(' · '):'')+'</p>'}
+function load(){if(window.MM_ONTHISDAY)return fill();var s=document.createElement('script');s.src='almanac/today.js';s.onload=fill;document.head.appendChild(s)}
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){io.disconnect();load()}},{rootMargin:'400px'});io.observe(box)}else load()})();
+""".strip()
 
 TAG = '<span class="tmap-new">NEW!</span>'
 Y3K_ANCHOR = '<div class="sect"><h2 class="holo">Y3K MAGAZINE</h2>'
@@ -101,12 +157,18 @@ def cta_block():
     return f"{M_CTA[0]}{CTA}{M_CTA[1]}\n" if SHOW_PROMO else ""
 
 
+def otd_block():
+    if not SHOW_ON_THIS_DAY:
+        return ""
+    return (f"{M_OTD[0]}<style>{OTD_CSS}</style>{OTD_HTML}<script>{OTD_JS}</script>{M_OTD[1]}\n")
+
+
 def tag_for(href):
     return TAG if SHOW_PROMO and href in NEW_LINKS else ""
 
 
 def _strip(text):
-    for a, b in (M_CSS, M_CTA):
+    for a, b in (M_CSS, M_CTA, M_OTD):
         text = re.sub(re.escape(a) + r".*?" + re.escape(b) + r"\n?", "", text, flags=re.S)
     for href in NEW_LINKS:
         text = text.replace(f'<a href="{href}">Explore the Notes{TAG}</a>',
@@ -116,8 +178,10 @@ def _strip(text):
 
 def patch(text, is_home, remove=False):
     text = _strip(text)
-    if remove or not SHOW_PROMO:
+    if remove:
         return text
+    if not SHOW_PROMO:
+        return _add_otd(text, is_home)
     if "</head>" in text:
         text = text.replace("</head>", css_block() + "\n</head>", 1)
     if is_home and Y3K_ANCHOR in text:
@@ -128,6 +192,13 @@ def patch(text, is_home, remove=False):
                             '<a href="minimags.html">Y3K Magazine</a><a href="explore/">Explore the Notes</a>', 1)
     text = text.replace('<a href="explore/">Explore the Notes</a>',
                         f'<a href="explore/">Explore the Notes{TAG}</a>')
+    return _add_otd(text, is_home)
+
+
+def _add_otd(text, is_home):
+    # the strip goes right under the NEW! banner, just above Y3K MAGAZINE
+    if is_home and Y3K_ANCHOR in text:
+        text = text.replace(Y3K_ANCHOR, otd_block() + Y3K_ANCHOR, 1)
     return text
 
 
