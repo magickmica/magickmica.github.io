@@ -44,6 +44,7 @@
       ['signal/', 'Signal Band'],
       ['newsstand.html', 'Newsstand'],
       ['random-note.html', 'Random Note TV'],
+      ['explore/player.html', 'Tape Player'],
       ['tv-notes.html', 'TV Notes']
     ]},
     { name: 'Play', items: [
