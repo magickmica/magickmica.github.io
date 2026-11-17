@@ -241,6 +241,7 @@ h1{
         setPads(false);
         replayEl.disabled = true;
         statusEl.textContent = 'Echoed';
+        if (seq.length >= 4 && window.MMPrizes) MMPrizes.addTickets(1, 'Cosmic Echo');
         if (seq.length > best) {
           best = seq.length;
           bestEl.textContent = best;
@@ -284,5 +285,6 @@ h1{
 </script>
 <script src="mm-nav.js?v=3" defer></script>
 <script src="mm-store.js?v=1" defer></script>
+<script src="mm-prizes.js?v=2" defer></script>
 </body>
 </html>
