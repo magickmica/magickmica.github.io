@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cosmic Photo Booth &middot; MagickMica</title>
+<meta name="description" content="Make a Cosmic Circus photo card: pick a frame, add your photo or a cosmic backdrop, pair it with a line from Magick Mica's notes and save it to share.">
+<link rel="canonical" href="https://magickmica.github.io/photo-booth.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Cosmic Photo Booth · Magick Mica Arcade">
+<meta property="og:description" content="Pick a frame, pick a line from Magick Mica's notes, save a card to share.">
+<meta property="og:url" content="https://magickmica.github.io/photo-booth.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+.awning{background:repeating-linear-gradient(90deg,var(--aqua) 0 34px,var(--iris) 34px 68px)}
+.scallop{background:radial-gradient(circle at 50% 0,var(--aqua) 0 12px,transparent 13px) 0 0/68px 14px repeat-x,
+  radial-gradient(circle at 50% 0,var(--iris) 0 12px,transparent 13px) 34px 0/68px 14px repeat-x}
+.studio{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;padding:20px 18px;align-items:start;
+  background:radial-gradient(70% 50% at 30% 20%,rgba(95,243,232,.12),transparent 70%),linear-gradient(180deg,#1b2554,#131c3f)}
+.preview{position:relative}
+.preview canvas{border-radius:10px;box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08);cursor:grab;background:#000}
+.preview canvas.grab{cursor:grabbing}
+.preview .drag{font-size:.66rem;color:rgba(213,194,220,.6);text-align:center;margin-top:8px}
+.flash{position:absolute;inset:0;border-radius:10px;background:#fff;opacity:0;pointer-events:none}
+.flash.on{animation:flash .6s ease-out}
+@keyframes flash{0%{opacity:.95}100%{opacity:0}}
+.panel{display:flex;flex-direction:column;gap:16px}
+.grp .lbl{display:block;font-family:Silkscreen,monospace;font-size:.66rem;letter-spacing:.16em;color:var(--aqua);margin-bottom:7px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font-family:Silkscreen,monospace;font-size:.62rem;letter-spacing:.08em;padding:8px 11px;border-radius:999px;
+  border:1px solid rgba(213,194,220,.28);color:var(--lilac);background:rgba(4,5,9,.35)}
+.chips button[aria-pressed="true"]{background:linear-gradient(90deg,var(--aqua),var(--lilac));color:#040509;border-color:transparent}
+.upload{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.upload label,.upload button{font-family:Silkscreen,monospace;font-size:.62rem;letter-spacing:.08em;padding:9px 12px;border-radius:10px;
+  border:1px dashed rgba(95,243,232,.55);color:#fff;cursor:pointer;background:rgba(95,243,232,.08)}
+.upload input{position:absolute;width:1px;height:1px;opacity:0}
+.small{font-size:.66rem;color:rgba(213,194,220,.6);margin:6px 0 0}
+input[type=range]{width:100%;accent-color:var(--pink)}
+textarea{width:100%;min-height:86px;resize:vertical;font:italic 600 1.05rem/1.3 "Cormorant Garamond",Georgia,serif;color:#fff;
+  background:rgba(4,5,9,.45);border:1px solid rgba(213,194,220,.25);border-radius:10px;padding:10px 12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:7px}
+.row .mini{margin:0}
+.save{display:flex;gap:8px;flex-wrap:wrap}
+.save .go{margin-top:0;flex:1 1 auto}
+.save .ghost{margin:0}
+.saved{font-size:.72rem;color:var(--gold);min-height:1.2em;margin:0}
+@media (max-width:760px){.studio{grid-template-columns:1fr;padding:16px 12px}}
+@media (prefers-reduced-motion:reduce){.flash.on{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
+    <h1>COSMIC PHOTO BOOTH</h1>
+    <p class="tag">Pick a frame, a picture and a line from Magick Mica's notes. Save the card and share it.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ SAY COSMIC · SMILE ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage">
+      <div class="studio">
+        <div class="preview">
+          <canvas id="cv" width="1080" height="1350" aria-label="Your photo booth card preview"></canvas>
+          <div class="flash" id="flash"></div>
+          <p class="drag" id="dragHint">Your photo never leaves this device.</p>
+        </div>
+
+        <div class="panel">
+          <div class="grp">
+            <span class="lbl">1 · FRAME</span>
+            <div class="chips" id="frames"></div>
+          </div>
+          <div class="grp">
+            <span class="lbl">2 · PICTURE</span>
+            <div class="chips" id="scenes"></div>
+            <div class="upload">
+              <label for="file">📷 USE MY PHOTO</label><input id="file" type="file" accept="image/*">
+              <button type="button" id="clearPhoto" hidden>✕ REMOVE PHOTO</button>
+            </div>
+            <div id="photoCtl" hidden>
+              <div class="row"><span class="small" style="margin:0">Zoom</span><input type="range" id="zoom" min="1" max="3" step="0.01" value="1" aria-label="Zoom photo"></div>
+              <div class="chips" id="filters" style="margin-top:6px"></div>
+            </div>
+          </div>
+          <div class="grp">
+            <span class="lbl">3 · YOUR LINE</span>
+            <textarea id="line" maxlength="170" aria-label="The line on your card">Loading a line from Magick Mica's notes…</textarea>
+            <div class="row">
+              <button class="mini" id="shuffle" type="button">🔀 Another line</button>
+              <button class="mini" id="sparkle" type="button" aria-pressed="true">✦ Sparkles: on</button>
+            </div>
+          </div>
+          <div class="grp">
+            <span class="lbl">4 · SAVE IT</span>
+            <div class="save">
+              <button class="go" id="saveBtn" type="button">📸 SAVE MY CARD</button>
+              <button class="ghost" id="shareBtn" type="button" hidden>SHARE</button>
+            </div>
+            <p class="saved" id="saved"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar" style="justify-content:flex-end"><button class="mini" id="soundBtn" type="button">♪ Sound: on</button></div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>Each card you save pays 2 tickets, up to 3 cards a day. Spend tickets at the <a href="ticket-booth.html">Ticket Booth</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html#circus">← Back to the Circus</a>
+</div>
+
+<script src="mm-prizes.js?v=2"></script>
+<script src="carnival.js?v=1"></script>
+<script src="circus-notes.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var S = MMC.Sound;
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var cv = document.getElementById('cv'), ctx = cv.getContext('2d'), W = 1080, H = 1350;
+var st = MMC.store('mm_photobooth_v1', { day: '', paid: 0, saves: 0, frame: 'marquee', scene: 'saturn' });
+var lineEl = document.getElementById('line');
+var state = { frame: st.data.frame, scene: st.data.scene, img: null, zoom: 1, ox: 0, oy: 0, filter: 'natural', sparkle: true, note: null, pool: [] };
+
+var FRAMES = [['marquee','Marquee'],['bigtop','Big Top'],['tarot','Star Card'],['polaroid','Holo Snap']];
+var SCENES = [['saturn','🪐 Saturn'],['tent','🎪 Big top'],['ball','🔮 Crystal ball'],['moon','🌙 Moon']];
+var FILTERS = [['natural','Natural',''],['dreamy','Dreamy','saturate(1.2) brightness(1.06) contrast(.95)'],['neon','Neon','saturate(1.8) contrast(1.15) hue-rotate(-12deg)'],['moon','Moonlight','grayscale(1) contrast(1.1) brightness(1.05)']];
+var TINT = { dreamy: 'rgba(255,79,163,.16)', neon: 'rgba(95,243,232,.12)', moon: 'rgba(81,70,162,.28)' };
+
+function chips(el, list, key, after) {
+  el.innerHTML = list.map(function (f) { return '<button type="button" data-v="' + f[0] + '" aria-pressed="' + (state[key] === f[0]) + '">' + f[1] + '</button>'; }).join('');
+  el.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    state[key] = b.dataset.v; S.boot(); S.click();
+    [].forEach.call(el.children, function (c) { c.setAttribute('aria-pressed', c === b); });
+    if (after) after(); draw();
+  });
+}
+chips(document.getElementById('frames'), FRAMES, 'frame', function () { st.data.frame = state.frame; st.save(); });
+chips(document.getElementById('scenes'), SCENES, 'scene', function () { st.data.scene = state.scene; st.save(); clearPhoto(); });
+chips(document.getElementById('filters'), FILTERS, 'filter');
+
+/* ---------------------------------------------------------------- helpers */
+function rr(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+function star(x, y, r, c) { ctx.save(); ctx.fillStyle = c; ctx.beginPath(); for (var i = 0; i < 8; i++) { var a = i * Math.PI / 4, rad = i % 2 ? r * .32 : r; ctx.lineTo(x + Math.cos(a) * rad, y + Math.sin(a) * rad); } ctx.closePath(); ctx.fill(); ctx.restore(); }
+function seeded(n) { var s = n; return function () { s = (s * 9301 + 49297) % 233280; return s / 233280; }; }
+function wrap(text, maxW, font) {
+  ctx.font = font; var words = text.split(' '), lines = [], cur = '';
+  words.forEach(function (w) { var t = cur ? cur + ' ' + w : w; if (ctx.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t; });
+  if (cur) lines.push(cur); return lines;
+}
+function caption(x, y, w, h, color, sub) {
+  var text = lineEl.value.trim() || '…', size = 64, lines, lh;
+  for (; size >= 30; size -= 2) { lines = wrap(text, w, 'italic 600 ' + size + 'px "Cormorant Garamond", Georgia, serif'); lh = size * 1.14; if (lines.length * lh + (sub ? 50 : 0) <= h) break; }
+  var total = lines.length * lh + (sub ? 50 : 0), top = y + (h - total) / 2 + size * .82;
+  ctx.fillStyle = color; ctx.textAlign = 'center';
+  lines.forEach(function (l, i) { ctx.fillText(l, x + w / 2, top + i * lh); });
+  if (sub) { ctx.font = '24px Silkscreen, monospace'; ctx.globalAlpha = .75; ctx.fillText(sub, x + w / 2, top + (lines.length - 1) * lh + 54); ctx.globalAlpha = 1; }
+}
+function byline() { return state.note && lineEl.value.trim() === state.note.text ? '— MAGICK MICA' : ''; }
+
+/* ---------------------------------------------------------------- the picture */
+function scene(x, y, w, h) {
+  var g = ctx.createLinearGradient(0, y, 0, y + h);
+  var sky = { saturn: ['#0b0f2e', '#2f2f70', '#9667ba'], tent: ['#1a0f33', '#5146a2', '#ff4fa3'], ball: ['#05060c', '#2f2f70', '#5146a2'], moon: ['#040509', '#131c3f', '#2f2f70'] }[state.scene];
+  g.addColorStop(0, sky[0]); g.addColorStop(.6, sky[1]); g.addColorStop(1, sky[2]); ctx.fillStyle = g; ctx.fillRect(x, y, w, h);
+  var R = seeded(7);
+  for (var i = 0; i < 90; i++) { ctx.globalAlpha = .3 + R() * .7; ctx.fillStyle = '#fff'; ctx.fillRect(x + R() * w, y + R() * h * .8, 2 + R() * 3, 2 + R() * 3); }
+  ctx.globalAlpha = 1;
+  var cx = x + w / 2, cy = y + h / 2;
+  if (state.scene === 'saturn') {
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(-.35);
+    ctx.strokeStyle = 'rgba(255,209,102,.85)'; ctx.lineWidth = 18; ctx.beginPath(); ctx.ellipse(0, 0, w * .4, w * .1, 0, Math.PI, Math.PI * 2); ctx.stroke();
+    var p = ctx.createRadialGradient(-w * .06, -w * .08, 10, 0, 0, w * .22); p.addColorStop(0, '#ffd6ec'); p.addColorStop(.5, '#ff4fa3'); p.addColorStop(1, '#5146a2');
+    ctx.fillStyle = p; ctx.beginPath(); ctx.arc(0, 0, w * .22, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = 'rgba(95,243,232,.9)'; ctx.lineWidth = 18; ctx.beginPath(); ctx.ellipse(0, 0, w * .4, w * .1, 0, 0, Math.PI); ctx.stroke();
+    ctx.restore();
+  } else if (state.scene === 'tent') {
+    var tw = w * .76, th = h * .62, tx = cx - tw / 2, ty = y + h - th - h * .06;
+    for (var s = 0; s < 10; s++) {
+      ctx.fillStyle = s % 2 ? '#d5c2dc' : '#ff4fa3';
+      ctx.beginPath(); ctx.moveTo(cx, ty); ctx.lineTo(tx + tw * s / 10, ty + th * .42); ctx.lineTo(tx + tw * (s + 1) / 10, ty + th * .42); ctx.closePath(); ctx.fill();
+      ctx.fillRect(tx + tw * s / 10, ty + th * .42, tw / 10 + 1, th * .58);
+    }
+    ctx.fillStyle = '#0c0b22'; ctx.beginPath(); ctx.moveTo(cx - tw * .12, y + h - h * .06); ctx.quadraticCurveTo(cx, ty + th * .45, cx + tw * .12, y + h - h * .06); ctx.fill();
+    ctx.fillStyle = '#ffd166'; ctx.fillRect(cx - 4, ty - 70, 8, 72); ctx.fillStyle = '#5ff3e8'; ctx.beginPath(); ctx.moveTo(cx + 4, ty - 70); ctx.lineTo(cx + 60, ty - 56); ctx.lineTo(cx + 4, ty - 42); ctx.fill();
+    for (var b = 0; b < 11; b++) { ctx.fillStyle = b % 2 ? '#5ff3e8' : '#ffd166'; ctx.beginPath(); ctx.arc(tx + tw * b / 10, ty + th * .42, 9, 0, Math.PI * 2); ctx.fill(); }
+  } else if (state.scene === 'ball') {
+    var rad = w * .28, halo = ctx.createRadialGradient(cx, cy, rad * .6, cx, cy, rad * 1.7); halo.addColorStop(0, 'rgba(95,243,232,.5)'); halo.addColorStop(1, 'rgba(95,243,232,0)');
+    ctx.fillStyle = halo; ctx.fillRect(x, y, w, h);
+    var bg = ctx.createRadialGradient(cx - rad * .3, cy - rad * .35, 10, cx, cy, rad); bg.addColorStop(0, '#fff'); bg.addColorStop(.3, '#bff9f4'); bg.addColorStop(.7, '#9667ba'); bg.addColorStop(1, '#2f2f70');
+    ctx.fillStyle = bg; ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = 'rgba(255,79,163,.8)'; ctx.lineWidth = 14; ctx.beginPath(); ctx.arc(cx + 10, cy + 10, rad * .55, .4, 4.6); ctx.stroke();
+    ctx.fillStyle = '#ffd166'; ctx.beginPath(); ctx.moveTo(cx - rad * .6, cy + rad * 1.18); ctx.lineTo(cx + rad * .6, cy + rad * 1.18); ctx.lineTo(cx + rad * .42, cy + rad * .9); ctx.lineTo(cx - rad * .42, cy + rad * .9); ctx.fill();
+  } else {
+    var mr = w * .26, mg = ctx.createRadialGradient(cx - mr * .3, cy - mr * .3, 10, cx, cy, mr); mg.addColorStop(0, '#fff8e6'); mg.addColorStop(1, '#d5c2dc');
+    ctx.shadowColor = 'rgba(255,240,210,.8)'; ctx.shadowBlur = 80; ctx.fillStyle = mg; ctx.beginPath(); ctx.arc(cx, cy - h * .05, mr, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
+    ctx.fillStyle = 'rgba(150,103,186,.35)'; [[-.3, -.2, .16], [.25, .1, .12], [-.05, .35, .09], [.3, -.35, .07]].forEach(function (c) { ctx.beginPath(); ctx.arc(cx + c[0] * mr, cy - h * .05 + c[1] * mr, c[2] * mr, 0, Math.PI * 2); ctx.fill(); });
+    ctx.fillStyle = '#0c0b22'; ctx.beginPath(); ctx.moveTo(x, y + h); ctx.quadraticCurveTo(x + w * .3, y + h * .78, x + w * .55, y + h * .86); ctx.quadraticCurveTo(x + w * .8, y + h * .74, x + w, y + h * .84); ctx.lineTo(x + w, y + h); ctx.fill();
+  }
+}
+function picture(x, y, w, h, clip) {
+  ctx.save(); clip(); ctx.clip();
+  if (state.img) {
+    var im = state.img, sc = Math.max(w / im.width, h / im.height) * state.zoom, iw = im.width * sc, ih = im.height * sc;
+    var maxX = (iw - w) / 2, maxY = (ih - h) / 2;
+    state.ox = Math.max(-maxX, Math.min(maxX, state.ox)); state.oy = Math.max(-maxY, Math.min(maxY, state.oy));
+    var f = FILTERS.filter(function (q) { return q[0] === state.filter; })[0];
+    ctx.filter = f[2] || 'none';
+    ctx.drawImage(im, x + (w - iw) / 2 + state.ox, y + (h - ih) / 2 + state.oy, iw, ih);
+    ctx.filter = 'none';
+    if (TINT[state.filter]) { ctx.fillStyle = TINT[state.filter]; ctx.fillRect(x, y, w, h); }
+  } else scene(x, y, w, h);
+  if (state.sparkle) { var R = seeded(31); for (var i = 0; i < 14; i++) star(x + R() * w, y + R() * h, 10 + R() * 22, i % 3 ? 'rgba(255,255,255,.9)' : 'rgba(255,209,102,.95)'); }
+  ctx.restore();
+  state.win = { x: x, y: y, w: w, h: h };
+}
+function footer(color, y) { ctx.font = '22px Silkscreen, monospace'; ctx.fillStyle = color; ctx.textAlign = 'center'; ctx.fillText('MAGICKMICA.GITHUB.IO  ·  COSMIC CIRCUS PHOTO BOOTH', W / 2, y); }
+
+/* ---------------------------------------------------------------- frames */
+var DRAW = {
+  marquee: function () {
+    ctx.fillStyle = '#131c3f'; ctx.fillRect(0, 0, W, H);
+    var g = ctx.createRadialGradient(W / 2, 0, 50, W / 2, 0, H); g.addColorStop(0, 'rgba(150,103,186,.5)'); g.addColorStop(1, 'rgba(150,103,186,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 6; rr(28, 28, W - 56, H - 56, 34); ctx.stroke();
+    for (var i = 0; i < 26; i++) { var t = i / 25; [[28 + t * (W - 56), 28], [28 + t * (W - 56), H - 28]].forEach(function (p, k) { bulb(p[0], p[1], i + k); }); }
+    for (var j = 1; j < 32; j++) { var u = j / 32; bulb(28, 28 + u * (H - 56), j); bulb(W - 28, 28 + u * (H - 56), j + 1); }
+    ctx.font = '900 54px Orbitron, sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = '#fff'; ctx.shadowColor = '#ff4fa3'; ctx.shadowBlur = 24;
+    ctx.fillText('COSMIC CIRCUS', W / 2, 128); ctx.shadowBlur = 0;
+    picture(90, 170, W - 180, 760, function () { rr(90, 170, W - 180, 760, 24); });
+    ctx.strokeStyle = '#5ff3e8'; ctx.lineWidth = 5; rr(90, 170, W - 180, 760, 24); ctx.stroke();
+    caption(110, 950, W - 220, 260, '#fff', byline());
+    footer('rgba(213,194,220,.7)', H - 72);
+  },
+  bigtop: function () {
+    for (var s = 0; s < 16; s++) { ctx.fillStyle = s % 2 ? '#d5c2dc' : '#ff4fa3'; ctx.fillRect(s * W / 16, 0, W / 16 + 1, H); }
+    for (var k = 0; k < 14; k++) { ctx.fillStyle = k % 2 ? '#d5c2dc' : '#ff4fa3'; ctx.beginPath(); ctx.arc(k * W / 13, 92, W / 26, 0, Math.PI); ctx.fill(); }
+    ctx.fillStyle = '#2f2f70'; ctx.fillRect(0, 0, W, 92);
+    ctx.font = '900 50px Orbitron, sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = '#ffd166'; ctx.fillText('★ THE BIG TOP ★', W / 2, 66);
+    ctx.fillStyle = '#131c3f'; rr(70, 170, W - 140, 790, 40); ctx.fill();
+    picture(88, 188, W - 176, 754, function () { rr(88, 188, W - 176, 754, 30); });
+    // ribbon banner
+    ctx.fillStyle = '#9a2a6a'; ctx.beginPath(); ctx.moveTo(30, 1020); ctx.lineTo(110, 1000); ctx.lineTo(110, 1240); ctx.lineTo(30, 1260); ctx.lineTo(70, 1140); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(W - 30, 1020); ctx.lineTo(W - 110, 1000); ctx.lineTo(W - 110, 1240); ctx.lineTo(W - 30, 1260); ctx.lineTo(W - 70, 1140); ctx.fill();
+    ctx.fillStyle = '#fff6e3'; rr(90, 990, W - 180, 270, 18); ctx.fill(); ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 6; ctx.stroke();
+    caption(120, 1000, W - 240, 250, '#2a1640', byline());
+    footer('#2a1640', H - 40);
+  },
+  tarot: function () {
+    ctx.fillStyle = '#0c0b22'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#fff6e3'; rr(40, 40, W - 80, H - 80, 36); ctx.fill();
+    ctx.strokeStyle = '#d4a01a'; ctx.lineWidth = 6; rr(64, 64, W - 128, H - 128, 26); ctx.stroke(); ctx.lineWidth = 2; rr(80, 80, W - 160, H - 160, 20); ctx.stroke();
+    ctx.font = '26px Silkscreen, monospace'; ctx.fillStyle = '#7a3b9a'; ctx.textAlign = 'center'; ctx.fillText('✦  THE COSMIC CIRCUS  ✦', W / 2, 140);
+    var x = 130, y = 180, w = W - 260, h = 760;
+    picture(x, y, w, h, function () { ctx.beginPath(); ctx.moveTo(x, y + w / 2); ctx.arc(x + w / 2, y + w / 2, w / 2, Math.PI, 0); ctx.lineTo(x + w, y + h); ctx.lineTo(x, y + h); ctx.closePath(); });
+    ctx.strokeStyle = '#d4a01a'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(x, y + w / 2); ctx.arc(x + w / 2, y + w / 2, w / 2, Math.PI, 0); ctx.lineTo(x + w, y + h); ctx.lineTo(x, y + h); ctx.closePath(); ctx.stroke();
+    star(110, 110, 18, '#d4a01a'); star(W - 110, 110, 18, '#d4a01a'); star(110, H - 110, 18, '#d4a01a'); star(W - 110, H - 110, 18, '#d4a01a');
+    caption(130, 960, W - 260, 230, '#2a1640', byline());
+    footer('#7a3b9a', H - 104);
+  },
+  polaroid: function () {
+    var g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#5ff3e8'); g.addColorStop(.35, '#d5c2dc'); g.addColorStop(.65, '#ff4fa3'); g.addColorStop(1, '#9667ba');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    var R = seeded(5); for (var i = 0; i < 40; i++) star(R() * W, R() * H, 6 + R() * 14, 'rgba(255,255,255,.7)');
+    ctx.save(); ctx.translate(W / 2, H / 2 - 10); ctx.rotate(-.035);
+    ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = 40; ctx.shadowOffsetY = 16; ctx.fillStyle = '#fffdf8'; ctx.fillRect(-430, -560, 860, 1120); ctx.shadowColor = 'transparent';
+    ctx.translate(-W / 2, -(H / 2 - 10));
+    picture(W / 2 - 390, H / 2 - 10 - 520, 780, 780, function () { ctx.rect(W / 2 - 390, H / 2 - 10 - 520, 780, 780); });
+    caption(W / 2 - 390, H / 2 - 10 + 280, 780, 260, '#2a1640', byline());
+    ctx.restore();
+    ctx.save(); ctx.globalAlpha = .9; footer('#fff', H - 30); ctx.restore();
+  }
+};
+function bulb(x, y, i) { ctx.fillStyle = i % 2 ? '#5ff3e8' : '#ffd166'; ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 14; ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0; }
+
+function draw() { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, W, H); ctx.textBaseline = 'alphabetic'; DRAW[state.frame](); }
+
+/* ---------------------------------------------------------------- photo upload + drag */
+var fileEl = document.getElementById('file'), clearBtn = document.getElementById('clearPhoto'), photoCtl = document.getElementById('photoCtl');
+fileEl.addEventListener('change', function () {
+  var f = fileEl.files && fileEl.files[0]; if (!f) return;
+  var url = URL.createObjectURL(f), im = new Image();
+  im.onload = function () { state.img = im; state.zoom = 1; state.ox = state.oy = 0; document.getElementById('zoom').value = 1; clearBtn.hidden = false; photoCtl.hidden = false;
+    document.getElementById('dragHint').textContent = 'Drag the picture to line it up. Your photo never leaves this device.'; draw(); };
+  im.src = url;
+});
+function clearPhoto() { state.img = null; clearBtn.hidden = true; photoCtl.hidden = true; fileEl.value = ''; document.getElementById('dragHint').textContent = 'Your photo never leaves this device.'; }
+clearBtn.addEventListener('click', function () { clearPhoto(); draw(); });
+document.getElementById('zoom').addEventListener('input', function (e) { state.zoom = +e.target.value; draw(); });
+var drag = null;
+cv.addEventListener('pointerdown', function (e) { if (!state.img) return; drag = { x: e.clientX, y: e.clientY, ox: state.ox, oy: state.oy }; cv.setPointerCapture(e.pointerId); cv.classList.add('grab'); });
+cv.addEventListener('pointermove', function (e) { if (!drag) return; var k = W / cv.clientWidth; state.ox = drag.ox + (e.clientX - drag.x) * k; state.oy = drag.oy + (e.clientY - drag.y) * k; draw(); });
+cv.addEventListener('pointerup', function () { drag = null; cv.classList.remove('grab'); });
+cv.style.touchAction = 'none';
+
+/* ---------------------------------------------------------------- the line */
+function setNote(n) { state.note = n; lineEl.value = n ? n.text : ''; draw(); }
+document.getElementById('shuffle').addEventListener('click', function () { if (!state.pool.length) return; S.boot(); S.click(); setNote(state.pool[Math.floor(Math.random() * state.pool.length)]); });
+lineEl.addEventListener('input', draw);
+var spBtn = document.getElementById('sparkle');
+spBtn.addEventListener('click', function () { state.sparkle = !state.sparkle; spBtn.setAttribute('aria-pressed', state.sparkle); spBtn.textContent = '✦ Sparkles: ' + (state.sparkle ? 'on' : 'off'); draw(); });
+
+/* ---------------------------------------------------------------- save + share */
+function today() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+function blob() { return new Promise(function (res) { cv.toBlob(res, 'image/png'); }); }
+var shareBtn = document.getElementById('shareBtn'), savedEl = document.getElementById('saved');
+function reward() {
+  if (st.data.day !== today()) { st.data.day = today(); st.data.paid = 0; }
+  st.data.saves++;
+  if (st.data.paid < 3) { st.data.paid++; MMPrizes.addTickets(2, 'Photo Booth'); }
+  st.save();
+}
+function snap() { var fl = document.getElementById('flash'); fl.classList.remove('on'); void fl.offsetWidth; fl.classList.add('on'); S.boot(); S.noise(.12, .3, 6000, 'highpass'); S.tone(1400, .02, .08, .08, 'square'); }
+document.getElementById('saveBtn').addEventListener('click', function () {
+  snap();
+  blob().then(function (b) {
+    if (!b) return;
+    var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'magickmica-photo-booth.png';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+    reward(); savedEl.textContent = 'Saved! Look for magickmica-photo-booth.png in your downloads.';
+  });
+});
+try {
+  if (navigator.canShare && navigator.canShare({ files: [new File([new Blob(['x'])], 'x.png', { type: 'image/png' })] })) shareBtn.hidden = false;
+} catch (e) {}
+shareBtn.addEventListener('click', function () {
+  snap();
+  blob().then(function (b) {
+    var file = new File([b], 'magickmica-photo-booth.png', { type: 'image/png' });
+    return navigator.share({ files: [file], title: 'Cosmic Photo Booth', text: 'Made at the Magick Mica Cosmic Circus ✦ magickmica.github.io/photo-booth.html' });
+  }).then(function () { reward(); savedEl.textContent = 'Shared! ✨'; }).catch(function () {});
+});
+
+/* ---------------------------------------------------------------- start */
+var fontsReady = document.fonts && document.fonts.load ? Promise.all([
+  document.fonts.load('italic 600 40px "Cormorant Garamond"'), document.fonts.load('900 40px Orbitron'), document.fonts.load('20px Silkscreen')
+]).catch(function () {}) : Promise.resolve();
+draw();
+Promise.all([fontsReady, MMNotes.load()]).then(function (r) {
+  state.pool = r[1] || [];
+  var want = (location.search.match(/[?&]note=(\d+)/) || [])[1], pick = null;
+  if (want) pick = state.pool.filter(function (n) { return String(n.id) === want; })[0];
+  if (!pick && state.pool.length) pick = state.pool[Math.floor(Math.random() * state.pool.length)];
+  if (pick) setNote(pick); else { lineEl.value = 'Somewhere beneath the noise, your original signal is still transmitting.'; draw(); }
+});
+window.__booth = { state: state, draw: draw, setNote: setNote };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>

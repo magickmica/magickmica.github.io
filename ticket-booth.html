@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Circus Ticket Booth &middot; MagickMica</title>
+<meta name="description" content="Trade the tickets you win across every Magick Mica arcade game for rare cosmic collectibles. Everything you collect lands on your prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/ticket-booth.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Circus Ticket Booth · Magick Mica Arcade">
+<meta property="og:description" content="Win tickets in every game. Trade them for rare cosmic collectibles.">
+<meta property="og:url" content="https://magickmica.github.io/ticket-booth.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+.awning{background:repeating-linear-gradient(90deg,var(--gold) 0 34px,var(--pink) 34px 68px)}
+.scallop{background:radial-gradient(circle at 50% 0,var(--gold) 0 12px,transparent 13px) 0 0/68px 14px repeat-x,
+  radial-gradient(circle at 50% 0,var(--pink) 0 12px,transparent 13px) 34px 0/68px 14px repeat-x}
+.window{padding:26px 16px 22px;background:radial-gradient(80% 60% at 50% 0,rgba(255,209,102,.16),transparent 70%),linear-gradient(180deg,#1b2554,#131c3f)}
+
+/* the counter: big ticket total */
+.counter{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+.roll{position:relative;width:96px;height:96px;flex:none;margin-right:92px}
+@media (max-width:420px){.roll{transform:scale(.8);margin-right:70px;margin-left:-14px}}
+.roll .r{position:absolute;inset:0;border-radius:50%;background:repeating-radial-gradient(circle,#ff4fa3 0 5px,#e23d8b 5px 7px);
+  box-shadow:0 0 0 4px #ffd166,0 0 24px rgba(255,79,163,.6)}
+.roll .h{position:absolute;inset:34%;border-radius:50%;background:#131c3f;box-shadow:inset 0 0 0 3px #ffd166}
+.roll .tail{position:absolute;left:70%;top:58%;width:110px;height:34px;border-radius:4px;background:#ff4fa3;
+  transform:rotate(14deg);transform-origin:left center;display:grid;place-items:center;font-family:Silkscreen,monospace;font-size:.6rem;
+  letter-spacing:.14em;color:#fff;border:2px dashed rgba(255,255,255,.6);box-shadow:0 6px 14px rgba(0,0,0,.4)}
+.total{text-align:left}
+.total .lbl{font-family:Silkscreen,monospace;font-size:.7rem;letter-spacing:.2em;color:var(--gold)}
+.total b{display:block;font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(2.6rem,10vw,3.6rem);line-height:1;color:#fff;
+  text-shadow:0 0 18px rgba(255,209,102,.6)}
+.total small{font-size:.72rem;color:rgba(213,194,220,.7)}
+.total b.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.15);color:var(--gold)}}
+
+/* the glass prize case */
+.case{margin-top:22px;padding:14px;border-radius:16px;border:2px solid rgba(95,243,232,.35);
+  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,0) 40%),rgba(4,5,9,.4);
+  box-shadow:inset 0 0 40px rgba(95,243,232,.1)}
+.case h2{margin:2px 0 12px;text-align:center;font-family:Silkscreen,monospace;font-size:.78rem;letter-spacing:.22em;color:var(--aqua);font-weight:400}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px}
+@media (max-width:520px){.window{padding:20px 10px 16px}.case{padding:10px}.grid{gap:8px}.item{padding:12px 6px 10px}.item button{font-size:.6rem;letter-spacing:.04em}}
+.item{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 10px 12px;border-radius:14px;
+  background:linear-gradient(180deg,rgba(81,70,162,.4),rgba(19,28,63,.6));border:1px solid rgba(213,194,220,.18)}
+.item .em{font-size:2.8rem;line-height:1;height:62px;display:grid;place-items:center;filter:drop-shadow(0 0 12px rgba(95,243,232,.45))}
+.item .plinth{width:64px;height:8px;border-radius:50%;background:radial-gradient(closest-side,rgba(95,243,232,.55),transparent);margin:-2px 0 8px}
+.item .nm{font-size:.78rem;color:#fff;min-height:2.6em;line-height:1.3}
+.item .rar{font-family:Silkscreen,monospace;font-size:.56rem;letter-spacing:.14em;margin:4px 0 8px}
+.rar.r1{color:var(--aqua)}.rar.r2{color:var(--pink)}.rar.r3{color:var(--gold)}
+.item button{width:100%;font-family:Silkscreen,monospace;font-size:.68rem;letter-spacing:.1em;padding:9px 6px;border-radius:999px;color:#040509;
+  background:linear-gradient(90deg,var(--gold),var(--pink));box-shadow:0 4px 0 #8a2a5c}
+.item button:active{transform:translateY(2px);box-shadow:0 2px 0 #8a2a5c}
+.item button[disabled]{background:rgba(213,194,220,.15);color:rgba(213,194,220,.65);box-shadow:none;cursor:default}
+.item.got{border-color:rgba(255,209,102,.6);background:linear-gradient(180deg,rgba(255,209,102,.16),rgba(19,28,63,.6))}
+.item.got::after{content:"COLLECTED";position:absolute;top:10px;right:-4px;transform:rotate(12deg);font-family:Silkscreen,monospace;font-size:.55rem;
+  letter-spacing:.12em;color:#040509;background:var(--gold);padding:3px 7px;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.item.pop{animation:pop .7s}
+@keyframes pop{30%{transform:scale(1.08) rotate(-2deg)}60%{transform:scale(.97)}}
+.progress{margin:14px 0 0;text-align:center;font-size:.74rem;color:rgba(213,194,220,.75)}
+
+/* how to earn */
+.earn{margin-top:22px;padding:16px;border-radius:14px;border:1px dashed rgba(255,209,102,.35);background:rgba(19,28,63,.5)}
+.earn h3{margin:0 0 8px;font-family:Orbitron,sans-serif;font-size:.95rem;color:#fff;letter-spacing:.05em}
+.earn ul{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px 16px}
+.earn li{font-size:.76rem;line-height:1.45}
+.earn li a{color:var(--aqua)}
+.earn li b{color:var(--gold);font-weight:500}
+@media (prefers-reduced-motion:reduce){.item.pop,.total b.bump{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
+    <h1>CIRCUS TICKET BOOTH</h1>
+    <p class="tag">Win tickets in every game. Trade them here for rare cosmic collectibles.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ TICKETS · TRADE · TREASURES ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage">
+      <div class="window">
+        <div class="counter">
+          <div class="roll" aria-hidden="true"><div class="r"></div><div class="h"></div><div class="tail">ADMIT ONE</div></div>
+          <div class="total">
+            <span class="lbl">YOUR TICKETS</span>
+            <b id="tix" aria-live="polite">0</b>
+            <small>Saved in this browser only.</small>
+          </div>
+        </div>
+
+        <div class="case">
+          <h2>✦ THE PRIZE CASE ✦</h2>
+          <div class="grid" id="grid"></div>
+          <p class="progress" id="progress"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="earn" aria-label="How to earn tickets">
+    <h3>🎟 How to earn tickets</h3>
+    <ul>
+      <li><b>Any prize you win:</b> 5 tickets for small, 15 for big, 40 for JUMBO.</li>
+      <li><a href="cosmic-clown-splash.html">Clown Splash</a>: 2 tickets every race.</li>
+      <li><a href="ring-toss.html">Ring Toss</a>: 1 ticket, plus 1 for every 3 points.</li>
+      <li><a href="moon-striker.html">Moon Striker</a>: 1 ticket, plus 1 for every bell.</li>
+      <li><a href="star-darts.html">Star Darts</a>: 1 ticket, plus 1 for every 2 points.</li>
+      <li><a href="prize-wheel.html">Prize Wheel</a>: every prize pays tickets too.</li>
+      <li><a href="fortune-teller.html">Fortune Teller</a>: 3 tickets for your first fortune each day.</li>
+      <li><a href="photo-booth.html">Photo Booth</a>: 2 tickets for each card you save, up to 3 a day.</li>
+      <li><a href="witching-hour.html">The Witching Hour</a>: tickets for every level you clear.</li>
+      <li><a href="moon-shot.html">Moon Shot</a>: 1 ticket every 5 baskets.</li>
+      <li><a href="pong.html">Comet Rally</a>: 6 tickets for a win, 2 for a loss.</li>
+      <li><a href="cosmic-echo.html">Cosmic Echo</a>: 1 ticket for every echo of 4 or more.</li>
+    </ul>
+  </section>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>Collectibles glow aqua. Prizes and fortune cards from every game at the circus land here too.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <div class="bar" style="justify-content:flex-end"><button class="mini" id="soundBtn" type="button">♪ Sound: on</button></div>
+  <a class="back" href="arcade.html#circus">← Back to the Circus</a>
+</div>
+
+<script src="mm-prizes.js?v=2"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var S = MMC.Sound, bits = null;
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+
+var ITEMS = [
+  ['disco','🪩','Disco moon',20,1], ['eye','🧿','Comet-eye charm',25,1], ['shell','🐚','Singing star shell',30,1],
+  ['shroom','🍄','Glow mushroom lamp',40,1], ['tea','🫖','Mad tea teapot',45,1], ['candle','🕯️','Witching hour candle',50,1],
+  ['vhs','📼','Lost VHS tape',60,2], ['watch','⏱️','Rabbit pocket watch',60,2], ['skates','🛼','Comet roller skates',75,2],
+  ['carousel','🎠','Pocket carousel',90,2], ['wand','🪄','Magick wand',100,2], ['scope','🔭','Stargazer telescope',120,2],
+  ['jar','🌌','Galaxy in a jar',150,3], ['peacock','🦚','Peacock of stars',180,3], ['castle','🏰','Dream castle',220,3],
+  ['lotus','🪷','Cosmic lotus',300,3]
+].map(function (a) { return { id: a[0], e: a[1], n: a[2], cost: a[3], r: a[4] }; });
+var RAR = ['', 'RARE', 'ULTRA RARE', 'LEGENDARY'];
+
+var grid = document.getElementById('grid'), tixEl = document.getElementById('tix');
+function draw() {
+  var t = MMPrizes.tickets(), own = MMPrizes.owned(), got = 0;
+  if (String(t) !== tixEl.textContent) { tixEl.textContent = t; tixEl.classList.remove('bump'); void tixEl.offsetWidth; tixEl.classList.add('bump'); }
+  grid.innerHTML = ITEMS.map(function (it) {
+    var has = own.indexOf(it.id) >= 0; if (has) got++;
+    var label = has ? '🎟 ' + it.cost + ' · AGAIN' : t >= it.cost ? '🎟 TRADE ' + it.cost : '🎟 ' + it.cost + ' · NEED ' + (it.cost - t);
+    return '<div class="item' + (has ? ' got' : '') + '" data-id="' + it.id + '">' +
+      '<span class="em" aria-hidden="true">' + it.e + '</span><span class="plinth"></span>' +
+      '<span class="nm">' + it.n + '</span><span class="rar r' + it.r + '">' + RAR[it.r] + '</span>' +
+      '<button type="button" data-id="' + it.id + '"' + (t >= it.cost ? '' : ' disabled') + ' aria-label="Trade ' + it.cost + ' tickets for ' + it.n + '">' + label + '</button></div>';
+  }).join('');
+  document.getElementById('progress').textContent = got === ITEMS.length
+    ? 'You collected the whole case. The circus bows to you. ✨'
+    : 'Collected ' + got + ' of ' + ITEMS.length + '. Collected treasures can be traded for again as extras for your shelf.';
+}
+grid.addEventListener('click', function (e) {
+  var b = e.target.closest('button[data-id]'); if (!b || b.disabled) return;
+  var it = ITEMS.filter(function (x) { return x.id === b.dataset.id; })[0];
+  S.boot();
+  if (!MMPrizes.spendTickets(it.cost)) { S.womp(); return; }
+  MMPrizes.collect(it); S.fanfare();
+  draw();
+  var card = grid.querySelector('.item[data-id="' + it.id + '"]'); if (card) card.classList.add('pop');
+});
+addEventListener('mm-prizes', draw);
+addEventListener('storage', draw);
+draw();
+window.__tickets = { items: ITEMS, draw: draw };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>

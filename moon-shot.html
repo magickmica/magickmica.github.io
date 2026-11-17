@@ -369,6 +369,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 
   function sink() {
     score++; streak++;
+    if (score % 5 === 0 && window.MMPrizes) MMPrizes.addTickets(1, 'Moon Shot');
     document.getElementById('score').textContent = score;
     document.getElementById('streak').textContent = streak;
     if (streak > best) {
@@ -462,5 +463,6 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 </script>
 <script src="mm-nav.js?v=3" defer></script>
 <script src="mm-store.js?v=1" defer></script>
+<script src="mm-prizes.js?v=2" defer></script>
 </body>
 </html>

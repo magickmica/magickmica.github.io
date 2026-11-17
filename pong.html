@@ -364,6 +364,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   function finish() {
     over = true;
     var won = youScore > voidScore;
+    if (window.MMPrizes) MMPrizes.addTickets(won ? 6 : 2, 'Comet Rally');
     document.getElementById('endTitle').textContent = won ? 'You held the night' : 'The void takes it';
     document.getElementById('endText').textContent =
       youScore + ' – ' + voidScore + ' \u00b7 longest rally ' + best;
@@ -505,5 +506,6 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 
 <script src="mm-nav.js?v=3" defer></script>
 <script src="mm-store.js?v=1" defer></script>
+<script src="mm-prizes.js?v=2" defer></script>
 </body>
 </html>

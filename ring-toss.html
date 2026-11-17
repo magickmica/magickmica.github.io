@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="carnival.css?v=1">
+<link rel="stylesheet" href="carnival.css?v=2">
 <style>
 
 </style>
@@ -83,7 +83,7 @@
   <a class="back" href="arcade.html">← Back to the Arcade</a>
 </div>
 
-<script src="mm-prizes.js?v=1"></script>
+<script src="mm-prizes.js?v=2"></script>
 <script src="carnival.js?v=1"></script>
 <script>
 (function () {
@@ -208,7 +208,7 @@ function step(dt) {
 }
 function end() {
   state = 'done';
-  st.data.rounds++; st.data.ringers += ringers; var isBest = score > st.data.best; if (isBest) st.data.best = score; st.save(); stats();
+  if (window.MMPrizes) MMPrizes.addTickets(1 + Math.floor(score / 3), 'Ring Toss'); st.data.rounds++; st.data.ringers += ringers; var isBest = score > st.data.best; if (isBest) st.data.best = score; st.save(); stats();
   var tier = score >= 20 ? 'jumbo' : score >= 12 ? 'medium' : score >= 6 ? 'small' : null;
   var title = document.getElementById('endTitle'), text = document.getElementById('endText'), pz = document.getElementById('endPrize');
   if (tier) {
