@@ -19,11 +19,17 @@
   var CAT = {
     small:  [['🛸','UFO keychain'],['⭐','Glow-in-the-dark star'],['💎','Pocket crystal'],['☄️','Comet sticker'],
              ['🍦','Mini cosmic cone'],['🔮','Tiny crystal ball'],['🌙','Moon charm'],['🍬','Stardust candy'],
-             ['🎀','Holo hair bow'],['🪀','Glitter yo-yo']],
+             ['🎀','Holo hair bow'],['🪀','Glitter yo-yo'],['🍪','Moon cookie'],['🐞','Lucky ladybug'],['🍀','Four-leaf clover pin'],
+             ['🫧','Bubble wand'],['🎈','Star balloon'],['🌸','Space blossom'],['🪁','Comet kite'],['🍡','Planet mochi'],
+             ['🧩','Puzzle of the stars'],['🐣','Baby star chick'],['🫐','Galaxy berries'],['🔔','Tiny moon bell']],
     medium: [['👽','Plush Visitor'],['🪐','Squishy Saturn'],['🦄','Holo unicorn'],['🐙','Space octopus plush'],
-             ['🧸','Starlight bear'],['🦋','Moth of many colors'],['🐸','Cosmic frog plush']],
+             ['🧸','Starlight bear'],['🦋','Moth of many colors'],['🐸','Cosmic frog plush'],['🐱','Moon cat plush'],
+             ['🐰','White rabbit plush'],['🦊','Aurora fox'],['🐧','Astronaut penguin'],['🦔','Stardust hedgehog'],
+             ['🐼','Pastel panda'],['🦭','Sea-of-stars seal'],['🐨','Koala cosmonaut']],
     jumbo:  [['🌈','JUMBO rainbow worm'],['🐉','GIANT dream dragon'],['🦩','ENORMOUS flamingo'],
-             ['🐳','Whale of a whale'],['🦖','Space dino, extra large']]
+             ['🐳','Whale of a whale'],['🦖','Space dino, extra large'],['🦒','TOWERING giraffe'],
+             ['🐘','MIGHTY Big Top elephant'],['🦁','GRAND Ringmaster lion'],['🦕','GIANT brontosaurus'],
+             ['🐻‍❄️','ENORMOUS polar bear'],['🦜','GIGANTIC rainbow parrot']]
   };
 
   function get(key, fallback) {

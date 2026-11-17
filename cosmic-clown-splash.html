@@ -198,7 +198,7 @@ canvas{display:block;width:100%;touch-action:none;-webkit-user-select:none;user-
   <a class="back" href="arcade.html">← Back to the Arcade</a>
 </div>
 
-<script src="mm-prizes.js?v=2"></script>
+<script src="mm-prizes.js?v=3"></script>
 <script>
 (function(){
 'use strict';
@@ -821,6 +821,7 @@ document.getElementById('menuBtn').addEventListener('click', function(){ endVeil
 
 function pickPrize(){
   var tier = store.streak >= 5 && store.streak % 5 === 0 ? 'jumbo' : (store.streak >= 3 && store.streak % 3 === 0 ? 'medium' : 'small');
+  if(window.MMPrizes) return MMPrizes.pick(tier);
   var list = PRIZES[tier], p = list[Math.floor(Math.random()*list.length)];
   return {e:p[0], n:p[1], tier:tier};
 }
