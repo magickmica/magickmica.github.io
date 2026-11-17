@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Daily Constellation — Magick Mica</title>
+<meta name="description" content="Every night one new star lights up in this month's Magick Mica constellation. Tap a star to open a transmission from that date.">
+<link rel="canonical" href="https://magickmica.github.io/explore/stars.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Daily Constellation — Magick Mica">
+<meta property="og:description" content="Every night one new star lights up in this month's Magick Mica constellation. Tap a star to open a transmission from that date.">
+<meta property="og:url" content="https://magickmica.github.io/explore/stars.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#040509">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../archive.css?v=1">
+<link rel="stylesheet" href="explore.css?v=1">
+<style>
+.dc-layout{display:grid; gap:var(--ar-s5); grid-template-columns:minmax(0,1.35fr) minmax(280px,1fr); align-items:start; margin-top:var(--ar-s4)}
+.dc-month{display:flex; align-items:center; justify-content:space-between; gap:var(--ar-s3); margin-bottom:var(--ar-s3)}
+.dc-month__name{text-align:center; flex:1; min-width:0}
+.dc-month__name b{display:block; font-family:var(--ar-font-display); font-weight:500; font-size:var(--ar-fs-lg); letter-spacing:.02em}
+.dc-month__name span{font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); text-transform:uppercase; letter-spacing:.1em; color:var(--ar-aqua)}
+.dc-month .ar-btn{width:var(--ar-tap); padding:0; font-size:1.2rem; flex:none}
+.dc-month .ar-btn[disabled]{opacity:.3; cursor:default}
+
+.dc-sky{position:relative; aspect-ratio:1/1; border-radius:var(--ar-r-lg); overflow:hidden; border:1px solid var(--ar-line);
+  background:radial-gradient(70% 60% at 50% 40%,#1b1f52 0%,#120c33 45%,#05060f 100%)}
+.dc-sky::after{content:""; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(40% 30% at 80% 85%,rgba(255,122,217,.10),transparent 70%),radial-gradient(35% 30% at 15% 20%,rgba(95,242,230,.08),transparent 70%)}
+.dc-sky svg{position:absolute; inset:0; width:100%; height:100%}
+.dc-dust circle{fill:#e9e3ff}
+.dc-guide{stroke:#9b86d6; stroke-opacity:.28; stroke-width:.25; stroke-dasharray:.6 1.1; fill:none}
+.dc-line{stroke:url(#dcLine); stroke-width:.45; stroke-linecap:round; opacity:.85}
+.dc-line--new{stroke-dasharray:20; stroke-dashoffset:20; animation:dc-draw 1.6s .4s var(--ar-ease) forwards}
+@keyframes dc-draw{to{stroke-dashoffset:0}}
+
+.dc-star{position:absolute; transform:translate(-50%,-50%); width:34px; height:34px; padding:0; border:0; border-radius:50%;
+  background:transparent; cursor:pointer; display:grid; place-items:center; z-index:2}
+.dc-star i{display:block; width:7px; height:7px; border-radius:50%; background:#5a5687; box-shadow:0 0 0 1px rgba(155,134,214,.35);
+  transition:transform var(--ar-t) var(--ar-ease), background var(--ar-t)}
+.dc-star.is-lit i{width:9px; height:9px; background:#fff6ff; box-shadow:0 0 6px 2px rgba(201,162,236,.85),0 0 16px 4px rgba(150,103,186,.45)}
+.dc-star.is-loved i{width:11px; height:11px; box-shadow:0 0 8px 3px rgba(255,122,217,.8),0 0 22px 6px rgba(150,103,186,.5)}
+.dc-star.is-today i{width:13px; height:13px; background:#fff; box-shadow:0 0 10px 4px rgba(95,242,230,.9),0 0 28px 10px rgba(255,122,217,.55);
+  animation:dc-pulse 2.6s ease-in-out infinite}
+.dc-star.is-caught::before{content:""; position:absolute; width:22px; height:22px; border-radius:50%; border:1px solid rgba(95,242,230,.55)}
+.dc-star:hover i{transform:scale(1.35)}
+.dc-star[aria-pressed="true"]::after{content:""; position:absolute; width:30px; height:30px; border-radius:50%; border:1.5px solid var(--ar-pink)}
+.dc-star:focus-visible{outline:2px solid var(--ar-focus); outline-offset:0}
+.dc-star.is-lighting i{animation:dc-ignite 1.8s var(--ar-ease) both, dc-pulse 2.6s 1.8s ease-in-out infinite}
+@keyframes dc-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+@keyframes dc-ignite{0%{transform:scale(.2); background:#5a5687; box-shadow:none}60%{transform:scale(2.2)}100%{transform:scale(1)}}
+.dc-daynum{position:absolute; transform:translate(-50%,0); margin-top:12px; font-family:var(--ar-font-mono); font-size:10px; color:rgba(233,227,255,.55);
+  pointer-events:none; z-index:1}
+.dc-daynum.is-today{color:var(--ar-aqua)}
+.dc-caption{position:absolute; left:12px; right:12px; bottom:10px; z-index:3; display:flex; justify-content:space-between; gap:var(--ar-s3);
+  font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); color:var(--ar-text-muted); pointer-events:none}
+.dc-caption b{color:var(--ar-text); font-weight:400}
+
+.dc-side{display:flex; flex-direction:column; gap:var(--ar-s4)}
+.dc-panel{padding:var(--ar-s5); display:flex; flex-direction:column; gap:var(--ar-s3)}
+.dc-panel h2{margin:0; font-family:var(--ar-font-display); font-weight:500; font-size:var(--ar-fs-lg)}
+.dc-panel .ar-meta{margin:0}
+.dc-where{font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); text-transform:uppercase; letter-spacing:.08em; color:var(--ar-aqua); margin:0}
+.dc-panel .mmx-card__media{max-height:320px; overflow:hidden}
+.dc-panel .mmx-card__media img{max-height:320px; object-fit:contain; background:var(--ar-bg)}
+.dc-links{display:flex; flex-wrap:wrap; gap:var(--ar-s2)}
+.dc-wait{display:grid; place-items:center; gap:var(--ar-s2); text-align:center; padding:var(--ar-s6) var(--ar-s4); border-radius:var(--ar-r);
+  border:1px dashed var(--ar-line-strong); color:var(--ar-text-muted)}
+.dc-wait b{font-family:var(--ar-font-display); font-weight:500; font-size:var(--ar-fs-xl); color:var(--ar-text)}
+.dc-tally{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:var(--ar-s2)}
+.dc-tally li{padding:var(--ar-s3); border-radius:var(--ar-r); border:1px solid var(--ar-line); background:var(--ar-surface); text-align:center}
+.dc-tally b{display:block; font-family:var(--ar-font-display); font-weight:500; font-size:var(--ar-fs-lg); font-variant-numeric:tabular-nums}
+.dc-tally span{font-family:var(--ar-font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--ar-text-muted)}
+.dc-help{margin:var(--ar-s3) 0 0}
+
+.dc-zodiac{list-style:none; padding:0; margin:0; display:grid; gap:var(--ar-s3); grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.dc-zodiac button{all:unset; box-sizing:border-box; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:6px; width:100%;
+  padding:var(--ar-s3); border-radius:var(--ar-r); border:1px solid var(--ar-line); background:var(--ar-surface); text-align:center}
+.dc-zodiac button:hover{border-color:var(--ar-accent)}
+.dc-zodiac button:focus-visible{outline:2px solid var(--ar-focus); outline-offset:2px}
+.dc-zodiac button[aria-current="true"]{border-color:var(--ar-pink)}
+.dc-zodiac button[disabled]{cursor:default; opacity:.55}
+.dc-zodiac svg{width:72px; height:72px}
+.dc-zodiac b{font-weight:600; font-size:var(--ar-fs-sm)}
+.dc-zodiac small{font-family:var(--ar-font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--ar-text-muted)}
+
+@media (max-width:860px){.dc-layout{grid-template-columns:1fr}}
+@media (max-width:520px){.dc-star{width:28px; height:28px} .dc-daynum{font-size:9px; margin-top:9px} .dc-tally b{font-size:var(--ar-fs-base)}}
+@media (prefers-reduced-motion:reduce){.dc-star i,.dc-star.is-today i,.dc-star.is-lighting i{animation:none} .dc-line--new{animation:none; stroke-dashoffset:0}}
+</style>
+</head>
+<body class="ar-page mmx-page-stars">
+<a class="ar-skip" href="#main">Skip to the constellation</a>
+<div class="ar-sky" aria-hidden="true"></div>
+<header class="ar-wrap mmx-head" id="mmx-head"></header>
+<main id="main" class="ar-wrap" tabindex="-1">
+<div class="dc-layout">
+  <section aria-labelledby="dcName">
+    <div class="dc-month">
+      <button type="button" class="ar-btn" id="prev" aria-label="Previous month">&#8249;</button>
+      <div class="dc-month__name"><span id="dcMonth"></span><b id="dcName"></b></div>
+      <button type="button" class="ar-btn" id="next" aria-label="Next month">&#8250;</button>
+    </div>
+    <div class="dc-sky" id="sky">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <defs><linearGradient id="dcLine" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5ff2e6"/><stop offset=".5" stop-color="#c9a2ec"/><stop offset="1" stop-color="#ff7ad9"/></linearGradient></defs>
+        <g class="dc-dust" id="dust"></g><g id="guides"></g><g id="lines"></g>
+      </svg>
+      <div id="stars" role="group" aria-label="Stars of this month, one for each day"></div>
+      <div class="dc-caption" aria-hidden="true"><span id="capL"></span><span id="capR"></span></div>
+    </div>
+    <p class="ar-meta dc-help">Every night one new star lights up and the lines grow, until the month's figure is complete. Tap any lit star to open a transmission from that date. Stars you were here for get a little aqua ring.</p>
+  </section>
+  <aside class="dc-side" aria-label="The selected star">
+    <ul class="dc-tally" id="tally"></ul>
+    <div class="ar-panel dc-panel" id="panel" aria-live="polite"></div>
+  </aside>
+</div>
+<div class="mmx-sect"><h2 class="ar-h2" id="zodH">The twelve constellations</h2><span class="ar-meta">A new figure every month</span></div>
+<ul class="dc-zodiac" id="zodiac" aria-labelledby="zodH"></ul>
+</main>
+<footer class="ar-wrap mmx-foot" id="mmx-foot"></footer>
+<script src="../archive.js?v=1"></script>
+<script src="notes-data.js"></script>
+<script src="explore.js?v=2"></script>
+<script>
+MMX.chrome({ here: 'stars.html', title: 'THE DAILY CONSTELLATION',
+  subtitle: 'One new star lights up every night. Tap a star to open a transmission from that date.' });
+MMX.ready(function (notes) {
+  var A = MMArchive, esc = MMX.esc, fmt = MMX.fmt, D = A.dates;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── the twelve figures, drawn on a 100×100 sky. Each is a list of strokes;
+        a month's days are spaced evenly along them, day 1 at the start ── */
+  function arc(cx, cy, rx, ry, a0, a1, n) {
+    var p = []; n = n || 24;
+    for (var i = 0; i <= n; i++) { var a = (a0 + (a1 - a0) * i / n) * Math.PI / 180; p.push([cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]); }
+    return p;
+  }
+  function heart() {
+    var p = [];
+    for (var i = 0; i <= 60; i++) { var t = Math.PI - i / 60 * Math.PI * 2;
+      p.push([50 + 2.5 * 16 * Math.pow(Math.sin(t), 3), 46 - 2.5 * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t))]); }
+    return [p];
+  }
+  function spiral() {
+    var p = [];
+    for (var i = 0; i <= 120; i++) { var a = i / 120 * Math.PI * 4.6, r = 3 + 38 * i / 120; p.push([50 + Math.cos(a) * r, 50 + Math.sin(a) * r]); }
+    return [p];
+  }
+  function clover() {
+    var p = [];
+    for (var i = 0; i <= 120; i++) { var a = i / 120 * Math.PI * 2, r = 40 * Math.abs(Math.cos(2 * a)); p.push([50 + Math.cos(a + Math.PI / 4) * r, 50 + Math.sin(a + Math.PI / 4) * r]); }
+    return [p];
+  }
+  function sun() {
+    var s = [arc(50, 50, 20, 20, -90, 270, 40)];
+    for (var k = 0; k < 8; k++) { var a = k * Math.PI / 4 - Math.PI / 2; s.push([[50 + Math.cos(a) * 28, 50 + Math.sin(a) * 28], [50 + Math.cos(a) * 44, 50 + Math.sin(a) * 44]]); }
+    return s;
+  }
+  function pentagram(cx, cy, r) {
+    var p = [];
+    for (var k = 0; k <= 5; k++) { var a = -Math.PI / 2 + k * Math.PI * 4 / 5; p.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]); }
+    return p;
+  }
+  var FIG = [
+    { name: 'The Crystal Point', s: [[[50, 6], [72, 24], [72, 76], [50, 94], [28, 76], [28, 24], [50, 6]], [[28, 24], [50, 38], [72, 24]], [[50, 38], [50, 94]]] },
+    { name: 'The Heart Portal', s: heart() },
+    { name: 'The Spiral Shell', s: spiral() },
+    { name: 'The Lucky Clover', s: clover() },
+    { name: 'The Teacup', s: [[[16, 36], [80, 36], [72, 74], [24, 74], [16, 36]], [[79, 44], [92, 47], [91, 61], [75, 64]], [[8, 84], [92, 84]], [[42, 28], [37, 20], [44, 13], [39, 5]], [[58, 28], [54, 20], [61, 13], [56, 5]]] },
+    { name: 'The Sun Disc', s: sun() },
+    { name: 'The Magic Wand', s: [pentagram(68, 30, 22), [[56, 45], [14, 92]]] },
+    { name: 'The Third Eye', s: [arc(50, 66, 46, 36, 200, 340, 30), arc(50, 34, 46, 36, 20, 160, 30), arc(50, 50, 11, 11, -90, 270, 20)] },
+    { name: 'The Skeleton Key', s: [arc(24, 50, 14, 14, 0, 360, 30), [[38, 50], [94, 50]], [[78, 50], [78, 64], [84, 64], [84, 50]], [[88, 50], [88, 60]]] },
+    { name: 'The Crescent Moon', s: [arc(48, 50, 40, 40, 60, 300, 40), arc(66, 50, 30, 36, 245, 115, 30)] },
+    { name: 'The Visitor', s: [arc(50, 50, 20, 18, 180, 360, 24), arc(50, 54, 44, 11, 0, 360, 44), [[34, 66], [20, 96]], [[66, 66], [80, 96]], [[50, 66], [50, 96]]] },
+    { name: 'The Wishing Star', s: [pentagram(50, 54, 44)] }
+  ];
+
+  /* spread `n` stars evenly along a figure; each star remembers its stroke */
+  function place(fig, n) {
+    var segs = [], total = 0;
+    fig.s.forEach(function (st, si) {
+      for (var i = 1; i < st.length; i++) {
+        var a = st[i - 1], b = st[i], len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+        segs.push({ a: a, b: b, s0: total, len: len, stroke: si }); total += len;
+      }
+    });
+    var out = [], k = 0;
+    for (var j = 0; j < n; j++) {
+      var d = n === 1 ? 0 : total * j / (n - 1) - (j === n - 1 ? 1e-6 : 0);
+      while (k < segs.length - 1 && segs[k].s0 + segs[k].len < d) k++;
+      var g = segs[k], t = g.len ? (d - g.s0) / g.len : 0;
+      t = Math.max(0, Math.min(1, t));
+      out.push({ x: g.a[0] + (g.b[0] - g.a[0]) * t, y: g.a[1] + (g.b[1] - g.a[1]) * t, stroke: g.stroke });
+    }
+    return out;
+  }
+  /* the figure sits inside an inset frame so edge stars stay tappable */
+  function fx(v) { return 7 + v * 0.8; }
+
+  /* ── notes by date ── */
+  var byDate = {}, byMD = {};
+  notes.forEach(function (n) {
+    (byDate[n.d] = byDate[n.d] || []).push(n);
+    (byMD[n.d.slice(5)] = byMD[n.d.slice(5)] || []).push(n);
+  });
+  function best(list) {
+    return list.slice().sort(function (a, b) { return b.l - a.l || (b.img ? 1 : 0) - (a.img ? 1 : 0) || a.id - b.id; })[0];
+  }
+  function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  /* the note behind a star: that night's most-loved transmission; if nothing went out
+     that night, the most-loved one from the same date in another year; failing that,
+     a wandering star picked the same way for everyone */
+  function noteFor(iso) {
+    if (byDate[iso]) return { n: best(byDate[iso]), how: 'night', count: byDate[iso].length };
+    var md = byMD[iso.slice(5)];
+    if (md) { var older = md.filter(function (n) { return n.d < iso; }); var pick = best(older.length ? older : md); return { n: pick, how: 'year', count: md.length }; }
+    return { n: notes[hash(iso) % notes.length], how: 'wander', count: 0 };
+  }
+
+  /* ── time ── */
+  var now = new Date(), today = D.iso(now), thisYM = today.slice(0, 7);
+  var firstYM = notes[0].d.slice(0, 7);
+  function daysIn(ym) { var y = +ym.slice(0, 4), m = +ym.slice(5, 7); return new Date(y, m, 0).getDate(); }
+  function shiftYM(ym, k) { var y = +ym.slice(0, 4), m = +ym.slice(5, 7) - 1 + k; y += Math.floor(m / 12); m = ((m % 12) + 12) % 12; return y + '-' + String(m + 1).padStart(2, '0'); }
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  /* ── stars you were here for (this browser only) ── */
+  var KEY = 'mm-constellation-caught', caught = {};
+  try { (JSON.parse(localStorage.getItem(KEY) || '[]') || []).forEach(function (d) { caught[d] = 1; }); } catch (e) {}
+  var firstToday = !caught[today];
+  caught[today] = 1;
+  try { localStorage.setItem(KEY, JSON.stringify(Object.keys(caught).sort().slice(-400))); } catch (e) {}
+
+  /* ── drawing ── */
+  var $ = function (id) { return document.getElementById(id); };
+  var ym = thisYM, sel = '';
+  var hashD = /^#(\d{4}-\d{2}-\d{2})$/.exec(location.hash);
+  if (hashD && D.isValid(hashD[1]) && hashD[1] <= today && hashD[1].slice(0, 7) >= firstYM) { ym = hashD[1].slice(0, 7); sel = hashD[1]; }
+
+  function dust(seed) {
+    var h = hash(seed), out = '';
+    for (var i = 0; i < 90; i++) {
+      h = Math.imul(h ^ (h >>> 15), 2246822507) >>> 0; var x = (h % 1000) / 10;
+      h = Math.imul(h ^ (h >>> 13), 3266489909) >>> 0; var y = (h % 1000) / 10;
+      h = Math.imul(h ^ (h >>> 16), 2246822507) >>> 0; var r = 0.08 + (h % 100) / 400, o = 0.15 + (h % 7) / 14;
+      out += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + r.toFixed(2) + '" opacity="' + o.toFixed(2) + '"/>';
+    }
+    return out;
+  }
+
+  function render(animate) {
+    var fig = FIG[+ym.slice(5, 7) - 1], n = daysIn(ym), pts = place(fig, n);
+    var isNow = ym === thisYM, litTo = isNow ? +today.slice(8) : n;
+    $('dcMonth').textContent = D.monthLabel(ym);
+    $('dcName').textContent = fig.name;
+    $('prev').disabled = ym <= firstYM; $('next').disabled = ym >= thisYM;
+    $('dust').innerHTML = dust(ym);
+
+    var g = '', l = '';
+    for (var i = 1; i < n; i++) {
+      var a = pts[i - 1], b = pts[i];
+      if (a.stroke !== b.stroke) continue;
+      var seg = 'x1="' + fx(a.x).toFixed(2) + '" y1="' + fx(a.y).toFixed(2) + '" x2="' + fx(b.x).toFixed(2) + '" y2="' + fx(b.y).toFixed(2) + '"';
+      if (i + 1 <= litTo) l += '<line class="dc-line' + (animate && isNow && i + 1 === litTo ? ' dc-line--new" pathLength="20' : '') + '" ' + seg + '/>';
+      else g += '<line class="dc-guide" ' + seg + '/>';
+    }
+    $('guides').innerHTML = g; $('lines').innerHTML = l;
+
+    var box = $('stars'); box.innerHTML = '';
+    var peak = 0;
+    pts.forEach(function (p, i) { var iso = ym + '-' + pad(i + 1); if (i + 1 <= litTo && byDate[iso]) peak = Math.max(peak, best(byDate[iso]).l); });
+    pts.forEach(function (p, i) {
+      var day = i + 1, iso = ym + '-' + pad(day), lit = day <= litTo, isToday = iso === today;
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'dc-star';
+      b.style.left = fx(p.x) + '%'; b.style.top = fx(p.y) + '%';
+      if (lit) b.classList.add('is-lit');
+      if (isToday) b.classList.add('is-today');
+      if (isToday && animate && firstToday) b.classList.add('is-lighting');
+      if (caught[iso]) b.classList.add('is-caught');
+      if (lit && byDate[iso] && peak && best(byDate[iso]).l >= peak * 0.6) b.classList.add('is-loved');
+      b.dataset.d = iso;
+      b.setAttribute('aria-pressed', 'false');
+      b.setAttribute('aria-label', D.label(iso, 'long') + (isToday ? ', tonight’s star' : lit ? ', lit' : ', not lit yet'));
+      b.innerHTML = '<i></i>';
+      b.addEventListener('click', function () { choose(iso, true); });
+      box.appendChild(b);
+      if (day === 1 || day % 5 === 0 || day === n || isToday) {
+        var num = document.createElement('span');
+        num.className = 'dc-daynum' + (isToday ? ' is-today' : ''); num.textContent = day;
+        num.style.left = fx(p.x) + '%'; num.style.top = fx(p.y) + '%';
+        num.setAttribute('aria-hidden', 'true');
+        box.appendChild(num);
+      }
+    });
+
+    var mine = 0; for (var d = 1; d <= n; d++) if (caught[ym + '-' + pad(d)]) mine++;
+    $('capL').innerHTML = '<b>' + litTo + '</b> of ' + n + ' stars lit';
+    $('capR').textContent = isNow ? untilMidnight() : 'Complete';
+    $('tally').innerHTML = [[litTo + '/' + n, 'stars lit'], [mine, mine === 1 ? 'night you came' : 'nights you came'],
+      [isNow ? n - litTo : 0, isNow ? 'still to light' : 'still to light']].map(function (t) { return '<li><b>' + t[0] + '</b><span>' + t[1] + '</span></li>'; }).join('');
+    zodiac();
+  }
+
+  function untilMidnight() {
+    var t = new Date(), m = new Date(t.getFullYear(), t.getMonth(), t.getDate() + 1, 0, 0, 0);
+    var mins = Math.max(1, Math.round((m - t) / 6e4)), h = Math.floor(mins / 60);
+    return 'Next star in ' + (h ? h + 'h ' : '') + (mins % 60) + 'm';
+  }
+
+  function choose(iso, user) {
+    sel = iso;
+    Array.prototype.forEach.call(document.querySelectorAll('.dc-star'), function (b) { b.setAttribute('aria-pressed', b.dataset.d === iso ? 'true' : 'false'); });
+    var p = $('panel'), isToday = iso === today;
+    if (user && history.replaceState) history.replaceState(null, '', '#' + iso);
+    if (iso > today) {
+      p.innerHTML = '<p class="dc-where">Not lit yet</p><h2>' + esc(D.label(iso, 'long')) + '</h2>' +
+        '<div class="dc-wait"><b>✧</b><span>This star lights up on ' + esc(D.label(iso, 'long').replace(/, \d{4}$/, '')) +
+        '. Come back that night to see what it holds.</span></div>';
+      return;
+    }
+    var r = noteFor(iso), n = r.n;
+    var where = isToday ? 'Tonight’s star' : 'Star ' + (+iso.slice(8)) + ' of ' + daysIn(iso.slice(0, 7));
+    var how = r.how === 'night' ? (r.count > 1 ? 'The most-loved of ' + r.count + ' transmissions that night.' : 'Transmitted that night.')
+      : r.how === 'year' ? 'Nothing went out that night yet, so this star holds the most-loved transmission from ' + esc(D.label(iso, 'long').replace(/^\w+, /, '').replace(/, \d{4}$/, '')) + ', ' + n.d.slice(0, 4) + '.'
+      : 'Nothing went out on this date in any year, so this is a wandering star from ' + esc(D.label(n.d)) + '.';
+    p.innerHTML = '<p class="dc-where">' + where + '</p><h2>' + esc(D.label(iso, 'long')) + '</h2><p class="ar-meta">' + how + '</p><div id="dcCard"></div>' +
+      '<div class="dc-links">' +
+      (r.how === 'night' && r.count > 1 ? '<a class="ar-btn" href="../notes.html?from=' + iso + '&to=' + iso + '">All ' + r.count + ' from that night</a>' : '') +
+      '<a class="ar-btn" href="../almanac/#d' + iso.slice(5) + '">This date in the Almanac</a></div>';
+    var list = r.how === 'night' ? byDate[iso].slice().sort(function (a, b) { return b.l - a.l; }) : [n];
+    $('dcCard').appendChild(MMX.card(n, { onOpen: function (x) { MMX.viewer.open(x, list); } }));
+    if (user && window.innerWidth <= 860) p.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  function mini(i) {
+    var pts = place(FIG[i], 30), s = '';
+    for (var k = 1; k < pts.length; k++) if (pts[k].stroke === pts[k - 1].stroke)
+      s += '<line x1="' + fx(pts[k - 1].x).toFixed(1) + '" y1="' + fx(pts[k - 1].y).toFixed(1) + '" x2="' + fx(pts[k].x).toFixed(1) + '" y2="' + fx(pts[k].y).toFixed(1) + '" stroke="#c9a2ec" stroke-opacity=".55" stroke-width="1"/>';
+    pts.forEach(function (p) { s += '<circle cx="' + fx(p.x).toFixed(1) + '" cy="' + fx(p.y).toFixed(1) + '" r="1.9" fill="#fff6ff"/>'; });
+    return '<svg viewBox="0 0 100 100" aria-hidden="true">' + s + '</svg>';
+  }
+  function zodiac() {
+    var y = thisYM.slice(0, 4), out = '';
+    FIG.forEach(function (f, i) {
+      /* the most recent month with this figure that has already begun */
+      var m = y + '-' + pad(i + 1); if (m > thisYM) m = (+y - 1) + '-' + pad(i + 1);
+      var ok = m >= firstYM;
+      out += '<li><button type="button" data-ym="' + m + '"' + (m === ym ? ' aria-current="true"' : '') + (ok ? '' : ' disabled') + '>' + mini(i) +
+        '<b>' + esc(f.name) + '</b><small>' + (ok ? esc(D.monthLabel(m)) : esc(D.label(m + '-01', 'monthShort')) + ' · not yet') + '</small></button></li>';
+    });
+    $('zodiac').innerHTML = out;
+  }
+  $('zodiac').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-ym]'); if (!b || b.disabled) return;
+    go(b.dataset.ym); $('sky').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+  });
+
+  function go(m) {
+    ym = m; render(false);
+    var last = m === thisYM ? today : m + '-' + pad(daysIn(m));
+    choose(last, false);
+    if (history.replaceState) history.replaceState(null, '', m === thisYM ? location.pathname : '#' + last);
+  }
+  $('prev').addEventListener('click', function () { if (ym > firstYM) go(shiftYM(ym, -1)); });
+  $('next').addEventListener('click', function () { if (ym < thisYM) go(shiftYM(ym, 1)); });
+
+  render(true);
+  choose(sel || (ym === thisYM ? today : ym + '-' + pad(daysIn(ym))), false);
+  setInterval(function () {
+    if (D.iso(new Date()) !== today) location.reload();   /* midnight: the next star lights */
+    else if (ym === thisYM) $('capR').textContent = untilMidnight();
+  }, 60000);
+
+  var total = 0; Object.keys(caught).forEach(function (d) { if (d >= firstYM) total++; });
+  MMX.status('<span class="ar-count">' + daysIn(thisYM) + '</span> stars in ' + esc(FIG[+thisYM.slice(5) - 1].name) +
+    ' · tonight’s is star ' + (+today.slice(8)));
+});
+</script>
+<script src="../mm-nav.js?v=3" defer></script>
+</body>
+</html>
