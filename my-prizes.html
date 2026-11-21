@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Prizes &middot; MagickMica</title>
+<meta name="description" content="Everything you've won at the Magick Mica Cosmic Circus in one place: prizes, holiday prizes, collectibles, fortune cards, tickets and bonus spins.">
+<link rel="canonical" href="https://magickmica.github.io/my-prizes.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="My Prizes · Magick Mica Arcade">
+<meta property="og:description" content="Everything you've won at the Cosmic Circus in one place.">
+<meta property="og:url" content="https://magickmica.github.io/my-prizes.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+.awning{background:repeating-linear-gradient(90deg,var(--gold) 0 34px,#b9a3ff 34px 68px)}
+.scallop{background:radial-gradient(circle at 50% 0,var(--gold) 0 12px,transparent 13px) 0 0/68px 14px repeat-x,
+  radial-gradient(circle at 50% 0,#b9a3ff 0 12px,transparent 13px) 34px 0/68px 14px repeat-x}
+.window{padding:22px 16px 20px;background:radial-gradient(80% 60% at 50% 0,rgba(185,163,255,.18),transparent 70%),linear-gradient(180deg,#1b2554,#131c3f)}
+.sum{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+@media (max-width:720px){.sum{grid-template-columns:repeat(3,1fr)}}
+.sum a,.sum div{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 6px;border-radius:14px;text-decoration:none;color:#fff;
+  background:rgba(4,5,9,.35);border:1px solid rgba(213,194,220,.2);text-align:center}
+.sum a:hover{border-color:var(--aqua)}
+.sum .e{font-size:1.5rem;line-height:1.2}
+.sum b{font-family:Orbitron,sans-serif;font-weight:900;font-size:1.35rem;line-height:1.1;color:var(--gold)}
+.sum span{font-family:Silkscreen,monospace;font-size:.52rem;letter-spacing:.12em;color:rgba(213,194,220,.8)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:18px 0 12px}
+.tabs button{font-family:Silkscreen,monospace;font-size:.6rem;letter-spacing:.1em;padding:7px 11px;border-radius:999px;color:var(--lilac);
+  border:1px solid rgba(213,194,220,.28);background:rgba(4,5,9,.35)}
+.tabs button[aria-pressed="true"]{background:linear-gradient(90deg,var(--gold),var(--pink));color:#040509;border-color:transparent}
+.tabs button i{font-style:normal;opacity:.7}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:8px}
+.pz{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 6px 10px;border-radius:14px;
+  background:linear-gradient(180deg,rgba(81,70,162,.4),rgba(19,28,63,.65));border:1px solid rgba(213,194,220,.16)}
+.pz .em{font-size:2.3rem;line-height:1.2}
+.pz.medium .em{font-size:2.6rem}.pz.jumbo .em{font-size:3rem;filter:drop-shadow(0 0 12px rgba(255,209,102,.55))}
+.pz.rare{border-color:rgba(95,243,232,.45)}.pz.rare .em{filter:drop-shadow(0 0 10px rgba(95,243,232,.6))}
+.pz.jumbo{border-color:rgba(255,209,102,.45)}
+.pz .nm{margin-top:4px;font-size:.72rem;line-height:1.3;color:#fff}
+.pz .t{margin-top:4px;font-family:Silkscreen,monospace;font-size:.5rem;letter-spacing:.12em;color:var(--aqua)}
+.pz .g{margin-top:2px;font-size:.6rem;color:rgba(213,194,220,.6)}
+.pz .x{position:absolute;top:6px;right:6px;font-family:Silkscreen,monospace;font-size:.6rem;color:#040509;background:var(--gold);border-radius:999px;padding:3px 6px}
+.pz.fortune .nm{font-style:italic;font-size:.66rem}
+.none{grid-column:1/-1;text-align:center;padding:26px 10px;font-size:.84rem;color:rgba(213,194,220,.75)}
+.none a{color:var(--aqua)}
+.go-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.go-row a{font-family:Silkscreen,monospace;font-size:.66rem;letter-spacing:.1em;padding:10px 14px;border-radius:999px;text-decoration:none;color:#040509;
+  background:linear-gradient(90deg,var(--gold),var(--pink));box-shadow:0 4px 0 #8a2a5c}
+.go-row a.alt{background:linear-gradient(90deg,var(--aqua),var(--lilac));box-shadow:0 4px 0 #2f5f7a}
+.note{margin:14px 0 0;text-align:center;font-size:.7rem;color:rgba(213,194,220,.6)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html#circus">← Back to the Circus</a> · Cosmic Circus</p>
+    <h1>MY PRIZES</h1>
+    <p class="tag">Everything you've won at the circus, all in one place.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ YOUR TREASURE CHEST ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage">
+      <div class="window">
+        <div class="sum" id="sum"></div>
+        <div class="tabs" id="tabs" role="group" aria-label="Show prizes"></div>
+        <div class="pgrid" id="pgrid"></div>
+        <div class="go-row">
+          <a href="ticket-booth.html">🎟 Spend tickets &amp; trade extras</a>
+          <a class="alt" href="prize-wheel.html">🎡 Use my bonus spins</a>
+          <a class="alt" href="winter-carnival.html">❄️ Holiday prize checklist</a>
+        </div>
+        <p class="note">Your prizes are saved in this browser, on this device. Clearing your browser data clears the shelf too.</p>
+      </div>
+    </div>
+  </div>
+
+  <a class="back" href="arcade.html#circus">← Back to the Circus</a>
+</div>
+
+<script src="mm-prizes.js?v=7"></script>
+<script>
+(function () {
+  'use strict';
+  function esc(x) { return String(x).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  var HOL = {};
+  ['small', 'medium', 'jumbo'].forEach(function (t) { MMPrizes.WINTER[t].forEach(function (p) { HOL[p[1]] = 1; }); });
+  var TL = { small: 'SMALL', medium: 'BIG', jumbo: 'JUMBO', rare: 'COLLECTIBLE', fortune: 'FORTUNE' };
+  var TABS = [['all', 'All'], ['small', 'Small'], ['medium', 'Big'], ['jumbo', 'JUMBO'], ['rare', 'Collectibles'], ['holiday', 'Holiday'], ['fortune', 'Fortunes']];
+  var show = 'all', tabsEl = document.getElementById('tabs');
+  tabsEl.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return; show = b.dataset.t; draw();
+  });
+  function groups() {
+    var map = {}, out = [];
+    MMPrizes.read().forEach(function (p) {
+      var k = p.e + '|' + p.n + '|' + p.tier;
+      if (!map[k]) { map[k] = { e: p.e, n: p.n, tier: p.tier, g: p.g, t: p.t || 0, count: 0, hol: !!HOL[p.n] }; out.push(map[k]); }
+      map[k].count++; if ((p.t || 0) >= map[k].t) { map[k].t = p.t || 0; map[k].g = p.g; }
+    });
+    return out.reverse();
+  }
+  function draw() {
+    var list = MMPrizes.read(), g = groups(), own = MMPrizes.owned().length, hol = {};
+    g.forEach(function (x) { if (x.hol) hol[x.n] = 1; });
+    var day = null; try { day = JSON.parse(localStorage.getItem('mm_daily_v1') || 'null'); } catch (e) {}
+    document.getElementById('sum').innerHTML =
+      '<div><span class="e">🎁</span><b>' + list.length + '</b><span>PRIZES WON</span></div>' +
+      '<a href="ticket-booth.html"><span class="e">🎟</span><b>' + MMPrizes.tickets() + '</b><span>TICKETS</span></a>' +
+      '<a href="prize-wheel.html"><span class="e">🎡</span><b>' + MMPrizes.tokens() + '</b><span>BONUS SPINS</span></a>' +
+      '<a href="ticket-booth.html"><span class="e">💎</span><b>' + own + '<small style="font-size:.6em;color:rgba(213,194,220,.7)">/96</small></b><span>COLLECTIBLES</span></a>' +
+      '<a href="winter-carnival.html"><span class="e">❄️</span><b>' + Object.keys(hol).length + '<small style="font-size:.6em;color:rgba(213,194,220,.7)">/24</small></b><span>HOLIDAY</span></a>' +
+      '<div><span class="e">🔥</span><b>' + (day && day.streak || 0) + '</b><span>DAY STREAK</span></div>';
+    var cnt = { all: g.length, holiday: 0 };
+    g.forEach(function (x) { cnt[x.tier] = (cnt[x.tier] || 0) + 1; if (x.hol) cnt.holiday++; });
+    tabsEl.innerHTML = TABS.map(function (t) {
+      return '<button type="button" data-t="' + t[0] + '" aria-pressed="' + (t[0] === show) + '">' + t[1] + ' <i>' + (cnt[t[0]] || 0) + '</i></button>';
+    }).join('');
+    var f = g.filter(function (x) { return show === 'all' || (show === 'holiday' ? x.hol : x.tier === show); });
+    document.getElementById('pgrid').innerHTML = f.map(function (x) {
+      return '<div class="pz ' + esc(x.tier) + '">' + (x.count > 1 ? '<span class="x">×' + x.count + '</span>' : '') +
+        '<span class="em" aria-hidden="true">' + esc(x.e) + '</span><span class="nm">' + esc(x.n) + '</span>' +
+        '<span class="t">' + (x.hol ? 'HOLIDAY · ' : '') + (TL[x.tier] || esc(x.tier).toUpperCase()) + '</span>' +
+        (x.g ? '<span class="g">won at ' + esc(x.g) + '</span>' : '') + '</div>';
+    }).join('') || '<p class="none">' + (list.length ? 'None of these yet. Keep playing!' :
+      'Your treasure chest is empty so far. <a href="arcade.html#circus">Play any circus game</a> and your first prize lands here.') + '</p>';
+  }
+  draw();
+  addEventListener('mm-prizes', draw); addEventListener('storage', draw);
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>

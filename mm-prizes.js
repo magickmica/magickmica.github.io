@@ -13,6 +13,7 @@
    MMPrizes.daily()               -> {fresh, streak, tickets, spin}  once-a-day visit prize
    MMPrizes.dupes() / tradeIn(e, n) / tradeValue(p)   swap extra prizes for tickets
    MMPrizes.pick(tier, 'winter')  -> a Winter Carnival holiday prize
+   Every shelf drawn with render() gets a link to my-prizes.html, the full collection page.
 */
 (function () {
   'use strict';
@@ -190,11 +191,24 @@
     if (!el) return;
     opts = opts || {};
     var list = read();
-    if (!list.length) { el.innerHTML = '<span class="empty">' + esc(opts.empty || 'Nothing yet. The shelf is waiting.') + '</span>'; return; }
+    if (!list.length) { el.innerHTML = '<span class="empty">' + esc(opts.empty || 'Nothing yet. The shelf is waiting.') + '</span>'; myLink(el, 0, opts); return; }
     var show = opts.limit ? list.slice(-opts.limit) : list;
     el.innerHTML = show.map(function (p) {
       return '<span class="it ' + esc(p.tier) + '" title="' + esc(p.n + (p.g ? ' · won at ' + p.g : '')) + '">' + esc(p.e) + '</span>';
     }).join('');
+    myLink(el, list.length, opts);
+  }
+  // a "see all my prizes" link under every shelf, so the whole collection is one tap away
+  function myLink(el, n, opts) {
+    if (opts.noLink || /my-prizes/.test(location.pathname)) return;
+    var a = el.nextElementSibling && el.nextElementSibling.classList && el.nextElementSibling.classList.contains('mm-mylink') ? el.nextElementSibling : null;
+    if (!a) {
+      a = document.createElement('a'); a.className = 'mm-mylink'; a.href = 'my-prizes.html';
+      a.style.cssText = 'display:inline-block;margin-top:10px;font:400 .66rem/1 Silkscreen,monospace;letter-spacing:.1em;padding:9px 13px;border-radius:999px;' +
+        'text-decoration:none;color:#040509;background:linear-gradient(90deg,#ffd166,#ff7ac8);box-shadow:0 3px 0 #8a2a5c';
+      el.parentNode.insertBefore(a, el.nextSibling);
+    }
+    a.textContent = '🎁 SEE ALL MY PRIZES (' + n + ') →';
   }
 
   window.MMPrizes = {CAT: CAT, PER: PER, read: read, pick: pick, add: add, tokens: tokens, addToken: addToken, useToken: useToken,

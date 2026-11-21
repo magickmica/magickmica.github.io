@@ -57,6 +57,7 @@
       ['prize-wheel.html', 'Cosmic Prize Wheel'],
       ['fortune-teller.html', 'Fortune Teller'],
       ['ticket-booth.html', 'Circus Ticket Booth'],
+      ['my-prizes.html', 'My Prizes'],
       ['photo-booth.html', 'Cosmic Photo Booth'],
       ['duck-pond.html', 'Cosmic Duck Pond'],
       ['claw-machine.html', 'Cosmic Claw Machine'],

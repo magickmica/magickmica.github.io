@@ -7,13 +7,13 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Magick Mica">
 <meta property="og:title" content="Arcade — Magick Mica">
-<meta property="og:description" content="A neon arcade of Magick Mica games and toys: Cosmic Clown Splash, The Witching Hour, Moon Shot, Comet Rally, the Six-in-One cabinet and more.">
+<meta property="og:description" content="A neon arcade of Magick Mica games and toys, with the Cosmic Circus: 13 carnival games, a Winter Carnival, a Ferris wheel ride and almost a hundred prizes. Plus The Witching Hour, Moon Shot, Comet Rally and more.">
 <meta property="og:url" content="https://magickmica.github.io/arcade.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Arcade — Magick Mica">
-<meta name="twitter:description" content="A neon arcade of Magick Mica games and toys: Cosmic Clown Splash, The Witching Hour, Moon Shot, Comet Rally, the Six-in-One cabinet and more.">
+<meta name="twitter:description" content="A neon arcade of Magick Mica games and toys, with the Cosmic Circus: 13 carnival games, a Winter Carnival, a Ferris wheel ride and almost a hundred prizes. Plus The Witching Hour, Moon Shot, Comet Rally and more.">
 <link rel="canonical" href="https://magickmica.github.io/arcade.html">
-<meta name="description" content="A neon arcade of Magick Mica games and toys: Cosmic Clown Splash, The Witching Hour, Moon Shot, Comet Rally, the Six-in-One cabinet and more.">
+<meta name="description" content="A neon arcade of Magick Mica games and toys, with the Cosmic Circus: 13 carnival games, a Winter Carnival, a Ferris wheel ride and almost a hundred prizes. Plus The Witching Hour, Moon Shot, Comet Rally and more.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
@@ -735,6 +735,13 @@ body::before{background:
 .cab-row--4{grid-template-columns:repeat(4,1fr)}
 .cab-row--5{grid-template-columns:repeat(5,1fr)}
 .cab-row--3{margin-top:4px}
+.myp-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 0!important;max-width:none!important}
+.myp-btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--arcade);font-weight:900;font-size:.8rem;letter-spacing:.08em;text-decoration:none;
+  color:#120418;background:linear-gradient(90deg,#ffd166,#ff7ac8);padding:11px 18px;border-radius:999px;box-shadow:0 4px 0 #8a2a5c,0 0 22px rgba(255,122,200,.35)}
+.myp-btn.alt{background:linear-gradient(90deg,#5ff3e8,#d5c2dc);box-shadow:0 4px 0 #2f5f7a}
+.myp-btn b{font-family:var(--mono);font-weight:500;background:rgba(18,4,24,.85);color:#ffd166;border-radius:999px;padding:3px 8px;font-size:.75rem}
+.myp-btn b:empty{display:none}
+.myp-btn:focus-visible{outline:3px solid #ffd166;outline-offset:3px}
 .cab-row--7{grid-template-columns:repeat(8,1fr)}
 .cab-row--7>.cab{grid-column:span 2}
 .cab-row--7>.cab:nth-child(5){grid-column:2 / span 2}
@@ -905,9 +912,9 @@ body::before{background:
     </svg>
   </span>
   <span class="feat-txt">
-    <span class="kicker">JUST OPENED · STEP RIGHT UP</span>
+    <span class="kicker">NOW OPEN · 13 GAMES · 97 PRIZES</span>
     <span class="feat-h">The Cosmic Circus</span>
-    <span class="feat-p">Five carnival games under one striped tent: squirt the clown, ring a planet, ring the moon bell, pop the balloons and spin the prize wheel. Every win puts a prize on your shelf.</span>
+    <span class="feat-p">Thirteen carnival games under one striped tent, from the Claw Machine, Duck Pond and Skee-Ball to Whack-an-Alien and Hoop Shot. Plus a snowy Winter Carnival, a Ferris wheel ride into the night sky, a fortune teller and almost a hundred prizes to win for your shelf.</span>
     <span class="feat-cta">🎪 ENTER THE CIRCUS</span>
   </span>
 </a>
@@ -927,6 +934,7 @@ body::before{background:
     <span class="sec-kick">LEVEL 1</span>
     <h2>The Circus</h2>
     <p>Carnival games from the Cosmic Circus. Win a round and a prize lands on your shelf.</p>
+    <p class="myp-row"><a class="myp-btn" href="my-prizes.html">🎁 MY PRIZES <b id="mypN"></b></a><a class="myp-btn alt" href="ticket-booth.html">🎟 TICKETS <b id="mypT"></b></a></p>
   </div>
   <div class="cab-row cab-row--4">
     <a class="cab is-new" href="cosmic-clown-splash.html" style="--c:#ff4fa3;--c2:#5ff3e8"><span class="cab-mq">CLOWN SPLASH</span><span class="cab-scr"><span class="cab-ico">🎈</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Squirt the clown’s mouth, blow up the balloon, pop it first. Solo or two players.</span><span class="cab-btn">PLAY ▸</span></a>
@@ -1034,7 +1042,7 @@ body::before{background:
 (function(){var g=(location.hash||'').slice(1).split('=')[0].toLowerCase();
 if(['scratch','memory','guess','slots','hunt','jigsaw','play'].indexOf(g)>-1){location.replace('six-in-one.html'+(g==='play'?'':location.hash));}})();
 </script>
-<script src="mm-prizes.js?v=6"></script>
+<script src="mm-prizes.js?v=7"></script>
 <script>
 
 // the visitor's own high scores, read from what each game saves in this browser
@@ -1070,6 +1078,7 @@ if(['scratch','memory','guess','slots','hunt','jigsaw','play'].indexOf(g)>-1){lo
   try{ var d=JSON.parse(localStorage.getItem('mm_daily_v1')||'null'); if(d&&d.streak) document.getElementById('streakNote').textContent='🔥 VISIT STREAK: '+d.streak+' DAY'+(d.streak>1?'S':''); }catch(e){}
 })();
 // the visitor's own prize shelf from the midway games (saved in their browser only)
+(function(){ if(!window.MMPrizes) return; function myp(){var n=document.getElementById('mypN'),t=document.getElementById('mypT');if(n)n.textContent=MMPrizes.read().length;if(t)t.textContent=MMPrizes.tickets();} myp(); addEventListener('mm-prizes',myp); })();
 (function(){ if(!window.MMPrizes) return; var el=document.getElementById('arcadeShelf'), c=document.getElementById('prizeCount');
   function draw(){ var n=MMPrizes.read().length; if(n){ MMPrizes.render(el,{limit:40}); } var t=MMPrizes.tickets?MMPrizes.tickets():0; c.textContent=(n?(n+(n===1?' prize':' prizes')):'')+(t?(n?' · ':'')+'🎟 '+t+(t===1?' ticket':' tickets'):''); }
   draw(); addEventListener('mm-prizes',draw); })();
