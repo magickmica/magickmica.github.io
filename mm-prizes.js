@@ -26,24 +26,32 @@
              ['🫧','Bubble wand'],['🎈','Star balloon'],['🌸','Space blossom'],['🪁','Comet kite'],['🍡','Planet mochi'],
              ['🧩','Puzzle of the stars'],['🐣','Baby star chick'],['🫐','Galaxy berries'],['🔔','Tiny moon bell'],
              ['🍉','Moon melon slice'],['🐌','Glitter snail'],['🌻','Sunflower sticker'],['🍒','Twin-star cherries'],
-             ['🐝','Buzzy bee pin'],['🥨','Pretzel of Orion'],['🪸','Coral charm'],['🌺','Hibiscus star clip']],
+             ['🐝','Buzzy bee pin'],['🥨','Pretzel of Orion'],['🪸','Coral charm'],['🌺','Hibiscus star clip'],
+             ['🍧','Shaved ice of Saturn'],['🥤','Comet soda'],['🍿','Big Top popcorn'],['🧇','Waffle moon'],['🍋','Lemon comet drop'],
+             ['🪙','Lucky star coin'],['🌼','Daisy chain charm'],['🐟','Goldfish in a bag'],['🍥','Swirl cake of Jupiter'],['🥏','Flying saucer frisbee'],
+             ['🎯','Bullseye badge'],['🌷','Tulip of Mars'],['🦀','Crab of Cancer'],['🍫','Chocolate planet bar'],['🐛','Caterpillar sticker']],
     medium: [['👽','Plush Visitor'],['🪐','Squishy Saturn'],['🦄','Holo unicorn'],['🐙','Space octopus plush'],
              ['🧸','Starlight bear'],['🦋','Moth of many colors'],['🐸','Cosmic frog plush'],['🐱','Moon cat plush'],
              ['🐰','White rabbit plush'],['🦊','Aurora fox'],['🐧','Astronaut penguin'],['🦔','Stardust hedgehog'],
              ['🐼','Pastel panda'],['🦭','Sea-of-stars seal'],['🐨','Koala cosmonaut'],
-             ['🐶','Space-helmet pup'],['🐷','Piglet of the planets'],['🦦','Aurora otter'],['🐢','Turtle of time'],['🐹','Hamster astronaut']],
+             ['🐶','Space-helmet pup'],['🐷','Piglet of the planets'],['🦦','Aurora otter'],['🐢','Turtle of time'],['🐹','Hamster astronaut'],
+             ['🦝','Raccoon of the rings'],['🐿️','Moon squirrel'],['🦥','Sleepy sloth plush'],['🐑','Cloud sheep plush'],['🐭','Mouse in a teacup'],
+             ['🦙','Llama of the Milky Way'],['🐮','Moo-n cow plush'],['🦆','Rubber star duck'],['🐻','Honey bear plush'],['🐒','Space monkey plush']],
     jumbo:  [['🌈','JUMBO rainbow worm'],['🐉','GIANT dream dragon'],['🦩','ENORMOUS flamingo'],
              ['🐳','Whale of a whale'],['🦖','Space dino, extra large'],['🦒','TOWERING giraffe'],
              ['🐘','MIGHTY Big Top elephant'],['🦁','GRAND Ringmaster lion'],['🦕','GIANT brontosaurus'],
              ['🐻‍❄️','ENORMOUS polar bear'],['🦜','GIGANTIC rainbow parrot'],
-             ['🦈','HUGE sky shark'],['🐅','ROARING ring tiger'],['🦓','MAJESTIC star zebra'],['🦬','COLOSSAL star bison']]
+             ['🦈','HUGE sky shark'],['🐅','ROARING ring tiger'],['🦓','MAJESTIC star zebra'],['🦬','COLOSSAL star bison'],
+             ['🦍','GIANT gentle gorilla'],['🦘','BOUNCING kangaroo XL'],['🦛','HUGE hippo hug'],['🐊','ENORMOUS moon gator'],
+             ['🐆','GIANT leopard of light'],['🦤','GIANT dodo, extra rare'],['🦏','MIGHTY rhino of Mars']]
   };
 
   var WINTER = {
     small:  [['❄️','Snowflake charm'],['🧤','Star-knit mittens'],['🍪','Gingerbread comet'],['🔔','Sleigh bell'],['🕯️','Peppermint candle'],
-             ['🍬','Candy cane rocket'],['🧦','Fuzzy moon socks'],['☃️','Snow globe sticker']],
-    medium: [['⛄','Snowman plush'],['🐧','Penguin in a scarf'],['🦌','Starlight reindeer'],['🐻‍❄️','Polar cub plush'],['🧣','Aurora scarf'],['🎄','Tiny cosmic tree']],
-    jumbo:  [['🦌','GIANT glowing reindeer'],['⛄','ENORMOUS snow friend'],['🐻‍❄️','HUGE polar bear hug'],['🛷','JUMBO comet sleigh']]
+             ['🍬','Candy cane rocket'],['🧦','Fuzzy moon socks'],['☃️','Snow globe sticker'],
+             ['⛸️','Starlight skates'],['🎿','Comet skis'],['☕','Cocoa cup charm']],
+    medium: [['⛄','Snowman plush'],['🐧','Penguin in a scarf'],['🦌','Starlight reindeer'],['🐻‍❄️','Polar cub plush'],['🧣','Aurora scarf'],['🎄','Tiny cosmic tree'],['🦊','Snow fox plush'],['🧸','Snuggle bear in a hat']],
+    jumbo:  [['🦌','GIANT glowing reindeer'],['⛄','ENORMOUS snow friend'],['🐻‍❄️','HUGE polar bear hug'],['🛷','JUMBO comet sleigh'],['🎁','GIANT surprise present']]
   };
   function get(key, fallback) {
     try { var v = localStorage.getItem(key); return v == null ? fallback : JSON.parse(v); } catch (e) { return fallback; }
