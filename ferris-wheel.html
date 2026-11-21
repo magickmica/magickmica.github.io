@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cosmic Ferris Wheel &middot; MagickMica</title>
+<meta name="description" content="A Cosmic Circus ride: climb into a gondola and float up into the night sky. Wish on shooting stars, and at the very top a note from Magick Mica drifts by. The first ride each day pays 2 tickets.">
+<link rel="canonical" href="https://magickmica.github.io/ferris-wheel.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Cosmic Ferris Wheel · Magick Mica Arcade">
+<meta property="og:description" content="Ride up into the night sky. Wish on shooting stars.">
+<meta property="og:url" content="https://magickmica.github.io/ferris-wheel.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+.skynote{position:absolute;left:50%;bottom:18px;transform:translate(-50%,20px);width:min(88%,460px);padding:14px 16px;border-radius:14px;text-align:center;opacity:0;pointer-events:none;transition:opacity .8s,transform .8s;background:rgba(19,28,63,.86);border:1px solid rgba(255,209,102,.5);box-shadow:0 0 30px rgba(185,163,255,.35)}
+.skynote.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.skynote .k{display:block;font-family:Silkscreen,monospace;font-size:.6rem;letter-spacing:.16em;color:#ffd166}
+.skynote p{margin:8px 0;font-size:.92rem;line-height:1.45;color:#fff;font-style:italic}
+.skynote .by{font-size:.66rem;color:rgba(213,194,220,.75)}
+.skynote a{color:#5ff3e8}
+@media (prefers-reduced-motion:reduce){.skynote{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
+    <h1>COSMIC FERRIS WHEEL</h1>
+    <p class="tag">Ride up into the night sky. Wish on shooting stars.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ RIDE TO THE TOP OF THE SKY ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Ferris wheel ride. Tap shooting stars to make wishes."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+          <p>Climb into the gold gondola and ride the Cosmic Ferris Wheel up into the night sky. It takes about a minute. Tap shooting stars as they streak by to make a wish. At the very top the wheel stops for a moment, and a note from Magick Mica floats by. Your first ride each day pays 2 tickets.</p>
+          <button class="go" id="startBtn" type="button">🎡 CLIMB ABOARD</button>
+          <div class="howto"><b>Touch or mouse:</b> tap a shooting star.<br><b>Keyboard:</b> space wishes on the star that is flying.<br>This one is a ride, not a race. Sit back and enjoy the view.</div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">🎡 RIDE AGAIN</button>
+            <a class="ghost" href="arcade.html#circus">Back to the circus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">RIDES<b id="sRides">0</b></span>
+      <span class="stat">WISHES<b id="sWishes">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>The ride pays 2 tickets once a day. Prizes from every game at the circus land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=5"></script>
+<script src="circus-notes.js?v=1"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_ferris_v1', { rides: 0, wishes: 0, paid: '' });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .66, 480), 620)); });
+var ctx = view.ctx;
+
+var RISE = 24, PAUSE = 9, FALL = 24, N = 12;
+var state = 'menu', rt = 0, wishes = 0, shoot = [], shootT = 2, msgs = [], speed = 1, noteShown = false, endT = 0;
+var notes = [], noteEl = document.createElement('div');
+noteEl.className = 'skynote'; noteEl.setAttribute('aria-live', 'polite'); stage.appendChild(noteEl);
+var FALLBACK = ['The stars are out tonight, and some of them are out just for you.', 'Make a wish up here. The sky is listening.', 'Everything looks softer from the top of the wheel.'];
+if (window.MMNotes) MMNotes.load().then(function (l) { notes = (l || []).filter(function (n) { return n.text.length > 25 && n.text.length < 200; }); }).catch(function () {});
+
+function today() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+// angle of your gondola: 0 at the bottom, PI at the top
+function angle() {
+  if (rt < RISE) return Math.PI * ease(rt / RISE);
+  if (rt < RISE + PAUSE) return Math.PI;
+  return Math.PI + Math.PI * ease(Math.min(1, (rt - RISE - PAUSE) / FALL));
+}
+function ease(u) { return u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; }
+function geo() { var W = view.W, H = view.H, R = Math.min(W * .4, H * .36); return { cx: W / 2, cy: H - R - 70, R: R }; }
+function height() { return (1 - Math.cos(state === 'menu' ? 0 : angle())) / 2; }
+
+function newRide() { rt = 0; wishes = 0; shoot = []; shootT = 2; msgs = []; noteShown = false; noteEl.classList.remove('on'); state = 'ride'; S.bell(); }
+function showNote() {
+  noteShown = true;
+  var n = notes.length ? notes[Math.floor(Math.random() * notes.length)] : null;
+  var txt = n ? n.text : FALLBACK[Math.floor(Math.random() * FALLBACK.length)];
+  noteEl.innerHTML = '<span class="k">★ A NOTE FROM THE TOP OF THE SKY ★</span><p></p>' +
+    (n ? '<span class="by">Magick Mica · ' + MMNotes.pretty(n.d) + ' · <a target="_blank" rel="noopener">the note ↗</a></span>' : '<span class="by">Magick Mica</span>');
+  noteEl.querySelector('p').textContent = txt;
+  if (n) noteEl.querySelector('a').href = n.url;
+  noteEl.classList.add('on'); S.ding(true);
+}
+function wish(x, y) {
+  if (state !== 'ride') return;
+  S.boot();
+  var hit = null;
+  shoot.forEach(function (s) { if (!s.done && (x == null || Math.hypot(x - s.x, y - s.y) < 46)) hit = s; });
+  if (!hit) return;
+  hit.done = true; wishes++; S.ding(false); bits.sparkle(hit.x, hit.y, '#ffd166', 22);
+  msgs.push({ txt: 'WISH MADE ✨', x: Math.max(80, Math.min(view.W - 80, hit.x)), y: hit.y + 30, life: 1.4 });
+}
+cv.addEventListener('pointerdown', function (e) { e.preventDefault(); var p = MMC.pt(cv, e); wish(p.x, p.y); });
+addEventListener('keydown', function (e) { if (state === 'ride' && e.key === ' ') { e.preventDefault(); wish(); } });
+
+function step(dt) {
+  dt *= speed;
+  if (state === 'ride') {
+    rt += dt;
+    if (!noteShown && rt >= RISE + .4) showNote();
+    if (noteShown && rt >= RISE + PAUSE + 1.5) noteEl.classList.remove('on');
+    if (rt >= RISE + PAUSE + FALL) { state = 'ending'; endT = .6; }
+    shootT -= dt;
+    if (shootT <= 0) {
+      var h = height(), W = view.W;
+      shoot.push({ x: Math.random() * W * .8 + W * .1, y: 30 + Math.random() * view.H * .3, vx: (Math.random() < .5 ? -1 : 1) * (240 + Math.random() * 120), vy: 90 + Math.random() * 50, life: 1.3, done: false });
+      shootT = (3.6 - h * 2.2) * (.6 + Math.random() * .8);
+    }
+  }
+  shoot.forEach(function (s) { s.x += s.vx * dt; s.y += s.vy * dt; s.life -= dt; });
+  shoot = shoot.filter(function (s) { return s.life > 0 && !s.done; });
+  msgs.forEach(function (m) { m.life -= dt; m.y -= dt * 24; }); msgs = msgs.filter(function (m) { return m.life > 0; });
+  if (state === 'ending') { endT -= dt; if (endT <= 0) end(); }
+  bits.step(dt, view.H);
+}
+function end() {
+  state = 'done'; noteEl.classList.remove('on');
+  var paid = st.data.paid !== today();
+  st.data.rides++; st.data.wishes += wishes; if (paid) st.data.paid = today(); st.save(); stats();
+  if (paid && window.MMPrizes) MMPrizes.addTickets(2, 'Ferris Wheel');
+  S.bell();
+  document.getElementById('endTitle').textContent = 'WHAT A VIEW!';
+  document.getElementById('endText').textContent = 'You made ' + wishes + ' wish' + (wishes === 1 ? '' : 'es') + ' on shooting stars.' +
+    (paid ? ' Your first ride today earned 2 tickets.' : ' The ride is free anytime. Tickets come with your first ride each day.');
+  document.getElementById('endPrize').innerHTML = paid ? '<div class="prize"><span class="em">🎟</span><span><span class="tier">DAILY RIDE</span><span class="nm">+2 circus tickets</span></span></div>' : '';
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+function stats() {
+  document.getElementById('sRides').textContent = st.data.rides;
+  document.getElementById('sWishes').textContent = st.data.wishes;
+}
+
+/* ---------- drawing */
+var far = [];
+for (var i = 0; i < 120; i++) far.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.5 + .3, t: Math.random() * 6 });
+var COLS = ['#ff4fa3', '#5ff3e8', '#ffd166', '#b9a3ff'];
+function tent(x, y, w, h, c1, c2) {
+  for (var s = 0; s < 6; s++) {
+    ctx.fillStyle = s % 2 ? c2 : c1; ctx.beginPath();
+    ctx.moveTo(x, y - h); ctx.lineTo(x - w / 2 + s * w / 6, y); ctx.lineTo(x - w / 2 + (s + 1) * w / 6, y); ctx.closePath(); ctx.fill();
+  }
+  ctx.fillStyle = '#ffd166'; ctx.beginPath(); ctx.moveTo(x, y - h - 12); ctx.lineTo(x + 10, y - h - 8); ctx.lineTo(x, y - h - 4); ctx.fill();
+  ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x, y - h); ctx.lineTo(x, y - h - 12); ctx.stroke();
+}
+function gondola(x, y, mine, k, time) {
+  var sw = reduce ? 0 : Math.sin(time * 1.6 + k) * .06;
+  ctx.save(); ctx.translate(x, y); ctx.rotate(sw);
+  ctx.strokeStyle = '#d5c2dc'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, 10); ctx.stroke();
+  var c = mine ? '#ffd166' : COLS[k % COLS.length];
+  ctx.fillStyle = c; MMC.rr(ctx, -15, 8, 30, 6, 3); ctx.fill();        // roof
+  ctx.fillStyle = MMC.shade(c, -.35); MMC.rr(ctx, -13, 14, 26, 18, 5); ctx.fill(); // cabin
+  ctx.fillStyle = 'rgba(255,246,207,.9)'; MMC.rr(ctx, -9, 17, 18, 8, 3); ctx.fill();
+  if (mine) {
+    ctx.fillStyle = '#2f2f70'; ctx.beginPath(); ctx.arc(-3, 20, 3, 0, 6.28); ctx.arc(4, 20, 3, 0, 6.28); ctx.fill();
+  }
+  ctx.restore();
+}
+function draw(time) {
+  var W = view.W, H = view.H, g = geo(), h = height(), a = state === 'menu' ? 0 : angle();
+  // sky gets deeper the higher you go
+  var sg = ctx.createLinearGradient(0, 0, 0, H);
+  sg.addColorStop(0, h > .5 ? '#0b0f2c' : '#131c3f'); sg.addColorStop(.7, '#1a1450'); sg.addColorStop(1, '#2a1a4f');
+  ctx.fillStyle = sg; ctx.fillRect(0, 0, W, H);
+  far.forEach(function (s) {
+    ctx.globalAlpha = (reduce ? .7 : .4 + .4 * Math.sin(time * 1.3 + s.t)) * (.6 + h * .4); ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(s.x * W, s.y * H * (1 - h * .1) + h * 30, s.r * (1 + h * .5), 0, 6.28); ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+  // aurora shows up as you rise
+  if (h > .2) {
+    ctx.save(); ctx.globalAlpha = (h - .2) * .4;
+    var ag = ctx.createLinearGradient(0, 0, W, 0); ag.addColorStop(0, '#5ff3e8'); ag.addColorStop(.5, '#b9a3ff'); ag.addColorStop(1, '#ff7ac8');
+    ctx.strokeStyle = ag; ctx.lineWidth = 34; ctx.beginPath();
+    for (var x = 0; x <= W; x += 20) { var yy = H * .16 + Math.sin(x / 110 + time * .3) * 18; if (x) ctx.lineTo(x, yy); else ctx.moveTo(x, yy); }
+    ctx.stroke(); ctx.restore();
+  }
+  // moon
+  var my = H * .2 + (1 - h) * 40;
+  ctx.fillStyle = '#fff6cf'; ctx.shadowColor = '#fff6cf'; ctx.shadowBlur = 40; ctx.beginPath(); ctx.arc(W * .8, my, 30 + h * 10, 0, 6.28); ctx.fill(); ctx.shadowBlur = 0;
+  ctx.fillStyle = 'rgba(213,194,220,.35)'; ctx.beginPath(); ctx.arc(W * .8 - 8, my - 6, 6, 0, 6.28); ctx.arc(W * .8 + 10, my + 8, 4, 0, 6.28); ctx.fill();
+  // shooting stars
+  shoot.forEach(function (s) {
+    var len = 60, n = Math.hypot(s.vx, s.vy), tx = s.x - s.vx / n * len, ty = s.y - s.vy / n * len;
+    var lg = ctx.createLinearGradient(s.x, s.y, tx, ty); lg.addColorStop(0, 'rgba(255,246,207,1)'); lg.addColorStop(1, 'rgba(255,246,207,0)');
+    ctx.strokeStyle = lg; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(tx, ty); ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.shadowColor = '#ffd166'; ctx.shadowBlur = 14; ctx.beginPath(); ctx.arc(s.x, s.y, 3.5, 0, 6.28); ctx.fill(); ctx.shadowBlur = 0;
+  });
+
+  // camera: drift toward your gondola and zoom in a little as you rise
+  var gx = g.cx - Math.sin(a) * g.R, gy = g.cy + Math.cos(a) * g.R;
+  var z = 1 + h * .55, fx = W / 2 + (gx - W / 2) * .8 * h, fy = H / 2 + (gy - H / 2) * .8 * h;
+  ctx.save();
+  ctx.translate(W / 2, H / 2); ctx.scale(z, z); ctx.translate(-fx, -fy);
+  // ground, tents, string lights
+  var gr = g.cy + g.R + 40;
+  ctx.fillStyle = '#1b1240'; ctx.fillRect(-W, gr, W * 3, H * 2);
+  tent(g.cx - g.R * 1.25, gr, 120, 80, '#ff4fa3', '#fff6f0');
+  tent(g.cx + g.R * 1.3, gr, 150, 100, '#5ff3e8', '#b9a3ff');
+  tent(g.cx - g.R * 2.1, gr, 90, 60, '#ffd166', '#ff4fa3');
+  tent(g.cx + g.R * 2.2, gr, 100, 70, '#b9a3ff', '#fff6f0');
+  for (var l = -W; l < W * 2; l += 18) { ctx.fillStyle = COLS[Math.abs(Math.round(l / 18)) % 4]; ctx.globalAlpha = reduce ? .9 : .5 + .5 * Math.sin(time * 3 + l); ctx.beginPath(); ctx.arc(l, gr + 6 + Math.sin(l / 40) * 4, 2.5, 0, 6.28); ctx.fill(); }
+  ctx.globalAlpha = 1;
+  // legs
+  ctx.strokeStyle = '#5146a2'; ctx.lineWidth = 8; ctx.beginPath();
+  ctx.moveTo(g.cx - g.R * .55, gr); ctx.lineTo(g.cx, g.cy); ctx.lineTo(g.cx + g.R * .55, gr); ctx.stroke();
+  // wheel: rotation so that your gondola (index 0) sits at angle a from the bottom
+  var rot = a;
+  ctx.strokeStyle = 'rgba(213,194,220,.55)'; ctx.lineWidth = 2;
+  for (var k = 0; k < N; k++) { var th = rot + k / N * Math.PI * 2; ctx.beginPath(); ctx.moveTo(g.cx, g.cy); ctx.lineTo(g.cx - Math.sin(th) * g.R, g.cy + Math.cos(th) * g.R); ctx.stroke(); }
+  ctx.strokeStyle = '#ff4fa3'; ctx.lineWidth = 6; ctx.beginPath(); ctx.arc(g.cx, g.cy, g.R, 0, 6.28); ctx.stroke();
+  ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(g.cx, g.cy, g.R * .62, 0, 6.28); ctx.stroke();
+  // rim lights
+  for (var b = 0; b < 48; b++) {
+    var tb = rot + b / 48 * Math.PI * 2; ctx.fillStyle = COLS[b % 4]; ctx.globalAlpha = reduce ? .9 : .45 + .55 * Math.abs(Math.sin(time * 2 + b * .5));
+    ctx.beginPath(); ctx.arc(g.cx - Math.sin(tb) * g.R, g.cy + Math.cos(tb) * g.R, 2.6, 0, 6.28); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = '#ffd166'; MMC.star(ctx, g.cx, g.cy, 14, 5, .45); ctx.fill();
+  for (k = 0; k < N; k++) {
+    var t2 = rot + k / N * Math.PI * 2;
+    gondola(g.cx - Math.sin(t2) * g.R, g.cy + Math.cos(t2) * g.R, k === 0, k, time);
+  }
+  ctx.restore();
+
+  // HUD
+  if (state === 'ride') {
+    var hh = Math.round(h * 100);
+    MMC.label(ctx, 'HEIGHT ' + hh + '%', 12, 22, '#5ff3e8', 10, 'left');
+    MMC.label(ctx, 'WISHES ' + wishes, W - 12, 22, '#ffd166', 10, 'right');
+    if (rt < 6) { ctx.globalAlpha = reduce ? 1 : .55 + .45 * Math.sin(time * 4); MMC.label(ctx, 'TAP A SHOOTING STAR TO MAKE A WISH', W / 2, 46, '#fff6cf', 10); ctx.globalAlpha = 1; }
+  }
+  msgs.forEach(function (m) { ctx.globalAlpha = Math.max(0, Math.min(1, m.life)); MMC.bigText(ctx, m.txt, m.x, m.y, 18, '#ffd166'); ctx.globalAlpha = 1; });
+  bits.draw(ctx);
+}
+
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; newRide(); }
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+stats();
+MMC.loop(function (dt, time) { step(dt); draw(time); });
+window.__ferris = { get state() { return state; }, set speed(v) { speed = v; }, get rt() { return rt; }, set rt(v) { rt = v; }, wish: wish, shoot: function () { return shoot; }, get wishes() { return wishes; }, get score() { return wishes; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>
