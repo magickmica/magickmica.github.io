@@ -114,7 +114,13 @@
     try {
       var el = document.createElement('div');
       el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Daily visit prize');
-      el.style.cssText = 'position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:10000;width:min(360px,calc(100vw - 32px));' +
+      /* on a game, the bottom of the screen is where you play (the mug, the ramp, the hoop),
+         so the card goes to the top there and steps aside as soon as you start playing;
+         the lobby pages keep it at the bottom */
+      var page = (location.pathname.split('/').pop() || 'index.html').toLowerCase(),
+          lobby = /^(index|arcade|my-prizes|ticket-booth|winter-carnival)(\.html)?$/.test(page);
+      el.style.cssText = 'position:fixed;left:50%;' + (lobby ? 'bottom:18px;' : 'top:calc(12px + env(safe-area-inset-top,0px));') +
+        'transform:translateX(-50%);z-index:10000;width:min(360px,calc(100vw - 32px));' +
         'padding:16px 18px 14px;border-radius:18px;text-align:center;color:#fff;font:14px/1.45 "IBM Plex Mono",monospace;' +
         'background:linear-gradient(160deg,#2f2f70,#131c3f);border:2px solid #ffd166;box-shadow:0 0 0 4px rgba(4,5,9,.6),0 18px 50px rgba(0,0,0,.6),0 0 40px rgba(255,209,102,.3)';
       var dots = '';
@@ -126,9 +132,19 @@
         (r.spin ? '<br><b style="color:#ff4fa3">7-day streak: a free bonus spin on the Prize Wheel!</b>' : '') + '</div>' +
         '<div style="margin:10px 0 8px">' + dots + '</div>' +
         '<button type="button" style="font:12px Silkscreen,monospace;letter-spacing:.12em;padding:9px 18px;border-radius:999px;border:0;cursor:pointer;color:#040509;background:linear-gradient(90deg,#ffd166,#ff4fa3)">YAY! ✨</button>';
-      el.querySelector('button').onclick = function () { el.remove(); };
+      function close() {
+        if (el.parentNode) el.remove();
+        document.removeEventListener('pointerdown', onPlay, true);
+        document.removeEventListener('keydown', onPlay, true);
+      }
+      function onPlay(e) { if (!el.contains(e.target)) close(); }
+      el.querySelector('button').onclick = close;
       document.body.appendChild(el);
-      setTimeout(function () { if (el.parentNode) el.remove(); }, 12000);
+      if (!lobby) {
+        document.addEventListener('pointerdown', onPlay, true);
+        document.addEventListener('keydown', onPlay, true);
+      }
+      setTimeout(close, 12000);
     } catch (e) {}
     return r;
   }
