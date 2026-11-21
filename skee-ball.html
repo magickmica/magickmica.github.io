@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Skee-Ball to the Moon &middot; MagickMica</title>
+<meta name="description" content="A Cosmic Circus game: roll little planets up the lane and hop them into the glowing crater rings. Nine balls, the corner holes pay 100. Win prizes for your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/skee-ball.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Skee-Ball to the Moon · Magick Mica Arcade">
+<meta property="og:description" content="Roll a planet up the ramp into the rings. The corner holes pay 100.">
+<meta property="og:url" content="https://magickmica.github.io/skee-ball.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
+    <h1>SKEE-BALL TO THE MOON</h1>
+    <p class="tag">Roll a planet up the ramp into the rings. The corner holes pay 100.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ ROLL IT TO THE MOON ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Skee-ball. Swipe up to roll a ball at the target rings."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+          <p>Nine planet balls. Swipe up the lane to roll one. Swipe left or right to aim, and how fast you swipe decides how far it flies. The middle ring pays 50, and the two little gold holes at the top corners pay 100.</p>
+          <div class="lbl">How wild</div>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="wild" aria-pressed="false">Wild</button>
+          </div>
+          <button class="go" id="startBtn" type="button">🪐 ROLL OUT</button>
+          <div class="howto"><b>Touch or mouse:</b> swipe upward. A gentle swipe stays low, a fast one reaches the top.<br><b>Keyboard:</b> ← / → to aim, hold space and let go when the power bar is right.<br><b>Prizes:</b> 180 points for a small prize, 270 for a big one, 360 for a JUMBO.</div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">🪐 ROLL AGAIN</button>
+            <a class="ghost" href="arcade.html#circus">Back to the circus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">BEST<b id="sBest">0</b></span>
+      <span class="stat">HUNDREDS<b id="sHundreds">0</b></span>
+      <span class="stat">ROUNDS<b id="sRounds">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>180 points for a small prize, 270 for a big one, 360 for a JUMBO. Prizes from every game at the circus land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=4"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_skee_v1', { best: 0, hundreds: 0, rounds: 0 });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .68, 500), 620)); });
+var ctx = view.ctx;
+
+var DIFF = { easy: .5, normal: 1, wild: 1.7 }, diffKey = 'normal', BALLS = 9;
+var balls = BALLS, score = 0, hundreds = 0, state = 'menu', ball = null, msgs = [], endT = 0, t = 0, trail = [];
+var drag = null, meter = null, aimK = 0;
+
+function geo() {
+  var W = view.W, H = view.H, bw = Math.min(W * .82, 420);
+  var board = { x: (W - bw) / 2, y: 46, w: bw, h: H * .44 };
+  var cx = W / 2, cy = board.y + board.h * .62, R = Math.min(bw * .4, board.h * .42);
+  return { W: W, H: H, board: board, cx: cx, cy: cy, rings: [R * .2, R * .42, R * .64, R * .86], R: R,
+    holes: [{ x: board.x + bw * .13, y: board.y + board.h * .16, r: Math.max(13, bw * .045) }, { x: board.x + bw * .87, y: board.y + board.h * .16, r: Math.max(13, bw * .045) }],
+    rampY: board.y + board.h + 18, laneBot: H - 66, laneTopW: bw * .55, laneBotW: Math.min(W * .7, 360) };
+}
+function newRound() { balls = BALLS; score = 0; hundreds = 0; ball = null; msgs = []; trail = []; state = 'play'; }
+
+/* ---------- rolling */
+function roll(aim, power) {
+  if (state !== 'play' || ball || balls <= 0) return;
+  S.boot(); balls--;
+  var g = geo(), w = DIFF[diffKey];
+  aim = Math.max(-1, Math.min(1, aim)); power = Math.max(.05, Math.min(1.15, power));
+  var nx = (Math.random() - .5) * .08 * w, np = (Math.random() - .5) * .1 * w;
+  // where it will land on the board
+  var tx = g.cx + (aim + nx) * g.board.w * .55;
+  var ty = g.board.y + g.board.h - (power + np) * g.board.h * 1.05;
+  ball = { u: 0, aim: aim, sx: g.W / 2 + aim * 20, tx: tx, ty: ty, power: power };
+  S.tone(90, 0, .9, .12, 'triangle', 60); S.noise(.8, .05, 600);
+}
+cv.addEventListener('pointerdown', function (e) {
+  if (state !== 'play' || ball) return; e.preventDefault(); S.boot();
+  var p = MMC.pt(cv, e); drag = { x: p.x, y: p.y, x2: p.x, y2: p.y, t: performance.now(), hist: [{ x: p.x, y: p.y, t: performance.now() }] };
+  try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+});
+cv.addEventListener('pointermove', function (e) {
+  if (!drag) return; var p = MMC.pt(cv, e), now = performance.now();
+  drag.x2 = p.x; drag.y2 = p.y; drag.hist.push({ x: p.x, y: p.y, t: now }); while (drag.hist.length > 6) drag.hist.shift();
+});
+cv.addEventListener('pointerup', function () {
+  if (!drag) return; var d = drag; drag = null;
+  var a = d.hist[0], b = d.hist[d.hist.length - 1], dt = Math.max(16, b.t - a.t);
+  var vy = (a.y - b.y) / dt, total = d.y - d.y2;
+  if (total < 30 || vy <= 0) return;
+  var dx = d.x2 - d.x, aim = dx / Math.max(80, total) * 1.4;
+  roll(aim, vy / 2.2);
+});
+addEventListener('keydown', function (e) {
+  if (state !== 'play') return;
+  if (['ArrowLeft', 'ArrowRight', ' '].indexOf(e.key) > -1) e.preventDefault();
+  if (e.key === 'ArrowLeft') aimK = Math.max(-1, aimK - .1);
+  if (e.key === 'ArrowRight') aimK = Math.min(1, aimK + .1);
+  if (e.key === ' ' && !e.repeat && !ball) meter = { u: 0 };
+});
+addEventListener('keyup', function (e) {
+  if (e.key === ' ' && meter && state === 'play') { var m = meter; meter = null; roll(aimK, .15 + .95 * (1 - Math.abs(1 - (m.u % 2)))); }
+});
+
+function scoreAt(x, y) {
+  var g = geo();
+  for (var i = 0; i < g.holes.length; i++) { var h = g.holes[i]; if (Math.hypot(x - h.x, y - h.y) < h.r * 1.15) return { pts: 100, x: h.x, y: h.y }; }
+  var d = Math.hypot(x - g.cx, (y - g.cy) * 1.05);
+  var vals = [50, 40, 30, 20];
+  for (var k = 0; k < 4; k++) if (d < g.rings[k]) return { pts: vals[k], x: g.cx, y: g.cy };
+  var b = g.board;
+  if (x > b.x && x < b.x + b.w && y > b.y && y < b.y + b.h) return { pts: 10, x: x, y: b.y + b.h - 18 };
+  return { pts: 0, x: x, y: y };
+}
+function step(dt) {
+  t += dt;
+  if (meter) meter.u += dt * 1.6;
+  if (ball) {
+    var g = geo();
+    ball.u += dt / 1.25;
+    if (ball.u >= 1 && !ball.done) {
+      ball.done = true;
+      var r = scoreAt(ball.tx, ball.ty);
+      score += r.pts;
+      if (r.pts === 100) { hundreds++; S.fanfare(); bits.burst(r.x, r.y, '#ffd166', true); }
+      else if (r.pts >= 40) { S.ding(true); bits.burst(r.x, r.y, '#5ff3e8', true); }
+      else if (r.pts > 0) { S.ding(false); bits.sparkle(r.x, r.y, '#ff4fa3', 14); }
+      else S.thud();
+      msgs.push({ txt: r.pts ? '+' + r.pts : 'GUTTER', x: Math.max(70, Math.min(g.W - 70, r.x)), y: r.y - 10, life: 1.2, gold: r.pts >= 40 });
+      ball.fade = .35;
+    }
+    if (ball.done) { ball.fade -= dt; if (ball.fade <= 0) ball = null; }
+  }
+  msgs.forEach(function (m) { m.life -= dt; m.y -= dt * 30; }); msgs = msgs.filter(function (m) { return m.life > 0; });
+  if (state === 'play' && balls <= 0 && !ball) { state = 'ending'; endT = .9; }
+  if (state === 'ending') { endT -= dt; if (endT <= 0) end(); }
+  bits.step(dt, view.H);
+}
+function ballPos() {
+  var g = geo(), u = Math.min(1, ball.u);
+  if (u < .62) { // up the lane
+    var k = u / .62, y = g.laneBot - 10 - k * (g.laneBot - 10 - g.rampY), x = ball.sx + (ball.tx - ball.sx) * k * .45;
+    return { x: x, y: y, s: 16 - k * 6, air: 0 };
+  }
+  var k2 = (u - .62) / .38, x0 = ball.sx + (ball.tx - ball.sx) * .45, y0 = g.rampY;
+  return { x: x0 + (ball.tx - x0) * k2, y: y0 + (ball.ty - y0) * k2 - Math.sin(Math.PI * k2) * 50 * (.4 + ball.power * .6), s: 10 - k2 * 2, air: 1 };
+}
+function end() {
+  state = 'done';
+  if (window.MMPrizes) MMPrizes.addTickets(1 + Math.floor(score / 60), 'Skee-Ball');
+  st.data.rounds++; st.data.hundreds += hundreds; var isBest = score > st.data.best; if (isBest) st.data.best = score; st.save(); stats();
+  var tier = score >= 360 ? 'jumbo' : score >= 270 ? 'medium' : score >= 180 ? 'small' : null;
+  var title = document.getElementById('endTitle'), text = document.getElementById('endText'), pz = document.getElementById('endPrize');
+  if (tier) {
+    var p = MMC.award(tier, 'Skee-Ball'); S.fanfare(); bits.confetti(view.W, view.H);
+    title.textContent = tier === 'jumbo' ? 'TO THE MOON!' : 'WINNER!';
+    text.textContent = score + ' points' + (hundreds ? ', with ' + hundreds + ' hundred' + (hundreds > 1 ? 's' : '') : '') + '.' + (isBest ? ' New best!' : '');
+    pz.innerHTML = p ? MMC.prizeCard(p) : '';
+  } else {
+    S.womp(); title.textContent = 'SO CLOSE!';
+    text.textContent = score + ' points. You need 180 for a prize. A medium-fast roll lands in the middle rings.';
+    pz.innerHTML = '';
+  }
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+function stats() {
+  document.getElementById('sBest').textContent = st.data.best;
+  document.getElementById('sHundreds').textContent = st.data.hundreds;
+  document.getElementById('sRounds').textContent = st.data.rounds;
+}
+
+/* ---------- drawing */
+function planetBall(x, y, s) {
+  var g = ctx.createRadialGradient(x - s * .4, y - s * .4, 1, x, y, s);
+  g.addColorStop(0, '#fff'); g.addColorStop(.35, '#ff7ac8'); g.addColorStop(1, '#5146a2');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, s, 0, 6.28); ctx.fill();
+  ctx.strokeStyle = 'rgba(255,209,102,.8)'; ctx.lineWidth = Math.max(1.5, s * .18); ctx.beginPath(); ctx.ellipse(x, y, s * 1.5, s * .4, -.3, 0, 6.28); ctx.stroke();
+}
+function draw(time) {
+  var g = geo(), W = g.W, H = g.H, b = g.board;
+  MMC.sky(ctx, W, H, time);
+  // board
+  ctx.fillStyle = '#2f2f70'; MMC.rr(ctx, b.x - 10, b.y - 10, b.w + 20, b.h + 20, 22); ctx.fill();
+  var bg = ctx.createLinearGradient(0, b.y, 0, b.y + b.h); bg.addColorStop(0, '#5146a2'); bg.addColorStop(1, '#9667ba');
+  ctx.fillStyle = bg; MMC.rr(ctx, b.x, b.y, b.w, b.h, 16); ctx.fill();
+  // bulbs round the board
+  for (var i = 0; i <= 14; i++) { var bx = b.x + b.w * i / 14; ctx.fillStyle = (i + Math.floor(time * 3)) % 2 ? '#ffd166' : '#5ff3e8'; ctx.beginPath(); ctx.arc(bx, b.y - 10, 3.5, 0, 6.28); ctx.fill(); }
+  // rings, outer to inner
+  var cols = ['#2f2f70', '#5146a2', '#2f2f70', '#5146a2'], vals = [20, 30, 40, 50];
+  for (var k = 3; k >= 0; k--) {
+    ctx.fillStyle = k % 2 ? '#3d2f86' : '#272366'; ctx.beginPath(); ctx.ellipse(g.cx, g.cy, g.rings[k], g.rings[k] * .95, 0, 0, 6.28); ctx.fill();
+    ctx.strokeStyle = k === 0 ? '#ffd166' : 'rgba(95,243,232,.7)'; ctx.lineWidth = 3; ctx.stroke();
+  }
+  ctx.fillStyle = '#0c0b22'; ctx.beginPath(); ctx.arc(g.cx, g.cy, g.rings[0] * .62, 0, 6.28); ctx.fill();
+  MMC.label(ctx, '50', g.cx, g.cy + 4, '#ffd166', 10);
+  [40, 30, 20].forEach(function (v, i) { MMC.label(ctx, String(v), g.cx, g.cy - (g.rings[i + 1] + g.rings[i]) / 2 * .95 + 4, '#d5c2dc', 10); });
+  MMC.label(ctx, '10', g.cx, b.y + b.h - 8, '#d5c2dc', 10);
+  g.holes.forEach(function (h) {
+    ctx.fillStyle = '#0c0b22'; ctx.beginPath(); ctx.arc(h.x, h.y, h.r, 0, 6.28); ctx.fill();
+    ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 3; ctx.shadowColor = '#ffd166'; ctx.shadowBlur = 10; ctx.stroke(); ctx.shadowBlur = 0;
+    MMC.label(ctx, '100', h.x, h.y + h.r + 13, '#ffd166', 10);
+  });
+  // moon over the board
+  ctx.fillStyle = '#fff3dc'; ctx.beginPath(); ctx.arc(g.cx, b.y + 18, 9, 0, 6.28); ctx.fill();
+  // ramp + lane (perspective)
+  var lt = g.laneTopW / 2, lb = g.laneBotW / 2;
+  var lg = ctx.createLinearGradient(0, g.rampY, 0, g.laneBot); lg.addColorStop(0, '#2f2f70'); lg.addColorStop(1, '#5146a2');
+  ctx.fillStyle = lg; ctx.beginPath(); ctx.moveTo(W / 2 - lt, g.rampY); ctx.lineTo(W / 2 + lt, g.rampY); ctx.lineTo(W / 2 + lb, g.laneBot); ctx.lineTo(W / 2 - lb, g.laneBot); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = '#ff4fa3'; ctx.lineWidth = 4; ctx.stroke();
+  for (var s2 = 1; s2 < 6; s2++) { var f = s2 / 6, yy = g.rampY + (g.laneBot - g.rampY) * f * f; ctx.strokeStyle = 'rgba(255,255,255,.06)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(W / 2 - lt - (lb - lt) * f * f, yy); ctx.lineTo(W / 2 + lt + (lb - lt) * f * f, yy); ctx.stroke(); }
+  ctx.fillStyle = '#ffd166'; ctx.fillRect(W / 2 - lt, g.rampY - 6, lt * 2, 6); // the hump
+  // ball
+  if (ball) {
+    var p = ballPos();
+    ctx.globalAlpha = ball.done ? Math.max(0, ball.fade / .35) : 1;
+    if (!p.air) { ctx.fillStyle = 'rgba(0,0,0,.3)'; ctx.beginPath(); ctx.ellipse(p.x, p.y + p.s * .9, p.s, p.s * .3, 0, 0, 6.28); ctx.fill(); }
+    planetBall(p.x, p.y, p.s); ctx.globalAlpha = 1;
+  } else if (state === 'play' && balls > 0) {
+    planetBall(W / 2 + (meter ? aimK * 20 : 0), g.laneBot - 10, 16);
+  }
+  // swipe guide
+  if (drag) {
+    ctx.strokeStyle = 'rgba(95,243,232,.8)'; ctx.lineWidth = 4; ctx.setLineDash([8, 8]);
+    ctx.beginPath(); ctx.moveTo(drag.x, drag.y); ctx.lineTo(drag.x2, drag.y2); ctx.stroke(); ctx.setLineDash([]);
+  }
+  // counter
+  var cy = H - 52, cg = ctx.createLinearGradient(0, cy, 0, H); cg.addColorStop(0, '#5146a2'); cg.addColorStop(1, '#2f2f70');
+  ctx.fillStyle = cg; ctx.fillRect(0, cy, W, 52); ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.fillRect(0, cy, W, 2);
+  for (var n = 0; n < balls; n++) planetBall(18 + n * 20, cy + 26, 6);
+  MMC.label(ctx, 'SCORE ' + score, W - 12, cy + 31, '#ffd166', 12, 'right');
+  if (meter) {
+    var m = 1 - Math.abs(1 - (meter.u % 2)), mw = Math.min(200, W * .4);
+    ctx.fillStyle = 'rgba(255,255,255,.15)'; ctx.fillRect(W / 2 - mw / 2, cy - 22, mw, 10);
+    ctx.fillStyle = '#ff4fa3'; ctx.fillRect(W / 2 - mw / 2, cy - 22, mw * m, 10);
+  } else if (state === 'play' && balls === BALLS && !ball && !drag) {
+    ctx.globalAlpha = reduce ? 1 : .55 + .45 * Math.sin(time * 4);
+    MMC.label(ctx, 'SWIPE UP TO ROLL', W / 2, cy - 12, '#5ff3e8', 10); ctx.globalAlpha = 1;
+  }
+  msgs.forEach(function (m) { ctx.globalAlpha = Math.max(0, Math.min(1, m.life)); MMC.bigText(ctx, m.txt, m.x, m.y, m.gold ? 30 : 22, m.gold ? '#ffd166' : '#ff4fa3'); ctx.globalAlpha = 1; });
+  bits.draw(ctx);
+}
+
+document.getElementById('diffSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
+  this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; newRound(); }
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+stats();
+MMC.loop(function (dt, time) { step(dt); draw(time); });
+window.__skee = { get state() { return state; }, roll: roll, geo: geo, get score() { return score; }, get balls() { return balls; }, get ball() { return ball; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>

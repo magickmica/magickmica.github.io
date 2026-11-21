@@ -735,6 +735,9 @@ body::before{background:
 .cab-row--4{grid-template-columns:repeat(4,1fr)}
 .cab-row--5{grid-template-columns:repeat(5,1fr)}
 .cab-row--3{margin-top:4px}
+.cab-row--7{grid-template-columns:repeat(8,1fr)}
+.cab-row--7>.cab{grid-column:span 2}
+.cab-row--7>.cab:nth-child(5){grid-column:2 / span 2}
 .side-head{margin:clamp(18px,3vw,26px) 0 10px;text-align:center;font-family:Silkscreen,monospace;font-size:.72rem;letter-spacing:.24em;color:var(--gold,#ffd166);text-shadow:0 0 10px rgba(255,209,102,.5)}
 .cab-row--5 .cab-mq{font-size:.68rem;letter-spacing:.06em}
 .counter{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(12px,2vw,20px);margin-top:clamp(14px,2vw,20px)}
@@ -760,7 +763,7 @@ body::before{background:
 .counter .shelf-row .it.rare{font-size:1.9rem;width:44px;height:44px;border-radius:10px;background:radial-gradient(circle,rgba(95,243,232,.22),transparent 70%);filter:drop-shadow(0 0 8px rgba(95,243,232,.6))}
 .counter .shelf-row .it.fortune{font-size:1.4rem;width:34px;height:42px;border-radius:5px;border:1px solid rgba(255,209,102,.55);background:linear-gradient(160deg,rgba(150,103,186,.35),rgba(19,28,63,.6))}
 .counter .shelf-row .empty{font-size:.74rem;color:var(--pearl-dim);align-self:center;padding-left:4px}
-@media(max-width:860px){ .cab-row--4,.cab-row--5{grid-template-columns:repeat(2,1fr)} .cab-row--5>.cab:last-child,.cab-row--3>.cab:last-child{grid-column:1 / -1} .cab-row--5>.cab:last-child .cab-scr,.cab-row--3>.cab:last-child .cab-scr{aspect-ratio:32/10} .counter{grid-template-columns:1fr} }
+@media(max-width:860px){ .cab-row--4,.cab-row--5,.cab-row--7{grid-template-columns:repeat(2,1fr)} .cab-row--7>.cab,.cab-row--7>.cab:nth-child(5){grid-column:auto} .cab-row--7>.cab:last-child{grid-column:1 / -1} .cab-row--7>.cab:last-child .cab-scr{aspect-ratio:32/10} .cab-row--5>.cab:last-child,.cab-row--3>.cab:last-child{grid-column:1 / -1} .cab-row--5>.cab:last-child .cab-scr,.cab-row--3>.cab:last-child .cab-scr{aspect-ratio:32/10} .counter{grid-template-columns:1fr} }
 @media(prefers-reduced-motion:reduce){ .wheel-ico{animation:none} }
 
 /* ---------- the Midway as a cosmic big-top tent ---------- */
@@ -841,7 +844,7 @@ body::before{background:
   <div class="hud-row">
     <span class="hud"><b>1UP</b> YOU</span>
     <span class="hud blink">CREDITS ∞</span>
-    <span class="hud"><b>GAMES+TOYS</b> 30</span>
+    <span class="hud"><b>GAMES+TOYS</b> 37</span>
   </div>
   <nav class="jump" aria-label="Jump to">
     <a href="#circus" class="j-new">🎪 The Circus</a>
@@ -853,8 +856,8 @@ body::before{background:
 </header>
 
 <div class="ticker" aria-hidden="true"><div class="ticker-in">
-  <span>★ THE COSMIC CIRCUS IS OPEN</span><span>★ NEW: FORTUNE TELLER · TICKET BOOTH · PHOTO BOOTH</span><span>★ CLOWN SPLASH · RING TOSS · MOON STRIKER · STAR DARTS</span><span>★ ONE FREE SPIN A DAY ON THE PRIZE WHEEL</span><span>★ THE WITCHING HOUR IS OPEN ALL NIGHT</span><span>★ SIX MORE GAMES IN THE SIX-IN-ONE</span>
-  <span>★ THE COSMIC CIRCUS IS OPEN</span><span>★ NEW: FORTUNE TELLER · TICKET BOOTH · PHOTO BOOTH</span><span>★ CLOWN SPLASH · RING TOSS · MOON STRIKER · STAR DARTS</span><span>★ ONE FREE SPIN A DAY ON THE PRIZE WHEEL</span><span>★ THE WITCHING HOUR IS OPEN ALL NIGHT</span><span>★ SIX MORE GAMES IN THE SIX-IN-ONE</span>
+  <span>★ THE COSMIC CIRCUS IS OPEN</span><span>★ NEW: DUCK POND · CLAW MACHINE · WHACK-AN-ALIEN · SKEE-BALL</span><span>★ NEW: COIN PUSHER · STAR BLASTER · HOOP SHOT</span><span>★ FORTUNE TELLER · TICKET BOOTH · PHOTO BOOTH</span><span>★ CLOWN SPLASH · RING TOSS · MOON STRIKER · STAR DARTS</span><span>★ ONE FREE SPIN A DAY ON THE PRIZE WHEEL</span><span>★ THE WITCHING HOUR IS OPEN ALL NIGHT</span><span>★ SIX MORE GAMES IN THE SIX-IN-ONE</span>
+  <span>★ THE COSMIC CIRCUS IS OPEN</span><span>★ NEW: DUCK POND · CLAW MACHINE · WHACK-AN-ALIEN · SKEE-BALL</span><span>★ NEW: COIN PUSHER · STAR BLASTER · HOOP SHOT</span><span>★ FORTUNE TELLER · TICKET BOOTH · PHOTO BOOTH</span><span>★ CLOWN SPLASH · RING TOSS · MOON STRIKER · STAR DARTS</span><span>★ ONE FREE SPIN A DAY ON THE PRIZE WHEEL</span><span>★ THE WITCHING HOUR IS OPEN ALL NIGHT</span><span>★ SIX MORE GAMES IN THE SIX-IN-ONE</span>
 </div></div>
 
 <a class="feature" href="#circus">
@@ -914,6 +917,16 @@ body::before{background:
     <a class="cab is-new" href="ring-toss.html" style="--c:#5ff3e8;--c2:#9667ba"><span class="cab-mq">RING TOSS</span><span class="cab-scr"><span class="cab-ico">🪐</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Flick glowing rings onto drifting planet bottles. The back row pays more.</span><span class="cab-btn">PLAY ▸</span></a>
     <a class="cab is-new" href="moon-striker.html" style="--c:#ffd166;--c2:#ff4fa3"><span class="cab-mq">MOON STRIKER</span><span class="cab-scr"><span class="cab-ico">🔨</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Swing at the perfect moment and send the puck up to ring the moon bell.</span><span class="cab-btn">PLAY ▸</span></a>
     <a class="cab is-new" href="star-darts.html" style="--c:#9667ba;--c2:#ffd166"><span class="cab-mq">STAR DARTS</span><span class="cab-scr"><span class="cab-ico">🌠</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Throw shooting stars at a wall of drifting balloons. Gold ones score triple.</span><span class="cab-btn">PLAY ▸</span></a>
+  </div>
+  <p class="side-head">✦ MORE CIRCUS GAMES ✦</p>
+  <div class="cab-row cab-row--7">
+    <a class="cab is-new" href="duck-pond.html" style="--c:#5ff3e8;--c2:#ffd166"><span class="cab-mq">DUCK POND</span><span class="cab-scr"><span class="cab-ico">🦆</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Hook a floating duck and flip it. Gold ducks pay big.</span><span class="cab-btn">HOOK ▸</span></a>
+    <a class="cab is-new" href="claw-machine.html" style="--c:#ff4fa3;--c2:#9667ba"><span class="cab-mq">CLAW MACHINE</span><span class="cab-scr"><span class="cab-ico">🧸</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Steer the claw, drop it, and carry a plushy home.</span><span class="cab-btn">GRAB ▸</span></a>
+    <a class="cab is-new" href="whack-an-alien.html" style="--c:#7dffb0;--c2:#ff4fa3"><span class="cab-mq">WHACK-AN-ALIEN</span><span class="cab-scr"><span class="cab-ico">👽</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Bop the aliens back into their craters. Spare the bunnies.</span><span class="cab-btn">BOP ▸</span></a>
+    <a class="cab is-new" href="skee-ball.html" style="--c:#ffd166;--c2:#5ff3e8"><span class="cab-mq">SKEE-BALL</span><span class="cab-scr"><span class="cab-ico">🎳</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Roll planets up the ramp. The corner holes pay 100.</span><span class="cab-btn">ROLL ▸</span></a>
+    <a class="cab is-new" href="coin-pusher.html" style="--c:#ffd166;--c2:#ff4fa3"><span class="cab-mq">COIN PUSHER</span><span class="cab-scr"><span class="cab-ico">🪙</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Drop star coins and shove the pile over the edge.</span><span class="cab-btn">DROP ▸</span></a>
+    <a class="cab is-new" href="shooting-gallery.html" style="--c:#9667ba;--c2:#5ff3e8"><span class="cab-mq">STAR BLASTER</span><span class="cab-scr"><span class="cab-ico">🎯</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Blast the gliding planets and catch the golden UFO.</span><span class="cab-btn">BLAST ▸</span></a>
+    <a class="cab is-new" href="hoop-shot.html" style="--c:#ff7a1a;--c2:#ffd166"><span class="cab-mq">HOOP SHOT</span><span class="cab-scr"><span class="cab-ico">🏀</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Swipe to sink baskets. Three in a row and you are on fire.</span><span class="cab-btn">SHOOT ▸</span></a>
   </div>
   <p class="side-head">✦ SIDESHOW BOOTHS ✦</p>
   <div class="cab-row cab-row--3">

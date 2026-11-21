@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Big Top Hoop Shot &middot; MagickMica</title>
+<meta name="description" content="A Cosmic Circus hoop booth: swipe to shoot star balls through the hoop before the clock runs out. Three in a row and you are on fire. Win prizes for your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/hoop-shot.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Big Top Hoop Shot · Magick Mica Arcade">
+<meta property="og:description" content="Swipe up to shoot. Three in a row and you are on fire.">
+<meta property="og:url" content="https://magickmica.github.io/hoop-shot.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
+    <h1>BIG TOP HOOP SHOT</h1>
+    <p class="tag">Swipe up to shoot. Three in a row and you are on fire.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ SINK IT · WIN IT ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Hoop shot. Swipe up to shoot the ball at the hoop."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+          <p>Forty seconds. Swipe up to shoot. Aim with the direction of your swipe, and how fast you swipe decides how hard you throw. Every basket is 2 points, or 3 once you are on fire with three in a row. On Normal and Wild the hoop starts to slide after ten seconds.</p>
+          <div class="lbl">How wild</div>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="wild" aria-pressed="false">Wild</button>
+          </div>
+          <button class="go" id="startBtn" type="button">🏀 TIP OFF</button>
+          <div class="howto"><b>Touch or mouse:</b> swipe upward toward the hoop. A steady, medium-fast swipe works best.<br><b>Keyboard:</b> ← / → to aim, hold space and let go when the bar is in the glowing zone.<br><b>Prizes:</b> 16 points for a small prize, 30 for a big one, 44 for a JUMBO.</div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">🏀 SHOOT AGAIN</button>
+            <a class="ghost" href="arcade.html#circus">Back to the circus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">BEST<b id="sBest">0</b></span>
+      <span class="stat">BASKETS<b id="sBaskets">0</b></span>
+      <span class="stat">ROUNDS<b id="sRounds">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>16 points for a small prize, 30 for a big one, 44 for a JUMBO. Prizes from every game at the circus land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=4"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_hoopshot_v1', { best: 0, baskets: 0, rounds: 0 });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .66, 480), 600)); });
+var ctx = view.ctx;
+
+var DIFF = { easy: { tol: .17, move: 0 }, normal: { tol: .12, move: 1 }, wild: { tol: .09, move: 1.8 } };
+var diffKey = 'normal', TIME = 40, SWEET = .62;
+var score = 0, baskets = 0, streak = 0, shotsTaken = 0, state = 'menu', clock = TIME, ball = null, msgs = [], endT = 0, t = 0, hoopX = 0, net = 0;
+var drag = null, meter = null, aimK = 0;
+
+function geo() { var W = view.W, H = view.H; return { W: W, H: H, hy: H * .27, rim: Math.max(30, Math.min(44, W / 14)), by: H - 96 }; }
+function newRound() { score = 0; baskets = 0; streak = 0; shotsTaken = 0; clock = TIME; ball = null; msgs = []; state = 'play'; hoopX = view.W / 2; }
+
+function shoot(aim, power) {
+  if (state !== 'play' || ball) return;
+  S.boot(); shotsTaken++;
+  var g = geo(), d = DIFF[diffKey];
+  aim = Math.max(-1.2, Math.min(1.2, aim)); power = Math.max(.1, Math.min(1.3, power));
+  var tx = g.W / 2 + aim * g.W * .45, dx = (tx - hoopX) / g.rim, dp = power - SWEET;
+  var outcome;
+  if (Math.abs(dx) <= .55 && Math.abs(dp) <= d.tol) outcome = Math.abs(dx) < .25 && Math.abs(dp) < d.tol * .5 ? 'swish' : 'in';
+  else if (Math.abs(dx) <= 1.05 && Math.abs(dp) <= d.tol * 1.8) outcome = Math.random() < .35 ? 'rattle' : 'rim';
+  else outcome = dp > 0 ? 'long' : 'short';
+  ball = { u: 0, sx: g.W / 2, tx: tx, power: power, outcome: outcome, dur: .85 };
+  S.whoosh();
+}
+cv.addEventListener('pointerdown', function (e) {
+  if (state !== 'play' || ball) return; e.preventDefault(); S.boot();
+  var p = MMC.pt(cv, e); drag = { x: p.x, y: p.y, x2: p.x, y2: p.y, hist: [{ x: p.x, y: p.y, t: performance.now() }] };
+  try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+});
+cv.addEventListener('pointermove', function (e) {
+  if (!drag) return; var p = MMC.pt(cv, e); drag.x2 = p.x; drag.y2 = p.y; drag.hist.push({ x: p.x, y: p.y, t: performance.now() }); while (drag.hist.length > 6) drag.hist.shift();
+});
+cv.addEventListener('pointerup', function () {
+  if (!drag) return; var d = drag; drag = null;
+  var a = d.hist[0], b = d.hist[d.hist.length - 1], dt = Math.max(16, b.t - a.t), vy = (a.y - b.y) / dt, total = d.y - d.y2;
+  if (total < 30 || vy <= 0) return;
+  shoot((d.x2 - d.x) / Math.max(80, total) * 1.3, vy / 2.2);
+});
+addEventListener('keydown', function (e) {
+  if (state !== 'play') return;
+  if (['ArrowLeft', 'ArrowRight', ' '].indexOf(e.key) > -1) e.preventDefault();
+  if (e.key === 'ArrowLeft') aimK = Math.max(-1.2, aimK - .05); if (e.key === 'ArrowRight') aimK = Math.min(1.2, aimK + .05);
+  if (e.key === ' ' && !e.repeat && !ball) meter = { u: 0 };
+});
+addEventListener('keyup', function (e) {
+  if (e.key === ' ' && meter && state === 'play') { var m = meter; meter = null; shoot(aimK, .15 + 1.05 * (1 - Math.abs(1 - (m.u % 2)))); }
+});
+
+function resolve() {
+  var g = geo(), o = ball.outcome;
+  if (o === 'swish' || o === 'in' || o === 'rattle') {
+    streak++; baskets++; var pts = streak >= 3 ? 3 : 2; score += pts; net = 1;
+    if (o === 'swish') { S.noise(.3, .2, 5000, 'highpass'); S.ding(true); } else { S.clink(); S.ding(false); }
+    bits.burst(hoopX, g.hy + 10, streak >= 3 ? '#ff4fa3' : '#ffd166', streak >= 3);
+    msgs.push({ txt: (o === 'swish' ? 'SWISH! ' : '') + '+' + pts, x: hoopX, y: g.hy - 40, life: 1.1, gold: streak >= 3 });
+    if (streak === 3) msgs.push({ txt: 'ON FIRE!', x: g.W / 2, y: g.H * .55, life: 1.3, gold: true });
+  } else {
+    streak = 0; S.thud();
+    msgs.push({ txt: o === 'rim' ? 'CLANK!' : o === 'long' ? 'TOO STRONG' : 'TOO SOFT', x: Math.max(70, Math.min(g.W - 70, ball.tx)), y: g.hy - 30, life: .9, gold: false });
+  }
+}
+function step(dt) {
+  t += dt;
+  var g = geo(), d = DIFF[diffKey];
+  if (meter) meter.u += dt * 1.5;
+  if (state === 'play') {
+    clock -= dt;
+    if (d.move && clock < TIME - 10) hoopX = g.W / 2 + Math.sin((TIME - clock - 10) * .9 * d.move) * Math.min(g.W * .28, 160);
+    if (clock <= 0) { clock = 0; if (!ball) { state = 'ending'; endT = .8; S.bell(); } }
+  }
+  if (ball) {
+    ball.u += dt / ball.dur;
+    if (ball.u >= .8 && !ball.done) { ball.done = true; resolve(); }
+    if (ball.u >= 1.35) { ball = null; if (state === 'play' && clock <= 0) { state = 'ending'; endT = .8; S.bell(); } }
+  }
+  net = Math.max(0, net - dt * 2);
+  msgs.forEach(function (m) { m.life -= dt; m.y -= dt * 30; }); msgs = msgs.filter(function (m) { return m.life > 0; });
+  if (state === 'ending') { endT -= dt; if (endT <= 0) end(); }
+  bits.step(dt, view.H);
+}
+function ballPos() {
+  var g = geo(), u = ball.u, o = ball.outcome;
+  var endX = ball.tx, endY = g.hy + 8;
+  if (o === 'long') endY = g.hy - 30; if (o === 'short') endY = g.hy + 40;
+  if (u <= .8) {
+    var k = u / .8, x = ball.sx + (endX - ball.sx) * k, y = g.by + (endY - g.by) * k - Math.sin(Math.PI * k) * g.H * .3 * (.5 + ball.power * .5);
+    return { x: x, y: y, s: 22 - k * 9, front: k < .7 };
+  }
+  var k2 = (u - .8) / .55, inn = o === 'swish' || o === 'in' || o === 'rattle';
+  if (inn) return { x: hoopX + (endX - hoopX) * (1 - Math.min(1, k2 * 3)), y: g.hy + 8 + k2 * 140, s: 13, front: false, through: true };
+  var dir = endX < hoopX ? -1 : 1;
+  return { x: endX + dir * k2 * 120, y: endY + k2 * k2 * 260 - Math.sin(k2 * 3) * 30, s: 13, front: true };
+}
+function end() {
+  state = 'done';
+  if (window.MMPrizes) MMPrizes.addTickets(1 + Math.floor(score / 4), 'Hoop Shot');
+  st.data.rounds++; st.data.baskets += baskets; var isBest = score > st.data.best; if (isBest) st.data.best = score; st.save(); stats();
+  var tier = score >= 44 ? 'jumbo' : score >= 30 ? 'medium' : score >= 16 ? 'small' : null;
+  var title = document.getElementById('endTitle'), text = document.getElementById('endText'), pz = document.getElementById('endPrize');
+  if (tier) {
+    var p = MMC.award(tier, 'Hoop Shot'); S.fanfare(); bits.confetti(view.W, view.H);
+    title.textContent = tier === 'jumbo' ? 'NOTHING BUT NEBULA!' : 'WINNER!';
+    text.textContent = baskets + ' baskets from ' + shotsTaken + ' shots, ' + score + ' points.' + (isBest ? ' New best!' : '');
+    pz.innerHTML = p ? MMC.prizeCard(p) : '';
+  } else {
+    S.womp(); title.textContent = 'TIME!';
+    text.textContent = score + ' points. You need 16 for a prize. Try a steady, medium-fast swipe.';
+    pz.innerHTML = '';
+  }
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+function stats() {
+  document.getElementById('sBest').textContent = st.data.best;
+  document.getElementById('sBaskets').textContent = st.data.baskets;
+  document.getElementById('sRounds').textContent = st.data.rounds;
+}
+
+/* ---------- drawing */
+function drawBall(x, y, s) {
+  var g = ctx.createRadialGradient(x - s * .4, y - s * .4, 1, x, y, s); g.addColorStop(0, '#fff'); g.addColorStop(.3, '#ffb347'); g.addColorStop(1, '#c2410c');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, s, 0, 6.28); ctx.fill();
+  ctx.strokeStyle = 'rgba(60,20,10,.6)'; ctx.lineWidth = Math.max(1, s * .1);
+  ctx.beginPath(); ctx.moveTo(x - s, y); ctx.lineTo(x + s, y); ctx.moveTo(x, y - s); ctx.lineTo(x, y + s); ctx.stroke();
+  ctx.fillStyle = '#ffd166'; MMC.star(ctx, x + s * .45, y - s * .45, s * .22, 5, .45); ctx.fill();
+}
+function draw(time) {
+  var g = geo(), W = g.W, H = g.H, R = g.rim;
+  MMC.sky(ctx, W, H, time);
+  // floor
+  var fg = ctx.createLinearGradient(0, H * .55, 0, H); fg.addColorStop(0, '#2f2f70'); fg.addColorStop(1, '#5146a2');
+  ctx.fillStyle = fg; ctx.beginPath(); ctx.moveTo(W * .2, H * .55); ctx.lineTo(W * .8, H * .55); ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.fill();
+  ctx.strokeStyle = 'rgba(255,209,102,.4)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(W / 2, H - 70, W * .3, 26, 0, Math.PI, 0); ctx.stroke();
+  // backboard + hoop
+  var bw = R * 3.4, bh = R * 2.2, bx = hoopX - bw / 2, by = g.hy - bh + 4;
+  ctx.fillStyle = 'rgba(255,255,255,.14)'; MMC.rr(ctx, bx, by, bw, bh, 8); ctx.fill();
+  ctx.strokeStyle = '#5ff3e8'; ctx.lineWidth = 3; ctx.stroke();
+  ctx.strokeStyle = '#ff4fa3'; ctx.lineWidth = 2.5; ctx.strokeRect(hoopX - R * .7, by + bh * .38, R * 1.4, bh * .5);
+  ctx.fillStyle = '#ffd166'; ctx.beginPath(); ctx.arc(hoopX, by + 14, 6, 0, 6.28); ctx.fill();
+  ctx.fillStyle = '#5146a2'; ctx.fillRect(hoopX - 4, by - H, 8, H); // pole up into the tent
+  var pos = ball ? ballPos() : null;
+  if (pos && !pos.front && !pos.through) drawBall(pos.x, pos.y, pos.s);
+  // rim back half, net, ball going through, rim front half
+  ctx.strokeStyle = '#ff7a1a'; ctx.lineWidth = 4; ctx.beginPath(); ctx.ellipse(hoopX, g.hy, R, R * .3, 0, Math.PI, 0); ctx.stroke();
+  if (pos && pos.through) drawBall(pos.x, pos.y, pos.s);
+  ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = 1.4; var nl = R * 1.1 + net * 10;
+  for (var i = 0; i <= 6; i++) { var a = i / 6, nx = hoopX - R + 2 * R * a, nx2 = hoopX - R * .55 + R * 1.1 * a + Math.sin(time * 9 + i) * net * 4; ctx.beginPath(); ctx.moveTo(nx, g.hy); ctx.lineTo(nx2, g.hy + nl); ctx.stroke(); }
+  for (var j = 1; j <= 3; j++) { var yy = g.hy + nl * j / 3, ww = R * (1 - .45 * j / 3); ctx.beginPath(); ctx.moveTo(hoopX - ww, yy); ctx.lineTo(hoopX + ww, yy); ctx.stroke(); }
+  ctx.strokeStyle = '#ff7a1a'; ctx.lineWidth = 4; ctx.beginPath(); ctx.ellipse(hoopX, g.hy, R, R * .3, 0, 0, Math.PI); ctx.stroke();
+  if (pos && pos.front) drawBall(pos.x, pos.y, pos.s);
+  if (!ball && state === 'play') drawBall(W / 2 + (meter ? aimK * 30 : 0), g.by, 22);
+  if (drag) { ctx.strokeStyle = 'rgba(95,243,232,.8)'; ctx.lineWidth = 4; ctx.setLineDash([8, 8]); ctx.beginPath(); ctx.moveTo(drag.x, drag.y); ctx.lineTo(drag.x2, drag.y2); ctx.stroke(); ctx.setLineDash([]); }
+  // top bar
+  ctx.fillStyle = 'rgba(4,5,9,.55)'; ctx.fillRect(0, 0, W, 40);
+  MMC.label(ctx, 'SCORE ' + score, 14, 26, '#ffd166', 13, 'left');
+  MMC.label(ctx, Math.ceil(clock) + 's', W - 14, 26, clock < 8 && state === 'play' ? '#ff4fa3' : '#5ff3e8', 13, 'right');
+  if (streak >= 3) MMC.label(ctx, '🔥 ON FIRE ×' + streak, W / 2, 26, '#ff4fa3', 12);
+  if (meter) {
+    var m = 1 - Math.abs(1 - (meter.u % 2)), mw = Math.min(200, W * .4), mx = W / 2 - mw / 2, my = H - 36;
+    ctx.fillStyle = 'rgba(255,255,255,.15)'; ctx.fillRect(mx, my, mw, 10);
+    ctx.fillStyle = 'rgba(95,243,232,.35)'; var sw = (SWEET - .15) / 1.05; ctx.fillRect(mx + mw * (sw - DIFF[diffKey].tol / 1.05), my, mw * DIFF[diffKey].tol * 2 / 1.05, 10);
+    ctx.fillStyle = '#ff4fa3'; ctx.fillRect(mx, my, mw * m, 10);
+  } else if (state === 'play' && shotsTaken === 0 && !drag) {
+    ctx.globalAlpha = reduce ? 1 : .55 + .45 * Math.sin(time * 4); MMC.label(ctx, 'SWIPE UP TO SHOOT', W / 2, H - 26, '#5ff3e8', 10); ctx.globalAlpha = 1;
+  }
+  msgs.forEach(function (m) { ctx.globalAlpha = Math.max(0, Math.min(1, m.life)); MMC.bigText(ctx, m.txt, Math.max(80, Math.min(W - 80, m.x)), m.y, m.gold ? 28 : 20, m.gold ? '#ffd166' : '#ff4fa3'); ctx.globalAlpha = 1; });
+  bits.draw(ctx);
+}
+
+document.getElementById('diffSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
+  this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; newRound(); }
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+hoopX = view.W / 2; view.onResize = function () { if (state !== 'play') hoopX = view.W / 2; };
+stats();
+MMC.loop(function (dt, time) { step(dt); draw(time); });
+window.__hoop = { get state() { return state; }, shoot: shoot, geo: geo, get hoopX() { return hoopX; }, get score() { return score; }, get ball() { return ball; }, get clock() { return clock; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>

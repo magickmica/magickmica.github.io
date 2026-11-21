@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cosmic Duck Pond &middot; MagickMica</title>
+<meta name="description" content="A Cosmic Circus game: hook rubber ducks as they float around the pond. Each one hides a mark underneath. Five hooks, win prizes for your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/duck-pond.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Cosmic Duck Pond · Magick Mica Arcade">
+<meta property="og:description" content="Hook a floating duck and flip it over. Stars and moons pay points.">
+<meta property="og:url" content="https://magickmica.github.io/duck-pond.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
+    <h1>COSMIC DUCK POND</h1>
+    <p class="tag">Hook a floating duck and flip it over. Stars and moons pay points.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ HOOK A DUCK · EVERY DUCK A WINNER? ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Duck pond. Tap a floating duck to hook it."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+          <p>Five hooks. The ducks float round and round the pond, and each one hides a mark underneath. ★ is 1 point, ★★ is 2, a moon ☾ is 3, and the shiny gold duck is worth 5.</p>
+          <div class="lbl">How wild</div>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="wild" aria-pressed="false">Wild</button>
+          </div>
+          <button class="go" id="startBtn" type="button">🦆 GRAB A HOOK</button>
+          <div class="howto"><b>Touch or mouse:</b> tap a duck to hook it.<br><b>Keyboard:</b> space hooks the duck at the front of the pond.<br><b>Prizes:</b> 5 points for a small prize, 9 for a big one, 14 for a JUMBO.</div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">🦆 HOOK AGAIN</button>
+            <a class="ghost" href="arcade.html#circus">Back to the circus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">BEST<b id="sBest">0</b></span>
+      <span class="stat">DUCKS<b id="sDucks">0</b></span>
+      <span class="stat">ROUNDS<b id="sRounds">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>5 points for a small prize, 9 for a big one, 14 for a JUMBO. Prizes from every game at the circus land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=4"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_duckpond_v1', { best: 0, ducks: 0, rounds: 0 });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .62, 460), 580)); });
+var ctx = view.ctx;
+
+var DIFF = { easy: .55, normal: 1, wild: 1.6 }, diffKey = 'normal', HOOKS = 5, N = 14;
+var COLS = ['#ff9f6b', '#ff7ac8', '#5ff3e8', '#d5c2dc', '#b9a3ff'];
+// what can be under a duck: [label, points, weight]
+var UNDER = [['', 0, 30], ['★', 1, 35], ['★★', 2, 20], ['☾', 3, 10]];
+var ducks = [], hooks = HOOKS, score = 0, caught = 0, state = 'menu', lifted = null, msgs = [], endT = 0, t = 0, spin = 0;
+
+function pond() { var W = view.W, H = view.H; return { cx: W / 2, cy: H * .47, a: Math.min(W * .4, 330), b: Math.min(H * .29, 150) }; }
+function under() {
+  var tot = 0; UNDER.forEach(function (u) { tot += u[2]; });
+  var r = Math.random() * tot; for (var i = 0; i < UNDER.length; i++) { r -= UNDER[i][2]; if (r <= 0) return UNDER[i]; }
+  return UNDER[0];
+}
+function makeDuck(i) {
+  var gold = Math.random() < .07, u = gold ? ['GOLD', 5] : under();
+  return { slot: i, col: gold ? '#ffcf3a' : COLS[(i * 2 + Math.floor(Math.random() * 3)) % COLS.length], gold: gold, mark: u[0], pts: u[1], bob: Math.random() * 6, gone: false, back: 0 };
+}
+function fill() { ducks = []; for (var i = 0; i < N; i++) ducks.push(makeDuck(i)); }
+function pos(d) {
+  var p = pond(), th = spin + d.slot / N * Math.PI * 2;
+  var x = p.cx + Math.cos(th) * p.a, y = p.cy + Math.sin(th) * p.b;
+  var depth = (Math.sin(th) + 1) / 2; // 0 back, 1 front
+  return { x: x, y: y, s: (22 + depth * 14) * Math.min(1.15, view.W / 600 + .35), depth: depth, face: -Math.sin(th) >= 0 ? 1 : -1 };
+}
+function newRound() { fill(); hooks = HOOKS; score = 0; caught = 0; lifted = null; msgs = []; state = 'play'; }
+
+function pick(x, y) {
+  if (state !== 'play' || lifted || hooks <= 0) return;
+  S.boot();
+  var best = null, bd = 1e9;
+  ducks.forEach(function (d) {
+    if (d.gone) return; var q = pos(d), dx = x - q.x, dy = y - q.y, dd = dx * dx + dy * dy;
+    if (dd < q.s * q.s * 2.2 && (dd < bd || (best && q.depth > pos(best).depth && dd < q.s * q.s))) { best = d; bd = dd; }
+  });
+  if (!best) { S.click(); msgs.push({ txt: 'SPLASH', x: x, y: y, life: .8, gold: false }); bits.sparkle(x, y, '#5ff3e8', 10); return; }
+  hooks--; caught++;
+  var q = pos(best); best.gone = true;
+  lifted = { d: best, x: q.x, y: q.y, s: q.s * 1.25, u: 0 };
+  S.whoosh();
+}
+cv.addEventListener('pointerdown', function (e) { e.preventDefault(); var p = MMC.pt(cv, e); pick(p.x, p.y); });
+addEventListener('keydown', function (e) {
+  if (state !== 'play' || e.key !== ' ' || e.repeat) return; e.preventDefault();
+  // keyboard: hook whichever duck is nearest the front of the pond
+  var p = pond(); pick(p.cx, p.cy + p.b);
+});
+
+function step(dt) {
+  t += dt; spin += dt * .32 * DIFF[diffKey];
+  if (lifted) {
+    lifted.u += dt / 1.5;
+    if (lifted.u >= .55 && !lifted.shown) {
+      lifted.shown = true; var d = lifted.d; score += d.pts;
+      if (d.pts >= 3) { S.ding(true); bits.burst(lifted.x, lifted.y - 90, d.gold ? '#ffd166' : '#5ff3e8', true); }
+      else if (d.pts > 0) { S.ding(false); bits.sparkle(lifted.x, lifted.y - 90, '#ffd166', 16); }
+      else S.thud();
+      msgs.push({ txt: d.pts ? '+' + d.pts : 'NOTHING', x: lifted.x, y: lifted.y - 140, life: 1.2, gold: d.pts >= 3 });
+    }
+    if (lifted.u >= 1) { var dd = lifted.d; lifted = null; dd.back = 2.2; }
+  }
+  ducks.forEach(function (d, i) { if (d.gone && d.back > 0) { d.back -= dt; if (d.back <= 0) { ducks[i] = makeDuck(d.slot); } } });
+  msgs.forEach(function (m) { m.life -= dt; m.y -= dt * 30; }); msgs = msgs.filter(function (m) { return m.life > 0; });
+  if (state === 'play' && hooks <= 0 && !lifted) { state = 'ending'; endT = .8; }
+  if (state === 'ending') { endT -= dt; if (endT <= 0) end(); }
+  bits.step(dt, view.H);
+}
+function end() {
+  state = 'done';
+  if (window.MMPrizes) MMPrizes.addTickets(1 + Math.floor(score / 2), 'Duck Pond');
+  st.data.rounds++; st.data.ducks += caught; var isBest = score > st.data.best; if (isBest) st.data.best = score; st.save(); stats();
+  var tier = score >= 14 ? 'jumbo' : score >= 9 ? 'medium' : score >= 5 ? 'small' : null;
+  var title = document.getElementById('endTitle'), text = document.getElementById('endText'), pz = document.getElementById('endPrize');
+  if (tier) {
+    var p = MMC.award(tier, 'Duck Pond'); S.fanfare(); bits.confetti(view.W, view.H);
+    title.textContent = tier === 'jumbo' ? 'LUCKY DUCK!' : 'WINNER!';
+    text.textContent = score + ' points from ' + caught + ' ducks.' + (isBest ? ' New best!' : '');
+    pz.innerHTML = p ? MMC.prizeCard(p) : '';
+  } else {
+    S.womp(); title.textContent = 'SO CLOSE!';
+    text.textContent = score + ' point' + (score === 1 ? '' : 's') + '. You need 5 for a prize. Watch for the gold duck, it is worth 5.';
+    pz.innerHTML = '';
+  }
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+function stats() {
+  document.getElementById('sBest').textContent = st.data.best;
+  document.getElementById('sDucks').textContent = st.data.ducks;
+  document.getElementById('sRounds').textContent = st.data.rounds;
+}
+
+/* ---------- drawing */
+function duck(x, y, s, col, face, gold, flip, d) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(face, flip ? -1 : 1);
+  if (flip) {
+    // the underside: a disc with the hidden mark
+    ctx.fillStyle = MMC.shade(col, -.25); ctx.beginPath(); ctx.ellipse(0, 0, s * 1.05, s * .62, 0, 0, 6.28); ctx.fill();
+    ctx.fillStyle = '#fff6e3'; ctx.beginPath(); ctx.ellipse(0, 0, s * .72, s * .42, 0, 0, 6.28); ctx.fill();
+    ctx.scale(face, -1);
+    ctx.font = '900 ' + Math.round(s * .55) + 'px Orbitron, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = d.pts >= 3 ? '#b8860b' : d.pts ? '#7a3b9a' : '#9a8aa6';
+    ctx.fillText(d.mark || '·', 0, 2);
+    ctx.restore(); return;
+  }
+  var g = ctx.createRadialGradient(-s * .3, -s * .3, s * .1, 0, 0, s * 1.2); g.addColorStop(0, '#ffffff'); g.addColorStop(.25, col); g.addColorStop(1, MMC.shade(col, -.35));
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.ellipse(0, 0, s, s * .62, 0, 0, 6.28); ctx.fill();               // body
+  ctx.beginPath(); ctx.moveTo(-s * .95, -s * .1); ctx.lineTo(-s * 1.25, -s * .45); ctx.lineTo(-s * .7, -s * .3); ctx.fill(); // tail
+  ctx.beginPath(); ctx.arc(s * .55, -s * .62, s * .42, 0, 6.28); ctx.fill();           // head
+  ctx.fillStyle = '#ff8a3d'; ctx.beginPath(); ctx.ellipse(s * 1.02, -s * .55, s * .26, s * .12, 0, 0, 6.28); ctx.fill(); // beak
+  ctx.fillStyle = '#1a1033'; ctx.beginPath(); ctx.arc(s * .66, -s * .72, s * .07, 0, 6.28); ctx.fill();
+  ctx.strokeStyle = 'rgba(0,0,0,.18)'; ctx.lineWidth = Math.max(1, s * .06); ctx.beginPath(); ctx.ellipse(-s * .1, -s * .02, s * .48, s * .26, -.2, 0, 3.4); ctx.stroke(); // wing
+  if (gold) { ctx.fillStyle = '#fff'; MMC.star(ctx, s * .55, -s * 1.15, s * .22, 5, .45); ctx.fill(); }
+  ctx.restore();
+}
+function draw(time) {
+  var W = view.W, H = view.H, p = pond();
+  MMC.sky(ctx, W, H, time);
+  // pond rim + water
+  ctx.fillStyle = '#5146a2'; ctx.beginPath(); ctx.ellipse(p.cx, p.cy + 8, p.a + 46, p.b + 40, 0, 0, 6.28); ctx.fill();
+  ctx.fillStyle = '#ffd166'; ctx.beginPath(); ctx.ellipse(p.cx, p.cy + 4, p.a + 40, p.b + 34, 0, 0, 6.28); ctx.fill();
+  var wg = ctx.createRadialGradient(p.cx, p.cy, 10, p.cx, p.cy, p.a + 40); wg.addColorStop(0, '#2fb8c9'); wg.addColorStop(.7, '#1e5a9a'); wg.addColorStop(1, '#2f2f70');
+  ctx.fillStyle = wg; ctx.beginPath(); ctx.ellipse(p.cx, p.cy, p.a + 32, p.b + 26, 0, 0, 6.28); ctx.fill();
+  // ripples
+  ctx.strokeStyle = 'rgba(255,255,255,.18)'; ctx.lineWidth = 2;
+  for (var r = 0; r < 4; r++) { var k = ((time * .25 + r / 4) % 1); ctx.globalAlpha = 1 - k; ctx.beginPath(); ctx.ellipse(p.cx, p.cy, (p.a - 40) * k + 10, (p.b - 20) * k + 6, 0, 0, 6.28); ctx.stroke(); }
+  ctx.globalAlpha = 1;
+  // island in the middle with a little star
+  ctx.fillStyle = '#9667ba'; ctx.beginPath(); ctx.ellipse(p.cx, p.cy, p.a * .42, p.b * .38, 0, 0, 6.28); ctx.fill();
+  ctx.fillStyle = '#ffd166'; MMC.star(ctx, p.cx, p.cy - 8, 16, 5, .45); ctx.fill();
+  MMC.label(ctx, 'HOOK A DUCK', p.cx, p.cy + 22, '#fff', Math.max(9, Math.min(13, W / 46)));
+  // ducks, back to front
+  var list = ducks.filter(function (d) { return !d.gone; }).map(function (d) { return { d: d, q: pos(d) }; }).sort(function (a, b) { return a.q.y - b.q.y; });
+  list.forEach(function (o) {
+    var bob = reduce ? 0 : Math.sin(time * 3 + o.d.bob) * 2;
+    ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.beginPath(); ctx.ellipse(o.q.x, o.q.y + o.q.s * .5, o.q.s * 1.05, o.q.s * .2, 0, 0, 6.28); ctx.fill();
+    duck(o.q.x, o.q.y + bob, o.q.s, o.d.col, o.q.face, o.d.gold, false, o.d);
+  });
+  // lifted duck on the hook
+  if (lifted) {
+    var u = Math.min(1, lifted.u / .5), ly = lifted.y - u * 100, lx = lifted.x;
+    ctx.strokeStyle = '#d5c2dc'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(lx, -10); ctx.lineTo(lx, ly - lifted.s * .9); ctx.stroke();
+    ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(lx, ly - lifted.s * .7, 7, 0, 3.6); ctx.stroke();
+    duck(lx, ly, lifted.s, lifted.d.col, 1, lifted.d.gold, lifted.u >= .55, lifted.d);
+  }
+  // counter
+  var cy = H - 54, cg = ctx.createLinearGradient(0, cy, 0, H); cg.addColorStop(0, '#5146a2'); cg.addColorStop(1, '#2f2f70');
+  ctx.fillStyle = cg; ctx.fillRect(0, cy, W, 54); ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.fillRect(0, cy, W, 2);
+  for (var h = 0; h < hooks; h++) { ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(20 + h * 22, cy + 14); ctx.lineTo(20 + h * 22, cy + 30); ctx.arc(26 + h * 22, cy + 30, 6, 3.14, 0, true); ctx.stroke(); }
+  MMC.label(ctx, 'SCORE ' + score, W - 12, cy + 32, '#ffd166', 12, 'right');
+  if (state === 'play' && hooks === HOOKS && !lifted) { ctx.globalAlpha = reduce ? 1 : .55 + .45 * Math.sin(time * 4); MMC.label(ctx, 'TAP A DUCK TO HOOK IT', W / 2, cy - 10, '#5ff3e8', 10); ctx.globalAlpha = 1; }
+  msgs.forEach(function (m) { ctx.globalAlpha = Math.max(0, Math.min(1, m.life)); MMC.bigText(ctx, m.txt, m.x, m.y, m.gold ? 28 : 22, m.gold ? '#ffd166' : '#ff4fa3'); ctx.globalAlpha = 1; });
+  bits.draw(ctx);
+}
+
+document.getElementById('diffSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
+  this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; newRound(); }
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+fill(); stats();
+MMC.loop(function (dt, time) { step(dt); draw(time); });
+window.__duck = { get state() { return state; }, ducks: function () { return ducks; }, pos: pos, pick: pick, get score() { return score; }, get hooks() { return hooks; }, get lifted() { return lifted; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>

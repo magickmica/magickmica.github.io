@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Whack-an-Alien &middot; MagickMica</title>
+<meta name="description" content="A Cosmic Circus game: bop the little aliens as they pop out of moon craters, but leave the moon bunnies alone. Thirty seconds, win prizes for your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/whack-an-alien.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Whack-an-Alien · Magick Mica Arcade">
+<meta property="og:description" content="Bop the aliens back into their craters. Leave the bunnies be.">
+<meta property="og:url" content="https://magickmica.github.io/whack-an-alien.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
+    <h1>WHACK-AN-ALIEN</h1>
+    <p class="tag">Bop the aliens back into their craters. Leave the bunnies be.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ BOP 'EM BACK TO SPACE ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Whack-an-alien. Tap the aliens as they pop up from the craters."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+          <p>Thirty seconds. Aliens pop out of the moon craters. Bop each one before it ducks back down for 1 point, or 3 for a gold alien. Five in a row adds a combo bonus. Moon bunnies are friends, so bopping one costs 2.</p>
+          <div class="lbl">How wild</div>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="wild" aria-pressed="false">Wild</button>
+          </div>
+          <button class="go" id="startBtn" type="button">👽 GRAB THE MALLET</button>
+          <div class="howto"><b>Touch or mouse:</b> tap an alien.<br><b>Keyboard:</b> Q W E / A S D / Z X C, or the number pad, for the nine craters.<br><b>Prizes:</b> 18 points for a small prize, 30 for a big one, 45 for a JUMBO.</div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">👽 BOP AGAIN</button>
+            <a class="ghost" href="arcade.html#circus">Back to the circus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">BEST<b id="sBest">0</b></span>
+      <span class="stat">BOPPED<b id="sBopped">0</b></span>
+      <span class="stat">ROUNDS<b id="sRounds">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>18 points for a small prize, 30 for a big one, 45 for a JUMBO. Prizes from every game at the circus land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=4"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_whack_v1', { best: 0, bopped: 0, rounds: 0 });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .64, 470), 600)); });
+var ctx = view.ctx;
+
+var DIFF = { easy: { up: 1.25, gap: .85 }, normal: { up: .95, gap: .62 }, wild: { up: .68, gap: .44 } };
+var diffKey = 'normal', TIME = 30;
+var holes = [], score = 0, bopped = 0, combo = 0, state = 'menu', clock = TIME, spawnT = 0, msgs = [], endT = 0, t = 0, mallet = null;
+var cursor = { x: -99, y: -99 };
+
+function layout() {
+  var W = view.W, H = view.H, top = 70, bot = H - 70, cols = 3, rows = 3;
+  var cw = Math.min(W / cols, 220), rh = (bot - top) / rows, ox = (W - cw * cols) / 2;
+  holes = [];
+  for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++)
+    holes.push({ x: ox + cw * (c + .5), y: top + rh * (r + .62), rx: Math.min(cw * .36, 70), ry: Math.min(cw * .36, 70) * .34, who: null, u: 0, life: 0, hit: false, k: holes.length });
+}
+function newRound() { layout(); score = 0; bopped = 0; combo = 0; clock = TIME; spawnT = .6; msgs = []; state = 'play'; }
+
+function spawn() {
+  var free = holes.filter(function (h) { return !h.who; }); if (!free.length) return;
+  var h = free[Math.floor(Math.random() * free.length)], r = Math.random(), d = DIFF[diffKey];
+  h.who = r < .1 ? 'gold' : r < .24 ? 'bunny' : 'alien';
+  var speedUp = 1 - (TIME - clock) / TIME * .3;
+  h.life = (h.who === 'gold' ? d.up * .7 : d.up) * speedUp; h.u = 0; h.hit = false; h.dir = 1;
+}
+function bop(x, y) {
+  if (state !== 'play') return; S.boot();
+  mallet = { x: x, y: y, u: 0 };
+  var hit = null;
+  holes.forEach(function (h) {
+    if (!h.who || h.hit || h.u < .35) return;
+    var hy = h.y - h.ry * 3.4 * h.u, dx = (x - h.x) / (h.rx * 1.05), dy = (y - hy) / (h.rx * 1.25);
+    if (dx * dx + dy * dy < 1.25) hit = h;
+  });
+  if (!hit) { S.click(); combo = 0; return; }
+  hit.hit = true; hit.dir = -1; hit.life = 0;
+  var hy = hit.y - hit.ry * 3.4 * hit.u;
+  if (hit.who === 'bunny') {
+    score = Math.max(0, score - 2); combo = 0; S.womp();
+    msgs.push({ txt: '-2 NOT THE BUNNY!', x: hit.x, y: hy - 30, life: 1.1, gold: false });
+  } else {
+    combo++; var pts = (hit.who === 'gold' ? 3 : 1) + (combo >= 5 ? 1 : 0);
+    score += pts; bopped++;
+    S.thud(); hit.who === 'gold' ? S.ding(true) : S.pop(false);
+    bits.burst(hit.x, hy, hit.who === 'gold' ? '#ffd166' : '#5ff3e8', hit.who === 'gold');
+    msgs.push({ txt: '+' + pts + (combo >= 5 ? ' COMBO' : ''), x: hit.x, y: hy - 30, life: 1, gold: hit.who === 'gold' || combo >= 5 });
+  }
+}
+cv.addEventListener('pointerdown', function (e) { e.preventDefault(); var p = MMC.pt(cv, e); bop(p.x, p.y); });
+cv.addEventListener('pointermove', function (e) { var p = MMC.pt(cv, e); cursor.x = p.x; cursor.y = p.y; });
+addEventListener('keydown', function (e) {
+  if (state !== 'play') return;
+  var map = { '7': 0, '8': 1, '9': 2, '4': 3, '5': 4, '6': 5, '1': 6, '2': 7, '3': 8, q: 0, w: 1, e: 2, a: 3, s: 4, d: 5, z: 6, x: 7, c: 8 };
+  var k = map[e.key.toLowerCase()]; if (k === undefined || e.repeat) return;
+  e.preventDefault(); var h = holes[k]; bop(h.x, h.y - h.ry * 3.4 * Math.max(.5, h.u));
+});
+
+function step(dt) {
+  t += dt;
+  if (state === 'play') {
+    clock -= dt;
+    spawnT -= dt; if (spawnT <= 0) { spawn(); if (Math.random() < .25) spawn(); spawnT = DIFF[diffKey].gap * (.7 + Math.random() * .6) * (1 - (TIME - clock) / TIME * .3); }
+    if (clock <= 0) { clock = 0; state = 'ending'; endT = 1; holes.forEach(function (h) { if (h.who) { h.dir = -1; h.life = 0; } }); S.bell(); }
+  }
+  holes.forEach(function (h) {
+    if (!h.who) return;
+    if (h.dir > 0) { h.u = Math.min(1, h.u + dt * 7); if (h.u >= 1) { h.life -= dt; if (h.life <= 0) h.dir = -1; } }
+    else { h.u -= dt * (h.hit ? 4 : 6); if (h.u <= 0) { if (!h.hit && h.who !== 'bunny') combo = 0; h.u = 0; h.who = null; } }
+  });
+  if (mallet) { mallet.u += dt * 6; if (mallet.u >= 1) mallet = null; }
+  msgs.forEach(function (m) { m.life -= dt; m.y -= dt * 34; }); msgs = msgs.filter(function (m) { return m.life > 0; });
+  if (state === 'ending') { endT -= dt; if (endT <= 0) end(); }
+  bits.step(dt, view.H);
+}
+function end() {
+  state = 'done';
+  if (window.MMPrizes) MMPrizes.addTickets(1 + Math.floor(score / 5), 'Whack-an-Alien');
+  st.data.rounds++; st.data.bopped += bopped; var isBest = score > st.data.best; if (isBest) st.data.best = score; st.save(); stats();
+  var tier = score >= 45 ? 'jumbo' : score >= 30 ? 'medium' : score >= 18 ? 'small' : null;
+  var title = document.getElementById('endTitle'), text = document.getElementById('endText'), pz = document.getElementById('endPrize');
+  if (tier) {
+    var p = MMC.award(tier, 'Whack-an-Alien'); S.fanfare(); bits.confetti(view.W, view.H);
+    title.textContent = tier === 'jumbo' ? 'INVASION CANCELLED!' : 'WINNER!';
+    text.textContent = score + ' points, ' + bopped + ' aliens bopped back to space.' + (isBest ? ' New best!' : '');
+    pz.innerHTML = p ? MMC.prizeCard(p) : '';
+  } else {
+    S.womp(); title.textContent = 'THEY GOT AWAY!';
+    text.textContent = score + ' points. You need 18 for a prize. Leave the bunnies alone, they cost 2.';
+    pz.innerHTML = '';
+  }
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+function stats() {
+  document.getElementById('sBest').textContent = st.data.best;
+  document.getElementById('sBopped').textContent = st.data.bopped;
+  document.getElementById('sRounds').textContent = st.data.rounds;
+}
+
+/* ---------- drawing */
+function alien(x, y, s, gold, dizzy) {
+  var col = gold ? '#ffd166' : '#7dffb0';
+  ctx.strokeStyle = col; ctx.lineWidth = s * .08; ctx.lineCap = 'round';
+  [-1, 1].forEach(function (k) { ctx.beginPath(); ctx.moveTo(x + k * s * .25, y - s * .7); ctx.lineTo(x + k * s * .45, y - s * 1.15); ctx.stroke();
+    ctx.fillStyle = gold ? '#fff' : '#ff4fa3'; ctx.beginPath(); ctx.arc(x + k * s * .45, y - s * 1.15, s * .11, 0, 6.28); ctx.fill(); });
+  var g = ctx.createRadialGradient(x - s * .3, y - s * .5, s * .1, x, y - s * .2, s * 1.1); g.addColorStop(0, '#ffffff'); g.addColorStop(.3, col); g.addColorStop(1, MMC.shade(col, -.4));
+  ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(x, y - s * .2, s * .72, s * .78, 0, 0, 6.28); ctx.fill();
+  if (dizzy) {
+    ctx.strokeStyle = '#1a1033'; ctx.lineWidth = s * .07;
+    [-1, 1].forEach(function (k) { var ex = x + k * s * .28, ey = y - s * .25; ctx.beginPath(); ctx.moveTo(ex - s * .1, ey - s * .1); ctx.lineTo(ex + s * .1, ey + s * .1); ctx.moveTo(ex + s * .1, ey - s * .1); ctx.lineTo(ex - s * .1, ey + s * .1); ctx.stroke(); });
+  } else {
+    ctx.fillStyle = '#1a1033';
+    [-1, 1].forEach(function (k) { ctx.beginPath(); ctx.ellipse(x + k * s * .28, y - s * .25, s * .2, s * .28, k * .5, 0, 6.28); ctx.fill(); });
+    ctx.fillStyle = '#fff'; [-1, 1].forEach(function (k) { ctx.beginPath(); ctx.arc(x + k * s * .24, y - s * .34, s * .06, 0, 6.28); ctx.fill(); });
+  }
+  ctx.strokeStyle = '#1a1033'; ctx.lineWidth = s * .05; ctx.beginPath(); ctx.arc(x, y + s * .12, s * .16, .3, 2.8); ctx.stroke();
+  if (gold) { ctx.fillStyle = '#fff'; MMC.star(ctx, x, y - s * 1.0, s * .16, 5, .45); ctx.fill(); }
+}
+function bunny(x, y, s) {
+  ctx.fillStyle = '#f4ecff';
+  [-1, 1].forEach(function (k) { ctx.beginPath(); ctx.ellipse(x + k * s * .26, y - s * 1.05, s * .16, s * .45, k * .15, 0, 6.28); ctx.fill(); });
+  ctx.fillStyle = '#ffb3d9'; [-1, 1].forEach(function (k) { ctx.beginPath(); ctx.ellipse(x + k * s * .26, y - s * 1.05, s * .07, s * .3, k * .15, 0, 6.28); ctx.fill(); });
+  ctx.fillStyle = '#f4ecff'; ctx.beginPath(); ctx.ellipse(x, y - s * .2, s * .66, s * .62, 0, 0, 6.28); ctx.fill();
+  ctx.fillStyle = '#1a1033'; [-1, 1].forEach(function (k) { ctx.beginPath(); ctx.arc(x + k * s * .24, y - s * .3, s * .08, 0, 6.28); ctx.fill(); });
+  ctx.fillStyle = '#ff7ac8'; ctx.beginPath(); ctx.arc(x, y - s * .14, s * .07, 0, 6.28); ctx.fill();
+  ctx.fillStyle = 'rgba(255,122,200,.4)'; [-1, 1].forEach(function (k) { ctx.beginPath(); ctx.arc(x + k * s * .4, y - s * .08, s * .1, 0, 6.28); ctx.fill(); });
+}
+function draw(time) {
+  var W = view.W, H = view.H;
+  MMC.sky(ctx, W, H, time);
+  // moon surface
+  var mg = ctx.createLinearGradient(0, 40, 0, H); mg.addColorStop(0, '#9b90c9'); mg.addColorStop(1, '#5146a2');
+  ctx.fillStyle = mg; ctx.beginPath(); ctx.moveTo(0, 60); ctx.quadraticCurveTo(W / 2, 30, W, 60); ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.fill();
+  ctx.fillStyle = 'rgba(47,47,112,.25)';
+  [[.1, .3, 18], [.85, .25, 26], [.5, .92, 22], [.05, .8, 14], [.95, .7, 16]].forEach(function (c) { ctx.beginPath(); ctx.ellipse(c[0] * W, c[1] * H, c[2], c[2] * .4, 0, 0, 6.28); ctx.fill(); });
+  holes.forEach(function (h) {
+    // crater back rim + hole
+    ctx.fillStyle = '#3a3378'; ctx.beginPath(); ctx.ellipse(h.x, h.y, h.rx * 1.2, h.ry * 1.5, 0, 0, 6.28); ctx.fill();
+    ctx.fillStyle = '#0c0b22'; ctx.beginPath(); ctx.ellipse(h.x, h.y, h.rx, h.ry, 0, 0, 6.28); ctx.fill();
+    if (h.who && h.u > 0) {
+      ctx.save(); ctx.beginPath(); ctx.rect(h.x - h.rx * 1.6, h.y - h.rx * 3, h.rx * 3.2, h.rx * 3); ctx.ellipse(h.x, h.y, h.rx, h.ry, 0, 0, Math.PI); ctx.clip();
+      var s = h.rx * .9, y = h.y + s * .9 - h.u * h.ry * 3.4 - s * .3;
+      if (h.who === 'bunny') bunny(h.x, y, s); else alien(h.x, y, s, h.who === 'gold', h.hit);
+      ctx.restore();
+    }
+    // front rim
+    ctx.strokeStyle = '#c9bff0'; ctx.lineWidth = 4; ctx.beginPath(); ctx.ellipse(h.x, h.y, h.rx * 1.04, h.ry * 1.1, 0, .1, Math.PI - .1); ctx.stroke();
+  });
+  // mallet
+  if (mallet) {
+    var a = -.9 + Math.sin(Math.min(1, mallet.u) * Math.PI) * .9;
+    ctx.save(); ctx.translate(mallet.x + 34, mallet.y - 10); ctx.rotate(a);
+    ctx.fillStyle = '#ffd166'; ctx.fillRect(-4, 0, 8, 54);
+    ctx.fillStyle = '#ff4fa3'; MMC.rr(ctx, -40, -18, 46, 30, 10); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.fillRect(-36, -14, 38, 6);
+    ctx.restore();
+  }
+  // top bar
+  ctx.fillStyle = 'rgba(4,5,9,.55)'; ctx.fillRect(0, 0, W, 44);
+  MMC.label(ctx, 'SCORE ' + score, 14, 28, '#ffd166', 13, 'left');
+  MMC.label(ctx, Math.ceil(clock) + 's', W - 14, 28, clock < 6 && state === 'play' ? '#ff4fa3' : '#5ff3e8', 13, 'right');
+  ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.fillRect(W * .3, 18, W * .4, 10);
+  ctx.fillStyle = clock < 6 ? '#ff4fa3' : '#5ff3e8'; ctx.fillRect(W * .3, 18, W * .4 * (clock / TIME), 10);
+  if (combo >= 3) MMC.label(ctx, 'COMBO ×' + combo, W / 2, 58, '#ffd166', 11);
+  msgs.forEach(function (m) { ctx.globalAlpha = Math.max(0, Math.min(1, m.life)); MMC.bigText(ctx, m.txt, Math.max(90, Math.min(view.W - 90, m.x)), m.y, m.gold ? 26 : 20, m.gold ? '#ffd166' : '#ff4fa3'); ctx.globalAlpha = 1; });
+  bits.draw(ctx);
+}
+
+document.getElementById('diffSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
+  this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; newRound(); }
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+view.onResize = function () { if (state !== 'play') layout(); };
+layout(); stats();
+MMC.loop(function (dt, time) { step(dt); draw(time); });
+window.__whack = { get state() { return state; }, holes: function () { return holes; }, bop: bop, get score() { return score; }, get clock() { return clock; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>

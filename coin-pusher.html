@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cosmic Coin Pusher &middot; MagickMica</title>
+<meta name="description" content="A Cosmic Circus game: drop star coins in front of the sliding pusher and shove the pile over the edge. Star tokens pay 5, gift tokens pay 10. Win prizes for your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/coin-pusher.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Cosmic Coin Pusher · Magick Mica Arcade">
+<meta property="og:description" content="Drop star coins and push the pile over the edge.">
+<meta property="og:url" content="https://magickmica.github.io/coin-pusher.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
+    <h1>COSMIC COIN PUSHER</h1>
+    <p class="tag">Drop star coins and push the pile over the edge.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ PUSH IT · TIP IT · WIN IT ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Coin pusher. Tap above the pile to drop a coin."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+          <p>Twenty star coins. Tap to drop a coin in front of the sliding pusher. It shoves the pile forward, and everything that falls off the front edge is yours. Coins are 1 point, aqua star tokens 5, and pink gift tokens 10.</p>
+          <div class="lbl">How wild</div>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="wild" aria-pressed="false">Wild</button>
+          </div>
+          <button class="go" id="startBtn" type="button">🪙 GET MY COINS</button>
+          <div class="howto"><b>Touch or mouse:</b> tap where you want the coin to drop.<br><b>Keyboard:</b> ← / → to move, space to drop.<br><b>Prizes:</b> 12 points for a small prize, 22 for a big one, 34 for a JUMBO.</div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">🪙 DROP MORE COINS</button>
+            <a class="ghost" href="arcade.html#circus">Back to the circus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">BEST<b id="sBest">0</b></span>
+      <span class="stat">COINS WON<b id="sCoins">0</b></span>
+      <span class="stat">ROUNDS<b id="sRounds">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>12 points for a small prize, 22 for a big one, 34 for a JUMBO. Prizes from every game at the circus land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=4"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_coinpusher_v1', { best: 0, coins: 0, rounds: 0 });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .66, 480), 600)); });
+var ctx = view.ctx;
+
+var DIFF = { easy: 1.25, normal: 1, wild: .8 }, diffKey = 'normal', DROPS = 20;
+var coins = [], drops = DROPS, score = 0, won = 0, state = 'menu', msgs = [], endT = 0, t = 0, settle = 0, falling = [], dropping = [];
+var aimX = 0;
+
+function field() {
+  var W = view.W, H = view.H, fw = Math.min(W - 36, 440);
+  return { l: (W - fw) / 2, r: (W + fw) / 2, top: 74, edge: H - 120, r0: Math.max(12, Math.min(17, fw / 26)) };
+}
+function front() { var f = field(); return f.top + 34 + (Math.sin(t * 2.4) * .5 + .5) * 90; }
+function fill() {
+  var f = field(), r = f.r0 * DIFF[diffKey], list = [], y0 = f.top + 128, row = 0;
+  for (var y = y0; y < f.edge - r * .8; y += r * 1.75, row++) {
+    for (var x = f.l + r + (row % 2) * r; x < f.r - r; x += r * 2.02) {
+      if (Math.random() < .02) continue;
+      list.push(coin(x + (Math.random() - .5) * 3, y + (Math.random() - .5) * 3, r));
+    }
+  }
+  // a few special tokens near the middle of the field
+  for (var k = 0; k < 4; k++) { var c = list[Math.floor(list.length * (.3 + Math.random() * .6))]; if (c) c.kind = k === 0 ? 'prize' : 'star'; }
+  coins = list;
+}
+function coin(x, y, r) { return { x: x, y: y, r: r, kind: 'coin', spin: Math.random() * 6 }; }
+function newRound() { t = 0; fill(); drops = DROPS; score = 0; won = 0; msgs = []; falling = []; dropping = []; settle = 0; state = 'play'; aimX = view.W / 2; }
+
+function drop(x) {
+  if (state !== 'play' || drops <= 0) return;
+  S.boot(); var f = field(), r = f.r0 * DIFF[diffKey];
+  x = Math.max(f.l + r, Math.min(f.r - r, x));
+  drops--; settle = 3.2;
+  dropping.push({ x: x, u: 0, r: r });
+  S.clink();
+}
+cv.addEventListener('pointerdown', function (e) { if (state !== 'play') return; e.preventDefault(); var p = MMC.pt(cv, e); aimX = p.x; drop(p.x); });
+cv.addEventListener('pointermove', function (e) { var p = MMC.pt(cv, e); aimX = p.x; });
+addEventListener('keydown', function (e) {
+  if (state !== 'play') return;
+  if (['ArrowLeft', 'ArrowRight', ' '].indexOf(e.key) > -1) e.preventDefault();
+  if (e.key === 'ArrowLeft') aimX -= 18; if (e.key === 'ArrowRight') aimX += 18;
+  if (e.key === ' ' && !e.repeat) drop(aimX);
+});
+
+function physics() {
+  var f = field(), fr = front();
+  for (var it = 0; it < 4; it++) {
+    for (var i = 0; i < coins.length; i++) {
+      var a = coins[i];
+      for (var j = i + 1; j < coins.length; j++) {
+        var b = coins[j], dx = b.x - a.x, dy = b.y - a.y, d2 = dx * dx + dy * dy, m = a.r + b.r;
+        if (d2 < m * m && d2 > 1e-6) {
+          var d = Math.sqrt(d2), o = (m - d) / 2, nx = dx / d, ny = dy / d;
+          a.x -= nx * o; a.y -= ny * o; b.x += nx * o; b.y += ny * o;
+        }
+      }
+    }
+    coins.forEach(function (c) {
+      if (c.y - c.r < fr) c.y = fr + c.r;            // the pusher
+      if (c.x < f.l + c.r) c.x = f.l + c.r; if (c.x > f.r - c.r) c.x = f.r - c.r;
+    });
+  }
+}
+function step(dt) {
+  t += dt;
+  for (var i = dropping.length - 1; i >= 0; i--) {
+    var d = dropping[i]; d.u += dt / .35;
+    if (d.u >= 1) { dropping.splice(i, 1); coins.push(coin(d.x, front() + d.r + 2, d.r)); S.tone(1800, 0, .05, .05, 'square'); }
+  }
+  physics();
+  var f = field();
+  for (var k = coins.length - 1; k >= 0; k--) {
+    var c = coins[k];
+    if (c.y > f.edge + c.r * .15) {
+      coins.splice(k, 1); falling.push({ x: c.x, y: c.y, r: c.r, kind: c.kind, vy: 60 });
+      if (state === 'play' || state === 'ending') {
+        var pts = c.kind === 'prize' ? 10 : c.kind === 'star' ? 5 : 1;
+        score += pts; won++;
+        if (pts > 1) { S.ding(true); bits.burst(c.x, f.edge + 20, c.kind === 'prize' ? '#ff4fa3' : '#ffd166', true); }
+        else { S.clink(); bits.sparkle(c.x, f.edge + 10, '#ffd166', 6); }
+        msgs.push({ txt: '+' + pts, x: c.x, y: f.edge + 10, life: 1, gold: pts > 1 });
+      }
+    }
+  }
+  falling.forEach(function (q) { q.vy += 900 * dt; q.y += q.vy * dt; }); falling = falling.filter(function (q) { return q.y < view.H + 30; });
+  msgs.forEach(function (m) { m.life -= dt; m.y += dt * 20; }); msgs = msgs.filter(function (m) { return m.life > 0; });
+  if (state === 'play' && drops <= 0 && !dropping.length) { settle -= dt; if (settle <= 0) { state = 'ending'; endT = .6; } }
+  if (state === 'ending') { endT -= dt; if (endT <= 0) end(); }
+  bits.step(dt, view.H);
+}
+function end() {
+  state = 'done';
+  if (window.MMPrizes) MMPrizes.addTickets(1 + Math.floor(score / 3), 'Coin Pusher');
+  st.data.rounds++; st.data.coins += won; var isBest = score > st.data.best; if (isBest) st.data.best = score; st.save(); stats();
+  var tier = score >= 34 ? 'jumbo' : score >= 22 ? 'medium' : score >= 12 ? 'small' : null;
+  var title = document.getElementById('endTitle'), text = document.getElementById('endText'), pz = document.getElementById('endPrize');
+  if (tier) {
+    var p = MMC.award(tier, 'Coin Pusher'); S.fanfare(); bits.confetti(view.W, view.H);
+    title.textContent = tier === 'jumbo' ? 'AVALANCHE!' : 'WINNER!';
+    text.textContent = score + ' points pushed over the edge.' + (isBest ? ' New best!' : '');
+    pz.innerHTML = p ? MMC.prizeCard(p) : '';
+  } else {
+    S.womp(); title.textContent = 'ALMOST TIPPED!';
+    text.textContent = score + ' points. You need 12 for a prize. Drop coins where the pile is already close to the edge.';
+    pz.innerHTML = '';
+  }
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+function stats() {
+  document.getElementById('sBest').textContent = st.data.best;
+  document.getElementById('sCoins').textContent = st.data.coins;
+  document.getElementById('sRounds').textContent = st.data.rounds;
+}
+
+/* ---------- drawing */
+function drawCoin(c, x, y, r) {
+  var col = c.kind === 'prize' ? '#ff4fa3' : c.kind === 'star' ? '#5ff3e8' : '#ffd166';
+  ctx.fillStyle = 'rgba(0,0,0,.3)'; ctx.beginPath(); ctx.arc(x + 2, y + 3, r, 0, 6.28); ctx.fill();
+  var g = ctx.createRadialGradient(x - r * .4, y - r * .4, 1, x, y, r); g.addColorStop(0, '#fff'); g.addColorStop(.35, col); g.addColorStop(1, MMC.shade(col, -.4));
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.28); ctx.fill();
+  ctx.strokeStyle = MMC.shade(col, -.25); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(x, y, r * .72, 0, 6.28); ctx.stroke();
+  ctx.fillStyle = c.kind === 'coin' ? MMC.shade(col, -.3) : '#fff';
+  if (c.kind === 'prize') { ctx.font = Math.round(r * 1.1) + 'px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('🎁', x, y + 1); }
+  else { MMC.star(ctx, x, y, r * .42, 5, .45); ctx.fill(); }
+}
+function draw(time) {
+  var W = view.W, H = view.H, f = field(), fr = front();
+  MMC.sky(ctx, W, H, time);
+  // cabinet + field
+  ctx.fillStyle = '#2f2f70'; MMC.rr(ctx, f.l - 14, f.top - 30, f.r - f.l + 28, f.edge - f.top + 60, 18); ctx.fill();
+  var fg = ctx.createLinearGradient(0, f.top, 0, f.edge); fg.addColorStop(0, '#1c2453'); fg.addColorStop(1, '#5146a2');
+  ctx.fillStyle = fg; ctx.fillRect(f.l, f.top, f.r - f.l, f.edge - f.top);
+  for (var gy = f.top + 10; gy < f.edge; gy += 26) { ctx.fillStyle = 'rgba(255,255,255,.035)'; ctx.fillRect(f.l, gy, f.r - f.l, 1); }
+  // edge + prize gutter
+  ctx.fillStyle = '#ffd166'; ctx.fillRect(f.l, f.edge - 2, f.r - f.l, 4);
+  ctx.fillStyle = '#0c0b22'; ctx.fillRect(f.l - 14, f.edge + 2, f.r - f.l + 28, 46);
+  MMC.label(ctx, '★ EVERYTHING THAT FALLS IS YOURS ★', W / 2, f.edge + 32, '#5ff3e8', Math.max(8, Math.min(11, W / 42)));
+  // coins
+  coins.forEach(function (c) { drawCoin(c, c.x, c.y, c.r); });
+  // pusher block
+  var pg = ctx.createLinearGradient(0, f.top, 0, fr); pg.addColorStop(0, '#9667ba'); pg.addColorStop(1, '#ff7ac8');
+  ctx.fillStyle = pg; ctx.fillRect(f.l, f.top - 30, f.r - f.l, fr - f.top + 30);
+  ctx.fillStyle = 'rgba(255,255,255,.45)'; ctx.fillRect(f.l, fr - 4, f.r - f.l, 4);
+  for (var i = 0; i < 9; i++) { ctx.fillStyle = (i + Math.floor(time * 4)) % 2 ? '#ffd166' : '#5ff3e8'; ctx.beginPath(); ctx.arc(f.l + (f.r - f.l) * (i + .5) / 9, fr - 14, 3.5, 0, 6.28); ctx.fill(); }
+  MMC.label(ctx, 'COSMIC PUSHER', W / 2, f.top - 10, '#fff', 11);
+  // dropping coins + aim marker
+  dropping.forEach(function (d) { var y = f.top - 40 + (fr + d.r - f.top + 40) * d.u; drawCoin({ kind: 'coin' }, d.x, y, d.r * (1.4 - .4 * d.u)); });
+  if (state === 'play' && drops > 0) {
+    var ax = Math.max(f.l + 14, Math.min(f.r - 14, aimX));
+    ctx.fillStyle = '#5ff3e8'; ctx.beginPath(); ctx.moveTo(ax, f.top - 34); ctx.lineTo(ax - 8, f.top - 48); ctx.lineTo(ax + 8, f.top - 48); ctx.fill();
+  }
+  falling.forEach(function (q) { drawCoin(q, q.x, q.y, q.r); });
+  // counter
+  var cy = H - 52, cg = ctx.createLinearGradient(0, cy, 0, H); cg.addColorStop(0, '#5146a2'); cg.addColorStop(1, '#2f2f70');
+  ctx.fillStyle = cg; ctx.fillRect(0, cy, W, 52); ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.fillRect(0, cy, W, 2);
+  drawCoin({ kind: 'coin' }, 22, cy + 26, 10); MMC.label(ctx, '× ' + drops, 40, cy + 31, '#ffd166', 12, 'left');
+  MMC.label(ctx, 'SCORE ' + score, W - 12, cy + 31, '#ffd166', 12, 'right');
+  if (state === 'play' && drops === DROPS) { ctx.globalAlpha = reduce ? 1 : .55 + .45 * Math.sin(time * 4); MMC.label(ctx, 'TAP TO DROP A COIN', W / 2, 26, '#5ff3e8', 10); ctx.globalAlpha = 1; }
+  msgs.forEach(function (m) { ctx.globalAlpha = Math.max(0, Math.min(1, m.life)); MMC.bigText(ctx, m.txt, m.x, m.y, m.gold ? 26 : 18, m.gold ? '#ffd166' : '#ff4fa3'); ctx.globalAlpha = 1; });
+  bits.draw(ctx);
+}
+
+document.getElementById('diffSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
+  this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; newRound(); }
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+view.onResize = function () { if (state !== 'play') fill(); };
+fill(); stats();
+MMC.loop(function (dt, time) { step(dt); draw(time); });
+window.__coins = { get state() { return state; }, drop: drop, field: field, coins: function () { return coins; }, get score() { return score; }, get drops() { return drops; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>
