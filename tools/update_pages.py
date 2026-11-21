@@ -111,8 +111,8 @@ def mag_card(href, cover, count, label):
             f'    </a>\n')
 
 
-def rebuild_mag_grid(html_text, notes, n_cards=8):
-    """Refresh the 8-card weekly Y3K grid on index.html and every frequency
+def rebuild_mag_grid(html_text, notes, n_cards=4):
+    """Refresh the 4-card weekly Y3K grid (4 newest weeks) on index.html and every frequency
     variant. Boundary is found by counting div depth, because the cards
     contain nested divs - a lazy regex would close on the first one."""
     start = html_text.find('<div class="mag-grid">')
@@ -250,7 +250,7 @@ def update_all(repo, out_dir, notes, articles, digest_weeks):
                 old = read_blob(html_text, "MTV_NOTES") or []
                 fresh = top_notes(notes, 150, False, mtv_fields)
                 payload = preserve_extra(fresh, old, "c")
-                # these pages also carry the 8-card weekly Y3K grid
+                # these pages also carry the 4-card weekly Y3K grid
                 html_text, _ = rebuild_mag_grid(html_text, notes)
             html_text, ok = inject(html_text, name, payload)
         if html_text != orig:

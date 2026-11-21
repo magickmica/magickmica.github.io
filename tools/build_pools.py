@@ -24,7 +24,7 @@ MAG_CDN = ("https://substackcdn.com/image/fetch/"
            "$s_!G4Yk!,w_400,c_limit,f_webp,q_auto:good,fl_progressive:steep/")
 
 
-def week_cards(notes, n=8):
+def week_cards(notes, n=4):    # the homepage shows the 4 newest weeks (Mica, 21 Nov 2026)
     weeks = {}
     for x in notes:
         d = datetime.date.fromisoformat(x["d"])
