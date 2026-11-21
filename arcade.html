@@ -766,6 +766,22 @@ body::before{background:
 @media(max-width:860px){ .cab-row--4,.cab-row--5,.cab-row--7{grid-template-columns:repeat(2,1fr)} .cab-row--7>.cab,.cab-row--7>.cab:nth-child(5){grid-column:auto} .cab-row--7>.cab:last-child{grid-column:1 / -1} .cab-row--7>.cab:last-child .cab-scr{aspect-ratio:32/10} .cab-row--5>.cab:last-child,.cab-row--3>.cab:last-child{grid-column:1 / -1} .cab-row--5>.cab:last-child .cab-scr,.cab-row--3>.cab:last-child .cab-scr{aspect-ratio:32/10} .counter{grid-template-columns:1fr} }
 @media(prefers-reduced-motion:reduce){ .wheel-ico{animation:none} }
 
+
+/* ---------- high-score board in the tent */
+.scores{margin-top:clamp(16px,2.4vw,24px);padding:16px clamp(12px,2vw,20px) 12px;border-radius:16px;border:2px solid rgba(255,209,102,.45);
+  background:radial-gradient(80% 60% at 50% 0,rgba(255,209,102,.12),transparent 70%),linear-gradient(180deg,#1b2554,#0c1230);
+  box-shadow:0 0 0 4px rgba(4,5,9,.5),inset 0 0 30px rgba(95,243,232,.08)}
+.sc-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sc-head span{font-family:Silkscreen,monospace;font-size:.78rem;letter-spacing:.22em;color:#ffd166;text-shadow:0 0 10px rgba(255,209,102,.5)}
+.sc-head i{font-style:normal;font-family:Silkscreen,monospace;font-size:.64rem;letter-spacing:.12em;color:#5ff3e8}
+.sc-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px 18px}
+.sc-list li a{display:flex;align-items:baseline;gap:8px;padding:5px 2px;border-bottom:1px dashed rgba(213,194,220,.18);text-decoration:none;color:#d5c2dc;font-size:.8rem}
+.sc-list li a:hover{color:#fff}
+.sc-list .ic{width:1.4em;text-align:center}
+.sc-list .nm{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-list b{font-family:Orbitron,sans-serif;font-weight:700;font-size:.9rem;color:#ffd166}
+.sc-list li.none b{color:rgba(213,194,220,.35);font-weight:500}
+.sc-note{margin:8px 0 0;font-size:.66rem;color:rgba(213,194,220,.55);text-align:center}
 /* ---------- the Midway as a cosmic big-top tent ---------- */
 .tent{position:relative;margin-top:clamp(36px,6vw,64px)}
 .tent-top{position:relative;height:clamp(120px,19vw,200px);margin:0 -8px}
@@ -844,7 +860,7 @@ body::before{background:
   <div class="hud-row">
     <span class="hud"><b>1UP</b> YOU</span>
     <span class="hud blink">CREDITS ∞</span>
-    <span class="hud"><b>GAMES+TOYS</b> 37</span>
+    <span class="hud"><b>GAMES+TOYS</b> 40</span>
   </div>
   <nav class="jump" aria-label="Jump to">
     <a href="#circus" class="j-new">🎪 The Circus</a>
@@ -856,8 +872,8 @@ body::before{background:
 </header>
 
 <div class="ticker" aria-hidden="true"><div class="ticker-in">
-  <span>★ THE COSMIC CIRCUS IS OPEN</span><span>★ NEW: DUCK POND · CLAW MACHINE · WHACK-AN-ALIEN · SKEE-BALL</span><span>★ NEW: COIN PUSHER · STAR BLASTER · HOOP SHOT</span><span>★ FORTUNE TELLER · TICKET BOOTH · PHOTO BOOTH</span><span>★ CLOWN SPLASH · RING TOSS · MOON STRIKER · STAR DARTS</span><span>★ ONE FREE SPIN A DAY ON THE PRIZE WHEEL</span><span>★ THE WITCHING HOUR IS OPEN ALL NIGHT</span><span>★ SIX MORE GAMES IN THE SIX-IN-ONE</span>
-  <span>★ THE COSMIC CIRCUS IS OPEN</span><span>★ NEW: DUCK POND · CLAW MACHINE · WHACK-AN-ALIEN · SKEE-BALL</span><span>★ NEW: COIN PUSHER · STAR BLASTER · HOOP SHOT</span><span>★ FORTUNE TELLER · TICKET BOOTH · PHOTO BOOTH</span><span>★ CLOWN SPLASH · RING TOSS · MOON STRIKER · STAR DARTS</span><span>★ ONE FREE SPIN A DAY ON THE PRIZE WHEEL</span><span>★ THE WITCHING HOUR IS OPEN ALL NIGHT</span><span>★ SIX MORE GAMES IN THE SIX-IN-ONE</span>
+  <span>★ THE COSMIC CIRCUS IS OPEN</span><span>★ NEW: WINTER CARNIVAL · SNOWBALL SPLAT · COCOA CATCH · FERRIS WHEEL</span><span>★ NEW: DUCK POND · CLAW MACHINE · WHACK-AN-ALIEN · SKEE-BALL</span><span>★ NEW: COIN PUSHER · STAR BLASTER · HOOP SHOT</span><span>★ FORTUNE TELLER · TICKET BOOTH · PHOTO BOOTH</span><span>★ CLOWN SPLASH · RING TOSS · MOON STRIKER · STAR DARTS</span><span>★ ONE FREE SPIN A DAY ON THE PRIZE WHEEL</span><span>★ THE WITCHING HOUR IS OPEN ALL NIGHT</span>
+  <span>★ THE COSMIC CIRCUS IS OPEN</span><span>★ NEW: WINTER CARNIVAL · SNOWBALL SPLAT · COCOA CATCH · FERRIS WHEEL</span><span>★ NEW: DUCK POND · CLAW MACHINE · WHACK-AN-ALIEN · SKEE-BALL</span><span>★ NEW: COIN PUSHER · STAR BLASTER · HOOP SHOT</span><span>★ FORTUNE TELLER · TICKET BOOTH · PHOTO BOOTH</span><span>★ CLOWN SPLASH · RING TOSS · MOON STRIKER · STAR DARTS</span><span>★ ONE FREE SPIN A DAY ON THE PRIZE WHEEL</span><span>★ THE WITCHING HOUR IS OPEN ALL NIGHT</span>
 </div></div>
 
 <a class="feature" href="#circus">
@@ -928,6 +944,13 @@ body::before{background:
     <a class="cab is-new" href="shooting-gallery.html" style="--c:#9667ba;--c2:#5ff3e8"><span class="cab-mq">STAR BLASTER</span><span class="cab-scr"><span class="cab-ico">🎯</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Blast the gliding planets and catch the golden UFO.</span><span class="cab-btn">BLAST ▸</span></a>
     <a class="cab is-new" href="hoop-shot.html" style="--c:#ff7a1a;--c2:#ffd166"><span class="cab-mq">HOOP SHOT</span><span class="cab-scr"><span class="cab-ico">🏀</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Swipe to sink baskets. Three in a row and you are on fire.</span><span class="cab-btn">SHOOT ▸</span></a>
   </div>
+  <p class="side-head"><a href="winter-carnival.html" style="color:inherit;text-decoration:none">❄ WINTER CARNIVAL ❄</a></p>
+  <div class="cab-row cab-row--3">
+    <a class="cab is-new" href="snowball-splat.html" style="--c:#e8f0ff;--c2:#5ff3e8"><span class="cab-mq">SNOWBALL SPLAT</span><span class="cab-scr"><span class="cab-ico">❄️</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Lob snowballs at whoever pops up. Wins holiday prizes.</span><span class="cab-btn">THROW ▸</span></a>
+    <a class="cab is-new" href="cocoa-catch.html" style="--c:#ff7ac8;--c2:#e8f0ff"><span class="cab-mq">COCOA CATCH</span><span class="cab-scr"><span class="cab-ico">☕</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Catch treats in your mug. Dodge the ice cubes.</span><span class="cab-btn">CATCH ▸</span></a>
+    <a class="cab is-new" href="ferris-wheel.html" style="--c:#b9a3ff;--c2:#ffd166"><span class="cab-mq">FERRIS WHEEL</span><span class="cab-scr"><span class="cab-ico">🎡</span><span class="cab-tag">RIDE</span></span><span class="cab-ds">Ride up into the night sky and wish on shooting stars.</span><span class="cab-btn">RIDE ▸</span></a>
+  </div>
+  <p class="sc-note" style="text-align:center;margin:14px 0 18px"><a href="winter-carnival.html">See all 18 holiday prizes at the Winter Carnival ▸</a></p>
   <p class="side-head">✦ SIDESHOW BOOTHS ✦</p>
   <div class="cab-row cab-row--3">
     <a class="cab is-new" href="fortune-teller.html" style="--c:#9667ba;--c2:#5ff3e8"><span class="cab-mq">FORTUNE TELLER</span><span class="cab-scr"><span class="cab-ico">🔮</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Ask Madame Nebula. Your fortune is a line from one of my notes.</span><span class="cab-btn">ASK ▸</span></a>
@@ -944,6 +967,11 @@ body::before{background:
       <div class="cs-head"><b>Your prize shelf</b><span id="prizeCount"></span></div>
       <div class="shelf-row" id="arcadeShelf"><span class="empty">Win a circus game and your first prize shows up here.</span></div>
     </div>
+  </div>
+  <div class="scores" id="scores" aria-label="Your high scores">
+    <div class="sc-head"><span>★ YOUR HIGH SCORES ★</span><i id="streakNote"></i></div>
+    <ol class="sc-list" id="scList"></ol>
+    <p class="sc-note">Kept in this browser. Beat your best and it lights up here.</p>
   </div>
     </div>
     <div class="tent-bulbs" aria-hidden="true"></div>
@@ -999,8 +1027,37 @@ body::before{background:
 (function(){var g=(location.hash||'').slice(1).split('=')[0].toLowerCase();
 if(['scratch','memory','guess','slots','hunt','jigsaw','play'].indexOf(g)>-1){location.replace('six-in-one.html'+(g==='play'?'':location.hash));}})();
 </script>
-<script src="mm-prizes.js?v=4"></script>
+<script src="mm-prizes.js?v=5"></script>
 <script>
+
+// the visitor's own high scores, read from what each game saves in this browser
+(function(){
+  function J(k){ try{ return JSON.parse(localStorage.getItem(k)||'null'); }catch(e){ return null; } }
+  function N(k){ try{ return parseInt(localStorage.getItem(k),10)||0; }catch(e){ return 0; } }
+  var G=[
+    ['🎈','Clown Splash','cosmic-clown-splash.html',function(){var d=J('mm_clownsplash_v1');return d&&d.best?d.best.toFixed(1)+'s':'';}],
+    ['🪐','Ring Toss','ring-toss.html',function(){var d=J('mm_ringtoss_v1');return d&&d.best?d.best+' pts':'';}],
+    ['🔨','Moon Striker','moon-striker.html',function(){var d=J('mm_moonstriker_v1');return d&&d.best?d.best+' pts':'';}],
+    ['🌠','Star Darts','star-darts.html',function(){var d=J('mm_stardarts_v1');return d&&d.best?d.best+' pts':'';}],
+    ['🦆','Duck Pond','duck-pond.html',function(){var d=J('mm_duckpond_v1');return d&&d.best?d.best+' pts':'';}],
+    ['🧸','Claw Machine','claw-machine.html',function(){var d=J('mm_claw_v1');return d&&d.won?d.won+' won':'';}],
+    ['👽','Whack-an-Alien','whack-an-alien.html',function(){var d=J('mm_whack_v1');return d&&d.best?d.best+' pts':'';}],
+    ['🎳','Skee-Ball','skee-ball.html',function(){var d=J('mm_skee_v1');return d&&d.best?d.best+' pts':'';}],
+    ['🪙','Coin Pusher','coin-pusher.html',function(){var d=J('mm_coinpusher_v1');return d&&d.best?d.best+' pts':'';}],
+    ['🎯','Star Blaster','shooting-gallery.html',function(){var d=J('mm_gallery_v1');return d&&d.best?d.best+' pts':'';}],
+    ['🏀','Hoop Shot','hoop-shot.html',function(){var d=J('mm_hoopshot_v1');return d&&d.best?d.best+' pts':'';}],
+    ['❄️','Snowball Splat','snowball-splat.html',function(){var d=J('mm_snowball_v1');return d&&d.best?d.best+' pts':'';}],
+    ['☕','Cocoa Catch','cocoa-catch.html',function(){var d=J('mm_cocoa_v1');return d&&d.best?d.best+' pts':'';}],
+    ['🕯','Witching Hour','witching-hour.html',function(){var n=N('mm_witching_best');return n?n.toLocaleString()+' pts':'';}],
+    ['🌙','Moon Shot','moon-shot.html',function(){var n=N('mm_moonshot_v1');return n?n+' streak':'';}],
+    ['☄️','Comet Rally','pong.html',function(){var n=N('mm_cometrally_v1');return n?n+' rally':'';}],
+    ['🎵','Cosmic Echo','cosmic-echo.html',function(){var n=N('mm_echo_v1');return n?n+' notes':'';}]
+  ];
+  var el=document.getElementById('scList'); if(!el) return;
+  el.innerHTML=G.map(function(g){ var v=''; try{ v=g[3](); }catch(e){}
+    return '<li class="'+(v?'':'none')+'"><a href="'+g[2]+'"><span class="ic">'+g[0]+'</span><span class="nm">'+g[1]+'</span><b>'+(v||'—')+'</b></a></li>'; }).join('');
+  try{ var d=JSON.parse(localStorage.getItem('mm_daily_v1')||'null'); if(d&&d.streak) document.getElementById('streakNote').textContent='🔥 VISIT STREAK: '+d.streak+' DAY'+(d.streak>1?'S':''); }catch(e){}
+})();
 // the visitor's own prize shelf from the midway games (saved in their browser only)
 (function(){ if(!window.MMPrizes) return; var el=document.getElementById('arcadeShelf'), c=document.getElementById('prizeCount');
   function draw(){ var n=MMPrizes.read().length; if(n){ MMPrizes.render(el,{limit:40}); } var t=MMPrizes.tickets?MMPrizes.tickets():0; c.textContent=(n?(n+(n===1?' prize':' prizes')):'')+(t?(n?' · ':'')+'🎟 '+t+(t===1?' ticket':' tickets'):''); }

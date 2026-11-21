@@ -10,11 +10,14 @@
                                   circus tickets, earned in every game, spent at the Ticket Booth
    MMPrizes.owned() / collect(item)   collectibles traded for at the Ticket Booth
    MMPrizes.render(el, opts)      -> draws a shelf into el
+   MMPrizes.daily()               -> {fresh, streak, tickets, spin}  once-a-day visit prize
+   MMPrizes.dupes() / tradeIn(e, n) / tradeValue(p)   swap extra prizes for tickets
+   MMPrizes.pick(tier, 'winter')  -> a Winter Carnival holiday prize
 */
 (function () {
   'use strict';
   var KEY = 'mm_prizes_v1', TOK = 'mm_prize_tokens_v1', OLD = 'mm_clownsplash_v1', MAX = 150,
-      TIX = 'mm_tickets_v1', OWN = 'mm_collect_v1', PER = {small: 5, medium: 15, jumbo: 40};
+      TIX = 'mm_tickets_v1', OWN = 'mm_collect_v1', DAY = 'mm_daily_v1', PER = {small: 5, medium: 15, jumbo: 40};
 
   var CAT = {
     small:  [['🛸','UFO keychain'],['⭐','Glow-in-the-dark star'],['💎','Pocket crystal'],['☄️','Comet sticker'],
@@ -36,6 +39,12 @@
              ['🦈','HUGE sky shark'],['🐅','ROARING ring tiger'],['🦓','MAJESTIC star zebra'],['🦬','COLOSSAL star bison']]
   };
 
+  var WINTER = {
+    small:  [['❄️','Snowflake charm'],['🧤','Star-knit mittens'],['🍪','Gingerbread comet'],['🔔','Sleigh bell'],['🕯️','Peppermint candle'],
+             ['🍬','Candy cane rocket'],['🧦','Fuzzy moon socks'],['☃️','Snow globe sticker']],
+    medium: [['⛄','Snowman plush'],['🐧','Penguin in a scarf'],['🦌','Starlight reindeer'],['🐻‍❄️','Polar cub plush'],['🧣','Aurora scarf'],['🎄','Tiny cosmic tree']],
+    jumbo:  [['🦌','GIANT glowing reindeer'],['⛄','ENORMOUS snow friend'],['🐻‍❄️','HUGE polar bear hug'],['🛷','JUMBO comet sleigh']]
+  };
   function get(key, fallback) {
     try { var v = localStorage.getItem(key); return v == null ? fallback : JSON.parse(v); } catch (e) { return fallback; }
   }
@@ -52,9 +61,10 @@
     }
     return list;
   }
-  function pick(tier) {
-    var l = CAT[tier] || CAT.small, p = l[Math.floor(Math.random() * l.length)];
-    return {e: p[0], n: p[1], tier: CAT[tier] ? tier : 'small'};
+  function pick(tier, set) {
+    var C = set === 'winter' ? WINTER : CAT;
+    var l = C[tier] || C.small, p = l[Math.floor(Math.random() * l.length)];
+    return {e: p[0], n: p[1], tier: C[tier] ? tier : 'small'};
   }
   function add(prize, game) {
     var list = read();
@@ -77,6 +87,70 @@
   function collect(item) {
     var o = owned(); if (o.indexOf(item.id) < 0) { o.push(item.id); set(OWN, o); }
     add({e: item.e, n: item.n, tier: 'rare'}, 'Ticket Booth');
+  }
+
+  /* once-a-day visit prize: 10 tickets, +5 for every day in a row (up to 40), and a bonus wheel spin every 7th day */
+  function dayKey(d) { return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+  function daily() {
+    var now = new Date(), today = dayKey(now), y = new Date(now); y.setDate(y.getDate() - 1);
+    var d = get(DAY, {last: '', streak: 0});
+    if (d.last === today) return {fresh: false, streak: d.streak};
+    d.streak = d.last === dayKey(y) ? d.streak + 1 : 1; d.last = today; set(DAY, d);
+    var n = 10 + Math.min(d.streak - 1, 6) * 5, spin = d.streak % 7 === 0;
+    addTickets(n, 'Daily visit'); if (spin) addToken(1);
+    return {fresh: true, streak: d.streak, tickets: n, spin: spin};
+  }
+  function dailyCard() {
+    var r = daily(); if (!r.fresh || !document.body) return r;
+    try {
+      var el = document.createElement('div');
+      el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Daily visit prize');
+      el.style.cssText = 'position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:10000;width:min(360px,calc(100vw - 32px));' +
+        'padding:16px 18px 14px;border-radius:18px;text-align:center;color:#fff;font:14px/1.45 "IBM Plex Mono",monospace;' +
+        'background:linear-gradient(160deg,#2f2f70,#131c3f);border:2px solid #ffd166;box-shadow:0 0 0 4px rgba(4,5,9,.6),0 18px 50px rgba(0,0,0,.6),0 0 40px rgba(255,209,102,.3)';
+      var dots = '';
+      for (var i = 1; i <= 7; i++) dots += '<span style="display:inline-block;width:22px;height:22px;line-height:22px;margin:0 2px;border-radius:50%;font-size:11px;' +
+        ((((r.streak - 1) % 7) + 1) >= i ? 'background:#ffd166;color:#040509' : 'background:rgba(255,255,255,.1);color:#d5c2dc') + '">' + (i === 7 ? '🎡' : i) + '</span>';
+      el.innerHTML = '<div style="font:11px Silkscreen,monospace;letter-spacing:.2em;color:#5ff3e8">★ DAILY VISIT PRIZE ★</div>' +
+        '<div style="font:900 28px Orbitron,sans-serif;margin:6px 0 2px;color:#ffd166;text-shadow:0 0 16px rgba(255,209,102,.6)">🎟 +' + r.tickets + '</div>' +
+        '<div style="color:#d5c2dc">' + (r.streak > 1 ? 'Day ' + r.streak + ' in a row! Come back tomorrow for more.' : 'Welcome back to the circus! Visit every day to grow your streak.') +
+        (r.spin ? '<br><b style="color:#ff4fa3">7-day streak: a free bonus spin on the Prize Wheel!</b>' : '') + '</div>' +
+        '<div style="margin:10px 0 8px">' + dots + '</div>' +
+        '<button type="button" style="font:12px Silkscreen,monospace;letter-spacing:.12em;padding:9px 18px;border-radius:999px;border:0;cursor:pointer;color:#040509;background:linear-gradient(90deg,#ffd166,#ff4fa3)">YAY! ✨</button>';
+      el.querySelector('button').onclick = function () { el.remove(); };
+      document.body.appendChild(el);
+      setTimeout(function () { if (el.parentNode) el.remove(); }, 12000);
+    } catch (e) {}
+    return r;
+  }
+
+  /* trading extra prizes back for tickets */
+  var TRADE = {small: 2, medium: 6, jumbo: 15};
+  function tradeValue(p) {
+    if (p.tier === 'rare') { var c = (window.MMRareCost || {})[p.n]; return Math.max(5, Math.round((c || 40) * .3)); }
+    return TRADE[p.tier] || 0;
+  }
+  function dupes() {
+    var groups = {}, order = [];
+    read().forEach(function (p) {
+      if (p.tier === 'fortune') return;
+      var k = p.e + '|' + p.n;
+      if (!groups[k]) { groups[k] = {e: p.e, n: p.n, tier: p.tier, count: 0}; order.push(k); }
+      groups[k].count++;
+    });
+    return order.map(function (k) { return groups[k]; }).filter(function (g) { return g.count > 1; });
+  }
+  function tradeIn(e, n) {
+    var list = read();
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].e === e && list[i].n === n) {
+        var count = list.filter(function (q) { return q.e === e && q.n === n; }).length;
+        if (count < 2) return 0;
+        var v = tradeValue(list[i]); list.splice(i, 1); set(KEY, list);
+        addTickets(v, 'Trade-in'); return v;
+      }
+    }
+    return 0;
   }
 
   var tEl = null, tTimer = 0, tSum = 0;
@@ -116,5 +190,10 @@
   }
 
   window.MMPrizes = {CAT: CAT, PER: PER, read: read, pick: pick, add: add, tokens: tokens, addToken: addToken, useToken: useToken,
-    tickets: tickets, addTickets: addTickets, spendTickets: spendTickets, owned: owned, collect: collect, render: render};
+    tickets: tickets, addTickets: addTickets, spendTickets: spendTickets, owned: owned, collect: collect, render: render,
+    WINTER: WINTER, daily: daily, dailyCard: dailyCard, dupes: dupes, tradeIn: tradeIn, tradeValue: tradeValue};
+
+  // the daily visit prize pops up on whichever circus or arcade page someone opens first each day
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(dailyCard, 900); });
+  else setTimeout(dailyCard, 900);
 })();

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cocoa Catch &middot; MagickMica</title>
+<meta name="description" content="A Winter Carnival game at the Cosmic Circus: slide your mug of hot cocoa to catch falling marshmallows, candies, cookies and golden stars. Dodge the ice cubes. Win holiday prizes for your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/cocoa-catch.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Cocoa Catch · Magick Mica Arcade">
+<meta property="og:description" content="Catch the treats in your cocoa. Dodge the ice cubes.">
+<meta property="og:url" content="https://magickmica.github.io/cocoa-catch.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
+    <h1>COCOA CATCH</h1>
+    <p class="tag">Catch the treats in your cocoa. Dodge the ice cubes.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ WINTER CARNIVAL · COCOA CATCH ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Cocoa catch. Slide to move the mug under the falling treats."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+          <p>Forty seconds of falling treats. Slide your mug of hot cocoa to catch them. Marshmallows are 1, candies 2, cookies 3 and golden stars 5. Eight treats in a row adds a combo bonus. Ice cubes chill your cocoa and cost 3, so dodge them.</p>
+          <div class="lbl">How wild</div>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="wild" aria-pressed="false">Wild</button>
+          </div>
+          <button class="go" id="startBtn" type="button">☕ POUR MY COCOA</button>
+          <div class="howto"><b>Touch:</b> drag left and right.<br><b>Mouse:</b> just move it.<br><b>Keyboard:</b> ← / → to slide.<br><b>Prizes:</b> holiday prizes! 35 points for a small one, 55 for a big one, 80 for a JUMBO.</div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">☕ ANOTHER CUP</button>
+            <a class="ghost" href="arcade.html#circus">Back to the circus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">BEST<b id="sBest">0</b></span>
+      <span class="stat">TREATS<b id="sCaught">0</b></span>
+      <span class="stat">ROUNDS<b id="sRounds">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>Cocoa Catch gives out holiday prizes: 35 points for a small one, 55 for a big one, 80 for a JUMBO. Prizes from every game at the circus land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=5"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_cocoa_v1', { best: 0, caught: 0, rounds: 0 });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .64, 470), 600)); });
+var ctx = view.ctx;
+
+var DIFF = { easy: { fall: .75, gap: .62 }, normal: { fall: 1, gap: .48 }, wild: { fall: 1.35, gap: .36 } };
+var diffKey = 'normal', TIME = 40;
+// [kind, points, weight, emoji or null for drawn]
+var KINDS = [['mallow', 1, 44], ['cane', 2, 22, '🍬'], ['cookie', 3, 12, '🍪'], ['star', 5, 4], ['ice', -3, 18, '🧊']];
+var items = [], mug = { x: 0, tx: 0 }, score = 0, caught = 0, state = 'menu', msgs = [], endT = 0, t = 0, left = TIME, spawnT = 0, steam = [], shake = 0, combo = 0;
+var flakes = [];
+for (var f = 0; f < 60; f++) flakes.push({ x: Math.random(), y: Math.random(), r: Math.random() * 2 + .5, v: Math.random() * .5 + .4, w: Math.random() * 6 });
+
+function mugW() { return Math.max(70, Math.min(110, view.W * .2)); }
+function mugY() { return view.H - 92; }
+function pickKind() {
+  var tot = 0; KINDS.forEach(function (k) { tot += k[2]; });
+  var r = Math.random() * tot; for (var i = 0; i < KINDS.length; i++) { r -= KINDS[i][2]; if (r <= 0) return KINDS[i]; }
+  return KINDS[0];
+}
+function spawn() {
+  var k = pickKind(), W = view.W, ramp = 1 + (TIME - left) / TIME * .6;
+  items.push({ k: k[0], pts: k[1], em: k[3] || null, x: 24 + Math.random() * (W - 48), y: -20, v: (150 + Math.random() * 70) * DIFF[diffKey].fall * ramp, rot: Math.random() * 6, vr: (Math.random() - .5) * 3 });
+}
+function newRound() { items = []; score = 0; caught = 0; combo = 0; msgs = []; left = TIME; spawnT = .3; mug.x = mug.tx = view.W / 2; state = 'play'; }
+
+function move(x) { mug.tx = Math.max(mugW() / 2, Math.min(view.W - mugW() / 2, x)); }
+cv.addEventListener('pointerdown', function (e) { e.preventDefault(); S.boot(); move(MMC.pt(cv, e).x); });
+cv.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse' || e.buttons) move(MMC.pt(cv, e).x); });
+var keys = {};
+addEventListener('keydown', function (e) { if (state === 'play' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) { e.preventDefault(); keys[e.key] = true; } });
+addEventListener('keyup', function (e) { keys[e.key] = false; });
+
+function catchIt(o) {
+  var y = mugY();
+  if (o.pts < 0) {
+    score = Math.max(0, score + o.pts); combo = 0; shake = .4; S.thud();
+    msgs.push({ txt: 'BRRR ' + o.pts, x: o.x, y: y - 40, life: 1.1, gold: false, ice: true }); bits.sparkle(o.x, y, '#bfe9ff', 16); return;
+  }
+  caught++; combo++;
+  var bonus = combo > 0 && combo % 8 === 0 ? 3 : 0;
+  score += o.pts + bonus;
+  if (o.pts >= 5) { S.fanfare(); bits.burst(o.x, y - 20, '#ffd166', true); } else { S.ding(o.pts >= 3); bits.sparkle(o.x, y - 10, o.pts >= 2 ? '#ff7ac8' : '#fff', 10); }
+  steam.push({ x: o.x, y: y - 6, life: 1 });
+  msgs.push({ txt: '+' + (o.pts + bonus) + (bonus ? ' COMBO' : ''), x: o.x, y: y - 40, life: 1, gold: o.pts >= 3 || bonus });
+}
+function step(dt) {
+  t += dt;
+  flakes.forEach(function (fl) { fl.y += dt * fl.v * .08; if (fl.y > 1) { fl.y = 0; fl.x = Math.random(); } });
+  if (keys.ArrowLeft) move(mug.tx - 420 * dt); if (keys.ArrowRight) move(mug.tx + 420 * dt);
+  mug.x += (mug.tx - mug.x) * Math.min(1, dt * 16);
+  shake = Math.max(0, shake - dt);
+  if (state === 'play') {
+    left -= dt;
+    spawnT -= dt; if (spawnT <= 0) { spawn(); spawnT = DIFF[diffKey].gap * (.6 + Math.random() * .8) / (1 + (TIME - left) / TIME * .5); }
+    if (left <= 0) { left = 0; state = 'ending'; endT = 1; }
+  }
+  var my = mugY(), hw = mugW() / 2;
+  items.forEach(function (o) {
+    var py = o.y; o.y += o.v * dt; o.rot += o.vr * dt;
+    if (!o.done && py < my && o.y >= my && Math.abs(o.x - mug.x) < hw * .92) { o.done = true; if (state === 'play' || state === 'ending') catchIt(o); }
+    if (!o.done && o.y > view.H + 30) { o.done = true; if (o.pts > 0) combo = 0; }
+  });
+  items = items.filter(function (o) { return !o.done; });
+  steam.forEach(function (s) { s.life -= dt * .8; s.y -= dt * 30; }); steam = steam.filter(function (s) { return s.life > 0; });
+  msgs.forEach(function (m) { m.life -= dt; m.y -= dt * 30; }); msgs = msgs.filter(function (m) { return m.life > 0; });
+  if (state === 'ending') { endT -= dt; if (endT <= 0) end(); }
+  bits.step(dt, view.H);
+}
+function award(tier, game) {
+  if (!window.MMPrizes) return null;
+  var p = MMPrizes.pick(tier, 'winter'); MMPrizes.add(p, game); MMPrizes.addToken(1); return p;
+}
+function end() {
+  state = 'done'; items = [];
+  if (window.MMPrizes) MMPrizes.addTickets(1 + Math.floor(score / 8), 'Cocoa Catch');
+  st.data.rounds++; st.data.caught += caught; var isBest = score > st.data.best; if (isBest) st.data.best = score; st.save(); stats();
+  var tier = score >= 80 ? 'jumbo' : score >= 55 ? 'medium' : score >= 35 ? 'small' : null;
+  var title = document.getElementById('endTitle'), text = document.getElementById('endText'), pz = document.getElementById('endPrize');
+  if (tier) {
+    var p = award(tier, 'Cocoa Catch'); S.fanfare(); bits.confetti(view.W, view.H);
+    title.textContent = tier === 'jumbo' ? 'EXTRA WHIPPED CREAM!' : 'COZY WINNER!';
+    text.textContent = score + ' points, ' + caught + ' treats in the mug.' + (isBest ? ' New best!' : '');
+    pz.innerHTML = p ? MMC.prizeCard(p) : '';
+  } else {
+    S.womp(); title.textContent = 'A LITTLE CHILLY!';
+    text.textContent = score + ' point' + (score === 1 ? '' : 's') + '. You need 35 for a prize. Dodge the ice cubes, they cost 3.';
+    pz.innerHTML = '';
+  }
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+function stats() {
+  document.getElementById('sBest').textContent = st.data.best;
+  document.getElementById('sCaught').textContent = st.data.caught;
+  document.getElementById('sRounds').textContent = st.data.rounds;
+}
+
+/* ---------- drawing */
+function item(o) {
+  ctx.save(); ctx.translate(o.x, o.y); ctx.rotate(reduce ? 0 : o.rot);
+  if (o.k === 'mallow') {
+    ctx.fillStyle = '#fff6f0'; MMC.rr(ctx, -11, -9, 22, 18, 6); ctx.fill();
+    ctx.fillStyle = 'rgba(255,122,200,.25)'; MMC.rr(ctx, -11, 2, 22, 7, 4); ctx.fill();
+  } else if (o.k === 'star') {
+    ctx.shadowColor = '#ffd166'; ctx.shadowBlur = 16; ctx.fillStyle = '#ffd166'; MMC.star(ctx, 0, 0, 16, 5, .45); ctx.fill();
+  } else {
+    ctx.font = (o.k === 'ice' ? 26 : 24) + 'px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#fff'; ctx.fillText(o.em, 0, 1);
+  }
+  ctx.restore();
+}
+function drawMug(x, y) {
+  var w = mugW(), h = w * .78, sx = shake ? Math.sin(t * 60) * 4 : 0;
+  x += sx;
+  ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.beginPath(); ctx.ellipse(x, y + h + 4, w * .55, 7, 0, 0, 6.28); ctx.fill();
+  // handle
+  ctx.strokeStyle = '#ff4fa3'; ctx.lineWidth = Math.max(7, w * .09); ctx.beginPath(); ctx.arc(x + w / 2, y + h * .45, h * .27, -1.4, 1.4); ctx.stroke();
+  // body
+  var g = ctx.createLinearGradient(x - w / 2, 0, x + w / 2, 0); g.addColorStop(0, '#c2306f'); g.addColorStop(.35, '#ff7ac8'); g.addColorStop(1, '#a3245c');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(x - w / 2, y); ctx.lineTo(x + w / 2, y); ctx.lineTo(x + w * .44, y + h); ctx.quadraticCurveTo(x, y + h + 8, x - w * .44, y + h); ctx.closePath(); ctx.fill();
+  // cocoa
+  ctx.fillStyle = '#6b3a24'; ctx.beginPath(); ctx.ellipse(x, y, w / 2, w * .12, 0, 0, 6.28); ctx.fill();
+  ctx.fillStyle = '#8a5236'; ctx.beginPath(); ctx.ellipse(x - w * .08, y - 1, w * .3, w * .06, 0, 0, 6.28); ctx.fill();
+  ctx.strokeStyle = '#ffd6ec'; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(x, y, w / 2, w * .12, 0, 0, 6.28); ctx.stroke();
+  // little star print
+  ctx.fillStyle = '#ffd166'; MMC.star(ctx, x - w * .05, y + h * .5, w * .12, 5, .45); ctx.fill();
+  if (state === 'play' && combo >= 3) MMC.label(ctx, combo + ' IN A ROW', x, y + h + 20, '#ffd166', 9);
+}
+function draw(time) {
+  var W = view.W, H = view.H;
+  MMC.sky(ctx, W, H, time);
+  // moon and snowy rooftops
+  ctx.fillStyle = '#fff6cf'; ctx.shadowColor = '#fff6cf'; ctx.shadowBlur = 30; ctx.beginPath(); ctx.arc(W * .82, H * .14, 26, 0, 6.28); ctx.fill(); ctx.shadowBlur = 0;
+  ctx.fillStyle = '#131c3f'; ctx.beginPath(); ctx.arc(W * .82 + 10, H * .14 - 6, 22, 0, 6.28); ctx.fill();
+  var gy = H - 40;
+  ctx.fillStyle = '#2b2f6b';
+  [[.02, .1, 60], [.14, .12, 90], [.3, .1, 50], [.62, .14, 75], [.8, .16, 100]].forEach(function (b) {
+    var bx = b[0] * W, bw = b[1] * W, bh = b[2];
+    ctx.fillRect(bx, gy - bh, bw, bh);
+    ctx.fillStyle = '#e8f0ff'; MMC.rr(ctx, bx - 3, gy - bh - 6, bw + 6, 10, 5); ctx.fill(); ctx.fillStyle = '#ffd166';
+    for (var wx = bx + 8; wx < bx + bw - 10; wx += 18) ctx.fillRect(wx, gy - bh + 14, 8, 10);
+    ctx.fillStyle = '#2b2f6b';
+  });
+  // snowy ground / counter
+  var cg = ctx.createLinearGradient(0, gy, 0, H); cg.addColorStop(0, '#eef3ff'); cg.addColorStop(1, '#a3b1dd');
+  ctx.fillStyle = cg; ctx.fillRect(0, gy, W, 40);
+  // timer bar
+  ctx.fillStyle = 'rgba(255,255,255,.12)'; MMC.rr(ctx, 12, 12, W - 24, 8, 4); ctx.fill();
+  ctx.fillStyle = left < 8 ? '#ff4fa3' : '#5ff3e8'; MMC.rr(ctx, 12, 12, (W - 24) * (left / TIME), 8, 4); ctx.fill();
+  MMC.label(ctx, Math.ceil(left) + 's', 14, 36, '#d5c2dc', 10, 'left');
+  MMC.label(ctx, 'SCORE ' + score, W - 14, 36, '#ffd166', 12, 'right');
+  items.forEach(item);
+  steam.forEach(function (s) { ctx.globalAlpha = s.life * .6; ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.quadraticCurveTo(s.x + 8, s.y - 10, s.x, s.y - 20); ctx.stroke(); ctx.globalAlpha = 1; });
+  drawMug(mug.x, mugY());
+  if (!reduce) { ctx.fillStyle = 'rgba(255,255,255,.75)'; flakes.forEach(function (fl) { ctx.beginPath(); ctx.arc(fl.x * W + Math.sin(time + fl.w) * 8, fl.y * H, fl.r, 0, 6.28); ctx.fill(); }); }
+  if (state === 'play' && left > TIME - 3) { ctx.globalAlpha = reduce ? 1 : .55 + .45 * Math.sin(time * 4); MMC.label(ctx, 'SLIDE TO MOVE THE MUG', W / 2, H * .42, '#5ff3e8', 11); ctx.globalAlpha = 1; }
+  msgs.forEach(function (m) { ctx.globalAlpha = Math.max(0, Math.min(1, m.life)); MMC.bigText(ctx, m.txt, m.x, m.y, m.gold ? 24 : 20, m.ice ? '#5ff3e8' : m.gold ? '#ffd166' : '#ff4fa3'); ctx.globalAlpha = 1; });
+  bits.draw(ctx);
+}
+
+document.getElementById('diffSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
+  this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; newRound(); }
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+mug.x = mug.tx = view.W / 2; stats();
+MMC.loop(function (dt, time) { step(dt); draw(time); });
+window.__cocoa = { get state() { return state; }, items: function () { return items; }, move: move, mug: mug, mugW: mugW, get score() { return score; }, get left() { return left; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>

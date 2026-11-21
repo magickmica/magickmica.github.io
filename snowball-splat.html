@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Snowball Splat &middot; MagickMica</title>
+<meta name="description" content="A Winter Carnival game at the Cosmic Circus: lob snowballs at the snowmen, aliens and polar cubs popping up from the snow banks. Leave the penguins alone. Win holiday prizes for your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/snowball-splat.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Snowball Splat · Magick Mica Arcade">
+<meta property="og:description" content="Lob snowballs at whoever pops up. Leave the penguins alone.">
+<meta property="og:url" content="https://magickmica.github.io/snowball-splat.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
+    <h1>SNOWBALL SPLAT</h1>
+    <p class="tag">Lob snowballs at whoever pops up. Leave the penguins alone.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ WINTER CARNIVAL · SNOWBALL SPLAT ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Snowball splat. Tap a target to throw a snowball at it."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+          <p>Eighteen snowballs. Snowmen, little aliens and polar cubs pop up from behind the snow banks. Tap one to lob a snowball. The snowmen up front are worth 1, the aliens 2 and the tiny polar cubs at the back 3. Penguins are friends, so splatting one costs 2. Catch the golden ornament floating by for 5.</p>
+          <div class="lbl">How wild</div>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="wild" aria-pressed="false">Wild</button>
+          </div>
+          <button class="go" id="startBtn" type="button">❄️ PACK A SNOWBALL</button>
+          <div class="howto"><b>Touch or mouse:</b> tap where you want the snowball to land. It takes a moment to fly, so aim for ones that just popped up.<br><b>Keyboard:</b> arrow keys to aim, space to throw.<br><b>Prizes:</b> holiday prizes! 12 points for a small one, 22 for a big one, 32 for a JUMBO.</div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">❄️ THROW AGAIN</button>
+            <a class="ghost" href="arcade.html#circus">Back to the circus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">BEST<b id="sBest">0</b></span>
+      <span class="stat">HITS<b id="sHits">0</b></span>
+      <span class="stat">ROUNDS<b id="sRounds">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>Snowball Splat gives out holiday prizes: 12 points for a small one, 22 for a big one, 32 for a JUMBO. Prizes from every game at the circus land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=5"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_snowball_v1', { best: 0, hits: 0, rounds: 0 });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .64, 470), 600)); });
+var ctx = view.ctx;
+
+var DIFF = { easy: { up: 2.3, gap: .85 }, normal: { up: 1.6, gap: .6 }, wild: { up: 1.1, gap: .42 } };
+var diffKey = 'normal', BALLS = 18;
+// rows: far, middle, near. Far ones are small and worth more.
+var ROWS = [{ f: .40, sz: 26, pts: 3, em: '🐻‍❄️' }, { f: .58, sz: 34, pts: 2, em: '👽' }, { f: .77, sz: 44, pts: 1, em: '⛄' }];
+var tg = [], flying = [], balls = BALLS, score = 0, hits = 0, state = 'menu', msgs = [], endT = 0, t = 0, spawnT = 0, orn = null, ornT = 0;
+var aim = { x: 0, y: 0 }, flakes = [], splats = [];
+for (var f = 0; f < 70; f++) flakes.push({ x: Math.random(), y: Math.random(), r: Math.random() * 2 + .6, v: Math.random() * .5 + .4, w: Math.random() * 6 });
+
+function bankY(r) { return view.H * ROWS[r].f; }
+function spawn() {
+  var r = Math.floor(Math.random() * 3), W = view.W, x = 40 + Math.random() * (W - 80);
+  // don't stack on top of another target in the same row
+  for (var i = 0; i < tg.length; i++) if (tg[i].r === r && Math.abs(tg[i].x - x) < ROWS[r].sz * 1.6) return;
+  var friend = Math.random() < .16;
+  tg.push({ r: r, x: x, age: 0, life: DIFF[diffKey].up * (1 + Math.random() * .4), friend: friend, hit: false });
+}
+function rise(o) { var a = o.age, l = o.life; if (o.hit) return Math.max(0, 1 - o.hitT * 4); return a < .2 ? a / .2 : a > l - .2 ? Math.max(0, (l - a) / .2) : 1; }
+function center(o) { var R = ROWS[o.r], u = rise(o); return { x: o.x, y: bankY(o.r) - u * R.sz * .75, s: R.sz }; }
+function newRound() { tg = []; flying = []; splats = []; balls = BALLS; score = 0; hits = 0; msgs = []; orn = null; ornT = 4 + Math.random() * 3; spawnT = .2; state = 'play'; aim.x = view.W / 2; aim.y = view.H * .5; }
+
+function lob(x, y) {
+  if (state !== 'play' || balls <= 0) return;
+  S.boot(); balls--; S.whoosh();
+  flying.push({ sx: view.W / 2, sy: view.H + 10, x: x, y: y, u: 0 });
+}
+function land(b) {
+  var x = b.x, y = b.y, best = null, bd = 1e9, pts = 0;
+  if (orn && Math.hypot(x - orn.x, y - orn.y) < 30) {
+    pts = 5; S.fanfare(); bits.burst(orn.x, orn.y, '#ffd166', true); msgs.push({ txt: '+5', x: orn.x, y: orn.y - 30, life: 1.2, gold: true }); orn = null;
+    score += pts; hits++; return;
+  }
+  tg.forEach(function (o) {
+    if (o.hit || rise(o) < .45) return; var c = center(o), d = Math.hypot(x - c.x, y - c.y);
+    if (d < c.s * .7 && d < bd) { best = o; bd = d; }
+  });
+  splats.push({ x: x, y: y, life: 1.2 });
+  if (!best) { S.thud(); bits.sparkle(x, y, '#e8f4ff', 10); return; }
+  var c = center(best); best.hit = true; best.hitT = 0;
+  if (best.friend) {
+    score = Math.max(0, score - 2); S.thud(); msgs.push({ txt: 'OOPS -2', x: c.x, y: c.y - 30, life: 1.1, gold: false });
+    bits.sparkle(c.x, c.y, '#5ff3e8', 14);
+  } else {
+    var p = ROWS[best.r].pts; score += p; hits++;
+    S.ding(p >= 3); bits.burst(c.x, c.y, '#e8f4ff', p >= 3);
+    msgs.push({ txt: '+' + p, x: c.x, y: c.y - 30, life: 1, gold: p >= 3 });
+  }
+}
+cv.addEventListener('pointerdown', function (e) { e.preventDefault(); var p = MMC.pt(cv, e); aim.x = p.x; aim.y = p.y; lob(p.x, p.y); });
+cv.addEventListener('pointermove', function (e) { var p = MMC.pt(cv, e); aim.x = p.x; aim.y = p.y; });
+var keys = {};
+addEventListener('keydown', function (e) {
+  if (state !== 'play') return;
+  if (e.key === ' ') { e.preventDefault(); if (!e.repeat) lob(aim.x, aim.y); return; }
+  if (/^Arrow/.test(e.key)) { e.preventDefault(); keys[e.key] = true; }
+});
+addEventListener('keyup', function (e) { keys[e.key] = false; });
+
+function step(dt) {
+  t += dt;
+  flakes.forEach(function (fl) { fl.y += dt * fl.v * .08; if (fl.y > 1) { fl.y = 0; fl.x = Math.random(); } });
+  if (state === 'play' || state === 'ending') {
+    var v = 320 * dt;
+    if (keys.ArrowLeft) aim.x -= v; if (keys.ArrowRight) aim.x += v; if (keys.ArrowUp) aim.y -= v; if (keys.ArrowDown) aim.y += v;
+    aim.x = Math.max(10, Math.min(view.W - 10, aim.x)); aim.y = Math.max(10, Math.min(view.H - 70, aim.y));
+    if (state === 'play') { spawnT -= dt; if (spawnT <= 0) { spawn(); spawnT = DIFF[diffKey].gap * (.7 + Math.random() * .6); } }
+    tg.forEach(function (o) { o.age += dt; if (o.hit) o.hitT += dt; });
+    tg = tg.filter(function (o) { return o.hit ? o.hitT < .3 : o.age < o.life; });
+    ornT -= dt;
+    if (!orn && ornT <= 0 && state === 'play') { var dir = Math.random() < .5 ? 1 : -1; orn = { x: dir > 0 ? -30 : view.W + 30, y: view.H * .2, dir: dir }; }
+    if (orn) { orn.x += orn.dir * dt * (110 + (diffKey === 'wild' ? 60 : 0)); orn.y = view.H * .2 + Math.sin(t * 3) * 10; if (orn.x < -40 || orn.x > view.W + 40) { orn = null; ornT = 5 + Math.random() * 4; } }
+    flying.forEach(function (b) { b.u += dt / .38; if (b.u >= 1 && !b.done) { b.done = true; land(b); } });
+    flying = flying.filter(function (b) { return !b.done; });
+  }
+  splats.forEach(function (s) { s.life -= dt; }); splats = splats.filter(function (s) { return s.life > 0; });
+  msgs.forEach(function (m) { m.life -= dt; m.y -= dt * 30; }); msgs = msgs.filter(function (m) { return m.life > 0; });
+  if (state === 'play' && balls <= 0 && !flying.length) { state = 'ending'; endT = .9; }
+  if (state === 'ending') { endT -= dt; if (endT <= 0) end(); }
+  bits.step(dt, view.H);
+}
+function award(tier, game) {
+  if (!window.MMPrizes) return null;
+  var p = MMPrizes.pick(tier, 'winter'); MMPrizes.add(p, game); MMPrizes.addToken(1); return p;
+}
+function end() {
+  state = 'done';
+  if (window.MMPrizes) MMPrizes.addTickets(1 + Math.floor(score / 3), 'Snowball Splat');
+  st.data.rounds++; st.data.hits += hits; var isBest = score > st.data.best; if (isBest) st.data.best = score; st.save(); stats();
+  var tier = score >= 32 ? 'jumbo' : score >= 22 ? 'medium' : score >= 12 ? 'small' : null;
+  var title = document.getElementById('endTitle'), text = document.getElementById('endText'), pz = document.getElementById('endPrize');
+  if (tier) {
+    var p = award(tier, 'Snowball Splat'); S.fanfare(); bits.confetti(view.W, view.H);
+    title.textContent = tier === 'jumbo' ? 'BLIZZARD CHAMP!' : 'SPLAT! WINNER!';
+    text.textContent = score + ' points from ' + hits + ' hits.' + (isBest ? ' New best!' : '');
+    pz.innerHTML = p ? MMC.prizeCard(p) : '';
+  } else {
+    S.womp(); title.textContent = 'BRRR, SO CLOSE!';
+    text.textContent = score + ' point' + (score === 1 ? '' : 's') + '. You need 12 for a prize. The little polar bears at the back are worth 3.';
+    pz.innerHTML = '';
+  }
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+function stats() {
+  document.getElementById('sBest').textContent = st.data.best;
+  document.getElementById('sHits').textContent = st.data.hits;
+  document.getElementById('sRounds').textContent = st.data.rounds;
+}
+
+/* ---------- drawing */
+function bank(r) {
+  var W = view.W, y = bankY(r), h = view.H - y;
+  var g = ctx.createLinearGradient(0, y - 20, 0, y + 60); g.addColorStop(0, ['#cfdcff', '#e3ebff', '#f4f8ff'][r]); g.addColorStop(1, ['#8796c9', '#a3b1dd', '#bfcaee'][r]);
+  ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(0, y + 40);
+  for (var x = 0; x <= W + 30; x += 30) ctx.quadraticCurveTo(x - 15, y - 14 - (r * 7 + x) % 9, x, y + ((x / 30 + r) % 2 ? 2 : 6));
+  ctx.lineTo(W, view.H); ctx.lineTo(0, view.H); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.5)';
+  for (var s = 0; s < 6; s++) { var sx = ((s * 97 + r * 41) % 100) / 100 * W; ctx.beginPath(); ctx.arc(sx, y + 12 + (s % 3) * 6, 1.6, 0, 6.28); ctx.fill(); }
+}
+function emoji(em, x, y, s) { ctx.save(); ctx.font = Math.round(s) + 'px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#fff'; ctx.fillText(em, x, y); ctx.restore(); }
+function draw(time) {
+  var W = view.W, H = view.H;
+  MMC.sky(ctx, W, H, time);
+  // aurora ribbon
+  ctx.save(); ctx.globalAlpha = .28;
+  var ag = ctx.createLinearGradient(0, 0, W, 0); ag.addColorStop(0, '#5ff3e8'); ag.addColorStop(.5, '#b9a3ff'); ag.addColorStop(1, '#ff7ac8');
+  ctx.strokeStyle = ag; ctx.lineWidth = 26; ctx.beginPath();
+  for (var x = 0; x <= W; x += 20) { var yy = H * .12 + Math.sin(x / 90 + time * .4) * 14; if (x) ctx.lineTo(x, yy); else ctx.moveTo(x, yy); }
+  ctx.stroke(); ctx.restore();
+  // golden ornament
+  if (orn) {
+    ctx.strokeStyle = '#d5c2dc'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(orn.x, orn.y - 16); ctx.lineTo(orn.x, orn.y - 26); ctx.stroke();
+    var og = ctx.createRadialGradient(orn.x - 5, orn.y - 5, 2, orn.x, orn.y, 16); og.addColorStop(0, '#fff6cf'); og.addColorStop(.4, '#ffd166'); og.addColorStop(1, '#b8860b');
+    ctx.fillStyle = og; ctx.beginPath(); ctx.arc(orn.x, orn.y, 15, 0, 6.28); ctx.fill();
+    ctx.fillStyle = '#fff'; MMC.star(ctx, orn.x, orn.y, 6, 5, .45); ctx.fill();
+    MMC.label(ctx, '5', orn.x, orn.y - 30, '#ffd166', 10);
+  }
+  // rows back to front: targets, then the bank in front of them
+  for (var r = 0; r < 3; r++) {
+    tg.forEach(function (o) {
+      if (o.r !== r) return; var c = center(o), u = rise(o);
+      if (u <= 0) return;
+      ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, bankY(r) + 4); ctx.clip();
+      emoji(o.friend ? '🐧' : ROWS[r].em, c.x, c.y, c.s);
+      if (o.friend) MMC.label(ctx, 'FRIEND', c.x, c.y - c.s * .62, '#5ff3e8', 8);
+      ctx.restore();
+    });
+    bank(r);
+    MMC.label(ctx, ROWS[r].pts + (ROWS[r].pts > 1 ? ' PTS' : ' PT'), 10, bankY(r) + 22, 'rgba(47,47,112,.7)', 9, 'left');
+  }
+  splats.forEach(function (s) {
+    ctx.globalAlpha = Math.min(1, s.life); ctx.fillStyle = '#fff';
+    for (var i = 0; i < 7; i++) { var a = i / 7 * 6.28; ctx.beginPath(); ctx.arc(s.x + Math.cos(a) * 9, s.y + Math.sin(a) * 6, 4, 0, 6.28); ctx.fill(); }
+    ctx.beginPath(); ctx.arc(s.x, s.y, 8, 0, 6.28); ctx.fill(); ctx.globalAlpha = 1;
+  });
+  // snowballs in flight
+  flying.forEach(function (b) {
+    var u = b.u, x = b.sx + (b.x - b.sx) * u, y = b.sy + (b.y - b.sy) * u - Math.sin(u * Math.PI) * 90, s = 14 - u * 7;
+    ctx.fillStyle = 'rgba(0,0,0,.15)'; ctx.beginPath(); ctx.arc(x + 2, y + 3, s, 0, 6.28); ctx.fill();
+    var g = ctx.createRadialGradient(x - s * .3, y - s * .3, 1, x, y, s); g.addColorStop(0, '#fff'); g.addColorStop(1, '#bfcaee');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, s, 0, 6.28); ctx.fill();
+  });
+  // crosshair
+  if (state === 'play') {
+    ctx.strokeStyle = 'rgba(95,243,232,.85)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(aim.x, aim.y, 13, 0, 6.28); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(aim.x - 19, aim.y); ctx.lineTo(aim.x - 7, aim.y); ctx.moveTo(aim.x + 7, aim.y); ctx.lineTo(aim.x + 19, aim.y);
+    ctx.moveTo(aim.x, aim.y - 19); ctx.lineTo(aim.x, aim.y - 7); ctx.moveTo(aim.x, aim.y + 7); ctx.lineTo(aim.x, aim.y + 19); ctx.stroke();
+  }
+  // falling snow
+  if (!reduce) { ctx.fillStyle = 'rgba(255,255,255,.8)'; flakes.forEach(function (fl) { ctx.beginPath(); ctx.arc(fl.x * W + Math.sin(time + fl.w) * 8, fl.y * H, fl.r, 0, 6.28); ctx.fill(); }); }
+  // counter
+  var cy = H - 50, cg = ctx.createLinearGradient(0, cy, 0, H); cg.addColorStop(0, '#5146a2'); cg.addColorStop(1, '#2f2f70');
+  ctx.fillStyle = cg; ctx.fillRect(0, cy, W, 50); ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.fillRect(0, cy, W, 2);
+  var per = Math.min(16, (W * .6) / BALLS);
+  for (var i = 0; i < balls; i++) { ctx.fillStyle = '#f4f8ff'; ctx.beginPath(); ctx.arc(16 + i * per, cy + 25, Math.min(6, per * .42), 0, 6.28); ctx.fill(); }
+  MMC.label(ctx, 'SCORE ' + score, W - 12, cy + 30, '#ffd166', 12, 'right');
+  if (state === 'play' && balls === BALLS) { ctx.globalAlpha = reduce ? 1 : .55 + .45 * Math.sin(time * 4); MMC.label(ctx, 'TAP TO THROW A SNOWBALL', W / 2, cy - 10, '#5ff3e8', 10); ctx.globalAlpha = 1; }
+  msgs.forEach(function (m) { ctx.globalAlpha = Math.max(0, Math.min(1, m.life)); MMC.bigText(ctx, m.txt, m.x, m.y, m.gold ? 28 : 22, m.gold ? '#ffd166' : '#5ff3e8'); ctx.globalAlpha = 1; });
+  bits.draw(ctx);
+}
+
+document.getElementById('diffSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
+  this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; newRound(); }
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+stats();
+MMC.loop(function (dt, time) { step(dt); draw(time); });
+window.__snow = { get state() { return state; }, targets: function () { return tg; }, center: center, rise: rise, lob: lob, get score() { return score; }, get balls() { return balls; }, get orn() { return orn; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>
