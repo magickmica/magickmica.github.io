@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MagickOS 98 · Magick Mica</title>
+<meta name="description" content="The Magick Mica universe as a late-90s computer: desktop icons, windows, a Start menu and a taskbar. This week's notes, the newest articles and every channel, one double-click away.">
+<meta name="theme-color" content="#120418">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="MagickOS 98">
+<meta property="og:description" content="The Magick Mica universe as a late-90s computer. Every channel is an icon.">
+<meta property="og:url" content="https://magickmica.github.io/desktop/">
+<meta property="og:image" content="https://magickmica.github.io/reader/og-reader.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&display=swap">
+<style>
+/* ============================================================
+   MAGICKOS 98 · the Magick Mica homepage as a computer screen
+   Data comes from desktop.js (desktop/build_desktop.py).
+   ============================================================ */
+:root{
+  --deep:#120418; --pink:#ff2440; --cyan:#6fc3ff; --lime:#7ee364;
+  --purple:#d06bff; --gold:#ffce5c; --teal:#4fc9a8;
+  --pearl:#e8e3f1; --pearl-hi:#ffffff; --pearl-lo:#8a819f; --pearl-dk:#4a4360;
+  --paper:#fbfaff; --ink:#1a1530; --quiet:#625a78; --hover:#ece6fa;
+  --select:#2b1f72;
+  --title:linear-gradient(90deg,color-mix(in srgb,var(--deep) 55%,#2b1f72),color-mix(in srgb,var(--purple) 75%,#2b1f72) 45%,color-mix(in srgb,var(--pink) 70%,var(--purple)) 75%,color-mix(in srgb,var(--cyan) 80%,#2b1f72));
+  --f-chrome:"Pixelify Sans",Tahoma,Verdana,"Segoe UI",sans-serif;
+  --f-ui:Tahoma,Verdana,"Segoe UI","DejaVu Sans",sans-serif;
+  --f-read:Georgia,"Times New Roman",serif;
+  --bar:44px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;overflow:hidden;font:13px/1.35 var(--f-ui);color:var(--ink);background:var(--deep)}
+button{font:inherit;color:inherit}
+a{color:#3a2a9a}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px dotted var(--gold);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---- bevels (the 98 look) ---------------------------------------- */
+.raised{background:var(--pearl);box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 #f6f3fb}
+.sunken{background:var(--paper);box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi),inset 2px 2px 0 var(--pearl-dk),inset -2px -2px 0 #f6f3fb}
+.btn{border:0;cursor:pointer;padding:6px 14px;min-height:28px;font:13px var(--f-ui);background:var(--pearl);
+  box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 #f6f3fb;text-decoration:none;color:var(--ink);display:inline-flex;align-items:center;gap:6px}
+.btn:active,.btn[aria-pressed="true"]{box-shadow:inset 1px 1px 0 var(--pearl-dk),inset -1px -1px 0 var(--pearl-hi),inset 2px 2px 0 var(--pearl-lo)}
+.btn:hover{background:#f1edf8}
+.btn.go{font-weight:700}
+
+/* ---- the desktop & wallpaper -------------------------------------- */
+#desk{position:fixed;inset:0 0 var(--bar) 0;overflow:hidden;
+  background:
+    radial-gradient(900px 520px at 50% 46%,color-mix(in srgb,var(--purple) 30%,transparent),transparent 70%),
+    radial-gradient(700px 500px at 0% 100%,color-mix(in srgb,var(--pink) 22%,transparent),transparent 70%),
+    radial-gradient(800px 600px at 100% 0%,color-mix(in srgb,var(--cyan) 18%,transparent),transparent 70%),
+    var(--deep);transition:background-color .4s}
+#desk::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.85;
+  background-image:
+    radial-gradient(1px 1px at 20px 30px,#fff,transparent 60%),
+    radial-gradient(1px 1px at 140px 90px,rgba(255,255,255,.7),transparent 60%),
+    radial-gradient(1.5px 1.5px at 90px 170px,rgba(255,255,255,.8),transparent 60%),
+    radial-gradient(1px 1px at 200px 220px,rgba(255,255,255,.6),transparent 60%),
+    radial-gradient(1px 1px at 250px 40px,rgba(255,255,255,.5),transparent 60%);
+  background-size:280px 260px}
+#desk::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px)}
+.mark{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:min(380px,48vw);pointer-events:none;
+  filter:drop-shadow(0 0 40px color-mix(in srgb,var(--purple) 60%,transparent));opacity:.95}
+.mark img{width:100%;height:auto}
+.mark .fbmark{font:700 56px/1 var(--f-chrome);color:#fff;text-align:center;text-shadow:0 0 30px var(--purple)}
+.twinkle{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px color-mix(in srgb,var(--cyan) 70%,#fff);
+  animation:tw 3.4s ease-in-out infinite;pointer-events:none}
+@keyframes tw{0%,100%{opacity:.1;transform:scale(.6)}50%{opacity:1;transform:scale(1.2)}}
+.wallcap{position:absolute;right:16px;bottom:12px;color:rgba(255,255,255,.45);font:12px var(--f-chrome);letter-spacing:.08em;text-align:right;pointer-events:none}
+
+/* ---- desktop icons ------------------------------------------------ */
+.icons{position:absolute;inset:10px 10px 10px 10px;margin:0;padding:0;list-style:none;display:grid;
+  grid-auto-flow:column;grid-template-rows:repeat(auto-fill,92px);grid-auto-columns:96px;gap:4px 6px;align-content:start;pointer-events:none}
+.icons li{pointer-events:auto}
+.ico{width:96px;height:92px;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;padding:4px 2px;color:#fff;text-decoration:none}
+.ico .g{position:relative;width:46px;height:46px;display:grid;place-items:center;font-size:34px;line-height:1;
+  filter:drop-shadow(1px 2px 0 rgba(0,0,0,.55)) drop-shadow(0 0 10px color-mix(in srgb,var(--purple) 45%,transparent))}
+.ico .g img{width:46px;height:46px;object-fit:cover;border-radius:6px;image-rendering:auto}
+.ico .g .lnk{position:absolute;left:-2px;bottom:-2px;width:15px;height:15px;font-size:10px;line-height:13px;text-align:center;background:#fff;color:#000;border:1px solid #000;filter:none}
+.ico .l{font:12px/1.2 var(--f-ui);text-align:center;padding:1px 3px;text-shadow:1px 1px 0 #000,0 0 4px #000;max-width:94px;overflow-wrap:anywhere}
+.ico:hover .l{background:color-mix(in srgb,var(--select) 55%,transparent)}
+.ico:focus-visible{outline:none}
+.ico:focus-visible .l,.ico.sel .l{background:var(--select);outline:1px dotted #fff;text-shadow:none}
+.ico:focus-visible .g,.ico.sel .g{filter:drop-shadow(1px 2px 0 rgba(0,0,0,.55)) sepia(.3) hue-rotate(200deg) saturate(1.6)}
+.badge{position:absolute;right:-6px;top:-4px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--pink);color:#fff;font:700 10px/18px var(--f-ui);text-align:center;box-shadow:0 0 0 2px var(--deep)}
+
+/* ---- windows ------------------------------------------------------ */
+.win{position:absolute;display:flex;flex-direction:column;min-width:280px;min-height:160px;max-width:calc(100vw - 8px);max-height:calc(100vh - var(--bar) - 8px);
+  padding:3px;resize:both;overflow:hidden;background:var(--pearl);
+  box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 #f6f3fb,8px 10px 0 rgba(0,0,0,.25),0 20px 50px rgba(0,0,0,.45)}
+.win.max{left:0!important;top:0!important;width:100%!important;height:100%!important;max-height:none;resize:none}
+.win.min{display:none}
+.win.opening{animation:pop .16s ease-out}
+@keyframes pop{from{transform:scale(.92);opacity:.3}to{transform:none;opacity:1}}
+.tb{display:flex;align-items:center;gap:6px;height:26px;padding:0 3px 0 6px;color:#fff;background:var(--title);cursor:default;user-select:none;touch-action:none;flex:none}
+.win:not(.front) .tb{background:linear-gradient(90deg,#7d7593,#a59dbb);color:#e9e5f2}
+.tb .ti{font-size:15px;line-height:1}
+.tb .tt{flex:1;min-width:0;font:600 14px/1 var(--f-chrome);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb button{width:22px;height:20px;padding:0;border:0;cursor:pointer;background:var(--pearl);color:var(--ink);font:700 11px/1 var(--f-ui);display:grid;place-items:center;
+  box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo)}
+.tb button:active{box-shadow:inset 1px 1px 0 var(--pearl-dk),inset -1px -1px 0 var(--pearl-hi)}
+.tb .x{margin-left:2px}
+.menubar{display:flex;gap:2px;padding:3px 2px;flex:none;font-size:12px}
+.menubar span{padding:2px 7px}
+.menubar span u{text-decoration:underline}
+.wb{flex:1;min-height:0;overflow:auto;margin-top:3px}
+.wb.pad{padding:14px}
+.status{display:flex;gap:4px;margin-top:3px;flex:none;font-size:11px;color:var(--quiet)}
+.status span{padding:3px 8px;box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi)}
+.status span:first-child{flex:1}
+
+/* ---- Welcome ------------------------------------------------------ */
+.welcome{display:grid;grid-template-columns:34px 1fr;min-height:100%}
+.welcome .stripe{background:var(--title);position:relative}
+.welcome .stripe span{position:absolute;left:0;right:0;bottom:14px;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;
+  font:700 18px var(--f-chrome);color:#fff;letter-spacing:.08em;white-space:nowrap}
+.welcome .main{padding:16px 18px;background:var(--paper)}
+.welcome h1{margin:0 0 2px;font:700 24px/1.1 var(--f-chrome);color:#2b1f72}
+.welcome h1 b{background:linear-gradient(90deg,var(--pink),var(--purple),#3f8fc0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.welcome .lede{margin:0 0 14px;color:var(--quiet)}
+.whatsnew{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px}
+.feat{display:block;text-decoration:none;color:inherit;padding:3px}
+.feat .cov{aspect-ratio:16/9;overflow:hidden;background:linear-gradient(135deg,#2b1f72,#c24c9e 60%,#3f8fc0)}
+.feat .cov img{width:100%;height:100%;object-fit:cover}
+.feat .tx{padding:9px 10px 10px}
+.kick{font:600 11px var(--f-chrome);letter-spacing:.12em;text-transform:uppercase;color:#c24c9e}
+.feat h2{margin:4px 0 4px;font:700 18px/1.2 var(--f-read);color:var(--ink)}
+.feat p{margin:0;color:var(--quiet);font-size:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.feat .read{display:inline-block;margin-top:8px;color:#3a2a9a;font-weight:700;font-size:12px}
+.wk{padding:10px 12px}
+.wk h3{margin:0 0 2px;font:600 14px var(--f-chrome);color:#2b1f72}
+.wk .big{font:700 28px/1 var(--f-chrome);color:#c24c9e}
+.wk .big small{font:12px var(--f-ui);color:var(--quiet)}
+.bars{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;align-items:end;height:70px;margin:10px 0 2px}
+.bars i{display:block;min-height:3px;background:linear-gradient(0deg,#6a3bb0,#c24c9e 60%,var(--gold));box-shadow:inset -1px -1px 0 rgba(0,0,0,.25),inset 1px 1px 0 rgba(255,255,255,.4)}
+.bars+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:10px;color:var(--quiet)}
+.minis{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.minis button{border:0;padding:0;cursor:pointer;aspect-ratio:1;overflow:hidden;background:linear-gradient(135deg,#6a3bb0,#c24c9e);box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi)}
+.minis img{width:100%;height:100%;object-fit:cover}
+.qbtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.welcome .foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;padding-top:10px;border-top:1px solid #d9d2e8;font-size:12px;color:var(--quiet)}
+
+/* ---- folder views (notes, issues, friends, bin) -------------------- */
+.folder{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;padding:12px;background:var(--paper);min-height:100%;align-content:start}
+.fi{border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px;text-decoration:none;color:var(--ink);text-align:center}
+.fi .th{width:100%;aspect-ratio:1;overflow:hidden;background:linear-gradient(135deg,#2b1f72,#c24c9e 60%,#3f8fc0);box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi),2px 2px 0 rgba(43,31,114,.12)}
+.fi .th img{width:100%;height:100%;object-fit:cover}
+.fi .th.fbk{display:grid;place-items:center;color:#fff;font:600 12px/1.3 var(--f-chrome);padding:10px}
+.fi .cap{font-size:11.5px;line-height:1.3;max-width:100%;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fi .meta{font-size:10.5px;color:var(--quiet)}
+.fi:hover .cap,.fi:focus-visible .cap{background:var(--select);color:#fff}
+.fi .emo{font-size:40px;line-height:1;filter:drop-shadow(1px 2px 0 rgba(0,0,0,.25))}
+.sect{grid-column:1/-1;font:600 12px var(--f-chrome);letter-spacing:.1em;text-transform:uppercase;color:#6a3bb0;border-bottom:1px solid #d9d2e8;padding:6px 0 4px}
+.sticky{grid-column:span 2;text-align:left;padding:10px 12px;background:#fff8c8;color:#3d3420;font:14px/1.4 var(--f-read);box-shadow:2px 3px 0 rgba(0,0,0,.12);border:0;cursor:default}
+.sticky small{display:block;margin-top:6px;font:11px var(--f-ui);color:#7a6c3a}
+.sticky a{color:#6a4a00}
+
+/* ---- note viewer -------------------------------------------------- */
+.viewer{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);height:100%;background:var(--paper)}
+.viewer .pic{background:#0d0820;display:grid;place-items:center;overflow:hidden;min-height:220px}
+.viewer .pic img{max-width:100%;max-height:100%;object-fit:contain}
+.viewer .pic .fbk{color:#fff;font:600 16px var(--f-chrome);padding:20px;text-align:center}
+.viewer .tx{padding:16px;display:flex;flex-direction:column;gap:10px;overflow:auto}
+.viewer blockquote{margin:0;font:italic 18px/1.4 var(--f-read);color:var(--ink)}
+.viewer .stats{color:var(--quiet);font-size:12px}
+.viewer .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+
+/* ---- inbox -------------------------------------------------------- */
+.mail{display:grid;grid-template-rows:minmax(120px,40%) 1fr;height:100%;gap:3px}
+.list{overflow:auto}
+.list table{width:100%;border-collapse:collapse;font-size:12px}
+.list th{position:sticky;top:0;text-align:left;font-weight:400;padding:3px 6px;background:var(--pearl);box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi)}
+.list td{padding:4px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:0;cursor:pointer}
+.list tr.unread td{font-weight:700}
+.list tr:hover td{background:var(--hover)}
+.list tr[aria-selected="true"] td{background:var(--select);color:#fff}
+.list td.f{width:26%}.list td.d{width:16%}
+.prev{overflow:auto;padding:14px 16px}
+.prev .hdr{font-size:12px;color:var(--quiet);border-bottom:1px solid #d9d2e8;padding-bottom:8px;margin-bottom:10px}
+.prev .hdr b{color:var(--ink)}
+.prev h2{margin:0 0 6px;font:700 20px/1.2 var(--f-read)}
+.prev .cov{max-width:520px;aspect-ratio:16/9;overflow:hidden;margin:10px 0;background:linear-gradient(135deg,#2b1f72,#c24c9e 60%,#3f8fc0)}
+.prev .cov img{width:100%;height:100%;object-fit:cover}
+.prev p{font:15px/1.55 var(--f-read);max-width:620px}
+
+/* ---- explorer (site pages) ---------------------------------------- */
+.addr{display:flex;align-items:center;gap:6px;padding:3px 2px;flex:none;font-size:12px}
+.addr .field{flex:1;min-width:0;padding:4px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.frame{flex:1;min-height:0;margin-top:3px;position:relative;background:#000}
+.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#0d0820}
+.frame .away{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;color:#fff;
+  background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--purple) 40%,transparent),transparent 60%),#0d0820}
+.frame .away b{display:block;font:700 22px var(--f-chrome);margin-bottom:8px}
+.frame .away p{color:#cfc6e6;margin:0 0 14px}
+
+/* ---- control panel ------------------------------------------------ */
+.cp{padding:14px;background:var(--pearl)}
+.monitor{width:220px;margin:0 auto 14px;padding:10px 10px 22px;border-radius:6px 6px 2px 2px;position:relative}
+.monitor .scr{aspect-ratio:4/3;background:radial-gradient(circle at 50% 50%,var(--m-purple),transparent 70%),var(--m-deep);position:relative;overflow:hidden}
+.monitor .scr::after{content:"✦";position:absolute;inset:0;display:grid;place-items:center;color:var(--m-gold);font-size:28px;text-shadow:0 0 12px var(--m-pink)}
+.monitor::after{content:"";position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);width:90px;height:12px;background:var(--pearl-lo)}
+.themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;max-height:260px;overflow:auto;padding:6px}
+.th-opt{border:0;cursor:pointer;text-align:left;padding:6px 8px;background:var(--paper);display:flex;align-items:center;gap:8px;font-size:12px;box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi)}
+.th-opt[aria-pressed="true"]{background:var(--select);color:#fff}
+.th-opt .sw{display:flex;flex:none}
+.th-opt .sw i{width:8px;height:18px}
+.cp .row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+/* ---- about / dialogs --------------------------------------------- */
+.about{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:18px;background:var(--pearl);align-items:start}
+.about img{width:96px;height:96px;object-fit:cover}
+.about h2{margin:0 0 4px;font:700 20px var(--f-chrome)}
+.about p{margin:0 0 8px}
+
+/* ---- start menu --------------------------------------------------- */
+#start{position:fixed;left:2px;bottom:calc(var(--bar) - 2px);z-index:9000;display:none;width:250px;padding:3px;
+  box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 #f6f3fb,6px 6px 0 rgba(0,0,0,.3);background:var(--pearl)}
+#start.open{display:flex}
+#start .side{width:30px;flex:none;background:var(--title);position:relative}
+#start .side span{position:absolute;left:0;right:0;bottom:10px;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;white-space:nowrap;
+  font:700 18px var(--f-chrome);color:#fff;letter-spacing:.04em}
+#start .side span b{color:var(--gold);margin-left:6px}
+#start ul{list-style:none;margin:0;padding:0}
+#start>ul{flex:1;min-width:0}
+.mi{position:relative}
+.mi>a,.mi>button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;padding:7px 10px;text-align:left;cursor:pointer;color:var(--ink);text-decoration:none;font:13px var(--f-ui)}
+.mi>a .e,.mi>button .e{font-size:20px;width:26px;text-align:center;flex:none}
+.mi>button .ar{margin-left:auto;font-size:10px}
+.mi:hover>a,.mi:hover>button,.mi>a:focus-visible,.mi>button:focus-visible,.mi.open>button{background:var(--select);color:#fff;outline:none}
+.sep{height:2px;margin:3px 4px;box-shadow:inset 0 1px 0 var(--pearl-lo),inset 0 -1px 0 var(--pearl-hi)}
+.sub{display:none;position:absolute;left:100%;top:-3px;min-width:220px;padding:3px;z-index:2;
+  background:var(--pearl);box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),4px 4px 0 rgba(0,0,0,.25)}
+.mi.open>.sub{display:block}
+.sub .sub,#startlist>.mi:nth-child(2)>.sub{max-height:min(72vh,600px);overflow:auto}
+
+.sub a{display:block;padding:5px 12px;color:var(--ink);text-decoration:none;white-space:nowrap;font-size:12.5px}
+.sub a:hover,.sub a:focus-visible{background:var(--select);color:#fff;outline:none}
+.sub a.ext::after{content:" ↗";color:inherit;opacity:.6}
+
+/* ---- taskbar ------------------------------------------------------ */
+#bar{position:fixed;left:0;right:0;bottom:0;height:var(--bar);z-index:8000;display:flex;align-items:center;gap:4px;padding:4px 4px calc(4px + env(safe-area-inset-bottom));
+  background:var(--pearl);box-shadow:inset 0 1px 0 var(--pearl-hi),inset 0 2px 0 #f6f3fb}
+#startbtn{height:34px;padding:0 12px 0 8px;font:700 15px var(--f-chrome);gap:6px;flex:none}
+#startbtn img{width:24px;height:24px;object-fit:cover}
+#tasks{flex:1;min-width:0;display:flex;gap:4px;overflow:hidden}
+.task{height:34px;min-width:0;max-width:180px;flex:1 1 140px;justify-content:flex-start;padding:0 8px;white-space:nowrap;overflow:hidden;font-size:12px}
+.task span:last-child{overflow:hidden;text-overflow:ellipsis}
+.task.front{font-weight:700;background:repeating-conic-gradient(#f4f1f9 0 25%,#e1dbec 0 50%) 0 0/2px 2px;
+  box-shadow:inset 1px 1px 0 var(--pearl-dk),inset -1px -1px 0 var(--pearl-hi),inset 2px 2px 0 var(--pearl-lo)}
+.tray{flex:none;height:34px;display:flex;align-items:center;gap:10px;padding:0 10px;font-size:12px;
+  box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi)}
+.tray button{border:0;background:none;cursor:pointer;padding:2px;font-size:12px}
+.tray .count{font-weight:700;color:#6a3bb0}
+
+/* ---- boot & shut down --------------------------------------------- */
+.screen{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;text-align:center;color:#fff;background:#05030c}
+.screen[hidden]{display:none}
+#boot .logo{width:min(260px,60vw);margin:0 auto 18px;filter:drop-shadow(0 0 30px var(--purple))}
+#boot .logo img{width:100%}
+#boot b{display:block;font:700 30px var(--f-chrome);letter-spacing:.06em}
+#boot b span{color:var(--gold)}
+#boot .load{width:220px;height:16px;margin:18px auto 8px;padding:2px;border:1px solid #6a3bb0;display:flex;gap:2px;overflow:hidden}
+#boot .load i{width:12px;flex:none;background:linear-gradient(var(--cyan),var(--purple));animation:slide 1.4s linear infinite}
+@keyframes slide{from{transform:translateX(-60px)}to{transform:translateX(220px)}}
+#boot small{color:#a99fc8;font:13px var(--f-chrome)}
+#off{background:#000;cursor:pointer}
+#off p{font:700 clamp(20px,4vw,34px)/1.3 var(--f-chrome);color:#ff9a3c;text-shadow:0 0 10px rgba(255,154,60,.5);max-width:20ch;margin:0 auto}
+#off small{display:block;margin-top:20px;color:#888;font:14px var(--f-chrome)}
+
+/* ---- phones ------------------------------------------------------- */
+@media (max-width:720px){
+  .icons{grid-auto-flow:row;grid-template-rows:none;grid-template-columns:repeat(4,1fr);grid-auto-columns:auto;gap:2px;overflow:auto;inset:8px 6px 6px}
+  .ico{width:100%;height:88px}
+  .mark{top:auto;bottom:50px;width:160px;opacity:.35}
+  .win{left:0!important;top:0!important;width:100%!important;height:100%!important;max-height:none;resize:none;box-shadow:none}
+  .tb button.mx{display:none}
+  .whatsnew{grid-template-columns:1fr}
+  .welcome{grid-template-columns:1fr}
+  .welcome .stripe{display:none}
+  .viewer{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .viewer .pic{max-height:46vh}
+  .task{max-width:110px;flex-basis:90px}
+  .task span:last-child{display:none}
+  .task{justify-content:center;flex:0 0 40px}
+  .tray .cl-date,.tray .count{display:none}
+  #start{width:min(300px,calc(100vw - 4px));max-height:calc(100vh - var(--bar) - 10px);overflow:auto}
+  .sub{position:static;box-shadow:none;max-height:none;padding:0 0 4px 36px;background:none}
+  .wallcap{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="screen" id="boot" hidden aria-hidden="true">
+  <div>
+    <div class="logo"><img src="../magick-mica-tv-logo.png" alt="" onerror="this.remove()"></div>
+    <b>MagickOS<span> 98</span></b>
+    <div class="load"><i></i><i></i><i></i></div>
+    <small>Starting MagickOS… tuning the frequencies</small>
+  </div>
+</div>
+
+<main id="desk" aria-label="MagickOS desktop">
+  <div class="mark" aria-hidden="true"><img src="../magick-mica-tv-logo.png" alt="" onerror="this.outerHTML='<div class=fbmark>MAGICK<br>MICA</div>'"></div>
+  <h1 class="sr">Magick Mica · MagickOS 98</h1>
+  <ul class="icons" id="icons" aria-label="Desktop icons"></ul>
+  <div id="wins"></div>
+  <div class="wallcap" id="wallcap"></div>
+</main>
+
+<nav id="start" aria-label="Start menu">
+  <div class="side" aria-hidden="true"><span>MagickOS<b>98</b></span></div>
+  <ul id="startlist"></ul>
+</nav>
+
+<footer id="bar">
+  <button class="btn" id="startbtn" type="button" aria-expanded="false" aria-controls="start">
+    <img src="../magickmica-character-logo.png" alt="" onerror="this.outerHTML='<span>✦</span>'">Start
+  </button>
+  <div id="tasks" role="toolbar" aria-label="Open windows"></div>
+  <div class="tray">
+    <span class="count" id="traycount" title="Transmissions so far"></span>
+    <button type="button" id="trayclock" title="Open the Y3K Almanac"><span class="cl-date" id="cldate"></span> <span id="cltime"></span></button>
+  </div>
+</footer>
+
+<div class="screen" id="off" hidden role="button" tabindex="0" aria-label="Start MagickOS again">
+  <div><p>It's now safe to keep dreaming.</p><small>click anywhere to start again</small></div>
+</div>
+
+<script src="desktop.js"></script>
+<script>
+(function(){
+'use strict';
+var D = window.MMOS || {notes:[],words:[],articles:[],issues:[],themes:[],menu:[],week:{count:0,loves:0,days:[]},total:0};
+var UP = '../';
+var ON_SITE = /(^|\.)magickmica\.github\.io$/.test(location.hostname) || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+var phone = function(){ return matchMedia('(max-width:720px)').matches; };
+var $ = function(id){ return document.getElementById(id); };
+function el(tag, attrs, html){ var e = document.createElement(tag); if (attrs) for (var k in attrs) { if (k === 'class') e.className = attrs[k]; else if (k === 'text') e.textContent = attrs[k]; else e.setAttribute(k, attrs[k]); } if (html != null) e.innerHTML = html; return e; }
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+function dt(s){ var p = s.split('-'); return new Date(+p[0], p[1] - 1, +p[2]); }
+function md(s){ var d = dt(s); return MON[d.getMonth()] + ' ' + d.getDate(); }
+function lng(s){ var d = dt(s); return DOW[d.getDay()] + ', ' + MON[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear(); }
+function noteUrl(n){ return 'https://substack.com/@magickmica/note/c-' + n.id; }
+function img(src, alt, fb){ var f = esc(String(fb || '✦').replace(/['"\\<>&]/g, '')); return src ? '<img src="' + esc(src) + '" alt="' + esc(alt || '') + '" loading="lazy" onerror="this.parentNode.classList.add(\'fbk\');this.outerHTML=\'' + f + '\'">' : f; }
+function isExt(h){ return /^https?:/.test(h) && !/magickmica\.github\.io/.test(h); }
+function siteHref(h){ if (/^https?:/.test(h) || h.charAt(0) === '/') return h; return UP + (h === 'index.html' ? '' : h); }
+
+/* ======================================================================
+   window manager
+   ====================================================================== */
+var wins = {}, Z = 10, cascade = 0;
+function front(id){
+  Object.keys(wins).forEach(function(k){ var w = wins[k]; w.el.classList.toggle('front', k === id); w.task.classList.toggle('front', k === id && !w.el.classList.contains('min')); });
+  if (wins[id]) wins[id].el.style.zIndex = ++Z;
+}
+function topWin(){ var best = null, bz = -1; Object.keys(wins).forEach(function(k){ var w = wins[k]; if (!w.el.classList.contains('min') && +w.el.style.zIndex > bz){ bz = +w.el.style.zIndex; best = k; } }); return best; }
+function closeWin(id){ var w = wins[id]; if (!w) return; w.el.remove(); w.task.remove(); delete wins[id]; var t = topWin(); if (t) front(t); }
+function minWin(id){ var w = wins[id]; w.el.classList.add('min'); w.task.classList.remove('front'); var t = topWin(); if (t) front(t); }
+function restore(id){ var w = wins[id]; w.el.classList.remove('min'); front(id); }
+
+function openWin(id, o){
+  if (wins[id]){ if (o.update) o.update(wins[id]); restore(id); return wins[id]; }
+  var W = Math.min(o.w || 560, innerWidth - 20), H = Math.min(o.h || 420, innerHeight - 70);
+  var x = o.x != null ? o.x : Math.max(8, Math.round((innerWidth - W) / 2) + (cascade % 6) * 26 - 60 + (o.dx || 0));
+  var y = o.y != null ? o.y : Math.max(8, Math.round((innerHeight - 44 - H) / 2) + (cascade % 6) * 22 - 50 + (o.dy || 0));
+  cascade++;
+  var w = el('section', {'class': 'win opening', role: 'dialog', 'aria-label': o.title});
+  w.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + W + 'px;height:' + H + 'px';
+  var tb = el('div', {'class': 'tb'}, '<span class="ti" aria-hidden="true">' + o.icon + '</span><span class="tt">' + esc(o.title) + '</span>' +
+    '<button type="button" class="mn" aria-label="Minimize">_</button><button type="button" class="mx" aria-label="Maximize">□</button><button type="button" class="x" aria-label="Close">✕</button>');
+  w.appendChild(tb);
+  if (o.menubar !== false) w.appendChild(el('div', {'class': 'menubar', 'aria-hidden': 'true'}, '<span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>V</u>iew</span><span><u>H</u>elp</span>'));
+  var body = el('div', {'class': 'wb' + (o.pad ? ' pad' : '') + (o.sunken === false ? '' : ' sunken')});
+  w.appendChild(body);
+  if (o.status) w.appendChild(el('div', {'class': 'status'}, o.status.map(function(s){ return '<span>' + s + '</span>'; }).join('')));
+  $('wins').appendChild(w);
+  setTimeout(function(){ w.classList.remove('opening'); }, 200);
+  var task = el('button', {'class': 'btn task', type: 'button', title: o.title}, '<span aria-hidden="true">' + o.icon + '</span><span>' + esc(o.title) + '</span>');
+  $('tasks').appendChild(task);
+  var rec = wins[id] = {el: w, body: body, task: task, o: o};
+  task.onclick = function(){ if (w.classList.contains('min')) restore(id); else if (w.classList.contains('front')) minWin(id); else front(id); };
+  tb.querySelector('.x').onclick = function(){ closeWin(id); };
+  tb.querySelector('.mn').onclick = function(){ minWin(id); };
+  tb.querySelector('.mx').onclick = function(){ w.classList.toggle('max'); };
+  tb.addEventListener('dblclick', function(e){ if (!e.target.closest('button')) w.classList.toggle('max'); });
+  w.addEventListener('pointerdown', function(){ if (!w.classList.contains('front')) front(id); }, true);
+  drag(w, tb);
+  if (o.max || (o.maxOnSmall && innerWidth < 1000)) w.classList.add('max');
+  o.render(body, rec);
+  front(id);
+  var f = w.querySelector('.x'); if (f && !o.noFocus) f.focus({preventScroll: true});
+  return rec;
+}
+function drag(w, handle){
+  var sx, sy, ox, oy, on = false;
+  handle.addEventListener('pointerdown', function(e){
+    if (e.target.closest('button') || phone() || w.classList.contains('max')) return;
+    on = true; sx = e.clientX; sy = e.clientY; ox = w.offsetLeft; oy = w.offsetTop; handle.setPointerCapture(e.pointerId);
+  });
+  handle.addEventListener('pointermove', function(e){
+    if (!on) return;
+    var nx = Math.min(Math.max(ox + e.clientX - sx, -w.offsetWidth + 80), innerWidth - 80);
+    var ny = Math.min(Math.max(oy + e.clientY - sy, 0), innerHeight - 44 - 30);
+    w.style.left = nx + 'px'; w.style.top = ny + 'px';
+  });
+  handle.addEventListener('pointerup', function(){ on = false; });
+  handle.addEventListener('pointercancel', function(){ on = false; });
+}
+
+/* ======================================================================
+   apps
+   ====================================================================== */
+function bars(days){
+  var top = Math.max.apply(null, days.map(function(d){ return d.n; }).concat([1]));
+  return '<div class="bars" aria-hidden="true">' + days.map(function(d){ return '<i style="height:' + Math.max(3, Math.round(66 * d.n / top)) + 'px" title="' + d.n + ' notes on ' + lng(d.d) + '"></i>'; }).join('') + '</div>' +
+    '<div class="days" aria-hidden="true">' + days.map(function(d){ return '<span>' + DOW[dt(d.d).getDay()].charAt(0) + '</span>'; }).join('') + '</div>';
+}
+
+function welcome(){
+  openWin('welcome', {title: 'Welcome to MagickOS', icon: '💿', w: 760, h: 560, menubar: false, sunken: false, render: function(b){
+    var a = D.articles[0] || {}, iss = D.issues[0];
+    var showAgain = true; try { showAgain = localStorage.getItem('mmos-welcome') !== 'off'; } catch (e) {}
+    b.innerHTML = '<div class="welcome"><div class="stripe" aria-hidden="true"><span>MagickOS 98</span></div><div class="main">' +
+      '<h1>Welcome to <b>MagickOS 98</b></h1><p class="lede">Where magic meets the pixel. Here\'s what\'s new on the signal right now.</p>' +
+      '<div class="whatsnew">' +
+        '<a class="feat raised" href="' + esc(a.url) + '" target="_blank" rel="noopener"><div class="cov">' + img(a.cover, '', '') + '</div><div class="tx">' +
+          '<div class="kick">Just aired · ' + esc(a.nl) + ' · ' + (a.date ? md(a.date) : '') + '</div><h2>' + esc(a.title) + '</h2><p>' + esc(a.sub) + '</p><span class="read">Read it on Substack ↗</span></div></a>' +
+        '<div class="wk sunken"><h3>This week on the signal</h3><div class="big">' + D.week.count + ' <small>transmissions · ' + D.week.loves.toLocaleString() + ' ♥</small></div>' +
+          bars(D.week.days) + '<div class="minis">' + D.notes.slice(0, 3).map(function(n, i){ return '<button type="button" data-note="' + i + '" aria-label="Open note: ' + esc(n.b.slice(0, 60)) + '">' + img(n.t, '', '✦') + '</button>'; }).join('') + '</div></div>' +
+      '</div>' +
+      '<div class="qbtns"><button class="btn go" type="button" data-app="notes">🗒️ My Notes</button><button class="btn" type="button" data-app="inbox">📨 Inbox</button>' +
+        (iss ? '<button class="btn" type="button" data-issue="' + iss.w + '">📰 Y3K issue · ' + md(iss.w) + '</button>' : '') +
+        '<button class="btn" type="button" data-app="tv">📺 Random Note TV</button></div>' +
+      '<div class="foot"><label><input type="checkbox" id="wagain"' + (showAgain ? ' checked' : '') + '> Show this when MagickOS starts</label><span>' + D.total.toLocaleString() + ' transmissions · updated ' + (D.updated ? md(D.updated) : '') + '</span></div>' +
+      '</div></div>';
+    wire(b);
+    b.querySelector('#wagain').onchange = function(){ try { localStorage.setItem('mmos-welcome', this.checked ? 'on' : 'off'); } catch (e) {} };
+  }});
+}
+
+function notesApp(){
+  openWin('notes', {title: 'My Notes — this week', icon: '🗒️', w: 720, h: 520, dx: 40, dy: 20,
+    status: [D.notes.length + ' pictures, ' + D.words.length + ' words', md(D.weekStart) + ' – ' + md(D.updated)],
+    render: function(b){
+      var h = '<div class="folder"><div class="sect">Most-loved pictures this week</div>' + D.notes.map(function(n, i){
+        return '<button class="fi" type="button" data-note="' + i + '"><span class="th">' + img(n.t, '', n.b.slice(0, 50) || '✦') + '</span><span class="cap">' + esc(n.b || 'image') + '</span><span class="meta">' + md(n.d) + ' · ♥ ' + n.l + '</span></button>';
+      }).join('');
+      if (D.words.length) h += '<div class="sect">Words this week</div>' + D.words.map(function(n){
+        return '<div class="sticky">' + esc(n.b) + '<small>' + md(n.d) + ' · ♥ ' + n.l + ' · <a href="' + noteUrl(n) + '" target="_blank" rel="noopener">open ↗</a></small></div>';
+      }).join('');
+      h += '<div class="sect">More</div><a class="fi" href="' + UP + 'notes.html" data-site="notes.html" data-label="Every note"><span class="emo">📂</span><span class="cap">Every note (' + D.total.toLocaleString() + ')</span></a>' +
+        '<a class="fi" href="' + UP + 'archive.html" data-site="archive.html" data-label="Archive"><span class="emo">🗄️</span><span class="cap">The Archive</span></a></div>';
+      b.innerHTML = h; wire(b);
+    }});
+}
+
+function noteViewer(i){
+  var show = function(rec){
+    var n = D.notes[i]; if (!n) return;
+    rec.el.querySelector('.tt').textContent = 'Note Viewer — ' + md(n.d);
+    rec.body.innerHTML = '<div class="viewer"><div class="pic">' + (n.t ? '<img src="' + esc(n.t) + '" alt="" onerror="this.outerHTML=\'<div class=fbk>✦ picture on Substack ✦</div>\'">' : '<div class="fbk">✦</div>') + '</div>' +
+      '<div class="tx"><blockquote>' + esc(n.b || '· image transmission ·') + '</blockquote><div class="stats">' + lng(n.d) + '<br>♥ ' + n.l + ' · ↻ ' + n.r + '</div>' +
+      '<div class="row"><button class="btn" type="button" data-step="-1">◀ Back</button><button class="btn" type="button" data-step="1">Next ▶</button>' +
+      '<a class="btn go" href="' + noteUrl(n) + '" target="_blank" rel="noopener">Open on Substack ↗</a></div><div class="stats">' + (i + 1) + ' of ' + D.notes.length + '</div></div></div>';
+    rec.body.querySelectorAll('[data-step]').forEach(function(btn){ btn.onclick = function(){ i = (i + +btn.dataset.step + D.notes.length) % D.notes.length; show(rec); }; });
+  };
+  openWin('viewer', {title: 'Note Viewer', icon: '🖼️', w: 760, h: 480, dx: 80, dy: 40, menubar: false, render: function(b, rec){ show(rec); }, update: show});
+}
+
+function inbox(){
+  openWin('inbox', {title: 'Inbox — MagickMail', icon: '📨', w: 820, h: 560, dx: -30, dy: 10,
+    status: [D.articles.length + ' messages', D.articlesTotal + ' articles in all'],
+    render: function(b){
+      var read = {}; try { read = JSON.parse(localStorage.getItem('mmos-read') || '{}'); } catch (e) {}
+      b.classList.remove('sunken'); b.style.background = 'var(--pearl)';
+      b.innerHTML = '<div class="mail"><div class="list sunken"><table><thead><tr><th>From</th><th>Subject</th><th>Received</th></tr></thead><tbody>' +
+        D.articles.map(function(a, i){ return '<tr tabindex="0" data-i="' + i + '" class="' + (read[a.url] ? '' : 'unread') + '"><td class="f">' + esc(a.nl) + '</td><td>' + esc(a.title) + '</td><td class="d">' + md(a.date) + '</td></tr>'; }).join('') +
+        '<tr tabindex="0" data-all="1"><td class="f">Magick Mica</td><td>📂 Every article, searchable</td><td class="d"></td></tr></tbody></table></div><div class="prev sunken" id="mprev"></div></div>';
+      var rows = b.querySelectorAll('tr[data-i]');
+      function pick(i){
+        var a = D.articles[i]; rows.forEach(function(r){ r.setAttribute('aria-selected', String(+r.dataset.i === i)); });
+        rows[i].classList.remove('unread'); read[a.url] = 1; try { localStorage.setItem('mmos-read', JSON.stringify(read)); } catch (e) {}
+        badge();
+        b.querySelector('#mprev').innerHTML = '<div class="hdr"><b>From:</b> ' + esc(a.nl) + ' &lt;magickmica@substack&gt;<br><b>Sent:</b> ' + lng(a.date) +
+          (a.likes != null ? ' · ♥ ' + a.likes + (a.comments ? ' · 💬 ' + a.comments : '') : '') + '</div><h2>' + esc(a.title) + '</h2>' +
+          (a.cover ? '<div class="cov">' + img(a.cover, '', '') + '</div>' : '') + '<p>' + esc(a.sub) + '</p>' +
+          '<a class="btn go" href="' + esc(a.url) + '" target="_blank" rel="noopener">Read the whole article ↗</a>';
+      }
+      rows.forEach(function(r){ r.onclick = function(){ pick(+r.dataset.i); }; r.onkeydown = function(e){ if (e.key === 'Enter') pick(+r.dataset.i); if (e.key === 'ArrowDown' && r.nextElementSibling) r.nextElementSibling.focus(); if (e.key === 'ArrowUp' && r.previousElementSibling) r.previousElementSibling.focus(); }; });
+      var all = b.querySelector('tr[data-all]'); all.onclick = all.onkeydown = function(e){ if (e.type === 'click' || e.key === 'Enter') explorer('articles.html', 'Every Article', '📂'); };
+      if (rows.length) pick(0);
+    }});
+}
+
+function issues(){
+  openWin('y3k', {title: 'Y3K Magazine', icon: '📰', w: 620, h: 440, dx: 20, dy: -10, status: [D.issues.length + ' recent issues', 'weekly'],
+    render: function(b){
+      b.innerHTML = '<div class="folder"><div class="sect">Weekly issues · Reader 98 edition</div>' + D.issues.map(function(s){
+        return '<button class="fi" type="button" data-issue="' + s.w + '"><span class="emo">📰</span><span class="cap">Week of ' + md(s.w) + '</span><span class="meta">' + s.n + ' notes</span></button>';
+      }).join('') + '<div class="sect">Classic magazine</div>' + D.issues.filter(function(s){ return s.classic; }).slice(0, 4).map(function(s){
+        return '<a class="fi" href="' + UP + 'week-' + s.w + '.html" data-site="week-' + s.w + '.html" data-label="Y3K · ' + md(s.w) + '"><span class="emo">📖</span><span class="cap">Classic · ' + md(s.w) + '</span></a>';
+      }).join('') + '<a class="fi" href="' + UP + 'minimags.html" data-site="minimags.html" data-label="Y3K Magazine"><span class="emo">📚</span><span class="cap">Every issue</span></a></div>';
+      wire(b);
+    }});
+}
+
+var FRIENDS = [
+  ['magickmica-character-logo.png', 'Magick Mica', 'Your host. Queen of the crystal frequency.'],
+  ['char-crystal-oracle.png', 'Crystal Oracle', 'Reads the cards and the stars.'],
+  ['char-glitch-angel.png', 'Glitch Angel', 'Halo slightly out of sync, on purpose.'],
+  ['char-pixel-witch.png', 'Pixel Witch', 'Spell loading… magick installed.'],
+  ['char-dream-archivist.png', 'Dream Archivist', 'Keeps every dream on file.']
+];
+function friends(){
+  openWin('friends', {title: 'Friends', icon: '👾', w: 640, h: 420, dx: 60, dy: 30, status: [FRIENDS.length + ' characters', ''],
+    render: function(b){
+      b.innerHTML = '<div class="folder">' + FRIENDS.map(function(f, i){
+        return '<button class="fi" type="button" data-friend="' + i + '"><span class="th">' + img(UP + f[0], '', f[1]) + '</span><span class="cap">' + esc(f[1]) + '</span></button>';
+      }).join('') + '<a class="fi" href="' + UP + 'which-character-are-you.html" data-site="which-character-are-you.html" data-label="Which character are you?"><span class="emo">❓</span><span class="cap">Which character are you?</span></a></div>';
+      b.querySelectorAll('[data-friend]').forEach(function(x){ x.onclick = function(){ friend(+x.dataset.friend); }; });
+      wire(b);
+    }});
+}
+function friend(i){
+  var f = FRIENDS[i];
+  var show = function(rec){
+    rec.el.querySelector('.tt').textContent = f[1] + '.png';
+    rec.body.innerHTML = '<div class="viewer"><div class="pic"><img src="' + esc(UP + f[0]) + '" alt="' + esc(f[1]) + '" onerror="this.outerHTML=\'<div class=fbk>' + esc(f[1]) + '</div>\'"></div><div class="tx"><blockquote>' + esc(f[1]) + '</blockquote><div class="stats">' + esc(f[2]) + '</div>' +
+      '<div class="row"><button class="btn" type="button" data-step="-1">◀</button><button class="btn" type="button" data-step="1">▶</button></div></div></div>';
+    rec.body.querySelectorAll('[data-step]').forEach(function(btn){ btn.onclick = function(){ i = (i + +btn.dataset.step + FRIENDS.length) % FRIENDS.length; f = FRIENDS[i]; show(rec); }; });
+  };
+  openWin('friend', {title: f[1], icon: '🖼️', w: 640, h: 440, dx: 100, dy: 50, menubar: false, render: function(b, rec){ show(rec); }, update: show});
+}
+
+function control(){
+  openWin('control', {title: 'Display Properties', icon: '🎨', w: 520, h: 540, dx: 30, dy: 0, menubar: false, sunken: false,
+    render: function(b){
+      var cur = currentTheme();
+      b.innerHTML = '<div class="cp"><div class="monitor raised"><div class="scr" id="mscr"></div></div>' +
+        '<div><b>Wallpaper channel</b> — re-tune the whole desktop to a season.</div><div class="themes sunken" role="listbox" aria-label="Themes">' +
+        D.themes.map(function(t){ return '<button class="th-opt" type="button" data-slug="' + esc(t.slug) + '" aria-pressed="' + (t.slug === cur) + '"><span class="sw">' +
+          ['deep','purple','pink','cyan','gold'].map(function(k){ return '<i style="background:' + (t.c[k] || '#000') + '"></i>'; }).join('') + '</span>' + esc((t.emoji ? t.emoji + ' ' : '') + t.label) + '</button>'; }).join('') +
+        '</div><div class="row"><a id="classic" href="#" class="btn">Visit the classic page ↗</a><span><button class="btn go" type="button" id="cpok">OK</button></span></div></div>';
+      var pick = cur;
+      function preview(slug){
+        var t = byslug(slug); pick = slug; var s = b.querySelector('#mscr');
+        ['deep','purple','pink','gold'].forEach(function(k){ s.style.setProperty('--m-' + k, t.c[k]); });
+        b.querySelectorAll('.th-opt').forEach(function(o){ o.setAttribute('aria-pressed', String(o.dataset.slug === slug)); });
+        b.querySelector('#classic').href = UP + (t.file === 'index.html' ? '' : t.file);
+        apply(slug, true);
+      }
+      b.querySelectorAll('.th-opt').forEach(function(o){ o.onclick = function(){ preview(o.dataset.slug); }; });
+      b.querySelector('#cpok').onclick = function(){ closeWin('control'); };
+      preview(cur);
+    }});
+}
+
+function about(){
+  openWin('about', {title: 'About MagickOS', icon: 'ℹ️', w: 440, h: 300, menubar: false, sunken: false, render: function(b){
+    b.innerHTML = '<div class="about"><div>' + img(UP + 'magickmica-character-logo.png', '', '✦') + '</div><div><h2>MagickOS 98</h2>' +
+      '<p>Second Edition · Crystal build ' + (D.updated || '').replace(/-/g, '.') + '</p>' +
+      '<p>' + D.total.toLocaleString() + ' transmissions<br>' + D.articlesTotal + ' articles<br>' + D.week.count + ' notes this week</p>' +
+      '<p>Licensed to: <b>you</b>, a curious traveller.</p><p><button class="btn go" type="button" onclick="this.closest(\'.win\').querySelector(\'.x\').click()">OK</button></p></div></div>';
+  }});
+}
+
+var BIN = [['self-doubt.tmp', '📄'], ['old-timeline.exe', '⚙️'], ['outsourced-power.lnk', '🔗'], ['static.wav', '🔊'], ['dimmer-switch.dll', '💡']];
+function bin(){
+  openWin('bin', {title: 'Recycle Bin', icon: '🗑️', w: 520, h: 340, dx: -40, dy: 40, status: [BIN.length + ' objects', 'released'],
+    render: function(b){
+      function draw(){
+        b.innerHTML = '<div class="folder">' + (BIN.length ? BIN.map(function(x){ return '<div class="fi"><span class="emo">' + x[1] + '</span><span class="cap">' + esc(x[0]) + '</span></div>'; }).join('') +
+          '<div class="sect" style="text-transform:none;letter-spacing:0">These were released. They\'re not coming back. <button class="btn" type="button" id="empty" style="margin-left:8px">Empty Recycle Bin</button></div>'
+          : '<div class="sect" style="text-transform:none;letter-spacing:0;font-size:14px">✨ Bin emptied. Never dim yourself for cheaper lighting.</div>') + '</div>';
+        var e = b.querySelector('#empty'); if (e) e.onclick = function(){ BIN = []; draw(); var s = wins.bin && wins.bin.el.querySelector('.status span'); if (s) s.textContent = '0 objects'; };
+      }
+      draw();
+    }});
+}
+
+function explorer(href, label, icon){
+  var url = siteHref(href);
+  var show = function(rec){
+    rec.el.querySelector('.tt').textContent = label + ' — MagickNet Explorer';
+    rec.task.lastChild.textContent = label;
+    rec.body.innerHTML = '';
+    rec.body.style.display = 'flex'; rec.body.style.flexDirection = 'column'; rec.body.classList.remove('sunken'); rec.body.style.background = 'var(--pearl)';
+    var full = 'https://magickmica.github.io/' + (href === 'index.html' ? '' : href.replace(/^\/+/, ''));
+    if (/^https?:/.test(href)) full = href;
+    rec.body.innerHTML = '<div class="addr"><span>Address</span><span class="field sunken">' + esc(full) + '</span><button class="btn" type="button" data-r>⟳</button><a class="btn" href="' + esc(url) + '" target="_blank" rel="noopener">Open ↗</a></div>' +
+      '<div class="frame sunken">' + (ON_SITE ? '<iframe src="' + esc(url) + '" title="' + esc(label) + '"></iframe>' :
+        '<div class="away"><div><b>' + esc(label) + '</b><p>This channel plays inside MagickOS on magickmica.github.io.</p><a class="btn go" href="' + esc(full) + '" target="_blank" rel="noopener">Open it ↗</a></div></div>') + '</div>';
+    var r = rec.body.querySelector('[data-r]'); r.onclick = function(){ var f = rec.body.querySelector('iframe'); if (f) f.src = f.src; };
+  };
+  openWin('explorer', {title: label + ' — MagickNet Explorer', icon: '🌐', w: 1000, h: 680, maxOnSmall: true, menubar: false, sunken: false, render: function(b, rec){ show(rec); }, update: show});
+}
+function openLink(href, label){
+  if (isExt(href)) { window.open(href, '_blank', 'noopener'); return; }
+  explorer(href.replace(/^https:\/\/magickmica\.github\.io\//, ''), label);
+}
+
+/* wire buttons and site links inside a window */
+function wire(root){
+  root.querySelectorAll('[data-note]').forEach(function(x){ x.onclick = function(){ noteViewer(+x.dataset.note); }; });
+  root.querySelectorAll('[data-app]').forEach(function(x){ x.onclick = function(){ APPS[x.dataset.app](); }; });
+  root.querySelectorAll('[data-issue]').forEach(function(x){ x.onclick = function(){ explorer('reader/issues/week-' + x.dataset.issue + '.html', 'Y3K · week of ' + md(x.dataset.issue)); }; });
+  root.querySelectorAll('a[data-site]').forEach(function(a){ a.onclick = function(e){ if (e.metaKey || e.ctrlKey || e.shiftKey) return; e.preventDefault(); explorer(a.dataset.site, a.dataset.label || a.textContent.trim()); }; });
+}
+
+var APPS = {
+  welcome: welcome, notes: notesApp, inbox: inbox, y3k: issues, friends: friends, control: control, bin: bin, about: about,
+  tv: function(){ explorer('random-note.html', 'Random Note TV'); }
+};
+
+/* ======================================================================
+   desktop icons
+   ====================================================================== */
+var ICONS = [
+  ['💿', 'Welcome', 'welcome'],
+  ['🗒️', 'My Notes', 'notes'],
+  ['📨', 'Inbox', 'inbox', 'badge'],
+  ['📰', 'Y3K Magazine', 'y3k'],
+  ['📺', 'Random Note TV', 'random-note.html'],
+  ['🕹️', 'The Arcade', 'arcade.html'],
+  ['🎪', 'Cosmic Circus', 'cosmic-clown-splash.html'],
+  ['💎', 'The Vaults', 'crystals.html'],
+  ['📻', 'Signal Band', 'signal/'],
+  ['🌙', 'Y3K Almanac', 'almanac/'],
+  ['💌', 'Reader 98', 'reader/'],
+  ['🔭', 'Explore', 'explore/'],
+  ['🔮', 'Crystal Oracle', 'oracle/'],
+  ['🎶', 'Music Box', 'musicbox/'],
+  ['🧙‍♀️', 'Witching Hour', 'witching-hour.html'],
+  ['📈', 'Crystal Stress Index', 'crystal-stress-index.html'],
+  ['👾', 'Friends', 'friends'],
+  ['🎨', 'Display', 'control'],
+  ['✉️', 'Substack', 'https://substack.com/@magickmica'],
+  ['🛍️', 'TV Store', 'https://magickmicatv.store/'],
+  ['🏠', 'Classic Homepage', '../', 'nav'],
+  ['🗑️', 'Recycle Bin', 'bin']
+];
+function unread(){ var r = {}; try { r = JSON.parse(localStorage.getItem('mmos-read') || '{}'); } catch (e) {} return D.articles.slice(0, 6).filter(function(a){ return !r[a.url]; }).length; }
+function badge(){ var b = document.querySelector('.ico .badge'); if (!b) return; var n = unread(); b.textContent = n; b.hidden = !n; }
+function drawIcons(){
+  var ul = $('icons');
+  ul.innerHTML = ICONS.map(function(c, i){
+    var ext = isExt(c[2]);
+    return '<li><button class="ico" type="button" data-i="' + i + '" title="' + esc(c[1]) + (ext ? ' (opens in a new tab)' : '') + '"><span class="g" aria-hidden="true">' + c[0] +
+      (ext ? '<span class="lnk">↗</span>' : '') + (c[3] === 'badge' ? '<span class="badge"></span>' : '') + '</span><span class="l">' + esc(c[1]) + '</span></button></li>';
+  }).join('');
+  ul.querySelectorAll('.ico').forEach(function(b){
+    b.onclick = function(){
+      ul.querySelectorAll('.ico.sel').forEach(function(x){ x.classList.remove('sel'); }); b.classList.add('sel');
+      var c = ICONS[+b.dataset.i];
+      if (c[3] === 'nav') location.href = c[2];
+      else if (APPS[c[2]]) APPS[c[2]]();
+      else openLink(c[2], c[1]);
+    };
+  });
+  badge();
+}
+
+/* ======================================================================
+   start menu
+   ====================================================================== */
+var GROUP_ICON = {'Read': '📖', 'Play': '🎮', 'Dream & Divine': '🔮', 'The Signal Shop': '💎', 'Broadcasts': '📡', 'Extended Universe': '🌌'};
+function drawStart(){
+  var h = '<li class="mi"><button type="button" aria-expanded="false"><span class="e">📂</span>Programs<span class="ar">▶</span></button><ul class="sub">' +
+    D.menu.map(function(g){ return '<li class="mi"><button type="button" aria-expanded="false"><span class="e">' + (GROUP_ICON[g.name] || '📁') + '</span>' + esc(g.name) + '<span class="ar">▶</span></button><ul class="sub">' +
+      g.items.map(function(it){ return '<li><a href="' + esc(siteHref(it[0])) + '" data-go="' + esc(it[0]) + '"' + (isExt(it[0]) ? ' class="ext" target="_blank" rel="noopener"' : '') + '>' + esc(it[1]) + '</a></li>'; }).join('') + '</ul></li>'; }).join('') +
+    '</ul></li>' +
+    '<li class="mi"><button type="button" aria-expanded="false"><span class="e">📄</span>Documents<span class="ar">▶</span></button><ul class="sub">' +
+      D.articles.slice(0, 8).map(function(a){ return '<li><a class="ext" href="' + esc(a.url) + '" target="_blank" rel="noopener">' + esc(a.title.length > 46 ? a.title.slice(0, 45) + '…' : a.title) + '</a></li>'; }).join('') + '</ul></li>' +
+    '<li class="mi"><button type="button" aria-expanded="false"><span class="e">⚙️</span>Settings<span class="ar">▶</span></button><ul class="sub">' +
+      '<li><a href="#" data-app="control">🎨 Display (seasonal themes)</a></li><li><a href="#" data-app="welcome">💿 Welcome screen</a></li></ul></li>' +
+    '<li class="mi"><a href="#" data-app="notes"><span class="e">🗒️</span>This week\'s notes</a></li>' +
+    '<li class="mi"><a href="#" data-app="inbox"><span class="e">📨</span>Newest articles</a></li>' +
+    '<li class="mi"><a href="#" data-app="about"><span class="e">❔</span>About MagickOS</a></li>' +
+    '<li class="sep" role="separator"></li>' +
+    '<li class="mi"><a href="../"><span class="e">🏠</span>Classic homepage</a></li>' +
+    '<li class="mi"><a href="#" data-off="1"><span class="e">🌙</span>Shut Down…</a></li>';
+  var list = $('startlist'); list.innerHTML = h;
+  list.querySelectorAll('.mi>button').forEach(function(b){
+    var li = b.parentNode;
+    function openOne(on){
+      Array.prototype.forEach.call(li.parentNode.children, function(s){ if (s !== li){ s.classList.remove('open'); var bb = s.querySelector(':scope>button'); if (bb) bb.setAttribute('aria-expanded', 'false'); } });
+      li.classList.toggle('open', on); b.setAttribute('aria-expanded', String(on));
+      var sub = li.querySelector(':scope>.sub');
+      if (on && sub && !phone()){
+        sub.style.top = '-3px';
+        var r = sub.getBoundingClientRect(), over = r.bottom - (innerHeight - 48);
+        if (over > 0) sub.style.top = Math.max(-3 - over, -3 - (r.top - 6)) + 'px';
+      }
+    }
+    b.onclick = function(e){ e.stopPropagation(); openOne(!li.classList.contains('open')); };
+    li.addEventListener('mouseenter', function(){ if (!phone()) openOne(true); });
+  });
+  list.querySelectorAll('.mi>a').forEach(function(a){ a.addEventListener('mouseenter', function(){ if (phone()) return; Array.prototype.forEach.call(a.parentNode.parentNode.children, function(s){ s.classList.remove('open'); }); }); });
+  list.addEventListener('click', function(e){
+    var a = e.target.closest('a'); if (!a) return;
+    if (a.dataset.app){ e.preventDefault(); closeStart(); APPS[a.dataset.app](); }
+    else if (a.dataset.off){ e.preventDefault(); closeStart(); shutDown(); }
+    else if (a.dataset.go && !isExt(a.dataset.go) && !(e.metaKey || e.ctrlKey || e.shiftKey)){ e.preventDefault(); closeStart(); openLink(a.dataset.go, a.textContent.trim()); }
+    else closeStart();
+  });
+}
+function openStart(){ $('start').classList.add('open'); $('startbtn').setAttribute('aria-expanded', 'true'); $('startbtn').setAttribute('aria-pressed', 'true'); var f = $('startlist').querySelector('button,a'); f && f.focus(); }
+function closeStart(){ $('start').classList.remove('open'); $('startbtn').setAttribute('aria-expanded', 'false'); $('startbtn').setAttribute('aria-pressed', 'false'); $('startlist').querySelectorAll('.mi.open').forEach(function(m){ m.classList.remove('open'); }); }
+$('startbtn').onclick = function(e){ e.stopPropagation(); $('start').classList.contains('open') ? closeStart() : openStart(); };
+document.addEventListener('click', function(e){ if (!e.target.closest('#start') && !e.target.closest('#startbtn')) closeStart(); });
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape'){ if ($('start').classList.contains('open')){ closeStart(); $('startbtn').focus(); } else { var t = topWin(); if (t && !phone()) closeWin(t); } }
+  if (e.key === 'Meta' && !e.repeat && document.activeElement === document.body) openStart();
+});
+
+/* ======================================================================
+   themes, clock, boot, shut down
+   ====================================================================== */
+function byslug(s){ for (var i = 0; i < D.themes.length; i++) if (D.themes[i].slug === s) return D.themes[i]; return D.themes[0] || {c: {}, slug: 'home'}; }
+function currentTheme(){ var s = null; try { s = localStorage.getItem('mmos-theme'); } catch (e) {} return s || 'home'; }
+function apply(slug, save){
+  var t = byslug(slug), r = document.documentElement.style;
+  ['deep','pink','cyan','lime','purple','gold','teal'].forEach(function(k){ if (t.c[k]) r.setProperty('--' + k, t.c[k]); });
+  document.querySelector('meta[name=theme-color]').setAttribute('content', t.c.deep || '#120418');
+  $('wallcap').textContent = 'CH ' + (t.ch || '01') + ' · ' + (t.label || 'Home') + ' · MagickOS 98';
+  if (save){ try { localStorage.setItem('mmos-theme', t.slug); } catch (e) {} }
+}
+function clock(){
+  var d = new Date(), h = d.getHours(), ap = h < 12 ? 'AM' : 'PM'; h = h % 12 || 12;
+  var m = d.getMinutes(); $('cltime').textContent = h + ':' + (m < 10 ? '0' : '') + m + ' ' + ap;
+  $('cldate').textContent = DOW[d.getDay()] + ' ' + MON[d.getMonth()] + ' ' + d.getDate() + ' ·';
+}
+$('trayclock').onclick = function(){ explorer('almanac/', 'Y3K Almanac'); };
+$('traycount').textContent = '📡 ' + D.total.toLocaleString();
+
+function twinkles(){
+  var desk = $('desk');
+  for (var i = 0; i < 18; i++){
+    var s = el('span', {'class': 'twinkle', 'aria-hidden': 'true'});
+    s.style.left = (Math.random() * 100) + '%'; s.style.top = (Math.random() * 100) + '%';
+    s.style.animationDelay = (Math.random() * 3.4).toFixed(2) + 's';
+    desk.insertBefore(s, desk.firstChild);
+  }
+}
+function shutDown(){ var o = $('off'); o.hidden = false; o.focus(); }
+$('off').onclick = $('off').onkeydown = function(e){ if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return; $('off').hidden = true; Object.keys(wins).forEach(closeWin); boot(true); };
+
+function start(){
+  var again = true; try { again = localStorage.getItem('mmos-welcome') !== 'off'; } catch (e) {}
+  if (again) welcome();
+}
+function boot(force){
+  var seen = false; try { seen = sessionStorage.getItem('mmos-booted') === '1'; } catch (e) {}
+  if (reduce || (seen && !force)){ start(); return; }
+  var b = $('boot'); b.hidden = false;
+  setTimeout(function(){ b.hidden = true; try { sessionStorage.setItem('mmos-booted', '1'); } catch (e) {} start(); }, 1700);
+}
+
+apply(currentTheme(), false);
+drawIcons(); drawStart(); twinkles(); clock(); setInterval(clock, 20000);
+boot(false);
+})();
+</script>
+</body>
+</html>

@@ -120,9 +120,9 @@ def main(argv):
     run(os.path.join(TOOLS, "update_home.py"), REPO, DATA)
     run(os.path.join(TOOLS, "build_whatsnew.py"))
 
-    step("Signal Band, Almanac, Transmission Reader 98, Explore")
+    step("Signal Band, Almanac, Transmission Reader 98, Explore, MagickOS 98")
     for b in ("signal/build_signal.py", "almanac/build_almanac.py", "reader/build_reader.py",
-              "explore/build_explore.py"):
+              "explore/build_explore.py", "desktop/build_desktop.py"):
         if os.path.exists(os.path.join(REPO, b)):
             run(os.path.join(REPO, b))
 
