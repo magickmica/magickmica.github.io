@@ -44,6 +44,7 @@
       ['explore/stars.html', 'Daily Constellation'],
       ['signal/', 'Signal Band'],
       ['newsstand.html', 'Newsstand'],
+      ['sasquatch-gazette.html', 'Sasquatch Gazette'],
       ['random-note.html', 'Random Note TV'],
       ['explore/player.html', 'Tape Player'],
       ['tv-notes.html', 'TV Notes']

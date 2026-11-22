@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Sasquatch Gazette</title>
+<meta name="description" content="Forest Service opens its Bigfoot files: three public records about giant footprints in Oregon and Montana, laid out as a vintage front page.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The Sasquatch Gazette: Forest Service Opens Its Bigfoot Files">
+<meta property="og:description" content="Giant footprints in Oregon and Montana, a 1982 hoax investigation, and an elk carried off in the snow. All from the public record.">
+<meta property="og:url" content="https://magickmica.github.io/sasquatch-gazette.html">
+<link rel="icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: a broadsheet front page. Masthead, a 3-column fold, a below-the-fold strip, then the clip-and-save box. */
+  --paper: #ece3cf;
+  --paper-dark: #ddd0b3;
+  --ink: #1d1a15;
+  --ink-soft: #4a4338;
+  --rule: #2a251d;
+  --stamp: #8e1f1a;
+  --display: "Playfair Display", "Times New Roman", serif;
+  --masthead: "UnifrakturMaguntia", "Old English Text MT", serif;
+  --body: "Old Standard TT", Georgia, serif;
+  --type: "Special Elite", "Courier New", monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { background: #3b342a; }
+body {
+  margin: 0;
+  padding: 28px 16px 60px;
+  background: #3b342a;
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 19.5px;
+  line-height: 1.55;
+}
+.sheet {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 28px 34px 40px;
+  background:
+    radial-gradient(ellipse at 15% 10%, rgba(255,255,255,.35), transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgba(120,90,40,.18), transparent 60%),
+    radial-gradient(circle at 70% 30%, rgba(120,90,40,.08) 0 2px, transparent 3px),
+    var(--paper);
+  box-shadow: 0 18px 50px rgba(0,0,0,.55), inset 0 0 90px rgba(110,80,30,.28);
+  position: relative;
+}
+.sheet::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(0deg, rgba(0,0,0,.018) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+}
+
+/* Back to Magick Mica */
+.home-link {
+  display: block; max-width: 1260px; margin: 0 auto 10px;
+  font-family: var(--type); font-size: 14px; letter-spacing: .1em; text-transform: uppercase;
+  color: #e6dcc6; text-decoration: none;
+}
+.home-link:hover { text-decoration: underline; }
+
+/* Masthead */
+.ears { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; }
+.ear {
+  border: 1.5px solid var(--rule);
+  padding: 6px 10px;
+  font-size: 14px;
+  line-height: 1.35;
+  text-align: center;
+  max-width: 190px;
+}
+.ear.right { justify-self: end; }
+.ear b { display: block; font-family: var(--display); font-size: 16px; letter-spacing: .04em; }
+.masthead {
+  font-family: var(--masthead);
+  font-weight: 400;
+  font-size: clamp(44px, 9vw, 104px);
+  line-height: 1;
+  text-align: center;
+  margin: 0;
+  letter-spacing: .01em;
+}
+.motto { text-align: center; font-style: italic; font-size: 17px; margin: 6px 0 10px; color: var(--ink-soft); }
+.dateline {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 18px;
+  border-top: 3px double var(--rule);
+  border-bottom: 3px double var(--rule);
+  padding: 5px 2px;
+  font-size: 14.5px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+/* Banner headline */
+.banner {
+  font-family: var(--display);
+  font-weight: 900;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: clamp(30px, 6.2vw, 70px);
+  line-height: .98;
+  letter-spacing: -.01em;
+  margin: 18px 0 6px;
+  text-wrap: balance;
+}
+.deck {
+  text-align: center;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(20px, 2.6vw, 27px);
+  margin: 0 auto 16px;
+  max-width: 820px;
+  text-wrap: balance;
+}
+.thick { border: 0; border-top: 4px solid var(--rule); margin: 0; }
+.thin { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+
+/* Front-page grid */
+.front {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0;
+  margin-top: 14px;
+}
+.front > * { padding: 0 20px; }
+.front > *:first-child { padding-left: 0; }
+.front > *:last-child { padding-right: 0; border-left: 1px solid var(--rule); }
+
+.kicker {
+  font-family: var(--type);
+  font-size: 14px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--stamp);
+  margin: 0 0 4px;
+}
+h2.hed {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(28px, 3.8vw, 40px);
+  line-height: 1.05;
+  margin: 0 0 6px;
+  text-wrap: balance;
+}
+h3.hed {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.1;
+  margin: 0 0 6px;
+  text-wrap: balance;
+}
+.sub { font-style: italic; font-size: 18.5px; margin: 0 0 8px; color: var(--ink-soft); text-wrap: balance; }
+.byline {
+  font-size: 13.5px; text-transform: uppercase; letter-spacing: .1em;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  padding: 3px 0; margin: 6px 0 10px;
+}
+.cols { column-count: 2; column-gap: 22px; column-rule: 1px solid rgba(42,37,29,.5); }
+.cols p, .story p { margin: 0 0 .7em; text-align: justify; hyphens: auto; }
+.cols > p:first-of-type::first-letter, .dropcap::first-letter {
+  float: left;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 72px;
+  line-height: .82;
+  padding: 4px 6px 0 0;
+}
+.place { font-variant: small-caps; font-weight: 700; letter-spacing: .03em; }
+
+/* Plate (illustration) */
+figure.plate {
+  margin: 4px 0 14px;
+  border: 1.5px solid var(--rule);
+  padding: 10px;
+  background: rgba(255,255,255,.18);
+  break-inside: avoid;
+}
+figure.plate svg { display: block; width: 100%; height: auto; }
+figcaption {
+  font-size: 15.5px;
+  font-style: italic;
+  margin-top: 8px;
+  border-top: 1px solid var(--rule);
+  padding-top: 5px;
+  line-height: 1.4;
+}
+
+/* Sidebar */
+.box {
+  border: 2px solid var(--rule);
+  outline: 1px solid var(--rule);
+  outline-offset: 3px;
+  padding: 12px 14px;
+  margin: 6px 0 18px;
+  background: rgba(255,255,255,.15);
+}
+.box h4 {
+  font-family: var(--display); font-weight: 900; text-transform: uppercase;
+  text-align: center; margin: 0 0 8px; font-size: 19px; letter-spacing: .06em;
+  border-bottom: 1px solid var(--rule); padding-bottom: 6px;
+}
+table.ledger { width: 100%; border-collapse: collapse; font-size: 16.5px; font-variant-numeric: tabular-nums lining-nums; }
+.ledger th { font-family: var(--type); font-weight: 400; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; text-align: left; border-bottom: 1px solid var(--rule); padding: 3px 4px; }
+.ledger td { padding: 5px 4px; border-bottom: 1px dotted rgba(42,37,29,.55); vertical-align: top; }
+.ledger td.n { text-align: right; white-space: nowrap; }
+
+.stamp {
+  display: inline-block;
+  font-family: var(--type);
+  color: var(--stamp);
+  border: 2.5px solid var(--stamp);
+  padding: 3px 10px;
+  transform: rotate(-4deg);
+  letter-spacing: .12em;
+  font-size: 18px;
+  opacity: .88;
+  margin: 2px 0 10px;
+}
+
+/* Below the fold */
+.fold { display: grid; grid-template-columns: 1.35fr 1fr; margin-top: 18px; }
+.fold > * { padding: 0 20px; }
+.fold > *:first-child { padding-left: 0; }
+.fold > *:last-child { padding-right: 0; border-left: 1px solid var(--rule); }
+.story .cols { column-count: 2; }
+
+blockquote.pull {
+  margin: 12px 0;
+  padding: 10px 0;
+  border-top: 3px double var(--rule);
+  border-bottom: 3px double var(--rule);
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 27px;
+  line-height: 1.2;
+  text-align: center;
+  break-inside: avoid;
+}
+blockquote.pull cite { display: block; font-family: var(--body); font-style: normal; font-weight: 400; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; margin-top: 6px; }
+
+/* Clip and save */
+.clip {
+  margin-top: 26px;
+  border: 2px dashed var(--rule);
+  padding: 16px 18px 12px;
+  position: relative;
+}
+.clip::before {
+  content: "✂";
+  position: absolute; top: -15px; left: 22px;
+  background: var(--paper); padding: 0 6px;
+  font-size: 20px;
+}
+.clip h4 { font-family: var(--display); font-weight: 900; text-transform: uppercase; margin: 0 0 4px; font-size: 25px; letter-spacing: .04em; }
+.clip p { margin: 0 0 10px; font-size: 18px; }
+.files { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.file {
+  display: block;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1.5px solid var(--rule);
+  padding: 10px 12px;
+  background: rgba(255,255,255,.22);
+  transition: background .15s, transform .15s;
+}
+.file:hover { background: rgba(255,255,255,.5); transform: translateY(-2px); }
+.file:focus-visible { outline: 3px solid var(--stamp); outline-offset: 2px; }
+.file .tag { font-family: var(--type); font-size: 13px; letter-spacing: .1em; color: var(--stamp); text-transform: uppercase; }
+.file .t { font-family: var(--display); font-weight: 700; font-size: 21px; line-height: 1.15; display: block; margin: 3px 0; }
+.file .d { font-size: 16px; color: var(--ink-soft); }
+.file .go { font-family: var(--type); font-size: 14px; display: block; margin-top: 6px; }
+.reading-room { font-size: 17px; margin-top: 12px; }
+.reading-room a, .box a { color: var(--stamp); }
+
+/* Advertisement CTA */
+.ad {
+  margin: 28px auto 0;
+  max-width: 780px;
+  border: 3px double var(--rule);
+  outline: 1.5px solid var(--rule);
+  outline-offset: 5px;
+  padding: 18px 24px 20px;
+  text-align: center;
+  background: rgba(255,255,255,.2);
+}
+.ad .adlabel {
+  font-family: var(--type); font-size: 12.5px; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft);
+  border-bottom: 1px solid var(--rule); display: inline-block; padding-bottom: 3px; margin-bottom: 10px;
+}
+.ad h4 {
+  font-family: var(--display); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(26px, 4vw, 38px); line-height: 1.02; margin: 0 0 6px; letter-spacing: -.005em; text-wrap: balance;
+}
+.ad .adsub { font-family: var(--display); font-style: italic; font-weight: 700; font-size: 20px; margin: 0 0 10px; text-wrap: balance; }
+.ad p { margin: 0 auto 14px; max-width: 560px; font-size: 18px; }
+.ad .cta {
+  display: inline-block;
+  font-family: var(--type); font-size: 19px; letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+  color: var(--paper); background: var(--stamp);
+  padding: 12px 26px 11px;
+  border: 2px solid var(--rule);
+  box-shadow: 4px 4px 0 var(--rule);
+  transition: transform .12s, box-shadow .12s;
+}
+.ad .cta:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--rule); }
+.ad .cta:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--rule); }
+.ad .cta:focus-visible { outline: 3px solid var(--stamp); outline-offset: 4px; }
+.ad .alt { display: block; margin-top: 12px; font-size: 16px; color: var(--ink-soft); }
+.ad .alt a { color: var(--stamp); }
+@media (prefers-reduced-motion: reduce) { .ad .cta { transition: none; } }
+
+.colophon {
+  margin-top: 22px;
+  border-top: 3px double var(--rule);
+  padding-top: 6px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 16px;
+}
+
+@media (max-width: 860px) {
+  .sheet { padding: 20px 18px 30px; }
+  .front, .fold { grid-template-columns: 1fr; }
+  .front > *, .fold > * { padding: 0 !important; border-left: 0 !important; }
+  .front > *:last-child, .fold > *:last-child { border-top: 4px solid var(--rule); margin-top: 18px; padding-top: 14px !important; }
+  .files { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .cols, .story .cols { column-count: 1; }
+  .ears { grid-template-columns: 1fr; }
+  .ear { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .file { transition: none; } .file:hover { transform: none; } }
+</style>
+</head>
+<body>
+<a class="home-link" href="./">← Magick Mica</a>
+<main class="sheet">
+
+  <header>
+    <div class="ears">
+      <div class="ear"><b>FOUR-FOOT STRIDE</b>The 1982 tracks held it on flat ground and steep slope alike.</div>
+      <h1 class="masthead">The Sasquatch Gazette</h1>
+      <div class="ear right"><b>16½ INCHES</b>Length of the 2003 Montana prints, heel to toe.</div>
+    </div>
+    <p class="motto">“All the Tracks That Are Fit to Print” · Assembled from the U.S. Forest Service FOIA Reading Room</p>
+    <div class="dateline">
+      <span>Vol. I · No. 1</span>
+      <span>Released Wednesday, October 15, 2026</span>
+      <span>Umatilla · Petty Creek · Plains</span>
+      <span>Price: Free (Public Record)</span>
+    </div>
+  </header>
+
+  <h2 class="banner">Forest Service Opens Its Bigfoot Files</h2>
+  <p class="deck">Three records quietly posted to the government’s reading room describe giant footprints in Oregon and Montana, and one 1982 investigation that ended in suspicion of a hoax</p>
+  <hr class="thick">
+
+  <section class="front">
+    <article>
+      <p class="kicker">Umatilla National Forest · June 1982</p>
+      <h2 class="hed">Biologist Finds Tracks Too Shallow for a 300-Pound Giant</h2>
+      <p class="sub">Team’s own boots sank deeper than the mystery prints; Border Patrol man later calls them a likely hoax</p>
+      <div class="byline">From the files of the U.S. Forest Service</div>
+
+      <div class="cols">
+        <p><span class="place">Mill Creek Watershed</span>, near Pendleton, Ore. — Reports of enormous footprints in the watershed brought a Forest Service team into the woods on June 17, 1982. They visited two sites along Low Creek, the first about a mile and a half above Mill Creek, and took measurements, color photographs and plaster casts.</p>
+
+        <figure class="plate">
+          <svg viewBox="0 0 320 200" role="img" aria-label="Engraving-style diagram of a line of large footprints climbing a slope, each four feet apart">
+            <defs>
+              <pattern id="hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+                <line x1="0" y1="0" x2="0" y2="5" stroke="#1d1a15" stroke-width="1.1"/>
+              </pattern>
+              <g id="foot">
+                <path d="M0,-26 C9,-26 12,-14 11,-2 C10,10 8,20 3,25 C-1,28 -7,27 -9,21 C-11,13 -10,2 -11,-8 C-12,-19 -8,-26 0,-26Z" fill="url(#hatch)" stroke="#1d1a15" stroke-width="1.4"/>
+                <circle cx="-7" cy="-32" r="3.2" fill="#1d1a15"/>
+                <circle cx="-1" cy="-34" r="3" fill="#1d1a15"/>
+                <circle cx="5" cy="-33" r="2.7" fill="#1d1a15"/>
+                <circle cx="10" cy="-30" r="2.4" fill="#1d1a15"/>
+                <circle cx="13" cy="-25" r="2.1" fill="#1d1a15"/>
+              </g>
+            </defs>
+            <path d="M0,185 L80,170 L160,140 L240,90 L320,55 L320,200 L0,200Z" fill="#ddd0b3" stroke="#1d1a15" stroke-width="1.5"/>
+            <path d="M0,185 L80,170 L160,140 L240,90 L320,55" fill="none" stroke="#1d1a15" stroke-width="2"/>
+            <use href="#foot" transform="translate(42,158) rotate(70) scale(.62)"/>
+            <use href="#foot" transform="translate(110,138) rotate(62) scale(.62)"/>
+            <use href="#foot" transform="translate(178,108) rotate(55) scale(.62)"/>
+            <use href="#foot" transform="translate(246,66) rotate(55) scale(.62)"/>
+            <g font-family="Special Elite, monospace" font-size="11" fill="#1d1a15">
+              <line x1="42" y1="122" x2="110" y2="104" stroke="#8e1f1a" stroke-width="1.2" stroke-dasharray="3 3"/>
+              <text x="58" y="104" fill="#8e1f1a">4 ft</text>
+              <line x1="110" y1="104" x2="178" y2="74" stroke="#8e1f1a" stroke-width="1.2" stroke-dasharray="3 3"/>
+              <text x="128" y="80" fill="#8e1f1a">4 ft</text>
+              <line x1="178" y1="74" x2="246" y2="32" stroke="#8e1f1a" stroke-width="1.2" stroke-dasharray="3 3"/>
+              <text x="196" y="44" fill="#8e1f1a">4 ft</text>
+              <text x="8" y="20">FIG. 1 — STRIDE ON GRADE</text>
+              <text x="8" y="34" font-size="9.5" fill="#4a4338">no slip marks recorded on the slope</text>
+            </g>
+          </svg>
+          <figcaption>Fig. 1. The investigators noted the stride stayed about four feet whether the ground was gentle or steep, with no sign of slipping. Illustration, not to scale.</figcaption>
+        </figure>
+
+        <p>Wildlife biologist Rodney L. Johnson set down the findings in a memo the next day, June 18. The prints were large, but their depth bothered him. The team’s boots sank farther into the mud than the prints did, a poor fit for an animal said to weigh hundreds of pounds.</p>
+        <p>The gait raised more questions. The stride held at about four feet on gentle and steep ground alike, the prints showed no slipping on the slopes, and some of the debris around them appeared to have been cleared away. Johnson wrote that the impressions showed signs of something being rocked back and forth to make them.</p>
+        <p>His conclusion: the tracks were made by something other than a two-footed creature of 300 pounds or more.</p>
+        <p>A second memo followed on July 28, 1982, from Joel Hardin of the U.S. Border Patrol, a noted tracker. Hardin judged the prints a likely hoax made with an artificial foot.</p>
+        <p>The file, now public, includes the two memos and the team’s photographs of the prints, laid out with markers in the manner of a crime scene.</p>
+      </div>
+    </article>
+
+    <aside>
+      <span class="stamp">RELEASED UNDER FOIA</span>
+      <div class="box">
+        <h4>The Tale of the Tape</h4>
+        <table class="ledger">
+          <thead><tr><th>Record</th><th>Stride</th><th>Print</th></tr></thead>
+          <tbody>
+            <tr><td>Low Creek, Ore., 1982</td><td class="n">≈ 4 ft</td><td class="n">≈ 15 in</td></tr>
+            <tr><td>Plains, Mont., 2003</td><td class="n">≈ 5 ft</td><td class="n">16½ × 8½ in</td></tr>
+            <tr><td>Petty Creek, Mont., 1940s</td><td class="n">—</td><td class="n">in snow</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <article class="story">
+        <p class="kicker">Petty Creek, Montana · 1940s</p>
+        <h3 class="hed">Hunters Trail Tracks That Carried Off an Elk</h3>
+        <p class="sub">A first-hand account set down around 1980</p>
+        <div class="byline">Account of Leo T. Kinney</div>
+        <p class="dropcap">In a short typed document written around 1980, Leo T. Kinney looked back on a winter in the 1940s near Petty Creek, west of Missoula, when he and his companions found huge two-legged tracks in the snow.</p>
+        <p>The men followed them for about half a mile. By Kinney’s telling, whatever made them had lifted an elk whole, <em>clear off the ground</em>, and carried it. Where the trail crossed a fallen log about three feet thick, they could see the elk’s antlers had dragged across the snow and over the timber.</p>
+        <p>The account is the oldest of the three in the release, and the only one with no investigation attached.</p>
+      </article>
+    </aside>
+  </section>
+
+  <hr class="thick" style="margin-top:18px">
+
+  <section class="fold">
+    <article class="story">
+      <p class="kicker">Plains, Sanders County, Montana · January 2003</p>
+      <h2 class="hed">Boy, 8, Finds Hundreds of Giant Prints in Snow by Sawmill</h2>
+      <p class="sub">Neighbor tracks the trail for two hours before it vanishes on rocky ground</p>
+      <div class="byline">From a clipping of the Valley Press / Mineral Independent</div>
+      <div class="cols">
+        <p><span class="place">River Road West</span> — Eight-year-old Austin Petersen was visiting the home of Jim and Gladys Rohweder, next door to his father Dean’s place, when he found the prints in fresh snow beside the couple’s shop and sawmill. There were hundreds of them, clearest out in the open yard.</p>
+        <p>Each print ran about 16½ inches long and 8½ inches across just behind the toes, narrowing to a heel about four inches wide. They showed toes and an arch, and the neighbors said they looked more human than animal. The average stride was about five feet.</p>
+        <p>The trail came from the direction of Eddy Creek, crossed the yard, turned and headed for the Clark Fork River. Neighbor Bob Mesing, a contractor, followed it for about two hours until it faded in the woods some 100 yards off, where the ground turned hard and rocky.</p>
+        <blockquote class="pull">“What else could it be.”<cite>Bob Mesing, River Road West</cite></blockquote>
+        <p>The night before, Rohweder’s motion-sensor light had switched on at the shop, and Dean Petersen woke to his dog barking but saw nothing. A large pile of dung lay near the tracks. Judging by the size of the prints, Petersen put the animal at 500 to 1,000 pounds.</p>
+        <p>Mesing said he had started out a skeptic. Gladys Rohweder said she once saw a hairy, two-legged creature soon after the couple moved to the road some 30 years earlier. Rain washed most of the prints away the next day.</p>
+      </div>
+    </article>
+
+    <aside>
+      <figure class="plate" style="margin-top:4px">
+        <svg viewBox="0 0 320 250" role="img" aria-label="Side-by-side outlines comparing an 11.5-inch man's shoe, the roughly 15-inch 1982 Oregon print and the 16.5-inch 2003 Montana print">
+          <defs>
+            <pattern id="hatch2" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+              <line x1="0" y1="0" x2="0" y2="5" stroke="#1d1a15" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <g font-family="Special Elite, monospace" font-size="10.5" fill="#1d1a15">
+            <text x="8" y="16">FIG. 2 — HEEL TO TOE, TO SCALE</text>
+            <!-- scale: 12 px per inch; baseline y=225 -->
+            <line x1="8" y1="225" x2="312" y2="225" stroke="#1d1a15" stroke-width="1.5"/>
+            <g>
+              <line x1="22" y1="27" x2="22" y2="225" stroke="#1d1a15"/>
+              <line x1="18" y1="225" x2="26" y2="225" stroke="#1d1a15"/>
+              <line x1="18" y1="165" x2="26" y2="165" stroke="#1d1a15"/><text x="0" y="168" font-size="9">5″</text>
+              <line x1="18" y1="105" x2="26" y2="105" stroke="#1d1a15"/><text x="-2" y="108" font-size="9">10″</text>
+              <line x1="18" y1="45" x2="26" y2="45" stroke="#1d1a15"/><text x="-2" y="48" font-size="9">15″</text>
+            </g>
+            <!-- shoe 11.5in = 138px tall, ~4in wide=48 -->
+            <path d="M70,225 C56,225 52,205 54,175 C56,140 50,110 56,98 C62,86 82,86 88,100 C94,116 90,150 92,185 C94,212 86,225 70,225Z" fill="none" stroke="#1d1a15" stroke-width="1.6" stroke-dasharray="4 3"/>
+            <text x="44" y="242">Man’s shoe</text>
+            <text x="58" y="80" fill="#4a4338">11½″</text>
+            <!-- 1982 ~15in = 180px -->
+            <path d="M160,225 C144,225 138,200 140,165 C142,120 132,80 140,60 C148,44 176,44 182,62 C190,86 182,130 184,170 C186,208 178,225 160,225Z" fill="url(#hatch2)" stroke="#1d1a15" stroke-width="1.6"/>
+            <text x="134" y="242">Oregon ’82</text>
+            <text x="148" y="38" fill="#4a4338">≈15″</text>
+            <!-- 2003 16.5in = 198px, 8.5 wide = 102px -->
+            <path d="M262,225 C246,225 236,200 234,160 C232,115 218,70 228,48 C238,26 286,24 296,46 C306,70 296,118 294,160 C292,205 280,225 262,225Z" fill="url(#hatch2)" stroke="#8e1f1a" stroke-width="2"/>
+            <text x="230" y="242" fill="#8e1f1a">Montana ’03</text>
+            <text x="246" y="22" fill="#8e1f1a">16½″</text>
+          </g>
+        </svg>
+        <figcaption>Fig. 2. Length compared at one scale. Shoe is a typical man’s size 11 for reference; the 1982 figure is the approximate length news reports gave for the Low Creek prints.</figcaption>
+      </figure>
+
+      <div class="box">
+        <h4>What the Files Do Not Say</h4>
+        <p style="margin:0 0 .6em;font-size:17px">None of the three records proves the creature exists. The 1982 file is the only one with a formal investigation, and its two investigators both doubted the tracks were real.</p>
+        <p style="margin:0;font-size:17px">The 2003 dung was never sent to a lab, and no one called the authorities about the prints.</p>
+      </div>
+    </aside>
+  </section>
+
+  <section class="clip" aria-labelledby="clip-h">
+    <h4 id="clip-h">Clip &amp; Save: Read the Originals</h4>
+    <p>The Forest Service posted all three scans on October 15, 2026, under “Bigfoot/Sasquatch Records” in the Frequently Requested Records list. Each link opens the agency’s PDF.</p>
+    <div class="files">
+      <a class="file" href="https://www.fs.usda.gov/sites/default/files/2026-10/June%2018%201982%20Bigfoot%20Tracks%20Investigation%20Umatilla%20NF.pdf" target="_blank" rel="noopener">
+        <span class="tag">File 1 · 1982</span>
+        <span class="t">Bigfoot Tracks Investigation, Umatilla NF</span>
+        <span class="d">Johnson and Hardin memos, track photographs</span>
+        <span class="go">Open PDF →</span>
+      </a>
+      <a class="file" href="https://www.fs.usda.gov/sites/default/files/2026-10/Kinney_whatdoyouknow_MT.pdf" target="_blank" rel="noopener">
+        <span class="tag">File 2 · c. 1980</span>
+        <span class="t">Leo Kinney’s Petty Creek Account</span>
+        <span class="d">The 1940s elk-and-tracks story, Montana</span>
+        <span class="go">Open PDF →</span>
+      </a>
+      <a class="file" href="https://www.fs.usda.gov/sites/default/files/2026-10/Clark%20Fork%20Valley%20Press%20Article%20JAN%2013%202003.pdf" target="_blank" rel="noopener">
+        <span class="tag">File 3 · 2003</span>
+        <span class="t">Clark Fork Valley Press Clipping</span>
+        <span class="d">The River Road West prints, Plains, Mont.</span>
+        <span class="go">Open PDF →</span>
+      </a>
+    </div>
+    <p class="reading-room">Browse the full list at the <a href="https://www.fs.usda.gov/about-agency/foia/reading-room" target="_blank" rel="noopener">U.S. Forest Service FOIA Reading Room</a>.</p>
+  </section>
+
+  <aside class="ad" aria-labelledby="ad-h">
+    <span class="adlabel">Advertisement</span>
+    <h4 id="ad-h">Hungry for More Strange Transmissions?</h4>
+    <p class="adsub">Giant footprints, cosmic signals &amp; the gloriously unexplained</p>
+    <p>Magick Mica sends the odd, the eerie and the out-of-this-world to your inbox. Free to read, no plaster cast required.</p>
+    <a class="cta" href="https://substack.com/@magickmica" target="_blank" rel="noopener">Follow Magick Mica on Substack →</a>
+    <span class="alt">or tune in at <a href="./">magickmica.github.io</a></span>
+  </aside>
+
+  <footer class="colophon">
+    <span>The Sasquatch Gazette is a novelty front page, not a real newspaper.</span>
+    <span>Stories summarize public records released by the USDA Forest Service and news coverage of the release, November 2026.</span>
+  </footer>
+</main>
+<script src="mm-nav.js?v=2" defer></script>
+</body>
+</html>
