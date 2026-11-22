@@ -17,6 +17,9 @@ After this, adding a page to the site menu is one line in the JSON plus a
 re-run. Nothing else needs editing. build_index.py reads the same JSON for
 the Transmission Map, so the homepages stay in sync automatically.
 
+The "_primary" list is the row of links in the top bar on wide screens, and
+"_cta" is the one highlighted button beside Menu, shown on every screen size.
+
 Pages deliberately skipped (they are not menu items):
   google*.html            search-console verification stub
   index-*.html / index.html  generated homepages (template already has it)
@@ -64,6 +67,7 @@ def build_sections(nav):
 def main():
     raw = json.load(open(DATA, encoding='utf-8'))
     primary = raw.get('_primary')
+    cta = raw.get('_cta')
     nav = {k: v for k, v in raw.items() if not k.startswith('_')}
     src = NAV.read_text(encoding='utf-8')
 
@@ -86,6 +90,12 @@ def main():
             sys.exit('could not find PRIMARY in mm-nav.js')
         src = src[:m2.start()] + block2 + src[m2.end():]
         print('           top bar: ' + ' / '.join(l for _, l in primary))
+    if cta:
+        m3 = re.search(r'  var CTA = .*?;', src)
+        if not m3:
+            sys.exit('could not find CTA in mm-nav.js')
+        src = src[:m3.start()] + '  var CTA = [%s, %s];' % (js_str(cta[0]), js_str(cta[1])) + src[m3.end():]
+        print('        top bar CTA: ' + cta[1])
     NAV.write_text(src, encoding='utf-8')
     total = sum(len(v) for v in nav.values())
     print(f'mm-nav.js  ·  {len(nav)} groups, {total} links written from {DATA.name}')
