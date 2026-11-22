@@ -39,6 +39,7 @@
       ['archive.html', 'Archive'],
       ['minimags.html', 'Y3K Magazine'],
       ['explore/', 'Explore the Notes'],
+      ['academy/', 'AI Academy'],
       ['reader/', 'Transmission Reader'],
       ['almanac/', 'Y3K Almanac'],
       ['explore/stars.html', 'Daily Constellation'],
