@@ -2,327 +2,478 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Magick Mica TV — The Cosmic Guestbook</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Guestbook.exe · MagickOS 98 · Magick Mica</title>
+<meta name="description" content="Sign the Magick Mica guestbook: leave a name and a message for every visitor to see. A MagickOS 98 program.">
+<meta name="theme-color" content="#120418">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Guestbook.exe · MagickOS 98">
+<meta property="og:description" content="Leave your mark, earthling. Sign the Magick Mica guestbook.">
+<meta property="og:url" content="https://magickmica.github.io/guestbook.html">
+<meta property="og:image" content="https://magickmica.github.io/reader/og-reader.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Yellowtail&family=Barlow+Condensed:wght@500;600;700;800&family=Karla:ital,wght@0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&display=swap">
 <style>
-  :root{
-    --space:#160A2B; --plum:#3A1B4D; --dusk:#6B2E7E;
-    --pink:#FF7AC8; --hotpink:#FF4FA3; --mint:#5FE8D0;
-    --butter:#FFE066; --lav:#B79CFF; --cyan:#4EE1FF; --cream:#FFF6FB;
-    --display:'Shrikhand',cursive; --script:'Yellowtail',cursive;
-    --head:'Barlow Condensed',sans-serif; --body:'Karla',sans-serif; --mono:'Space Mono',monospace;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    color:var(--cream); font-family:var(--body); font-size:1.05rem; line-height:1.65;
-    overflow-x:hidden; min-height:100vh;
-    background:linear-gradient(180deg, var(--space) 0%, var(--space) 30%, var(--plum) 62%, var(--dusk) 84%, #A0447E 100%);
-  }
-  ::selection{background:var(--pink);color:var(--space);}
-  .stars{
-    position:fixed;inset:0;pointer-events:none;z-index:0;
-    background-image:
-      radial-gradient(1.5px 1.5px at 12% 12%, #fff 60%, transparent),
-      radial-gradient(1px 1px at 32% 44%, var(--pink) 60%, transparent),
-      radial-gradient(1.5px 1.5px at 56% 22%, var(--mint) 60%, transparent),
-      radial-gradient(1px 1px at 74% 56%, #fff 60%, transparent),
-      radial-gradient(2px 2px at 88% 8%, var(--butter) 60%, transparent),
-      radial-gradient(1px 1px at 20% 66%, var(--lav) 60%, transparent),
-      radial-gradient(1.4px 1.4px at 44% 5%, #fff 60%, transparent),
-      radial-gradient(1px 1px at 94% 38%, var(--cyan) 60%, transparent),
-      radial-gradient(1.2px 1.2px at 6% 34%, var(--mint) 60%, transparent);
-    opacity:.65;animation:twinkle 6s ease-in-out infinite alternate;
-    mask-image:linear-gradient(#000 55%, transparent 92%);
-    -webkit-mask-image:linear-gradient(#000 55%, transparent 92%);
-  }
-  @keyframes twinkle{from{opacity:.4}to{opacity:.8}}
-  main{position:relative;z-index:1;}
+/* ============================================================
+   GUESTBOOK.EXE · a MagickOS 98 program
+   Same look as desktop/index.html. Entries live in Supabase
+   (CONFIG near the bottom); .github/workflows/guestbook-keepalive.yml
+   keeps that database from being paused.
+   ============================================================ */
+:root{
+  --deep:#120418; --pink:#ff2440; --cyan:#6fc3ff; --lime:#7ee364;
+  --purple:#d06bff; --gold:#ffce5c; --teal:#4fc9a8;
+  --pearl:#e8e3f1; --pearl-hi:#ffffff; --pearl-lo:#8a819f; --pearl-dk:#4a4360;
+  --paper:#fbfaff; --ink:#1a1530; --quiet:#625a78; --hover:#ece6fa;
+  --select:#2b1f72;
+  --title:linear-gradient(90deg,color-mix(in srgb,var(--deep) 55%,#2b1f72),color-mix(in srgb,var(--purple) 75%,#2b1f72) 45%,color-mix(in srgb,var(--pink) 70%,var(--purple)) 75%,color-mix(in srgb,var(--cyan) 80%,#2b1f72));
+  --f-chrome:"Pixelify Sans",Tahoma,Verdana,"Segoe UI",sans-serif;
+  --f-ui:Tahoma,Verdana,"Segoe UI","DejaVu Sans",sans-serif;
+  --f-read:Georgia,"Times New Roman",serif;
+  --bar:44px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;overflow:hidden;font:13px/1.35 var(--f-ui);color:var(--ink);background:var(--deep)}
+button,input,textarea{font:inherit;color:inherit}
+a{color:#3a2a9a}
+:focus-visible{outline:2px dotted var(--gold);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-  header{text-align:center;padding:4rem 1.25rem 2rem;}
-  .ticker{
-    font-family:var(--mono);font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;
-    color:var(--mint);margin-bottom:1.8rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
-  }
-  .ticker .dot{color:var(--hotpink);}
-  .sign{
-    display:inline-block;border:3px solid var(--pink);border-radius:1.6rem;padding:1.6rem 2.4rem 1.9rem;
-    box-shadow:0 0 24px rgba(255,122,200,.5), inset 0 0 24px rgba(255,122,200,.22);
-    background:rgba(22,10,43,.55);backdrop-filter:blur(3px);
-  }
-  .sign h1{font-family:var(--display);font-size:clamp(2.2rem,7vw,4.4rem);line-height:1;color:var(--cream);text-shadow:0 0 18px rgba(255,122,200,.55);}
-  .sign .script{font-family:var(--script);font-size:clamp(1.2rem,3.4vw,1.7rem);color:var(--butter);display:block;margin-top:.4rem;text-shadow:0 0 14px rgba(255,224,102,.45);}
-  .tagline{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lav);margin-top:1.4rem;}
+/* ---- bevels ------------------------------------------------------- */
+.raised{background:var(--pearl);box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 #f6f3fb}
+.sunken{background:var(--paper);box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi),inset 2px 2px 0 var(--pearl-dk),inset -2px -2px 0 #f6f3fb}
+.btn{border:0;cursor:pointer;padding:6px 14px;min-height:28px;font:13px var(--f-ui);background:var(--pearl);
+  box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 #f6f3fb;text-decoration:none;color:var(--ink);display:inline-flex;align-items:center;gap:6px}
+.btn:active,.btn[aria-pressed="true"]{box-shadow:inset 1px 1px 0 var(--pearl-dk),inset -1px -1px 0 var(--pearl-hi),inset 2px 2px 0 var(--pearl-lo)}
+.btn:hover{background:#f1edf8}
+.btn.go{font-weight:700}
+.btn:disabled{color:var(--pearl-lo);text-shadow:1px 1px 0 #fff;cursor:default}
 
-  .wrap{max-width:52rem;margin:0 auto;padding:0 1.4rem;}
+/* ---- desktop & wallpaper ------------------------------------------ */
+#desk{position:fixed;inset:0 0 var(--bar) 0;overflow:hidden;
+  background:
+    radial-gradient(900px 520px at 50% 46%,color-mix(in srgb,var(--purple) 30%,transparent),transparent 70%),
+    radial-gradient(700px 500px at 0% 100%,color-mix(in srgb,var(--pink) 22%,transparent),transparent 70%),
+    radial-gradient(800px 600px at 100% 0%,color-mix(in srgb,var(--cyan) 18%,transparent),transparent 70%),
+    var(--deep)}
+#desk::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.85;
+  background-image:
+    radial-gradient(1px 1px at 20px 30px,#fff,transparent 60%),
+    radial-gradient(1px 1px at 140px 90px,rgba(255,255,255,.7),transparent 60%),
+    radial-gradient(1.5px 1.5px at 90px 170px,rgba(255,255,255,.8),transparent 60%),
+    radial-gradient(1px 1px at 200px 220px,rgba(255,255,255,.6),transparent 60%),
+    radial-gradient(1px 1px at 250px 40px,rgba(255,255,255,.5),transparent 60%);
+  background-size:280px 260px}
+#desk::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px);z-index:1}
+.mark{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:min(380px,48vw);pointer-events:none;
+  filter:drop-shadow(0 0 40px color-mix(in srgb,var(--purple) 60%,transparent));opacity:.95}
+.mark img{width:100%;height:auto;display:block}
+.mark .fbmark{font:700 56px/1 var(--f-chrome);color:#fff;text-align:center;text-shadow:0 0 30px var(--purple)}
+.twinkle{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px color-mix(in srgb,var(--cyan) 70%,#fff);
+  animation:tw 3.4s ease-in-out infinite;pointer-events:none}
+@keyframes tw{0%,100%{opacity:.1;transform:scale(.6)}50%{opacity:1;transform:scale(1.2)}}
+.wallcap{position:absolute;right:16px;bottom:12px;color:rgba(255,255,255,.45);font:12px var(--f-chrome);letter-spacing:.08em;text-align:right;pointer-events:none}
 
-  /* sign-the-book card */
-  .book-form{
-    border:2px solid var(--pink);border-radius:1.4rem;padding:1.7rem 1.6rem;margin-top:1rem;
-    background:linear-gradient(120deg, rgba(255,122,200,.12), rgba(183,156,255,.1), rgba(95,232,208,.08));
-  }
-  .book-form h2{font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:1.5rem;color:var(--pink);margin-bottom:.3rem;}
-  .book-form p.small{font-size:.9rem;opacity:.85;margin-bottom:1.1rem;}
-  .field{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1rem;}
-  .field label{font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mint);}
-  input,textarea{
-    font-family:var(--body);font-size:1rem;color:var(--cream);
-    background:rgba(0,0,0,.28);border:1.5px solid rgba(183,156,255,.4);border-radius:.7rem;padding:.7rem .8rem;
-    transition:border-color .2s, box-shadow .2s;resize:vertical;
-  }
-  input:focus,textarea:focus{outline:none;border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,122,200,.18);}
-  textarea{min-height:5rem;}
-  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
-  .row{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;justify-content:space-between;}
-  .btn{
-    font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:1rem;cursor:pointer;
-    color:var(--space);background:var(--pink);border:none;border-radius:999px;padding:.7rem 1.6rem;
-    box-shadow:0 0 22px rgba(255,122,200,.45);transition:transform .18s, box-shadow .18s, opacity .18s;
-  }
-  .btn:hover:not(:disabled){transform:translateY(-2px) rotate(-1deg);}
-  .btn:disabled{opacity:.5;cursor:not-allowed;}
-  .count{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--lav);}
-  .status{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;margin-top:.8rem;min-height:1.1em;}
-  .status.err{color:var(--hotpink);} .status.ok{color:var(--mint);}
+/* ---- desktop icons ------------------------------------------------ */
+.icons{position:absolute;left:10px;top:10px;margin:0;padding:0;list-style:none;display:grid;grid-template-columns:96px;gap:4px}
+.ico{width:96px;height:92px;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;padding:4px 2px;color:#fff;text-decoration:none}
+.ico .g{width:46px;height:46px;display:grid;place-items:center;font-size:34px;line-height:1;
+  filter:drop-shadow(1px 2px 0 rgba(0,0,0,.55)) drop-shadow(0 0 10px color-mix(in srgb,var(--purple) 45%,transparent))}
+.ico .l{font:12px/1.2 var(--f-ui);text-align:center;padding:1px 3px;text-shadow:1px 1px 0 #000,0 0 4px #000;max-width:94px}
+.ico:hover .l{background:color-mix(in srgb,var(--select) 55%,transparent)}
+.ico:focus-visible{outline:none}
+.ico:focus-visible .l,.ico.sel .l{background:var(--select);outline:1px dotted #fff;text-shadow:none}
 
-  .shelf{
-    max-width:56rem;margin:2.4rem auto 1.6rem;height:12px;border-radius:999px;
-    background:linear-gradient(90deg, transparent, rgba(255,224,102,.5), rgba(255,122,200,.6), rgba(95,232,208,.5), transparent);
-    box-shadow:0 0 24px rgba(255,122,200,.35);
-  }
+/* ---- windows ------------------------------------------------------ */
+.win{position:absolute;z-index:2;display:flex;flex-direction:column;min-width:300px;min-height:200px;max-width:calc(100vw - 8px);max-height:calc(100vh - var(--bar) - 8px);
+  padding:3px;resize:both;overflow:hidden;background:var(--pearl);
+  box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 #f6f3fb,8px 10px 0 rgba(0,0,0,.25),0 20px 50px rgba(0,0,0,.45)}
+.win.max{left:0!important;top:0!important;width:100%!important;height:100%!important;max-height:none;resize:none}
+.win.min{display:none}
+.win.opening{animation:pop .16s ease-out}
+@keyframes pop{from{transform:scale(.92);opacity:.3}to{transform:none;opacity:1}}
+.tb{display:flex;align-items:center;gap:6px;height:26px;padding:0 3px 0 6px;color:#fff;background:var(--title);cursor:default;user-select:none;touch-action:none;flex:none}
+.tb .ti{font-size:15px;line-height:1}
+.tb .tt{flex:1;min-width:0;font:600 14px/1 var(--f-chrome);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb button,.tb a{width:22px;height:20px;padding:0;border:0;cursor:pointer;background:var(--pearl);color:var(--ink);font:700 11px/1 var(--f-ui);display:grid;place-items:center;text-decoration:none;
+  box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo)}
+.tb button:active,.tb a:active{box-shadow:inset 1px 1px 0 var(--pearl-dk),inset -1px -1px 0 var(--pearl-hi)}
+.tb .x{margin-left:2px}
+.menubar{display:flex;gap:2px;padding:3px 2px;flex:none;font-size:12px}
+.menubar span{padding:2px 7px}
+.menubar u{text-decoration:underline}
+.status{display:flex;gap:4px;margin-top:3px;flex:none;font-size:11px;color:var(--quiet)}
+.status span{padding:3px 8px;box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi);white-space:nowrap}
+.status span:first-child{flex:1}
+.status .led{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:0;background:var(--pearl-lo);box-shadow:inset 1px 1px 0 rgba(0,0,0,.3)}
+.status .led.on{background:var(--lime);box-shadow:0 0 6px var(--lime)}
+.status .led.off{background:var(--pink)}
 
-  .entries{display:flex;flex-direction:column;gap:1rem;padding-bottom:1rem;}
-  .entry{
-    border-left:5px solid var(--pink);border-radius:.9rem;padding:1rem 1.2rem;
-    background:rgba(255,255,255,.04);border-top:1px solid rgba(255,255,255,.06);
-    animation:pop .4s ease;
-  }
-  @keyframes pop{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
-  .entry:nth-child(4n+1){border-left-color:var(--pink);}
-  .entry:nth-child(4n+2){border-left-color:var(--mint);}
-  .entry:nth-child(4n+3){border-left-color:var(--butter);}
-  .entry:nth-child(4n+4){border-left-color:var(--lav);}
-  .entry .who{font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.03em;font-size:1.15rem;}
-  .entry .when{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;color:var(--lav);opacity:.85;}
-  .entry .msg{margin-top:.35rem;white-space:pre-wrap;word-break:break-word;}
-  .empty{text-align:center;opacity:.75;font-style:italic;padding:2rem 0;}
+/* ---- the guestbook body ------------------------------------------- */
+.gb{flex:1;min-height:0;margin-top:3px;display:grid;grid-template-columns:34px minmax(250px,320px) minmax(0,1fr);gap:3px}
+.stripe{background:var(--title);position:relative}
+.stripe span{position:absolute;left:0;right:0;bottom:14px;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;
+  font:700 18px var(--f-chrome);color:#fff;letter-spacing:.08em;white-space:nowrap}
+.stripe span b{color:var(--gold);margin-left:6px}
 
-  /* setup notice (only shows if not configured) */
-  .setup{border:2px dashed var(--butter);border-radius:1.4rem;padding:1.6rem;margin-top:1rem;background:rgba(255,224,102,.06);}
-  .setup h2{font-family:var(--head);font-weight:800;text-transform:uppercase;color:var(--butter);font-size:1.3rem;margin-bottom:.6rem;}
-  .setup ol{margin:.6rem 0 .6rem 1.2rem;} .setup li{margin-bottom:.5rem;}
-  .setup code, pre{font-family:var(--mono);font-size:.8rem;}
-  pre{background:rgba(0,0,0,.4);border:1px solid rgba(183,156,255,.3);border-radius:.7rem;padding:.9rem;overflow:auto;margin:.6rem 0;color:var(--cyan);}
-  a{color:var(--pink);}
+.signpane{overflow:auto;padding:14px 14px 12px}
+.signpane h1{margin:0 0 2px;font:700 22px/1.1 var(--f-chrome);color:#2b1f72}
+.signpane h1 b{background:linear-gradient(90deg,var(--pink),var(--purple),#3f8fc0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{margin:0 0 12px;color:var(--quiet);font-size:12px}
+fieldset{margin:0 0 10px;padding:10px 10px 12px;border:0;box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 var(--pearl-hi)}
+legend{padding:0 4px;font:600 13px var(--f-chrome);color:#6a3bb0}
+.field{margin-bottom:9px}
+.field label{display:block;margin-bottom:3px;font-size:12px}
+.field label u{text-decoration:underline}
+.inp{width:100%;border:0;padding:5px 7px;background:#fff;color:var(--ink);font:13px var(--f-ui);
+  box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi),inset 2px 2px 0 var(--pearl-dk),inset -2px -2px 0 #f6f3fb}
+textarea.inp{min-height:110px;resize:vertical;font:14px/1.45 var(--f-read)}
+.inp:focus{outline:1px dotted var(--select);outline-offset:-4px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.count{font-size:11px;color:var(--quiet)}
+.count.near{color:#b0306a;font-weight:700}
+.msgline{min-height:18px;margin-top:8px;font-size:12px}
+.msgline.err{color:#b0102a}
+.msgline.ok{color:#2a7a32}
+.tip{margin-top:6px;padding:9px 11px;background:#fff8c8;color:#3d3420;font:12.5px/1.4 var(--f-read);box-shadow:2px 3px 0 rgba(0,0,0,.12)}
 
-  footer{text-align:center;padding:2.6rem 1.4rem 3.4rem;}
-  footer .motto{font-family:var(--display);font-size:1.1rem;margin-bottom:.6rem;color:var(--cream);text-shadow:0 0 14px rgba(255,122,200,.5);}
-  footer .small{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,246,251,.75);}
-  footer a.back{display:inline-block;margin-bottom:1.2rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--cyan);border:1.5px solid var(--cyan);border-radius:999px;padding:.5rem 1.1rem;}
+.bookpane{display:flex;flex-direction:column;min-height:0}
+.bookhead{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 6px;flex:none;font-size:12px}
+.bookhead b{font:600 13px var(--f-chrome);color:#2b1f72;letter-spacing:.02em}
+.entries{flex:1;min-height:0;overflow:auto;padding:6px;display:flex;flex-direction:column;gap:6px}
+.entry{display:grid;grid-template-columns:40px 1fr;gap:10px;padding:10px 12px;background:#fff;
+  box-shadow:inset -1px -1px 0 #d9d2e8,inset 1px 1px 0 #fff,1px 1px 0 rgba(43,31,114,.08)}
+.entry:nth-child(even){background:#f8f5ff}
+.entry.new{animation:glow 2.4s ease-out}
+@keyframes glow{from{background:#fff3a6}to{background:#fff}}
+.av{width:40px;height:40px;display:grid;place-items:center;font-size:24px;line-height:1;background:linear-gradient(135deg,#2b1f72,#c24c9e 60%,#3f8fc0);
+  box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi)}
+.who{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;margin-bottom:3px}
+.who b{font:700 13px var(--f-ui);color:#2b1f72;overflow-wrap:anywhere}
+.who time{font-size:11px;color:var(--quiet)}
+.msg{font:15px/1.5 var(--f-read);color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.empty{margin:auto;padding:30px 20px;text-align:center;color:var(--quiet)}
+.empty .e{display:block;font-size:40px;margin-bottom:8px}
+.empty b{display:block;font:600 16px var(--f-chrome);color:#2b1f72;margin-bottom:4px}
+.loadbar{width:180px;height:14px;margin:10px auto 0;padding:2px;display:flex;gap:2px;overflow:hidden}
+.loadbar i{width:10px;flex:none;background:linear-gradient(var(--cyan),var(--purple));animation:slide 1.4s linear infinite}
+@keyframes slide{from{transform:translateX(-50px)}to{transform:translateX(180px)}}
 
-  @media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
+.setup{margin:10px;padding:12px 14px;background:#fff8c8;color:#3d3420;font-size:12.5px}
+.setup h2{margin:0 0 6px;font:700 15px var(--f-chrome)}
+.setup pre{white-space:pre-wrap;font:11px/1.4 Consolas,"Courier New",monospace;background:#fff;padding:8px;box-shadow:inset 1px 1px 0 var(--pearl-lo)}
+
+/* ---- dialog (signed!) --------------------------------------------- */
+.scrim{position:fixed;inset:0 0 var(--bar) 0;z-index:50;display:grid;place-items:center;background:rgba(18,4,24,.25)}
+.scrim[hidden]{display:none}
+.dlg{position:relative;width:min(360px,calc(100vw - 20px));min-height:0;resize:none}
+.dlg .body{display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:start;padding:16px 14px 6px}
+.dlg .body .big{font-size:38px;line-height:1}
+.dlg .body p{margin:0 0 6px}
+.dlg .acts{display:flex;justify-content:center;gap:8px;padding:8px 0 10px}
+
+/* ---- taskbar ------------------------------------------------------ */
+#bar{position:fixed;left:0;right:0;bottom:0;height:var(--bar);z-index:60;display:flex;align-items:center;gap:4px;padding:4px 4px calc(4px + env(safe-area-inset-bottom));
+  background:var(--pearl);box-shadow:inset 0 1px 0 var(--pearl-hi),inset 0 2px 0 #f6f3fb}
+#startbtn{height:34px;padding:0 12px 0 8px;font:700 15px var(--f-chrome);gap:6px;flex:none}
+#startbtn img{width:24px;height:24px;object-fit:cover}
+#tasks{flex:1;min-width:0;display:flex;gap:4px;overflow:hidden}
+.task{height:34px;min-width:0;max-width:200px;flex:1 1 160px;justify-content:flex-start;padding:0 8px;white-space:nowrap;overflow:hidden;font-size:12px}
+.task.front{font-weight:700;background:repeating-conic-gradient(#f4f1f9 0 25%,#e1dbec 0 50%) 0 0/2px 2px;
+  box-shadow:inset 1px 1px 0 var(--pearl-dk),inset -1px -1px 0 var(--pearl-hi),inset 2px 2px 0 var(--pearl-lo)}
+.tray{flex:none;height:34px;display:flex;align-items:center;gap:10px;padding:0 10px;font-size:12px;
+  box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi)}
+.tray .count{font-weight:700;color:#6a3bb0}
+
+/* ---- phones ------------------------------------------------------- */
+@media (max-width:760px){
+  .icons,.wallcap{display:none}
+  .mark{top:auto;bottom:50px;width:160px;opacity:.35}
+  .win#gbwin{left:0!important;top:0!important;width:100%!important;height:100%!important;max-height:none;resize:none;box-shadow:none}
+  .tb .mx{display:none}
+  .gb{grid-template-columns:1fr;grid-template-rows:auto minmax(320px,1fr);overflow:auto}
+  .stripe{display:none}
+  .signpane{overflow:visible}
+  textarea.inp{min-height:90px}
+  .tray .cl-date{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div class="stars" aria-hidden="true"></div>
-<main>
 
-  <header>
-    <div class="ticker">
-      <span>Signed across all dimensions</span><span class="dot">✦</span>
-      <span>Leave a transmission</span><span class="dot">✦</span>
-      <span>No login required</span>
+<main id="desk" aria-label="MagickOS desktop">
+  <div class="mark" aria-hidden="true"><img src="magick-mica-tv-logo.png" alt="" onerror="this.outerHTML='<div class=fbmark>MAGICK<br>MICA</div>'"></div>
+
+  <ul class="icons" aria-label="Desktop shortcuts">
+    <li><a class="ico" href="desktop/"><span class="g" aria-hidden="true">💿</span><span class="l">MagickOS Desktop</span></a></li>
+    <li><button class="ico sel" type="button" id="icoBook"><span class="g" aria-hidden="true">📖</span><span class="l">Guestbook.exe</span></button></li>
+    <li><a class="ico" href="notes.html"><span class="g" aria-hidden="true">🗒️</span><span class="l">My Notes</span></a></li>
+    <li><a class="ico" href="arcade.html"><span class="g" aria-hidden="true">🕹️</span><span class="l">Arcade</span></a></li>
+    <li><a class="ico" href="./"><span class="g" aria-hidden="true">🏠</span><span class="l">Home</span></a></li>
+  </ul>
+
+  <section class="win opening" id="gbwin" role="dialog" aria-labelledby="gbtitle">
+    <div class="tb" id="gbtb">
+      <span class="ti" aria-hidden="true">📖</span>
+      <span class="tt" id="gbtitle">Guestbook.exe — Sign the Cosmic Book</span>
+      <button type="button" class="mn" aria-label="Minimize">_</button>
+      <button type="button" class="mx" aria-label="Maximize">□</button>
+      <a class="x" href="desktop/" aria-label="Close and go to the MagickOS desktop">✕</a>
     </div>
-    <div class="sign">
-      <h1>The Guestbook</h1>
-      <span class="script">leave your mark, earthling</span>
-    </div>
-    <p class="tagline">◉ Sign the cosmic book · everyone can see it</p>
-  </header>
+    <div class="menubar" aria-hidden="true"><span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>V</u>iew</span><span><u>H</u>elp</span></div>
 
-  <section class="wrap">
-    <!-- SIGN THE BOOK -->
-    <form class="book-form" id="bookForm" autocomplete="off">
-      <h2>Sign the book ✍️</h2>
-      <p class="small">Say hi, drop a message, or leave a little magic. Visible to all visitors.</p>
-      <div class="field">
-        <label for="name">Your name / alias</label>
-        <input id="name" name="name" maxlength="40" placeholder="e.g. Zilly from Zeta-9" required>
-      </div>
-      <div class="field">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" maxlength="500" placeholder="Beam something down…" required></textarea>
-      </div>
-      <!-- honeypot: humans won't fill this -->
-      <div class="hp" aria-hidden="true"><label>Leave blank<input id="website" name="website" tabindex="-1" autocomplete="off"></label></div>
-      <div class="row">
-        <button class="btn" id="submitBtn" type="submit">Sign it →</button>
-        <span class="count"><span id="cnt">0</span>/500</span>
-      </div>
-      <div class="status" id="status" role="status"></div>
-    </form>
+    <div class="gb">
+      <div class="stripe" aria-hidden="true"><span>Guestbook<b>98</b></span></div>
 
-    <!-- SETUP NOTICE (auto-hides once configured) -->
-    <div class="setup" id="setupNotice" hidden>
-      <h2>⚙️ One-time setup to go live</h2>
-      <p class="small">Right now this book isn't connected to a database yet, so messages can't be shared. Do this once (all free):</p>
-      <ol>
-        <li>Make a free account at <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a> → <strong>New project</strong>.</li>
-        <li>Open <strong>SQL Editor</strong>, paste and run this:
-<pre>create table guestbook (
-  id bigint generated always as identity primary key,
-  name text not null,
-  message text not null,
-  created_at timestamptz default now()
-);
-alter table guestbook enable row level security;
-create policy "anyone can read"  on guestbook for select using (true);
-create policy "anyone can sign"  on guestbook for insert with check (
-  char_length(name) between 1 and 40
-  and char_length(message) between 1 and 500
-);</pre>
-        </li>
-        <li>Go to <strong>Project Settings → API</strong> (or the <em>Connect</em> dialog). Copy your <strong>Project URL</strong> and your <strong>publishable / anon public key</strong>.</li>
-        <li>Open this HTML file and paste them into the <code>CONFIG</code> block near the bottom (<code>SUPABASE_URL</code> and <code>SUPABASE_KEY</code>). Save &amp; re-upload.</li>
-      </ol>
-      <p class="small">That's it — after that, anyone who signs will show up for everyone. (The publishable key is safe to put in the page; your data stays protected by the policies above.)</p>
+      <!-- SIGN THE BOOK -->
+      <div class="signpane raised">
+        <h1>Sign the <b>Guestbook</b></h1>
+        <p class="lede">Leave your mark, earthling. Everyone who visits can read it.</p>
+
+        <form id="bookForm" autocomplete="off" novalidate>
+          <fieldset>
+            <legend>New signature</legend>
+            <div class="field">
+              <label for="name"><u>N</u>ame or alias</label>
+              <input class="inp" id="name" name="name" maxlength="40" placeholder="e.g. Zilly from Zeta-9" accesskey="n" required>
+            </div>
+            <div class="field">
+              <label for="message"><u>M</u>essage</label>
+              <textarea class="inp" id="message" name="message" maxlength="500" placeholder="Beam something down…" accesskey="m" required></textarea>
+            </div>
+            <!-- honeypot: humans won't fill this -->
+            <div class="hp" aria-hidden="true"><label>Leave blank<input id="website" name="website" tabindex="-1" autocomplete="off"></label></div>
+            <div class="row">
+              <span class="count" id="cntWrap"><span id="cnt">0</span> / 500</span>
+              <span><button class="btn" type="reset" id="clearBtn">Clear</button> <button class="btn go" id="submitBtn" type="submit">✍️ Sign it</button></span>
+            </div>
+            <div class="msgline" id="status" role="status" aria-live="polite"></div>
+          </fieldset>
+        </form>
+
+        <div class="tip">✦ Tip: new signatures appear on their own every 20 seconds — no need to refresh.</div>
+      </div>
+
+      <!-- THE BOOK -->
+      <div class="bookpane raised">
+        <div class="bookhead"><b>📜 Signatures</b><button class="btn" type="button" id="refreshBtn" title="Check for new signatures">↻ Refresh</button></div>
+        <div class="entries sunken" id="entries" aria-live="polite">
+          <div class="empty" id="loading"><span class="e" aria-hidden="true">📡</span><b>Tuning in…</b>Loading transmissions<div class="loadbar sunken" aria-hidden="true"><i></i><i></i><i></i></div></div>
+        </div>
+      </div>
     </div>
 
-    <div class="shelf" aria-hidden="true"></div>
-
-    <div class="entries" id="entries">
-      <div class="empty" id="loading">Loading transmissions…</div>
+    <div class="status">
+      <span id="stCount">Loading…</span>
+      <span id="stConn"><i class="led" id="led"></i><span id="connTxt">Connecting</span></span>
+      <span id="stSeen">—</span>
     </div>
   </section>
 
-  <footer>
-    <a class="back" href="newsstand.html">← Back to the Newsstand</a>
-    <p class="motto">Melt down. Tune in. Space out.</p>
-    <p class="small">Magick Mica TV ✨🍦👽 · For entertainment across all known dimensions</p>
-  </footer>
-
+  <div class="wallcap">MagickOS 98 · Guestbook.exe</div>
 </main>
 
+<!-- "Signed!" dialog -->
+<div class="scrim" id="doneDlg" hidden>
+  <section class="win dlg" role="alertdialog" aria-labelledby="dlgT" aria-describedby="dlgD">
+    <div class="tb"><span class="ti" aria-hidden="true">✨</span><span class="tt" id="dlgT">Message sent</span><button type="button" class="x" id="dlgX" aria-label="Close">✕</button></div>
+    <div class="body"><span class="big" aria-hidden="true">💫</span><div id="dlgD"><p><b>Signed! Thanks for beaming in.</b></p><p>Your transmission is now in the book for every visitor to see.</p></div></div>
+    <div class="acts"><button class="btn go" type="button" id="dlgOk">OK</button></div>
+  </section>
+</div>
+
+<footer id="bar">
+  <a class="btn" id="startbtn" href="desktop/" title="Open the MagickOS desktop">
+    <img src="magickmica-character-logo.png" alt="" onerror="this.outerHTML='<span>✦</span>'">Start
+  </a>
+  <div id="tasks"><button class="btn task front" type="button" id="task"><span aria-hidden="true">📖</span> <span>Guestbook.exe</span></button></div>
+  <div class="tray">
+    <span class="count" id="trayCount" title="Signatures in the book"></span>
+    <span><span class="cl-date" id="cldate"></span> <span id="cltime"></span></span>
+  </div>
+</footer>
+
 <script>
+(function(){
+'use strict';
   /* ==========================================================
-     CONFIG — paste your two Supabase values here, then save.
-     (Leave as-is to see the setup instructions.)
+     CONFIG — the Supabase project this book is stored in.
+     (The keep-awake workflow reads these two values from here.)
      ========================================================== */
   const CONFIG = {
-    SUPABASE_URL: "https://vuxoetumdhmpcnobcklv.supabase.co",   // e.g. https://abcd1234.supabase.co
-    SUPABASE_KEY: "sb_publishable_LwdE5VkL2DtqIVV0mlD6eg_IgUCWjXr", // publishable (sb_publishable_...) or anon public key
+    SUPABASE_URL: "https://vuxoetumdhmpcnobcklv.supabase.co",
+    SUPABASE_KEY: "sb_publishable_LwdE5VkL2DtqIVV0mlD6eg_IgUCWjXr", // publishable key: safe to be public
     TABLE: "guestbook"
   };
   /* ========================================================== */
 
   const $ = (id) => document.getElementById(id);
-  const configured =
-    CONFIG.SUPABASE_URL.startsWith("http") &&
-    CONFIG.SUPABASE_KEY.length > 20 &&
-    !CONFIG.SUPABASE_KEY.startsWith("YOUR_");
-
+  const configured = CONFIG.SUPABASE_URL.startsWith("http") && CONFIG.SUPABASE_KEY.length > 20 && !CONFIG.SUPABASE_KEY.startsWith("YOUR_");
   const base = () => CONFIG.SUPABASE_URL.replace(/\/+$/, "") + "/rest/v1/" + CONFIG.TABLE;
-  const headers = {
-    "apikey": CONFIG.SUPABASE_KEY,
-    "Authorization": "Bearer " + CONFIG.SUPABASE_KEY,
-    "Content-Type": "application/json"
-  };
+  const headers = { "apikey": CONFIG.SUPABASE_KEY, "Authorization": "Bearer " + CONFIG.SUPABASE_KEY, "Content-Type": "application/json" };
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const phone = () => matchMedia("(max-width:760px)").matches;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---- little helpers ---------------------------------------------- */
+  const AV = ["👽","🔮","🦄","🌙","⭐","🪐","🧚","🍄","💎","🌈","👾","🛸","🐸","🌸","🦋","🧿"];
+  function avatar(name){ let h = 0; for (const c of String(name)) h = (h * 31 + c.codePointAt(0)) >>> 0; return AV[h % AV.length]; }
+  function clock12(d){ let h = d.getHours(); const ap = h < 12 ? "AM" : "PM"; h = h % 12 || 12; const m = d.getMinutes(); return h + ":" + (m < 10 ? "0" : "") + m + " " + ap; }
   function fmt(ts){
-    if(!ts) return "";
-    const d = new Date(ts);
-    return d.toLocaleString(undefined,{month:"short",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit"});
+    if (!ts) return "";
+    const d = new Date(ts); if (isNaN(d)) return "";
+    return MON[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear() + " · " + clock12(d);
   }
-  function esc(s){ return (s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  function setConn(state, text){ $("led").className = "led " + (state || ""); $("connTxt").textContent = text; }
+  function setCount(n){ const t = n === 1 ? "1 signature" : n.toLocaleString() + " signatures"; $("stCount").textContent = t + " in the book"; $("trayCount").textContent = "📖 " + n.toLocaleString(); }
 
+  /* ---- reading the book -------------------------------------------- */
+  let lastKey = "", rowsCache = [];
+  function entryHTML(r, isNew){
+    return '<article class="entry' + (isNew ? ' new' : '') + '"><div class="av" aria-hidden="true">' + avatar(r.name) + '</div><div>' +
+      '<div class="who"><b>' + esc(r.name) + '</b><time datetime="' + esc(r.created_at || "") + '">' + esc(fmt(r.created_at)) + '</time></div>' +
+      '<div class="msg">' + esc(r.message) + '</div></div></article>';
+  }
   function render(rows){
+    rowsCache = rows;
+    setCount(rows.length);
     const box = $("entries");
-    if(!rows.length){ box.innerHTML = '<div class="empty">No signatures yet — be the first to leave one. ✨</div>'; return; }
-    box.innerHTML = rows.map(r => `
-      <div class="entry">
-        <div class="row">
-          <span class="who">${esc(r.name)}</span>
-          <span class="when">${fmt(r.created_at)}</span>
-        </div>
-        <div class="msg">${esc(r.message)}</div>
-      </div>`).join("");
-  }
-
-  async function load(){
-    if(!configured) return;
-    try{
-      const res = await fetch(base() + "?select=name,message,created_at&order=created_at.desc&limit=300", { headers });
-      if(!res.ok) throw new Error("Read failed ("+res.status+")");
-      render(await res.json());
-    }catch(e){
-      $("entries").innerHTML = '<div class="empty">Couldn\'t load the book. Check your setup / connection.</div>';
-      console.error(e);
-    }
-  }
-
-  async function sign(name, message){
-    const res = await fetch(base(), {
-      method:"POST",
-      headers:{ ...headers, "Prefer":"return=representation" },
-      body: JSON.stringify({ name, message })
-    });
-    if(!res.ok){
-      const t = await res.text().catch(()=> "");
-      throw new Error("Couldn't save ("+res.status+"). "+t.slice(0,120));
-    }
-    return (await res.json())[0];
-  }
-
-  // character counter
-  $("message").addEventListener("input", e => { $("cnt").textContent = e.target.value.length; });
-
-  // form submit
-  $("bookForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const status = $("status"); status.className = "status"; status.textContent = "";
-
-    if(!configured){
-      status.className = "status err";
-      status.textContent = "Not connected yet — see the setup steps below. ⬇";
+    if (!rows.length){
+      box.innerHTML = '<div class="empty"><span class="e" aria-hidden="true">🌙</span><b>The book is empty</b>Be the first to leave a signature. ✨</div>';
       return;
     }
-    if($("website").value){ return; } // honeypot tripped → silently ignore
-
-    const name = $("name").value.trim();
-    const message = $("message").value.trim();
-    if(!name || !message){ status.className="status err"; status.textContent="Add a name and a message."; return; }
-
-    const btn = $("submitBtn"); btn.disabled = true; const label = btn.textContent; btn.textContent = "Sending…";
+    box.innerHTML = rows.map((r) => entryHTML(r, false)).join("");
+  }
+  async function load(){
+    if (!configured) return;
     try{
-      const row = await sign(name, message);
-      // optimistic: prepend right away
+      const res = await fetch(base() + "?select=name,message,created_at&order=created_at.desc&limit=300", { headers, cache: "no-store" });
+      if (!res.ok) throw new Error("Read failed (" + res.status + ")");
+      const rows = await res.json();
+      setConn("on", "Connected");
+      $("stSeen").textContent = "Updated " + clock12(new Date());
+      const key = JSON.stringify(rows);
+      if (key !== lastKey){ lastKey = key; render(rows); }
+    }catch(e){
+      console.error(e);
+      setConn("off", "Offline");
+      if (!rowsCache.length){
+        $("entries").innerHTML = '<div class="empty"><span class="e" aria-hidden="true">📡</span><b>Signal lost</b>Couldn\'t load the book right now. Try ↻ Refresh in a minute.</div>';
+        $("stCount").textContent = "Book unavailable";
+      }
+    }
+  }
+
+  /* ---- signing ----------------------------------------------------- */
+  async function sign(name, message){
+    const res = await fetch(base(), { method: "POST", headers: { ...headers, "Prefer": "return=representation" }, body: JSON.stringify({ name, message }) });
+    if (!res.ok){ const t = await res.text().catch(() => ""); throw new Error("Couldn't save (" + res.status + "). " + t.slice(0, 120)); }
+    return (await res.json())[0];
+  }
+  function say(kind, text){ const s = $("status"); s.className = "msgline" + (kind ? " " + kind : ""); s.textContent = text; }
+
+  $("message").addEventListener("input", (e) => { const n = e.target.value.length; $("cnt").textContent = n; $("cntWrap").classList.toggle("near", n > 450); });
+  $("clearBtn").addEventListener("click", () => { $("cnt").textContent = "0"; $("cntWrap").classList.remove("near"); say("", ""); });
+
+  $("bookForm").addEventListener("submit", async (e) => {
+    e.preventDefault(); say("", "");
+    if (!configured){ say("err", "Not connected yet — see the setup steps in the book. ⬇"); return; }
+    if ($("website").value) return; // honeypot tripped → quietly ignore
+    const name = $("name").value.trim(), message = $("message").value.trim();
+    if (!name){ say("err", "⚠ Add a name or alias."); $("name").focus(); return; }
+    if (!message){ say("err", "⚠ Add a message."); $("message").focus(); return; }
+    const btn = $("submitBtn"), label = btn.innerHTML; btn.disabled = true; btn.textContent = "Sending…";
+    try{
+      const row = (await sign(name, message)) || { name, message, created_at: new Date().toISOString() };
       const box = $("entries");
-      if(box.querySelector(".empty")) box.innerHTML = "";
-      const div = document.createElement("div");
-      div.className = "entry";
-      div.innerHTML = `<div class="row"><span class="who">${esc(row?.name||name)}</span><span class="when">${fmt(row?.created_at||new Date().toISOString())}</span></div><div class="msg">${esc(row?.message||message)}</div>`;
-      box.prepend(div);
-      $("message").value = ""; $("cnt").textContent = "0";
-      status.className = "status ok"; status.textContent = "Signed! Thanks for beaming in. 💫";
+      if (box.querySelector(".empty")) box.innerHTML = "";
+      box.insertAdjacentHTML("afterbegin", entryHTML(row, true));
+      box.scrollTop = 0;
+      rowsCache = [row].concat(rowsCache); setCount(rowsCache.length);
+      $("message").value = ""; $("cnt").textContent = "0"; $("cntWrap").classList.remove("near");
+      openDlg();
     }catch(err){
-      status.className = "status err"; status.textContent = err.message;
-      console.error(err);
+      console.error(err); say("err", "⚠ " + err.message);
     }finally{
-      btn.disabled = false; btn.textContent = label;
+      btn.disabled = false; btn.innerHTML = label;
     }
   });
 
-  // boot
-  if(!configured){
-    $("setupNotice").hidden = false;
-    $("loading").textContent = "Connect the book to start collecting signatures.";
-  }else{
-    load();
-    setInterval(load, 20000); // refresh so new signatures from others appear
+  /* ---- dialog ------------------------------------------------------ */
+  function openDlg(){ $("doneDlg").hidden = false; $("dlgOk").focus(); }
+  function closeDlg(){ $("doneDlg").hidden = true; $("message").focus(); }
+  $("dlgOk").onclick = closeDlg; $("dlgX").onclick = closeDlg;
+  $("doneDlg").addEventListener("click", (e) => { if (e.target === $("doneDlg")) closeDlg(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("doneDlg").hidden) closeDlg(); });
+
+  /* ---- window: position, drag, min / max --------------------------- */
+  const win = $("gbwin"), tb = $("gbtb"), task = $("task");
+  function place(){
+    if (phone()) return;
+    const W = Math.min(960, innerWidth - 140), H = Math.min(640, innerHeight - 44 - 40);
+    win.style.width = W + "px"; win.style.height = H + "px";
+    win.style.left = Math.max(120, Math.round((innerWidth - W) / 2) + 40) + "px";
+    win.style.top = Math.max(10, Math.round((innerHeight - 44 - H) / 2)) + "px";
+    if (innerWidth < 1000) win.classList.add("max");
   }
+  place();
+  setTimeout(() => win.classList.remove("opening"), 200);
+  (function drag(){
+    let sx, sy, ox, oy, on = false;
+    tb.addEventListener("pointerdown", (e) => {
+      if (e.target.closest("button,a") || phone() || win.classList.contains("max")) return;
+      on = true; sx = e.clientX; sy = e.clientY; ox = win.offsetLeft; oy = win.offsetTop; tb.setPointerCapture(e.pointerId);
+    });
+    tb.addEventListener("pointermove", (e) => {
+      if (!on) return;
+      win.style.left = Math.min(Math.max(ox + e.clientX - sx, -win.offsetWidth + 80), innerWidth - 80) + "px";
+      win.style.top = Math.min(Math.max(oy + e.clientY - sy, 0), innerHeight - 44 - 30) + "px";
+    });
+    const stop = () => { on = false; };
+    tb.addEventListener("pointerup", stop); tb.addEventListener("pointercancel", stop);
+  })();
+  function minimize(){ win.classList.add("min"); task.classList.remove("front"); }
+  function restore(){ win.classList.remove("min"); task.classList.add("front"); }
+  tb.querySelector(".mn").onclick = minimize;
+  tb.querySelector(".mx").onclick = () => win.classList.toggle("max");
+  tb.addEventListener("dblclick", (e) => { if (!e.target.closest("button,a")) win.classList.toggle("max"); });
+  task.onclick = () => win.classList.contains("min") ? restore() : minimize();
+  $("icoBook").onclick = restore; $("icoBook").ondblclick = restore;
+  $("refreshBtn").onclick = () => { setConn("", "Checking…"); load(); };
+
+  /* ---- clock & twinkles -------------------------------------------- */
+  function clock(){ const d = new Date(); $("cltime").textContent = clock12(d); $("cldate").textContent = DOW[d.getDay()] + " " + MON[d.getMonth()] + " " + d.getDate() + " ·"; }
+  clock(); setInterval(clock, 15000);
+  if (!reduce){
+    const desk = $("desk");
+    for (let i = 0; i < 14; i++){
+      const t = document.createElement("i"); t.className = "twinkle"; t.setAttribute("aria-hidden", "true");
+      t.style.left = (Math.random() * 100) + "%"; t.style.top = (Math.random() * 100) + "%"; t.style.animationDelay = (Math.random() * 3.4) + "s";
+      desk.insertBefore(t, desk.firstChild);
+    }
+  }
+
+  /* ---- boot -------------------------------------------------------- */
+  if (!configured){
+    setConn("off", "Not connected");
+    $("stCount").textContent = "Setup needed";
+    $("entries").innerHTML = '<div class="setup"><h2>⚙️ One-time setup</h2><p>This book isn\'t connected to a database yet. Make a free Supabase project, run this in its SQL Editor, then paste the Project URL and publishable key into <code>CONFIG</code> in this file:</p>' +
+      '<pre>create table guestbook (\n  id bigint generated always as identity primary key,\n  name text not null,\n  message text not null,\n  created_at timestamptz default now()\n);\nalter table guestbook enable row level security;\ncreate policy "anyone can read" on guestbook for select using (true);\ncreate policy "anyone can sign" on guestbook for insert with check (\n  char_length(name) between 1 and 40\n  and char_length(message) between 1 and 500\n);</pre></div>';
+  } else {
+    load();
+    setInterval(() => { if (!document.hidden) load(); }, 20000);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+  }
+})();
 </script>
 </body>
 </html>
