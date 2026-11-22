@@ -211,6 +211,17 @@ header h1{
   transition:left .5s cubic-bezier(.2,.8,.2,1);cursor:grab}
 /* a finger-sized invisible grab area around the 4px bar */
 .marker::after{content:"";position:absolute;left:-20px;right:-20px;top:-10px;bottom:-10px}
+/* past the top of the scale: a label, and the marker pulses */
+.scale.has-over{padding-top:30px}
+.offscale{position:absolute;right:0;bottom:calc(100% + 12px);white-space:nowrap;padding:5px 10px;border-radius:999px;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--void);
+  background:var(--extreme);box-shadow:0 0 18px rgba(255,94,138,.55);animation:offBob 2.4s ease-in-out infinite}
+.offscale b{font-weight:700;letter-spacing:.04em}
+.offscale::after{content:"";position:absolute;right:6px;top:100%;border:6px solid transparent;border-top-color:var(--extreme)}
+@keyframes offBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.marker.over{animation:overPulse 1.6s ease-in-out infinite}
+@keyframes overPulse{0%,100%{box-shadow:0 0 0 3px var(--void),0 0 16px var(--extreme)}50%{box-shadow:0 0 0 3px var(--void),0 0 34px 6px var(--extreme)}}
+@media (prefers-reduced-motion:reduce){.offscale,.marker.over{animation:none}}
 .marker:focus-visible{outline:2px solid var(--gold);outline-offset:6px}
 .track.dragging{cursor:grabbing}
 .track.dragging .marker{cursor:grabbing;transition:none;
@@ -397,6 +408,7 @@ footer strong{color:var(--gold)}
         <div class="marker" id="marker" tabindex="0" role="slider"
              aria-label="Risk reading — drag to solve for the 10-year yield"
              aria-valuemin="50" aria-valuemax="400" aria-valuenow="429"></div>
+        <div class="offscale" id="offscale" hidden aria-hidden="true">Off the scale <b id="offscaleV"></b> ↗</div>
       </div>
       <div class="ticks" id="ticks"></div>
       <div class="drag-hint" id="dragHint">✦ Drag the marker — the <b>10-year yield</b> moves to match, DXY stays put</div>
@@ -1209,6 +1221,11 @@ footer strong{color:var(--gold)}
     pill.textContent = BANDS[b].name;
     pill.style.setProperty("--band", BANDS[b].color);
     $("marker").style.left = pos(v) + "%";
+    const over = v > MODE.edges[4];
+    $("marker").classList.toggle("over", over);
+    $("offscale").hidden = !over;
+    $("scale").classList.toggle("has-over", over);
+    if (over) $("offscaleV").textContent = v.toFixed(1);
     $("marker").setAttribute("aria-valuenow", v.toFixed(1));
     $("marker").setAttribute("aria-valuetext", v.toFixed(1) + " — " + BANDS[b].name);
     $("formula").innerHTML = MODE.formula(d, y, v);
