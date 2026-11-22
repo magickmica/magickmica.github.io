@@ -1160,33 +1160,57 @@ footer strong{color:var(--gold)}
       bank: function(){ tone([784, 988, 1175, 1568], 0.16, "triangle", 0.07); },
       duh:  function(){ tone([330, 262, 196], 0.22, "sawtooth", 0.05); },
       tick: function(){ tone([660], 0.1, "sine", 0.05); },
-      /* a spoken "DUH!" — the device's own voice, with a synthesized cartoon "duh" where there is none */
+      /* "DUH!" + sad trombone: a deep spoken "Duh!" in the device's own voice
+         (a synthesized cartoon "duh" where there is none), then wah-wah-wah-waaah */
       sayDuh: function(){
         if (!soundOn()) return;
+        var spoke = false;
         try{
           if ("speechSynthesis" in window && window.SpeechSynthesisUtterance){
             speechSynthesis.cancel();
             var u = new SpeechSynthesisUtterance("Duh!");
-            u.lang = "en-US"; u.pitch = 0.55; u.rate = 0.75; u.volume = 1;
+            u.lang = "en-US"; u.pitch = 0.4; u.rate = 0.7; u.volume = 1;
             speechSynthesis.speak(u);
-            return;
+            spoke = true;
           }
         }catch(e){}
         try{
+          /* created inside the tap, so phones let it play */
           ac = ac || new (window.AudioContext || window.webkitAudioContext)();
           if (ac.state === "suspended") ac.resume();
-          var t = ac.currentTime + 0.02, end = t + 0.55;
-          var o = ac.createOscillator(); o.type = "sawtooth";
-          o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(95, end);
-          var out = ac.createGain();
-          out.gain.setValueAtTime(0.0001, t); out.gain.exponentialRampToValueAtTime(0.5, t + 0.03);
-          out.gain.setValueAtTime(0.5, end - 0.15); out.gain.exponentialRampToValueAtTime(0.0001, end);
-          [[640, 0.6], [1190, 0.35], [2390, 0.12]].forEach(function(f){
-            var bp = ac.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = f[0]; bp.Q.value = 6;
-            var g = ac.createGain(); g.gain.value = f[1];
-            o.connect(bp); bp.connect(g); g.connect(out);
+          var now = ac.currentTime;
+          if (!spoke){
+            var t = now + 0.02, end = t + 0.55;
+            var o = ac.createOscillator(); o.type = "sawtooth";
+            o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(95, end);
+            var out = ac.createGain();
+            out.gain.setValueAtTime(0.0001, t); out.gain.exponentialRampToValueAtTime(0.5, t + 0.03);
+            out.gain.setValueAtTime(0.5, end - 0.15); out.gain.exponentialRampToValueAtTime(0.0001, end);
+            [[640, 0.6], [1190, 0.35], [2390, 0.12]].forEach(function(f){
+              var bp = ac.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = f[0]; bp.Q.value = 6;
+              var g = ac.createGain(); g.gain.value = f[1];
+              o.connect(bp); bp.connect(g); g.connect(out);
+            });
+            out.connect(ac.destination); o.start(t); o.stop(end + 0.05);
+          }
+          /* the sad trombone, starting just after the "Duh!" */
+          var tt = now + 0.7;
+          [[233, 0.32], [220, 0.32], [208, 0.32], [196, 1.1]].forEach(function(n, i){
+            var f = n[0], d = n[1];
+            var to = ac.createOscillator(), lp = ac.createBiquadFilter(), tg = ac.createGain();
+            to.type = "sawtooth"; to.frequency.setValueAtTime(f, tt);
+            if (i === 3){
+              var lfo = ac.createOscillator(), lg = ac.createGain();
+              lfo.frequency.value = 5.5; lg.gain.value = 5;
+              lfo.connect(lg); lg.connect(to.frequency); lfo.start(tt + 0.15); lfo.stop(tt + d);
+            }
+            lp.type = "lowpass"; lp.frequency.setValueAtTime(500, tt);
+            lp.frequency.linearRampToValueAtTime(1300, tt + 0.08); lp.frequency.linearRampToValueAtTime(700, tt + d);
+            tg.gain.setValueAtTime(0.0001, tt); tg.gain.exponentialRampToValueAtTime(0.22, tt + 0.04);
+            tg.gain.setValueAtTime(0.22, tt + d - 0.08); tg.gain.exponentialRampToValueAtTime(0.0001, tt + d);
+            to.connect(lp); lp.connect(tg); tg.connect(ac.destination); to.start(tt); to.stop(tt + d + 0.02);
+            tt += d;
           });
-          out.connect(ac.destination); o.start(t); o.stop(end + 0.05);
         }catch(e){}
       }
     };
@@ -1272,7 +1296,7 @@ footer strong{color:var(--gold)}
           var lostPot = pot;
           st.lost += lostPot; over = true; save("mm-ab-wager", st);
           stage.classList.add("steal");
-          sfx.duh();
+          sfx.sayDuh();   // spoken inside the click, so phones allow it
           msg.innerHTML = "👺 The goblin snatched all <b>" + fmt(lostPot) + " gold</b>.";
           render();
           setTimeout(function(){
