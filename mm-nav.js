@@ -169,6 +169,9 @@
     ['https://substack.com/@magickmica', 'Substack']
   ];
 
+  // one highlighted call-to-action button beside Menu, on every screen size
+  var CTA = ['academy/', 'AI Academy'];
+
   var CSS = ''
     + '.mm-bar{position:sticky;top:0;z-index:9000;display:flex;align-items:center;gap:10px;'
     +   'padding:9px 14px;background:rgba(7,6,14,.93);backdrop-filter:blur(9px);'
@@ -189,6 +192,14 @@
     +   'color:#07060e;background:linear-gradient(96deg,#ffd166,#ffe9b5 55%,#ffd166);'
     +   'border:0;border-radius:999px;padding:9px 15px;min-height:38px;}'
     + '.mm-menu:hover{box-shadow:0 0 18px rgba(255,209,102,.45)}'
+    + '.mm-cta{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;text-decoration:none;'
+    +   'font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#fff;'
+    +   'background:linear-gradient(96deg,#7b2ff7,#a020f0 45%,#22b8e0);border-radius:999px;'
+    +   'padding:9px 14px;min-height:38px;box-sizing:border-box;'
+    +   'box-shadow:0 0 0 1px rgba(34,224,255,.45) inset;}'
+    + '.mm-cta:hover,.mm-cta:focus-visible{box-shadow:0 0 0 1px #22e0ff inset,0 0 18px rgba(34,224,255,.5);}'
+    + '.mm-cta[aria-current="page"]{box-shadow:0 0 0 2px #ffd166 inset}'
+    + '.mm-cta .mm-cta-l{display:none}'
     + '.mm-menu b{display:grid;gap:3px}'
     + '.mm-menu i{display:block;width:13px;height:2px;background:#07060e;border-radius:2px}'
     + '.mm-drawer{position:fixed;inset:0;z-index:9500;display:none;}'
@@ -211,7 +222,9 @@
     +   'font-size:14px;color:#d9d2ee;text-decoration:none;font-family:inherit;}'
     + '.mm-sec a:hover{background:rgba(255,68,204,.13);color:#fff}'
     + '.mm-sec a[aria-current="page"]{color:#ffd166;background:rgba(255,209,102,.12)}'
+    + '@media(max-width:380px){.mm-bar{gap:7px;padding:9px 10px}.mm-cta,.mm-menu{padding:9px 11px}}'
     + '@media(min-width:900px){.mm-links{display:flex}.mm-spacer{display:none}}'
+    + '@media(min-width:1000px){.mm-cta .mm-cta-l{display:inline}}'
     + '@media(prefers-reduced-motion:reduce){.mm-bar{backdrop-filter:none}}';
 
   function el(tag, cls, text) {
@@ -270,6 +283,23 @@
     PRIMARY.forEach(function (p) { links.appendChild(link(p[0], p[1])); });
     bar.appendChild(links);
     bar.appendChild(el('div', 'mm-spacer'));
+
+    if (CTA) {
+      // full label on wide screens, short one on phones so it fits beside Menu
+      var cta = link(CTA[0], '');
+      cta.className = 'mm-cta';
+      cta.textContent = '';
+      var words = CTA[1].split(' ');
+      var cap = el('span', null, '\uD83C\uDF93');
+      cap.setAttribute('aria-hidden', 'true');
+      cta.appendChild(cap);
+      cta.setAttribute('aria-label', CTA[1]);
+      if (words.length > 1) {
+        cta.appendChild(el('span', 'mm-cta-l', words.slice(0, -1).join(' ')));
+      }
+      cta.appendChild(el('span', null, words[words.length - 1]));
+      bar.appendChild(cta);
+    }
 
     var btn = el('button', 'mm-menu');
     btn.type = 'button';
