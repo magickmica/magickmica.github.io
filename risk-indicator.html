@@ -1258,7 +1258,7 @@ footer strong{color:var(--gold)}
           var lostPot = pot;
           st.lost += lostPot; over = true; save("mm-ab-wager", st);
           stage.classList.add("steal");
-          sfx.duh();
+          sfx.sayDuh();   // spoken inside the click, so phones allow it
           msg.innerHTML = "👺 The goblin snatched all <b>" + fmt(lostPot) + " gold</b>.";
           render();
           setTimeout(function(){
