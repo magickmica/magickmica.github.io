@@ -1145,7 +1145,36 @@ footer strong{color:var(--gold)}
       coin: function(){ tone([988, 1319], 0.14, "square", 0.04); },
       bank: function(){ tone([784, 988, 1175, 1568], 0.16, "triangle", 0.07); },
       duh:  function(){ tone([330, 262, 196], 0.22, "sawtooth", 0.05); },
-      tick: function(){ tone([660], 0.1, "sine", 0.05); }
+      tick: function(){ tone([660], 0.1, "sine", 0.05); },
+      /* a spoken "DUH!" — the device's own voice, with a synthesized cartoon "duh" where there is none */
+      sayDuh: function(){
+        if (!soundOn()) return;
+        try{
+          if ("speechSynthesis" in window && window.SpeechSynthesisUtterance){
+            speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance("Duh!");
+            u.lang = "en-US"; u.pitch = 0.55; u.rate = 0.75; u.volume = 1;
+            speechSynthesis.speak(u);
+            return;
+          }
+        }catch(e){}
+        try{
+          ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+          if (ac.state === "suspended") ac.resume();
+          var t = ac.currentTime + 0.02, end = t + 0.55;
+          var o = ac.createOscillator(); o.type = "sawtooth";
+          o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(95, end);
+          var out = ac.createGain();
+          out.gain.setValueAtTime(0.0001, t); out.gain.exponentialRampToValueAtTime(0.5, t + 0.03);
+          out.gain.setValueAtTime(0.5, end - 0.15); out.gain.exponentialRampToValueAtTime(0.0001, end);
+          [[640, 0.6], [1190, 0.35], [2390, 0.12]].forEach(function(f){
+            var bp = ac.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = f[0]; bp.Q.value = 6;
+            var g = ac.createGain(); g.gain.value = f[1];
+            o.connect(bp); bp.connect(g); g.connect(out);
+          });
+          out.connect(ac.destination); o.start(t); o.stop(end + 0.05);
+        }catch(e){}
+      }
     };
 
     function burst(box, txtEl, html){
@@ -1359,6 +1388,8 @@ footer strong{color:var(--gold)}
         var k = nextCandle(candles[candles.length - 1].c);
         candles.push(k);
         var wentUp = k.c >= k.o;
+        var shatters = wentUp !== dirUp && cracks + 1 >= LIVES;
+        if (shatters) sfx.sayDuh();   // spoken inside the tap, so phones allow it
         var change = ((k.c - k.o) / k.o * 100);
         var chg = (change >= 0 ? "+" : "") + change.toFixed(2) + "%";
         animate(function(){
@@ -1374,7 +1405,7 @@ footer strong{color:var(--gold)}
             }
           } else {
             cracks++;
-            sfx.duh();
+            if (!shatters) sfx.duh();
             orb.classList.remove("shake"); void orb.offsetWidth; orb.classList.add("shake");
             if (cracks >= LIVES){
               orb.classList.add("shattered");
