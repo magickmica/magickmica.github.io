@@ -10,6 +10,12 @@
 <meta property="og:title" content="The Sasquatch Gazette: Forest Service Opens Its Bigfoot Files">
 <meta property="og:description" content="Giant footprints in Oregon and Montana, a 1982 hoax investigation, and an elk carried off in the snow. All from the public record.">
 <meta property="og:url" content="https://magickmica.github.io/sasquatch-gazette.html">
+<meta property="og:image" content="https://magickmica.github.io/og-sasquatch-gazette.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A smiling Sasquatch in a rainbow beanie flashes a peace sign beside a sign reading The Sasquatch Gazette, next to the headline Forest Service Opens Its Bigfoot Files">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://magickmica.github.io/og-sasquatch-gazette.jpg">
 <link rel="icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -319,6 +325,13 @@ blockquote.pull cite { display: block; font-family: var(--body); font-style: nor
 .ad .cta:focus-visible { outline: 3px solid var(--stamp); outline-offset: 4px; }
 .ad .alt { display: block; margin-top: 12px; font-size: 16px; color: var(--ink-soft); }
 .ad .alt a { color: var(--stamp); }
+.ad.has-art { max-width: 900px; display: grid; grid-template-columns: 250px 1fr; gap: 22px; align-items: center; text-align: left; }
+.ad.has-art .adlabel { margin-left: 0; }
+.ad.has-art p { margin-left: 0; }
+.ad-art { margin: 0; padding: 8px 8px 6px; background: #fbf7ec; border: 1.5px solid var(--rule); transform: rotate(-2.5deg); box-shadow: 3px 4px 0 rgba(42,37,29,.35); }
+.ad-art img { display: block; width: 100%; height: auto; }
+.ad-art figcaption { border: 0; margin: 6px 0 0; padding: 0; font-family: var(--type); font-style: normal; font-size: 12.5px; letter-spacing: .08em; text-align: center; color: var(--ink-soft); }
+@media (max-width: 700px) { .ad.has-art { grid-template-columns: 1fr; text-align: center; } .ad-art { max-width: 240px; margin: 0 auto; } .ad.has-art p { margin-left: auto; } }
 @media (prefers-reduced-motion: reduce) { .ad .cta { transition: none; } }
 
 .colophon {
@@ -535,13 +548,16 @@ blockquote.pull cite { display: block; font-family: var(--body); font-style: nor
     <p class="reading-room">Browse the full list at the <a href="https://www.fs.usda.gov/about-agency/foia/reading-room" target="_blank" rel="noopener">U.S. Forest Service FOIA Reading Room</a>.</p>
   </section>
 
-  <aside class="ad" aria-labelledby="ad-h">
+  <aside class="ad has-art" aria-labelledby="ad-h">
+    <figure class="ad-art"><img src="sasquatch-gazette-art.webp" width="900" height="822" alt="A smiling Sasquatch in a rainbow beanie, carrying a star lantern and flashing a peace sign under a full moon and a UFO" loading="lazy"><figcaption>Our correspondent, on assignment</figcaption></figure>
+    <div>
     <span class="adlabel">Advertisement</span>
     <h4 id="ad-h">Hungry for More Strange Transmissions?</h4>
     <p class="adsub">Giant footprints, cosmic signals &amp; the gloriously unexplained</p>
     <p>Magick Mica sends the odd, the eerie and the out-of-this-world to your inbox. Free to read, no plaster cast required.</p>
     <a class="cta" href="https://substack.com/@magickmica" target="_blank" rel="noopener">Follow Magick Mica on Substack →</a>
     <span class="alt">or tune in at <a href="./">magickmica.github.io</a></span>
+    </div>
   </aside>
 
   <footer class="colophon">

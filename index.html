@@ -875,7 +875,9 @@ if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e)
 .gzt::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.02) 0 1px,transparent 1px 3px)}
 .gzt:hover{transform:rotate(0) translateY(-3px)}
 .gzt:focus-visible{outline:3px solid #ffce5c;outline-offset:4px}
-.gzt-print{width:62px;height:auto;flex:none}
+.gzt-pic{display:block;width:150px;flex:none;padding:6px 6px 14px;background:#fbf7ec;border:1.5px solid #2a251d;transform:rotate(-4deg);box-shadow:3px 4px 0 rgba(42,37,29,.35);transition:transform .2s}
+.gzt-pic img{display:block;width:100%;height:auto}
+.gzt:hover .gzt-pic{transform:rotate(-1deg) scale(1.04)}
 .gzt-body{min-width:0}
 .gzt-mast{display:block;font:400 clamp(26px,3.4vw,38px)/1 UnifrakturMaguntia,"Old English Text MT",serif;border-bottom:3px double #2a251d;padding-bottom:6px;margin-bottom:8px}
 .gzt-h{display:block;font:900 clamp(19px,2.4vw,27px)/1.05 "Playfair Display","Times New Roman",serif;text-transform:uppercase;letter-spacing:-.005em}
@@ -885,14 +887,12 @@ if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e)
 .gzt-go{font:400 15px/1 "Special Elite","Courier New",monospace;letter-spacing:.08em;text-transform:uppercase;color:#ece3cf;background:#8e1f1a;
   padding:11px 16px 10px;border:2px solid #2a251d;box-shadow:4px 4px 0 #2a251d;white-space:nowrap;transition:transform .12s,box-shadow .12s}
 .gzt:hover .gzt-go{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #2a251d}
-@media(max-width:640px){.gzt{grid-template-columns:auto 1fr;padding:16px 16px 18px;gap:12px 16px}.gzt-print{width:42px;align-self:start}
+@media(max-width:640px){.gzt{grid-template-columns:auto 1fr;padding:16px 16px 18px;gap:12px 16px}.gzt-pic{width:92px;align-self:start;padding:4px 4px 9px}
   .gzt-side{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;justify-content:space-between;gap:10px}
   .gzt-stamp{font-size:13px}.gzt-go{font-size:13px;padding:10px 12px 9px;white-space:normal}}
-@media(prefers-reduced-motion:reduce){.gzt,.gzt-go{transition:none}.gzt:hover{transform:rotate(-.6deg)}.gzt:hover .gzt-go{transform:none}}
+@media(prefers-reduced-motion:reduce){.gzt,.gzt-go,.gzt-pic{transition:none}.gzt:hover{transform:rotate(-.6deg)}.gzt:hover .gzt-go{transform:none}}
 </style><a class="gzt" href="sasquatch-gazette.html" aria-label="New: The Sasquatch Gazette. The Forest Service opens its Bigfoot files. Read the front page.">
-<svg class="gzt-print" viewBox="-16 -40 32 70" aria-hidden="true"><defs><pattern id="gztH" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="4" stroke="#1d1a15" stroke-width="1"/></pattern></defs>
-<path d="M0,-26 C9,-26 12,-14 11,-2 C10,10 8,20 3,25 C-1,28 -7,27 -9,21 C-11,13 -10,2 -11,-8 C-12,-19 -8,-26 0,-26Z" fill="url(#gztH)" stroke="#1d1a15" stroke-width="1.4"/>
-<circle cx="-7" cy="-32" r="3.2" fill="#1d1a15"/><circle cx="-1" cy="-34" r="3" fill="#1d1a15"/><circle cx="5" cy="-33" r="2.7" fill="#1d1a15"/><circle cx="10" cy="-30" r="2.4" fill="#1d1a15"/><circle cx="13" cy="-25" r="2.1" fill="#1d1a15"/></svg>
+<span class="gzt-pic"><img src="sasquatch-gazette-thumb.webp" width="300" height="274" alt="" loading="lazy"></span>
 <span class="gzt-body"><span class="gzt-mast">The Sasquatch Gazette</span><span class="gzt-h">Forest Service Opens Its Bigfoot Files</span>
 <span class="gzt-s">Giant footprints in Oregon and Montana, a 1982 hoax investigation, and an elk carried off in the snow. All from the public record.</span></span>
 <span class="gzt-side"><span class="gzt-stamp">EXTRA! EXTRA!</span><span class="gzt-go">Read the front page →</span></span>
