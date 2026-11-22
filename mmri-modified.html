@@ -291,6 +291,20 @@ footer{border-top:1px solid var(--line);padding-top:22px;display:grid;gap:10px;
   color:var(--pearl-dim);font-size:.95rem}
 footer p{margin:0;max-width:68ch}
 footer strong{color:var(--gold)}
+.foot-main{display:grid;gap:16px;align-content:start}
+.foot-kick{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.foot-card{padding:16px 18px;border:1px solid var(--line);border-radius:var(--radius);background:rgba(43,18,64,.35)}
+.foot-card p{font-size:1rem;line-height:1.55}
+.foot-note{max-width:none;display:flex;gap:10px;align-items:flex-start;font-size:.88rem;line-height:1.45;color:var(--muted);
+  padding:10px 14px;border-left:2px solid var(--moderate);background:rgba(245,192,68,.06)}
+.foot-note span{color:var(--moderate)}
+.foot-links{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.foot-links a{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(183,156,255,.25);border-radius:999px;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--pearl);text-decoration:none;
+  background:rgba(22,10,43,.6);transition:border-color .2s,background .2s,transform .2s}
+.foot-links a span{font-size:1rem;letter-spacing:0}
+.foot-links a:hover,.foot-links a:focus-visible{border-color:var(--cyan);background:rgba(95,232,208,.08);transform:translateY(-1px)}
+.foot-home{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan)}
 .sig{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;
   text-transform:uppercase;color:var(--muted);text-align:center;margin-top:8px}
 
@@ -1066,10 +1080,25 @@ footer strong{color:var(--gold)}
       </a>
       <p class="collab-credit">Art: a Magick Mica remix. Original image from <a href="https://www.mannarino-market-risk-indicator.com/" target="_blank" rel="noopener">mannarino-market-risk-indicator.com</a>.</p>
     </div>
-    <p><strong>Credit.</strong> The MMRI formula and risk bands were created by <a href="https://substack.com/@gregorymannarino" target="_blank" rel="noopener">Gregory Mannarino</a>. See his <a href="https://www.youtube.com/watch?v=G42bKHhawfg" target="_blank" rel="noopener">video explaining the indicator</a>. This Magick Mica edition is an independent fan rendition and is not affiliated with him. For a tick-by-tick chart, see the open-source <a href="https://www.tradingview.com/script/jOSQHVjB-Mannarino-Market-Risk-Indicator/" target="_blank" rel="noopener">TradingView version by kevindcarr</a>.</p>
-    <p>For information only. This is not financial advice. Do your own research before making investment decisions.</p>
-        <p class="sig" style="display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;justify-content:center"><a href="https://magickmica.github.io/articles.html">The magazine</a><a href="https://magickmica.github.io/notes.html">All notes</a><a href="https://magickmica.github.io/arcade.html">The arcade</a><a href="https://magickmica.github.io/crystal-stress-index.html">Crystal Stress Index</a><a href="https://magickmica.github.io/crystals.html">Crystals</a><a href="https://magickmica.github.io/index.html">Back to the signal</a></p>
-    <p class="sig">✦ <a href="https://magickmicatv.store/" target="_blank" rel="noopener">Magick Mica TV store ↗</a> ✦</p>
+    <div class="foot-main">
+      <div class="foot-card">
+        <span class="foot-kick">✦ Credit where it's due</span>
+        <p>The MMRI formula and risk bands were created by <a href="https://substack.com/@gregorymannarino" target="_blank" rel="noopener">Gregory Mannarino</a>. See his <a href="https://www.youtube.com/watch?v=G42bKHhawfg" target="_blank" rel="noopener">video explaining the indicator</a>. This Magick Mica edition is an independent fan rendition and is not affiliated with him. For a tick-by-tick chart, see the open-source <a href="https://www.tradingview.com/script/jOSQHVjB-Mannarino-Market-Risk-Indicator/" target="_blank" rel="noopener">TradingView version by kevindcarr</a>.</p>
+      </div>
+      <p class="foot-note"><span aria-hidden="true">⚠</span> For information only. This is not financial advice. Do your own research before making investment decisions.</p>
+      <nav class="foot-nav" aria-label="More from Magick Mica">
+        <span class="foot-kick">✦ Keep exploring</span>
+        <div class="foot-links">
+          <a href="https://magickmica.github.io/articles.html"><span aria-hidden="true">📰</span>The magazine</a>
+          <a href="https://magickmica.github.io/notes.html"><span aria-hidden="true">🗒️</span>All notes</a>
+          <a href="https://magickmica.github.io/arcade.html"><span aria-hidden="true">🕹️</span>The arcade</a>
+          <a href="https://magickmica.github.io/crystal-stress-index.html"><span aria-hidden="true">📈</span>Crystal Stress Index</a>
+          <a href="https://magickmica.github.io/crystals.html"><span aria-hidden="true">💎</span>Crystals</a>
+          <a href="https://magickmica.github.io/guestbook.html"><span aria-hidden="true">📖</span>Sign the guestbook</a>
+        </div>
+        <a class="foot-home" href="https://magickmica.github.io/index.html">← Back to the signal</a>
+      </nav>
+    </div>
   </footer>
 </div>
 
