@@ -99,7 +99,9 @@ a:focus-visible { outline: 2px solid var(--needle); outline-offset: 2px; }
   </div>
   <div class="mm-receive"></div>
 
-  <footer class="foot">
+  
+<div data-mm-subscribe="banner" data-theme="signal"><a href="https://magickmica.substack.com/subscribe">Subscribe to Magick Mica TV on Substack</a></div>
+<footer class="foot">
     <span id="asof">Magick Mica TV &middot; where magick meets the pixel</span>
     <nav aria-label="Magick Mica">
       <a class="site" href="../index.html">Home</a>
@@ -136,5 +138,6 @@ a:focus-visible { outline: 2px solid var(--needle); outline-offset: 2px; }
     SIGNAL.articles + ' articles · ' + W.filter(function (w) { return w.iss; }).length + ' weekly issues';
 })();
 </script>
+<script src="../mm-subscribe.js?v=2" defer></script>
 </body>
 </html>
