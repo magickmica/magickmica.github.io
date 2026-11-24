@@ -425,6 +425,8 @@ footer a{color:var(--mint); text-decoration:none; border-bottom:1px solid rgba(9
     <p>Yes. In Substack go to <b>Settings → Exports → Create new export</b>, download the zip, and drop it in step 3 as it is. We read it right here in your browser: the post list and each post's full text, with a cover picked from the post's own images. We only open <code>posts.csv</code> and the <code>posts</code> folder. Your subscriber list, which is also in that zip, is never read.</p></details>
   <details><summary>Export or collector: which should I use?</summary>
     <p>The export has everything, including email-only posts, but you have to ask Substack for a new one each time. The collector is quicker for topping up, and adds hearts and comment counts. They mix: drop an export and a collector file together and each post is kept once.</p></details>
+  <details><summary>Does it get Substack pages too?</summary>
+    <p>Yes. Pages (the ones you make under <b>New → Page</b>) never show up in your newsletter's archive list, so after the posts the collector checks your sitemap and reads any page it hasn't seen yet. They're kept with the type <code>page</code>.</p></details>
   <details><summary>It says it can't find the newsletter.</summary>
     <p>Run it on your newsletter's own address, <code>yourname.substack.com</code> or your custom domain, not on <code>substack.com</code> itself or inside the Substack app.</p></details>
 </section>
@@ -528,9 +530,12 @@ async function getArticlesCollector(CFG) {
       say(posts.length + ' posts\nback to ' + (oldest || '…') + (since ? '\nstopping at ' + since : ''));
       await wait(PAUSE);
     }
-    /* Plan B: the sitemap. Every post is listed there as /p/<slug>. */
-    if (pagingFailed || (!since && pages <= 2 && posts.length > 0 && posts.length < PAGE * 2)) {
-      say('Asking the sitemap for the full list…');
+    /* The sitemap, every time. Every post is listed there as /p/<slug>,
+       including Substack *pages* (type "page"), which the archive list
+       never returns. It is also Plan B when paging fails. Slugs we already
+       have are skipped, so normally only pages are read one by one. */
+    {
+      say(pagingFailed ? 'Asking the sitemap for the full list…' : 'Checking the sitemap for pages…');
       var slugs = [], seenSlug = {};
       for (var k2 = 0; k2 < posts.length; k2++) seenSlug[posts[k2].slug] = 1;
       async function readMap(u, depth) {
