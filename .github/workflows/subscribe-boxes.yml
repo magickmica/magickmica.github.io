@@ -1,0 +1,52 @@
+name: Subscribe boxes
+
+# Puts the Substack subscribe boxes into the pages (tools/add_subscribe.py).
+# Runs by itself when mm-subscribe.js or tools/add_subscribe.py is uploaded,
+# so uploading those two files is all it takes. Run it by hand from the
+# Actions tab ("Run workflow") at any time; pages that already have a box
+# are left alone. The full site update (update-site.yml) also runs it.
+on:
+  push:
+    paths:
+      - "mm-subscribe.js"
+      - "tools/add_subscribe.py"
+  workflow_dispatch: {}
+
+# Shares the site update's queue so the two never edit pages at the same time.
+concurrency:
+  group: site-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  boxes:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Add the subscribe boxes
+        run: python tools/add_subscribe.py
+
+      - name: Commit if anything changed
+        run: |
+          git add -A -- '*.html'
+          if git diff --cached --quiet; then
+            echo "Every page already has its box."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Subscribe boxes $(date -u +'%Y-%m-%d %H:%M UTC')"
+          for i in 1 2 3; do
+            git pull --rebase -q && git push && exit 0
+            sleep 5
+          done
+          exit 1

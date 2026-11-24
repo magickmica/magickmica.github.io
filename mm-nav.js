@@ -169,6 +169,11 @@
     ['https://substack.com/@magickmica', 'Substack']
   ];
 
+  // the free Substack sign-up: a gold "Subscribe" pill in the bar on wide
+  // screens, and a card at the top of the Menu drawer on every screen
+  var SUBSCRIBE = 'https://magickmica.substack.com/subscribe?utm_source=magickmica.github.io'
+    + '&utm_medium=site&utm_campaign=subscribe-box&utm_content=nav';
+
   // one highlighted call-to-action button beside Menu, on every screen size
   var CTA = ['academy/', 'AI Academy'];
 
@@ -222,6 +227,21 @@
     +   'font-size:14px;color:#d9d2ee;text-decoration:none;font-family:inherit;}'
     + '.mm-sec a:hover{background:rgba(255,68,204,.13);color:#fff}'
     + '.mm-sec a[aria-current="page"]{color:#ffd166;background:rgba(255,209,102,.12)}'
+    + '.mm-sub{display:none;align-items:center;gap:6px;white-space:nowrap;text-decoration:none;'
+    +   'font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#ffd166;'
+    +   'border:1px solid rgba(255,209,102,.6);border-radius:999px;padding:9px 14px;min-height:38px;box-sizing:border-box;}'
+    + '.mm-sub:hover,.mm-sub:focus-visible{background:rgba(255,209,102,.12);box-shadow:0 0 18px rgba(255,209,102,.35);}'
+    + '.mm-subcard{display:block;margin:0 0 18px;padding:14px 16px;border-radius:14px;text-decoration:none;'
+    +   'background:radial-gradient(120% 140% at 0% 0%,rgba(208,107,255,.3),transparent 60%),#1a0b26;'
+    +   'border:1px solid rgba(255,209,102,.45);}'
+    + '.mm-subcard b{display:block;font-family:"Orbitron","IBM Plex Mono",monospace;font-size:13px;letter-spacing:.06em;color:#fff;margin:4px 0}'
+    + '.mm-subcard small{display:block;font-size:12px;line-height:1.5;color:#b8b0d4}'
+    + '.mm-subcard em{display:block;font-style:normal;font-size:9px;letter-spacing:.24em;color:#ffd166}'
+    + '.mm-subcard span{display:inline-block;margin-top:10px;padding:8px 14px;border-radius:999px;font-size:11px;'
+    +   'letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#1a0820;'
+    +   'background:linear-gradient(96deg,#ffd166,#ff9fd2);}'
+    + '.mm-subcard:hover{border-color:#ffd166;box-shadow:0 0 22px rgba(255,209,102,.25)}'
+    + '@media(min-width:1100px){.mm-sub{display:inline-flex}}'
     + '@media(max-width:380px){.mm-bar{gap:7px;padding:9px 10px}.mm-cta,.mm-menu{padding:9px 11px}}'
     + '@media(min-width:900px){.mm-links{display:flex}.mm-spacer{display:none}}'
     + '@media(min-width:1000px){.mm-cta .mm-cta-l{display:inline}}'
@@ -301,6 +321,12 @@
       bar.appendChild(cta);
     }
 
+    var sub = el('a', 'mm-sub');
+    sub.href = SUBSCRIBE; sub.target = '_blank'; sub.rel = 'noopener';
+    sub.appendChild(el('span', null, '\u2726'));
+    sub.appendChild(el('span', null, 'Subscribe'));
+    bar.appendChild(sub);
+
     var btn = el('button', 'mm-menu');
     btn.type = 'button';
     btn.setAttribute('aria-expanded', 'false');
@@ -333,6 +359,14 @@
     var home = el('div', 'mm-sec');
     home.appendChild(link('index.html', 'Home'));
     sheet.appendChild(home);
+
+    var card = el('a', 'mm-subcard');
+    card.href = SUBSCRIBE.replace('content=nav', 'content=menu'); card.target = '_blank'; card.rel = 'noopener';
+    card.appendChild(el('em', null, '\u2726 JOIN THE SIGNAL \u00b7 FREE'));
+    card.appendChild(el('b', null, 'Get new transmissions in your inbox'));
+    card.appendChild(el('small', null, 'Every new broadcast the moment it airs, plus subscriber-only transmissions.'));
+    card.appendChild(el('span', null, 'Subscribe on Substack \u2197'));
+    sheet.appendChild(card);
 
     SECTIONS.forEach(function (sec) {
       var box = el('div', 'mm-sec');
