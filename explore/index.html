@@ -182,16 +182,24 @@ MMX.ready(function (notes) {
     [MMArchive.dates.label(last.d), 'latest signal']
   ].map(function (s) { return '<li><b>' + s[0] + '</b><span>' + s[1] + '</span></li>'; }).join('');
 
-  function top(list) { return list.slice().sort(function (a, b) { return b.l - a.l || a.id - b.id; })[0]; }
+  /* each room gets its own cover: once a note is used, the next room picks its runner-up */
+  var used = {};
+  function top(list, key) {
+    key = key || 'l';
+    var pick = list.slice().sort(function (a, b) { return b[key] - a[key] || b.l - a.l || a.id - b.id; })
+      .filter(function (n) { return !used[n.id]; })[0];
+    if (pick) used[pick.id] = 1;
+    return pick;
+  }
   var cosmic = tagged.filter(function (n) { return n.kind === 'image'; });
   var today = new Date();
   var rooms = [
-    ['book.html', 'The Transmission Book', 'Every note bound as a book, one per page, a chapter for each month. ' + fmt(notes.length) + ' pages.', first.thumb ? first : top(imgs.slice(0, 50)), 'Open the book'],
+    ['book.html', 'The Transmission Book', 'Every note bound as a book, one per page, a chapter for each month. ' + fmt(notes.length) + ' pages.', first.thumb ? (used[first.id] = 1, first) : top(imgs.slice(0, 50)), 'Open the book'],
     ['gallery.html', 'The Gallery Wing', fmt(imgs.length) + ' images hung room by room, one room for each month.', top(imgs), 'Walk the gallery'],
     ['tapes.html', 'The Tape Library', fmt(vids.length) + ' video notes, shelved as labelled tapes.', vids[vids.length - 1], 'Browse the tapes'],
     ['sky.html', 'The Sky Map', 'Every note as a star in one spiral sky. The more loved, the brighter it shines.', 'sky', 'Look up'],
     ['themes.html', 'Theme Rooms', fmt(Object.keys(tags).length) + ' rooms for the themes tagged by hand, from cosmic to y2k.', top(cosmic), 'Pick a theme'],
-    ['hall.html', 'The Hall of Fame', 'The most-loved and most-restacked notes of all time, every year and every month.', top(notes.filter(function (n) { return n.img; })), 'See the favourites'],
+    ['hall.html', 'The Hall of Fame', 'The most-loved and most-restacked notes of all time, every year and every month.', top(notes.filter(function (n) { return n.img; }), 'r'), 'See the favourites'],
     ['../almanac/', 'The Y3K Almanac', 'A book of days: open any date and see what went out on it in every year. Opens on today.', 'alm', 'Open today’s page'],
     ['../reader/', 'Transmission Reader 98', 'The whole archive in a recovered late-90s mail reader: folders, sortable columns and a preview pane.', 'reader', 'Open Reader 98 →'],
     ['stars.html', 'The Daily Constellation', 'A new figure in the sky every month. One star lights up each night, and every star opens a transmission from its date.', 'stars', 'Find tonight’s star']
