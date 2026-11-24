@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Winter Carnival &middot; MagickMica</title>
-<meta name="description" content="The Cosmic Circus Winter Carnival: sledding, a snowman to build, snowball fights, hot cocoa, a Ferris wheel ride into the night sky, and 24 holiday prizes to collect for your prize shelf.">
+<meta name="description" content="The Cosmic Circus Winter Carnival: a wobbly crystal tower, sledding, a snowman to build, snowball fights, hot cocoa, a Ferris wheel ride into the night sky, and 24 holiday prizes to collect for your prize shelf.">
 <link rel="canonical" href="https://magickmica.github.io/winter-carnival.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Magick Mica">
 <meta property="og:title" content="Winter Carnival · Magick Mica Arcade">
-<meta property="og:description" content="Sledding, snowmen, snow games, hot cocoa, a Ferris wheel ride and 24 holiday prizes.">
+<meta property="og:description" content="Crystal Chaos, sledding, snowmen, snow games, hot cocoa, a Ferris wheel ride and 24 holiday prizes.">
 <meta property="og:url" content="https://magickmica.github.io/winter-carnival.html">
 <meta property="og:image" content="https://magickmica.github.io/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -32,7 +32,7 @@
 .snow.b{animation-name:snowb}@keyframes snowb{to{background-position:20px 340px}}
 .intro{position:relative;text-align:center;max-width:560px;margin:0 auto 18px;font-size:.86rem;line-height:1.6;color:#e8f0ff}
 .rides{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
-.rides .ride{grid-column:span 2}.rides .ride.big{grid-column:span 3}
+.rides .ride{grid-column:span 2}.rides .ride.big{grid-column:span 3}.rides .ride.hero{grid-column:1 / -1}
 @media (max-width:640px){.rides{grid-template-columns:1fr}.rides .ride,.rides .ride.big{grid-column:auto}}
 .ride{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:18px 14px 16px;border-radius:16px;text-decoration:none;color:#fff;
   background:linear-gradient(180deg,rgba(232,240,255,.12),rgba(19,28,63,.7));border:1px solid rgba(232,240,255,.3);transition:transform .2s,box-shadow .2s}
@@ -65,7 +65,7 @@
   <header>
     <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
     <h1>WINTER CARNIVAL</h1>
-    <p class="tag">Sledding, snowmen, snowball fights, hot cocoa and a ride to the top of the sky.</p>
+    <p class="tag">Crystal towers, sledding, snowmen, snowball fights, hot cocoa and a ride to the top of the sky.</p>
   </header>
 
   <div class="booth">
@@ -77,6 +77,7 @@
         <div class="snow" aria-hidden="true"></div><div class="snow b" aria-hidden="true"></div>
         <p class="intro">The circus put on its mittens. The winter games hand out holiday prizes you can't win anywhere else, and every one of them earns tickets and a bonus spin on the Prize Wheel too.</p>
         <div class="rides">
+          <a class="ride big hero" href="crystal-chaos.html"><em>NEW</em><span class="em">🐧</span><b>Crystal Chaos</b><span>Pull glowing crystals out of a wobbly ice tower. Don't drop the little penguin on top!</span><i id="bCrys">PLAY</i></a>
           <a class="ride big" href="sled-hill.html"><em>NEW</em><span class="em">🛷</span><b>Sled Hill</b><span>Zoom down the big snowy hill. Jump the rocks and trees, and grab the stars and presents.</span><i id="bSled">PLAY</i></a>
           <a class="ride big" href="snowman-builder.html"><em>NEW</em><span class="em">⛄</span><b>Snowman Builder</b><span>Roll him, dress him up, then keep the sun off him so he doesn't melt.</span><i id="bMan">PLAY</i></a>
           <a class="ride" href="snowball-splat.html"><span class="em">❄️</span><b>Snowball Splat</b><span>Lob snowballs at the snowmen, aliens and polar cubs. Leave the penguins alone.</span><i id="bSnow">PLAY</i></a>
@@ -86,7 +87,7 @@
 
         <section class="hol" aria-label="Holiday prizes">
           <h2>✦ HOLIDAY PRIZES ✦</h2>
-          <p class="sub">Win these in Sled Hill, Snowman Builder, Snowball Splat and Cocoa Catch. They glow once they're on your shelf.</p>
+          <p class="sub">Win these in Crystal Chaos, Sled Hill, Snowman Builder, Snowball Splat and Cocoa Catch. They glow once they're on your shelf.</p>
           <div class="hgrid" id="hgrid"></div>
           <p class="count" id="hcount"></p>
         </section>
@@ -118,6 +119,8 @@
   var b3 = best('mm_sledhill_v1', 'best'), b4 = best('mm_snowman_v1', 'best');
   if (b3) document.getElementById('bSled').textContent = 'YOUR BEST ' + b3;
   if (b4) document.getElementById('bMan').textContent = 'YOUR BEST ' + b4;
+  var b5 = best('mm_crystalchaos_v1', 'best');
+  if (b5) document.getElementById('bCrys').textContent = 'YOUR BEST ' + b5;
   if (r) document.getElementById('bRide').textContent = r + (r === 1 ? ' RIDE' : ' RIDES') + ' SO FAR';
   function draw() {
     var have = {};

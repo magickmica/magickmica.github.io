@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crystal Chaos &middot; MagickMica</title>
+<meta name="description" content="A Magick Mica Winter Game at the Cosmic Circus: pull glowing crystal-ice blocks from a wobbly tower without dropping the little crystal penguin on top. Win holiday prizes for your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/crystal-chaos.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Crystal Chaos · Magick Mica Winter Games">
+<meta property="og:description" content="One more block. One more chance. Don't drop the guardian!">
+<meta property="og:url" content="https://magickmica.github.io/crystal-chaos.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+.awning{background:repeating-linear-gradient(90deg,#5ff3e8 0 34px,#d5c2dc 34px 68px);box-shadow:0 0 30px rgba(95,243,232,.35)}
+.scallop{background:radial-gradient(circle at 50% 0,#5ff3e8 0 12px,transparent 13px) 0 0/68px 14px repeat-x,
+             radial-gradient(circle at 50% 0,#d5c2dc 0 12px,transparent 13px) 34px 0/68px 14px repeat-x}
+.awning .sign{text-shadow:0 0 6px #5ff3e8,0 0 2px #000,0 2px 0 #5146a2}
+canvas{cursor:pointer}
+canvas:focus-visible{outline:2px solid var(--aqua);outline-offset:-4px}
+.pauseBtn{position:absolute;top:14px;right:8px;z-index:4;width:44px;height:44px;border-radius:12px;font-size:1rem;color:#fff;
+  background:rgba(19,28,63,.75);border:1px solid rgba(213,194,220,.35)}
+.pauseBtn:hover{border-color:var(--aqua)}
+.pauseBtn[hidden]{display:none}
+.edition{font-family:Silkscreen,monospace;font-size:.62rem;letter-spacing:.22em;color:var(--aqua);margin:0 0 6px}
+.card .row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center}
+.card .row .go,.card .row .ghost{margin-left:0}
+.ghost.btn{background:none;cursor:pointer}
+.rules{text-align:left;font-size:.78rem;line-height:1.55;color:rgba(213,194,220,.85);margin:10px auto 0;max-width:400px;padding:10px 14px;border-radius:12px;background:rgba(4,5,9,.45);border:1px solid rgba(213,194,220,.18)}
+.rules[hidden]{display:none}
+.rules b{color:var(--aqua);font-weight:500}
+.rules ul{margin:4px 0 0;padding-left:18px}
+.endStats{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:4px 0 6px}
+.endStats span{font-family:Silkscreen,monospace;font-size:.62rem;letter-spacing:.1em;padding:6px 10px;border-radius:8px;background:rgba(47,47,112,.5);color:rgba(213,194,220,.8)}
+.endStats b{color:var(--gold);font-weight:400;margin-left:4px}
+.why{font-size:.76rem!important;color:var(--aqua)!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:520px){.card p{font-size:.8rem}.go{font-size:.9rem;padding:12px 20px}.veil{padding:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · <a href="winter-carnival.html">Winter Carnival</a></p>
+    <h1>CRYSTAL CHAOS</h1>
+    <p class="tag">Don't drop the guardian!</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>❄ MAGICK MICA WINTER GAMES ❄</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" tabindex="0" aria-label="Crystal tower. Tap a crystal to pick it, tap it again to pull it out. Arrow keys move between crystals, Enter or Space picks and pulls, Escape pauses." aria-describedby="live"></canvas>
+      <button class="pauseBtn" id="pauseBtn" type="button" aria-label="Pause" hidden>❚❚</button>
+      <p class="sr" id="live" aria-live="polite"></p>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <p class="edition">MAGICK MICA WINTER GAMES</p>
+          <h2>DON'T DROP THE GUARDIAN!</h2>
+          <p>A tiny crystal penguin is balancing on top of an ice tower. Pull out crystals one at a time and keep the tower standing as long as you can.</p>
+          <div class="lbl">How wobbly</div>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="wild" aria-pressed="false">Wild</button>
+          </div>
+          <div class="row">
+            <button class="go" id="startBtn" type="button">❄ START GAME</button>
+          </div>
+          <div class="row">
+            <button class="ghost btn rulesBtn" type="button" aria-expanded="false">How to play</button>
+            <button class="ghost btn soundMirror" type="button">♪ Sound: on</button>
+          </div>
+          <div class="rules" hidden></div>
+        </div>
+      </div>
+
+      <div class="veil" id="pauseVeil">
+        <div class="card">
+          <h2>PAUSED</h2>
+          <p>The guardian is holding very, very still.</p>
+          <div class="row"><button class="go" id="resumeBtn" type="button">▶ RESUME</button></div>
+          <div class="row">
+            <button class="ghost btn" id="restartBtn" type="button">Restart</button>
+            <button class="ghost btn rulesBtn" type="button" aria-expanded="false">How to play</button>
+            <button class="ghost btn soundMirror" type="button">♪ Sound: on</button>
+            <button class="ghost btn" id="menuBtn" type="button">Main menu</button>
+          </div>
+          <div class="rules" hidden></div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle">CRYSTAL CHAOS!</h2>
+          <p id="endQuip"></p>
+          <p class="why" id="endWhy"></p>
+          <div class="endStats"><span>SCORE<b id="eScore">0</b></span><span>PULLS<b id="ePulls">0</b></span><span id="eBestWrap">BEST<b id="eBest">0</b></span></div>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div class="row">
+            <button class="go" id="againBtn" type="button">❄ PLAY AGAIN</button>
+          </div>
+          <div class="row">
+            <button class="ghost btn" id="menuBtn2" type="button">Main menu</button>
+            <a class="ghost" href="arcade.html#circus">Back to the circus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">BEST<b id="sBest">0</b></span>
+      <span class="stat">TOWERS<b id="sTowers">0</b></span>
+      <span class="stat">MOST PULLS<b id="sMost">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>Crystal Chaos gives out holiday prizes: 1,000 points for a small one, 1,600 for a big one, 2,400 for a JUMBO. Prizes from every game at the circus land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="winter-carnival.html">← Back to the Winter Carnival</a>
+</div>
+
+<template id="rulesTpl">
+  <b>Goal:</b> pull out as many crystals as you can without toppling the tower or dropping the guardian.
+  <ul>
+    <li><b>Tap a crystal</b> to pick it. You'll see how wobbly the pull will be. <b>Tap it again</b> to pull it out.</li>
+    <li>The <b>top two rows are frozen</b>. They hold up the guardian's platform.</li>
+    <li>If a crystal is left with nothing under it, it <b>slips off</b> and adds wobble.</li>
+    <li>Pull too much from one side and the tower <b>leans over</b>. Hollowing out the middle is safer than taking edges.</li>
+    <li>Every pull fills the <b>wobble meter</b> a little. Risky pulls fill it a lot. When it's full, the tower falls.</li>
+  </ul>
+  <b>Points:</b> 100 a crystal. Wobbly pull +50, very wobbly pull +150. <b>★ Stardust</b> crystals +150. Every 10 pulls +500.<br>
+  <b>Keyboard:</b> arrow keys move, Enter or Space picks and pulls, Escape pauses.
+</template>
+
+<script src="mm-prizes.js?v=7"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+
+/* =====================================================================
+   TOWER MODEL. Pure and deterministic: the same pulls always give the
+   same result, so a collapse is never a dice roll.
+   - 6 cells wide, 16 rows. Even rows: three 2-wide crystals. Odd rows:
+     1 + 2 + 2 + 1, so every row is staggered like a brick wall.
+   - The top LOCK rows are frozen and carry the platform + guardian.
+   - A crystal with nothing under it slips off (and may take more with it).
+   - Each row rests on the row below where the two overlap. If the weight
+     of everything above sits outside that footing, the tower leans over.
+   ===================================================================== */
+var CC = (function () {
+  var COLS = 6, ROWS = 16, LOCK = 2;
+  function build(stardust) {
+    var rows = [];
+    for (var r = 0; r < ROWS; r++) {
+      var spec = r % 2 === 0 ? [[0, 2], [2, 2], [4, 2]] : [[0, 1], [1, 2], [3, 2], [5, 1]];
+      rows.push(spec.map(function (s, i) { return { r: r, i: i, a: s[0], w: s[1], gone: false, star: false, hue: (r * 5 + i * 3 + (r >> 1)) % 6, seed: Math.random() * 1000 }; }));
+    }
+    var pool = [].concat.apply([], rows).filter(function (b) { return b.r >= 2 && b.r < ROWS - LOCK; });
+    for (var n = 0; n < (stardust || 0) && pool.length; n++) pool.splice(Math.floor(Math.random() * pool.length), 1)[0].star = true;
+    return rows;
+  }
+  function occ(row) { var c = [0, 0, 0, 0, 0, 0]; row.forEach(function (b) { if (!b.gone) for (var k = 0; k < b.w; k++) c[b.a + k] = 1; }); return c; }
+  function analyse(rows) {
+    var O = rows.map(occ), out = { ok: true, why: '', row: -1, side: 0, D: 0, lean: 0 };
+    var mass = 8, mx = 8 * 3, r, k;
+    for (r = ROWS - 1; r >= 0; r--) {
+      for (k = 0; k < COLS; k++) if (O[r][k]) { mass += 1; mx += k + .5; }
+      var lo = 99, hi = -1, n = 0;
+      for (k = 0; k < COLS; k++) if (O[r][k] && (r === 0 || O[r - 1][k])) { n++; if (k < lo) lo = k; hi = k + 1; }
+      var com = mx / mass;
+      if (!n) { out.ok = false; out.why = 'loose'; out.row = r; return out; }
+      var m = Math.min(com - lo, hi - com) / 3;
+      if (m < 0) { out.ok = false; out.why = 'lean'; out.row = r; out.side = com < lo ? -1 : 1; return out; }
+      var d = ((1 - m) * .75 + (1 - n / 6) * .35) * Math.sqrt(mass / 104);
+      if (d > out.D) { out.D = Math.min(1, d); out.lean = com - (lo + hi) / 2; }
+    }
+    return out;
+  }
+  function slip(rows) {
+    var fell = [], again = true;
+    while (again) {
+      again = false; var O = rows.map(occ);
+      for (var r = 1; r < ROWS; r++) for (var j = 0; j < rows[r].length; j++) {
+        var b = rows[r][j]; if (b.gone) continue; var any = 0;
+        for (var k = 0; k < b.w; k++) if (O[r - 1][b.a + k]) any = 1;
+        if (!any) { b.gone = true; fell.push(b); again = true; }
+      }
+    }
+    return fell;
+  }
+  function gain(D, k) { return (3 + 26 * D * D) * k; }
+  /* what pulling b would do, without changing anything */
+  function tryPull(rows, b, k) {
+    b.gone = true; var fell = slip(rows), a = analyse(rows);
+    if (a.ok && fell.some(function (f) { return f.r >= ROWS - LOCK; })) a = { ok: false, why: 'platform', row: ROWS - LOCK, side: 0, D: 1 };
+    var g = a.ok ? gain(a.D, k) + fell.length * 12 * k : 999;
+    fell.forEach(function (f) { f.gone = false; }); b.gone = false;
+    return { a: a, fell: fell, g: g };
+  }
+  function eligible(b) { return !b.gone && b.r < ROWS - LOCK; }
+  return { COLS: COLS, ROWS: ROWS, LOCK: LOCK, build: build, analyse: analyse, slip: slip, tryPull: tryPull, eligible: eligible };
+})();
+
+/* ===================================================================== page + shared bits */
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil'), pauseVeil = document.getElementById('pauseVeil');
+var pauseBtn = document.getElementById('pauseBtn'), live = document.getElementById('live');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_crystalchaos_v1', { best: 0, towers: 0, most: 0 });
+var prefs = MMC.store('mm_carnival_prefs_v1', { sound: true });
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .7, 540), 680)); });
+var ctx = view.ctx;
+
+/* sound buttons: the bar one plus copies in the menus, all kept in step */
+var soundBtns = [document.getElementById('soundBtn')].concat([].slice.call(document.querySelectorAll('.soundMirror')));
+function soundLabel() { var on = MMC.store('mm_carnival_prefs_v1', { sound: true }).data.sound; soundBtns.forEach(function (b) { b.textContent = '♪ Sound: ' + (on ? 'on' : 'off'); }); }
+soundBtns.forEach(function (b) {
+  b.addEventListener('click', function () {
+    var p = MMC.store('mm_carnival_prefs_v1', { sound: true }); p.data.sound = !p.data.sound; p.save();
+    S.boot(); S.setOn(p.data.sound); soundLabel();
+  });
+});
+soundLabel();
+var rulesHTML = document.getElementById('rulesTpl').innerHTML;
+document.querySelectorAll('.rulesBtn').forEach(function (b) {
+  var box = b.closest('.card').querySelector('.rules'); box.innerHTML = rulesHTML;
+  b.addEventListener('click', function () { box.hidden = !box.hidden; b.setAttribute('aria-expanded', String(!box.hidden)); });
+});
+
+/* ===================================================================== game state */
+var DIFF = { easy: .7, normal: 1, wild: 1.35 }, diffKey = 'normal';
+var PRIZE = { small: 1000, medium: 1600, jumbo: 2400 };
+var state = 'menu', rows = CC.build(3), wob = 0, wobShow = 0, score = 0, pulls = 0, sel = null, pick = null, cursor = null;
+var t = 0, busy = 0, pending = null, msgs = [], debris = [], settle = 0, mood = 'calm', moodT = 0, blinkT = 2, endT = 0, endInfo = null;
+var guard = null, lastA = CC.analyse(rows), flakes = [];
+for (var i = 0; i < 40; i++) flakes.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.6 + .5, v: Math.random() * .04 + .02, w: Math.random() * 6 });
+
+function say(txt) { live.textContent = txt; }
+function stats() {
+  document.getElementById('sBest').textContent = st.data.best;
+  document.getElementById('sTowers').textContent = st.data.towers;
+  document.getElementById('sMost').textContent = st.data.most;
+}
+function float(txt, x, y, col, big) { msgs.push({ txt: txt, x: x, y: y, col: col || '#fff', life: 1.6, big: !!big }); }
+function all() { return [].concat.apply([], rows); }
+
+function newGame() {
+  rows = CC.build(3); wob = 0; wobShow = 0; score = 0; pulls = 0; sel = null; pick = null; cursor = null;
+  busy = 0; pending = null; msgs = []; debris = []; bits.list.length = 0; settle = 0; mood = 'calm'; guard = null; endInfo = null;
+  lastA = CC.analyse(rows); state = 'play'; pauseBtn.hidden = false;
+  say('New tower. ' + countEligible() + ' crystals you can pull.');
+}
+function countEligible() { return all().filter(CC.eligible).length; }
+
+/* ===================================================================== layout */
+var L = {};
+function layout() {
+  var W = view.W, H = view.H, hud = 62, top = 64, base = Math.max(56, H * .1);
+  var rh = (H - hud - top - base - 14) / (CC.ROWS + .55);
+  var cw = Math.min((W - 44) / CC.COLS, rh * 1.9);
+  rh = Math.min(rh, cw * .62);
+  L = { W: W, H: H, cw: cw, rh: rh, capH: rh * .55, x0: W / 2 - cw * 3, baseTop: H - base, hud: hud };
+  L.capY = L.baseTop - CC.ROWS * rh - L.capH;
+}
+function amp() { return reduce ? 0 : Math.pow(Math.min(1, wobShow / 100), 1.4) * L.cw * .32 + settle * L.cw * .12; }
+function sway(r) { // sideways offset of a row
+  var f = Math.pow((r + 1) / (CC.ROWS + 1), 1.25);
+  return (Math.sin(t * 1.7 - r * .2) * amp() + lastA.lean * Math.min(1, wobShow / 60) * L.cw * .05) * f;
+}
+function rectOf(b) {
+  var lift = b === sel ? -L.rh * .12 : 0;
+  return { x: L.x0 + b.a * L.cw + sway(b.r) + 1.5, y: L.baseTop - (b.r + 1) * L.rh + 1 + lift, w: b.w * L.cw - 3, h: L.rh - 2 };
+}
+function hit(px, py) {
+  for (var r = 0; r < CC.ROWS; r++) {
+    var y = L.baseTop - (r + 1) * L.rh;
+    if (py < y - 2 || py > y + L.rh + 2) continue;
+    var best = null, bd = 1e9;
+    rows[r].forEach(function (b) {
+      if (b.gone) return; var q = rectOf(b), cx = q.x + q.w / 2, d = Math.abs(px - cx) - q.w / 2;
+      if (d < bd) { bd = d; best = b; }
+    });
+    if (best && bd < 8) return best;
+  }
+  return null;
+}
+
+/* ===================================================================== input */
+function risk(p) {
+  if (!p.a.ok || p.g >= 12 * DIFF[diffKey]) return { t: 'VERY WOBBLY', c: '#ff4fa3', lvl: 2 };
+  if (p.g >= 6 * DIFF[diffKey]) return { t: 'WOBBLY', c: '#ffd166', lvl: 1 };
+  return { t: 'STEADY', c: '#5ff3e8', lvl: 0 };
+}
+function choose(b) {
+  if (state !== 'play' || busy) return;
+  if (!b) { sel = null; pick = null; return; }
+  if (!CC.eligible(b)) {
+    S.tone(300, 0, .12, .08, 'sine');
+    var q = rectOf(b); float('FROZEN! THESE HOLD THE PLATFORM', L.W / 2, q.y - 6, '#b9e8ff');
+    say('That crystal is frozen. The top two rows hold up the guardian\'s platform.');
+    return;
+  }
+  if (sel === b) { pull(b); return; }
+  sel = b; cursor = b; pick = CC.tryPull(rows, b, DIFF[diffKey]); S.boot(); S.clink();
+  var rk = risk(pick);
+  say('Picked a crystal in row ' + (b.r + 1) + '. ' + rk.t.toLowerCase() + (pick.fell.length ? ', and ' + pick.fell.length + ' crystal' + (pick.fell.length > 1 ? 's' : '') + ' above will slip' : '') + '. Pick it again to pull.');
+  if (rk.lvl === 2) { mood = 'nervous'; moodT = 1.2; }
+}
+cv.addEventListener('pointerdown', function (e) {
+  e.preventDefault(); cv.focus({ preventScroll: true });
+  if (state !== 'play') return;
+  var p = MMC.pt(cv, e); choose(hit(p.x, p.y));
+});
+function moveCursor(dx, dy) {
+  var el = all().filter(CC.eligible); if (!el.length) return;
+  var c = cursor && !cursor.gone ? cursor : (sel || el[Math.floor(el.length / 2)]);
+  if (!cursor || cursor.gone) { cursor = c; choose(c); return; }
+  var cx = c.a + c.w / 2, next = null, bd = 1e9;
+  el.forEach(function (b) {
+    if (b === c) return; var bx = b.a + b.w / 2;
+    if (dy) { if ((b.r - c.r) * dy <= 0) return; var d = Math.abs(b.r - c.r) * 10 + Math.abs(bx - cx); if (d < bd) { bd = d; next = b; } }
+    else { if (b.r !== c.r || (bx - cx) * dx <= 0) return; var d2 = Math.abs(bx - cx); if (d2 < bd) { bd = d2; next = b; } }
+  });
+  if (next) { cursor = next; sel = null; choose(next); }
+}
+addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') { if (state === 'play') pause(); else if (state === 'paused') resume(); return; }
+  if (state !== 'play' || document.activeElement !== cv) return;
+  var k = e.key;
+  if (k === 'ArrowLeft') moveCursor(-1, 0); else if (k === 'ArrowRight') moveCursor(1, 0);
+  else if (k === 'ArrowUp') moveCursor(0, 1); else if (k === 'ArrowDown') moveCursor(0, -1);
+  else if (k === 'Enter' || k === ' ') { if (cursor && !cursor.gone) choose(cursor); else moveCursor(0, 0); }
+  else return;
+  e.preventDefault();
+});
+
+/* ===================================================================== pulling */
+function pull(b) {
+  busy = .3; pending = b; S.whoosh(); S.tone(1760, 0, .3, .08, 'sine'); S.tone(2637, .05, .35, .05, 'sine');
+}
+function resolvePull(b) {
+  var k = DIFF[diffKey], res = CC.tryPull(rows, b, k), rk = risk(res);
+  var q = rectOf(b);
+  b.gone = true; sel = null; pick = null;
+  bits.sparkle(q.x + q.w / 2, q.y + q.h / 2, '#e8f0ff', reduce ? 6 : 14);
+  bits.sparkle(q.x + q.w / 2, q.y + q.h / 2, '#5ff3e8', reduce ? 4 : 8);
+  var fell = CC.slip(rows);
+  fell.forEach(function (f, n) { toDebris(f, (f.a + f.w / 2 < 3 ? -1 : 1) * (40 + Math.random() * 40), n * .06); });
+  if (fell.length) { S.thud(); float(fell.length > 1 ? fell.length + ' CRYSTALS SLIPPED!' : 'A CRYSTAL SLIPPED!', L.W / 2, q.y - 20, '#ffd166'); }
+  var a = CC.analyse(rows);
+  if (a.ok && fell.some(function (f) { return f.r >= CC.ROWS - CC.LOCK; })) a = { ok: false, why: 'platform', row: CC.ROWS - CC.LOCK, side: 0, D: 1, lean: 0 };
+  if (!a.ok) { collapse(a); return; }
+  wob += res.g; lastA = a;
+  if (wob >= 100) { collapse({ ok: false, why: 'wobble', row: Math.floor(CC.ROWS * .35), side: a.lean < 0 ? -1 : 1 }); return; }
+  pulls++; var pts = 100, notes = [];
+  if (rk.lvl === 1) { pts += 50; notes.push('WOBBLY +50'); }
+  if (rk.lvl === 2) { pts += 150; notes.push('DARING! +150'); }
+  if (b.star) { pts += 150; notes.push('★ STARDUST +150'); S.ding(true); bits.sparkle(q.x + q.w / 2, q.y, '#ffd166', 18); }
+  if (pulls % 10 === 0) { pts += 500; notes.push(pulls + ' PULLS! +500'); S.bell(); }
+  score += pts;
+  float('+' + pts, q.x + q.w / 2, q.y, '#fff', true);
+  notes.forEach(function (n, j) { float(n, L.W / 2, q.y - 22 - j * 18, n.charAt(0) === '★' ? '#ffd166' : '#5ff3e8'); });
+  settle = 1;
+  if (rk.lvl >= 1) { S.tone(110, 0, .55, .12, 'sawtooth', 70); mood = 'nervous'; moodT = 1.6; } else { mood = 'happy'; moodT = .9; }
+  if (wob >= 70) { S.tone(196, .1, .8, .05, 'sine', 185); }
+  var left = all().filter(CC.eligible);
+  cursor = null;
+  say('Pulled! ' + score + ' points, ' + pulls + ' pulls. Wobble ' + Math.round(wob) + ' out of 100.' + (fell.length ? ' ' + fell.length + ' slipped off.' : ''));
+  if (!left.length) { collapse({ ok: false, why: 'empty', row: 0, side: 1 }); }
+}
+function toDebris(b, vx, delay) {
+  var q = rectOf(b);
+  debris.push({ kind: 'block', b: b, x: q.x + q.w / 2, y: q.y + q.h / 2, w: q.w, h: q.h, vx: vx, vy: -40 - Math.random() * 60, rot: 0, vr: (vx > 0 ? 1 : -1) * (1 + Math.random() * 3), delay: delay || 0 });
+}
+
+/* ===================================================================== collapse + end */
+var QUIPS = ['The guardian has left the iceberg!', 'One tiny tap. One enormous meltdown.', 'The crystals have spoken.', 'Winter has officially lost its balance.'];
+function collapse(a) {
+  state = 'falling'; busy = 0; sel = null; pick = null; pauseBtn.hidden = true; endT = 0;
+  var side = a.side || (Math.random() < .5 ? -1 : 1), from = Math.max(0, a.row);
+  if (a.why === 'empty') from = CC.ROWS; // nothing left to pull: the tower stands, the round just ends
+  all().forEach(function (b) {
+    if (b.gone || b.r < from) return;
+    toDebris(b, side * (30 + (b.r - from) * (reduce ? 4 : 9) + Math.random() * 40), (b.r - from) * (reduce ? .02 : .045) + Math.random() * .05);
+    b.gone = true;
+  });
+  var gx = L.x0 + 3 * L.cw + sway(CC.ROWS), gy = L.capY;
+  if (a.why !== 'empty') {
+    debris.push({ kind: 'cap', x: gx, y: L.capY + L.capH / 2, w: L.cw * 6.3, h: L.capH, vx: side * 90, vy: -60, rot: 0, vr: side * 1.6, delay: .3 });
+    guard = { x: gx, y: gy, vx: side * (110 + Math.random() * 40), vy: -220, rot: 0, vr: side * 5 };
+    S.pop(true);
+    [2637, 2349, 2093, 1760, 1568, 1319, 1175, 1047].forEach(function (f, i) { S.tone(f, .1 + i * .09, .3, .07, 'sine'); });
+    S.noise(1.2, .18, 4200, 'highpass', .15);
+  }
+  endInfo = a;
+  say(a.why === 'empty' ? 'No crystals left to pull. Amazing!' : 'Crystal chaos! The tower fell.');
+}
+function award(tier, game) {
+  if (!window.MMPrizes) return null;
+  var p = MMPrizes.pick(tier, 'winter'); MMPrizes.add(p, game); MMPrizes.addToken(1); return p;
+}
+function end() {
+  state = 'done';
+  var a = endInfo || {};
+  if (window.MMPrizes) MMPrizes.addTickets(1 + Math.floor(score / 200), 'Crystal Chaos');
+  st.data.towers++; if (pulls > st.data.most) st.data.most = pulls;
+  var isBest = score > st.data.best && score > 0; if (isBest) st.data.best = score; st.save(); stats();
+  var tier = score >= PRIZE.jumbo ? 'jumbo' : score >= PRIZE.medium ? 'medium' : score >= PRIZE.small ? 'small' : null;
+  var why = {
+    lean: 'The tower leaned too far ' + (a.side < 0 ? 'left' : 'right') + ' at row ' + (a.row + 1) + '. Too much was gone from underneath on that side.',
+    loose: 'Row ' + (a.row + 1) + ' had nothing left underneath it.',
+    platform: 'A frozen row lost its footing, and the platform went with it.',
+    wobble: 'The wobble meter filled all the way up.',
+    empty: 'You pulled every crystal you could. The guardian never even blinked!'
+  }[a.why] || '';
+  document.getElementById('endTitle').textContent = a.why === 'empty' ? 'PERFECT TOWER!' : 'CRYSTAL CHAOS!';
+  document.getElementById('endQuip').textContent = a.why === 'empty' ? 'Steadiest flippers in the cosmos.' : QUIPS[Math.floor(Math.random() * QUIPS.length)];
+  document.getElementById('endWhy').textContent = why;
+  document.getElementById('eScore').textContent = score;
+  document.getElementById('ePulls').textContent = pulls;
+  document.getElementById('eBest').textContent = isBest ? score + ' NEW!' : st.data.best;
+  var text = document.getElementById('endText'), pz = document.getElementById('endPrize');
+  if (tier) {
+    var p = award(tier, 'Crystal Chaos'); S.fanfare(); bits.confetti(view.W, view.H);
+    text.textContent = (isBest ? 'New personal best! ' : '') + 'You won a holiday prize:';
+    pz.innerHTML = p ? MMC.prizeCard(p) : '';
+  } else {
+    if (isBest) S.fanfare(); else S.womp();
+    text.textContent = (isBest ? 'New personal best! ' : '') + 'You need ' + PRIZE.small.toLocaleString() + ' points for a holiday prize. Pull from the middle first, and save the edges for last.';
+    pz.innerHTML = '';
+  }
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+
+/* ===================================================================== menus */
+function pause() { if (state !== 'play') return; state = 'paused'; pauseVeil.dataset.on = 'true'; pauseBtn.hidden = true; document.getElementById('resumeBtn').focus({ preventScroll: true }); }
+function resume() { state = 'play'; pauseVeil.dataset.on = 'false'; pauseBtn.hidden = false; cv.focus({ preventScroll: true }); }
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; pauseVeil.dataset.on = 'false'; newGame(); cv.focus({ preventScroll: true }); }
+function toMenu() {
+  state = 'menu'; endVeil.dataset.on = 'false'; pauseVeil.dataset.on = 'false'; pauseBtn.hidden = true;
+  rows = CC.build(3); wob = 0; wobShow = 0; debris = []; guard = null; sel = null; pick = null; lastA = CC.analyse(rows);
+  startVeil.dataset.on = 'true'; document.getElementById('startBtn').focus({ preventScroll: true });
+}
+pauseBtn.addEventListener('click', pause);
+document.getElementById('resumeBtn').addEventListener('click', resume);
+document.getElementById('restartBtn').addEventListener('click', begin);
+document.getElementById('menuBtn').addEventListener('click', toMenu);
+document.getElementById('menuBtn2').addEventListener('click', toMenu);
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+document.getElementById('diffSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
+  this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+document.addEventListener('visibilitychange', function () { if (document.hidden) pause(); });
+
+/* ===================================================================== update */
+function step(dt) {
+  t += dt;
+  wobShow += (wob - wobShow) * Math.min(1, dt * 4);
+  settle = Math.max(0, settle - dt * 1.6);
+  if (moodT > 0) { moodT -= dt; if (moodT <= 0) mood = 'calm'; }
+  blinkT -= dt; if (blinkT < -.14) blinkT = 2 + Math.random() * 3;
+  if (busy > 0 && state === 'play') { busy -= dt; if (busy <= 0) { busy = 0; var b = pending; pending = null; if (b) resolvePull(b); } }
+  flakes.forEach(function (f) { f.y += f.v * dt; f.x += Math.sin(t + f.w) * .004 * dt; if (f.y > 1) { f.y = 0; f.x = Math.random(); } });
+  debris.forEach(function (d) {
+    if (d.delay > 0) { d.delay -= dt; return; }
+    d.vy += 700 * dt; d.x += d.vx * dt; d.y += d.vy * dt; d.rot += d.vr * dt;
+  });
+  debris = debris.filter(function (d) { return d.y < L.H + 80; });
+  if (guard) { guard.vy += 650 * dt; guard.x += guard.vx * dt; guard.y += guard.vy * dt; guard.rot += guard.vr * dt; }
+  msgs.forEach(function (m) { m.life -= dt; m.y -= 22 * dt; }); msgs = msgs.filter(function (m) { return m.life > 0; });
+  bits.step(dt, L.H || 600);
+  if (state === 'falling') { endT += dt; if (endT > (reduce ? 1.1 : 1.9)) end(); }
+}
+
+/* ===================================================================== drawing */
+var HUES = [['#a8ecff', '#4fb9e0'], ['#d6c2ff', '#8a6fe0'], ['#ffd0ea', '#e07ab8'], ['#a6fff0', '#3fc9b8'], ['#c4b4ff', '#6a5bd0'], ['#f2f6ff', '#9fb0e0']];
+function crystal(x, y, w, h, b, glow) {
+  var c = HUES[b.hue], r = Math.min(6, h * .28);
+  var g = ctx.createLinearGradient(x, y, x + w * .4, y + h);
+  g.addColorStop(0, c[0]); g.addColorStop(1, c[1]);
+  ctx.save();
+  if (glow) { ctx.shadowColor = glow; ctx.shadowBlur = 16; }
+  ctx.globalAlpha = .82; ctx.fillStyle = g; MMC.rr(ctx, x, y, w, h, r); ctx.fill();
+  ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+  // holographic sheen sweeping across
+  ctx.save(); MMC.rr(ctx, x, y, w, h, r); ctx.clip();
+  var sx = x - w + ((t * 40 + b.seed) % (w * 3 + 200)) * (reduce ? 0 : 1) + (reduce ? w * .6 : 0);
+  var sg = ctx.createLinearGradient(sx, y, sx + h * 1.4, y + h);
+  sg.addColorStop(0, 'rgba(255,255,255,0)'); sg.addColorStop(.5, 'rgba(255,255,255,.38)'); sg.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = sg; ctx.fillRect(x, y, w, h);
+  // frosted top highlight + darker bottom edge
+  ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fillRect(x + 3, y + 2, w - 6, Math.max(1.5, h * .12));
+  ctx.fillStyle = 'rgba(19,28,63,.25)'; ctx.fillRect(x, y + h - h * .18, w, h * .18);
+  // tiny inner sparkles
+  for (var s = 0; s < 3; s++) {
+    var px = x + ((b.seed * (s + 3)) % 1000) / 1000 * w, py = y + ((b.seed * (s + 7)) % 1000) / 1000 * h;
+    ctx.globalAlpha = reduce ? .6 : .35 + .35 * Math.sin(t * 2 + s + b.seed); ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(px, py, 1.1, 0, 6.28); ctx.fill();
+  }
+  ctx.globalAlpha = 1; ctx.restore();
+  ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = 1; MMC.rr(ctx, x + .5, y + .5, w - 1, h - 1, r); ctx.stroke();
+  if (b.star) {
+    for (var k = 0; k < 4; k++) { MMC.star(ctx, x + w * (.2 + k * .2), y + h * (.3 + (k % 2) * .4), 2.2, 4, .4); ctx.fillStyle = '#fff8d6'; ctx.fill(); }
+    MMC.star(ctx, x + w / 2, y + h / 2, Math.min(h * .32, 9), 5, .45); ctx.fillStyle = '#ffd166'; ctx.fill(); ctx.strokeStyle = '#7a4d00'; ctx.lineWidth = 1; ctx.stroke();
+  }
+  if (b.r >= CC.ROWS - CC.LOCK) { // frozen rows: frost cap and a snowflake mark
+    ctx.fillStyle = 'rgba(240,248,255,.35)'; MMC.rr(ctx, x, y, w, h * .45, r); ctx.fill();
+    ctx.font = Math.round(h * .55) + 'px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = 'rgba(19,28,63,.45)'; ctx.fillText('❄', x + w / 2, y + h / 2 + 1);
+  }
+  ctx.restore();
+}
+function iceberg() {
+  var y = L.baseTop, x0 = L.x0 - L.cw * .7, x1 = L.x0 + L.cw * 6.7, H = L.H;
+  var g = ctx.createLinearGradient(0, y, 0, H); g.addColorStop(0, '#dff6ff'); g.addColorStop(.25, '#8fd8f0'); g.addColorStop(1, '#2f2f70');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(x0, y);
+  ctx.lineTo(x1, y); ctx.lineTo(x1 + L.cw * .5, y + (H - y) * .35); ctx.lineTo(x1 + L.cw * .1, y + (H - y) * .6); ctx.lineTo(x1 + L.cw * .6, H);
+  ctx.lineTo(x0 - L.cw * .6, H); ctx.lineTo(x0 - L.cw * .2, y + (H - y) * .55); ctx.lineTo(x0 - L.cw * .5, y + (H - y) * .3); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,.8)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x1, y); ctx.stroke();
+  // facets
+  ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.lineWidth = 1; ctx.beginPath();
+  ctx.moveTo(x0 + L.cw, y); ctx.lineTo(x0 + L.cw * 2, H); ctx.moveTo(x1 - L.cw * 1.5, y); ctx.lineTo(x1 - L.cw * 2.6, H); ctx.moveTo(L.W / 2, y); ctx.lineTo(L.W / 2 + L.cw * .4, H); ctx.stroke();
+  // cosmic sea
+  var wy = H - (H - y) * .28;
+  ctx.fillStyle = 'rgba(81,70,162,.55)'; ctx.fillRect(0, wy, L.W, H - wy);
+  ctx.strokeStyle = 'rgba(213,194,220,.45)'; ctx.beginPath();
+  for (var x = 0; x <= L.W; x += 8) ctx.lineTo(x, wy + Math.sin(x * .05 + t * (reduce ? 0 : 1.4)) * 2);
+  ctx.stroke();
+}
+function penguin(x, y, s, rot, md) {
+  // original crystal penguin guardian: (x, y) is the point between its feet
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+  var bw = s * .5, bh = s * .62;
+  // glow
+  ctx.shadowColor = 'rgba(185,163,255,.8)'; ctx.shadowBlur = 14;
+  var g = ctx.createLinearGradient(-bw, -s, bw, 0); g.addColorStop(0, '#e9dcff'); g.addColorStop(.5, '#9667ba'); g.addColorStop(1, '#5ff3e8');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(0, -bh, bw, bh, 0, 0, 6.28); ctx.fill(); ctx.shadowBlur = 0;
+  // crystal crest (three little shards)
+  ctx.fillStyle = '#b9f6ff';
+  [[-.16, .9], [0, 1.1], [.16, .9]].forEach(function (c) { ctx.beginPath(); ctx.moveTo(s * c[0] - s * .05, -bh * 1.85); ctx.lineTo(s * c[0], -bh * 1.85 - s * .18 * c[1]); ctx.lineTo(s * c[0] + s * .05, -bh * 1.85); ctx.closePath(); ctx.fill(); });
+  // flippers
+  var up = md === 'nervous' ? -.9 : md === 'happy' ? -.5 : .25, fl = Math.sin(t * 8) * (md === 'nervous' && !reduce ? .25 : 0);
+  ctx.fillStyle = '#7b5bc4';
+  [-1, 1].forEach(function (sd) { ctx.save(); ctx.translate(sd * bw * .9, -bh * 1.05); ctx.rotate(sd * (up + fl)); ctx.beginPath(); ctx.ellipse(0, s * .16, s * .08, s * .2, 0, 0, 6.28); ctx.fill(); ctx.restore(); });
+  // pearl belly
+  var bg = ctx.createRadialGradient(-bw * .2, -bh * .9, 2, 0, -bh * .8, bw); bg.addColorStop(0, '#ffffff'); bg.addColorStop(1, '#f3e6ff');
+  ctx.fillStyle = bg; ctx.beginPath(); ctx.ellipse(0, -bh * .78, bw * .66, bh * .66, 0, 0, 6.28); ctx.fill();
+  // star on the belly
+  MMC.star(ctx, 0, -bh * .62, s * .07, 5, .45); ctx.fillStyle = '#ffd166'; ctx.fill();
+  // eyes
+  var ey = -bh * 1.38, ex = bw * .36, blink = blinkT < 0 && md !== 'nervous';
+  ctx.fillStyle = '#131c3f';
+  [-1, 1].forEach(function (sd) {
+    if (blink || md === 'happy') { ctx.strokeStyle = '#131c3f'; ctx.lineWidth = Math.max(1.5, s * .03); ctx.beginPath(); ctx.arc(sd * ex, ey + (md === 'happy' ? s * .02 : 0), s * .06, md === 'happy' ? 3.4 : .2, md === 'happy' ? 6 : 2.9); ctx.stroke(); }
+    else { var er = md === 'nervous' ? s * .085 : s * .07; ctx.beginPath(); ctx.arc(sd * ex, ey, er, 0, 6.28); ctx.fill(); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(sd * ex + er * .35, ey - er * .35, er * .38, 0, 6.28); ctx.fill(); ctx.fillStyle = '#131c3f'; }
+  });
+  // cheeks + beak
+  ctx.fillStyle = 'rgba(255,79,163,.45)'; [-1, 1].forEach(function (sd) { ctx.beginPath(); ctx.ellipse(sd * bw * .6, -bh * 1.18, s * .06, s * .04, 0, 0, 6.28); ctx.fill(); });
+  ctx.fillStyle = '#ffd166'; ctx.beginPath(); ctx.moveTo(-s * .07, -bh * 1.22); ctx.lineTo(s * .07, -bh * 1.22); ctx.lineTo(0, -bh * 1.22 + (md === 'nervous' ? s * .12 : s * .09)); ctx.closePath(); ctx.fill();
+  // feet
+  ctx.fillStyle = '#ffb347'; [-1, 1].forEach(function (sd) { ctx.beginPath(); ctx.ellipse(sd * bw * .42, -s * .02, s * .11, s * .05, 0, 0, 6.28); ctx.fill(); });
+  if (md === 'nervous') { ctx.fillStyle = '#9fe8ff'; ctx.beginPath(); ctx.ellipse(bw * 1.05, -bh * 1.6, s * .04, s * .065, 0, 0, 6.28); ctx.fill(); }
+  ctx.restore();
+}
+function hud() {
+  var W = L.W, pad = 12;
+  ctx.fillStyle = 'rgba(4,5,9,.55)'; MMC.rr(ctx, 6, 14, W - 62, 42, 10); ctx.fill();
+  var cols = W < 420 ? [['SCORE', score], ['PULLS', pulls], ['BEST', Math.max(st.data.best, score)]] : [['SCORE', score], ['PULLS', pulls], ['BEST', Math.max(st.data.best, score)], ['MODE', 'CLASSIC']];
+  var mw = Math.min(170, (W - 62) * .36), cwid = (W - 62 - mw - pad * 2) / cols.length;
+  cols.forEach(function (c, i) {
+    MMC.label(ctx, c[0], pad + 6 + cwid * i + cwid / 2, 30, 'rgba(213,194,220,.75)', 9);
+    MMC.label(ctx, String(c[1]), pad + 6 + cwid * i + cwid / 2, 48, '#ffd166', 13);
+  });
+  // wobble meter
+  var mx = W - 62 - mw - 2, f = Math.min(1, wobShow / 100);
+  var word = f < .4 ? 'STEADY' : f < .7 ? 'WOBBLY' : 'DANGER!';
+  var col = f < .4 ? '#5ff3e8' : f < .7 ? '#ffd166' : '#ff4fa3';
+  MMC.label(ctx, 'WOBBLE · ' + word, mx + mw / 2, 30, col, 9);
+  ctx.fillStyle = 'rgba(213,194,220,.18)'; MMC.rr(ctx, mx, 37, mw, 12, 6); ctx.fill();
+  var mg = ctx.createLinearGradient(mx, 0, mx + mw, 0); mg.addColorStop(0, '#5ff3e8'); mg.addColorStop(.55, '#ffd166'); mg.addColorStop(1, '#ff4fa3');
+  if (f > 0) { ctx.fillStyle = mg; MMC.rr(ctx, mx, 37, Math.max(12, mw * f), 12, 6); ctx.fill(); }
+  ctx.strokeStyle = 'rgba(255,255,255,.4)'; ctx.lineWidth = 1; MMC.rr(ctx, mx + .5, 37.5, mw - 1, 11, 6); ctx.stroke();
+  if (f >= .7 && !reduce) { ctx.globalAlpha = .25 + .2 * Math.sin(t * 5); ctx.strokeStyle = '#ff4fa3'; ctx.lineWidth = 2; MMC.rr(ctx, mx - 2, 35, mw + 4, 16, 8); ctx.stroke(); ctx.globalAlpha = 1; }
+}
+function tip() {
+  if (!sel || !pick) return;
+  var q = rectOf(sel), rk = risk(pick), line2 = pick.fell.length ? '⚠ ' + pick.fell.length + ' ABOVE WILL SLIP' : 'TAP AGAIN TO PULL';
+  var w = Math.min(L.W - 16, 300), h = 40, x = (L.W - w) / 2, y = L.baseTop + Math.max(6, (L.H - L.baseTop - h) / 2 - 6);
+  ctx.fillStyle = 'rgba(19,28,63,.94)'; MMC.rr(ctx, x, y, w, h, 9); ctx.fill();
+  ctx.strokeStyle = rk.c; ctx.lineWidth = 1.5; MMC.rr(ctx, x + .5, y + .5, w - 1, h - 1, 9); ctx.stroke();
+  MMC.label(ctx, (rk.lvl === 2 ? '⚠ ' : '') + rk.t + (sel.star ? ' · ★' : ''), x + w / 2, y + 16, rk.c, 10);
+  MMC.label(ctx, line2, x + w / 2, y + 32, pick.fell.length ? '#ffd166' : 'rgba(213,194,220,.85)', 9);
+}
+function draw() {
+  layout();
+  var W = L.W, H = L.H;
+  MMC.sky(ctx, W, H, t);
+  // aurora
+  {
+    ctx.save(); ctx.globalAlpha = .22;
+    for (var a = 0; a < 2; a++) {
+      var ag = ctx.createLinearGradient(0, 0, W, 0); ag.addColorStop(0, 'rgba(95,243,232,0)'); ag.addColorStop(.5, a ? '#9667ba' : '#5ff3e8'); ag.addColorStop(1, 'rgba(255,79,163,0)');
+      ctx.fillStyle = ag; ctx.beginPath(); ctx.moveTo(0, H * .2 + a * 30);
+      for (var x = 0; x <= W; x += 20) ctx.lineTo(x, H * (.16 + a * .08) + Math.sin(x * .012 + t * (reduce ? 0 : .3) + a * 2) * 18);
+      ctx.lineTo(W, H * .34 + a * 30); ctx.lineTo(0, H * .34 + a * 30); ctx.closePath(); ctx.fill();
+    }
+    ctx.restore();
+  }
+  ctx.fillStyle = '#fff';
+  flakes.forEach(function (f) { ctx.globalAlpha = .55; ctx.beginPath(); ctx.arc(f.x * W, f.y * H, f.r, 0, 6.28); ctx.fill(); }); ctx.globalAlpha = 1;
+  iceberg();
+  // the tower
+  var pulling = busy > 0 && pending ? pending : null;
+  for (var r = 0; r < CC.ROWS; r++) rows[r].forEach(function (b) {
+    if (b.gone || b === pulling) return;
+    var q = rectOf(b), glow = null;
+    if (b === sel) glow = risk(pick).c;
+    else if (b === cursor && state === 'play') glow = '#ffffff';
+    crystal(q.x, q.y, q.w, q.h, b, glow);
+    if (b === sel || (b === cursor && state === 'play')) { ctx.strokeStyle = glow; ctx.lineWidth = 2.5; MMC.rr(ctx, q.x - 1, q.y - 1, q.w + 2, q.h + 2, 7); ctx.stroke(); }
+  });
+  if (pulling) { // pop out toward you, then fade
+    var q2 = rectOf(pulling), p = 1 - busy / .3, sc = 1 + p * .35;
+    ctx.save(); ctx.globalAlpha = 1 - p; ctx.translate(q2.x + q2.w / 2, q2.y + q2.h / 2 - p * L.rh * .6); ctx.scale(sc, sc);
+    crystal(-q2.w / 2, -q2.h / 2, q2.w, q2.h, pulling, '#5ff3e8'); ctx.restore();
+  }
+  // platform + guardian (unless it has already fallen)
+  if (!guard && state !== 'falling') {
+    var top = sway(CC.ROWS), px = L.x0 + top - L.cw * .15, pw = L.cw * 6.3;
+    var pg = ctx.createLinearGradient(0, L.capY, 0, L.capY + L.capH); pg.addColorStop(0, '#ffffff'); pg.addColorStop(1, '#c9b3ff');
+    ctx.fillStyle = pg; MMC.rr(ctx, px, L.capY, pw, L.capH, L.capH / 2); ctx.fill();
+    ctx.strokeStyle = 'rgba(95,243,232,.8)'; ctx.lineWidth = 1.5; ctx.stroke();
+    var lean = reduce ? 0 : (sway(CC.ROWS) - sway(CC.ROWS - 3)) * .03;
+    penguin(L.x0 + 3 * L.cw + top, L.capY + 1, Math.min(L.cw * 1.25, 62), lean, wobShow > 75 && mood === 'calm' ? 'nervous' : mood);
+  }
+  debris.forEach(function (d) {
+    ctx.save(); ctx.translate(d.x, d.y); ctx.rotate(d.rot);
+    if (d.kind === 'cap') { ctx.fillStyle = '#e9dcff'; MMC.rr(ctx, -d.w / 2, -d.h / 2, d.w, d.h, d.h / 2); ctx.fill(); }
+    else crystal(-d.w / 2, -d.h / 2, d.w, d.h, d.b, null);
+    ctx.restore();
+  });
+  if (guard) penguin(guard.x, guard.y, Math.min(L.cw * 1.25, 62), guard.rot, 'nervous');
+  bits.draw(ctx);
+  msgs.forEach(function (m) {
+    ctx.globalAlpha = Math.min(1, m.life);
+    if (m.big) { ctx.font = '900 18px Orbitron, sans-serif'; ctx.textAlign = 'center'; ctx.lineWidth = 4; ctx.strokeStyle = '#131c3f'; ctx.strokeText(m.txt, m.x, m.y); ctx.fillStyle = m.col; ctx.fillText(m.txt, m.x, m.y); }
+    else { ctx.lineWidth = 3; ctx.strokeStyle = '#131c3f'; ctx.font = '11px Silkscreen, monospace'; ctx.textAlign = 'center'; ctx.strokeText(m.txt, m.x, m.y); MMC.label(ctx, m.txt, m.x, m.y, m.col, 11); }
+  });
+  ctx.globalAlpha = 1;
+  if (state === 'falling' && endT > .3) MMC.bigText(ctx, endInfo && endInfo.why === 'empty' ? 'PERFECT!' : 'CRYSTAL CHAOS!', W / 2, H * .38, Math.min(42, W / 12.5), '#5ff3e8');
+  if (state === 'play' || state === 'paused' || state === 'falling') hud();
+  if (state === 'play') tip();
+  if (state === 'play' && pulls === 0 && !sel) MMC.label(ctx, 'TAP A CRYSTAL TO PICK IT', W / 2, L.baseTop + 26, '#fff', 11);
+}
+
+stats();
+MMC.loop(function (dt) { if (state !== 'paused') step(dt); draw(); });
+window.__cc = { CC: CC, get state() { return state; }, get rows() { return rows; }, get wob() { return wob; }, get score() { return score; }, get pulls() { return pulls; },
+  choose: choose, rectOf: rectOf, get L() { return L; }, get sel() { return sel; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+<script src="mm-subscribe.js?v=3" defer></script>
+</body>
+</html>
