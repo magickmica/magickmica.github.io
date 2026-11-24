@@ -177,6 +177,19 @@
   // one highlighted call-to-action button beside Menu, on every screen size
   var CTA = ['academy/', 'AI Academy'];
 
+  // "Start here" tiles at the top of the Menu drawer: [href, label, emoji, blurb].
+  // These pages are left out of the folded groups below so nothing repeats.
+  var FEATURED = [
+    ['articles.html', 'Articles', '\ud83d\udcf0', 'Long reads'],
+    ['notes.html', 'Notes', '\u2709\ufe0f', 'Every note'],
+    ['minimags.html', 'Y3K Magazine', '\ud83d\udcd6', 'The mini mags'],
+    ['explore/', 'Explore', '\ud83d\udd2d', 'Wander the notes'],
+    ['academy/', 'AI Academy', '\ud83c\udf93', 'Learn AI, free'],
+    ['arcade.html', 'The Arcade', '\ud83c\udfaa', 'Circus games'],
+    ['crystals.html', 'Crystals', '\ud83d\udc8e', 'The shop'],
+    ['archive.html', 'Archive', '\ud83d\uddc2\ufe0f', 'Everything, by date']
+  ];
+
   var CSS = ''
     + '.mm-bar{position:sticky;top:0;z-index:9000;display:flex;align-items:center;gap:10px;'
     +   'padding:9px 14px;background:rgba(7,6,14,.93);backdrop-filter:blur(9px);'
@@ -213,14 +226,36 @@
     +   'backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}'
     + '.mm-sheet{position:absolute;top:0;right:0;bottom:0;width:min(400px,88vw);'
     +   'background:#0b0818;border-left:1px solid rgba(255,68,204,.3);'
-    +   'overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 18px 40px;'
+    +   'overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 18px 40px;'
     +   'box-shadow:-14px 0 44px rgba(0,0,0,.6);}'
     + '.mm-sheet-top{display:flex;align-items:center;justify-content:space-between;'
-    +   'margin-bottom:14px;position:sticky;top:0;background:#0b0818;padding:4px 0 10px;}'
+    +   'margin-bottom:14px;position:sticky;top:0;z-index:1;background:#0b0818;padding:20px 0 10px;}'
     + '.mm-close{background:transparent;border:1px solid rgba(184,176,212,.34);color:#b8b0d4;'
     +   'border-radius:999px;width:40px;height:40px;font-size:17px;cursor:pointer;line-height:1;}'
     + '.mm-close:hover{border-color:#ffd166;color:#ffd166}'
     + '.mm-sec{margin:0 0 18px}'
+    + '.mm-label{margin:0 0 9px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;'
+    +   'color:#6f6890;font-weight:500;font-family:inherit;}'
+    + '.mm-feat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 22px}'
+    + '.mm-feat a{display:grid;grid-template-columns:auto 1fr;column-gap:9px;align-items:center;'
+    +   'padding:10px 11px;border-radius:12px;'
+    +   'text-decoration:none;background:rgba(255,255,255,.035);border:1px solid rgba(184,176,212,.16);}'
+    + '.mm-feat a:hover,.mm-feat a:focus-visible{border-color:rgba(255,68,204,.6);background:rgba(255,68,204,.1)}'
+    + '.mm-feat a[aria-current="page"]{border-color:#ffd166;background:rgba(255,209,102,.1)}'
+    + '.mm-feat i{grid-row:span 2;font-style:normal;font-size:20px;line-height:1}'
+    + '.mm-feat b{font-size:13.5px;font-weight:700;color:#fff;line-height:1.2}'
+    + '.mm-feat small{font-size:11px;color:#8f88ad;line-height:1.3}'
+    + '.mm-grp{border-top:1px solid rgba(184,176,212,.14)}'
+    + '.mm-grp:last-of-type{border-bottom:1px solid rgba(184,176,212,.14)}'
+    + '.mm-grp summary{list-style:none;display:flex;align-items:center;gap:10px;cursor:pointer;'
+    +   'padding:14px 2px;font-size:14px;color:#d9d2ee;min-height:24px;}'
+    + '.mm-grp summary::-webkit-details-marker{display:none}'
+    + '.mm-grp summary:hover{color:#fff}'
+    + '.mm-grp summary em{font-style:normal;font-size:11px;color:#6f6890;margin-left:auto}'
+    + '.mm-grp summary:after{content:"+";width:18px;text-align:center;color:#ff44cc;font-size:17px}'
+    + '.mm-grp[open] summary:after{content:"\\2212"}'
+    + '.mm-grp .mm-sec{margin:0 0 12px}'
+    + '.mm-grp .mm-sec a{padding:9px 12px;font-size:13.5px;color:#b8b0d4}'
     + '.mm-sec h3{margin:0 0 7px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;'
     +   'color:#6f6890;font-weight:500;font-family:inherit;}'
     + '.mm-sec a{display:block;padding:11px 12px;margin:0 -12px;border-radius:9px;'
@@ -368,11 +403,43 @@
     card.appendChild(el('span', null, 'Subscribe on Substack \u2197'));
     sheet.appendChild(card);
 
+    /* "Start here": the handful of pages most visitors want, as tiles */
+    var featHrefs = {};
+    if (FEATURED.length) {
+      sheet.appendChild(el('h3', 'mm-label', 'Start here'));
+      var grid = el('div', 'mm-feat');
+      FEATURED.forEach(function (f) {
+        featHrefs[f[0]] = 1;
+        var a = link(f[0], '');
+        a.textContent = '';
+        var ic = el('i', null, f[2] || '\u2726');
+        ic.setAttribute('aria-hidden', 'true');
+        a.appendChild(ic);
+        a.appendChild(el('b', null, f[1]));
+        if (f[3]) a.appendChild(el('small', null, f[3]));
+        grid.appendChild(a);
+      });
+      sheet.appendChild(grid);
+      sheet.appendChild(el('h3', 'mm-label', 'Everything else'));
+    }
+
+    /* the full directory, one folded group per section; the group that
+       holds the page you are on opens by itself */
     SECTIONS.forEach(function (sec) {
+      var items = sec.items.filter(function (it) { return !featHrefs[it[0]]; });
+      if (!items.length) return;
+      var grp = el('details', 'mm-grp');
+      var sum = el('summary', null, sec.name);
+      sum.appendChild(el('em', null, String(items.length)));
+      grp.appendChild(sum);
       var box = el('div', 'mm-sec');
-      box.appendChild(el('h3', null, sec.name));
-      sec.items.forEach(function (it) { box.appendChild(link(it[0], it[1])); });
-      sheet.appendChild(box);
+      items.forEach(function (it) {
+        var a = link(it[0], it[1]);
+        if (a.getAttribute('aria-current')) grp.open = true;
+        box.appendChild(a);
+      });
+      grp.appendChild(box);
+      sheet.appendChild(grp);
     });
 
     drawer.appendChild(scrim);
