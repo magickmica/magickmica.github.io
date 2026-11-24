@@ -18,6 +18,10 @@ What goes where (edit PAGES / GLOBS below to change it):
   broadcasts, almanac, signal    end-of-page banner (signal theme)
   academy/, desktop/             a "Subscribe" button on the MagickOS taskbar
 
+Boxes on long pages (archive, magazine, issues, tape shelf, galleries) are
+moved up into the page's grid by mm-subscribe.js (the after= setting below),
+after the first couple of rows, instead of waiting by the footer.
+
 Safe to run any number of times: a page that already has a box is left alone,
 and a page whose layout has changed so the spot can't be found is skipped and
 reported, never guessed at. update_all.py runs it at the end of every site
@@ -31,7 +35,7 @@ import sys
 SUB_URL = ("https://magickmica.substack.com/subscribe?utm_source=magickmica.github.io"
            "&utm_medium=site&utm_campaign=subscribe-box&utm_content=")
 FALLBACK = '<a href="https://magickmica.substack.com/subscribe">Subscribe to Magick Mica TV on Substack</a>'
-VERSION = "2"
+VERSION = "3"
 
 # Anchor shortcuts
 FOOTER = "<footer"                          # the page's last <footer> outside any <script>
@@ -55,15 +59,15 @@ PAGES = {
                            sub="Subscribe free and my new articles land in your inbox. New circus games and prizes get announced in my Notes."),
     "winter-carnival.html": dict(theme="circus", anchors=[PRIZES], art="❄️",
                                  eyebrow="❄ WINTER CARNIVAL · FREE"),
-    "ticket-booth.html": dict(theme="circus", anchors=[PRIZES], art="🎟️"),
+    "ticket-booth.html": dict(theme="circus", anchors=[PRIZES], art="🎟️", after="#grid"),
 
     # explore the notes
     "explore/index.html": dict(theme="archive", anchors=[EXPLORE_FOOT]),
     "explore/hall.html": dict(theme="archive", anchors=[EXPLORE_FOOT]),
-    "explore/gallery.html": dict(theme="archive", anchors=[EXPLORE_FOOT], art="🖼️"),
+    "explore/gallery.html": dict(theme="archive", anchors=[EXPLORE_FOOT], art="🖼️", after="#wall"),
     "explore/book.html": dict(theme="archive", anchors=[EXPLORE_FOOT], art="📖"),
-    "explore/themes.html": dict(theme="archive", anchors=[EXPLORE_FOOT]),
-    "explore/tapes.html": dict(theme="tapes", anchors=[EXPLORE_FOOT]),
+    "explore/themes.html": dict(theme="archive", anchors=[EXPLORE_FOOT], after="#wall"),
+    "explore/tapes.html": dict(theme="tapes", anchors=[EXPLORE_FOOT], after="#shelves", rows=1, min=1),
     "explore/player.html": dict(theme="tapes", anchors=[EXPLORE_FOOT], art="📺",
                                 eyebrow="● LIVE · CHANNEL MAGICK MICA",
                                 title="Never miss a new episode"),
@@ -71,11 +75,11 @@ PAGES = {
     "explore/sky.html": dict(theme="sky", anchors=[EXPLORE_FOOT]),
 
     # reading
-    "archive.html": dict(theme="archive", anchors=[FOOTER]),
+    "archive.html": dict(theme="archive", anchors=[FOOTER], after="#grid"),
     "articles.html": dict(theme="archive", anchors=[FOOTER], art="📜",
                           eyebrow="✦ EVERY ARTICLE, FIRST", title="Read the next one the day it's published"),
-    "minimags.html": dict(theme="y3k", anchors=[FOOTER]),
-    "newsstand.html": dict(theme="y3k", anchors=[FOOTER], art="🗞️"),
+    "minimags.html": dict(theme="y3k", anchors=[FOOTER], after="#wGrid"),
+    "newsstand.html": dict(theme="y3k", anchors=[FOOTER], art="🗞️", after="section.rack"),
     "random-note.html": dict(theme="signal", anchors=[FOOTER], art="📺"),
     "tv-notes.html": dict(theme="signal", anchors=[FOOTER], art="📺"),
     "sasquatch-gazette.html": dict(theme="y3k", anchors=['<footer class="colophon"'], art="🦶",
@@ -87,8 +91,8 @@ PAGES = {
 
 # Every page matching these gets the same treatment (only if it exists).
 GLOBS = [
-    ("week-*.html", dict(theme="y3k", anchors=[FOOTER])),
-    ("month-*.html", dict(theme="y3k", anchors=[FOOTER])),
+    ("week-*.html", dict(theme="y3k", anchors=[FOOTER], after=".timeline", rows=10, min=10)),
+    ("month-*.html", dict(theme="y3k", anchors=[FOOTER], after=".timeline", rows=10, min=10)),
     ("*-broadcast.html", dict(theme="signal", anchors=[FOOTER])),
 ]
 for _p in ("glitter-transmission", "galactic-dessert-issue", "stargazer-june-2026", "starseed-chronicles",
@@ -122,9 +126,34 @@ def box(cfg):
         if cfg.get(k):
             v = cfg[k].replace("&", "&amp;").replace('"', "&quot;")
             attrs.append(f'data-{k}="{v}"')
+    attrs += place_attrs(cfg)
     if cfg.get("style"):
         attrs.append(f'style="{cfg["style"]}"')
     return f'<div {" ".join(attrs)}>{FALLBACK}</div>'
+
+
+def place_attrs(cfg):
+    """data-after / data-rows / data-min: move the box up into that grid (see mm-subscribe.js)."""
+    if not cfg.get("after"):
+        return []
+    out = [f'data-after="{cfg["after"]}"']
+    if cfg.get("rows"):
+        out.append(f'data-rows="{cfg["rows"]}"')
+    if cfg.get("min") is not None:
+        out.append(f'data-min="{cfg["min"]}"')
+    return out
+
+
+def upgrade_box(page, cfg):
+    """A page that already has its box gets the placement attributes added, once."""
+    extra = place_attrs(cfg)
+    if not extra:
+        return page, False
+    m = re.search(r'<div data-mm-subscribe="[^"]*"[^>]*>', page)
+    if not m or "data-after=" in m.group(0):
+        return page, False
+    tag = m.group(0)[:-1] + " " + " ".join(extra) + ">"
+    return page[:m.start()] + tag + page[m.end():], True
 
 
 def script_spans(page):
@@ -176,6 +205,8 @@ def patch_box(repo, rel, cfg, report):
         else:
             report["skipped"].append(rel)
             return
+    else:
+        page, c = upgrade_box(page, cfg); changed |= c
     page, c = add_script(page, rel); changed |= c
     page, c = bump_version(page); changed |= c
     if changed:

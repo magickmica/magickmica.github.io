@@ -1,4 +1,4 @@
-/* MAGICKMICA - mm-subscribe.js  (v2, 24 Nov 2026)
+/* MAGICKMICA - mm-subscribe.js  (v3, 24 Nov 2026)
  * Every Substack subscribe call-to-action on the site, from one file.
  *
  * Put a placeholder where a box should go, and load this file once:
@@ -12,6 +12,15 @@
  * Banner themes (data-theme): signal (default), circus, tapes, sky, y3k, archive.
  * Each theme has its own wording in THEMES below; a page can override it with
  * data-eyebrow / data-title / data-sub / data-button / data-art on the placeholder.
+ *
+ * Moving a box up into the page:
+ *   data-after="#grid" data-rows="2"
+ *     puts the box inside that grid or list, after its first 2 rows (6 cards on
+ *     a 3-column desktop, 4 on a phone). Rows are counted from the live layout,
+ *     so it holds at any width, and it follows the grid when the page redraws it
+ *     (filters, searches). If there are too few cards, the box stays where it
+ *     was put in the page. data-min="4" (the default) is the fewest cards
+ *     shown before the box, so a one-column phone layout still shows a few.
  *
  * Other options on any placeholder:
  *   data-pub="art"     point it at Magick Mica Art instead of Magick Mica TV
@@ -219,7 +228,10 @@
     "background:rgba(0,0,0,.3);color:#ddd;cursor:pointer;font-size:14px;line-height:1}",
     ".mmsub-later{background:none;border:0;color:#a59cc4;font:inherit;font-size:11px;cursor:pointer;padding:8px 0 0;text-decoration:underline}",
     "@media (max-width:480px){.mmsub-pop{right:12px;left:12px;bottom:12px;width:auto}}",
-    "@media (prefers-reduced-motion:reduce){.mmsub-pop{transition:none}}"
+    "@media (prefers-reduced-motion:reduce){.mmsub-pop{transition:none}}",
+    /* a box moved up into a grid spans the full row and drops its own gutters */
+    ".mmsub-ingrid{grid-column:1 / -1;column-span:all;min-width:0;width:100%;flex:1 1 100%;list-style:none}",
+    ".mmsub-ingrid .mmsub-wrap{max-width:none;margin:10px 0;padding:0}"
   ].join("");
 
   function esc(s) {
@@ -355,6 +367,56 @@
     wire(box);
   }
 
+  /* ---------- moving a box up into the page ---------- */
+  function placeInGrid(el) {
+    var grid = document.querySelector(el.getAttribute("data-after"));
+    if (!grid) return;
+    var rows = parseInt(el.getAttribute("data-rows"), 10) || 2;
+    var items = [].filter.call(grid.children, function (k) {
+      return k !== el && !k.hasAttribute("data-mm-subscribe") && !k.classList.contains("mms-wrap") &&
+        k.offsetParent !== null && k.offsetHeight > 0;
+    });
+    var cols = 1;
+    if (items.length) {
+      var top0 = items[0].offsetTop, left0 = items[0].offsetLeft;
+      cols = items.filter(function (k) { return k.offsetTop === top0; }).length || 1;
+      // CSS columns (masonry) stack down, not across: count the columns instead
+      if (cols === 1 && items.length > 1 && items[1].offsetLeft !== left0)
+        cols = items.filter(function (k) { return k.offsetLeft !== left0; }).length ? 2 : 1;
+    }
+    var min = parseInt(el.getAttribute("data-min"), 10);
+    var after = Math.max(cols * rows, isNaN(min) ? 4 : min);
+    var mark = el.__mmsubMark;
+    if (items.length > after) {
+      if (el.parentNode === grid && el.nextElementSibling === items[after]) return;
+      el.classList.add("mmsub-ingrid");
+      el.__mmsubMoving = true;
+      grid.insertBefore(el, items[after]);
+      el.__mmsubMoving = false;
+    } else if (mark && mark.parentNode && el.previousSibling !== mark) {
+      el.classList.remove("mmsub-ingrid");
+      el.__mmsubMoving = true;
+      mark.parentNode.insertBefore(el, mark.nextSibling);
+      el.__mmsubMoving = false;
+    }
+  }
+
+  function setupPlace(el) {
+    if (!el.getAttribute("data-after")) return;
+    el.__mmsubMark = document.createComment(" subscribe box home ");
+    el.parentNode.insertBefore(el.__mmsubMark, el);
+    var t = null;
+    var later = function () { clearTimeout(t); t = setTimeout(function () { placeInGrid(el); }, 60); };
+    placeInGrid(el);
+    window.addEventListener("load", later);
+    window.addEventListener("resize", later);
+    var grid = document.querySelector(el.getAttribute("data-after"));
+    if (grid && window.MutationObserver) {
+      new MutationObserver(function () { if (!el.__mmsubMoving) later(); })
+        .observe(grid, { childList: true });
+    }
+  }
+
   /* ---------- after-game prompt ---------- */
   var popTimer = null;
 
@@ -432,7 +494,7 @@
       document.head.appendChild(st);
     }
     var els = document.querySelectorAll("[data-mm-subscribe]");
-    for (var i = 0; i < els.length; i++) render(els[i]);
+    for (var i = 0; i < els.length; i++) { render(els[i]); setupPlace(els[i]); }
     hookPrizes(0);
   }
 
