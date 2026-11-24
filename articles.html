@@ -474,31 +474,39 @@ function render() {
   placeStore();
 }
 
-/* The shop strip is built by mm-store.js, which drops it at the foot of the
-   page. On this page it reads better two rows into the articles, so it is
-   moved into the grid itself. render() wipes the grid on every filter, so
-   this runs again each time and the strip is re-inserted rather than lost.
-   The row count is read from the live grid, so "two rows" holds at any
-   width — three columns on a desktop, one on a phone. */
-function placeStore() {
+/* Two boxes live inside the article grid rather than at the foot of the page:
+   the Substack subscribe box (mm-subscribe.js) two rows in, and the shop strip
+   (mm-store.js) five rows in, so the two never sit on top of each other.
+   render() wipes the grid on every filter, so this runs again each time and
+   the boxes are re-inserted rather than lost. The row count is read from the
+   live grid, so "two rows" holds at any width: three columns on a desktop,
+   one on a phone. When a search leaves too few articles, a box falls back to
+   its old spot just above the footer. */
+function placeInGrid(el, rows) {
   var grid = document.getElementById('magGrid');
-  var strip = window.__mmsStrip || document.querySelector('.mms-wrap');
-  if (!grid || !strip) return;
-  window.__mmsStrip = strip;
+  if (!grid || !el) return;
   var cards = grid.querySelectorAll('.mag-card');
   var cols = (getComputedStyle(grid).gridTemplateColumns.match(/px/g) || []).length || 1;
-  var after = Math.max(cols * 2, 4);
+  var after = Math.max(cols * rows, rows * 2);
   if (cards.length > after) {
-    strip.style.gridColumn = '1 / -1';
-    strip.style.margin = '1.4rem auto';
-    grid.insertBefore(strip, cards[after]);
+    el.style.gridColumn = '1 / -1';
+    el.style.minWidth = '0';
+    el.style.margin = el.hasAttribute('data-mm-subscribe') ? '.4rem 0' : '1.4rem auto';
+    grid.insertBefore(el, cards[after]);
   } else {
-    strip.style.gridColumn = '';
-    strip.style.margin = '';
+    el.style.gridColumn = '';
+    el.style.margin = '';
     var foot = document.querySelector('footer');
-    if (foot && foot.parentNode) foot.parentNode.insertBefore(strip, foot);
+    if (foot && foot.parentNode) foot.parentNode.insertBefore(el, foot);
   }
 }
+function placeStore() {
+  var sub = window.__mmSub || document.querySelector('[data-mm-subscribe]');
+  if (sub) { window.__mmSub = sub; placeInGrid(sub, 2); }
+  var strip = window.__mmsStrip || document.querySelector('.mms-wrap');
+  if (strip) { window.__mmsStrip = strip; placeInGrid(strip, 5); }
+}
+document.addEventListener('DOMContentLoaded', placeStore);
 window.addEventListener('load', placeStore);
 var mmsT;
 window.addEventListener('resize', function () {
