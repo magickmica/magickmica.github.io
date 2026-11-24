@@ -20,26 +20,107 @@
 <link rel="stylesheet" href="../archive.css?v=1">
 <link rel="stylesheet" href="explore.css?v=1">
 <style>
-.hub-stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:var(--ar-s3); margin:var(--ar-s5) 0 var(--ar-s6); padding:0; list-style:none}
-.hub-stats li{padding:var(--ar-s4); border-radius:var(--ar-r); border:1px solid var(--ar-line); background:var(--ar-surface)}
-.hub-stats b{display:block; font-family:var(--ar-font-display); font-weight:500; font-size:var(--ar-fs-xl); font-variant-numeric:tabular-nums}
+/* stats: one slim panel instead of six big boxes */
+.hub-stats{display:grid; grid-template-columns:repeat(6,1fr); margin:var(--ar-s5) 0 var(--ar-s6); padding:0; list-style:none;
+  border:1px solid var(--ar-line); border-radius:var(--ar-r); background:var(--ar-surface); overflow:hidden}
+.hub-stats li{padding:var(--ar-s4) var(--ar-s4); border-left:1px solid var(--ar-line)}
+.hub-stats li:first-child{border-left:0}
+.hub-stats b{display:block; font-family:var(--ar-font-display); font-weight:500; font-size:clamp(1.05rem,1.9vw,1.5rem); font-variant-numeric:tabular-nums; white-space:nowrap}
 .hub-stats span{font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); text-transform:uppercase; letter-spacing:.08em; color:var(--ar-text-muted)}
+
+/* Reader 98 spotlight */
+.hub-spot{position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:var(--ar-s6); align-items:center;
+  padding:var(--ar-s6); border-radius:var(--ar-r-lg); overflow:hidden; isolation:isolate;
+  background:radial-gradient(80% 120% at 100% 0%,rgba(255,122,217,.20),transparent 60%),
+             radial-gradient(70% 100% at 0% 100%,rgba(95,242,230,.14),transparent 60%),
+             linear-gradient(140deg,#1d1f5a,#120f33 60%,#0a0d1c);
+  border:1px solid var(--ar-line-strong); box-shadow:var(--ar-glow),var(--ar-shadow)}
+.hub-spot::before{content:""; position:absolute; inset:0 0 auto; height:3px; background:var(--ar-holo); z-index:-1}
+.hub-spot__eyebrow{display:inline-flex; gap:var(--ar-s2); align-items:center; font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs);
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ar-aqua); margin:0 0 var(--ar-s3)}
+.hub-spot__eyebrow i{font-style:normal; padding:2px 8px; border-radius:var(--ar-r-pill); background:var(--ar-pink); color:var(--ar-text-on-accent); font-weight:700}
+.hub-spot__title{font-family:var(--ar-font-display); font-weight:700; font-size:clamp(1.6rem,3.4vw,2.5rem); line-height:1.08; margin:0 0 var(--ar-s3)}
+.hub-spot__title em{font-style:normal; background:var(--ar-holo); -webkit-background-clip:text; background-clip:text; color:transparent}
+.hub-spot__desc{margin:0 0 var(--ar-s4); color:var(--ar-text-muted); max-width:46ch}
+.hub-spot__list{list-style:none; padding:0; margin:0 0 var(--ar-s5); display:flex; flex-wrap:wrap; gap:var(--ar-s2)}
+.hub-spot__list li{font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); letter-spacing:.04em; text-transform:uppercase;
+  padding:4px 10px; border:1px solid var(--ar-line-strong); border-radius:var(--ar-r-pill); color:var(--ar-text)}
+.hub-spot__cta{display:flex; flex-wrap:wrap; align-items:center; gap:var(--ar-s3) var(--ar-s4)}
+.hub-spot__cta .ar-btn--signal{min-height:52px; padding:0 var(--ar-s5); font-size:var(--ar-fs-base)}
+.hub-spot__cta .ar-meta{margin:0}
+.hub-spot__shot{display:block; position:relative; border-radius:var(--ar-r); overflow:hidden; transform:rotate(1.2deg);
+  box-shadow:0 0 0 1px rgba(255,255,255,.12),0 18px 50px rgba(0,0,0,.6),0 0 40px rgba(255,122,217,.18);
+  transition:transform var(--ar-t-slow) var(--ar-ease)}
+.hub-spot__shot img{display:block; width:100%; height:auto}
+.hub-spot__shot:hover{transform:rotate(0) scale(1.015)}
+
+/* rooms */
 .hub-rooms{display:grid; gap:var(--ar-s4); grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
 .hub-room .ar-media{aspect-ratio:16/10}
 .hub-room .ar-media img{width:100%; height:100%; object-fit:cover; transition:transform var(--ar-t-slow) var(--ar-ease)}
 .hub-room:hover .ar-media img{transform:scale(1.03)}
-.hub-room__body{padding:var(--ar-s4) var(--ar-s5) var(--ar-s5); display:flex; flex-direction:column; gap:var(--ar-s2)}
+.hub-room__body{padding:var(--ar-s4) var(--ar-s5) var(--ar-s5); display:flex; flex-direction:column; gap:var(--ar-s2); flex:1}
 .hub-room__name{font-family:var(--ar-font-display); font-weight:500; font-size:var(--ar-fs-lg); margin:0}
 .hub-room__name a{color:var(--ar-text); text-decoration:none}
 .hub-room__desc{margin:0; color:var(--ar-text-muted)}
+.hub-room__go{margin-top:auto; padding-top:var(--ar-s2); font-family:var(--ar-font-mono); font-size:var(--ar-fs-xs); letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ar-link); transition:letter-spacing var(--ar-t) var(--ar-ease)}
+.hub-room:hover .hub-room__go{letter-spacing:.12em}
 .hub-room__num{position:absolute; right:12px; top:12px; z-index:2}
+.hub-room--reader{border-color:rgba(255,122,217,.55); box-shadow:0 0 0 1px rgba(255,122,217,.25),0 0 26px rgba(255,122,217,.16)}
+.hub-room--reader .hub-room__go{align-self:flex-start; padding:8px 14px; margin-top:auto; border-radius:var(--ar-r-pill); color:var(--ar-text-on-accent);
+  background:linear-gradient(100deg,var(--ar-aqua),var(--ar-cyan) 45%,var(--ar-iridescent-mist)); font-weight:700}
+.hub-room--reader .ar-media img{object-position:left top}
+
+/* drawn covers for the rooms that have no photo */
+.hub-art{position:relative; width:100%; height:100%; display:grid; place-items:center; overflow:hidden}
+.hub-art svg{position:absolute; inset:0; width:100%; height:100%}
+.hub-art--sky{background:radial-gradient(60% 70% at 50% 50%,rgba(150,103,186,.35),transparent 70%),#070a1a}
+.hub-art--stars{background:radial-gradient(70% 80% at 30% 20%,rgba(47,47,112,.9),transparent 70%),#060816}
+.hub-art--alm{background:radial-gradient(70% 80% at 70% 30%,rgba(255,207,112,.16),transparent 70%),linear-gradient(160deg,#1b2350,#0a0d1c)}
+.hub-cal{position:relative; width:118px; border-radius:10px; overflow:hidden; text-align:center; background:#f4eef8; color:#1a1640;
+  box-shadow:0 10px 30px rgba(0,0,0,.5); transform:rotate(-3deg)}
+.hub-cal b{display:block; padding:6px 0; font-family:var(--ar-font-mono); font-size:.72rem; letter-spacing:.14em; color:#fff;
+  background:linear-gradient(100deg,#9667ba,#ff7ad9)}
+.hub-cal strong{display:block; font-family:var(--ar-font-display); font-size:3rem; line-height:1.15; padding:4px 0 0}
+.hub-cal small{display:block; padding:0 0 8px; font-family:var(--ar-font-mono); font-size:.66rem; letter-spacing:.1em; color:#5146a2}
+
+.hub-random{margin:var(--ar-s6) 0 0; display:flex; flex-wrap:wrap; gap:var(--ar-s3); align-items:center;
+  padding:var(--ar-s5); border:1px dashed var(--ar-line-strong); border-radius:var(--ar-r)}
+.hub-random .ar-meta{margin:0}
 .hub-also{display:grid; gap:var(--ar-s3); grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); list-style:none; padding:0; margin:0}
-.hub-also a{display:flex; flex-direction:column; gap:4px; min-height:var(--ar-tap); padding:var(--ar-s4); border-radius:var(--ar-r); border:1px solid var(--ar-line);
+.hub-also a{display:flex; flex-direction:column; gap:4px; height:100%; min-height:var(--ar-tap); padding:var(--ar-s4); border-radius:var(--ar-r); border:1px solid var(--ar-line);
   background:var(--ar-surface); color:var(--ar-text); text-decoration:none}
 .hub-also a:hover{border-color:var(--ar-accent)}
 .hub-also small{color:var(--ar-text-muted); font-size:var(--ar-fs-sm)}
-.hub-random{margin:var(--ar-s6) 0 0; display:flex; flex-wrap:wrap; gap:var(--ar-s3); align-items:center}
-@media (prefers-reduced-motion:reduce){.hub-room:hover .ar-media img{transform:none}}
+
+@media (max-width:900px){
+  .hub-stats{grid-template-columns:repeat(3,1fr)}
+  .hub-stats li:nth-child(4){border-left:0}
+  .hub-stats li:nth-child(n+4){border-top:1px solid var(--ar-line)}
+  .hub-spot{grid-template-columns:1fr; gap:var(--ar-s5); padding:var(--ar-s5)}
+  .hub-spot__shot{order:-1; transform:none}
+}
+@media (max-width:620px){
+  .hub-stats li{padding:var(--ar-s3)}
+  .hub-stats b{font-size:1rem; white-space:normal}
+  .hub-stats span{font-size:.68rem}
+  .hub-spot{padding:var(--ar-s4)}
+  .hub-spot__cta .ar-btn--signal{width:100%}
+  /* rooms become compact rows: picture on the left, words on the right */
+  .hub-rooms{gap:var(--ar-s3)}
+  .hub-room{flex-direction:row}
+  .hub-room .ar-media{flex:0 0 112px; aspect-ratio:auto; min-height:0}
+  .hub-room__body{padding:var(--ar-s3) var(--ar-s4) var(--ar-s3) var(--ar-s3); gap:4px}
+  .hub-room__name{font-size:1rem}
+  .hub-room__desc{font-size:var(--ar-fs-sm); line-height:1.45; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+  .hub-room__num{top:8px; left:8px; right:auto; font-size:.62rem; padding:2px 6px}
+  .hub-cal{width:76px}
+  .hub-cal strong{font-size:1.9rem}
+  .hub-cal b,.hub-cal small{font-size:.58rem}
+  .hub-also{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:reduce){.hub-room:hover .ar-media img,.hub-spot__shot:hover{transform:none}.hub-spot__shot{transform:none}}
 </style>
 </head>
 <body class="ar-page mmx-page-index">
@@ -48,10 +129,27 @@
 <header class="ar-wrap mmx-head" id="mmx-head"></header>
 <main id="main" class="ar-wrap" tabindex="-1">
 <ul class="hub-stats" id="stats" aria-label="The archive in numbers"></ul>
-<h2 class="ar-h2 mmx-sect">Nine rooms to wander</h2>
+
+<section class="hub-spot" aria-labelledby="spot-title">
+  <div>
+    <p class="hub-spot__eyebrow"><i>New</i> Room 8 · Transmission Reader 98</p>
+    <h2 class="hub-spot__title" id="spot-title">Read every transmission like it&rsquo;s <em>1998</em></h2>
+    <p class="hub-spot__desc">The whole archive in a recovered late-90s mail reader. Pick a folder, sort by date or by love, and read each note in the preview pane.</p>
+    <ul class="hub-spot__list" aria-label="Inside the reader">
+      <li id="spot-count">Every note</li><li>Theme folders</li><li>Y3K issues</li><li>Sortable columns</li>
+    </ul>
+    <div class="hub-spot__cta">
+      <a class="ar-btn ar-btn--signal" href="../reader/">Open Reader 98 &rarr;</a>
+      <span class="ar-meta">Free · best on a computer, works on phones too</span>
+    </div>
+  </div>
+  <a class="hub-spot__shot" href="../reader/" tabindex="-1" aria-hidden="true"><img src="../reader/og-reader.png" alt="" width="1200" height="630" decoding="async"></a>
+</section>
+
+<div class="mmx-sect"><h2 class="ar-h2">Nine rooms to wander</h2><span class="ar-meta">Each room shows the same notes a different way</span></div>
 <div class="hub-rooms" id="rooms"></div>
 <div class="hub-random"><button type="button" class="ar-btn ar-btn--signal" id="rand">Tune into a random transmission</button>
-<span class="ar-meta">Opens a real note from anywhere in the archive</span></div>
+<span class="ar-meta">Not sure where to start? Opens a real note from anywhere in the archive.</span></div>
 <h2 class="ar-h2 mmx-sect">Elsewhere in the archive</h2>
 <ul class="hub-also">
   <li><a href="../notes.html"><b>All Notes</b><small>Search and filter every transmission</small></a></li>
@@ -86,31 +184,68 @@ MMX.ready(function (notes) {
 
   function top(list) { return list.slice().sort(function (a, b) { return b.l - a.l || a.id - b.id; })[0]; }
   var cosmic = tagged.filter(function (n) { return n.kind === 'image'; });
+  var today = new Date();
   var rooms = [
-    ['book.html', 'The Transmission Book', 'Every note bound as a book, one per page, a chapter for each month. ' + fmt(notes.length) + ' pages.', first.thumb ? first : top(imgs.slice(0, 50))],
-    ['gallery.html', 'The Gallery Wing', fmt(imgs.length) + ' images hung room by room, one room for each month.', top(imgs)],
-    ['tapes.html', 'The Tape Library', fmt(vids.length) + ' video notes, shelved as labelled tapes.', vids[vids.length - 1]],
-    ['sky.html', 'The Sky Map', 'Every note as a star in one spiral sky. The more loved, the brighter it shines.', null],
-    ['themes.html', 'Theme Rooms', fmt(Object.keys(tags).length) + ' rooms for the themes tagged by hand, from cosmic to y2k.', top(cosmic)],
-    ['hall.html', 'The Hall of Fame', 'The most-loved and most-restacked notes of all time, every year and every month.', top(notes.filter(function (n) { return n.img; }))],
-    ['../almanac/', 'The Y3K Almanac', 'A book of days: open any date and see what went out on it in every year. Opens on today.', null, '\u263D  ' + new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' }).toUpperCase()],
-    ['../reader/', 'Transmission Reader 98', 'The whole archive in a recovered late-90s mail reader: folders, sortable columns and a preview pane. Best on a computer.', null, '\u2709 INBOX'],
-    ['stars.html', 'The Daily Constellation', 'A new figure in the sky every month. One star lights up each night, and every star opens a transmission from its date.', null, '\u2727 TONIGHT\u2019S STAR']
+    ['book.html', 'The Transmission Book', 'Every note bound as a book, one per page, a chapter for each month. ' + fmt(notes.length) + ' pages.', first.thumb ? first : top(imgs.slice(0, 50)), 'Open the book'],
+    ['gallery.html', 'The Gallery Wing', fmt(imgs.length) + ' images hung room by room, one room for each month.', top(imgs), 'Walk the gallery'],
+    ['tapes.html', 'The Tape Library', fmt(vids.length) + ' video notes, shelved as labelled tapes.', vids[vids.length - 1], 'Browse the tapes'],
+    ['sky.html', 'The Sky Map', 'Every note as a star in one spiral sky. The more loved, the brighter it shines.', 'sky', 'Look up'],
+    ['themes.html', 'Theme Rooms', fmt(Object.keys(tags).length) + ' rooms for the themes tagged by hand, from cosmic to y2k.', top(cosmic), 'Pick a theme'],
+    ['hall.html', 'The Hall of Fame', 'The most-loved and most-restacked notes of all time, every year and every month.', top(notes.filter(function (n) { return n.img; })), 'See the favourites'],
+    ['../almanac/', 'The Y3K Almanac', 'A book of days: open any date and see what went out on it in every year. Opens on today.', 'alm', 'Open today’s page'],
+    ['../reader/', 'Transmission Reader 98', 'The whole archive in a recovered late-90s mail reader: folders, sortable columns and a preview pane.', 'reader', 'Open Reader 98 →'],
+    ['stars.html', 'The Daily Constellation', 'A new figure in the sky every month. One star lights up each night, and every star opens a transmission from its date.', 'stars', 'Find tonight’s star']
   ];
+
+  /* drawn covers for rooms that have no single photo */
+  function rnd(seed) { return function () { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }; }
+  function skyArt() {
+    var r = rnd(7), dots = '';
+    for (var i = 0; i < 260; i++) {
+      var t = i / 260 * Math.PI * 7, rad = 4 + i / 260 * 46, arm = i % 2 ? Math.PI : 0;
+      var x = 80 + Math.cos(t + arm) * rad * 1.5 + (r() - .5) * 6, y = 50 + Math.sin(t + arm) * rad * .9 + (r() - .5) * 5;
+      var big = r() > .93;
+      dots += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + (big ? 1.3 : .35 + r() * .5).toFixed(2) +
+        '" fill="' + (big ? '#ff7ad9' : r() > .5 ? '#8fd8ff' : '#eee8f2') + '" opacity="' + (.45 + r() * .55).toFixed(2) + '"/>';
+    }
+    return '<div class="hub-art hub-art--sky"><svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice">' + dots + '</svg></div>';
+  }
+  function starsArt() {
+    var r = rnd(19), bg = '';
+    for (var i = 0; i < 70; i++) bg += '<circle cx="' + (r() * 160).toFixed(1) + '" cy="' + (r() * 100).toFixed(1) + '" r="' + (.2 + r() * .4).toFixed(2) + '" fill="#d5c2dc" opacity=".6"/>';
+    var pts = [[34, 64], [52, 40], [76, 48], [96, 28], [120, 38], [112, 66], [86, 74]];
+    var line = pts.map(function (p) { return p.join(','); }).join(' ');
+    var stars = pts.map(function (p, i) {
+      return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + (i === 3 ? 3.2 : 1.8) + '" fill="' + (i === 3 ? '#5ff2e6' : '#eee8f2') + '"' +
+        (i === 3 ? ' style="filter:drop-shadow(0 0 4px #5ff2e6)"' : '') + '/>';
+    }).join('');
+    return '<div class="hub-art hub-art--stars"><svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice">' + bg +
+      '<polyline points="' + line + '" fill="none" stroke="#9667ba" stroke-width=".7" stroke-dasharray="2 1.5"/>' + stars + '</svg></div>';
+  }
+  function almArt() {
+    return '<div class="hub-art hub-art--alm"><div class="hub-cal"><b>' + today.toLocaleDateString('en-US', { month: 'short' }).toUpperCase() + '</b>' +
+      '<strong>' + today.getDate() + '</strong><small>' + today.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase() + '</small></div></div>';
+  }
+
   var box = document.getElementById('rooms');
   rooms.forEach(function (r, i) {
-    var n = r[3], el = document.createElement('article');
-    el.className = 'ar-card hub-room';
-    var media = n && n.thumb
-      ? '<div class="ar-media"><img src="' + esc(n.thumb) + '" alt="" loading="lazy" decoding="async"></div>'
-      : '<div class="ar-media ar-media--none" data-fallback="' + esc(r[4] || (r[0] === 'sky.html' ? '✦ · ✧ · ✦' : '')) + '"></div>';
+    var n = r[3], el = document.createElement('article'), media;
+    el.className = 'ar-card hub-room' + (n === 'reader' ? ' hub-room--reader' : '');
+    if (n === 'sky') media = '<div class="ar-media">' + skyArt() + '</div>';
+    else if (n === 'stars') media = '<div class="ar-media">' + starsArt() + '</div>';
+    else if (n === 'alm') media = '<div class="ar-media">' + almArt() + '</div>';
+    else if (n === 'reader') media = '<div class="ar-media"><img src="../reader/og-reader.png" alt="" loading="lazy" decoding="async"></div>';
+    else if (n && n.thumb) media = '<div class="ar-media"><img src="' + esc(n.thumb) + '" alt="" loading="lazy" decoding="async"></div>';
+    else media = '<div class="ar-media ar-media--none" data-fallback=""></div>';
     el.innerHTML = media + '<span class="ar-badge hub-room__num">Room ' + (i + 1) + '</span>' +
       '<div class="hub-room__body"><h3 class="hub-room__name"><a class="ar-card__link" href="' + r[0] + '">' + esc(r[1]) + '</a></h3>' +
-      '<p class="hub-room__desc">' + esc(r[2]) + '</p></div>';
+      '<p class="hub-room__desc">' + esc(r[2]) + '</p><span class="hub-room__go" aria-hidden="true">' + esc(r[4]) + (n === 'reader' ? '' : ' →') + '</span></div>';
     var im = el.querySelector('img');
     if (im) im.addEventListener('error', function () { im.parentNode.classList.add('ar-media--none'); im.remove(); });
     box.appendChild(el);
   });
+  var sc = document.getElementById('spot-count');
+  if (sc) sc.textContent = fmt(notes.length) + ' notes';
   document.getElementById('rand').addEventListener('click', function () {
     var n = MMArchive.random.pick(notes, function (x) { return x.id; });
     if (!n) return;
