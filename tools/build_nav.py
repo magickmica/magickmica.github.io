@@ -19,6 +19,9 @@ the Transmission Map, so the homepages stay in sync automatically.
 
 The "_primary" list is the row of links in the top bar on wide screens, and
 "_cta" is the one highlighted button beside Menu, shown on every screen size.
+"_featured" is the "Start here" tile grid at the top of the Menu drawer:
+   [ ["page.html", "Label", "emoji", "short blurb"], ... ]
+Those pages are left out of the folded groups below it so nothing repeats.
 
 Pages deliberately skipped (they are not menu items):
   google*.html            search-console verification stub
@@ -46,8 +49,15 @@ END   = '  /* ==== AUTO:SECTIONS end ==== */'
 def js_str(s):
     """JS string literal, ASCII-safe so the file stays encoding-proof."""
     out = s.replace('\\', '\\\\').replace("'", "\\'")
-    return "'" + ''.join(
-        c if 32 <= ord(c) < 127 else '\\u%04x' % ord(c) for c in out) + "'"
+    def esc(c):
+        n = ord(c)
+        if 32 <= n < 127:
+            return c
+        if n > 0xFFFF:   # emoji etc: JS needs a surrogate pair
+            n -= 0x10000
+            return '\\u%04x\\u%04x' % (0xD800 + (n >> 10), 0xDC00 + (n & 0x3FF))
+        return '\\u%04x' % n
+    return "'" + ''.join(esc(c) for c in out) + "'"
 
 
 def build_sections(nav):
@@ -68,6 +78,7 @@ def main():
     raw = json.load(open(DATA, encoding='utf-8'))
     primary = raw.get('_primary')
     cta = raw.get('_cta')
+    featured = raw.get('_featured')
     nav = {k: v for k, v in raw.items() if not k.startswith('_')}
     src = NAV.read_text(encoding='utf-8')
 
@@ -96,6 +107,15 @@ def main():
             sys.exit('could not find CTA in mm-nav.js')
         src = src[:m3.start()] + '  var CTA = [%s, %s];' % (js_str(cta[0]), js_str(cta[1])) + src[m3.end():]
         print('        top bar CTA: ' + cta[1])
+    if featured:
+        block4 = ('  var FEATURED = [\n'
+                  + ',\n'.join('    [' + ', '.join(js_str(x) for x in f) + ']' for f in featured)
+                  + '\n  ];')
+        m4 = re.search(r'  var FEATURED = \[.*?\n  \];', src, re.S)
+        if not m4:
+            sys.exit('could not find FEATURED in mm-nav.js')
+        src = src[:m4.start()] + block4 + src[m4.end():]
+        print('     drawer start here: ' + ' / '.join(f[1] for f in featured))
     NAV.write_text(src, encoding='utf-8')
     total = sum(len(v) for v in nav.values())
     print(f'mm-nav.js  ·  {len(nav)} groups, {total} links written from {DATA.name}')

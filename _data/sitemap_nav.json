@@ -33,6 +33,56 @@
     "academy/",
     "AI Academy"
   ],
+  "_featured": [
+    [
+      "articles.html",
+      "Articles",
+      "📰",
+      "Long reads"
+    ],
+    [
+      "notes.html",
+      "Notes",
+      "✉️",
+      "Every note"
+    ],
+    [
+      "minimags.html",
+      "Y3K Magazine",
+      "📖",
+      "The mini mags"
+    ],
+    [
+      "explore/",
+      "Explore",
+      "🔭",
+      "Wander the notes"
+    ],
+    [
+      "academy/",
+      "AI Academy",
+      "🎓",
+      "Learn AI, free"
+    ],
+    [
+      "arcade.html",
+      "The Arcade",
+      "🎪",
+      "Circus games"
+    ],
+    [
+      "crystals.html",
+      "Crystals",
+      "💎",
+      "The shop"
+    ],
+    [
+      "archive.html",
+      "Archive",
+      "🗂️",
+      "Everything, by date"
+    ]
+  ],
   "Read": [
     [
       "notes.html",
