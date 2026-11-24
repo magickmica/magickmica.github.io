@@ -71,6 +71,8 @@
       ['winter-carnival.html', 'Winter Carnival'],
       ['snowball-splat.html', 'Snowball Splat'],
       ['cocoa-catch.html', 'Cocoa Catch'],
+      ['sled-hill.html', 'Sled Hill'],
+      ['snowman-builder.html', 'Snowman Builder'],
       ['ferris-wheel.html', 'Cosmic Ferris Wheel'],
       ['six-in-one.html', 'Six-in-One'],
       ['witching-hour.html', 'The Witching Hour'],
