@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Crystal Chaos &middot; MagickMica</title>
-<meta name="description" content="A Magick Mica Winter Game at the Cosmic Circus: pull glowing crystal-ice blocks from a wobbly tower without dropping the little crystal penguin on top. Win holiday prizes for your shared prize shelf.">
+<meta name="description" content="A Magick Mica Winter Game at the Cosmic Circus: pull glowing crystal-ice blocks from a wobbly tower without dropping the little guardian on top. Three editions and five kinds of special crystals. Win holiday prizes for your shared prize shelf.">
 <link rel="canonical" href="https://magickmica.github.io/crystal-chaos.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Magick Mica">
@@ -40,6 +40,11 @@ canvas:focus-visible{outline:2px solid var(--aqua);outline-offset:-4px}
 .endStats span{font-family:Silkscreen,monospace;font-size:.62rem;letter-spacing:.1em;padding:6px 10px;border-radius:8px;background:rgba(47,47,112,.5);color:rgba(213,194,220,.8)}
 .endStats b{color:var(--gold);font-weight:400;margin-left:4px}
 .why{font-size:.76rem!important;color:var(--aqua)!important}
+.seg.ed button{font-size:.66rem;padding:9px 11px}
+.edNote{font-size:.74rem!important;margin:8px 0 0!important;color:var(--aqua)!important;min-height:1.2em}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.legend span{font-size:.7rem;padding:5px 9px;border-radius:999px;background:rgba(47,47,112,.4);border:1px solid rgba(213,194,220,.15);color:rgba(213,194,220,.85)}
+.legend b{font-weight:500;color:#fff}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (max-width:520px){.card p{font-size:.8rem}.go{font-size:.9rem;padding:12px 20px}.veil{padding:12px}}
 </style>
@@ -65,7 +70,14 @@ canvas:focus-visible{outline:2px solid var(--aqua);outline-offset:-4px}
         <div class="card">
           <p class="edition">MAGICK MICA WINTER GAMES</p>
           <h2>DON'T DROP THE GUARDIAN!</h2>
-          <p>A tiny crystal penguin is balancing on top of an ice tower. Pull out crystals one at a time and keep the tower standing as long as you can.</p>
+          <p>A tiny guardian is balancing on top of a crystal tower. Pull out crystals one at a time and keep the tower standing as long as you can.</p>
+          <div class="lbl">Edition</div>
+          <div class="seg ed" id="edSeg">
+            <button type="button" data-ed="iceberg" aria-pressed="true">🐧 Crystal Iceberg</button>
+            <button type="button" data-ed="meltdown" aria-pressed="false">👽 Cosmic Meltdown</button>
+            <button type="button" data-ed="haunted" aria-pressed="false">👻 Haunted Frost</button>
+          </div>
+          <p class="edNote" id="edNote"></p>
           <div class="lbl">How wobbly</div>
           <div class="seg" id="diffSeg">
             <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
@@ -126,6 +138,13 @@ canvas:focus-visible{outline:2px solid var(--aqua);outline-offset:-4px}
     </div>
     <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
   </div>
+  <div class="legend" aria-label="Special crystals">
+    <span><b>★ Stardust</b> +150 points</span>
+    <span><b>⚡ Plasma</b> calms the wobble</span>
+    <span><b>☾ Moon</b> a mystery surprise</span>
+    <span><b>◉ Alien</b> low gravity for 3 pulls</span>
+    <span><b>♥ Frozen Heart</b> +400, but extra wobble</span>
+  </div>
 
   <section class="shelf" aria-label="Your prize shelf">
     <h3>Your Prize Shelf</h3>
@@ -145,7 +164,16 @@ canvas:focus-visible{outline:2px solid var(--aqua);outline-offset:-4px}
     <li>Pull too much from one side and the tower <b>leans over</b>. Hollowing out the middle is safer than taking edges.</li>
     <li>Every pull fills the <b>wobble meter</b> a little. Risky pulls fill it a lot. When it's full, the tower falls.</li>
   </ul>
-  <b>Points:</b> 100 a crystal. Wobbly pull +50, very wobbly pull +150. <b>★ Stardust</b> crystals +150. Every 10 pulls +500.<br>
+  <b>Points:</b> 100 a crystal. Wobbly pull +50, very wobbly pull +150. Every 10 pulls +500.<br>
+  <b>Special crystals</b> are marked with a symbol:
+  <ul>
+    <li><b>★ Stardust:</b> +150 points.</li>
+    <li><b>⚡ Plasma:</b> +100, and the wobble meter drops by 15.</li>
+    <li><b>☾ Moon:</b> a mystery. Lucky points, a calmer tower, or new Stardust somewhere.</li>
+    <li><b>◉ Alien:</b> +100, and low gravity. Your next 3 pulls only wobble half as much.</li>
+    <li><b>♥ Frozen Heart:</b> +400 points, but it adds 10 extra wobble.</li>
+  </ul>
+  <b>Editions</b> change the guardian and the look. The rules are the same in all three.<br>
   <b>Keyboard:</b> arrow keys move, Enter or Space picks and pulls, Escape pauses.
 </template>
 
@@ -167,14 +195,14 @@ canvas:focus-visible{outline:2px solid var(--aqua);outline-offset:-4px}
    ===================================================================== */
 var CC = (function () {
   var COLS = 6, ROWS = 16, LOCK = 2;
-  function build(stardust) {
+  function build(specials) {
     var rows = [];
     for (var r = 0; r < ROWS; r++) {
       var spec = r % 2 === 0 ? [[0, 2], [2, 2], [4, 2]] : [[0, 1], [1, 2], [3, 2], [5, 1]];
-      rows.push(spec.map(function (s, i) { return { r: r, i: i, a: s[0], w: s[1], gone: false, star: false, hue: (r * 5 + i * 3 + (r >> 1)) % 6, seed: Math.random() * 1000 }; }));
+      rows.push(spec.map(function (s, i) { return { r: r, i: i, a: s[0], w: s[1], gone: false, sp: '', hue: (r * 5 + i * 3 + (r >> 1)) % 6, seed: Math.random() * 1000 }; }));
     }
     var pool = [].concat.apply([], rows).filter(function (b) { return b.r >= 2 && b.r < ROWS - LOCK; });
-    for (var n = 0; n < (stardust || 0) && pool.length; n++) pool.splice(Math.floor(Math.random() * pool.length), 1)[0].star = true;
+    (specials || []).forEach(function (kind) { if (pool.length) pool.splice(Math.floor(Math.random() * pool.length), 1)[0].sp = kind; });
     return rows;
   }
   function occ(row) { var c = [0, 0, 0, 0, 0, 0]; row.forEach(function (b) { if (!b.gone) for (var k = 0; k < b.w; k++) c[b.a + k] = 1; }); return c; }
@@ -249,7 +277,11 @@ document.querySelectorAll('.rulesBtn').forEach(function (b) {
 /* ===================================================================== game state */
 var DIFF = { easy: .7, normal: 1, wild: 1.35 }, diffKey = 'normal';
 var PRIZE = { small: 1000, medium: 1600, jumbo: 2400 };
-var state = 'menu', rows = CC.build(3), wob = 0, wobShow = 0, score = 0, pulls = 0, sel = null, pick = null, cursor = null;
+var SPECIALS = ['star', 'star', 'plasma', 'moon', 'alien', 'heart'];
+var SPNAME = { star: '★ STARDUST', plasma: '⚡ PLASMA', moon: '☾ MOON', alien: '◉ ALIEN', heart: '♥ FROZEN HEART' };
+var SPTIP = { star: '+150 POINTS', plasma: 'CALMS THE WOBBLE', moon: 'MYSTERY SURPRISE', alien: 'LOW GRAVITY ×3', heart: '+400 · EXTRA WOBBLE' };
+var lowG = 0;
+var state = 'menu', rows = CC.build(SPECIALS), wob = 0, wobShow = 0, score = 0, pulls = 0, sel = null, pick = null, cursor = null;
 var t = 0, busy = 0, pending = null, msgs = [], debris = [], settle = 0, mood = 'calm', moodT = 0, blinkT = 2, endT = 0, endInfo = null;
 var guard = null, lastA = CC.analyse(rows), flakes = [];
 for (var i = 0; i < 40; i++) flakes.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.6 + .5, v: Math.random() * .04 + .02, w: Math.random() * 6 });
@@ -264,8 +296,8 @@ function float(txt, x, y, col, big) { msgs.push({ txt: txt, x: x, y: y, col: col
 function all() { return [].concat.apply([], rows); }
 
 function newGame() {
-  rows = CC.build(3); wob = 0; wobShow = 0; score = 0; pulls = 0; sel = null; pick = null; cursor = null;
-  busy = 0; pending = null; msgs = []; debris = []; bits.list.length = 0; settle = 0; mood = 'calm'; guard = null; endInfo = null;
+  rows = CC.build(SPECIALS); wob = 0; wobShow = 0; score = 0; pulls = 0; sel = null; pick = null; cursor = null;
+  busy = 0; pending = null; msgs = []; debris = []; lowG = 0; bits.list.length = 0; settle = 0; mood = 'calm'; guard = null; endInfo = null;
   lastA = CC.analyse(rows); state = 'play'; pauseBtn.hidden = false;
   say('New tower. ' + countEligible() + ' crystals you can pull.');
 }
@@ -310,6 +342,11 @@ function risk(p) {
   if (p.g >= 6 * DIFF[diffKey]) return { t: 'WOBBLY', c: '#ffd166', lvl: 1 };
   return { t: 'STEADY', c: '#5ff3e8', lvl: 0 };
 }
+function forecast(b) {
+  var k = DIFF[diffKey], p = CC.tryPull(rows, b, k);
+  if (p.a.ok) { if (lowG > 0) p.g *= .5; p.extra = b.sp === 'heart' ? 10 * k : 0; }
+  return p;
+}
 function choose(b) {
   if (state !== 'play' || busy) return;
   if (!b) { sel = null; pick = null; return; }
@@ -320,9 +357,9 @@ function choose(b) {
     return;
   }
   if (sel === b) { pull(b); return; }
-  sel = b; cursor = b; pick = CC.tryPull(rows, b, DIFF[diffKey]); S.boot(); S.clink();
+  sel = b; cursor = b; pick = forecast(b); S.boot(); S.clink();
   var rk = risk(pick);
-  say('Picked a crystal in row ' + (b.r + 1) + '. ' + rk.t.toLowerCase() + (pick.fell.length ? ', and ' + pick.fell.length + ' crystal' + (pick.fell.length > 1 ? 's' : '') + ' above will slip' : '') + '. Pick it again to pull.');
+  say('Picked a ' + (b.sp ? SPNAME[b.sp].slice(2).toLowerCase() + ' ' : '') + 'crystal in row ' + (b.r + 1) + (b.sp ? ' (' + SPTIP[b.sp].toLowerCase() + ')' : '') + '. ' + rk.t.toLowerCase() + (pick.fell.length ? ', and ' + pick.fell.length + ' crystal' + (pick.fell.length > 1 ? 's' : '') + ' above will slip' : '') + '. Pick it again to pull.');
   if (rk.lvl === 2) { mood = 'nervous'; moodT = 1.2; }
 }
 cv.addEventListener('pointerdown', function (e) {
@@ -358,7 +395,7 @@ function pull(b) {
   busy = .3; pending = b; S.whoosh(); S.tone(1760, 0, .3, .08, 'sine'); S.tone(2637, .05, .35, .05, 'sine');
 }
 function resolvePull(b) {
-  var k = DIFF[diffKey], res = CC.tryPull(rows, b, k), rk = risk(res);
+  var k = DIFF[diffKey], res = forecast(b), rk = risk(res);
   var q = rectOf(b);
   b.gone = true; sel = null; pick = null;
   bits.sparkle(q.x + q.w / 2, q.y + q.h / 2, '#e8f0ff', reduce ? 6 : 14);
@@ -369,16 +406,29 @@ function resolvePull(b) {
   var a = CC.analyse(rows);
   if (a.ok && fell.some(function (f) { return f.r >= CC.ROWS - CC.LOCK; })) a = { ok: false, why: 'platform', row: CC.ROWS - CC.LOCK, side: 0, D: 1, lean: 0 };
   if (!a.ok) { collapse(a); return; }
-  wob += res.g; lastA = a;
+  if (lowG > 0) lowG--;
+  wob += res.g + (res.extra || 0); lastA = a;
   if (wob >= 100) { collapse({ ok: false, why: 'wobble', row: Math.floor(CC.ROWS * .35), side: a.lean < 0 ? -1 : 1 }); return; }
   pulls++; var pts = 100, notes = [];
   if (rk.lvl === 1) { pts += 50; notes.push('WOBBLY +50'); }
   if (rk.lvl === 2) { pts += 150; notes.push('DARING! +150'); }
-  if (b.star) { pts += 150; notes.push('★ STARDUST +150'); S.ding(true); bits.sparkle(q.x + q.w / 2, q.y, '#ffd166', 18); }
+  var sx = q.x + q.w / 2;
+  if (b.sp === 'star') { pts += 150; notes.push('★ STARDUST +150'); S.ding(true); bits.sparkle(sx, q.y, '#ffd166', 18); }
+  if (b.sp === 'plasma') { pts += 100; wob = Math.max(0, wob - 15); notes.push('⚡ PLASMA! WOBBLE −15'); S.tone(220, 0, .5, .1, 'sawtooth', 880); bits.sparkle(sx, q.y, '#b388ff', 18); bits.sparkle(sx, q.y, '#5ff3e8', 12); }
+  if (b.sp === 'alien') { pts += 100; lowG = 3; notes.push('◉ LOW GRAVITY ×3'); [660, 990, 1320].forEach(function (f, i) { S.tone(f, i * .08, .3, .08, 'sine', f * 1.5); }); bits.sparkle(sx, q.y, '#7dffc8', 18); }
+  if (b.sp === 'heart') { pts += 400; notes.push('♥ FROZEN HEART +400'); S.ding(false); S.ding(true); bits.sparkle(sx, q.y, '#e3d4ff', 20); }
+  if (b.sp === 'moon') {
+    var roll = Math.floor(Math.random() * 3), cand = all().filter(function (c) { return CC.eligible(c) && !c.sp; });
+    if (roll === 2 && !cand.length) roll = 0;
+    if (roll === 0) { pts += 300; notes.push('☾ LUCKY MOON +300'); }
+    else if (roll === 1) { pts += 100; wob = Math.max(0, wob - 10); notes.push('☾ CALM MOON · WOBBLE −10'); }
+    else { pts += 100; cand[Math.floor(Math.random() * cand.length)].sp = 'star'; notes.push('☾ MOON DUST · NEW ★ STARDUST'); }
+    S.bell(); bits.sparkle(sx, q.y, '#f4f4fb', 18);
+  }
   if (pulls % 10 === 0) { pts += 500; notes.push(pulls + ' PULLS! +500'); S.bell(); }
   score += pts;
   float('+' + pts, q.x + q.w / 2, q.y, '#fff', true);
-  notes.forEach(function (n, j) { float(n, L.W / 2, q.y - 22 - j * 18, n.charAt(0) === '★' ? '#ffd166' : '#5ff3e8'); });
+  notes.forEach(function (n, j) { float(n, L.W / 2, q.y - 22 - j * 18, /^[★☾⚡◉♥]/.test(n) ? '#ffd166' : '#5ff3e8'); });
   settle = 1;
   if (rk.lvl >= 1) { S.tone(110, 0, .55, .12, 'sawtooth', 70); mood = 'nervous'; moodT = 1.6; } else { mood = 'happy'; moodT = .9; }
   if (wob >= 70) { S.tone(196, .1, .8, .05, 'sine', 185); }
@@ -433,7 +483,8 @@ function end() {
     empty: 'You pulled every crystal you could. The guardian never even blinked!'
   }[a.why] || '';
   document.getElementById('endTitle').textContent = a.why === 'empty' ? 'PERFECT TOWER!' : 'CRYSTAL CHAOS!';
-  document.getElementById('endQuip').textContent = a.why === 'empty' ? 'Steadiest flippers in the cosmos.' : QUIPS[Math.floor(Math.random() * QUIPS.length)];
+  var qs = QUIPS.concat(ED().quips);
+  document.getElementById('endQuip').textContent = a.why === 'empty' ? ED().perfect : qs[Math.floor(Math.random() * qs.length)];
   document.getElementById('endWhy').textContent = why;
   document.getElementById('eScore').textContent = score;
   document.getElementById('ePulls').textContent = pulls;
@@ -457,7 +508,7 @@ function resume() { state = 'play'; pauseVeil.dataset.on = 'false'; pauseBtn.hid
 function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; pauseVeil.dataset.on = 'false'; newGame(); cv.focus({ preventScroll: true }); }
 function toMenu() {
   state = 'menu'; endVeil.dataset.on = 'false'; pauseVeil.dataset.on = 'false'; pauseBtn.hidden = true;
-  rows = CC.build(3); wob = 0; wobShow = 0; debris = []; guard = null; sel = null; pick = null; lastA = CC.analyse(rows);
+  rows = CC.build(SPECIALS); wob = 0; wobShow = 0; debris = []; guard = null; sel = null; pick = null; lastA = CC.analyse(rows);
   startVeil.dataset.on = 'true'; document.getElementById('startBtn').focus({ preventScroll: true });
 }
 pauseBtn.addEventListener('click', pause);
@@ -470,6 +521,13 @@ document.getElementById('againBtn').addEventListener('click', begin);
 document.getElementById('diffSeg').addEventListener('click', function (e) {
   var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
   this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+function markEd() {
+  document.querySelectorAll('#edSeg button').forEach(function (x) { x.setAttribute('aria-pressed', String(x.dataset.ed === edKey)); });
+  document.getElementById('edNote').textContent = ED().note;
+}
+document.getElementById('edSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; edKey = b.dataset.ed; st.data.ed = edKey; st.save(); markEd(); S.boot(); S.clink();
 });
 document.addEventListener('visibilitychange', function () { if (document.hidden) pause(); });
 
@@ -494,9 +552,55 @@ function step(dt) {
 }
 
 /* ===================================================================== drawing */
-var HUES = [['#a8ecff', '#4fb9e0'], ['#d6c2ff', '#8a6fe0'], ['#ffd0ea', '#e07ab8'], ['#a6fff0', '#3fc9b8'], ['#c4b4ff', '#6a5bd0'], ['#f2f6ff', '#9fb0e0']];
+/* three editions: same rules, different guardian, crystals and sky */
+var EDITIONS = {
+  iceberg: { name: 'Crystal Iceberg', short: 'ICEBERG', note: 'The signature edition: pastel crystals and a little crystal penguin.',
+    hues: [['#a8ecff', '#4fb9e0'], ['#d6c2ff', '#8a6fe0'], ['#ffd0ea', '#e07ab8'], ['#a6fff0', '#3fc9b8'], ['#c4b4ff', '#6a5bd0'], ['#f2f6ff', '#9fb0e0']],
+    base: ['#dff6ff', '#8fd8f0', '#2f2f70'], sea: 'rgba(81,70,162,.55)', aurora: ['#5ff3e8', '#9667ba'], cap: ['#ffffff', '#c9b3ff', 'rgba(95,243,232,.8)'],
+    guard: 'penguin', quips: [], perfect: 'Steadiest flippers in the cosmos.' },
+  meltdown: { name: 'Cosmic Meltdown', short: 'MELTDOWN', note: 'Neon plasma crystals with glowing energy cores, guarded by a tiny alien.',
+    hues: [['#ff8ae0', '#b0128a'], ['#9a8cff', '#3a1fd6'], ['#6ff6ec', '#1683a8'], ['#cf7bff', '#6b17c9'], ['#6a9bff', '#1c2fa8'], ['#ffa6da', '#d4277a']],
+    base: ['#ffc4ec', '#b257ff', '#1c1250'], sea: 'rgba(176,18,138,.35)', aurora: ['#ff4fa3', '#4f6bff'], cap: ['#ffe0f6', '#b388ff', 'rgba(255,79,163,.9)'],
+    guard: 'alien', core: true, quips: ['Total cosmic meltdown!', 'The alien would like a word with you.'], perfect: 'Not even a flicker of plasma. Out of this world!' },
+  haunted: { name: 'Haunted Frost', short: 'FROST', note: 'A moonlit ice palace at midnight, guarded by a friendly snow ghost.',
+    hues: [['#eef1f9', '#9aa4c0'], ['#cfd5ea', '#6c759a'], ['#ddd4f0', '#7d70a8'], ['#c6d8ec', '#5e7896'], ['#f4f5fb', '#b0b6cc'], ['#d3cce8', '#6a6290']],
+    base: ['#f4f6ff', '#aab3cf', '#1a1f3d'], sea: 'rgba(26,31,61,.7)', aurora: null, cap: ['#ffffff', '#c3c9de', 'rgba(232,240,255,.9)'],
+    guard: 'ghost', moon: true, quips: ['The ghost has drifted off into the night!', 'Boo! The palace came down.'], perfect: 'Spookily steady. The ghost is impressed.' }
+};
+var edKey = EDITIONS[st.data.ed] ? st.data.ed : 'iceberg';
+function ED() { return EDITIONS[edKey]; }
+var SPCOL = { plasma: ['#c9a6ff', '#3a2bd0'], moon: ['#fbfbff', '#a9b0c8'], alien: ['#c2ffe6', '#22b391'], heart: ['#f4ecff', '#a58fd6'] };
+function heartPath(cx, cy, s) {
+  ctx.beginPath(); ctx.moveTo(cx, cy + s * .9);
+  ctx.bezierCurveTo(cx - s * 1.6, cy - s * .2, cx - s * .6, cy - s * 1.3, cx, cy - s * .35);
+  ctx.bezierCurveTo(cx + s * .6, cy - s * 1.3, cx + s * 1.6, cy - s * .2, cx, cy + s * .9); ctx.closePath();
+}
+function specialMark(x, y, w, h, b) {
+  var cx = x + w / 2, cy = y + h / 2, m = Math.min(h * .34, 10);
+  if (b.sp === 'star') {
+    for (var k = 0; k < 4; k++) { MMC.star(ctx, x + w * (.2 + k * .2), y + h * (.3 + (k % 2) * .4), 2.2, 4, .4); ctx.fillStyle = '#fff8d6'; ctx.fill(); }
+    MMC.star(ctx, cx, cy, m * .95, 5, .45); ctx.fillStyle = '#ffd166'; ctx.fill(); ctx.strokeStyle = '#7a4d00'; ctx.lineWidth = 1; ctx.stroke();
+  } else if (b.sp === 'plasma') {
+    var pg = ctx.createLinearGradient(x, cy, x + w, cy); pg.addColorStop(0, 'rgba(95,243,232,0)'); pg.addColorStop(.5, 'rgba(95,243,232,' + (reduce ? .7 : .45 + .3 * Math.sin(t * 4)) + ')'); pg.addColorStop(1, 'rgba(95,243,232,0)');
+    ctx.fillStyle = pg; ctx.fillRect(x + 2, cy - h * .16, w - 4, h * .32);
+    ctx.fillStyle = '#fff'; ctx.strokeStyle = '#3a2bd0'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(cx + m * .25, cy - m); ctx.lineTo(cx - m * .5, cy + m * .15); ctx.lineTo(cx, cy + m * .15); ctx.lineTo(cx - m * .25, cy + m); ctx.lineTo(cx + m * .5, cy - m * .15); ctx.lineTo(cx, cy - m * .15); ctx.closePath(); ctx.fill(); ctx.stroke();
+  } else if (b.sp === 'moon') {
+    ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.fillRect(x + 2, y + 2, w - 4, h * .3);
+    ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(cx, cy, m, 0, 6.28); ctx.fill();
+    ctx.fillStyle = '#a9b0c8'; ctx.beginPath(); ctx.arc(cx + m * .45, cy - m * .25, m * .85, 0, 6.28); ctx.fill();
+  } else if (b.sp === 'alien') {
+    ctx.fillStyle = '#eafff6'; ctx.beginPath(); ctx.ellipse(cx, cy, m * .9, m, 0, 0, 6.28); ctx.fill();
+    ctx.strokeStyle = '#0d5f4d'; ctx.lineWidth = 1; ctx.stroke();
+    ctx.fillStyle = '#0d3b33'; [-1, 1].forEach(function (sd) { ctx.beginPath(); ctx.ellipse(cx + sd * m * .38, cy - m * .1, m * .26, m * .38, sd * .4, 0, 6.28); ctx.fill(); });
+  } else if (b.sp === 'heart') {
+    var hg = ctx.createRadialGradient(cx, cy, 1, cx, cy, w * .4); hg.addColorStop(0, 'rgba(227,212,255,.9)'); hg.addColorStop(1, 'rgba(227,212,255,0)');
+    ctx.fillStyle = hg; ctx.fillRect(x, y, w, h);
+    heartPath(cx, cy, m * .8); ctx.fillStyle = '#ff9fd0'; ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.2; ctx.stroke();
+  }
+}
 function crystal(x, y, w, h, b, glow) {
-  var c = HUES[b.hue], r = Math.min(6, h * .28);
+  var c = SPCOL[b.sp] || ED().hues[b.hue], r = Math.min(6, h * .28);
   var g = ctx.createLinearGradient(x, y, x + w * .4, y + h);
   g.addColorStop(0, c[0]); g.addColorStop(1, c[1]);
   ctx.save();
@@ -520,10 +624,11 @@ function crystal(x, y, w, h, b, glow) {
   }
   ctx.globalAlpha = 1; ctx.restore();
   ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = 1; MMC.rr(ctx, x + .5, y + .5, w - 1, h - 1, r); ctx.stroke();
-  if (b.star) {
-    for (var k = 0; k < 4; k++) { MMC.star(ctx, x + w * (.2 + k * .2), y + h * (.3 + (k % 2) * .4), 2.2, 4, .4); ctx.fillStyle = '#fff8d6'; ctx.fill(); }
-    MMC.star(ctx, x + w / 2, y + h / 2, Math.min(h * .32, 9), 5, .45); ctx.fillStyle = '#ffd166'; ctx.fill(); ctx.strokeStyle = '#7a4d00'; ctx.lineWidth = 1; ctx.stroke();
+  if (ED().core && !b.sp) { // Cosmic Meltdown: a glowing energy core in every crystal
+    ctx.save(); ctx.globalAlpha = reduce ? .55 : .4 + .2 * Math.sin(t * 3 + b.seed);
+    ctx.fillStyle = '#ffffff'; ctx.shadowColor = '#ff4fa3'; ctx.shadowBlur = 8; MMC.rr(ctx, x + w * .2, y + h * .44, w * .6, Math.max(2, h * .12), 2); ctx.fill(); ctx.restore();
   }
+  if (b.sp) specialMark(x, y, w, h, b);
   if (b.r >= CC.ROWS - CC.LOCK) { // frozen rows: frost cap and a snowflake mark
     ctx.fillStyle = 'rgba(240,248,255,.35)'; MMC.rr(ctx, x, y, w, h * .45, r); ctx.fill();
     ctx.font = Math.round(h * .55) + 'px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = 'rgba(19,28,63,.45)'; ctx.fillText('❄', x + w / 2, y + h / 2 + 1);
@@ -532,7 +637,7 @@ function crystal(x, y, w, h, b, glow) {
 }
 function iceberg() {
   var y = L.baseTop, x0 = L.x0 - L.cw * .7, x1 = L.x0 + L.cw * 6.7, H = L.H;
-  var g = ctx.createLinearGradient(0, y, 0, H); g.addColorStop(0, '#dff6ff'); g.addColorStop(.25, '#8fd8f0'); g.addColorStop(1, '#2f2f70');
+  var g = ctx.createLinearGradient(0, y, 0, H); var bc = ED().base; g.addColorStop(0, bc[0]); g.addColorStop(.25, bc[1]); g.addColorStop(1, bc[2]);
   ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(x0, y);
   ctx.lineTo(x1, y); ctx.lineTo(x1 + L.cw * .5, y + (H - y) * .35); ctx.lineTo(x1 + L.cw * .1, y + (H - y) * .6); ctx.lineTo(x1 + L.cw * .6, H);
   ctx.lineTo(x0 - L.cw * .6, H); ctx.lineTo(x0 - L.cw * .2, y + (H - y) * .55); ctx.lineTo(x0 - L.cw * .5, y + (H - y) * .3); ctx.closePath(); ctx.fill();
@@ -542,7 +647,7 @@ function iceberg() {
   ctx.moveTo(x0 + L.cw, y); ctx.lineTo(x0 + L.cw * 2, H); ctx.moveTo(x1 - L.cw * 1.5, y); ctx.lineTo(x1 - L.cw * 2.6, H); ctx.moveTo(L.W / 2, y); ctx.lineTo(L.W / 2 + L.cw * .4, H); ctx.stroke();
   // cosmic sea
   var wy = H - (H - y) * .28;
-  ctx.fillStyle = 'rgba(81,70,162,.55)'; ctx.fillRect(0, wy, L.W, H - wy);
+  ctx.fillStyle = ED().sea; ctx.fillRect(0, wy, L.W, H - wy);
   ctx.strokeStyle = 'rgba(213,194,220,.45)'; ctx.beginPath();
   for (var x = 0; x <= L.W; x += 8) ctx.lineTo(x, wy + Math.sin(x * .05 + t * (reduce ? 0 : 1.4)) * 2);
   ctx.stroke();
@@ -585,7 +690,7 @@ function penguin(x, y, s, rot, md) {
 function hud() {
   var W = L.W, pad = 12;
   ctx.fillStyle = 'rgba(4,5,9,.55)'; MMC.rr(ctx, 6, 14, W - 62, 42, 10); ctx.fill();
-  var cols = W < 420 ? [['SCORE', score], ['PULLS', pulls], ['BEST', Math.max(st.data.best, score)]] : [['SCORE', score], ['PULLS', pulls], ['BEST', Math.max(st.data.best, score)], ['MODE', 'CLASSIC']];
+  var cols = W < 420 ? [['SCORE', score], ['PULLS', pulls], ['BEST', Math.max(st.data.best, score)]] : [['SCORE', score], ['PULLS', pulls], ['BEST', Math.max(st.data.best, score)], ['EDITION', ED().short]];
   var mw = Math.min(170, (W - 62) * .36), cwid = (W - 62 - mw - pad * 2) / cols.length;
   cols.forEach(function (c, i) {
     MMC.label(ctx, c[0], pad + 6 + cwid * i + cwid / 2, 30, 'rgba(213,194,220,.75)', 9);
@@ -595,7 +700,7 @@ function hud() {
   var mx = W - 62 - mw - 2, f = Math.min(1, wobShow / 100);
   var word = f < .4 ? 'STEADY' : f < .7 ? 'WOBBLY' : 'DANGER!';
   var col = f < .4 ? '#5ff3e8' : f < .7 ? '#ffd166' : '#ff4fa3';
-  MMC.label(ctx, 'WOBBLE · ' + word, mx + mw / 2, 30, col, 9);
+  MMC.label(ctx, 'WOBBLE · ' + (lowG > 0 ? 'LOW G ×' + lowG : word), mx + mw / 2, 30, lowG > 0 ? '#7dffc8' : col, 9);
   ctx.fillStyle = 'rgba(213,194,220,.18)'; MMC.rr(ctx, mx, 37, mw, 12, 6); ctx.fill();
   var mg = ctx.createLinearGradient(mx, 0, mx + mw, 0); mg.addColorStop(0, '#5ff3e8'); mg.addColorStop(.55, '#ffd166'); mg.addColorStop(1, '#ff4fa3');
   if (f > 0) { ctx.fillStyle = mg; MMC.rr(ctx, mx, 37, Math.max(12, mw * f), 12, 6); ctx.fill(); }
@@ -604,28 +709,122 @@ function hud() {
 }
 function tip() {
   if (!sel || !pick) return;
-  var q = rectOf(sel), rk = risk(pick), line2 = pick.fell.length ? '⚠ ' + pick.fell.length + ' ABOVE WILL SLIP' : 'TAP AGAIN TO PULL';
+  var q = rectOf(sel), rk = risk(pick), line2 = pick.fell.length ? '⚠ ' + pick.fell.length + ' ABOVE WILL SLIP' : sel.sp ? SPNAME[sel.sp] + ': ' + SPTIP[sel.sp] : 'TAP AGAIN TO PULL';
   var w = Math.min(L.W - 16, 300), h = 40, x = (L.W - w) / 2, y = L.baseTop + Math.max(6, (L.H - L.baseTop - h) / 2 - 6);
   ctx.fillStyle = 'rgba(19,28,63,.94)'; MMC.rr(ctx, x, y, w, h, 9); ctx.fill();
   ctx.strokeStyle = rk.c; ctx.lineWidth = 1.5; MMC.rr(ctx, x + .5, y + .5, w - 1, h - 1, 9); ctx.stroke();
-  MMC.label(ctx, (rk.lvl === 2 ? '⚠ ' : '') + rk.t + (sel.star ? ' · ★' : ''), x + w / 2, y + 16, rk.c, 10);
-  MMC.label(ctx, line2, x + w / 2, y + 32, pick.fell.length ? '#ffd166' : 'rgba(213,194,220,.85)', 9);
+  MMC.label(ctx, (rk.lvl === 2 ? '⚠ ' : '') + rk.t + (pick.fell.length && sel.sp ? ' · ' + SPNAME[sel.sp] : ''), x + w / 2, y + 16, rk.c, 10);
+  MMC.label(ctx, line2, x + w / 2, y + 32, pick.fell.length || sel.sp ? '#ffd166' : 'rgba(213,194,220,.85)', 9);
 }
-function draw() {
-  layout();
-  var W = L.W, H = L.H;
-  MMC.sky(ctx, W, H, t);
-  // aurora
-  {
+function backdrop(W, H) {
+  var e = ED();
+  if (edKey === 'meltdown') { // magenta haze + a ringed planet
+    var mg = ctx.createLinearGradient(0, 0, 0, H); mg.addColorStop(0, 'rgba(176,18,138,.28)'); mg.addColorStop(.6, 'rgba(58,31,214,.12)'); mg.addColorStop(1, 'rgba(4,5,9,0)');
+    ctx.fillStyle = mg; ctx.fillRect(0, 0, W, H);
+    var px = W * .16, py = H * .2, pr = Math.min(W, H) * .07;
+    var pg = ctx.createRadialGradient(px - pr * .4, py - pr * .4, 2, px, py, pr); pg.addColorStop(0, '#ffc4ec'); pg.addColorStop(1, '#6b17c9');
+    ctx.save(); ctx.globalAlpha = .85; ctx.fillStyle = pg; ctx.beginPath(); ctx.arc(px, py, pr, 0, 6.28); ctx.fill();
+    ctx.strokeStyle = 'rgba(95,243,232,.8)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(px, py, pr * 1.8, pr * .45, -.35, 0, 6.28); ctx.stroke(); ctx.restore();
+  }
+  if (e.moon) { // full moon and drifting mist
+    var mx = W * .82, my = H * .2, mr = Math.min(W, H) * .085;
+    var gl = ctx.createRadialGradient(mx, my, mr * .5, mx, my, mr * 3); gl.addColorStop(0, 'rgba(232,240,255,.35)'); gl.addColorStop(1, 'rgba(232,240,255,0)');
+    ctx.fillStyle = gl; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#f4f6ff'; ctx.beginPath(); ctx.arc(mx, my, mr, 0, 6.28); ctx.fill();
+    ctx.fillStyle = 'rgba(170,179,207,.5)'; [[-.3, -.2, .22], [.25, .2, .16], [-.05, .35, .12]].forEach(function (c) { ctx.beginPath(); ctx.arc(mx + c[0] * mr, my + c[1] * mr, c[2] * mr, 0, 6.28); ctx.fill(); });
+    ctx.save();
+    for (var m = 0; m < 3; m++) {
+      var yy = H * (.42 + m * .16), off = reduce ? 0 : (t * (8 + m * 4)) % (W * 1.5);
+      var fg = ctx.createRadialGradient(0, 0, 0, 0, 0, W * .5); fg.addColorStop(0, 'rgba(213,220,240,.12)'); fg.addColorStop(1, 'rgba(213,220,240,0)');
+      ctx.setTransform(1, 0, 0, .18, 0, 0); ctx.translate(((off + m * W * .5) % (W * 1.5)) - W * .25, yy / .18);
+      ctx.fillStyle = fg; ctx.fillRect(-W * .5, -W * .5, W, W); ctx.setTransform(1, 0, 0, 1, 0, 0);
+    }
+    var dpr = Math.min(window.devicePixelRatio || 1, 2); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.restore();
+  }
+  if (e.aurora) {
     ctx.save(); ctx.globalAlpha = .22;
     for (var a = 0; a < 2; a++) {
-      var ag = ctx.createLinearGradient(0, 0, W, 0); ag.addColorStop(0, 'rgba(95,243,232,0)'); ag.addColorStop(.5, a ? '#9667ba' : '#5ff3e8'); ag.addColorStop(1, 'rgba(255,79,163,0)');
+      var ag = ctx.createLinearGradient(0, 0, W, 0); ag.addColorStop(0, 'rgba(95,243,232,0)'); ag.addColorStop(.5, e.aurora[a]); ag.addColorStop(1, 'rgba(255,79,163,0)');
       ctx.fillStyle = ag; ctx.beginPath(); ctx.moveTo(0, H * .2 + a * 30);
       for (var x = 0; x <= W; x += 20) ctx.lineTo(x, H * (.16 + a * .08) + Math.sin(x * .012 + t * (reduce ? 0 : .3) + a * 2) * 18);
       ctx.lineTo(W, H * .34 + a * 30); ctx.lineTo(0, H * .34 + a * 30); ctx.closePath(); ctx.fill();
     }
     ctx.restore();
   }
+}
+function guardian(x, y, s, rot, md) { var g = ED().guard; if (g === 'alien') alienGuard(x, y, s, rot, md); else if (g === 'ghost') ghostGuard(x, y, s, rot, md); else penguin(x, y, s, rot, md); }
+function eyes(ex, ey, s, md, col) {
+  var blink = blinkT < 0 && md !== 'nervous';
+  [-1, 1].forEach(function (sd) {
+    ctx.fillStyle = col; ctx.strokeStyle = col;
+    if (blink || md === 'happy') { ctx.lineWidth = Math.max(1.5, s * .03); ctx.beginPath(); ctx.arc(sd * ex, ey + (md === 'happy' ? s * .02 : 0), s * .06, md === 'happy' ? 3.4 : .2, md === 'happy' ? 6 : 2.9); ctx.stroke(); }
+    else { var er = md === 'nervous' ? s * .085 : s * .07; ctx.beginPath(); ctx.arc(sd * ex, ey, er, 0, 6.28); ctx.fill(); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(sd * ex + er * .35, ey - er * .35, er * .38, 0, 6.28); ctx.fill(); }
+  });
+}
+function alienGuard(x, y, s, rot, md) {
+  // original tiny alien: round iridescent body, two glowing antennae, big eyes
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+  var bw = s * .46, bh = s * .5, wig = reduce ? 0 : Math.sin(t * (md === 'nervous' ? 12 : 2.5)) * (md === 'nervous' ? .35 : .12);
+  [-1, 1].forEach(function (sd) {
+    ctx.save(); ctx.translate(sd * bw * .4, -bh * 1.8); ctx.rotate(sd * (.35 + wig));
+    ctx.strokeStyle = '#7dffc8'; ctx.lineWidth = Math.max(1.5, s * .035); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, -s * .28); ctx.stroke();
+    ctx.fillStyle = '#ff4fa3'; ctx.shadowColor = '#ff4fa3'; ctx.shadowBlur = 10; ctx.beginPath(); ctx.arc(0, -s * .3, s * .065, 0, 6.28); ctx.fill(); ctx.restore();
+  });
+  ctx.shadowColor = 'rgba(125,255,200,.8)'; ctx.shadowBlur = 14;
+  var g = ctx.createLinearGradient(-bw, -s, bw, 0); g.addColorStop(0, '#d6fff0'); g.addColorStop(.5, '#3fd9b0'); g.addColorStop(1, '#4f6bff');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(0, -bh, bw, bh, 0, 0, 6.28); ctx.fill(); ctx.shadowBlur = 0;
+  // little arms
+  var up = md === 'nervous' ? -1.1 : md === 'happy' ? -.6 : .3;
+  ctx.fillStyle = '#2bbf9e';
+  [-1, 1].forEach(function (sd) { ctx.save(); ctx.translate(sd * bw * .92, -bh * .9); ctx.rotate(sd * up); ctx.beginPath(); ctx.ellipse(0, s * .12, s * .06, s * .15, 0, 0, 6.28); ctx.fill(); ctx.restore(); });
+  // big eyes
+  var ey = -bh * 1.15, ex = bw * .42, blink = blinkT < 0 && md !== 'nervous';
+  [-1, 1].forEach(function (sd) {
+    if (blink || md === 'happy') { ctx.strokeStyle = '#0d3b33'; ctx.lineWidth = Math.max(1.5, s * .035); ctx.beginPath(); ctx.arc(sd * ex, ey, s * .09, md === 'happy' ? 3.4 : .2, md === 'happy' ? 6 : 2.9); ctx.stroke(); }
+    else { var er = md === 'nervous' ? s * .14 : s * .12; ctx.fillStyle = '#0d1a2e'; ctx.beginPath(); ctx.ellipse(sd * ex, ey, er * .85, er, 0, 0, 6.28); ctx.fill(); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(sd * ex + er * .3, ey - er * .4, er * .3, 0, 6.28); ctx.fill(); ctx.fillStyle = '#9fe8ff'; ctx.beginPath(); ctx.arc(sd * ex - er * .3, ey + er * .4, er * .14, 0, 6.28); ctx.fill(); }
+  });
+  // mouth + cheeks
+  ctx.strokeStyle = '#0d3b33'; ctx.fillStyle = '#0d3b33'; ctx.lineWidth = Math.max(1.2, s * .025);
+  if (md === 'nervous') { ctx.beginPath(); ctx.ellipse(0, -bh * .62, s * .045, s * .06, 0, 0, 6.28); ctx.fill(); }
+  else { ctx.beginPath(); ctx.arc(0, -bh * .72, s * .07, .3, 2.84); ctx.stroke(); }
+  ctx.fillStyle = 'rgba(255,79,163,.45)'; [-1, 1].forEach(function (sd) { ctx.beginPath(); ctx.ellipse(sd * bw * .66, -bh * .78, s * .055, s * .035, 0, 0, 6.28); ctx.fill(); });
+  // feet
+  ctx.fillStyle = '#4f6bff'; [-1, 1].forEach(function (sd) { ctx.beginPath(); ctx.ellipse(sd * bw * .4, -s * .02, s * .1, s * .045, 0, 0, 6.28); ctx.fill(); });
+  ctx.restore();
+}
+function ghostGuard(x, y, s, rot, md) {
+  // original snow ghost: soft round top, wavy hem, a frosty scarf
+  ctx.save(); ctx.translate(x, y - (reduce ? 3 : 3 + Math.sin(t * 2) * 2)); ctx.rotate(rot);
+  var bw = s * .44, top = -s * 1.05;
+  ctx.shadowColor = 'rgba(232,240,255,.9)'; ctx.shadowBlur = 16;
+  var g = ctx.createLinearGradient(0, top, 0, 0); g.addColorStop(0, '#ffffff'); g.addColorStop(1, '#c9cfe6');
+  ctx.fillStyle = g; ctx.globalAlpha = .93; ctx.beginPath();
+  ctx.moveTo(-bw, -s * .05); ctx.lineTo(-bw, top + bw); ctx.arc(0, top + bw, bw, Math.PI, 0); ctx.lineTo(bw, -s * .05);
+  var n = 4, wv = reduce ? 0 : t * 4;
+  for (var i = n; i >= 0; i--) { var hx = -bw + (2 * bw) * i / n; ctx.quadraticCurveTo(hx + bw / n, s * .04 + Math.sin(wv + i) * s * .02, hx, -s * .05); }
+  ctx.closePath(); ctx.fill(); ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+  // little arms
+  var up = md === 'nervous' ? -1.2 : md === 'happy' ? -.7 : .2;
+  ctx.fillStyle = '#e4e8f6';
+  [-1, 1].forEach(function (sd) { ctx.save(); ctx.translate(sd * bw * .95, -s * .5); ctx.rotate(sd * up); ctx.beginPath(); ctx.ellipse(0, s * .1, s * .06, s * .14, 0, 0, 6.28); ctx.fill(); ctx.restore(); });
+  // scarf
+  ctx.fillStyle = '#9fc4ff'; MMC.rr(ctx, -bw * .98, -s * .56, bw * 1.96, s * .09, s * .04); ctx.fill();
+  ctx.fillStyle = '#7aa7f0'; MMC.rr(ctx, bw * .35, -s * .5, s * .09, s * .2, s * .03); ctx.fill();
+  // face
+  var ey = -s * .74, ex = bw * .38;
+  eyes(ex, ey, s, md, '#2f2f70');
+  ctx.fillStyle = 'rgba(255,79,163,.35)'; [-1, 1].forEach(function (sd) { ctx.beginPath(); ctx.ellipse(sd * bw * .62, -s * .64, s * .055, s * .035, 0, 0, 6.28); ctx.fill(); });
+  ctx.fillStyle = '#2f2f70';
+  if (md === 'nervous') { ctx.beginPath(); ctx.ellipse(0, -s * .62, s * .045, s * .06, 0, 0, 6.28); ctx.fill(); }
+  else { ctx.strokeStyle = '#2f2f70'; ctx.lineWidth = Math.max(1.2, s * .025); ctx.beginPath(); ctx.arc(0, -s * .66, s * .05, .3, 2.84); ctx.stroke(); }
+  ctx.restore();
+}
+function draw() {
+  layout();
+  var W = L.W, H = L.H;
+  MMC.sky(ctx, W, H, t);
+  backdrop(W, H);
   ctx.fillStyle = '#fff';
   flakes.forEach(function (f) { ctx.globalAlpha = .55; ctx.beginPath(); ctx.arc(f.x * W, f.y * H, f.r, 0, 6.28); ctx.fill(); }); ctx.globalAlpha = 1;
   iceberg();
@@ -647,11 +846,11 @@ function draw() {
   // platform + guardian (unless it has already fallen)
   if (!guard && state !== 'falling') {
     var top = sway(CC.ROWS), px = L.x0 + top - L.cw * .15, pw = L.cw * 6.3;
-    var pg = ctx.createLinearGradient(0, L.capY, 0, L.capY + L.capH); pg.addColorStop(0, '#ffffff'); pg.addColorStop(1, '#c9b3ff');
+    var pg = ctx.createLinearGradient(0, L.capY, 0, L.capY + L.capH); var ec = ED().cap; pg.addColorStop(0, ec[0]); pg.addColorStop(1, ec[1]);
     ctx.fillStyle = pg; MMC.rr(ctx, px, L.capY, pw, L.capH, L.capH / 2); ctx.fill();
-    ctx.strokeStyle = 'rgba(95,243,232,.8)'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.strokeStyle = ec[2]; ctx.lineWidth = 1.5; ctx.stroke();
     var lean = reduce ? 0 : (sway(CC.ROWS) - sway(CC.ROWS - 3)) * .03;
-    penguin(L.x0 + 3 * L.cw + top, L.capY + 1, Math.min(L.cw * 1.25, 62), lean, wobShow > 75 && mood === 'calm' ? 'nervous' : mood);
+    guardian(L.x0 + 3 * L.cw + top, L.capY + 1, Math.min(L.cw * 1.25, 62), lean, wobShow > 75 && mood === 'calm' ? 'nervous' : mood);
   }
   debris.forEach(function (d) {
     ctx.save(); ctx.translate(d.x, d.y); ctx.rotate(d.rot);
@@ -659,7 +858,7 @@ function draw() {
     else crystal(-d.w / 2, -d.h / 2, d.w, d.h, d.b, null);
     ctx.restore();
   });
-  if (guard) penguin(guard.x, guard.y, Math.min(L.cw * 1.25, 62), guard.rot, 'nervous');
+  if (guard) guardian(guard.x, guard.y, Math.min(L.cw * 1.25, 62), guard.rot, 'nervous');
   bits.draw(ctx);
   msgs.forEach(function (m) {
     ctx.globalAlpha = Math.min(1, m.life);
@@ -674,6 +873,7 @@ function draw() {
 }
 
 stats();
+markEd();
 MMC.loop(function (dt) { if (state !== 'paused') step(dt); draw(); });
 window.__cc = { CC: CC, get state() { return state; }, get rows() { return rows; }, get wob() { return wob; }, get score() { return score; }, get pulls() { return pulls; },
   choose: choose, rectOf: rectOf, get L() { return L; }, get sel() { return sel; } };
