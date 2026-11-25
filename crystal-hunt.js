@@ -93,15 +93,26 @@
     + '.mmch-rock{display:block;margin:14px auto 4px;width:min(240px,64vw);aspect-ratio:1;border:0;background:none;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}'
     + '.mmch-rock svg{width:100%;height:100%;overflow:visible}'
     + '.mmch-rock.shake{animation:mmch-shake .32s}'
+    + '.mmch-bob{animation:mmch-bob 3.2s ease-in-out infinite;transform-box:view-box;transform-origin:100px 180px}'
+    + '@keyframes mmch-bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}'
+    + '.open .mmch-bob{animation:none}'
+    + '.mmch-half path:first-child{animation:mmch-holo 6s linear infinite}'
+    + '@keyframes mmch-holo{0%{filter:hue-rotate(0deg) saturate(1.1)}50%{filter:hue-rotate(40deg) saturate(1.35)}100%{filter:hue-rotate(0deg) saturate(1.1)}}'
+    + '.mmch-sheen{animation:mmch-sheen 3.6s ease-in-out infinite}'
+    + '@keyframes mmch-sheen{0%{transform:skewX(-18deg) translateX(0)}60%,100%{transform:skewX(-18deg) translateX(260px)}}'
+    + '.mmch-tw{animation:mmch-tw 2.2s ease-in-out infinite}'
+    + '@keyframes mmch-tw{0%,100%{opacity:.25;transform:scale(.55)}50%{opacity:1;transform:scale(1.1)}}'
+    + '.mmch-glow{animation:mmch-glow 3.2s ease-in-out infinite}'
+    + '@keyframes mmch-glow{50%{opacity:.55}}'
     + '@keyframes mmch-shake{25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}'
     + '.mmch-crack{opacity:0;transition:opacity .2s}.mmch-crack.on{opacity:1}'
-    + '.mmch-half{transition:transform .8s cubic-bezier(.3,1.25,.5,1);transform-box:fill-box}'
-    + '.mmch-l{transform-origin:100% 100%}.mmch-r{transform-origin:0 100%}'
+    + '.mmch-half{transition:transform .8s cubic-bezier(.3,1.25,.5,1);transform-box:view-box}'
+    + '.mmch-l{transform-origin:100px 180px}.mmch-r{transform-origin:100px 180px}'
     + '.open .mmch-l{transform:translate(-28px,4px) rotate(-32deg)}.open .mmch-r{transform:translate(28px,4px) rotate(32deg)}'
     + '.mmch-in{opacity:0;transition:opacity .5s .25s}.open .mmch-in{opacity:1}.open .mmch-crack{opacity:0}'
     + '.mmch-hint{font-size:.92rem;color:#a39ed0;min-height:1.5em}'
     + '.mmch-geode .mmch-stone{max-width:420px;margin:12px auto 0;text-align:left;padding:12px;border-radius:14px;border:1px solid rgba(180,170,255,.22);background:rgba(255,255,255,.03)}'
-    + '@media (prefers-reduced-motion:reduce){.mmch-shard,.mmch-rock.shake,.mmch-burst{animation:none}.mmch-sheet,.mmch-half,.mmch-in{transition:none}}';
+    + '@media (prefers-reduced-motion:reduce){.mmch-shard,.mmch-rock.shake,.mmch-burst,.mmch-bob,.mmch-sheen,.mmch-tw,.mmch-glow,.mmch-half path{animation:none}.mmch-sheet,.mmch-half,.mmch-in{transition:none}}';
 
   function gem(a, b) {
     return '<svg viewBox="0 0 64 80" aria-hidden="true"><defs><linearGradient id="mmchg' + a.slice(1) + '" x1="0" y1="0" x2="1" y2="1">'
@@ -263,26 +274,54 @@
     return pool[Math.floor(rng('geode|' + today())() * pool.length)];
   }
   function geodeSVG(p) {
-    var rays = '';
+    // a round little holo egg with a sleepy happy face, sparkles all around
+    var rays = '', stars = '';
     for (var i = 0; i < 10; i++) {
       var a = i * Math.PI / 5;
-      rays += '<polygon points="100,104 ' + (100 + Math.cos(a) * 54).toFixed(1) + ',' + (104 + Math.sin(a) * 62).toFixed(1) + ' '
-        + (100 + Math.cos(a + .3) * 54).toFixed(1) + ',' + (104 + Math.sin(a + .3) * 62).toFixed(1) + '" fill="#fff" opacity=".13"/>';
+      rays += '<polygon points="100,106 ' + (100 + Math.cos(a) * 54).toFixed(1) + ',' + (106 + Math.sin(a) * 62).toFixed(1) + ' '
+        + (100 + Math.cos(a + .3) * 54).toFixed(1) + ',' + (106 + Math.sin(a + .3) * 62).toFixed(1) + '" fill="#fff" opacity=".16"/>';
     }
+    var S = [[22,40,9,0],[176,34,11,.6],[184,120,7,1.2],[14,128,8,1.8],[150,8,6,.9],[48,10,5,1.5],[100,0,7,.3],[170,176,6,2.1],[30,178,5,.45]];
+    S.forEach(function (t, k) {
+      var x = t[0], y = t[1], r = t[2], q = r * .28;
+      stars += '<path class="mmch-tw" style="animation-delay:' + t[3] + 's;transform-origin:' + x + 'px ' + y + 'px" fill="' + ['#fff','#ffe3f6','#d9fff6','#e6ddff'][k % 4] + '" d="M' + x + ',' + (y - r)
+        + ' Q' + (x + q) + ',' + (y - q) + ' ' + (x + r) + ',' + y + ' Q' + (x + q) + ',' + (y + q) + ' ' + x + ',' + (y + r)
+        + ' Q' + (x - q) + ',' + (y + q) + ' ' + (x - r) + ',' + y + ' Q' + (x - q) + ',' + (y - q) + ' ' + x + ',' + (y - r) + 'Z"/>';
+    });
+    var EGG_L = 'M100,22 C62,22 32,66 32,112 C32,152 60,180 100,180 L93,156 L105,132 L91,108 L104,84 L95,60 L103,40 Z';
+    var EGG_R = 'M100,22 C138,22 168,66 168,112 C168,152 140,180 100,180 L93,156 L105,132 L91,108 L104,84 L95,60 L103,40 Z';
+    var holo = function (id) {
+      return '<linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1">'
+        + '<stop offset="0" stop-color="#ffd6f4"/><stop offset=".22" stop-color="#c9b8ff"/><stop offset=".45" stop-color="#a8f0ff"/>'
+        + '<stop offset=".66" stop-color="#c8ffe4"/><stop offset=".84" stop-color="#ffe9b8"/><stop offset="1" stop-color="#ffb8e2"/></linearGradient>';
+    };
     return '<svg viewBox="0 0 200 200" aria-hidden="true"><defs>'
-      + '<radialGradient id="mmchgi" cx=".5" cy=".5" r=".55"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#ff6fae"/><stop offset=".65" stop-color="#b17dff"/><stop offset="1" stop-color="#2c1f5c"/></radialGradient>'
-      + '<clipPath id="mmchgc"><ellipse cx="100" cy="104" rx="40" ry="48"/></clipPath></defs>'
-      + '<ellipse cx="100" cy="184" rx="72" ry="9" fill="rgba(0,0,0,.45)"/>'
-      + '<g class="mmch-in"><ellipse cx="100" cy="104" rx="56" ry="64" fill="url(#mmchgi)"/>' + rays
-      + '<image href="' + IMG(p.img, 200, 240) + '" x="60" y="56" width="80" height="96" preserveAspectRatio="xMidYMid slice" clip-path="url(#mmchgc)"/>'
-      + '<ellipse cx="100" cy="104" rx="40" ry="48" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2"/></g>'
-      + '<g class="mmch-half mmch-l"><path d="M100,20 C54,20 24,62 26,108 C28,152 60,180 100,180 L92,152 L106,124 L90,96 L104,70 L94,46 Z" fill="#716c86"/>'
-      + '<path d="M98,26 C60,28 36,60 36,98" stroke="#a7a3ba" stroke-width="6" fill="none" opacity=".55" stroke-linecap="round"/>'
-      + '<circle cx="58" cy="132" r="4" fill="#5e5a72"/><circle cx="72" cy="58" r="3" fill="#8a86a0"/></g>'
-      + '<g class="mmch-half mmch-r"><path d="M100,20 C146,20 176,62 174,108 C172,152 140,180 100,180 L92,152 L106,124 L90,96 L104,70 L94,46 Z" fill="#5a566c"/>'
-      + '<circle cx="146" cy="88" r="5" fill="#4d4a5e"/><circle cx="132" cy="150" r="3" fill="#4d4a5e"/></g>'
-      + '<path class="mmch-crack mmch-c1" d="M94,46 L104,70 L90,96" stroke="#fff" stroke-width="2.5" fill="none" style="filter:drop-shadow(0 0 4px #b17dff)"/>'
-      + '<path class="mmch-crack mmch-c2" d="M90,96 L106,124 L92,152" stroke="#fff" stroke-width="2.5" fill="none" style="filter:drop-shadow(0 0 4px #b17dff)"/></svg>';
+      + '<radialGradient id="mmchgi" cx=".5" cy=".5" r=".55"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#ff9bd2"/><stop offset=".65" stop-color="#b98bff"/><stop offset="1" stop-color="#3b2a78"/></radialGradient>'
+      + holo('mmchh1') + holo('mmchh2')
+      + '<linearGradient id="mmchsheen" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'
+      + '<clipPath id="mmchcl"><path d="' + EGG_L + '"/></clipPath><clipPath id="mmchcr"><path d="' + EGG_R + '"/></clipPath>'
+      + '<clipPath id="mmchgc"><ellipse cx="100" cy="106" rx="40" ry="48"/></clipPath></defs>'
+      + '<ellipse cx="100" cy="186" rx="60" ry="8" fill="rgba(177,125,255,.35)" class="mmch-glow"/>'
+      + '<g class="mmch-in"><ellipse cx="100" cy="106" rx="56" ry="64" fill="url(#mmchgi)"/>' + rays
+      + '<image href="' + IMG(p.img, 200, 240) + '" x="60" y="58" width="80" height="96" preserveAspectRatio="xMidYMid slice" clip-path="url(#mmchgc)"/>'
+      + '<ellipse cx="100" cy="106" rx="40" ry="48" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="2.5"/></g>'
+      + '<g class="mmch-bob">'
+      +   '<g class="mmch-half mmch-l"><path d="' + EGG_L + '" fill="url(#mmchh1)"/>'
+      +     '<g clip-path="url(#mmchcl)"><rect class="mmch-sheen" x="-40" y="0" width="46" height="200" fill="url(#mmchsheen)" transform="skewX(-18)"/></g>'
+      +     '<path d="M80,36 C58,44 44,70 42,98" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round" opacity=".75"/>'
+      +     '<circle cx="52" cy="112" r="2.6" fill="#fff" opacity=".9"/>'
+      +     '<path d="M62,106 Q70,98 78,106" stroke="#4a2f6e" stroke-width="3.4" fill="none" stroke-linecap="round"/>'
+      +     '<ellipse cx="64" cy="122" rx="9" ry="5.5" fill="#ff8fc8" opacity=".55"/>'
+      +     '<path d="M90,124 Q94,130 99,126" stroke="#4a2f6e" stroke-width="3" fill="none" stroke-linecap="round"/></g>'
+      +   '<g class="mmch-half mmch-r"><path d="' + EGG_R + '" fill="url(#mmchh2)"/>'
+      +     '<g clip-path="url(#mmchcr)"><rect class="mmch-sheen" x="-40" y="0" width="46" height="200" fill="url(#mmchsheen)" transform="skewX(-18)"/></g>'
+      +     '<path d="M122,106 Q130,98 138,106" stroke="#4a2f6e" stroke-width="3.4" fill="none" stroke-linecap="round"/>'
+      +     '<ellipse cx="136" cy="122" rx="9" ry="5.5" fill="#ff8fc8" opacity=".55"/>'
+      +     '<path d="M101,126 Q106,130 110,124" stroke="#4a2f6e" stroke-width="3" fill="none" stroke-linecap="round"/>'
+      +     '<circle cx="150" cy="70" r="2" fill="#fff" opacity=".9"/><circle cx="142" cy="150" r="1.6" fill="#fff" opacity=".8"/></g>'
+      +   '<path class="mmch-crack mmch-c1" d="M103,40 L95,60 L104,84 L91,108" stroke="#fff" stroke-width="2.6" fill="none" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #ff9bd2)"/>'
+      +   '<path class="mmch-crack mmch-c2" d="M91,108 L105,132 L93,156 L100,180" stroke="#fff" stroke-width="2.6" fill="none" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px #a8f0ff)"/>'
+      + '</g>' + stars + '</svg>';
   }
 
   function geode(box) {
@@ -291,7 +330,7 @@
     box.classList.add('mmch-geode');
     box.innerHTML = '<h3>Today’s <em>geode</em></h3>'
       + '<p>Every day a new one turns up. Crack it open to see which stone is hiding inside.</p>'
-      + '<button class="mmch-rock" type="button" aria-label="Tap the geode to crack it open">' + geodeSVG(p) + '</button>'
+      + '<button class="mmch-rock" type="button" aria-label="Tap the crystal egg to crack it open">' + geodeSVG(p) + '</button>'
       + '<div class="mmch-hint" aria-live="polite"></div><div class="mmch-out"></div>';
     var rock = box.querySelector('.mmch-rock'), svg = rock.querySelector('svg'),
         hint = box.querySelector('.mmch-hint'), out = box.querySelector('.mmch-out'), taps = 0;
