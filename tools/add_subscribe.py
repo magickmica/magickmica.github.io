@@ -8,7 +8,8 @@ Puts the Substack subscribe calls-to-action (mm-subscribe.js) into the pages, in
 
 What goes where (edit PAGES / GLOBS below to change it):
   index.html                     big teaser box, between Y3K MAGAZINE and PLAY & LISTEN
-  notes.html, blog.html          slim strip (top of the notes / top of the blog sidebar)
+  notes.html                     slim strip, just above the footer
+  blog.html                      slim strip (top of the blog sidebar)
   arcade + circus pages          circus banner (circus theme)
   every circus game              the after-game pop-up (just loads the script)
   explore/ tapes + tape player   VHS banner (tapes theme)
@@ -46,7 +47,7 @@ EXPLORE_FOOT = '<footer class="ar-wrap mmx-foot"'
 PAGES = {
     "index.html": dict(variant="full", anchors=['<div class="sect"><h2 class="holo">PLAY &amp; LISTEN</h2>'],
                        where="before"),
-    "notes.html": dict(variant="compact", anchors=['<div class="results-info" id="resultsInfo">', '<div id="grid">'],
+    "notes.html": dict(variant="compact", anchors=[FOOTER],   # owner asked for it at the foot (25 Nov 2026)
                        where="before", style="position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 20px"),
     "blog.html": dict(variant="compact", anchors=['<div class="sidebar">'], where="after"),
 
