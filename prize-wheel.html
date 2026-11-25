@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Cosmic Prize Wheel &middot; MagickMica</title>
-<meta name="description" content="Spin the Cosmic Prize Wheel once a day, plus a bonus spin for every prize you win at the Magick Mica Cosmic Circus. Prizes land on your shared prize shelf.">
+<meta name="description" content="Spin the Cosmic Prize Wheel once a day, plus bonus spins (up to 3 a day) for prizes you win at the Magick Mica Cosmic Circus. Prizes land on your shared prize shelf.">
 <link rel="canonical" href="https://magickmica.github.io/prize-wheel.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Magick Mica">
@@ -29,7 +29,7 @@
   <header>
     <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
     <h1>COSMIC PRIZE WHEEL</h1>
-    <p class="tag">One free spin a day. Win prizes at the circus for bonus spins.</p>
+    <p class="tag">One free spin a day. Win prizes at the circus for bonus spins, and use up to 3 of them a day.</p>
   </header>
 
   <div class="booth">
@@ -70,7 +70,7 @@
 
   <section class="shelf" aria-label="Your prize shelf">
     <h3>Your Prize Shelf</h3>
-    <p>Whatever the wheel gives you goes straight on the shelf. Prizes from every game at the circus land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <p>Whatever the wheel gives you goes straight on the shelf. Prizes from every game at the circus land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a> (up to 3 bonus spins a day).</p>
     <div class="shelf-row" id="shelf"></div>
   </section>
 
@@ -86,7 +86,8 @@ var cv = document.getElementById('cv'), stage = document.getElementById('stage')
 var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
 startVeil.dataset.on = 'false';
 var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
-var st = MMC.store('mm_prizewheel_v1', { day: '', spins: 0, won: 0 });
+var st = MMC.store('mm_prizewheel_v1', { day: '', spins: 0, won: 0, bonusDay: '', bonusUsed: 0 });
+var BONUS_PER_DAY = 3; // bonus spins pile up from every circus prize, so cap how many can be used each day
 MMC.soundButton(document.getElementById('soundBtn'));
 MMC.shelf(document.getElementById('shelf'));
 
@@ -128,7 +129,9 @@ var drag = null;
 
 function today() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
 function freeReady() { return st.data.day !== today(); }
-function canSpin() { return !spinning && (freeAgain || freeReady() || MMPrizes.tokens() > 0); }
+function bonusLeft() { return st.data.bonusDay === today() ? Math.max(0, BONUS_PER_DAY - (st.data.bonusUsed || 0)) : BONUS_PER_DAY; }
+function canUseBonus() { return MMPrizes.tokens() > 0 && bonusLeft() > 0; }
+function canSpin() { return !spinning && (freeAgain || freeReady() || canUseBonus()); }
 function geo() { var W = view.W, H = view.H; var R = Math.min(W * .42, (H - 130) * .48); return { cx: W / 2, cy: 34 + R + 18, R: R }; }
 
 /* spin button lives in the stage */
@@ -142,7 +145,7 @@ function refresh() {
   document.getElementById('sFree').textContent = freeReady() ? 'READY' : 'TOMORROW';
   document.getElementById('sTok').textContent = MMPrizes.tokens();
   document.getElementById('sSpins').textContent = st.data.spins;
-  var label = freeAgain ? '🎡 FREE RE-SPIN' : freeReady() ? '🎡 SPIN (FREE TODAY)' : MMPrizes.tokens() > 0 ? '🎡 SPIN (USE 1 BONUS)' : 'NO SPINS LEFT TODAY';
+  var label = freeAgain ? '🎡 FREE RE-SPIN' : freeReady() ? '🎡 SPIN (FREE TODAY)' : canUseBonus() ? '🎡 BONUS SPIN (' + bonusLeft() + ' LEFT TODAY)' : 'NO SPINS LEFT · BACK TOMORROW';
   spinBtn.textContent = spinning ? 'SPINNING…' : label;
   spinBtn.disabled = !canSpin();
 }
@@ -153,7 +156,11 @@ function spin(speed) {
   S.boot();
   if (freeAgain) freeAgain = false;
   else if (freeReady()) st.data.day = today();
-  else MMPrizes.useToken();
+  else {
+    if (!MMPrizes.useToken()) { refresh(); return; }
+    if (st.data.bonusDay !== today()) { st.data.bonusDay = today(); st.data.bonusUsed = 0; }
+    st.data.bonusUsed++;
+  }
   st.data.spins++; st.save();
   w = Math.max(7, Math.min(17, speed)); spinning = true; t0 = 0;
   refresh();
