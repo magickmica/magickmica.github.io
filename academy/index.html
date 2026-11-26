@@ -1,24 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Magick Mica AI Academy · Members only</title>
-<meta name="description" content="A secret computer school from an alternate 1998, for Magick Mica newsletter subscribers. Learn prompting, Claude Code, MCP and AI agents.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magick Mica AI Academy · Learn AI, Prompting, Claude Code, MCP &amp; Agents</title>
+<meta name="description" content="The Magick Mica AI Academy is a cozy retro-computer school from an alternate 1998. 82 bite-size lessons on AI basics, prompt engineering, Claude, Claude Code, MCP and AI agents, plus a Creative Studio for AI art. Free for Magick Mica subscribers.">
+<link rel="canonical" href="https://magickmica.github.io/academy/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#21143d">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Magick Mica">
 <meta property="og:title" content="Magick Mica AI Academy">
-<meta property="og:description" content="Your curiosity is the password. A members-only retro-computer school for Magick Mica subscribers.">
+<meta property="og:description" content="A secret computer school from 1998. Learn AI one cozy window at a time: prompting, Claude, Claude Code, MCP and AI agents. Free for subscribers.">
 <meta property="og:url" content="https://magickmica.github.io/academy/">
-<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta property="og:image" content="https://magickmica.github.io/academy/og-academy.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Magick Mica AI Academy banner: a crystal ball in a graduation cap beside a MagickOS 98 window showing the Prompt Engineering lessons">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://magickmica.github.io/academy/og-academy.jpg">
 <link rel="icon" href="../apple-touch-icon.png">
-<link rel="canonical" href="https://magickmica-members.vercel.app/academy/">
-<meta http-equiv="refresh" content="0; url=https://magickmica-members.vercel.app/academy/">
-<script>location.replace("https://magickmica-members.vercel.app/academy/");</script>
-<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#120a24;color:#f3e9ff;font-family:"Trebuchet MS",system-ui,sans-serif;text-align:center}a{color:#ffd36e}</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Course",
+      "@id": "https://magickmica.github.io/academy/#course",
+      "name": "Magick Mica AI Academy",
+      "description": "82 bite-size lessons on AI basics, prompt engineering, working with Claude, Claude Code, the Model Context Protocol (MCP), AI agents and AI art, in a playful retro-computer school.",
+      "url": "https://magickmica.github.io/academy/",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "educationalLevel": "Beginner",
+      "teaches": ["Prompt engineering", "Working with Claude", "Claude Code", "Model Context Protocol (MCP)", "AI agents", "AI art prompting"],
+      "provider": {"@type": "Organization", "name": "Magick Mica", "url": "https://magickmica.github.io/"},
+      "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online", "courseWorkload": "PT2M"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type": "Question", "name": "Is the Magick Mica AI Academy free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The Academy is free for Magick Mica newsletter subscribers, and subscribing on Substack is free too."}},
+        {"@type": "Question", "name": "Do I need to know how to code?", "acceptedAnswer": {"@type": "Answer", "text": "No. The Academy starts from zero with what AI is and how to talk to it. The Claude Code Garage teaches files, HTML, CSS and JavaScript one small step at a time."}},
+        {"@type": "Question", "name": "What is MCP?", "acceptedAnswer": {"@type": "Answer", "text": "MCP, the Model Context Protocol, is an open standard that lets AI apps connect to tools and data. The MCP Portal department explains clients, servers, tool calls, permissions and security in plain language."}},
+        {"@type": "Question", "name": "How long are the lessons?", "acceptedAnswer": {"@type": "Answer", "text": "Each lesson takes a few minutes, and the Daily Signal is a two-minute lesson a day with a streak counter."}}
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --deep:#120418; --night:#21143d; --violet:#3b2585; --purple:#8c54e8; --pink:#d7609f; --cyan:#66e8f2; --gold:#ffce5c;
+  --pearl:#e8e3f1; --pearl-hi:#fff; --pearl-lo:#8a819f; --pearl-dk:#4a4360; --paper:#fbfaff; --ink:#1a1530; --quiet:#5d5675; --select:#2b1f72;
+  --title:linear-gradient(90deg,#3b2585,#8c54e8 40%,#d7609f 75%,#66e8f2);
+  --chrome:"Pixelify Sans",Tahoma,Verdana,"Segoe UI",sans-serif;
+  --ui:Tahoma,Verdana,"Segoe UI","DejaVu Sans",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Courier New",monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:#efe8fb;font:16px/1.6 var(--ui);
+  background:radial-gradient(1000px 600px at 80% -10%,rgba(140,84,232,.35),transparent 70%),radial-gradient(900px 600px at -10% 40%,rgba(215,96,159,.18),transparent 70%),
+    radial-gradient(800px 600px at 100% 100%,rgba(102,232,242,.12),transparent 70%),var(--deep);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.6;
+  background-image:radial-gradient(1px 1px at 20px 30px,#fff,transparent 60%),radial-gradient(1px 1px at 140px 90px,rgba(255,255,255,.7),transparent 60%),
+  radial-gradient(1.5px 1.5px at 90px 170px,rgba(255,255,255,.8),transparent 60%),radial-gradient(1px 1px at 230px 210px,rgba(255,255,255,.6),transparent 60%);background-size:260px 240px}
+a{color:var(--cyan)}
+img{display:block;max-width:100%;height:auto}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.wrap{position:relative;max-width:1120px;margin:0 auto;padding:0 20px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0}
+.top a{color:#d9cdf0;text-decoration:none;font:13px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.top a:hover{color:var(--gold)}
+
+/* hero */
+.hero{padding:10px 0 8px;text-align:center}
+.eyebrow{font:13px var(--mono);letter-spacing:.3em;text-transform:uppercase;color:#f0a6cf}
+h1{margin:10px 0 10px;font:800 clamp(38px,7vw,74px)/1.02 var(--mono);letter-spacing:.02em;
+  background:linear-gradient(90deg,#d7a8ff,#66e8f2 35%,#ffce5c 60%,#f597c6 85%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 small{display:block;font-size:.36em;letter-spacing:.12em;margin-top:6px}
+.lede{max-width:680px;margin:0 auto 22px;font-size:clamp(17px,2.1vw,20px);color:#e6dcf6}
+.lede b{color:var(--gold)}
+.ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 14px;margin-bottom:10px}
+.go{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:999px;text-decoration:none;font:700 17px var(--ui);color:#2a1a05;
+  background:linear-gradient(180deg,#ffe08a,#ffc94a);box-shadow:0 6px 0 #b8862a,0 0 30px rgba(255,206,92,.45);transition:transform .12s,box-shadow .12s}
+.go:hover{transform:translateY(-2px);box-shadow:0 8px 0 #b8862a,0 0 40px rgba(255,206,92,.6)}
+.go:active{transform:translateY(3px);box-shadow:0 2px 0 #b8862a}
+.sub{display:inline-flex;align-items:center;padding:14px 22px;border-radius:999px;text-decoration:none;font:700 15px var(--ui);color:#efe8fb;border:1.5px solid rgba(102,232,242,.55)}
+.sub:hover{background:rgba(102,232,242,.12)}
+.fine{font-size:14px;color:#b8acd2;margin:4px 0 0}
+.banner{display:block;margin:26px auto 0;border-radius:16px;overflow:hidden;border:1px solid rgba(102,232,242,.35);box-shadow:0 0 50px -14px rgba(140,84,232,.8)}
+.banner img{aspect-ratio:4/1;width:100%}
+
+/* sections */
+section{padding:46px 0 6px}
+h2{margin:0 0 6px;font:800 clamp(24px,3.2vw,32px)/1.15 var(--mono);color:#fff}
+h2 span{color:var(--pink)}
+.secl{margin:0 0 22px;color:#cfc3e8;max-width:720px}
+
+/* 98 windows */
+.depts{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.win{display:flex;flex-direction:column;background:var(--pearl);padding:3px;color:var(--ink);
+  box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 #f6f3fb,6px 8px 0 rgba(0,0,0,.28)}
+.tb{display:flex;align-items:center;gap:7px;padding:5px 6px;color:#fff;background:var(--title);font:700 13px/1 var(--mono);letter-spacing:.02em}
+.tb .b{margin-left:auto;display:flex;gap:3px}
+.tb .b i{width:16px;height:14px;background:var(--pearl);box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 #fff}
+.wb{flex:1;background:var(--paper);margin-top:3px;padding:14px 16px 16px;box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 #fff}
+.kick{font:700 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#8c54e8}
+.win h3{margin:3px 0 6px;font:800 21px/1.2 var(--mono);color:var(--select)}
+.win p{margin:0 0 10px;font-size:14.5px;color:var(--quiet)}
+.win ol{margin:0;padding:0;list-style:none;display:grid;gap:5px;counter-reset:l}
+.win li{counter-increment:l;display:flex;gap:8px;align-items:center;font-size:13.5px;padding:5px 8px;background:#fff;box-shadow:inset 1px 1px 0 #d6cfe6,inset -1px -1px 0 #fff,0 0 0 1px #e9e4f3}
+.win li::before{content:counter(l);flex:none;width:20px;height:20px;display:grid;place-items:center;font:700 11px var(--mono);color:var(--select);background:#ece6fa}
+.win li.more{color:var(--quiet);font-style:italic}
+.win li.more::before{content:"+"}
+
+/* extras */
+.extras{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.ex{padding:16px 16px 14px;border-radius:14px;background:rgba(33,20,61,.75);border:1px solid rgba(140,84,232,.4)}
+.ex .e{font-size:28px;line-height:1}
+.ex h3{margin:8px 0 4px;font:700 17px var(--mono);color:#fff}
+.ex p{margin:0;font-size:14.5px;color:#cfc3e8}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:s}
+.step{position:relative;padding:20px 18px 16px;border-radius:14px;background:rgba(33,20,61,.75);border:1px solid rgba(102,232,242,.3)}
+.step::before{counter-increment:s;content:counter(s);position:absolute;top:-14px;left:16px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  font:800 15px var(--mono);color:#2a1a05;background:var(--gold)}
+.step h3{margin:4px 0 4px;font:700 17px var(--mono);color:#fff}
+.step p{margin:0;font-size:14.5px;color:#cfc3e8}
+
+/* faq */
+.faq details{border-bottom:1px solid rgba(140,84,232,.35);padding:12px 2px}
+.faq summary{cursor:pointer;font:700 17px var(--mono);color:#fff;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"▸ ";color:var(--pink)}
+.faq details[open] summary::before{content:"▾ "}
+.faq p{margin:8px 0 2px;color:#d9cdf0;max-width:760px}
+
+.final{margin:50px 0 0;padding:30px 22px;text-align:center;border-radius:18px;
+  background:radial-gradient(120% 140% at 100% 0,#3b2585 0,#21143d 55%,#120418 100%);border:1px solid rgba(102,232,242,.35)}
+.final h2{margin-bottom:8px}
+.final p{color:#d9cdf0;margin:0 0 18px}
+footer{padding:30px 0 40px;text-align:center;font-size:13.5px;color:#a297bf}
+footer a{color:#d9cdf0;margin:0 8px}
+
+@media (max-width:760px){
+  .steps{grid-template-columns:1fr;gap:22px}
+  .depts{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.go{transition:none}}
+</style>
 </head>
 <body>
-<p>🔮 The AI Academy is now members only.<br><a href="https://magickmica-members.vercel.app/academy/">Step inside →</a></p>
+<div class="wrap">
+  <nav class="top" aria-label="Site"><a href="../">← Magick Mica</a><a href="https://magickmica-members.vercel.app/academy/">Members sign in →</a></nav>
+
+  <header class="hero">
+    <div class="eyebrow">Magick Mica · MagickOS 98 Academy Edition</div>
+    <h1>AI Academy<small>A secret computer school from 1998</small></h1>
+    <p class="lede">Learn AI one cozy window at a time. <b>82 bite-size lessons</b> on how AI works, writing better prompts, working with Claude, building websites with Claude Code, MCP and AI agents, plus a Creative Studio for AI art.</p>
+    <div class="ctas">
+      <a class="go" href="https://magickmica-members.vercel.app/academy/">✦ Step inside the Academy →</a>
+      <a class="sub" href="https://magickmica.substack.com/subscribe" target="_blank" rel="noopener">Not a subscriber? Join free</a>
+    </div>
+    <p class="fine">Free for Magick Mica newsletter subscribers. Your curiosity is the password.</p>
+    <a class="banner" href="https://magickmica-members.vercel.app/academy/" aria-label="Step inside the Magick Mica AI Academy">
+      <picture><source srcset="academy-banner.webp" type="image/webp"><img src="academy-banner.gif" width="1200" height="300" alt="Animated banner: the Magick Mica AI Academy, with a crystal ball in a graduation cap and a MagickOS 98 window cycling through the Prompt Lab, the Creative Studio and the Daily Signal"></picture>
+    </a>
+  </header>
+
+  <section aria-labelledby="dept-h">
+    <h2 id="dept-h">The departments <span>✦</span></h2>
+    <p class="secl">Each department is its own window on the Academy desktop. Lessons are short: an idea, why it matters, an example to try, and a quick check.</p>
+    <div class="depts">
+      <article class="win"><div class="tb">🌱 Department 01<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+        <div class="kick">School of AI</div><h3>AI Foundations</h3><p>What AI is, how it writes its answers, and how to use it safely.</p>
+        <ol><li>Hello, Artificial Intelligence</li><li>What Is a Large Language Model?</li><li>How AI Generates Answers</li><li>Hallucinations, Errors and Fact Checking</li><li class="more">and more, through Your First AI Collaboration</li></ol></div></article>
+      <article class="win"><div class="tb">🧪 Department 02<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+        <div class="kick">Prompt Lab</div><h3>Prompt Engineering</h3><p>The building blocks of a prompt that gets you what you meant.</p>
+        <ol><li>The Anatomy of a Good Prompt</li><li>Give AI a Role</li><li>Define the Task</li><li>Add Context</li><li>Set Constraints</li><li>Give Examples</li><li class="more">and more, up to your own Prompt Library</li></ol></div></article>
+      <article class="win"><div class="tb">💬 Department 03<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+        <div class="kick">Claude Workshop</div><h3>Working with Claude</h3><p>Conversations, documents, projects, research and artifacts.</p>
+        <ol><li>Meet Claude</li><li>Giving Claude Context</li><li>Using Projects and Project Instructions</li><li>Understanding Artifacts</li><li class="more">and more, including Knowing When to Verify</li></ol></div></article>
+      <article class="win"><div class="tb">🛠️ Department 04<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+        <div class="kick">Building with AI</div><h3>Claude Code Garage</h3><p>From "what is a file?" to your own website online, no experience needed.</p>
+        <ol><li>What Is Claude Code?</li><li>HTML, CSS and JavaScript, gently</li><li>Build a Tiny Website</li><li>Find and Fix a Bug</li><li>GitHub Pages: Put Your Website Online</li><li class="more">and more</li></ol></div></article>
+      <article class="win"><div class="tb">🌀 Department 05<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+        <div class="kick">Model Context Protocol</div><h3>MCP Portal</h3><p>How AI apps connect to tools and data, in plain language.</p>
+        <ol><li>What Is MCP?</li><li>The Client, Server and Host</li><li>What Happens During a Tool Call?</li><li>Permissions and Trust</li><li>MCP Security Basics</li><li class="more">and more</li></ol></div></article>
+      <article class="win"><div class="tb">🔭 Department 06<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+        <div class="kick">AI Agents</div><h3>Agent Observatory</h3><p>What makes an agent different from a chatbot, and how to keep it safe.</p>
+        <ol><li>What Is an AI Agent?</li><li>The Observe → Plan → Act → Check Loop</li><li>Human Approval</li><li>Agent Safety and Boundaries</li><li>Design Your First Agent Workflow</li><li class="more">and more</li></ol></div></article>
+      <article class="win"><div class="tb">🎨 Department 07<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+        <div class="kick">Creative Studio · New</div><h3>AI Art &amp; Style Recipes</h3><p>Prompting for images: subjects, styles, palettes and moods you can mix like a recipe.</p>
+        <ol><li>The Style Recipe Mixer</li><li class="more">and more in the studio</li></ol></div></article>
+    </div>
+  </section>
+
+  <section aria-labelledby="ex-h">
+    <h2 id="ex-h">Also on the desktop <span>✦</span></h2>
+    <p class="secl">Little rooms that make the learning stick.</p>
+    <div class="extras">
+      <div class="ex"><div class="e">📡</div><h3>Daily Signal</h3><p>A two-minute lesson a day, with a streak that keeps glowing.</p></div>
+      <div class="ex"><div class="e">🕹️</div><h3>Quiz Arcade</h3><p>One cabinet per department. Test yourself, no pressure.</p></div>
+      <div class="ex"><div class="e">🏆</div><h3>Certificate Cabinet</h3><p>Little victories and certificates as you finish lessons and departments.</p></div>
+      <div class="ex"><div class="e">📖</div><h3>AI Dictionary</h3><p>Friendly definitions of AI words, each with a little analogy.</p></div>
+      <div class="ex"><div class="e">🧰</div><h3>Project Workshop</h3><p>Guided projects, like building your own personal prompt library.</p></div>
+      <div class="ex"><div class="e">👾</div><h3>PIXEL</h3><p>Your tiny pixel guide, popping up with hints along the way.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="how-h">
+    <h2 id="how-h">How to enroll <span>✦</span></h2>
+    <p class="secl">It takes about a minute.</p>
+    <div class="steps">
+      <div class="step"><h3>Subscribe free</h3><p>Join the Magick Mica newsletter on <a href="https://magickmica.substack.com/subscribe" target="_blank" rel="noopener">Substack</a>. It costs nothing.</p></div>
+      <div class="step"><h3>Step inside</h3><p>Open the <a href="https://magickmica-members.vercel.app/academy/">members Academy</a> and sign in as a subscriber.</p></div>
+      <div class="step"><h3>Learn at your pace</h3><p>Pick any department and go a few minutes at a time.</p></div>
+    </div>
+  </section>
+
+  <section class="faq" aria-labelledby="faq-h">
+    <h2 id="faq-h">Questions <span>✦</span></h2>
+    <details><summary>Is the Magick Mica AI Academy free?</summary><p>Yes. It's free for Magick Mica newsletter subscribers, and subscribing on Substack is free too.</p></details>
+    <details><summary>Do I need to know how to code?</summary><p>No. The Academy starts from zero with what AI is and how to talk to it. The Claude Code Garage teaches files, HTML, CSS and JavaScript one small step at a time.</p></details>
+    <details><summary>What is MCP?</summary><p>MCP, the Model Context Protocol, is an open standard that lets AI apps connect to tools and data. The MCP Portal explains clients, servers, tool calls, permissions and security in plain language.</p></details>
+    <details><summary>How long are the lessons?</summary><p>A few minutes each. The Daily Signal is a two-minute lesson a day with a streak counter, if you like a little routine.</p></details>
+    <details><summary>Why does it look like a computer from 1998?</summary><p>Because learning feels better when it's playful. The Academy runs on MagickOS 98, the same retro desktop as <a href="../desktop/">Magick Mica's MagickOS 98</a>: icons, windows, a Start menu and a taskbar.</p></details>
+  </section>
+
+  <div class="final">
+    <h2>Your curiosity is the password</h2>
+    <p>82 lessons, seven departments, one cozy desktop.</p>
+    <div class="ctas"><a class="go" href="https://magickmica-members.vercel.app/academy/">✦ Step inside →</a><a class="sub" href="https://magickmica.substack.com/subscribe" target="_blank" rel="noopener">Subscribe free</a></div>
+  </div>
+
+  <footer><a href="../">Magick Mica</a>·<a href="../desktop/">MagickOS 98</a>·<a href="https://substack.com/@magickmica" target="_blank" rel="noopener">@magickmica on Substack</a></footer>
+</div>
 </body>
 </html>
