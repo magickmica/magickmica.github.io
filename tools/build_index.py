@@ -467,13 +467,6 @@ def render(theme, themes, articles, nav, store_img=""):
 {scard("articles.html","ON SITE","Every Article","Searchable, with covers")}
 </div>
 
-<div class="sect"><h2 class="holo">SUPPORT THE SIGNAL</h2><div class="rule"></div>
-<span class="meta">KEEP IT BROADCASTING</span></div>
-<a class="star" href="https://ko-fi.com/magickmica/tip" target="_blank" rel="noopener">
-<div class="lab" style="font-family:Silkscreen,monospace;font-size:9px;letter-spacing:.2em;color:#8e85ad">ONE-TIME TIP</div>
-<div class="big">\u2726 Send Me a Star \u2726</div>
-<div class="sm">ko-fi.com/magickmica</div></a>
-
 <div class="sect"><h2 class="holo">EXTENDED UNIVERSE</h2><div class="rule"></div>
 <span class="meta">SIDE TRANSMISSIONS</span></div>
 <div class="cta-row">{CTAS["wand"]}{CTAS["ship"]}</div>
