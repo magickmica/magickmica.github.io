@@ -82,8 +82,9 @@
         <p class="intro">The circus put on its mittens. The winter games hand out holiday prizes you can't win anywhere else, and every one of them earns tickets and a bonus spin on the Prize Wheel too.</p>
         <div class="rides">
           <a class="ride big hero" href="crystal-chaos.html"><em>NEW</em><span class="em">🐧</span><b>Crystal Chaos</b><span>Pull glowing crystals out of a wobbly ice tower. Don't drop the little penguin on top!</span><i id="bCrys">PLAY</i></a>
-          <a class="ride big" href="sled-hill.html"><em>NEW</em><span class="em">🛷</span><b>Sled Hill</b><span>Zoom down the big snowy hill. Jump the rocks and trees, and grab the stars and presents.</span><i id="bSled">PLAY</i></a>
-          <a class="ride big" href="snowman-builder.html"><em>NEW</em><span class="em">⛄</span><b>Snowman Builder</b><span>Roll him, dress him up, then keep the sun off him so he doesn't melt.</span><i id="bMan">PLAY</i></a>
+          <a class="ride" href="sled-hill.html"><em>NEW</em><span class="em">🛷</span><b>Sled Hill</b><span>Zoom down the big snowy hill. Jump the rocks and trees, and grab the stars and presents.</span><i id="bSled">PLAY</i></a>
+          <a class="ride" href="snowman-builder.html"><em>NEW</em><span class="em">⛄</span><b>Snowman Builder</b><span>Roll him, dress him up, then keep the sun off him so he doesn't melt.</span><i id="bMan">PLAY</i></a>
+          <a class="ride" href="cosmic-coffee.html"><em>NEW</em><span class="em">☕</span><b>Cosmic Coffee</b><span>Make your own coffee with whipped cream and a candy cane. Now carry it across the circus and don't spill it!</span><i id="bCof">PLAY</i></a>
           <a class="ride" href="snowball-splat.html"><span class="em">❄️</span><b>Snowball Splat</b><span>Lob snowballs at the snowmen, aliens and polar cubs. Leave the penguins alone.</span><i id="bSnow">PLAY</i></a>
           <a class="ride" href="cocoa-catch.html"><span class="em">☕</span><b>Cocoa Catch</b><span>Catch marshmallows and cookies in your mug. Dodge the ice cubes.</span><i id="bCocoa">PLAY</i></a>
           <a class="ride" href="ferris-wheel.html"><span class="em">🎡</span><b>Cosmic Ferris Wheel</b><span>Ride up into the night sky, wish on shooting stars, and find a note at the top.</span><i id="bRide">RIDE</i></a>
@@ -91,7 +92,7 @@
 
         <section class="hol" aria-label="Holiday prizes">
           <h2>✦ HOLIDAY PRIZES ✦</h2>
-          <p class="sub">Win these in Crystal Chaos, Sled Hill, Snowman Builder, Snowball Splat and Cocoa Catch. They glow once they're on your shelf.</p>
+          <p class="sub">Win these in Cosmic Coffee, Crystal Chaos, Sled Hill, Snowman Builder, Snowball Splat and Cocoa Catch. They glow once they're on your shelf.</p>
           <div class="hgrid" id="hgrid"></div>
           <p class="count" id="hcount"></p>
         </section>
@@ -123,6 +124,7 @@
   var b3 = best('mm_sledhill_v1', 'best'), b4 = best('mm_snowman_v1', 'best');
   if (b3) document.getElementById('bSled').textContent = 'YOUR BEST ' + b3;
   if (b4) document.getElementById('bMan').textContent = 'YOUR BEST ' + b4;
+  var b5 = best('mm_coffee_v1', 'best'); if (b5) document.getElementById('bCof').textContent = 'YOUR BEST ' + b5;
   var b5 = best('mm_crystalchaos_v1', 'best');
   if (b5) document.getElementById('bCrys').textContent = 'YOUR BEST ' + b5;
   if (r) document.getElementById('bRide').textContent = r + (r === 1 ? ' RIDE' : ' RIDES') + ' SO FAR';

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cosmic Coffee &middot; MagickMica</title>
+<meta name="description" content="A Winter Carnival game at the Cosmic Circus: pour your own coffee, top it with whipped cream or marshmallows, then carry it across the snowy circus without spilling a drop. Win holiday prizes for your shared prize shelf.">
+<link rel="canonical" href="https://magickmica.github.io/cosmic-coffee.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Cosmic Coffee · Magick Mica Arcade">
+<meta property="og:description" content="Make your own coffee. Now don't spill it!">
+<meta property="og:url" content="https://magickmica.github.io/cosmic-coffee.html">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=2">
+<style>
+.dress{position:absolute;left:50%;top:10px;transform:translateX(-50%);width:min(92%,380px);padding:10px 12px 12px;border-radius:14px;text-align:center;z-index:3;background:rgba(19,28,63,.88);border:1px solid rgba(232,240,255,.4);box-shadow:0 0 24px rgba(185,163,255,.3)}
+.dress[hidden]{display:none}
+.dress h2{margin:0 0 6px;font-family:Silkscreen,monospace;font-weight:400;font-size:.72rem;letter-spacing:.18em;color:#ffd166}
+.dress .row{display:flex;align-items:center;justify-content:center;gap:6px;margin:5px 0}
+.dress .row span{width:46px;text-align:left;font-family:Silkscreen,monospace;font-size:.52rem;letter-spacing:.1em;color:rgba(213,194,220,.8)}
+.dress .row button{width:38px;height:38px;border-radius:10px;font-size:1.25rem;line-height:1;padding:0;border:2px solid rgba(213,194,220,.25);background:rgba(4,5,9,.4);cursor:pointer}
+.dress .row button[aria-pressed="true"]{border-color:#5ff3e8;box-shadow:0 0 10px rgba(95,243,232,.6)}
+.dress .row button.sw{width:30px;height:30px;border-radius:50%}
+.dress .go{margin-top:8px;font-family:Silkscreen,monospace;font-size:.66rem;letter-spacing:.1em;padding:10px 14px;border-radius:999px;border:0;color:#040509;cursor:pointer;background:linear-gradient(90deg,#5ff3e8,#b9a3ff);box-shadow:0 4px 0 #2f5f7a}
+.dress .tip{margin:8px 0 0;font-size:.66rem;line-height:1.4;color:rgba(213,194,220,.75)}
+@media (max-width:520px){.dress{top:6px;padding:8px 10px 10px}.dress .tip{display:none}.dress .row{margin:3px 0}.dress .row button{width:34px;height:34px;font-size:1.1rem}.dress .row button.sw{width:26px;height:26px}.dress .go{margin-top:5px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
+    <h1>COSMIC COFFEE</h1>
+    <p class="tag">Make your own coffee. Now don't spill it!</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ WINTER CARNIVAL · COSMIC COFFEE ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Cosmic coffee. Hold to pour, then lean the mug back to keep it from spilling."></canvas>
+
+      <div class="veil" id="startVeil" data-on="true">
+        <div class="card">
+          <h2>STEP RIGHT UP!</h2>
+          <p>First, hold to pour the coffee and let go at the green line. Then pour the steamed milk up to the next line. Too much and it overflows! Pick your topping, an extra and your mug. Then carry it across the snowy circus to your friend at the Ferris wheel. Wind, snow bumps and icy patches make it wobble, so keep it level and don't spill.</p>
+          <div class="lbl">How wild</div>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="easy" aria-pressed="false">Easy</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="wild" aria-pressed="false">Wild</button>
+          </div>
+          <button class="go" id="startBtn" type="button">☕ START BREWING</button>
+          <div class="howto"><b>Touch or mouse:</b> hold to pour. While walking, hold the left or right side to lean the mug back.<br><b>Keyboard:</b> hold space to pour, ← / → to lean.<br><b>Prizes:</b> holiday prizes! 50 points for a small one, 70 for a big one, 88 for a JUMBO.</div>
+        </div>
+      </div>
+
+      <div class="veil" id="endVeil">
+        <div class="card">
+          <h2 id="endTitle"></h2>
+          <p id="endText"></p>
+          <div id="endPrize"></div>
+          <div>
+            <button class="go" id="againBtn" type="button">☕ MAKE ANOTHER</button>
+            <a class="ghost" href="arcade.html#circus">Back to the circus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">BEST<b id="sBest">0</b></span>
+      <span class="stat">CUPS<b id="sCups">0</b></span>
+      <span class="stat">FULLEST<b id="sFull">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>Cosmic Coffee gives out holiday prizes: 50 points for a small one, 70 for a big one, 88 for a JUMBO. Prizes from every game at the circus land here, and every prize earns a bonus spin on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="arcade.html">← Back to the Arcade</a>
+</div>
+
+<script src="mm-prizes.js?v=7"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+'use strict';
+var cv = document.getElementById('cv'), stage = document.getElementById('stage');
+var startVeil = document.getElementById('startVeil'), endVeil = document.getElementById('endVeil');
+var S = MMC.Sound, bits = MMC.Bits(), reduce = MMC.reduce;
+var st = MMC.store('mm_coffee_v1', { best: 0, cups: 0, fullest: 0 });
+MMC.soundButton(document.getElementById('soundBtn'));
+MMC.shelf(document.getElementById('shelf'));
+var view = MMC.canvas(cv, stage, function (w) { return Math.round(Math.min(Math.max(innerHeight * .64, 470), 600)); });
+var ctx = view.ctx;
+
+// pour: fill speed. push: how hard you can lean the cup back. wobble: how tippy it is. gust: wind strength. every: seconds between surprises
+var DIFF = { easy: { pour: .24, push: 6, wobble: 1.3, gust: 1.8, every: 3.4 }, normal: { pour: .32, push: 6, wobble: 1.8, gust: 2.4, every: 2.6 }, wild: { pour: .42, push: 6, wobble: 2.4, gust: 3.2, every: 2 } };
+var diffKey = 'normal', CARRY = 35;
+var POURS = [{ name: 'COFFEE', target: .45, col: '#5a3220' }, { name: 'STEAMED MILK', target: .86, col: '#c99a6b' }];
+var TOPS = ['☁️', '🍡', '✨'], EXTRAS = ['🍬', '🪵', '🍪'], MUGS = ['#ff4fa3', '#5ff3e8', '#ffd166', '#b9a3ff'];
+
+var state = 'menu', pi = 0, fill = 0, levels = [0, 0], pouring = false, makePts = 0, t = 0, msgs = [];
+var look = { top: 0, extra: 0, mug: 0 };
+var a = 0, w = 0, input = 0, keys = {}, ptr = null, liquid = 0, full = 0, left = CARRY, ct = 0, dist = 0, score = 0;
+var events = [], nextEv = 0, gust = null, ice = 0, endT = 0, splashes = 0, slosh = 0, drops = [];
+var flakes = [];
+for (var i = 0; i < 50; i++) flakes.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.8 + .5, v: Math.random() * .4 + .2, w: Math.random() * 6 });
+
+/* ---------- the toppings panel */
+var panel = document.createElement('div');
+panel.className = 'dress'; panel.hidden = true;
+panel.innerHTML = '<h2>TOP IT OFF!</h2>' +
+  '<div class="row"><span>TOP</span><button type="button" data-k="top" data-i="0" aria-label="Whipped cream">☁️</button><button type="button" data-k="top" data-i="1" aria-label="Marshmallows">🍡</button><button type="button" data-k="top" data-i="2" aria-label="Star sprinkles">✨</button></div>' +
+  '<div class="row"><span>EXTRA</span><button type="button" data-k="extra" data-i="0" aria-label="Candy cane">🍬</button><button type="button" data-k="extra" data-i="1" aria-label="Cinnamon stick">🪵</button><button type="button" data-k="extra" data-i="2" aria-label="Cookie">🍪</button></div>' +
+  '<div class="row"><span>MUG</span>' + MUGS.map(function (c, i) { return '<button type="button" class="sw" data-k="mug" data-i="' + i + '" style="background:' + c + '" aria-label="Mug color ' + (i + 1) + '"></button>'; }).join('') + '</div>' +
+  '<button class="go" type="button" id="dressDone">☕ CARRY IT!</button>' +
+  '<p class="tip">Next: carry it to your friend at the Ferris wheel. Wind, bumps and icy patches will try to make you spill!</p>';
+stage.appendChild(panel);
+function markPanel() { panel.querySelectorAll('button[data-k]').forEach(function (b) { b.setAttribute('aria-pressed', String(look[b.dataset.k] === +b.dataset.i)); }); }
+panel.addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; S.boot();
+  if (b.id === 'dressDone') { startCarry(); return; }
+  look[b.dataset.k] = +b.dataset.i; S.click(); markPanel();
+});
+
+function newGame() {
+  pi = 0; fill = 0; levels = [0, 0]; pouring = false; makePts = 0; msgs = []; drops = [];
+  look = { top: Math.floor(Math.random() * 3), extra: Math.floor(Math.random() * 3), mug: Math.floor(Math.random() * 4) };
+  a = 0; w = 0; slosh = 0; state = 'make';
+}
+function startCarry() {
+  panel.hidden = true; state = 'carry'; full = levels[1]; liquid = full; left = CARRY; ct = 0; dist = 0; splashes = 0;
+  a = 0; w = 0; events = []; nextEv = 2.2; gust = null; ice = 0; score = makePts + 5; S.bell();
+}
+
+/* ---------- input */
+function down(x) {
+  S.boot();
+  if (state === 'make') { pouring = true; return; }
+  if (state === 'carry') ptr = x;
+}
+function up() { ptr = null; if (state === 'make' && pouring) { pouring = false; stopPour(); } }
+cv.addEventListener('pointerdown', function (e) { e.preventDefault(); down(MMC.pt(cv, e).x); });
+cv.addEventListener('pointermove', function (e) { if (ptr !== null) ptr = MMC.pt(cv, e).x; });
+addEventListener('pointerup', up); addEventListener('pointercancel', up);
+addEventListener('keydown', function (e) {
+  if (e.key === ' ' && state === 'make') { e.preventDefault(); if (!e.repeat) { S.boot(); pouring = true; } }
+  if (/Arrow(Left|Right)/.test(e.key) && state === 'carry') { e.preventDefault(); keys[e.key] = true; }
+});
+addEventListener('keyup', function (e) { keys[e.key] = false; if (e.key === ' ' && state === 'make' && pouring) { pouring = false; stopPour(); } });
+
+function stopPour() {
+  var p = POURS[pi], start = pi ? levels[0] : 0;
+  if (fill - start < .06) { fill = start; return; } // a tap too short to count
+  var off = Math.abs(fill - p.target), pts = Math.max(0, Math.round(10 - off / .02));
+  levels[pi] = fill; makePts += pts;
+  var word = pts >= 9 ? 'PERFECT!' : pts >= 6 ? 'NICE!' : pts >= 3 ? 'OK!' : 'WHOOPS!';
+  msgs.push({ txt: word + ' +' + pts, x: view.W / 2, y: view.H * .3, life: 1.1, c: pts >= 9 ? '#ffd166' : '#5ff3e8' });
+  if (pts >= 9) { S.ding(true); bits.burst(view.W / 2, mugGeo().top, '#ffd166', true); } else S.ding(false);
+  pi++;
+  if (pi >= 2) { state = 'pause'; setTimeout(function () { if (state === 'pause') { state = 'dress'; markPanel(); panel.hidden = false; } }, 700); }
+}
+
+/* ---------- the walk: wind, bumps and ice */
+function spawnEvent() {
+  var r = Math.random(), dir = Math.random() < .5 ? -1 : 1;
+  if (r < .4) events.push({ k: 'gust', dir: dir, warn: .8, life: .9 });
+  else if (r < .75) events.push({ k: 'bump', x: view.W + 40, dir: dir, hit: false });
+  else events.push({ k: 'ice', x: view.W + 40, len: 160 + Math.random() * 120 });
+}
+function tick(dt) {
+  t += dt;
+  flakes.forEach(function (f) { f.y += dt * f.v * .12; if (f.y > 1) { f.y = 0; f.x = Math.random(); } });
+  var D = DIFF[diffKey], W = view.W;
+  if (state === 'make' && pouring) {
+    var p = POURS[pi];
+    fill += dt * D.pour * (pi ? .9 : 1);
+    if (fill > 1.02) {
+      fill = pi ? levels[0] : 0; pouring = false; S.thud();
+      msgs.push({ txt: 'OOPS! IT OVERFLOWED', x: W / 2, y: view.H * .3, life: 1.3, c: '#ff4fa3' });
+      var g = mugGeo(); bits.sparkle(W / 2, g.top, p.col, 26);
+    }
+    if (Math.random() < dt * 30) S.noise(.06, .03, pi ? 2400 : 900);
+  }
+  if (state === 'carry') {
+    ct += dt; left -= dt; var speed = 150 + ct * 2; dist += speed * dt;
+    // what the player is doing
+    input = 0;
+    if (keys.ArrowLeft) input -= 1; if (keys.ArrowRight) input += 1;
+    if (ptr !== null) input = Math.max(-1, Math.min(1, (ptr - W / 2) / (W * .22)));
+    var onIce = events.some(function (e) { return e.k === 'ice' && e.x < W / 2 && e.x + e.len > W / 2; });
+    var push = input * D.push * (onIce ? .55 : 1);
+    var force = D.wobble * Math.sin(a) + push + (Math.random() - .5) * (onIce ? 3 : 1);
+    events.forEach(function (e) {
+      if (e.k === 'gust') { e.warn -= dt; if (e.warn <= 0) { e.life -= dt; force += e.dir * D.gust; if (!e.blew) { e.blew = true; S.whoosh(); } } }
+      else {
+        e.x -= speed * dt;
+        if (e.k === 'bump' && !e.hit && e.x < W / 2) { e.hit = true; w += e.dir * (1.2 + D.gust * .2); S.thud(); slosh += e.dir * .4; }
+      }
+    });
+    events = events.filter(function (e) { return e.k === 'gust' ? e.life > 0 : e.x + (e.len || 40) > -40; });
+    w += force * dt; w *= Math.exp(-2.6 * dt); a += w * dt;
+    slosh += (-(slosh) * 6 - w * 2) * dt; slosh = Math.max(-.5, Math.min(.5, slosh));
+    nextEv -= dt; if (nextEv <= 0) { spawnEvent(); nextEv = D.every * (.75 + Math.random() * .6); }
+    // spilling
+    var g2 = mugGeo(), over = Math.abs(a) - .3;
+    if (over > 0) {
+      liquid = Math.max(0, liquid - full * over * 1.1 * dt);
+      if (Math.random() < dt * 30) drops.push({ x: W / 2 + Math.sign(a) * g2.w * .55, y: g2.top + 10, vx: Math.sign(a) * (40 + Math.random() * 60), vy: -40 - Math.random() * 40, life: 1 });
+    }
+    if (Math.abs(a) > .85) {
+      liquid = Math.max(0, liquid - full * .18); splashes++; S.pop(false);
+      msgs.push({ txt: 'SPLASH!', x: W / 2 + Math.sign(a) * 80, y: g2.top - 30, life: 1, c: '#ff4fa3' });
+      for (var k = 0; k < 14; k++) drops.push({ x: W / 2 + Math.sign(a) * g2.w * .55, y: g2.top + 10, vx: Math.sign(a) * (60 + Math.random() * 120), vy: -80 - Math.random() * 120, life: 1.2 });
+      a = Math.sign(a) * .3; w = 0;
+    }
+    var pct = full ? liquid / full : 0;
+    score = makePts + 5 + Math.round(pct * 75);
+    if (liquid <= full * .02) { liquid = 0; state = 'ending'; endT = 1.4; S.womp ? S.womp() : S.thud(); }
+    else if (left <= 0) { left = 0; state = 'ending'; endT = 1.2; S.bell(); }
+  }
+  if (state === 'ending') { a *= Math.exp(-4 * dt); w = 0; }
+  drops.forEach(function (d) { d.vy += 500 * dt; d.x += d.vx * dt; d.y += d.vy * dt; d.life -= dt; }); drops = drops.filter(function (d) { return d.life > 0; });
+  msgs.forEach(function (m) { m.life -= dt; m.y -= dt * 28; }); msgs = msgs.filter(function (m) { return m.life > 0; });
+  if (state === 'ending') { endT -= dt; if (endT <= 0) end(); }
+  bits.step(dt, view.H);
+}
+function award(tier, game) {
+  if (!window.MMPrizes) return null;
+  var p = MMPrizes.pick(tier, 'winter'); MMPrizes.add(p, game); MMPrizes.addToken(1); return p;
+}
+function end() {
+  state = 'done';
+  var pct = full ? Math.round(liquid / full * 100) : 0, made = pct > 0;
+  if (window.MMPrizes) MMPrizes.addTickets(1 + Math.floor(score / 10), 'Cosmic Coffee');
+  if (made) st.data.cups++;
+  if (pct > st.data.fullest) st.data.fullest = pct;
+  var isBest = score > st.data.best; if (isBest) st.data.best = score; st.save(); stats();
+  var tier = score >= 88 ? 'jumbo' : score >= 70 ? 'medium' : score >= 50 ? 'small' : null;
+  var title = document.getElementById('endTitle'), text = document.getElementById('endText'), pz = document.getElementById('endPrize');
+  var how = made ? 'You made it to the Ferris wheel with ' + pct + '% of your coffee still in the mug!' : 'Oh no, every last drop spilled on the way.';
+  text.textContent = how + ' ' + score + ' points.' + (isBest ? ' New best!' : '');
+  if (tier) {
+    var p = award(tier, 'Cosmic Coffee'); S.fanfare(); bits.confetti(view.W, view.H);
+    title.textContent = tier === 'jumbo' ? 'BARISTA OF THE GALAXY!' : tier === 'medium' ? 'WHAT A CUP!' : 'DELIVERED!';
+    pz.innerHTML = p ? MMC.prizeCard(p) : '';
+  } else {
+    title.textContent = made ? 'SO CLOSE!' : 'OOPS! IT ALL SPILLED';
+    text.textContent += ' You need 50 for a prize. Pour to the lines, then keep the mug level.';
+    pz.innerHTML = '';
+  }
+  endVeil.dataset.on = 'true'; document.getElementById('againBtn').focus({ preventScroll: true });
+}
+function stats() {
+  document.getElementById('sBest').textContent = st.data.best;
+  document.getElementById('sCups').textContent = st.data.cups;
+  document.getElementById('sFull').textContent = st.data.fullest + '%';
+}
+
+/* ---------- drawing */
+function mugGeo() {
+  var W = view.W, H = view.H, s = Math.max(.8, Math.min(1.25, W / 380)), mw = 112 * s, mh = 126 * s;
+  var cy = state === 'make' || state === 'pause' || state === 'dress' || state === 'menu' ? H - 78 : H * .71;
+  return { x: W / 2, bottom: cy, top: cy - mh, w: mw, h: mh, s: s };
+}
+function mugShape(g) { // local coords: origin at the bottom middle of the mug
+  var w2 = g.w / 2; ctx.beginPath(); ctx.moveTo(-w2, -g.h); ctx.lineTo(w2, -g.h); ctx.lineTo(w2 * .9, -10); ctx.quadraticCurveTo(w2 * .88, 0, w2 * .7, 0);
+  ctx.lineTo(-w2 * .7, 0); ctx.quadraticCurveTo(-w2 * .88, 0, -w2 * .9, -10); ctx.closePath();
+}
+function drawMug(time, ang, coffeeLv, milkLv) {
+  var g = mugGeo(), w2 = g.w / 2, col = MUGS[look.mug], inner = 7 * g.s;
+  ctx.save(); ctx.translate(g.x, g.bottom); ctx.rotate(ang);
+  // handle
+  ctx.strokeStyle = MMC.shade(col, -.15); ctx.lineWidth = 12 * g.s; ctx.beginPath(); ctx.arc(w2 * .95, -g.h * .52, g.h * .24, -1.3, 1.3); ctx.stroke();
+  // body
+  var bg = ctx.createLinearGradient(-w2, 0, w2, 0); bg.addColorStop(0, MMC.shade(col, -.25)); bg.addColorStop(.35, col); bg.addColorStop(1, MMC.shade(col, -.35));
+  ctx.fillStyle = bg; mugShape(g); ctx.fill();
+  // inside + liquid (kept level with the world, so it sloshes when the mug tips)
+  ctx.save(); ctx.beginPath(); ctx.moveTo(-w2 + inner, -g.h); ctx.lineTo(w2 - inner, -g.h); ctx.lineTo(w2 * .9 - inner, -inner); ctx.lineTo(-w2 * .9 + inner, -inner); ctx.closePath(); ctx.clip();
+  ctx.fillStyle = '#2a1712'; ctx.fillRect(-w2, -g.h, g.w, g.h);
+  var span = g.h - inner, yC = -inner - coffeeLv * span, yM = -inner - milkLv * span;
+  ctx.rotate(-ang - slosh * .25);
+  if (milkLv > coffeeLv) { var mg = ctx.createLinearGradient(0, yM, 0, yC); mg.addColorStop(0, '#f2dcc0'); mg.addColorStop(1, '#b07a4f'); ctx.fillStyle = mg; ctx.fillRect(-g.w * 2, yM, g.w * 4, g.h * 2); }
+  if (coffeeLv > 0) { ctx.fillStyle = '#5a3220'; ctx.fillRect(-g.w * 2, Math.max(yC, yM), g.w * 4, g.h * 2); }
+  ctx.restore();
+  // rim + shine + star logo
+  ctx.fillStyle = MMC.shade(col, .35); ctx.beginPath(); ctx.ellipse(0, -g.h, w2, 6 * g.s, 0, 0, 6.28); ctx.fill();
+  ctx.fillStyle = '#2a1712'; ctx.beginPath(); ctx.ellipse(0, -g.h, w2 - inner, 3.5 * g.s, 0, 0, 6.28); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.28)'; ctx.fillRect(-w2 * .7, -g.h * .85, 7 * g.s, g.h * .6);
+  ctx.fillStyle = 'rgba(255,255,255,.85)'; MMC.star(ctx, 0, -g.h * .42, 15 * g.s, 5, .45); ctx.fill();
+  ctx.restore();
+  return g;
+}
+function drawTop(time, ang, lv) { // toppings float on top of the drink and stay level
+  var g = mugGeo(), span = g.h - 7 * g.s, y = -7 * g.s - lv * span;
+  ctx.save(); ctx.translate(g.x, g.bottom); ctx.rotate(ang);
+  var px = Math.sin(ang) * 0, py = y;
+  if (look.extra === 0) { // candy cane hooked on the rim
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 7 * g.s; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(g.w * .28, -g.h * .5); ctx.lineTo(g.w * .28, -g.h - 22 * g.s); ctx.arc(g.w * .4, -g.h - 22 * g.s, g.w * .12, 3.14, 0); ctx.stroke();
+    ctx.strokeStyle = '#ff3b4e'; ctx.setLineDash([5 * g.s, 6 * g.s]); ctx.stroke(); ctx.setLineDash([]);
+  } else if (look.extra === 1) { // cinnamon stick
+    ctx.save(); ctx.translate(-g.w * .2, -g.h); ctx.rotate(-.35); ctx.fillStyle = '#9a5a2e'; MMC.rr(ctx, -5 * g.s, -40 * g.s, 10 * g.s, 70 * g.s, 4); ctx.fill(); ctx.fillStyle = '#6e3c1c'; ctx.fillRect(-1, -40 * g.s, 2, 70 * g.s); ctx.restore();
+  }
+  ctx.restore();
+  if (lv < .5) return;
+  // the topping itself sits on the drink, level with the world
+  var topY = g.bottom + Math.cos(ang) * y, topX = g.x - Math.sin(ang) * y;
+  var showY = Math.max(topY, g.bottom - Math.cos(ang) * g.h - 2);
+  ctx.save(); ctx.translate(topX, showY);
+  if (look.top === 0) { // whipped cream swirl
+    ctx.fillStyle = '#fff8ee';
+    [[0, -8, 26], [-18, -2, 18], [18, -2, 18], [0, -24, 18], [3, -36, 10]].forEach(function (c) { ctx.beginPath(); ctx.arc(c[0] * g.s, c[1] * g.s, c[2] * g.s, 0, 6.28); ctx.fill(); });
+    ctx.fillStyle = '#ff4fa3'; ctx.beginPath(); ctx.arc(5 * g.s, -44 * g.s, 6 * g.s, 0, 6.28); ctx.fill();
+  } else if (look.top === 1) { // marshmallows
+    [[-20, -4], [0, -8], [20, -3], [-9, -18], [11, -19]].forEach(function (m, i) { ctx.fillStyle = i % 2 ? '#ffd0e8' : '#fff'; MMC.rr(ctx, m[0] * g.s - 9 * g.s, m[1] * g.s - 8 * g.s, 18 * g.s, 15 * g.s, 4); ctx.fill(); });
+  } else { // star sprinkles on foam
+    ctx.fillStyle = '#f6e6d0'; ctx.beginPath(); ctx.ellipse(0, -2, g.w * .4, 9 * g.s, 0, 0, 6.28); ctx.fill();
+    ['#ffd166', '#5ff3e8', '#ff4fa3', '#b9a3ff', '#ffd166'].forEach(function (c, i) { ctx.fillStyle = c; MMC.star(ctx, (i - 2) * 14 * g.s, -4 - (i % 2) * 5, 5 * g.s, 5, .45); ctx.fill(); });
+  }
+  ctx.restore();
+}
+function steam(time, lv) {
+  if (lv < .3 || reduce) return; var g = mugGeo();
+  ctx.strokeStyle = 'rgba(255,255,255,.28)'; ctx.lineWidth = 4; ctx.lineCap = 'round';
+  for (var i = -1; i <= 1; i++) { ctx.beginPath(); for (var k = 0; k < 14; k++) { var yy = g.top - 30 - k * 5, xx = g.x + i * 22 + Math.sin(time * 2 + k * .5 + i) * 6; if (k) ctx.lineTo(xx, yy); else ctx.moveTo(xx, yy); } ctx.stroke(); }
+}
+function drawMachine(time) {
+  var W = view.W, g = mugGeo(), mx = W / 2, mw = Math.min(240, W * .62), mh = Math.min(150, g.top - 110), top = Math.max(18, g.top - 80 - mh);
+  ctx.fillStyle = '#2f2f70'; MMC.rr(ctx, mx - mw / 2, top, mw, mh, 16); ctx.fill();
+  ctx.strokeStyle = '#b9a3ff'; ctx.lineWidth = 2; MMC.rr(ctx, mx - mw / 2, top, mw, mh, 16); ctx.stroke();
+  MMC.label(ctx, 'COSMIC COFFEE', mx, top + 22, '#ffd166', 11);
+  for (var i = 0; i < 3; i++) { var dx = mx + (i - 1) * 34, dy = top + 48; ctx.fillStyle = '#131c3f'; ctx.beginPath(); ctx.arc(dx, dy, 11, 0, 6.28); ctx.fill(); ctx.strokeStyle = ['#5ff3e8', '#ff4fa3', '#ffd166'][i]; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(dx, dy); ctx.lineTo(dx + Math.cos(time * (i + 1) * .7) * 8, dy + Math.sin(time * (i + 1) * .7) * 8); ctx.stroke(); }
+  var wy = top + 66, wh = mh - 92;
+  if (wh > 16) { ctx.fillStyle = '#131c3f'; MMC.rr(ctx, mx - mw * .32, wy, mw * .64, wh, 10); ctx.fill();
+    ctx.save(); MMC.rr(ctx, mx - mw * .32, wy, mw * .64, wh, 10); ctx.clip();
+    for (var b = 0; b < 7; b++) { ctx.fillStyle = b % 2 ? 'rgba(201,154,107,.7)' : 'rgba(90,50,32,.9)'; ctx.beginPath(); ctx.arc(mx - mw * .28 + ((b * 37 + time * 30) % (mw * .6)), wy + wh * .75 - Math.sin(time * 2 + b) * wh * .15, wh * .35, 0, 6.28); ctx.fill(); }
+    ctx.fillStyle = 'rgba(255,255,255,.7)'; for (b = 0; b < 4; b++) { ctx.beginPath(); ctx.arc(mx - mw * .2 + b * mw * .13, wy + wh - ((time * 25 + b * 13) % wh), 2.5, 0, 6.28); ctx.fill(); }
+    ctx.restore(); }
+  for (i = 0; i < 6; i++) { ctx.fillStyle = Math.floor(time * 4 + i) % 3 ? 'rgba(255,209,102,.35)' : '#ffd166'; ctx.beginPath(); ctx.arc(mx - mw / 2 + 18 + i * (mw - 36) / 5, top + mh - 12, 3.5, 0, 6.28); ctx.fill(); }
+  // spout
+  ctx.fillStyle = '#8f86c9'; ctx.fillRect(mx - 14, top + mh, 28, 18); ctx.fillRect(mx - 6, top + mh + 18, 12, 14);
+  if (pouring && state === 'make') { var p = POURS[pi]; ctx.fillStyle = pi ? '#f2e2cc' : p.col; ctx.fillRect(mx - 4, top + mh + 32, 8, g.bottom - (top + mh + 32) - 10); }
+}
+function drawTargets() {
+  var g = mugGeo(), span = g.h - 7 * g.s, p = POURS[pi]; if (!p) return;
+  var y = g.bottom - 7 * g.s - p.target * span, w2 = g.w / 2 + 16;
+  ctx.strokeStyle = '#7ee364'; ctx.lineWidth = 3; ctx.setLineDash([8, 6]); ctx.beginPath(); ctx.moveTo(g.x - w2, y); ctx.lineTo(g.x + w2, y); ctx.stroke(); ctx.setLineDash([]);
+  MMC.label(ctx, '◀ ' + (pi ? 'MILK' : 'COFFEE') + ' LINE', g.x + w2 + 6, y + 4, '#7ee364', 9, 'left');
+  ctx.strokeStyle = 'rgba(255,79,163,.7)'; ctx.beginPath(); ctx.moveTo(g.x - w2, g.top); ctx.lineTo(g.x - g.w / 2, g.top); ctx.moveTo(g.x + g.w / 2, g.top); ctx.lineTo(g.x + w2, g.top); ctx.stroke();
+}
+function drawWalk(time) {
+  var W = view.W, H = view.H, gy = H * .8;
+  // circus tents drifting past in the distance
+  for (var i = 0; i < 6; i++) {
+    var tx = ((i * 260 - dist * .25) % 1560 + 1560) % 1560 - 160, th = 70 + (i % 3) * 18, ty = gy - 30;
+    ctx.fillStyle = i % 2 ? 'rgba(255,79,163,.35)' : 'rgba(185,163,255,.32)';
+    ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(tx + 60, ty - th); ctx.lineTo(tx + 120, ty); ctx.closePath(); ctx.fill();
+    ctx.fillRect(tx + 8, ty, 104, 30);
+    ctx.fillStyle = '#ffd166'; ctx.beginPath(); ctx.arc(tx + 60, ty - th - 4, 3, 0, 6.28); ctx.fill();
+  }
+  // string lights
+  ctx.strokeStyle = 'rgba(213,194,220,.3)'; ctx.lineWidth = 1.5; ctx.beginPath();
+  var off = (dist * .6) % 60;
+  for (var x = -off; x < W + 60; x += 60) { ctx.moveTo(x, 36); ctx.quadraticCurveTo(x + 30, 56, x + 60, 36); } ctx.stroke();
+  for (x = -off; x < W + 60; x += 30) { ctx.fillStyle = ['#ff4fa3', '#5ff3e8', '#ffd166'][Math.abs(Math.round((x + off + dist * .6) / 30)) % 3]; ctx.beginPath(); ctx.arc(x + 15, 47, 3.2, 0, 6.28); ctx.fill(); }
+  // snowy path
+  var gr = ctx.createLinearGradient(0, gy, 0, H); gr.addColorStop(0, '#eef4ff'); gr.addColorStop(1, '#a3b1dd');
+  ctx.fillStyle = gr; ctx.fillRect(0, gy, W, H - gy);
+  ctx.fillStyle = 'rgba(163,177,221,.6)'; for (x = -((dist) % 80); x < W; x += 80) ctx.fillRect(x, gy + 22, 34, 4);
+  events.forEach(function (e) {
+    if (e.k === 'ice') { ctx.fillStyle = 'rgba(159,232,255,.75)'; MMC.rr(ctx, e.x, gy + 4, e.len, 16, 8); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.fillRect(e.x + 12, gy + 8, 22, 3); MMC.label(ctx, 'ICE', e.x + e.len / 2, gy + 40, '#5ff3e8', 9); }
+    if (e.k === 'bump') { ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.ellipse(e.x, gy + 2, 30, 14, 0, 3.14, 6.28); ctx.fill(); ctx.fillStyle = '#c3cdee'; ctx.beginPath(); ctx.ellipse(e.x + 6, gy + 2, 18, 6, 0, 3.14, 6.28); ctx.fill(); }
+    if (e.k === 'gust' && e.warn > 0) { var arrow = e.dir > 0 ? 'WIND ▶▶' : '◀◀ WIND'; ctx.globalAlpha = .5 + .5 * Math.sin(time * 18); MMC.label(ctx, arrow, W / 2, H * .2, '#5ff3e8', 14); ctx.globalAlpha = 1; }
+    if (e.k === 'gust' && e.warn <= 0 && !reduce) { ctx.strokeStyle = 'rgba(232,240,255,.5)'; ctx.lineWidth = 2; for (var k = 0; k < 5; k++) { var yy = H * .25 + k * 40, xx = ((time * 900 * e.dir + k * 170) % (W + 200) + W + 200) % (W + 200) - 100; ctx.beginPath(); ctx.moveTo(xx, yy); ctx.lineTo(xx + 60 * e.dir, yy); ctx.stroke(); } }
+  });
+  // the Ferris wheel waits at the end
+  var pr = Math.min(1, ct / CARRY), fx = W + 120 - pr * 220;
+  ctx.strokeStyle = 'rgba(255,209,102,.6)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(fx, gy - 90, 70, 0, 6.28); ctx.stroke();
+  for (i = 0; i < 8; i++) { var an = i / 8 * 6.28 + time * .3; ctx.beginPath(); ctx.moveTo(fx, gy - 90); ctx.lineTo(fx + Math.cos(an) * 70, gy - 90 + Math.sin(an) * 70); ctx.stroke(); }
+  ctx.beginPath(); ctx.moveTo(fx - 40, gy); ctx.lineTo(fx, gy - 90); ctx.lineTo(fx + 40, gy); ctx.stroke();
+}
+function drawTray(time, ang) {
+  var g = mugGeo(), tw = g.w * 1.9;
+  ctx.save(); ctx.translate(g.x, g.bottom); ctx.rotate(ang);
+  ctx.fillStyle = '#c0c6e6'; MMC.rr(ctx, -tw / 2, 0, tw, 10 * g.s, 5); ctx.fill(); ctx.fillStyle = '#e8ecff'; ctx.fillRect(-tw / 2 + 6, 1, tw - 12, 3);
+  if (look.extra === 2) { ctx.font = Math.round(30 * g.s) + 'px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.fillText('🍪', -tw * .36, -2); }
+  // mittens
+  ['#ff4fa3', '#ff4fa3'].forEach(function (c, i) { var sx = i ? tw / 2 - 8 : -tw / 2 + 8; ctx.fillStyle = c; ctx.beginPath(); ctx.ellipse(sx, 12 * g.s, 16 * g.s, 12 * g.s, 0, 0, 6.28); ctx.fill(); ctx.fillStyle = '#fff'; ctx.fillRect(sx - 14 * g.s, 20 * g.s, 28 * g.s, 9 * g.s); });
+  ctx.restore();
+}
+function draw(time) {
+  var W = view.W, H = view.H, carrying = state === 'carry' || state === 'ending' || (state === 'done' && ct > 0);
+  MMC.sky(ctx, W, H, time);
+  if (!reduce) { ctx.fillStyle = 'rgba(255,255,255,.55)'; flakes.forEach(function (f) { ctx.beginPath(); ctx.arc(f.x * W + Math.sin(time + f.w) * 8, f.y * H, f.r, 0, 6.28); ctx.fill(); }); }
+  var lvC, lvM;
+  if (carrying) {
+    drawWalk(time);
+    var ratio = full ? liquid / full : 0; lvM = levels[1] * ratio; lvC = Math.min(levels[0], lvM);
+    drawTray(time, a); drawMug(time, a, lvC, lvM); drawTop(time, a, lvM); steam(time, lvM);
+  } else {
+    // the counter
+    var g = mugGeo(); ctx.fillStyle = '#5146a2'; ctx.fillRect(0, g.bottom, W, H - g.bottom); ctx.fillStyle = '#7a6fd0'; ctx.fillRect(0, g.bottom, W, 6);
+    if (state !== 'dress') drawMachine(time);
+    lvC = pi === 0 ? fill : levels[0]; lvM = pi === 0 ? fill : pi === 1 ? fill : levels[1];
+    if (pi === 0) lvM = lvC;
+    drawMug(time, 0, lvC, lvM);
+    if (state === 'make') drawTargets();
+    if (state === 'dress' || state === 'pause') { drawTop(time, 0, lvM); steam(time, lvM); }
+    if (state === 'make') {
+      MMC.label(ctx, 'POUR THE ' + POURS[pi].name + ' · ' + (pi + 1) + ' OF 2', W / 2, H - 22, '#ffd166', 10);
+      if (!pouring && (pi ? fill === levels[0] : fill === 0)) { ctx.globalAlpha = reduce ? 1 : .55 + .45 * Math.sin(time * 4); MMC.label(ctx, 'HOLD TO POUR · LET GO AT THE LINE', W / 2, H - 42, '#5ff3e8', 10); ctx.globalAlpha = 1; }
+    }
+  }
+  drops.forEach(function (d) { ctx.globalAlpha = Math.max(0, d.life); ctx.fillStyle = '#8a5a3a'; ctx.beginPath(); ctx.arc(d.x, d.y, 3.5, 0, 6.28); ctx.fill(); }); ctx.globalAlpha = 1;
+  if (state === 'carry' || state === 'ending') {
+    // trip progress
+    var bw = Math.min(W - 40, 360), bx = (W - bw) / 2, pr = Math.min(1, ct / CARRY);
+    ctx.fillStyle = 'rgba(4,5,9,.55)'; MMC.rr(ctx, bx - 10, 8, bw + 20, 22, 11); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.12)'; MMC.rr(ctx, bx, 14, bw, 10, 5); ctx.fill();
+    ctx.fillStyle = '#ffd166'; MMC.rr(ctx, bx, 14, Math.max(10, bw * pr), 10, 5); ctx.fill();
+    ctx.font = '16px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('☕', bx + bw * pr, 19); ctx.fillText('🎡', bx + bw + 2, 19);
+    // coffee left
+    var cw = Math.min(220, W * .45), pc = full ? liquid / full : 0;
+    ctx.fillStyle = 'rgba(19,28,63,.78)'; MMC.rr(ctx, 6, H - 46, W - 12, 40, 10); ctx.fill();
+    MMC.label(ctx, 'COFFEE ' + Math.round(pc * 100) + '%', 14, H - 34, '#ffd166', 9, 'left');
+    ctx.fillStyle = 'rgba(255,255,255,.15)'; MMC.rr(ctx, 14, H - 26, cw, 10, 5); ctx.fill();
+    ctx.fillStyle = pc < .3 ? '#ff4fa3' : pc < .6 ? '#ffd166' : '#c99a6b'; MMC.rr(ctx, 14, H - 26, Math.max(4, cw * pc), 10, 5); ctx.fill();
+    MMC.label(ctx, Math.ceil(left) + 's', W - 14, H - 30, '#d5c2dc', 11, 'right');
+    MMC.label(ctx, 'SCORE ' + score, W - 14, H - 14, '#ffd166', 11, 'right');
+    if (ct < 4) MMC.label(ctx, 'TIPPING RIGHT? HOLD LEFT!', W / 2, H * .3, '#5ff3e8', 10);
+  }
+  msgs.forEach(function (m) { ctx.globalAlpha = Math.max(0, Math.min(1, m.life)); MMC.bigText(ctx, m.txt, m.x, m.y, 20, m.c); ctx.globalAlpha = 1; });
+  bits.draw(ctx);
+}
+
+document.getElementById('diffSeg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return; diffKey = b.dataset.diff;
+  this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+});
+function begin() { S.boot(); startVeil.dataset.on = 'false'; endVeil.dataset.on = 'false'; panel.hidden = true; newGame(); }
+document.getElementById('startBtn').addEventListener('click', begin);
+document.getElementById('againBtn').addEventListener('click', begin);
+stats();
+MMC.loop(function (dt, time) { tick(dt); draw(time); });
+window.__coffee = { get state() { return state; }, get fill() { return fill; }, get pi() { return pi; }, pour: function (on) { if (on) down(0); else up(); }, startCarry: startCarry,
+  get a() { return a; }, get w() { return w; }, set input(v) { ptr = v === null ? null : view.W / 2 + v * view.W * .22; }, get score() { return score; }, get pct() { return full ? liquid / full : 0; }, events: function () { return events; } };
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+</body>
+</html>
