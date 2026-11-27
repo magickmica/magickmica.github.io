@@ -139,6 +139,22 @@
 .chip b{color:var(--gold);font-weight:400}
 .rcard .go{margin-top:18px}
 #confetti{position:fixed;inset:0;width:100%;height:100%;z-index:9995;pointer-events:none}
+.reveal{overflow-y:auto}
+/* the circus pick that comes with each door */
+.pick{display:flex;align-items:center;gap:12px;margin:16px 0 0;padding:11px 12px;border-radius:14px;text-align:left;text-decoration:none;color:#fff;
+  background:repeating-linear-gradient(135deg,rgba(95,243,232,.12) 0 12px,rgba(95,243,232,.04) 12px 24px),rgba(4,5,9,.45);
+  border:2px solid var(--aqua);box-shadow:0 0 18px rgba(95,243,232,.25);transition:transform .15s,box-shadow .15s}
+.pick:hover,.pick:focus-visible{transform:translateY(-2px);box-shadow:0 0 26px rgba(95,243,232,.45)}
+.pick .pe{font-size:2.2rem;line-height:1;flex:none;filter:drop-shadow(0 0 10px rgba(95,243,232,.6))}
+.pick .pt{flex:1;min-width:0;font-size:.76rem;line-height:1.4;color:rgba(232,240,255,.88)}
+.pick .pt small{display:block;font-family:Silkscreen,monospace;font-size:.56rem;letter-spacing:.18em;color:var(--aqua)}
+.pick .pt b{display:block;font-family:Orbitron,sans-serif;font-weight:700;font-size:.92rem;color:#fff;margin:1px 0 2px}
+.pick .pg{flex:none;font-family:Silkscreen,monospace;font-size:.66rem;letter-spacing:.1em;padding:8px 11px;border-radius:999px;color:#040509;background:linear-gradient(90deg,var(--aqua),#b48cff);white-space:nowrap}
+.tpick{display:none;position:relative;max-width:560px;margin:16px auto 0}
+.tpick.on{display:flex}
+.cp .cpl{margin-top:5px;font-family:Silkscreen,monospace;font-size:.5rem;letter-spacing:.06em;color:var(--aqua);text-decoration:none}
+.cp .cpl:hover{text-decoration:underline}
+@media (max-height:720px){.rbig{font-size:4.4rem;margin:8px 0 6px}.rcard{padding:18px 16px 16px}}
 
 /* collection */
 .coll{position:relative;margin-top:22px;padding:14px;border-radius:16px;border:2px solid rgba(255,209,102,.3);background:rgba(4,5,9,.35)}
@@ -184,6 +200,7 @@
         <div class="lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <div class="marquee"><span class="big" id="mq">Loading the doors…</span><p id="mqSub"></p></div>
         <div class="cal"><div class="doors" id="doors" role="list" aria-label="Advent calendar doors"></div></div>
+        <a class="pick tpick" id="tPick" href="#"><span class="pe"></span><span class="pt"><small>TODAY AT THE CIRCUS</small><b></b><span></span></span><span class="pg">PLAY ▸</span></a>
       </div>
     </div>
   </div>
@@ -223,6 +240,7 @@
     <h2 id="rName">Snow-globe Big Top</h2>
     <p class="fl" id="rFl"></p>
     <div class="chips" id="rChips"></div>
+    <a class="pick" id="rPick" href="#"><span class="pe"></span><span class="pt"><small>TODAY AT THE CIRCUS</small><b></b><span></span></span><span class="pg">PLAY ▸</span></a>
     <button class="go" id="rOk" type="button">YAY! ✨</button>
   </div>
 </div>
@@ -262,6 +280,43 @@
     ['🧝', 'Elf acrobat', 'Does triple flips off the top of the tree.'],
     ['🌟', 'The Christmas Star of the Big Top', 'The brightest star in the whole cosmic sky, and it’s yours. Merry Christmas from the Cosmic Circus.']
   ];
+  /* each door also points to one thing to play at the circus or the Winter Carnival that day:
+     [page, emoji, name, a line that ties it to the door's prize] */
+  var K = [
+    ['ferris-wheel.html', '🎡', 'Cosmic Ferris Wheel', 'See the whole Big Top from the very top, and wish on a shooting star.'],
+    ['claw-machine.html', '🧸', 'Claw Machine', 'Something for that stocking? Steer the claw and carry a plushy home.'],
+    ['gingerbread-run.html', '🍪', 'Gingerbread Run', 'More peppermints! Gobble them up and outrun Krampus.'],
+    ['moon-striker.html', '🔨', 'Moon Striker', 'Ring an even bigger bell. Swing the hammer and send the puck to the moon.'],
+    ['ring-toss.html', '🪐', 'Ring Toss', 'Round and round like the carousel. Flick rings onto the drifting planets.'],
+    ['cosmic-clown-splash.html', '🎈', 'Clown Splash', 'Your clown has friends. Squirt one and pop the balloon first.'],
+    ['cocoa-catch.html', '☕', 'Cocoa Catch', 'Pie tastes better with cocoa. Catch marshmallows and cookies in your mug.'],
+    ['star-darts.html', '🌠', 'Star Darts', 'Toot toot! Now throw some shooting stars at the balloon wall.'],
+    ['shooting-gallery.html', '🎯', 'Star Blaster Gallery', 'Keep that aim going. Blast the planets and catch the golden UFO.'],
+    ['snowball-splat.html', '❄️', 'Snowball Splat', 'Stop juggling and start throwing. Splat the snowmen, spare the penguins.'],
+    ['fortune-teller.html', '🔮', 'Fortune Teller', 'While the fiddle plays, ask Madame Nebula what the stars have planned.'],
+    ['prize-wheel.html', '🎡', 'Prize Wheel', 'Door 12 gave you a bonus spin. Go spin it!'],
+    ['sled-hill.html', '🛷', 'Sled Hill', 'Another ride! Zoom down the snowy hill and grab the presents.'],
+    ['crystal-chaos.html', '🐧', 'Crystal Chaos', 'More ice! Pull crystals from the wobbly tower without dropping the penguin.'],
+    ['fireside-cocoa.html', '🔥', 'Fireside Cocoa', 'Something warm to go with your tea. Sip your way to the fire.'],
+    ['duck-pond.html', '🦆', 'Duck Pond', 'Wave your new wand over the pond and wish for a golden duck.'],
+    ['skee-ball.html', '🎳', 'Skee-Ball to the Moon', 'Keep rolling! Send planets up the ramp. The corner holes pay 100.'],
+    ['whack-an-alien.html', '👽', 'Whack-an-Alien', 'More things popping out of things. Bop the aliens, spare the bunnies.'],
+    ['hoop-shot.html', '🏀', 'Big Top Hoop Shot', 'Ba-dum-swish. Three in a row and you\u2019re on fire.'],
+    ['coin-pusher.html', '🪙', 'Coin Pusher', 'Start your own fireworks. Drop star coins and tip the whole pile over.'],
+    ['snowman-builder.html', '⛄', 'Snowman Builder', 'The longest night means the least sun. Perfect for a snowman that won\u2019t melt.'],
+    ['photo-booth.html', '📸', 'Photo Booth', 'Strike a pose under your disco snowflake and save a card to share.'],
+    ['santa-vs-snowmen.html', '🎅', 'Santa vs. the Snowmen', 'Your elf is reporting for duty. Help Santa gather every gift.'],
+    ['ticket-booth.html', '🎟️', 'Ticket Booth', 'All those advent tickets add up. Trade them in for a collectible, maybe even the full moon itself.']
+  ];
+  function setPick(el, d, label) {
+    var k = K[d - 1];
+    el.href = k[0];
+    el.querySelector('.pe').textContent = k[1];
+    el.querySelector('small').textContent = label;
+    el.querySelector('b').textContent = k[2];
+    el.querySelector('.pt > span').textContent = k[3];
+    el.querySelector('.pg').textContent = (d === 24 ? 'TRADE' : d === 12 ? 'SPIN' : d === 1 ? 'RIDE' : 'PLAY') + ' \u25b8';
+  }
   /* where each door sits on the wall (shuffled, like a real advent calendar), and which ones are big */
   var ORDER = [7, 19, 3, 24, 12, 1, 15, 9, 21, 5, 17, 11, 2, 22, 14, 8, 20, 4, 16, 10, 23, 6, 18, 13];
   var SIZE = { 24: 'xl', 12: 'w', 6: 'w', 18: 'w' };
@@ -338,9 +393,13 @@
     var html = '';
     P.forEach(function (p, i) {
       var g = isOpen(i + 1);
-      html += '<div class="cp' + (g ? ' got' : '') + '"><span class="d">' + (i + 1) + '</span><span class="em">' + (g ? p[0] : (i === 23 ? '🌟' : '🎁')) + '</span><span class="nm">' + (g ? esc(p[1]) : '???') + '</span></div>';
+      html += '<div class="cp' + (g ? ' got' : '') + '"><span class="d">' + (i + 1) + '</span><span class="em">' + (g ? p[0] : (i === 23 ? '🌟' : '🎁')) + '</span><span class="nm">' + (g ? esc(p[1]) : '???') + '</span>' +
+        (g ? '<a class="cpl" href="' + K[i][0] + '">\u25b8 ' + esc(K[i][2]) + '</a>' : '') + '</div>';
     });
     $('cgrid').innerHTML = html;
+    var tp = $('tPick'), showT = today >= 1 && today <= 24 && isOpen(today);
+    tp.classList.toggle('on', showT);
+    if (showT) setPick(tp, today, 'TODAY AT THE CIRCUS \u00b7 DOOR ' + today);
     $('ccount').textContent = 'You have ' + open + ' of 24 advent prizes.';
   }
 
@@ -403,6 +462,7 @@
       if (spins(d)) c += '<span class="chip">🎡 <b>+' + spins(d) + '</b> BONUS SPIN' + (spins(d) > 1 ? 'S' : '') + '</span>';
     }
     $('rChips').innerHTML = c;
+    setPick($('rPick'), d, d === sea().day ? 'TODAY AT THE CIRCUS' : 'DOOR ' + d + '\u2019S PICK');
     $('rOk').textContent = fresh ? (d === 24 ? 'MERRY CHRISTMAS! 🎄' : 'YAY! ✨') : 'CLOSE';
     var r = $('reveal'); r.classList.remove('on'); void r.offsetWidth; r.classList.add('on');
     lastFocus = document.activeElement; $('rOk').focus({ preventScroll: true });
