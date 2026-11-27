@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Advent Calendar · Magick Mica AI Academy</title>
+<title>Magick AI Advent · Magick Mica AI Academy</title>
 <style>
 :root{
   --violet:#21143D; --plum:#30204F; --lav:#BDA7FF; --cyan:#66E8F2; --pink:#FF9DD8;
@@ -165,7 +165,7 @@ h1{background:linear-gradient(90deg,#3b2585,#8C54E8,#d7609f,#3fa9c4,#3b2585);bac
 <meta name="theme-color" content="#21143D">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Magick Mica">
-<meta property="og:title" content="The AI Advent Calendar · Magick Mica AI Academy">
+<meta property="og:title" content="Magick AI Advent · Magick Mica AI Academy">
 <meta property="og:description" content="24 little doors, 24 tiny AI spells. Open one a day, December 1 to 24.">
 <meta property="og:url" content="https://magickmica.github.io/advent/">
 <meta property="og:image" content="https://magickmica.github.io/og-card.png">
@@ -177,7 +177,7 @@ h1{background:linear-gradient(90deg,#3b2585,#8C54E8,#d7609f,#3fa9c4,#3b2585);bac
 <div class="wrap">
 
 <section class="win raised" aria-labelledby="t1">
-  <div class="tb"><span>✦</span><span id="t1">AI_ADVENT.EXE</span><span class="ctl"><span class="raised">_</span><span class="raised">□</span><span class="raised">×</span></span></div>
+  <div class="tb"><span>✦</span><span id="t1">MAGICK_ADVENT.EXE</span><span class="ctl"><span class="raised">_</span><span class="raised">□</span><span class="raised">×</span></span></div>
   <div class="body hero">
     <svg width="104" height="104" viewBox="0 0 100 100" role="img" aria-label="Holographic moon logo with a star and a heart" class="moonlogo">
   <defs>
@@ -203,7 +203,7 @@ h1{background:linear-gradient(90deg,#3b2585,#8C54E8,#d7609f,#3fa9c4,#3b2585);bac
   <circle cx="58" cy="35" r="1" fill="#fff"><animate attributeName="opacity" values=".2;1;.2" dur="1.8s" repeatCount="indefinite"/></circle>
 </svg>
     <div>
-      <h1>The AI Advent Calendar</h1>
+      <h1>Magick AI Advent</h1>
       <p><b>24 little doors. 24 tiny AI spells. One a day, December 1 to 24.</b></p>
       <p class="note">A gift from the Magick Mica AI Academy: every door holds one small tip from our schools, from prompting and Claude to public domain art and tarot. Come back each day to open the next one.</p>
       <div class="bubble sunken"><b>The Moon says:</b> <span id="pixline">Loading the doors…</span></div>
@@ -283,7 +283,7 @@ function openDoor(n,el){
  if(el)burst(el,14);showTip(n,first);
 }
 function showTip(n,first){
- const T=TIPS[n-1],share=`Day ${n} of the Magick Mica AI Advent Calendar: ${T.t}. ${T.b} ✨ ${ACADEMY}`;
+ const T=TIPS[n-1],share=`Day ${n} of the Magick AI Advent: ${T.t}. ${T.b} ✨ ${ACADEMY}`;
  $("#mt").textContent="DOOR_"+String(n).padStart(2,"0")+".TXT";
  $("#mbody").innerHTML=`<span class="big">${T.e}</span><span class="school">${esc(T.s)}</span><h2>Day ${n}: ${esc(T.t)}</h2><p>${esc(T.b)}</p><div class="try"><b>✦ Try it:</b> ${esc(T.y)}</div>
  <div class="cta"><a class="btn candy" href="${ACADEMY}" target="_blank" rel="noopener">Explore the Academy ↗</a><button class="btn" id="share">Copy to share</button><button class="btn" id="close2">Close</button></div>`;
