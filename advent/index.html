@@ -160,6 +160,17 @@ h1{background:linear-gradient(90deg,#3b2585,#8C54E8,#d7609f,#3fa9c4,#3b2585);bac
 @keyframes holo{to{background-position:200% 0}}
 @media (prefers-reduced-motion:reduce){.door .shine,.door.today .leaf,.tip .big,h1{animation:none}.door .leaf{transition:none}}
 
+.promo{margin-top:18px;border:0;box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),0 0 0 3px #FFD86B,0 0 26px rgba(255,216,107,.55)}
+.pbody{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;background:linear-gradient(120deg,#fff6d6,#f4efff 45%,#e6fbff)}
+.ph{font-size:22px;margin:0}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pills span{font:700 12px var(--f-chrome);padding:4px 8px;background:#fff;border:1px solid var(--line);color:#3b2585}
+.pcta{display:flex;flex-direction:column;gap:8px;min-width:260px}
+.btn.big{font-size:17px;padding:14px 18px;min-height:54px;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:inset -1px -1px 0 #2b1468,inset 1px 1px 0 #e5d6ff,0 0 26px 6px rgba(140,84,232,.75)}}
+@media (max-width:720px){.pbody{grid-template-columns:1fr}.pcta{min-width:0}}
+@media (prefers-reduced-motion:reduce){.btn.big{animation:none}}
+
 </style>
 <meta name="description" content="24 little doors, 24 tiny AI spells. A free advent calendar from the Magick Mica AI Academy: one AI tip a day, December 1 to 24.">
 <meta name="theme-color" content="#21143D">
@@ -207,6 +218,7 @@ h1{background:linear-gradient(90deg,#3b2585,#8C54E8,#d7609f,#3fa9c4,#3b2585);bac
       <p><b>24 little doors. 24 tiny AI spells. One a day, December 1 to 24.</b></p>
       <p class="note">A gift from the Magick Mica AI Academy: every door holds one small tip from our schools, from prompting and Claude to public domain art and tarot. Come back each day to open the next one.</p>
       <div class="bubble sunken"><b>The Moon says:</b> <span id="pixline">Loading the doors…</span></div>
+      <div class="row" style="margin-top:10px"><a class="btn candy" href="https://magickmica.github.io/academy/" target="_blank" rel="noopener">🎓 Visit the AI Academy →</a></div>
     </div>
   </div>
   <div class="status"><span class="count" id="count">0 of 24 opened</span><span class="meter sunken"><i id="meter"></i></span><span id="badgetxt"></span></div>
@@ -218,6 +230,20 @@ h1{background:linear-gradient(90deg,#3b2585,#8C54E8,#d7609f,#3fa9c4,#3b2585);bac
   <div class="status"><span id="hint">Tap a glowing door.</span></div>
 </section>
 
+<section class="win raised promo" aria-labelledby="pt">
+  <div class="tb"><span>🎓</span><span id="pt">AI_ACADEMY.EXE</span></div>
+  <div class="body pbody">
+    <div>
+      <h2 class="ph">Behind every door is a whole school.</h2>
+      <p class="read" style="margin:4px 0 10px">These tips come from the <b>Magick Mica AI Academy</b>, a playful retro-computer school with lessons, games and quizzes. Learn prompting, Claude, AI art, public domain treasure hunting, tarot symbols and more.</p>
+      <div class="pills"><span>🎯 Prompt Lab</span><span>💬 Claude Workshop</span><span>💻 Claude Code</span><span>🎨 Creative Studio</span><span>📚 School of the Commons</span><span>🌙 Tarot &amp; Symbol</span><span>📡 Daily Signal</span></div>
+    </div>
+    <div class="pcta">
+      <a class="btn candy big" href="https://magickmica.github.io/academy/" target="_blank" rel="noopener">✦ Enter the AI Academy →</a>
+      <a class="btn" href="https://magickmica.substack.com/subscribe?utm_source=magickmica.github.io&amp;utm_medium=site&amp;utm_campaign=advent&amp;utm_content=promo-box" target="_blank" rel="noopener">New here? Subscribe to get in ↗</a>
+    </div>
+  </div>
+</section>
 <p class="note" style="color:#BDA7FF;text-align:center">Made with love by the Magick Mica AI Academy · <a style="color:#66E8F2" href="https://magickmica.github.io/academy/" target="_blank" rel="noopener">Visit the Academy ↗</a></p>
 </div>
 
