@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cosmic Circus Advent &middot; MagickMica</title>
+<meta name="description" content="The Cosmic Circus Advent Calendar: 24 little circus doors, one a day from December 1 to 24. Every door hides a prize you can only find here, plus tickets and bonus spins for the Prize Wheel.">
+<link rel="canonical" href="https://magickmica.github.io/circus-advent.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="Cosmic Circus Advent · Magick Mica Arcade">
+<meta property="og:description" content="24 circus doors, one a day, December 1 to 24. Every door hides a prize you can only find here.">
+<meta property="og:url" content="https://magickmica.github.io/circus-advent.html">
+<meta property="og:image" content="https://magickmica.github.io/og/circus-advent.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cosmic Circus Advent · Magick Mica Arcade">
+<meta name="twitter:image" content="https://magickmica.github.io/og/circus-advent.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="carnival.css?v=3">
+<style>
+/* candy-cane awning for the holidays */
+.awning{background:repeating-linear-gradient(90deg,#ff4fa3 0 34px,#fff4f9 34px 68px)}
+.scallop{background:radial-gradient(circle at 50% 0,#ff4fa3 0 12px,transparent 13px) 0 0/68px 14px repeat-x,
+  radial-gradient(circle at 50% 0,#fff4f9 0 12px,transparent 13px) 34px 0/68px 14px repeat-x}
+.window{position:relative;padding:22px 14px 20px;overflow:hidden;
+  background:radial-gradient(70% 45% at 50% 0,rgba(255,209,102,.16),transparent 70%),
+             radial-gradient(60% 40% at 50% 100%,rgba(255,79,163,.14),transparent 70%),
+             linear-gradient(180deg,#131c3f,#1b2554 60%,#241f5c)}
+.snow{position:absolute;inset:0;pointer-events:none;opacity:.75;
+  background-image:radial-gradient(2px 2px at 20px 30px,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 80px 120px,#fff 50%,transparent 51%),
+  radial-gradient(2.5px 2.5px at 140px 60px,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 190px 170px,#fff 50%,transparent 51%),
+  radial-gradient(2px 2px at 60px 190px,#fff 50%,transparent 51%);background-size:220px 220px;animation:snow 14s linear infinite}
+.snow.b{background-size:310px 310px;opacity:.45;animation:snowb 22s linear infinite;background-position:60px 40px}
+@keyframes snow{to{background-position:30px 220px}}
+@keyframes snowb{to{background-position:20px 350px}}
+
+/* string of lights across the top of the window */
+.lights{position:relative;height:30px;margin:-8px -6px 10px;display:flex;justify-content:space-between;
+  background:radial-gradient(120% 60px at 50% -36px,transparent 58px,rgba(150,120,220,.7) 59px,rgba(150,120,220,.7) 60.5px,transparent 61.5px) 0 0/90px 30px repeat-x}
+.lights i{width:9px;height:13px;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;margin-top:14px;background:var(--pink);
+  box-shadow:0 0 12px 3px rgba(255,79,163,.7);animation:twinkle 1.6s ease-in-out infinite}
+.lights i:nth-child(4n+2){background:var(--aqua);box-shadow:0 0 12px 3px rgba(95,243,232,.7);animation-delay:.4s}
+.lights i:nth-child(4n+3){background:var(--gold);box-shadow:0 0 12px 3px rgba(255,209,102,.7);animation-delay:.8s}
+.lights i:nth-child(4n){background:#b48cff;box-shadow:0 0 12px 3px rgba(180,140,255,.7);animation-delay:1.2s}
+@keyframes twinkle{50%{opacity:.45;transform:scale(.85)}}
+
+.marquee{position:relative;text-align:center;margin:0 auto 14px;max-width:600px}
+.marquee .big{display:inline-block;font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(1rem,4vw,1.35rem);letter-spacing:.04em;color:#fff;
+  padding:8px 18px;border-radius:999px;background:rgba(4,5,9,.55);border:2px solid var(--gold);box-shadow:0 0 22px rgba(255,209,102,.35)}
+.marquee .big b{color:var(--gold)}
+.marquee p{margin:8px 0 0;font-size:.8rem;color:rgba(232,240,255,.85)}
+
+/* the calendar */
+.cal{position:relative;container-type:inline-size}
+.doors{--cols:6;--gap:10px;display:grid;grid-template-columns:repeat(var(--cols),1fr);gap:var(--gap);grid-auto-flow:dense;
+  grid-auto-rows:calc((100cqw - (var(--cols) - 1) * var(--gap)) / var(--cols))}
+@media (max-width:600px){.doors{--cols:3;--gap:9px}}
+.door{position:relative;perspective:800px;padding:0;border-radius:14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.door.w{grid-column:span 2}
+.door.xl{grid-column:span 2;grid-row:span 2}
+
+/* inside of the door: a little velvet stage with a spotlight */
+.in{position:absolute;inset:0;border-radius:14px;overflow:hidden;display:grid;place-items:center;
+  background:radial-gradient(60% 70% at 50% 30%,rgba(255,209,102,.38),transparent 70%),
+             repeating-linear-gradient(90deg,#4a1240 0 12px,#3a0e33 12px 24px);
+  box-shadow:inset 0 0 22px rgba(0,0,0,.8),inset 0 -8px 0 rgba(0,0,0,.35)}
+.in .pz{font-size:clamp(1.9rem,9cqw,3rem);line-height:1;filter:drop-shadow(0 0 12px rgba(255,209,102,.8));opacity:0;transform:scale(.4)}
+.door.xl .in .pz{font-size:clamp(3.4rem,18cqw,6rem)}
+.door.open .in .pz{opacity:1;transform:none;animation:bob 3s ease-in-out infinite;transition:opacity .4s .35s,transform .6s .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bob{50%{transform:translateY(-4px) rotate(-4deg)}}
+.in .ck{position:absolute;right:7px;bottom:5px;font-family:Silkscreen,monospace;font-size:.55rem;letter-spacing:.08em;color:var(--gold);opacity:0}
+.door.open .in .ck{opacity:1;transition:opacity .3s .8s}
+
+/* the door itself */
+.lid{position:absolute;inset:0;border-radius:14px;transform-origin:0 50%;transition:transform .9s cubic-bezier(.4,1.2,.5,1),filter .3s;
+  backface-visibility:hidden;display:grid;place-items:center;overflow:hidden;
+  background:repeating-linear-gradient(135deg,var(--a) 0 11px,var(--b) 11px 22px);
+  box-shadow:0 6px 0 rgba(0,0,0,.35),0 10px 22px rgba(0,0,0,.45),inset 0 0 0 2px rgba(255,255,255,.35)}
+.lid::before{content:"";position:absolute;inset:5px;border-radius:10px;border:2px dashed rgba(255,255,255,.55)}
+.lid .num{position:relative;display:grid;place-items:center;width:62%;aspect-ratio:1;max-width:84px;border-radius:50%;
+  font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(1.1rem,6cqw,1.9rem);color:#fff;
+  background:radial-gradient(circle at 35% 30%,#2f2f70,#131c3f 70%);border:3px solid var(--gold);
+  box-shadow:0 0 0 3px rgba(4,5,9,.4),0 0 16px rgba(255,209,102,.45);text-shadow:0 0 10px rgba(255,79,163,.8)}
+.door.w .lid .num{width:auto;height:62%;aspect-ratio:1}
+.door.xl .lid .num{max-width:none;width:46%;font-size:clamp(2rem,12cqw,3.8rem);border-width:4px}
+.lid .knob{position:absolute;right:9px;top:50%;width:9px;height:9px;margin-top:-4px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px var(--gold),inset -2px -2px 0 rgba(0,0,0,.25)}
+.lid .ic{position:absolute;left:8px;bottom:6px;font-size:.8rem;line-height:1}
+.door.xl .lid .ic{font-size:1.2rem;left:12px;bottom:10px}
+
+/* states */
+.door.locked .lid{filter:saturate(.55) brightness(.72)}
+.door.locked .lid::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(232,240,255,.18),transparent 40%,rgba(232,240,255,.08))}
+.door.ready .lid{filter:none}
+.door.ready .lid::after{content:"";position:absolute;inset:-3px;border-radius:16px;border:4px dotted var(--gold);
+  filter:drop-shadow(0 0 4px var(--gold));animation:chase 1s steps(2) infinite}
+@keyframes chase{50%{border-color:#fff7d6}}
+.door.ready:hover .lid,.door.ready:focus-visible .lid{transform:rotateY(-14deg)}
+.door.ready:hover .in,.door.ready:focus-visible .in{box-shadow:inset 0 0 22px rgba(0,0,0,.6),0 0 26px rgba(255,209,102,.55)}
+.door.today{z-index:2}
+.door.today .lid{animation:glow 1.6s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 6px 0 rgba(0,0,0,.35),0 0 34px 6px rgba(255,209,102,.6),inset 0 0 0 2px rgba(255,255,255,.6)}}
+.door .flag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);z-index:3;font-family:Silkscreen,monospace;font-size:.55rem;letter-spacing:.14em;
+  padding:3px 8px;border-radius:999px;color:#040509;background:linear-gradient(90deg,var(--gold),var(--pink));box-shadow:0 0 12px rgba(255,209,102,.6);white-space:nowrap;pointer-events:none}
+.door.open .lid{transform:rotateY(-112deg);pointer-events:none}
+.door.open .flag{display:none}
+.door.wiggle .lid{animation:wiggle .5s ease}
+@keyframes wiggle{20%{transform:rotate(-4deg)}40%{transform:rotate(4deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(2deg)}}
+
+/* bubble for "not yet!" */
+.bubble{position:fixed;left:50%;bottom:22px;z-index:9998;transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  font:13px/1.4 "IBM Plex Mono",monospace;color:#fff;padding:11px 18px;border-radius:999px;max-width:calc(100vw - 32px);text-align:center;
+  background:linear-gradient(160deg,#2f2f70,#131c3f);border:2px solid var(--aqua);box-shadow:0 10px 30px rgba(0,0,0,.6),0 0 22px rgba(95,243,232,.3);transition:.3s}
+.bubble.on{opacity:1;transform:translate(-50%,0)}
+
+/* the reveal */
+.reveal{position:fixed;inset:0;z-index:9990;display:none;place-items:center;padding:18px;
+  background:radial-gradient(70% 60% at 50% 45%,rgba(47,47,112,.88),rgba(4,5,9,.94))}
+.reveal.on{display:grid;animation:fade .3s ease both}
+.rcard{position:relative;width:min(420px,100%);text-align:center;padding:26px 20px 22px;border-radius:22px;overflow:hidden;
+  background:linear-gradient(170deg,#2f2f70,#131c3f 75%);border:3px solid var(--gold);box-shadow:0 0 0 6px rgba(4,5,9,.6),0 0 60px rgba(255,209,102,.35)}
+.rays{position:absolute;left:50%;top:128px;width:620px;height:620px;margin:-310px 0 0 -310px;pointer-events:none;opacity:.5;
+  background:repeating-conic-gradient(from 0deg,rgba(255,209,102,.28) 0 9deg,transparent 9deg 22.5deg);
+  -webkit-mask:radial-gradient(circle,#000 18%,transparent 62%);mask:radial-gradient(circle,#000 18%,transparent 62%);animation:spin 16s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.rcard>*:not(.rays){position:relative}
+.rk{font-family:Silkscreen,monospace;font-size:.66rem;letter-spacing:.22em;color:var(--aqua)}
+.rbig{display:block;font-size:6.2rem;line-height:1;margin:16px 0 10px;filter:drop-shadow(0 0 24px rgba(255,209,102,.8))}
+.reveal.on .rbig{animation:popin .9s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes popin{0%{transform:scale(0) rotate(-200deg);opacity:0}100%{transform:none;opacity:1}}
+.rcard h2{font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(1.2rem,5.5vw,1.6rem);line-height:1.15;margin:0 0 8px;color:#fff;
+  text-shadow:0 0 18px rgba(255,79,163,.6),2px 2px 0 var(--iris)}
+.rcard .fl{margin:0 auto 14px;max-width:320px;font-size:.84rem;color:rgba(232,240,255,.85);font-style:italic}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.chip{font-family:Silkscreen,monospace;font-size:.62rem;letter-spacing:.08em;padding:7px 11px;border-radius:999px;background:rgba(4,5,9,.45);border:1px solid rgba(255,209,102,.45);color:#fff}
+.chip b{color:var(--gold);font-weight:400}
+.rcard .go{margin-top:18px}
+#confetti{position:fixed;inset:0;width:100%;height:100%;z-index:9995;pointer-events:none}
+
+/* collection */
+.coll{position:relative;margin-top:22px;padding:14px;border-radius:16px;border:2px solid rgba(255,209,102,.3);background:rgba(4,5,9,.35)}
+.coll h2{margin:2px 0 4px;text-align:center;font-family:Silkscreen,monospace;font-size:.78rem;letter-spacing:.22em;color:var(--gold);font-weight:400}
+.coll .sub{text-align:center;margin:0 0 12px;font-size:.72rem;color:rgba(213,194,220,.75)}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.cp{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:10px 6px;border-radius:12px;
+  background:rgba(81,70,162,.3);border:1px solid rgba(213,194,220,.15)}
+.cp .em{font-size:1.9rem;line-height:1.2;filter:grayscale(1) brightness(.4);opacity:.45}
+.cp .nm{font-size:.64rem;line-height:1.3;color:rgba(213,194,220,.55);margin-top:4px}
+.cp .d{position:absolute;top:5px;left:7px;font-family:Silkscreen,monospace;font-size:.5rem;color:rgba(213,194,220,.5)}
+.cp.got{border-color:rgba(255,209,102,.6);background:linear-gradient(180deg,rgba(255,209,102,.16),rgba(19,28,63,.6))}
+.cp.got .em{filter:drop-shadow(0 0 10px rgba(255,209,102,.6));opacity:1}
+.cp.got .nm{color:#fff}
+.cp.got .d{color:var(--gold)}
+.count{text-align:center;margin:12px 0 0;font-size:.74rem;color:rgba(213,194,220,.8)}
+.finale{display:none;margin:16px auto 0;max-width:520px;text-align:center;padding:14px;border-radius:16px;
+  border:2px solid var(--gold);background:linear-gradient(160deg,rgba(255,209,102,.18),rgba(255,79,163,.12));color:#fff;font-size:.86rem}
+.finale.on{display:block}
+.finale b{font-family:Orbitron,sans-serif;display:block;font-size:1.05rem;margin-bottom:4px;color:var(--gold)}
+
+@media (prefers-reduced-motion:reduce){
+  .snow,.lights i,.door.ready .lid::after,.door.today .lid,.door.open .in .pz,.rays{animation:none}
+  .lid{transition:none}.reveal.on .rbig{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · <a href="winter-carnival.html">Winter Carnival</a></p>
+    <h1>CIRCUS ADVENT</h1>
+    <p class="tag">24 little circus doors. One a day, December 1 to 24. Every door hides a prize you can only find here.</p>
+  </header>
+
+  <div class="booth">
+    <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="awning"><div class="sign"><span>★ 24 DOORS · 24 SURPRISES ★</span></div></div>
+    <div class="scallop" aria-hidden="true"></div>
+    <div class="stage">
+      <div class="window">
+        <div class="snow" aria-hidden="true"></div><div class="snow b" aria-hidden="true"></div>
+        <div class="lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="marquee"><span class="big" id="mq">Loading the doors…</span><p id="mqSub"></p></div>
+        <div class="cal"><div class="doors" id="doors" role="list" aria-label="Advent calendar doors"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="stats">
+      <span class="stat">OPENED<b id="sOpen">0/24</b></span>
+      <span class="stat" id="sNextWrap">NEXT DOOR<b id="sNext">–</b></span>
+      <span class="stat">TICKETS<b id="sTix">0</b></span>
+    </div>
+    <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
+  </div>
+
+  <div class="finale" id="finale"><b>★ You opened every door! ★</b>All 24 advent prizes are on your shelf. Merry Christmas from the Cosmic Circus. 🎪✨</div>
+
+  <section class="coll" aria-label="Advent prizes">
+    <h2>✦ ADVENT PRIZES ✦</h2>
+    <p class="sub">One behind every door, and you can't win them anywhere else. Missed a day? The doors you missed stay open, so you can catch up.</p>
+    <div class="cgrid" id="cgrid"></div>
+    <p class="count" id="ccount"></p>
+  </section>
+
+  <section class="shelf" aria-label="Your prize shelf">
+    <h3>Your Prize Shelf</h3>
+    <p>Advent prizes sit right next to everything else you've won at the circus. Every door pays tickets for the <a href="ticket-booth.html">Ticket Booth</a>, and some give bonus spins on the <a href="prize-wheel.html">Prize Wheel</a>.</p>
+    <div class="shelf-row" id="shelf"></div>
+  </section>
+
+  <a class="back" href="winter-carnival.html">← Back to the Winter Carnival</a>
+</div>
+
+<div class="reveal" id="reveal" role="dialog" aria-modal="true" aria-labelledby="rName">
+  <div class="rcard">
+    <div class="rays" aria-hidden="true"></div>
+    <div class="rk" id="rKick">DOOR 1 · DECEMBER 1</div>
+    <span class="rbig" id="rEm" aria-hidden="true">🎪</span>
+    <h2 id="rName">Snow-globe Big Top</h2>
+    <p class="fl" id="rFl"></p>
+    <div class="chips" id="rChips"></div>
+    <button class="go" id="rOk" type="button">YAY! ✨</button>
+  </div>
+</div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div class="bubble" id="bubble" role="status" aria-live="polite"></div>
+
+<div data-mm-subscribe="banner" data-theme="circus" data-art="🎁" data-eyebrow="🎪 CIRCUS ADVENT · FREE"><a href="https://magickmica.substack.com/subscribe">Subscribe to Magick Mica TV on Substack</a></div>
+<script src="mm-prizes.js?v=8"></script>
+<script src="carnival.js?v=1"></script>
+<script>
+(function () {
+  'use strict';
+  /* the 24 advent prizes: [emoji, name, a little note] — door 24 is the big one */
+  var P = [
+    ['🎪', 'Snow-globe Big Top', 'Shake it gently. A tiny circus is snowing inside.'],
+    ['🧦', 'Stripy circus stocking', 'Long enough for a juggler’s legs. Or a lot of candy.'],
+    ['🍭', 'Peppermint lollipop of Pluto', 'Pluto is small, so it makes very small lollipops. This one took a whole year.'],
+    ['🔔', 'Jingle bell of Jupiter', 'Ring it once and somewhere a reindeer looks up.'],
+    ['🎠', 'Carousel pony ornament', 'She goes round and round the tree all night.'],
+    ['🤡', 'Jolly clown ornament', 'He honks when nobody’s looking. Promise.'],
+    ['🥧', 'Mince-moon pie', 'Baked in a crater, cooled on a comet.'],
+    ['🎺', 'Toy trumpet of the stars', 'Every note comes out as a tiny shooting star.'],
+    ['🪅', 'Comet piñata', 'Full of stardust candy. Swing gently, it’s very old.'],
+    ['🤹', 'Juggling snowballs', 'Three snowballs that never, ever melt.'],
+    ['🎻', 'Moonbeam fiddle', 'Strung with moonlight. Plays only lullabies.'],
+    ['🎹', 'Toy piano of Neptune', 'Plays every carol, just a little out of tune. That\u2019s the charm.'],
+    ['🐎', 'Rocking horse of Orion', 'Rides straight up into the winter sky.'],
+    ['🧊', 'Pocket iceberg', 'Keeps your cocoa just the right temperature.'],
+    ['🫖', 'Teapot of the Milky Way', 'Pours warm starlight. Two lumps of moon, please.'],
+    ['🪄', 'Ringmaster’s magic wand', 'Point it at a present and say the magic word. (The magic word is please.)'],
+    ['🛼', 'Roller skates of Saturn', 'For skating round and round the rings.'],
+    ['🪆', 'Matryoshka moons', 'Open Jupiter, find Saturn. Open Saturn, find… you’ll see.'],
+    ['🥁', 'Little drummer drum of Mars', 'Ba-dum-tss. Every joke at the circus is funnier now.'],
+    ['🎆', 'Fireworks in a box', 'Open it on New Year’s Eve. Or right now, we won’t tell.'],
+    ['🏮', 'Lantern of the longest night', 'Tonight is the longest night of the year. This lantern keeps it cozy.'],
+    ['🪩', 'Mirror-ball snowflake', 'Turns any room into a winter disco.'],
+    ['🧝', 'Elf acrobat', 'Does triple flips off the top of the tree.'],
+    ['🌟', 'The Christmas Star of the Big Top', 'The brightest star in the whole cosmic sky, and it’s yours. Merry Christmas from the Cosmic Circus.']
+  ];
+  /* where each door sits on the wall (shuffled, like a real advent calendar), and which ones are big */
+  var ORDER = [7, 19, 3, 24, 12, 1, 15, 9, 21, 5, 17, 11, 2, 22, 14, 8, 20, 4, 16, 10, 23, 6, 18, 13];
+  var SIZE = { 24: 'xl', 12: 'w', 6: 'w', 18: 'w' };
+  var COL = [['#ff4fa3', '#ffd0e6'], ['#5ff3e8', '#2f2f70'], ['#ffd166', '#ff4fa3'], ['#9667ba', '#5ff3e8'],
+             ['#e8f0ff', '#ff4fa3'], ['#2f2f70', '#ffd166'], ['#ff7ac8', '#9667ba'], ['#5ff3e8', '#e8f0ff']];
+  var ICON = ['❄', '★', '🎀', '✦'];
+  function tickets(d) { return d === 24 ? 100 : 10 + d * 2; }
+  function spins(d) { return d === 24 ? 3 : d % 6 === 0 ? 1 : 0; }
+
+  /* the season: doors unlock on their December day in the visitor's own time zone.
+     In January the past season stays open for catching up; February to November waits for next December. */
+  function season(now) {
+    var m = now.getMonth(), y = now.getFullYear();
+    if (m === 11) return { y: y, day: now.getDate() };
+    if (m === 0) return { y: y - 1, day: 99 };
+    return { y: y, day: 0 };
+  }
+  var st = MMC.store('mm_circus_advent_v1', { y: 0, open: [] });
+  var S = MMC.Sound, reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  MMC.soundButton(document.getElementById('soundBtn'));
+  MMC.shelf(document.getElementById('shelf'));
+
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function sea() {
+    var s = season(new Date());
+    if (st.data.y !== s.y) { st.data.y = s.y; st.data.open = []; st.save(); }
+    return s;
+  }
+  function isOpen(d) { return st.data.open.indexOf(d) >= 0; }
+
+  /* build the wall of doors once */
+  var wall = $('doors');
+  ORDER.forEach(function (d, i) {
+    var c = COL[(d * 5) % COL.length], b = document.createElement('button');
+    b.type = 'button'; b.className = 'door' + (SIZE[d] ? ' ' + SIZE[d] : ''); b.dataset.d = d; b.setAttribute('role', 'listitem');
+    b.style.setProperty('--a', c[0]); b.style.setProperty('--b', c[1]);
+    b.innerHTML = '<span class="in"><span class="pz">' + P[d - 1][0] + '</span><span class="ck">✓ DEC ' + d + '</span></span>' +
+      '<span class="lid"><span class="num">' + d + '</span><span class="knob"></span><span class="ic">' + ICON[d % ICON.length] + '</span></span>';
+    b.addEventListener('click', function () { tap(d, b); });
+    wall.appendChild(b);
+  });
+
+  function draw() {
+    var s = sea(), today = s.day, open = st.data.open.length;
+    Array.prototype.forEach.call(wall.children, function (b) {
+      var d = +b.dataset.d, o = isOpen(d), ready = !o && d <= today, isToday = d === today;
+      b.classList.toggle('open', o); b.classList.toggle('ready', ready); b.classList.toggle('locked', !o && !ready);
+      b.classList.toggle('today', isToday && !o);
+      var f = b.querySelector('.flag');
+      if (isToday && !o) { if (!f) { f = document.createElement('span'); f.className = 'flag'; f.textContent = 'TODAY'; b.appendChild(f); } }
+      else if (f) f.remove();
+      b.setAttribute('aria-label', 'Door ' + d + ', ' + (o ? 'opened: ' + P[d - 1][1] : ready ? 'ready to open' : 'opens December ' + d));
+    });
+    var waiting = 0; for (var d = 1; d <= Math.min(24, today); d++) if (!isOpen(d)) waiting++;
+    var mq = $('mq'), sub = $('mqSub');
+    if (today === 0) {
+      var n = sleeps(1);
+      mq.innerHTML = '★ The doors open <b>December 1</b> ★';
+      sub.textContent = n === 1 ? 'Just 1 more sleep! Come back tomorrow for door 1.' : n + ' sleeps to go. The circus is wrapping your presents.';
+    } else if (open === 24) {
+      mq.innerHTML = '★ <b>Merry Christmas!</b> ★';
+      sub.textContent = 'Every door is open. Thank you for coming to the circus this December.';
+    } else if (today >= 24) {
+      mq.innerHTML = waiting === 1 && !isOpen(24) ? '★ <b>Door 24</b> is waiting! ★' : '★ <b>' + waiting + '</b> doors to open ★';
+      sub.textContent = 'Every door is unlocked now. Open the rest whenever you like.';
+    } else {
+      mq.innerHTML = waiting ? '★ Day <b>' + today + '</b> · ' + (waiting === 1 ? (isOpen(today) ? '1 door to catch up' : 'tap today’s door') : waiting + ' doors to open') + ' ★' : '★ Day <b>' + today + '</b> · all caught up ★';
+      sub.textContent = waiting ? 'Look for the glowing door' + (waiting > 1 ? 's' : '') + '. Missed one? It’s still waiting for you.' : 'Come back tomorrow for door ' + (today + 1) + '.';
+    }
+    $('sOpen').textContent = open + '/24';
+    $('sTix').textContent = MMPrizes.tickets();
+    $('finale').classList.toggle('on', open === 24);
+    var html = '';
+    P.forEach(function (p, i) {
+      var g = isOpen(i + 1);
+      html += '<div class="cp' + (g ? ' got' : '') + '"><span class="d">' + (i + 1) + '</span><span class="em">' + (g ? p[0] : (i === 23 ? '🌟' : '🎁')) + '</span><span class="nm">' + (g ? esc(p[1]) : '???') + '</span></div>';
+    });
+    $('cgrid').innerHTML = html;
+    $('ccount').textContent = 'You have ' + open + ' of 24 advent prizes.';
+  }
+
+  function sleeps(d) {
+    var now = new Date(), s = season(now), target = new Date(s.y, 11, d);
+    var mid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return Math.max(1, Math.round((target - mid) / 864e5));
+  }
+  function tick() {
+    var s = season(new Date()), el = $('sNext'), wrap = $('sNextWrap');
+    if (s.day >= 24) { wrap.firstChild.nodeValue = 'SEASON'; el.textContent = 'ALL OPEN'; return; }
+    var now = new Date(), next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    if (s.day === 0) { wrap.firstChild.nodeValue = 'DOOR 1 IN'; var n = sleeps(1); el.textContent = n === 1 ? fmt(next - now) : n + ' DAYS'; return; }
+    wrap.firstChild.nodeValue = 'DOOR ' + (s.day + 1) + ' IN';
+    el.textContent = fmt(next - now);
+  }
+  function fmt(ms) {
+    var t = Math.max(0, Math.floor(ms / 1000)), h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, x = t % 60;
+    return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m + ':' + (x < 10 ? '0' : '') + x;
+  }
+
+  var bubT = 0;
+  function bubble(msg) {
+    var b = $('bubble'); b.textContent = msg; b.classList.add('on');
+    clearTimeout(bubT); bubT = setTimeout(function () { b.classList.remove('on'); }, 2600);
+  }
+
+  function tap(d, b) {
+    S.boot();
+    var s = sea();
+    if (isOpen(d)) { S.clink(); show(d, false); return; }
+    if (d > s.day) {
+      b.classList.remove('wiggle'); void b.offsetWidth; b.classList.add('wiggle');
+      S.thud();
+      var n = sleeps(d);
+      bubble('Not yet! Door ' + d + ' opens on December ' + d + '. ' + (n === 1 ? 'Just 1 more sleep ✨' : n + ' sleeps to go ✨'));
+      return;
+    }
+    // open it!
+    st.data.open.push(d); st.save();
+    var p = P[d - 1];
+    MMPrizes.add({ e: p[0], n: p[1], tier: 'advent' }, 'Circus Advent');
+    MMPrizes.addTickets(tickets(d), 'Circus Advent');
+    if (spins(d)) MMPrizes.addToken(spins(d));
+    S.whoosh();
+    draw();
+    setTimeout(function () { show(d, true); }, reduce ? 0 : 750);
+  }
+
+  var lastFocus = null;
+  function show(d, fresh) {
+    var p = P[d - 1];
+    $('rKick').textContent = 'DOOR ' + d + ' · DECEMBER ' + d;
+    $('rEm').textContent = p[0];
+    $('rName').textContent = p[1];
+    $('rFl').textContent = p[2];
+    var c = '<span class="chip">🎁 ADVENT PRIZE · <b>ON YOUR SHELF</b></span>';
+    if (fresh) {
+      c += '<span class="chip">🎟 <b>+' + tickets(d) + '</b> TICKETS</span>';
+      if (spins(d)) c += '<span class="chip">🎡 <b>+' + spins(d) + '</b> BONUS SPIN' + (spins(d) > 1 ? 'S' : '') + '</span>';
+    }
+    $('rChips').innerHTML = c;
+    $('rOk').textContent = fresh ? (d === 24 ? 'MERRY CHRISTMAS! 🎄' : 'YAY! ✨') : 'CLOSE';
+    var r = $('reveal'); r.classList.remove('on'); void r.offsetWidth; r.classList.add('on');
+    lastFocus = document.activeElement; $('rOk').focus({ preventScroll: true });
+    if (fresh) { d === 24 ? S.fanfare() : S.ding(true); setTimeout(function () { S.bell(); }, 350); confetti(d === 24 ? 260 : 140); }
+  }
+  function hide() { $('reveal').classList.remove('on'); if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); }
+  $('rOk').addEventListener('click', hide);
+  $('reveal').addEventListener('click', function (e) { if (e.target === this) hide(); });
+  addEventListener('keydown', function (e) { if (e.key === 'Escape' && $('reveal').classList.contains('on')) hide(); });
+
+  /* confetti and stars */
+  var cv = $('confetti'), cx = cv.getContext('2d'), bits = [], running = false;
+  function confetti(n) {
+    if (reduce) return;
+    var W = cv.width = innerWidth * devicePixelRatio, H = cv.height = innerHeight * devicePixelRatio, k = devicePixelRatio;
+    var cols = ['#ff4fa3', '#5ff3e8', '#ffd166', '#b48cff', '#ffffff'];
+    for (var i = 0; i < n; i++) {
+      var a = -Math.PI / 2 + (Math.random() - .5) * 1.9, v = (9 + Math.random() * 11) * k;
+      bits.push({ x: W / 2, y: H * .45, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: Math.random() * 6.28, vr: (Math.random() - .5) * .4,
+        s: (4 + Math.random() * 6) * k, c: cols[i % cols.length], star: Math.random() < .25, life: 1 });
+    }
+    if (!running) { running = true; requestAnimationFrame(step); }
+  }
+  function step() {
+    var H = cv.height, k = devicePixelRatio;
+    cx.clearRect(0, 0, cv.width, H);
+    bits = bits.filter(function (b) { return b.y < H + 40 && b.life > 0; });
+    bits.forEach(function (b) {
+      b.vy += .35 * k; b.vx *= .985; b.vy *= .985; b.x += b.vx; b.y += b.vy; b.r += b.vr; b.life -= .004;
+      cx.save(); cx.translate(b.x, b.y); cx.rotate(b.r); cx.fillStyle = b.c; cx.globalAlpha = Math.min(1, b.life * 2);
+      if (b.star) { MMC.star(cx, 0, 0, b.s, 5, .45); cx.fill(); } else cx.fillRect(-b.s / 2, -b.s / 4, b.s, b.s / 2);
+      cx.restore();
+    });
+    if (bits.length) requestAnimationFrame(step); else { running = false; cx.clearRect(0, 0, cv.width, H); }
+  }
+
+  draw(); tick();
+  setInterval(function () { var before = season(new Date()).day; tick(); if (before !== lastDay) { lastDay = before; draw(); } }, 1000);
+  var lastDay = season(new Date()).day;
+  addEventListener('mm-prizes', function () { $('sTix').textContent = MMPrizes.tickets(); });
+})();
+</script>
+<script src="mm-nav.js?v=3" defer></script>
+<script src="mm-store.js?v=1" defer></script>
+<script src="mm-subscribe.js?v=3" defer></script>
+</body>
+</html>

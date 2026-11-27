@@ -46,6 +46,7 @@
 .pz.medium .em{font-size:2.6rem}.pz.jumbo .em{font-size:3rem;filter:drop-shadow(0 0 12px rgba(255,209,102,.55))}
 .pz.rare{border-color:rgba(95,243,232,.45)}.pz.rare .em{filter:drop-shadow(0 0 10px rgba(95,243,232,.6))}
 .pz.jumbo{border-color:rgba(255,209,102,.45)}
+.pz.advent{border-color:rgba(255,209,102,.6);background:linear-gradient(180deg,rgba(255,209,102,.16),rgba(19,28,63,.65))}.pz.advent .em{filter:drop-shadow(0 0 10px rgba(255,209,102,.7))}.pz.advent .t{color:var(--gold)}
 .pz .nm{margin-top:4px;font-size:.72rem;line-height:1.3;color:#fff}
 .pz .t{margin-top:4px;font-family:Silkscreen,monospace;font-size:.5rem;letter-spacing:.12em;color:var(--aqua)}
 .pz .g{margin-top:2px;font-size:.6rem;color:rgba(213,194,220,.6)}
@@ -81,6 +82,7 @@
           <a href="ticket-booth.html">🎟 Spend tickets &amp; trade extras</a>
           <a class="alt" href="prize-wheel.html">🎡 Use my bonus spins</a>
           <a class="alt" href="winter-carnival.html">❄️ Holiday prize checklist</a>
+          <a class="alt" href="circus-advent.html">🎁 Circus Advent</a>
         </div>
         <p class="note">Your prizes are saved in this browser, on this device. Clearing your browser data clears the shelf too.</p>
       </div>
@@ -99,8 +101,8 @@
   function esc(x) { return String(x).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
   var HOL = {};
   ['small', 'medium', 'jumbo'].forEach(function (t) { MMPrizes.WINTER[t].forEach(function (p) { HOL[p[1]] = 1; }); });
-  var TL = { small: 'SMALL', medium: 'BIG', jumbo: 'JUMBO', rare: 'COLLECTIBLE', fortune: 'FORTUNE' };
-  var TABS = [['all', 'All'], ['small', 'Small'], ['medium', 'Big'], ['jumbo', 'JUMBO'], ['rare', 'Collectibles'], ['holiday', 'Holiday'], ['fortune', 'Fortunes']];
+  var TL = { small: 'SMALL', medium: 'BIG', jumbo: 'JUMBO', rare: 'COLLECTIBLE', fortune: 'FORTUNE', advent: 'ADVENT' };
+  var TABS = [['all', 'All'], ['small', 'Small'], ['medium', 'Big'], ['jumbo', 'JUMBO'], ['rare', 'Collectibles'], ['holiday', 'Holiday'], ['advent', 'Advent'], ['fortune', 'Fortunes']];
   var show = 'all', tabsEl = document.getElementById('tabs');
   tabsEl.addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b) return; show = b.dataset.t; draw();
