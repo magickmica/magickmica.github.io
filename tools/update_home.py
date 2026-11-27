@@ -66,9 +66,9 @@ def main(repo, data_dir):
             continue
         with open(path, encoding="utf-8") as f:
             text = f.read()
-        if not HERO_IMG.search(text):
-            continue
-        new = HERO_IMG.sub(lambda m: m.group(1) + img, text, count=1)
+        # The chapters homepage (Nov 2026) has no hero tile, but still says
+        # "N transmissions and counting", so the count keeps updating.
+        new = HERO_IMG.sub(lambda m: m.group(1) + img, text, count=1) if HERO_IMG.search(text) else text
         new = COUNT.sub(lambda m: f"{count:,}" + m.group(1), new)
         if new != text:
             with open(path, "w", encoding="utf-8") as f:

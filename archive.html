@@ -276,25 +276,16 @@ footer a:hover{color:var(--cream)}
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <link rel="stylesheet" href="mm-pagebar.css?v=1">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=IBM+Plex+Mono:wght@400;500;700&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mm-chapterpage.css?v=1">
 </head>
-<body>
+<body class="cp" style="--acc:#9fe8ff;--cp-bg:radial-gradient(1.5px 1.5px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 38% 62%,#fff,transparent),radial-gradient(2px 2px at 68% 14%,#fff,transparent),radial-gradient(1px 1px at 88% 70%,#fff,transparent),radial-gradient(60% 60% at 85% 30%,rgba(111,195,255,.22),transparent 70%),linear-gradient(180deg,#081233,#0b1a45)">
 
 <div id="stars"></div>
 <div class="holo-bar"></div>
 
-<header>
-  <div class="site-title">✦ MAGICK MICA ARCHIVE ✦</div>
-  <div class="site-sub">☆ where magic meets the pixel ☆</div>
-  <nav class="nav-links">
-    <a href="blog.html">✦ BLOG ✦</a>
-    <a href="minimags.html">✦ Y3K MAGAZINE ✦</a>
-    <a href="articles.html">📰 ARTICLES</a>
-    <a href="notes.html">📝 NOTES ARCHIVE</a>
-    <a href="https://magickmica.substack.com" target="_blank">📺 MAGICK MICA TV</a>
-    <a href="https://magickmicaart.substack.com" target="_blank">🎨 MAGICK MICA ART</a>
-    <a href="https://magickmica.github.io" target="_blank">🌐 HOME</a>
-  </nav>
-</header>
+<header class="cp-open"><div class="cp-in"><div class="cp-rv"><p class="cp-k">The Archive · Search everything</p><h1 class="cp-h">The Magick Mica <em>Archive</em></h1><p class="cp-lede">Every article and every note, side by side. Search across all of it, or wander month by month.</p><div class="cp-btns"><a class="cp-btn " href="#search">Search the archive ↓</a><a class="cp-btn ghost" href="explore/">Explore the Notes</a></div></div><figure class="cp-art cp-rv d2"><div class="cp-port"><img src="char-dream-archivist.png" width="560" height="560" alt="The Dream Archivist in cloud pyjamas, holding a bottled galaxy" decoding="async"></div><figcaption class="cp-cap">Keeper of the archive · The Dream Archivist</figcaption></figure></div></header>
+<nav class="nav-links cp-nav" aria-label="Reading room"><a href="index.html#read">← Home</a><a href="notes.html">Notes</a><a href="blog.html">Blog</a><a href="articles.html">Articles</a><a href="minimags.html">Y3K Magazine</a><a href="archive.html">Archive</a><a href="explore/">Explore the Notes</a><a href="reader/">Reader 98</a><a href="https://magickmica.substack.com/notes" target="_blank" rel="noopener">Live notes ↗</a></nav>
 
 <div class="pixel-row">·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·:·</div>
 
@@ -482,5 +473,6 @@ render();
 <script src="mm-store.js?v=1" defer></script>
 <script src="mm-subscribe.js?v=3" defer></script>
 <script src="crystal-hunt.js?v=1" defer></script>
+<script src="mm-chapterpage.js?v=1" defer></script>
 </body>
 </html>
