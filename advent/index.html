@@ -215,7 +215,62 @@ h1{background:linear-gradient(90deg,#3b2585,#8C54E8,#d7609f,#3fa9c4,#3b2585);bac
 <section class="win raised" aria-label="Calendar doors">
   <div class="tb"><span>❄</span><span>DECEMBER.CAL</span></div>
   <div class="cal" id="cal"></div>
-  <div class="status"><span id="hint">Tap a glowing door.</span><span class="leaf"><span class="rib"></span><span class="shine"></span>${n}<span class="em"></span></span></button>`}).join("");
+  <div class="status"><span id="hint">Tap a glowing door.</span></div>
+</section>
+
+<p class="note" style="color:#BDA7FF;text-align:center">Made with love by the Magick Mica AI Academy · <a style="color:#66E8F2" href="https://magickmica.github.io/academy/" target="_blank" rel="noopener">Visit the Academy ↗</a></p>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <section class="win raised" role="dialog" aria-modal="true" aria-labelledby="mt">
+    <div class="tb"><span>🎁</span><span id="mt">DOOR_01.TXT</span><span class="ctl"><button class="raised" id="mx" aria-label="Close">×</button></span></div>
+    <div class="body tip read" id="mbody"></div>
+  </section>
+</div>
+<div class="toast raised" id="toast" role="status" aria-live="polite"></div>
+<script>
+const ACADEMY="https://magickmica.github.io/academy/";
+const TIPS=[
+ {s:"AI Foundations",e:"🧠",t:"AI predicts, it doesn't know",b:"A chatbot writes one likely word after another. That's why it can sound sure and still be wrong. Treat it like a brilliant, overconfident intern: great drafts, always double-check facts.",y:"Ask an AI a question you already know the answer to. Did it get it fully right?"},
+ {s:"Prompt Lab",e:"🎯",t:"Give it a role, a goal and a reader",b:"\"Write a post\" gets you beige. \"You're a cozy-witch copywriter. Write a 3-line post for busy moms about our candle sale\" gets you magic. Who is it, what's the goal, who's reading?",y:"Rewrite one boring prompt with a role, a goal and a reader."},
+ {s:"Prompt Lab",e:"🧾",t:"Show, don't just tell",b:"Paste one example of what you love: a past caption, an email that worked, a paragraph in your voice. Examples teach style faster than any adjective.",y:"Add \"Here's an example of my voice:\" plus a real sample to your next prompt."},
+ {s:"Claude Workshop",e:"💬",t:"Have a conversation, not a vending machine",b:"Your first answer is a draft. Say \"shorter\", \"warmer\", \"more like a fairy tale\", \"give me 5 options\". The magic is in round two and three.",y:"Take any AI answer and ask for it three different ways."},
+ {s:"Daily Signal",e:"📡",t:"Tiny daily practice beats big weekends",b:"Five minutes a day with AI builds more skill than one long weekend binge. Small reps, every day, like stretching.",y:"Set a daily 5-minute AI play date for the rest of December."},
+ {s:"Claude Workshop",e:"📎",t:"Feed it your files",b:"Upload the PDF, the spreadsheet, the messy notes. AI is best when it works on your real stuff instead of guessing.",y:"Upload a long document and ask for the three most important points."},
+ {s:"Prompt Lab",e:"🪜",t:"Ask it to think step by step",b:"For anything tricky (plans, numbers, decisions) ask the AI to lay out its steps first. You'll catch mistakes and understand its reasoning.",y:"Ask: \"Before answering, list the steps you'll take.\""},
+ {s:"Creative Studio",e:"🎨",t:"Lock a style recipe",b:"For consistent AI art, write one recipe (medium + palette + light + texture) and reuse it word for word. Only the subject changes. Now your images look like a family.",y:"Write your signature style recipe in one sentence and save it."},
+ {s:"School of the Commons",e:"📚",t:"Millions of free masterpieces",b:"Museums like The Met and the Art Institute of Chicago have released hundreds of thousands of public domain images, free for anyone to use, even commercially. Look for 'CC0' or 'Public Domain'.",y:"Search \"moth\" on the Art Institute of Chicago with the public domain filter on."},
+ {s:"AI Foundations",e:"🪟",t:"Context windows are short-term memory",b:"AI only 'remembers' what's in the current chat. Long chats get fuzzy. When things drift, start fresh with a short summary of what matters.",y:"Ask the AI to summarize your long chat, then paste that into a new one."},
+ {s:"Tarot & Symbol School",e:"🌙",t:"Symbols are a visual language",b:"A moon means intuition, a key means access, a butterfly means change. Use old symbols in your AI art prompts and your images instantly carry meaning.",y:"Add one meaningful symbol to your next image prompt."},
+ {s:"Claude Workshop",e:"🧑‍🏫",t:"Ask it to interview you",b:"Stuck? Flip it: \"Ask me 5 questions, one at a time, to help me write my About page.\" The AI pulls the good stuff out of you.",y:"Have the AI interview you about one project."},
+ {s:"Claude Code",e:"💻",t:"You can build tiny apps by describing them",b:"Tools like Claude Code turn plain English into working code. This whole Academy was built that way. Start tiny: \"a page that picks a random tarot card\".",y:"Describe one tiny tool you wish existed, in 3 sentences."},
+ {s:"MCP Portal",e:"🔌",t:"MCP plugs AI into your tools",b:"MCP (Model Context Protocol) is like a universal adapter that lets AI read your calendar, docs or design apps, so it can help with your real work, not just chat.",y:"List 3 apps you'd love your AI assistant to see."},
+ {s:"Agent Observatory",e:"🛰",t:"Agents take steps, not just answers",b:"An AI agent can plan, use tools and take several steps toward a goal. Give it clear limits: what it may do, and when to stop and check with you.",y:"Write a 3-line job description for an imaginary AI helper."},
+ {s:"Prompt Lab",e:"✂️",t:"Say what to leave out",b:"\"No hashtags. No emojis. Under 50 words. Don't start with 'In today's world'.\" Constraints make writing sharper and stop the AI clichés.",y:"Add three \"don'ts\" to a prompt and compare."},
+ {s:"School of the Commons",e:"🏷",t:"Credit like a pro",b:"Title, Artist (Year). Collection. License. Even when credit isn't required, it builds trust and helps people find the original.",y:"Write a credit line for one public domain image you love."},
+ {s:"Creative Studio",e:"🖼",t:"Use a reference image",b:"Most AI image tools accept an upload. A vintage plate or your own sketch as reference gives you far more control than words alone.",y:"Generate one image with and one without a reference. Compare."},
+ {s:"AI Foundations",e:"🛡",t:"Keep secrets out of chats",b:"Don't paste passwords, bank details or other people's private info into AI tools. Share what's needed, nothing more.",y:"Check your last AI chat: anything you'd rather not have shared?"},
+ {s:"Tarot & Symbol School",e:"🃏",t:"Use AI for reflection, not prediction",b:"Pull a card, then ask an AI: \"Help me reflect on this card as it relates to my week. Ask me two journaling questions.\" Gentle, useful, no fortune telling.",y:"Try it with today's card."},
+ {s:"Claude Workshop",e:"📋",t:"Save your best prompts",b:"Keep a prompt notebook. When something works, save it with a name. In a month you'll have your own spellbook.",y:"Start a note called 'My Spellbook' and save one prompt."},
+ {s:"Agent Observatory",e:"🔁",t:"Check its work",b:"Ask the AI to review its own answer: \"What might be wrong or missing here?\" A second pass catches a surprising amount.",y:"Ask for a self-review on your next AI answer."},
+ {s:"Creative Studio",e:"🎁",t:"Make a gift with AI",b:"A custom poem, a coloring page, a tiny storybook starring your kid's cat. AI is wonderful for personal, one-of-a-kind presents.",y:"Make one small AI gift for someone this week."},
+ {s:"Magick Mica AI Academy",e:"✨",t:"Your curiosity is the password",b:"You opened 24 doors of AI magic. The Academy has a whole desktop of schools waiting: Prompt Lab, Claude Code, Creative Studio, Tarot & Symbol and more. Merry everything!",y:"Come explore the full Academy."},
+];
+const KEY="mmadvent.v1";let S={open:[],preview:false};
+try{S=Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("on"),2400)}
+function copy(txt){(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast("Copied ✦"),()=>{const a=document.createElement("textarea");a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Copied ✦")}catch(e){toast("Select and copy by hand")}a.remove()})}
+const now=new Date(), Y=now.getFullYear();
+// a door opens on December N (viewer's own date). In January, everything stays open.
+function unlocked(n){if(S.preview)return true;const m=now.getMonth();if(m===11)return now.getDate()>=n;if(m===0)return true;return false}
+function todayN(){return now.getMonth()===11&&now.getDate()<=24?now.getDate():0}
+const ORDER=Array.from({length:24},(_,i)=>i+1);
+function render(){
+ $("#cal").innerHTML=ORDER.map(n=>{const o=S.open.includes(n),u=unlocked(n),t=n===todayN()&&!o;
+  return `<button class="door${o?" open":""}${u?"":" locked"}${t?" today":""}" data-n="${n}" aria-label="Door ${n}${o?", opened: "+esc(TIPS[n-1].t):u?", ready to open":", opens December "+n}"><span class="inside">${n}<span class="em">${o?TIPS[n-1].e:""}</span></span><span class="leaf"><span class="rib"></span><span class="shine"></span>${n}<span class="em"></span></span></button>`}).join("");
  const k=S.open.length;$("#count").textContent=k+" of 24 opened";$("#meter").style.width=(k/24*100)+"%";$("#badgetxt").textContent=k===24?"🏅 Advent Adept":"";
  const m=now.getMonth();
  $("#pixline").textContent=S.preview?"Preview mode: every door is open so you can check them all.":m===11&&now.getDate()<=24?"Door "+now.getDate()+" is glowing. Go on, open it!":m===11||m===0?"All 24 doors are open. Catch up on any you missed!":"The first door opens on December 1. Come back then, or peek at the Academy while you wait.";
