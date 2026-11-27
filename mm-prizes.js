@@ -13,6 +13,7 @@
    MMPrizes.daily()               -> {fresh, streak, tickets, spin}  once-a-day visit prize
    MMPrizes.dupes() / tradeIn(e, n) / tradeValue(p)   swap extra prizes for tickets
    MMPrizes.pick(tier, 'winter')  -> a Winter Carnival holiday prize
+   Advent prizes (tier 'advent') come one per door from circus-advent.html and are never traded in.
    Every shelf drawn with render() gets a link to my-prizes.html, the full collection page.
 */
 (function () {
@@ -118,7 +119,7 @@
          so the card goes to the top there and steps aside as soon as you start playing;
          the lobby pages keep it at the bottom */
       var page = (location.pathname.split('/').pop() || 'index.html').toLowerCase(),
-          lobby = /^(index|arcade|my-prizes|ticket-booth|winter-carnival)(\.html)?$/.test(page);
+          lobby = /^(index|arcade|my-prizes|ticket-booth|winter-carnival|circus-advent)(\.html)?$/.test(page);
       el.style.cssText = 'position:fixed;left:50%;' + (lobby ? 'bottom:18px;' : 'top:calc(12px + env(safe-area-inset-top,0px));') +
         'transform:translateX(-50%);z-index:10000;width:min(360px,calc(100vw - 32px));' +
         'padding:16px 18px 14px;border-radius:18px;text-align:center;color:#fff;font:14px/1.45 "IBM Plex Mono",monospace;' +
@@ -158,7 +159,7 @@
   function dupes() {
     var groups = {}, order = [];
     read().forEach(function (p) {
-      if (p.tier === 'fortune') return;
+      if (p.tier === 'fortune' || p.tier === 'advent') return;
       var k = p.e + '|' + p.n;
       if (!groups[k]) { groups[k] = {e: p.e, n: p.n, tier: p.tier, count: 0}; order.push(k); }
       groups[k].count++;

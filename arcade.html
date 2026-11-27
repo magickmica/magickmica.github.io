@@ -794,6 +794,18 @@ body::before{background:
 .sc-list b{font-family:Orbitron,sans-serif;font-weight:700;font-size:.9rem;color:#ffd166}
 .sc-list li.none b{color:rgba(213,194,220,.35);font-weight:500}
 .sc-note{margin:8px 0 0;font-size:.66rem;color:rgba(213,194,220,.55);text-align:center}
+.adv-promo{position:relative;display:flex;align-items:center;gap:14px;margin:0 0 18px;padding:14px 18px;border-radius:16px;text-decoration:none;color:#fff;
+  background:repeating-linear-gradient(135deg,rgba(255,79,163,.22) 0 14px,rgba(255,244,249,.08) 14px 28px),linear-gradient(160deg,#2f2f70,#131c3f);
+  border:2px solid #ffd166;box-shadow:0 0 26px rgba(255,209,102,.3);transition:transform .2s,box-shadow .2s}
+.adv-promo::after{content:"";position:absolute;inset:-6px;border-radius:20px;border:3px dotted rgba(255,209,102,.8);pointer-events:none;animation:advChase 1s steps(2) infinite}
+@keyframes advChase{50%{border-color:rgba(255,247,214,.9)}}
+.adv-promo:hover,.adv-promo:focus-visible{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,209,102,.4)}
+.adv-promo .adv-ico{font-size:2.6rem;line-height:1;filter:drop-shadow(0 0 12px rgba(255,209,102,.7))}
+.adv-promo b{display:block;font-family:Orbitron,sans-serif;font-weight:900;letter-spacing:.05em;font-size:1.05rem;color:#ffd166}
+.adv-promo .adv-tx{flex:1;font-size:.78rem;line-height:1.45;color:rgba(232,240,255,.85)}
+.adv-promo .adv-btn{font-family:Silkscreen,monospace;font-size:.7rem;letter-spacing:.12em;padding:9px 14px;border-radius:999px;color:#040509;background:linear-gradient(90deg,#ffd166,#ff4fa3);white-space:nowrap}
+@media(max-width:520px){.adv-promo{flex-wrap:wrap;justify-content:center;text-align:center}.adv-promo .adv-tx{flex-basis:100%}}
+@media(prefers-reduced-motion:reduce){.adv-promo::after{animation:none}}
 /* ---------- the Midway as a cosmic big-top tent ---------- */
 .tent{position:relative;margin-top:clamp(36px,6vw,64px)}
 .tent-top{position:relative;height:clamp(120px,19vw,200px);margin:0 -8px}
@@ -938,6 +950,7 @@ body::before{background:
     <p>Carnival games from the Cosmic Circus. Win a round and a prize lands on your shelf.</p>
     <p class="myp-row"><a class="myp-btn" href="my-prizes.html">🎁 MY PRIZES <b id="mypN"></b></a><a class="myp-btn alt" href="ticket-booth.html">🎟 TICKETS <b id="mypT"></b></a></p>
   </div>
+  <a class="adv-promo" href="circus-advent.html"><span class="adv-ico" aria-hidden="true">🎁</span><span class="adv-tx"><b>CIRCUS ADVENT</b>24 little doors, one a day from December 1 to 24. Every door hides a prize you can't win anywhere else.</span><span class="adv-btn">OPEN ▸</span></a>
   <p class="side-head"><a href="winter-carnival.html" style="color:inherit;text-decoration:none">❄ WINTER CARNIVAL ❄</a></p>
   <div class="cab-row">
     <a class="cab is-new" href="crystal-chaos.html" style="--c:#b9a3ff;--c2:#5ff3e8"><span class="cab-mq">CRYSTAL CHAOS</span><span class="cab-scr"><span class="cab-ico">🐧</span><span class="cab-tag">NEW</span></span><span class="cab-ds">Pull crystals from the ice tower. Don't drop the guardian!</span><span class="cab-btn">PULL ▸</span></a>
