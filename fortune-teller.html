@@ -3,24 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Madame Nebula's Fortunes &middot; MagickMica</title>
-<meta name="description" content="A Cosmic Circus fortune machine. Ask Madame Nebula and she deals you a fortune from one of Magick Mica's own notes. Keep the card on your prize shelf.">
+<title>Madame Mica's Fortunes &middot; MagickMica</title>
+<meta name="description" content="Madame Mica, Keeper of the Crystal Ball, reads your fortune at the Cosmic Circus. Pick destiny, love, luck, mystery, carnival mischief or cosmic wisdom, keep the fortunes that find you, and take home a fortune ticket.">
 <link rel="canonical" href="https://magickmica.github.io/fortune-teller.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Magick Mica">
-<meta property="og:title" content="Madame Nebula's Fortunes · Magick Mica Arcade">
-<meta property="og:description" content="Ask the crystal ball. Your fortune comes from one of Magick Mica's notes.">
+<meta property="og:title" content="Madame Mica's Fortunes · Magick Mica Arcade">
+<meta property="og:description" content="Step closer, curious soul. The crystal ball has been expecting you.">
 <meta property="og:url" content="https://magickmica.github.io/fortune-teller.html">
 <meta property="og:image" content="https://magickmica.github.io/og/fortune-teller.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Madame Nebula&#x27;s Fortunes · Magick Mica Arcade">
+<meta property="og:image:alt" content="Madame Mica&#x27;s Fortunes · Magick Mica Arcade">
 <meta name="twitter:image" content="https://magickmica.github.io/og/fortune-teller.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Silkscreen&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="carnival.css?v=2">
+<link rel="stylesheet" href="carnival.css?v=3">
 <style>
 .awning{background:repeating-linear-gradient(90deg,var(--iris) 0 34px,var(--orchid) 34px 68px)}
 .scallop{background:radial-gradient(circle at 50% 0,var(--iris) 0 12px,transparent 13px) 0 0/68px 14px repeat-x,
@@ -88,24 +88,67 @@
 .mini-card span{font-size:.64rem;color:rgba(213,194,220,.6)}
 .deck .empty{font-size:.72rem;color:rgba(213,194,220,.5)}
 @media (prefers-reduced-motion:reduce){.asking .swirl,.asking .ball-core,.idle .float,.fcard.out{animation:none}}
+
+/* ---- Madame Mica: categories, card details, fortune shelf, fortune ticket ---- */
+.intro{position:relative;z-index:3;margin:0 auto 10px;max-width:420px;font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:600;
+  font-size:1.18rem;line-height:1.3;color:#fff3dc;text-shadow:0 0 14px rgba(255,79,163,.5)}
+.cats{position:relative;z-index:3;margin:4px auto 0;max-width:560px}
+.cats .lbl{display:block;font-family:Silkscreen,monospace;font-size:.62rem;letter-spacing:.2em;color:var(--gold);margin-bottom:8px}
+.cats .row{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.cats button{font-family:Silkscreen,monospace;font-size:.62rem;letter-spacing:.08em;padding:9px 11px;min-height:36px;border-radius:999px;cursor:pointer;
+  color:#fff3dc;background:rgba(12,11,34,.6);border:1.5px solid rgba(255,209,102,.45)}
+.cats button:hover{border-color:var(--gold)}
+.cats button[aria-pressed="true"]{color:#2a1640;background:linear-gradient(90deg,var(--gold),#ffb3d6);border-color:var(--gold);box-shadow:0 0 14px rgba(255,209,102,.45)}
+.cats button:focus-visible,.ask:focus-visible,.facts button:focus-visible,.fs-x:focus-visible,.tk-btns button:focus-visible{outline:3px solid var(--aqua);outline-offset:3px}
+.fcard .fcat{display:inline-block;margin-top:2px;font-family:Silkscreen,monospace;font-size:.58rem;letter-spacing:.16em;color:#9a5a2a;
+  padding:4px 10px;border-radius:999px;border:1px solid rgba(212,160,26,.6);background:rgba(255,209,102,.18)}
+.fcard .orn{display:block;margin:0 auto;width:120px;height:10px;opacity:.7;
+  background:radial-gradient(circle,#d4a01a 0 2.2px,transparent 2.8px) center/14px 10px repeat-x}
+.fcard .fby{margin-top:8px}
+.facts button.saved{background:#fff3dc;color:#2a1640;border-color:#d4a01a}
+.fs-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.fs-card{position:relative;padding:14px 36px 12px 14px;border-radius:10px;color:#2a1640;
+  background:linear-gradient(170deg,#fff6e3,#f3dcef);border:1.5px solid #d4a01a;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.fs-card::before{content:"";position:absolute;left:-7px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:var(--ink,#05060c)}
+.fs-card::after{content:"";position:absolute;right:-7px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:var(--ink,#05060c)}
+.fs-card i{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.08rem;line-height:1.3;font-weight:600}
+.fs-card span{display:block;margin-top:6px;font-family:Silkscreen,monospace;font-size:.52rem;letter-spacing:.12em;color:#7a3b9a}
+.fs-x{position:absolute;top:6px;right:6px;width:30px;height:30px;border-radius:50%;border:1px solid rgba(122,59,154,.4);background:rgba(255,255,255,.6);
+  color:#7a3b9a;font-size:.9rem;line-height:1;cursor:pointer}
+.fs-x:hover{background:#2a1640;color:#ffd166}
+.fs-card button.fs-t{margin-top:8px;font-family:Silkscreen,monospace;font-size:.52rem;letter-spacing:.1em;padding:6px 9px;border-radius:999px;cursor:pointer;
+  color:#2a1640;background:transparent;border:1px solid #7a3b9a}
+.ticketbox{position:fixed;inset:0;z-index:9990;display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto;
+  background:radial-gradient(70% 60% at 50% 45%,rgba(58,18,64,.92),rgba(4,5,9,.95))}
+.ticketbox.on{display:flex}
+.tk-inner{width:min(460px,100%);text-align:center}
+.tk-inner canvas{display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 40px rgba(255,209,102,.25)}
+.tk-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.tk-btns button{font-family:Silkscreen,monospace;font-size:.7rem;letter-spacing:.1em;padding:12px 16px;min-height:44px;border-radius:999px;cursor:pointer;
+  color:#040509;background:linear-gradient(90deg,var(--gold),var(--pink));border:0}
+.tk-btns button.ghost{background:transparent;color:#fff3dc;border:1.5px solid rgba(255,243,220,.5)}
+.tk-msg{min-height:1.2em;margin:10px 0 0;font-size:.74rem;color:#fff3dc}
+@media (max-width:520px){.cats button{font-size:.58rem;padding:8px 9px}.intro{font-size:1.05rem}}
+@media (prefers-reduced-motion:reduce){.fcard.out{animation:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <p class="eyebrow"><a href="arcade.html">← Magick Mica Arcade</a> · Cosmic Circus</p>
-    <h1>MADAME NEBULA'S FORTUNES</h1>
-    <p class="tag">Ask the crystal ball. Every fortune is a line from one of Magick Mica's notes.</p>
+    <h1>MADAME MICA</h1>
+    <p class="tag">Keeper of the Crystal Ball. Choose your fortune, ask as often as you like, and keep the ones that find you.</p>
   </header>
 
   <div class="booth">
     <div class="bulbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <div class="awning"><div class="sign"><span>★ YOUR FUTURE · ONE TAP AWAY ★</span></div></div>
+    <div class="awning"><div class="sign"><span>★ YOUR FORTUNE AWAITS ★</span></div></div>
     <div class="scallop" aria-hidden="true"></div>
     <div class="stage">
       <div class="cabinet">
+        <p class="intro">Step closer, curious soul. The crystal ball has been expecting you.</p>
         <div class="glass idle" id="glass">
-          <svg viewBox="0 0 400 420" role="img" aria-label="Madame Nebula, a hooded fortune teller with glowing eyes, holding her hands over a crystal ball">
+          <svg viewBox="0 0 400 420" role="img" aria-label="Madame Mica, a hooded fortune teller with glowing eyes, holding her hands over a crystal ball">
             <defs>
               <radialGradient id="ballG" cx="42%" cy="38%" r="62%"><stop offset="0" stop-color="#ffffff"/><stop offset=".25" stop-color="#bff9f4"/><stop offset=".6" stop-color="#9667ba"/><stop offset="1" stop-color="#2f2f70"/></radialGradient>
               <radialGradient id="haloG" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#5ff3e8" stop-opacity=".55"/><stop offset="1" stop-color="#5ff3e8" stop-opacity="0"/></radialGradient>
@@ -152,8 +195,12 @@
         </div>
         <div class="slot" aria-hidden="true"></div>
         <div class="plate">
-          <button class="ask" id="askBtn" type="button" disabled>🔮 WAKING THE BALL…</button>
-          <p class="hint" id="hint">Your first fortune each day goes on your prize shelf and pays 3 tickets.</p>
+          <div class="cats" role="group" aria-labelledby="catLbl">
+            <span class="lbl" id="catLbl">✦ CHOOSE YOUR FORTUNE ✦</span>
+            <div class="row" id="cats"></div>
+          </div>
+          <p style="margin:16px 0 0"><button class="ask" id="askBtn" type="button" disabled>🔮 WAKING THE BALL…</button></p>
+          <p class="hint" id="hint">Ask as often as you like. Keep the fortunes that find you.</p>
         </div>
       </div>
     </div>
@@ -164,125 +211,311 @@
   <div class="bar">
     <div class="stats">
       <span class="stat">FORTUNES<b id="sCount">0</b></span>
-      <span class="stat">CARDS KEPT<b id="sKept">0</b></span>
+      <span class="stat">ON YOUR SHELF<b id="sKept">0</b></span>
       <span class="stat">TICKETS<b id="sTix">0</b></span>
     </div>
     <button class="mini" id="soundBtn" type="button">♪ Sound: on</button>
   </div>
 
-  <section class="deck" aria-label="Your fortune cards">
-    <h3>Your Fortune Cards</h3>
-    <p class="sub">Every card you keep, newest first. They also sit on your prize shelf.</p>
-    <div class="decklist" id="deck"></div>
+  <section class="deck" aria-label="Your fortune shelf">
+    <h3>Your Fortune Shelf</h3>
+    <p class="sub">The fortunes you saved, newest first. They stay here when you come back. Tap ✕ to let one go.</p>
+    <div class="fs-list" id="fshelf"></div>
   </section>
 
   <section class="shelf" aria-label="Your prize shelf">
     <h3>Your Prize Shelf</h3>
-    <p>Fortune cards and prizes from every game at the circus. Trade tickets for rare collectibles at the <a href="ticket-booth.html">Ticket Booth</a>.</p>
+    <p>Your first fortune each day goes here too, along with 3 tickets. Trade tickets for rare collectibles at the <a href="ticket-booth.html">Ticket Booth</a>.</p>
     <div class="shelf-row" id="shelf"></div>
   </section>
 
   <a class="back" href="arcade.html#circus">← Back to the Circus</a>
 </div>
 
-<script src="mm-prizes.js?v=7"></script>
+<div class="ticketbox" id="ticketbox" role="dialog" aria-modal="true" aria-label="Your fortune ticket">
+  <div class="tk-inner">
+    <canvas id="ticket" width="1200" height="1600" aria-label="Fortune ticket preview"></canvas>
+    <div class="tk-btns">
+      <button type="button" id="tkSave">⬇ SAVE THE TICKET</button>
+      <button type="button" id="tkShare" hidden>↗ SHARE</button>
+      <button type="button" class="ghost" id="tkClose">CLOSE</button>
+    </div>
+    <p class="tk-msg" id="tkMsg" role="status"></p>
+  </div>
+</div>
+
+<script src="mm-prizes.js?v=8"></script>
 <script src="carnival.js?v=1"></script>
-<script src="circus-notes.js?v=1"></script>
+<script src="data/fortunes.js?v=1"></script>
 <script>
 (function () {
 'use strict';
 var S = MMC.Sound, reduce = MMC.reduce;
+var F = window.MMFortunes || { categories: [], deck: [] };
+var CAT = {}; F.categories.forEach(function (c) { CAT[c.id] = c; });
+/* mm_fortune_v1 keeps the fortune count and the once-a-day reward, as before. Its old "kept" list (cards from Notes) is left alone. */
 var st = MMC.store('mm_fortune_v1', { count: 0, day: '', kept: [] });
+/* Madame Mica's fortunes have their own shelf and their own memory, separate from anything Notes-related. */
+var shelfSt = MMC.store('mm_fortune_shelf_v1', { items: [] });
+var drawSt = MMC.store('mm_fortune_draws_v1', { seen: [], cat: 'all' });
 var askBtn = document.getElementById('askBtn'), glass = document.getElementById('glass'), deal = document.getElementById('deal');
-var pool = [], current = null, busy = false;
+var current = null, busy = false, catSel = CAT[drawSt.data.cat] ? drawSt.data.cat : 'all';
 MMC.soundButton(document.getElementById('soundBtn'));
 MMC.shelf(document.getElementById('shelf'));
 
 function today() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
-function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function num(f) { return 'No. ' + f.id.split('-')[1]; }
+function catName(f) { return (CAT[f.category] || { label: '' }).label; }
+function rnd(n) {
+  if (window.crypto && crypto.getRandomValues) { var a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; }
+  return Math.floor(Math.random() * n);
+}
+
+/* ---- category picker ---- */
+var catsEl = document.getElementById('cats');
+var CHOICES = [{ id: 'all', button: 'All Fortunes' }].concat(F.categories);
+catsEl.innerHTML = CHOICES.map(function (c) {
+  return '<button type="button" data-c="' + c.id + '" aria-pressed="' + (c.id === catSel) + '">' + esc(c.button.toUpperCase()) + '</button>';
+}).join('');
+catsEl.addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return;
+  catSel = b.dataset.c; drawSt.data.cat = catSel; drawSt.save();
+  [].forEach.call(catsEl.children, function (x) { x.setAttribute('aria-pressed', x === b); });
+  S.boot(); S.click();
+  askBtn.textContent = current ? '🔮 ASK AGAIN' : '🔮 ASK MADAME MICA';
+});
+
+/* ---- drawing: a shuffled bag per choice. Nothing repeats until every fortune in that choice has been seen,
+       and the card on the table is never drawn again straight away. ---- */
+function pool() { return F.deck.filter(function (f) { return catSel === 'all' || f.category === catSel; }); }
+function draw() {
+  var all = pool(); if (!all.length) return null;
+  var seen = {}; drawSt.data.seen.forEach(function (id) { seen[id] = 1; });
+  var fresh = all.filter(function (f) { return !seen[f.id]; });
+  if (!fresh.length) {                       // this choice has been cycled through: start a new round
+    var ids = {}; all.forEach(function (f) { ids[f.id] = 1; });
+    drawSt.data.seen = drawSt.data.seen.filter(function (id) { return !ids[id]; });
+    fresh = all.filter(function (f) { return !current || f.id !== current.id; });
+    if (!fresh.length) fresh = all;
+  }
+  var f = fresh[rnd(fresh.length)];
+  drawSt.data.seen.push(f.id);
+  if (drawSt.data.seen.length > F.deck.length) drawSt.data.seen = drawSt.data.seen.slice(-F.deck.length);
+  drawSt.save();
+  return f;
+}
+
+/* ---- the fortune shelf ---- */
+function isSaved(f) { return shelfSt.data.items.some(function (k) { return k.id === f.id; }); }
+function save(f) {
+  if (isSaved(f)) return;
+  shelfSt.data.items.push({ id: f.id, category: f.category, text: f.text, at: Date.now() });
+  if (shelfSt.data.items.length > 100) shelfSt.data.items.shift();
+  shelfSt.save(); renderShelf(); stats();
+}
+function unsave(id) {
+  shelfSt.data.items = shelfSt.data.items.filter(function (k) { return k.id !== id; });
+  shelfSt.save(); renderShelf(); stats();
+  if (current && current.id === id) syncSaveBtn();
+}
+function renderShelf() {
+  var el = document.getElementById('fshelf'), list = shelfSt.data.items.slice().reverse();
+  if (!list.length) { el.innerHTML = '<span class="empty">Nothing saved yet. When a fortune finds you, tap Save to your shelf.</span>'; return; }
+  el.innerHTML = list.map(function (k) {
+    return '<div class="fs-card"><i>' + esc(k.text) + '</i><span>' + esc((CAT[k.category] || { label: 'Fortune' }).label.toUpperCase()) + ' · ' + esc(num(k)) + '</span>' +
+      '<button type="button" class="fs-t" data-t="' + esc(k.id) + '">🎟 FORTUNE TICKET</button>' +
+      '<button type="button" class="fs-x" data-x="' + esc(k.id) + '" aria-label="Remove this fortune from your shelf">✕</button></div>';
+  }).join('');
+}
+document.getElementById('fshelf').addEventListener('click', function (e) {
+  var x = e.target.closest('[data-x]'), t = e.target.closest('[data-t]');
+  if (x) { S.boot(); S.click(); unsave(x.dataset.x); }
+  if (t) { var k = shelfSt.data.items.filter(function (i) { return i.id === t.dataset.t; })[0]; if (k) openTicket(k); }
+});
 function stats() {
   document.getElementById('sCount').textContent = st.data.count;
-  document.getElementById('sKept').textContent = st.data.kept.length;
+  document.getElementById('sKept').textContent = shelfSt.data.items.length;
   document.getElementById('sTix').textContent = MMPrizes.tickets();
 }
 addEventListener('mm-prizes', stats);
-function deck() {
-  var el = document.getElementById('deck'), list = st.data.kept.slice().reverse().slice(0, 24);
-  if (!list.length) { el.innerHTML = '<span class="empty">No cards yet. Ask Madame Nebula for your first fortune.</span>'; return; }
-  el.innerHTML = list.map(function (k) {
-    return '<div class="mini-card"><i>' + esc(k.text) + '</i><span>' + esc(MMNotes.pretty(k.d)) + ' · <a href="' + esc(k.url) + '" target="_blank" rel="noopener">the note ↗</a></span></div>';
-  }).join('');
-}
-function isKept(f) { return st.data.kept.some(function (k) { return k.id === f.id; }); }
-function keep(f, auto) {
-  if (isKept(f)) return;
-  st.data.kept.push({ id: f.id, d: f.d, text: f.text, url: f.url });
-  if (st.data.kept.length > 60) st.data.kept.shift();
-  st.save();
-  var short = f.text.length > 70 ? f.text.slice(0, 68) + '…' : f.text;
-  MMPrizes.add({ e: '🔮', n: 'Fortune card: ' + short, tier: 'fortune' }, 'Fortune Teller');
-  if (auto) MMPrizes.addTickets(3, 'Fortune Teller');
-  deck(); stats();
-}
 
-function choose() {
-  var seen = {}; st.data.kept.forEach(function (k) { seen[k.id] = 1; });
-  for (var i = 0; i < 12; i++) { var f = pool[Math.floor(Math.random() * pool.length)]; if (!seen[f.id] && (!current || f.id !== current.id)) return f; }
-  return pool[Math.floor(Math.random() * pool.length)];
+/* ---- the card ---- */
+function syncSaveBtn() {
+  var b = document.getElementById('saveBtn'); if (!b || !current) return;
+  var on = isSaved(current);
+  b.textContent = on ? '✓ SAVED TO YOUR SHELF' : '🃏 SAVE TO YOUR SHELF';
+  b.classList.toggle('saved', on);
+  b.setAttribute('aria-pressed', on);
 }
-
 function show(f, first) {
-  var n = st.data.count;
   deal.innerHTML =
     '<div class="fcard out" id="fcard">' +
-      '<span class="corner c1">☾</span><span class="corner c2">☾</span><span class="fnum">No. ' + n + '</span>' +
+      '<span class="corner c1">☾</span><span class="corner c2">☾</span><span class="fnum">' + esc(num(f)) + '</span>' +
       '<div class="fh">YOUR FORTUNE</div>' +
+      '<span class="fcat">' + esc(catName(f).toUpperCase()) + '</span>' +
       '<blockquote>' + esc(f.text) + '</blockquote>' +
-      '<div class="fby">from a Magick Mica note · ' + esc(MMNotes.pretty(f.d)) + '</div>' +
+      '<span class="orn" aria-hidden="true"></span>' +
+      '<div class="fby">Madame Mica · Keeper of the Crystal Ball</div>' +
       '<div class="facts">' +
-        '<button type="button" class="keep" id="keepBtn">' + (isKept(f) ? '✓ ON YOUR SHELF' : '🃏 KEEP THIS CARD') + '</button>' +
-        '<a href="photo-booth.html?note=' + f.id + '">📸 PHOTO BOOTH CARD</a>' +
-        '<a href="' + esc(f.url) + '" target="_blank" rel="noopener">READ THE NOTE ↗</a>' +
+        '<button type="button" class="keep" id="saveBtn" aria-pressed="false"></button>' +
+        '<button type="button" id="ticketBtn">🎟 FORTUNE TICKET</button>' +
       '</div>' +
       (first ? '<div class="kept">Your first fortune today went on your prize shelf. +3 tickets!</div>' : '') +
     '</div>';
-  var kb = document.getElementById('keepBtn');
-  if (isKept(f)) kb.disabled = true;
-  kb.addEventListener('click', function () { keep(f, false); kb.textContent = '✓ ON YOUR SHELF'; kb.disabled = true; S.ding(true); });
+  syncSaveBtn();
+  document.getElementById('saveBtn').addEventListener('click', function () {
+    S.boot();
+    if (isSaved(f)) { unsave(f.id); S.click(); } else { save(f); S.ding(true); }
+    syncSaveBtn();
+  });
+  document.getElementById('ticketBtn').addEventListener('click', function () { openTicket(f); });
   var card = document.getElementById('fcard');
   setTimeout(function () { card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' }); }, 120);
 }
 
+function empty() {
+  deal.innerHTML = '<div class="fcard out"><div class="fh">THE BALL IS QUIET</div><blockquote>The spirits of this corner of the deck are resting. Choose another kind of fortune.</blockquote></div>';
+}
+
 function ask() {
-  if (busy || !pool.length) return;
+  if (busy) return;
+  var f = draw();
+  if (!f) { empty(); return; }
   busy = true; S.boot(); askBtn.disabled = true; askBtn.textContent = '🔮 THE BALL IS SWIRLING…';
   glass.classList.remove('idle'); void glass.offsetWidth; glass.classList.add('asking');
   S.whoosh();
-  [523, 659, 784, 988, 1175].forEach(function (f, i) { S.tone(f, .15 + i * .22, .9, .07, 'sine'); });
-  var f = choose();
+  [523, 659, 784, 988, 1175].forEach(function (hz, i) { S.tone(hz, .15 + i * .22, .9, .07, 'sine'); });
   setTimeout(function () {
     glass.classList.remove('asking'); glass.classList.add('idle');
     current = f; st.data.count++;
     var first = st.data.day !== today();
     if (first) st.data.day = today();
     st.save();
-    if (first) keep(f, true);
+    if (first) {                                  // the once-a-day reward, unchanged: prize shelf + 3 tickets
+      var short = f.text.length > 70 ? f.text.slice(0, 68) + '…' : f.text;
+      MMPrizes.add({ e: '🔮', n: 'Fortune: ' + short, tier: 'fortune' }, 'Fortune Teller');
+      MMPrizes.addTickets(3, 'Fortune Teller');
+      save(f);
+    }
     S.bell(); show(f, first); stats();
     busy = false; askBtn.disabled = false; askBtn.textContent = '🔮 ASK AGAIN';
-    document.getElementById('hint').textContent = 'Ask as often as you like. Tap Keep on the ones you love.';
   }, reduce ? 300 : 1900);
 }
 askBtn.addEventListener('click', ask);
 glass.addEventListener('click', ask);
 
-MMNotes.load().then(function (list) {
-  pool = list;
-  if (!pool.length) { askBtn.textContent = 'THE BALL IS CLOUDY'; document.getElementById('hint').textContent = 'The fortunes did not load. Refresh to try again.'; return; }
-  askBtn.disabled = false; askBtn.textContent = '🔮 ASK MADAME NEBULA';
-  if (st.data.day === today()) document.getElementById('hint').textContent = 'Today\'s shelf card is already yours. Ask as often as you like and keep the ones you love.';
+/* ---- the fortune ticket: a collectible card drawn on a canvas, saved or shared as a PNG ---- */
+var box = document.getElementById('ticketbox'), cv = document.getElementById('ticket'), ctx = cv.getContext('2d'), tkFor = null, lastFocus = null;
+var W = cv.width, H = cv.height;
+function rr(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+function star(x, y, r, c) { ctx.save(); ctx.fillStyle = c; ctx.beginPath(); for (var i = 0; i < 8; i++) { var a = i * Math.PI / 4 - Math.PI / 2, rad = i % 2 ? r * .34 : r; ctx.lineTo(x + Math.cos(a) * rad, y + Math.sin(a) * rad); } ctx.closePath(); ctx.fill(); ctx.restore(); }
+function wrapText(text, maxW, font) {
+  ctx.font = font; var words = text.split(' '), out = [], cur = '';
+  words.forEach(function (w) { var t = cur ? cur + ' ' + w : w; if (ctx.measureText(t).width > maxW && cur) { out.push(cur); cur = w; } else cur = t; });
+  if (cur) out.push(cur); return out;
+}
+function paintTicket(f) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, W, H); ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  // velvet backdrop
+  var bg = ctx.createRadialGradient(W / 2, H * .35, 60, W / 2, H / 2, H * .8);
+  bg.addColorStop(0, '#5a1a62'); bg.addColorStop(1, '#1a0b2a'); ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  for (var i = 0; i < 26; i++) { ctx.fillStyle = i % 2 ? 'rgba(122,31,92,.35)' : 'rgba(58,18,64,.25)'; ctx.fillRect(i * W / 26, 0, W / 52, H); }
+  // the ticket, with punched notches
+  var x = 90, y = 90, w = W - 180, h = H - 180, stubY = y + h - 230;
+  ctx.save();
+  ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = 50; ctx.shadowOffsetY = 18;
+  rr(x, y, w, h, 34); ctx.fillStyle = '#fff3dc'; ctx.fill();
+  ctx.restore();
+  ctx.save(); rr(x, y, w, h, 34); ctx.clip();
+  var paper = ctx.createLinearGradient(0, y, 0, y + h); paper.addColorStop(0, '#fff8e8'); paper.addColorStop(.6, '#f7e1ee'); paper.addColorStop(1, '#e3d6f6');
+  ctx.fillStyle = paper; ctx.fillRect(x, y, w, h);
+  ctx.restore();
+  // punched notches at the tear line: show the velvet through them
+  ctx.save(); ctx.beginPath(); ctx.arc(x, stubY, 34, 0, Math.PI * 2); ctx.arc(x + w, stubY, 34, 0, Math.PI * 2); ctx.clip();
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = 'rgba(122,59,154,.5)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(x, stubY, 34, 0, Math.PI * 2); ctx.stroke(); ctx.beginPath(); ctx.arc(x + w, stubY, 34, 0, Math.PI * 2); ctx.stroke();
+  ctx.restore();
+  // gold borders
+  ctx.strokeStyle = '#d4a01a'; ctx.lineWidth = 7; rr(x + 30, y + 30, w - 60, stubY - y - 64, 22); ctx.stroke();
+  ctx.lineWidth = 2; rr(x + 46, y + 46, w - 92, stubY - y - 96, 16); ctx.stroke();
+  // perforation to the stub
+  ctx.strokeStyle = 'rgba(122,59,154,.55)'; ctx.lineWidth = 4; ctx.setLineDash([14, 14]); ctx.beginPath(); ctx.moveTo(x + 50, stubY); ctx.lineTo(x + w - 50, stubY); ctx.stroke(); ctx.setLineDash([]);
+  // header
+  ctx.fillStyle = '#7a3b9a'; ctx.font = '30px Silkscreen, monospace'; ctx.fillText('✦  THE COSMIC CIRCUS PRESENTS  ✦', W / 2, y + 120);
+  ctx.fillStyle = '#2a1640'; ctx.font = 'italic 600 112px "Cormorant Garamond", Georgia, serif'; ctx.fillText('Madame Mica', W / 2, y + 230);
+  ctx.fillStyle = '#9a5a2a'; ctx.font = '26px Silkscreen, monospace'; ctx.fillText('KEEPER OF THE CRYSTAL BALL', W / 2, y + 278);
+  // crystal ball
+  var cx = W / 2, cy = y + 420, r = 92;
+  var halo = ctx.createRadialGradient(cx, cy, r * .5, cx, cy, r * 1.9); halo.addColorStop(0, 'rgba(95,243,232,.45)'); halo.addColorStop(1, 'rgba(95,243,232,0)');
+  ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(cx, cy, r * 1.9, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#d4a01a'; ctx.beginPath(); ctx.moveTo(cx - r * .8, cy + r * 1.18); ctx.lineTo(cx + r * .8, cy + r * 1.18); ctx.lineTo(cx + r * .52, cy + r * .82); ctx.lineTo(cx - r * .52, cy + r * .82); ctx.closePath(); ctx.fill();
+  var ball = ctx.createRadialGradient(cx - r * .32, cy - r * .36, 6, cx, cy, r); ball.addColorStop(0, '#ffffff'); ball.addColorStop(.28, '#bff9f4'); ball.addColorStop(.65, '#9667ba'); ball.addColorStop(1, '#2f2f70');
+  ctx.fillStyle = ball; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+  ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.clip();
+  ctx.strokeStyle = 'rgba(255,79,163,.8)'; ctx.lineWidth = 12; ctx.beginPath(); ctx.arc(cx + 8, cy + 10, r * .52, .3, 4.4); ctx.stroke();
+  ctx.restore();
+  star(cx - 170, cy - 30, 22, '#d4a01a'); star(cx + 170, cy - 30, 22, '#d4a01a'); star(cx - 120, cy + 70, 12, '#d4a01a'); star(cx + 120, cy + 70, 12, '#d4a01a');
+  // label + category
+  ctx.fillStyle = '#7a3b9a'; ctx.font = '30px Silkscreen, monospace'; ctx.fillText('✦  YOUR FORTUNE  ✦', W / 2, y + 610);
+  ctx.fillStyle = '#9a5a2a'; ctx.font = '24px Silkscreen, monospace'; ctx.fillText(catName(f).toUpperCase(), W / 2, y + 654);
+  // the fortune, sized to fit its box
+  var tx = x + 90, tw = w - 180, top = y + 690, bottom = stubY - 120, size = 76, ls, lh;
+  for (; size >= 40; size -= 2) { ls = wrapText(f.text, tw, 'italic 600 ' + size + 'px "Cormorant Garamond", Georgia, serif'); lh = size * 1.2; if (ls.length * lh <= bottom - top) break; }
+  var ty = top + ((bottom - top) - ls.length * lh) / 2 + size * .85;
+  ctx.fillStyle = '#2a1640';
+  ls.forEach(function (l, i) { ctx.fillText(l, W / 2, ty + i * lh); });
+  // little gold dots under the text
+  ctx.fillStyle = '#d4a01a'; for (var d = -3; d <= 3; d++) { ctx.beginPath(); ctx.arc(W / 2 + d * 26, bottom + 40, d === 0 ? 6 : 3.5, 0, Math.PI * 2); ctx.fill(); }
+  // stub
+  ctx.fillStyle = '#2a1640'; ctx.font = '900 60px Orbitron, sans-serif'; ctx.fillText('ADMIT ONE', W / 2, stubY + 100);
+  ctx.fillStyle = '#7a3b9a'; ctx.font = '24px Silkscreen, monospace'; ctx.fillText('FORTUNE ' + num(f).toUpperCase() + '   ·   MAGICKMICA.GITHUB.IO', W / 2, stubY + 156);
+}
+function blob() { return new Promise(function (res) { cv.toBlob(res, 'image/png'); }); }
+function fileName() { return 'madame-mica-fortune-' + (tkFor ? tkFor.id : 'ticket') + '.png'; }
+var fontsReady = document.fonts && document.fonts.load ? Promise.all([
+  document.fonts.load('italic 600 60px "Cormorant Garamond"'), document.fonts.load('900 40px Orbitron'), document.fonts.load('20px Silkscreen')
+]).catch(function () {}) : Promise.resolve();
+function openTicket(f) {
+  tkFor = f; S.boot(); S.click();
+  document.getElementById('tkMsg').textContent = '';
+  paintTicket(f);
+  fontsReady.then(function () { if (tkFor === f) paintTicket(f); });
+  lastFocus = document.activeElement;
+  box.classList.add('on'); document.getElementById('tkSave').focus({ preventScroll: true });
+}
+function closeTicket() { box.classList.remove('on'); if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); }
+document.getElementById('tkClose').addEventListener('click', closeTicket);
+box.addEventListener('click', function (e) { if (e.target === box) closeTicket(); });
+addEventListener('keydown', function (e) { if (e.key === 'Escape' && box.classList.contains('on')) closeTicket(); });
+document.getElementById('tkSave').addEventListener('click', function () {
+  blob().then(function (b) {
+    if (!b) return;
+    var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = fileName();
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+    S.ding(true);
+    document.getElementById('tkMsg').textContent = 'Saved! Look for ' + fileName() + ' in your downloads.';
+  });
 });
-stats(); deck();
-window.__fortune = { ask: ask, get pool() { return pool; }, get busy() { return busy; } };
+var shareBtn = document.getElementById('tkShare');
+try { if (navigator.canShare && navigator.canShare({ files: [new File([new Blob(['x'])], 'x.png', { type: 'image/png' })] })) shareBtn.hidden = false; } catch (e) {}
+shareBtn.addEventListener('click', function () {
+  blob().then(function (b) {
+    var file = new File([b], fileName(), { type: 'image/png' });
+    return navigator.share({ files: [file], title: 'A fortune from Madame Mica', text: 'Madame Mica read my fortune at the Cosmic Circus ✦ magickmica.github.io/fortune-teller.html' });
+  }).then(function () { document.getElementById('tkMsg').textContent = 'Shared! ✨'; }).catch(function () {});
+});
+
+/* ---- start ---- */
+if (!F.deck.length) {
+  askBtn.textContent = 'THE BALL IS CLOUDY';
+  document.getElementById('hint').textContent = 'The fortunes did not load. Refresh to try again.';
+} else {
+  askBtn.disabled = false; askBtn.textContent = '🔮 ASK MADAME MICA';
+  if (st.data.day === today()) document.getElementById('hint').textContent = 'Today\'s prize-shelf fortune is already yours. Ask as often as you like and keep the ones that find you.';
+}
+renderShelf(); stats();
+window.__fortune = { ask: ask, draw: draw, get current() { return current; }, get busy() { return busy; }, setCat: function (c) { catSel = c; } };
 })();
 </script>
 <script src="mm-nav.js?v=3" defer></script>
