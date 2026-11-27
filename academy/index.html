@@ -189,6 +189,14 @@ h1 small{display:block;margin-top:12px;font-size:.3em;letter-spacing:.1em}
 footer{padding:44px 0 0;text-align:center;font-size:13.5px;color:#a297bf}
 footer a{color:#d9cdf0;margin:0 8px}
 
+.adv{display:flex;align-items:center;gap:18px;margin:22px 0 0;padding:18px 24px;border-radius:18px;text-decoration:none;color:#fff;
+  background:linear-gradient(100deg,rgba(120,20,40,.85),rgba(40,80,60,.85));border:1px solid rgba(255,206,92,.5);box-shadow:0 0 40px -14px rgba(255,206,92,.6);transition:transform .2s}
+.adv:hover{transform:translateY(-3px)}
+.adv .e{font-size:38px;line-height:1}
+.adv b{display:block;font:800 20px/1.2 var(--mono)}
+.adv small{display:block;font-size:15px;color:#f3e6d8}
+.adv .g{margin-left:auto;flex:none;padding:11px 18px;border-radius:999px;font:700 14px var(--ui);color:#2a1a05;background:var(--gold)}
+@media (max-width:600px){.adv{flex-wrap:wrap}.adv .g{margin-left:0}}
 /* reveal */
 .rv{opacity:0;transform:translateY(32px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
 .rv.on{opacity:1;transform:none}
@@ -230,6 +238,7 @@ footer a{color:#d9cdf0;margin:0 8px}
 <li><a href="#desktop" data-c="#66e8f2"><span>08</span>The desktop</a></li>
 <li><a href="#enroll" data-c="#ffce5c"><span>09</span>Enroll</a></li>
 <li><a href="#questions" data-c="#f597c6"><span>10</span>Questions</a></li>
+<li><a href="../advent/" data-c="#ffce5c">🎁 Advent</a></li>
 </ol></nav>
 
 <main>
@@ -248,6 +257,7 @@ footer a{color:#d9cdf0;margin:0 8px}
 </div>
 <a class="banner rv" href="https://magickmica-members.vercel.app/academy/" aria-label="Step inside the Magick Mica AI Academy">
 <picture><source srcset="academy-banner.webp" type="image/webp"><img src="academy-banner.gif" width="1200" height="300" alt="Animated banner: the Magick Mica AI Academy, with a crystal ball in a graduation cap and a MagickOS 98 window cycling through the Prompt Lab, the Creative Studio and the Daily Signal"></picture></a>
+<a class="adv rv" href="../advent/"><span class="e" aria-hidden="true">🎁</span><span><b>Magick AI Advent</b><small>24 little doors, 24 tiny AI spells. One free AI tip a day, December 1 to 24.</small></span><span class="g">Open the calendar →</span></a>
 </div>
 <a class="cue" href="#foundations">Scroll to class</a>
 </header>
@@ -413,8 +423,8 @@ footer a{color:#d9cdf0;margin:0 8px}
 <div class="in rv">
 <h2 class="h" id="final-h">Your curiosity is <em>the password</em></h2>
 <p class="lede">82 lessons, seven departments, one cozy desktop.</p>
-<div class="ctas"><a class="go" href="https://magickmica-members.vercel.app/academy/">✦ Step inside →</a><a class="sub" href="https://magickmica.substack.com/subscribe" target="_blank" rel="noopener">Subscribe free</a></div>
-<footer><a href="../">Magick Mica</a>·<a href="../desktop/">MagickOS 98</a>·<a href="https://substack.com/@magickmica" target="_blank" rel="noopener">@magickmica on Substack</a></footer>
+<div class="ctas"><a class="go" href="https://magickmica-members.vercel.app/academy/">✦ Step inside →</a><a class="sub" href="../advent/">🎁 Magick AI Advent</a><a class="sub" href="https://magickmica.substack.com/subscribe" target="_blank" rel="noopener">Subscribe free</a></div>
+<footer><a href="../">Magick Mica</a>·<a href="../desktop/">MagickOS 98</a>·<a href="../advent/">Magick AI Advent</a>·<a href="https://substack.com/@magickmica" target="_blank" rel="noopener">@magickmica on Substack</a></footer>
 </div>
 </section>
 </main>
