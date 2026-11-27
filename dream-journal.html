@@ -4,108 +4,252 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MAGICK MICA ✦ Dream Journal</title>
+<meta name="description" content="A private dream journal with nightly prompts, tonight's moon, dream symbols, a reading from the Dream Archivist and a sky map of everything you've dreamed.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700;6..96,900&family=IBM+Plex+Mono:wght@300;400;600&family=Silkscreen:wght@400;700&family=Orbitron:wght@400;700;900&family=Spectral:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400&family=IBM+Plex+Mono:wght@300;400;500;600&family=Silkscreen:wght@400;700&family=Orbitron:wght@400;700;900&family=Spectral:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --void:#07060e; --void2:#0d0b18; --pearl:#ece9f7; --pearl-dim:#9d96b8;
-  --pink:#ff9be4; --cyan:#7bf1e4; --violet:#9b7bff; --gold:#ffd98a;
+  --void:#0b0718; --void2:#140d2a; --pearl:#efe9fb; --pearl-dim:#a69cc6;
+  --pink:#ffa8d9; --cyan:#9fe3ff; --violet:#c9a8ff; --gold:#ffe3a3; --mint:#b8f0d8;
   --holo:linear-gradient(115deg,var(--violet),var(--pink) 30%,var(--gold) 55%,var(--cyan) 80%,var(--violet));
   --display:"Bodoni Moda",Didot,serif; --mono:"IBM Plex Mono",monospace;
   --pixel:"Silkscreen",monospace; --arcade:"Orbitron",sans-serif; --serif:"Spectral",serif;
+  --card:rgba(22,14,44,.72); --line:rgba(201,168,255,.22);
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
 body{min-height:100dvh;background:var(--void);color:var(--pearl);font-family:var(--mono);overflow-x:hidden}
 button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer;background:none;border:none}
 a{color:var(--cyan)}
-:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
+/* ---------- night sky behind everything ---------- */
 #sky{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse at 25% 12%,rgba(155,123,255,.18),transparent 55%),
-             radial-gradient(ellipse at 78% 85%,rgba(255,155,228,.14),transparent 55%),
-             radial-gradient(ellipse at 50% 50%,rgba(123,241,228,.06),transparent 75%)}
-#stars{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:radial-gradient(1px 1px at 12% 22%,#fff9,transparent),radial-gradient(1px 1px at 32% 62%,#fff7,transparent),radial-gradient(1.5px 1.5px at 72% 32%,var(--gold),transparent),radial-gradient(1.5px 1.5px at 85% 68%,var(--pink),transparent),radial-gradient(1px 1px at 55% 12%,var(--cyan),transparent),radial-gradient(1px 1px at 45% 88%,#fff8,transparent);
-  animation:tw 5s infinite alternate}
-@keyframes tw{from{opacity:.4}to{opacity:.95}}
+  background:radial-gradient(ellipse at 20% 10%,rgba(201,168,255,.16),transparent 55%),
+             radial-gradient(ellipse at 82% 80%,rgba(255,168,217,.12),transparent 55%),
+             radial-gradient(ellipse at 50% 50%,rgba(159,227,255,.05),transparent 75%),
+             linear-gradient(180deg,#0b0718,#120b26 60%,#0b0718)}
+#drift{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.mote{position:absolute;color:#fff;opacity:0;animation:twinkle var(--d,6s) ease-in-out var(--w,0s) infinite;font-size:var(--s,10px);text-shadow:0 0 8px currentColor}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.6)}50%{opacity:var(--o,.7);transform:scale(1)}}
+.bubble{position:absolute;bottom:-80px;border-radius:50%;
+  background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.55),rgba(201,168,255,.18) 35%,rgba(159,227,255,.08) 70%,transparent 72%);
+  box-shadow:inset 0 0 12px rgba(255,255,255,.12);animation:rise var(--d,26s) linear var(--w,0s) infinite}
+@keyframes rise{from{transform:translate(0,0)}50%{transform:translate(var(--x,30px),-55vh)}to{transform:translate(0,-115vh)}}
 @keyframes sh{to{background-position:200% center}}
+@media (prefers-reduced-motion:reduce){#drift{display:none}*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
-.wrap{position:relative;z-index:2;max-width:920px;margin:0 auto;padding:clamp(16px,3vw,32px)}
+/* ---------- chapter opening tweaks for this page ---------- */
+body.cp .cp-open{z-index:3}
+.cp-h em{background:linear-gradient(100deg,var(--violet),var(--pink) 45%,var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.cp-stats b{color:#fff;font-weight:600}
+.cp-port{position:relative}
+.cp-port::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.18) 48%,transparent 60%);background-size:250% 100%;animation:gleam 7s ease-in-out infinite}
+@keyframes gleam{0%,60%{background-position:150% 0}100%{background-position:-60% 0}}
+.cp-art{animation:float 7s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px)}}
 
-.top{text-align:center;padding:2rem 1rem 1rem}
-.top h1{font-family:var(--arcade);font-weight:900;font-size:clamp(1.8rem,6vw,3.6rem);letter-spacing:.04em;margin:0;
-  background:var(--holo);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 0 22px rgba(255,155,228,.4));animation:sh 6s linear infinite}
-.top p{font-family:var(--pixel);font-size:.72rem;letter-spacing:.18em;color:var(--cyan);margin:.6rem 0 0;text-shadow:0 0 8px var(--cyan)}
-.top nav{margin-top:1rem;display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
-.top nav a{font-family:var(--pixel);font-size:.66rem;letter-spacing:.1em;color:var(--gold);text-decoration:none;border:1px solid var(--gold);padding:.3rem .7rem;transition:.2s}
-.top nav a:hover{background:var(--gold);color:#000;box-shadow:0 0 12px var(--gold)}
+.wrap{position:relative;z-index:2;max-width:1120px;margin:0 auto;padding:0 clamp(16px,3vw,32px) 20px}
 
-/* prompt card */
-.prompt-card{background:linear-gradient(135deg,rgba(155,123,255,.1),rgba(123,241,228,.05));border:1px solid rgba(155,123,255,.35);border-radius:8px;padding:1.4rem 1.5rem;margin:2rem 0 1.5rem;text-align:center;position:relative;overflow:hidden}
-.prompt-eyebrow{font-family:var(--pixel);font-size:.62rem;letter-spacing:.16em;color:var(--cyan);margin-bottom:.6rem}
-.prompt-text{font-family:var(--display);font-style:italic;font-size:clamp(1.1rem,3vw,1.5rem);line-height:1.4;color:var(--pearl)}
-.prompt-refresh{margin-top:.9rem;font-family:var(--pixel);font-size:.62rem;letter-spacing:.1em;color:var(--gold);border:1px solid var(--gold);padding:.35rem .8rem;border-radius:4px;transition:.2s}
-.prompt-refresh:hover{background:var(--gold);color:#000;box-shadow:0 0 10px var(--gold)}
+/* ---------- section headings ---------- */
+.sec{margin:clamp(48px,7vw,88px) 0 0}
+.sec-k{display:inline-flex;align-items:center;gap:12px;margin:0 0 12px;font:400 11px/1 var(--pixel);letter-spacing:.22em;text-transform:uppercase;color:var(--violet)}
+.sec-k::before{content:"";width:28px;height:2px;background:currentColor;box-shadow:0 0 10px currentColor}
+.sec-h{margin:0 0 8px;font:700 clamp(28px,4vw,44px)/1.05 var(--arcade);color:#fff;letter-spacing:-.01em}
+.sec-h em{font-style:normal;color:var(--pink)}
+.sec-p{margin:0 0 26px;max-width:60ch;font:400 17px/1.6 var(--serif);color:#d9cfee}
 
-/* editor */
-.editor{background:rgba(13,11,24,.7);border:1px solid rgba(155,123,255,.3);border-radius:8px;padding:1.4rem;margin-bottom:1.5rem}
-.editor-label{font-family:var(--pixel);font-size:.62rem;letter-spacing:.14em;color:var(--pearl-dim);margin-bottom:.5rem;display:block}
-.editor input[type=text]{width:100%;background:#07060e;border:1px solid rgba(155,123,255,.3);border-radius:4px;padding:.7rem .9rem;color:var(--pearl);font-family:var(--serif);font-size:1rem;margin-bottom:1rem}
-.editor textarea{width:100%;min-height:140px;resize:vertical;background:#07060e;border:1px solid rgba(155,123,255,.3);border-radius:4px;padding:.8rem .9rem;color:var(--pearl);font-family:var(--serif);font-size:1rem;line-height:1.6}
-.editor input:focus,.editor textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 10px rgba(123,241,228,.2)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 30px 60px -40px rgba(0,0,0,.9)}
 
-.section-mini{font-family:var(--pixel);font-size:.62rem;letter-spacing:.14em;color:var(--pearl-dim);margin:1.2rem 0 .6rem}
-.chip-row{display:flex;flex-wrap:wrap;gap:.5rem}
-.chip{font-family:var(--pixel);font-size:.66rem;letter-spacing:.06em;border:1px solid rgba(155,123,255,.35);border-radius:20px;padding:.4rem .8rem;color:var(--pearl-dim);transition:.18s;user-select:none}
-.chip:hover{border-color:var(--cyan);color:var(--pearl)}
-.chip[data-on="true"]{color:#07060e;background:var(--holo);background-size:200% auto;border-color:transparent;animation:sh 6s linear infinite}
-.sym{font-size:1rem;margin-right:.3rem}
+/* ---------- tonight: prompt + moon ---------- */
+.tonight{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px}
+.prompt-card{position:relative;overflow:hidden;padding:30px 30px 26px;display:flex;flex-direction:column;justify-content:center;
+  background:linear-gradient(135deg,rgba(201,168,255,.16),rgba(255,168,217,.08) 55%,rgba(159,227,255,.06));border:1px solid rgba(201,168,255,.35);border-radius:22px}
+.prompt-card::before{content:"☾";position:absolute;right:-12px;top:-38px;font-size:190px;line-height:1;color:rgba(255,227,163,.07);pointer-events:none}
+.prompt-eyebrow{font:400 11px/1 var(--pixel);letter-spacing:.18em;color:var(--gold);margin-bottom:16px}
+.prompt-text{font-family:var(--display);font-style:italic;font-size:clamp(1.35rem,2.8vw,2rem);line-height:1.3;color:#fff;min-height:2.6em;transition:opacity .35s,filter .35s}
+.prompt-text.fade{opacity:0;filter:blur(6px)}
+.prompt-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font:600 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;transition:transform .2s,background .2s,box-shadow .2s}
+.pill:hover{transform:translateY(-2px)}
+.pill.gold{color:#1b0f2e;background:var(--gold);box-shadow:0 10px 26px -12px var(--gold)}
+.pill.ghost{color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
+.pill.ghost:hover{box-shadow:inset 0 0 0 1.5px #fff}
+.pill.violet{color:#1b0f2e;background:var(--violet);box-shadow:0 10px 26px -12px var(--violet)}
+.pill.small{padding:8px 13px;font-size:11px}
 
-.editor-actions{display:flex;gap:.6rem;margin-top:1.3rem;flex-wrap:wrap}
-.btn{font-family:var(--pixel);font-size:.7rem;letter-spacing:.08em;border:1px solid var(--cyan);color:var(--cyan);padding:.6rem 1.2rem;border-radius:4px;transition:.2s}
-.btn:hover{background:var(--cyan);color:#000;box-shadow:0 0 12px var(--cyan)}
-.btn.gold{border-color:var(--gold);color:var(--gold)}
-.btn.gold:hover{background:var(--gold);color:#000;box-shadow:0 0 12px var(--gold)}
-.btn.ghost{border-color:rgba(155,123,255,.4);color:var(--pearl-dim)}
-.btn.ghost:hover{background:rgba(155,123,255,.2);color:var(--pearl);box-shadow:none}
+.moon-card{padding:24px 26px;display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px;align-items:center}
+.moon-svg{width:120px;height:120px;filter:drop-shadow(0 0 24px rgba(255,227,163,.45))}
+.moon-k{font:400 10px/1 var(--pixel);letter-spacing:.18em;color:var(--pearl-dim);margin-bottom:8px}
+.moon-name{font:700 22px/1.15 var(--display);color:#fff;margin-bottom:4px}
+.moon-pct{font:500 12px/1.4 var(--mono);color:var(--gold);margin-bottom:10px}
+.moon-note{font:400 15px/1.5 var(--serif);color:#d9cfee;margin:0}
 
-/* inspiration */
-.inspo{margin:2rem 0 1.5rem}
-.inspo-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.6rem}
-.inspo-title{font-family:var(--arcade);font-weight:700;font-size:.95rem;letter-spacing:.1em;color:var(--violet)}
-.inspo-card{display:flex;gap:1rem;align-items:center;background:rgba(13,11,24,.6);border:1px solid rgba(255,155,228,.25);border-radius:8px;padding:1rem;text-decoration:none;color:inherit;transition:.25s}
-.inspo-card:hover{border-color:var(--pink);box-shadow:0 0 20px rgba(255,155,228,.2);transform:translateY(-2px)}
-.inspo-card img{width:90px;height:90px;flex-shrink:0;object-fit:cover;border-radius:6px;border:1px solid rgba(155,123,255,.3)}
-.inspo-body{flex:1;min-width:0}
-.inspo-quote{font-family:var(--display);font-style:italic;font-size:.95rem;line-height:1.5;color:var(--pearl);margin-bottom:.4rem}
-.inspo-meta{font-family:var(--pixel);font-size:.6rem;letter-spacing:.1em;color:var(--gold)}
+/* ---------- editor ---------- */
+.editor{padding:clamp(20px,3vw,34px)}
+.field-label{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font:400 11px/1 var(--pixel);letter-spacing:.16em;color:var(--pearl-dim);margin:0 0 10px}
+.field-label .hint{font:400 11px/1 var(--mono);letter-spacing:.04em;text-transform:none;color:var(--pearl-dim)}
+.editor input[type=text]{width:100%;background:rgba(8,5,18,.75);border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:#fff;font:400 1.25rem/1.3 var(--display);margin-bottom:22px}
+.ta-wrap{position:relative}
+.editor textarea{width:100%;min-height:210px;resize:vertical;background:rgba(8,5,18,.75);border:1px solid var(--line);border-radius:14px;padding:16px 16px 44px;color:var(--pearl);font:400 1.08rem/1.7 var(--serif)}
+.editor input:focus,.editor textarea:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 4px rgba(201,168,255,.14),0 0 30px rgba(201,168,255,.12)}
+.ta-bar{position:absolute;left:12px;right:12px;bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:8px;pointer-events:none}
+.ta-bar>*{pointer-events:auto}
+.ta-meta{font:400 11px/1 var(--mono);color:var(--pearl-dim)}
+.mic{display:none;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;font:600 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);background:rgba(159,227,255,.08);border:1px solid rgba(159,227,255,.35)}
+.mic.on{display:inline-flex}
+.mic[aria-pressed="true"]{color:#1b0f2e;background:var(--pink);border-color:var(--pink);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(255,168,217,.0),0 0 18px rgba(255,168,217,.6)}}
 
-/* entries */
-.entries{margin-top:2.5rem}
-.entries-head{font-family:var(--arcade);font-weight:700;font-size:1rem;letter-spacing:.1em;color:var(--cyan);text-align:center;margin-bottom:.4rem}
-.entries-sub{font-family:var(--pixel);font-size:.6rem;letter-spacing:.12em;color:var(--pearl-dim);text-align:center;margin-bottom:1.4rem}
-.entry{background:rgba(13,11,24,.7);border:1px solid rgba(155,123,255,.25);border-left:3px solid var(--violet);border-radius:6px;padding:1.1rem 1.3rem;margin-bottom:1rem;animation:rise .3s ease both}
-@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.entry-top{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.5rem;flex-wrap:wrap}
-.entry-title{font-family:var(--display);font-weight:700;font-size:1.15rem;color:#fff}
-.entry-date{font-family:var(--pixel);font-size:.6rem;letter-spacing:.1em;color:var(--pearl-dim);flex-shrink:0}
-.entry-syms{font-size:1.1rem;margin-bottom:.5rem}
-.entry-text{font-family:var(--serif);font-size:.98rem;line-height:1.65;color:rgba(235,225,255,.9);white-space:pre-wrap}
-.entry-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.7rem}
-.entry-tag{font-family:var(--pixel);font-size:.58rem;letter-spacing:.08em;color:var(--cyan);border:1px solid rgba(123,241,228,.3);border-radius:12px;padding:.2rem .6rem}
-.entry-del{font-family:var(--pixel);font-size:.58rem;letter-spacing:.08em;color:var(--pearl-dim);border:1px solid rgba(255,110,138,.3);border-radius:4px;padding:.3rem .7rem;margin-top:.8rem;transition:.2s}
-.entry-del:hover{background:rgba(255,110,138,.2);color:#ff8ba0}
-.entries-empty{text-align:center;font-family:var(--serif);font-style:italic;color:var(--pearl-dim);padding:2rem 1rem}
+.noticed{display:none;margin:12px 0 0;padding:12px 14px;border-radius:14px;background:rgba(255,227,163,.07);border:1px dashed rgba(255,227,163,.4);font:400 14px/1.5 var(--serif);color:#f3e7c7}
+.noticed.on{display:block;animation:in .4s ease both}
+.noticed b{font:400 10px/1 var(--pixel);letter-spacing:.14em;color:var(--gold);margin-right:6px}
+.noticed button{margin:6px 6px 0 0;padding:6px 11px;border-radius:999px;font:500 12px/1 var(--mono);color:#1b0f2e;background:var(--gold)}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);z-index:100;background:var(--void2);border:1px solid var(--cyan);border-radius:6px;padding:.7rem 1.3rem;font-family:var(--pixel);font-size:.66rem;letter-spacing:.1em;color:var(--cyan);opacity:0;transition:.3s;pointer-events:none;box-shadow:0 0 20px rgba(123,241,228,.3)}
+.section-mini{font:400 11px/1 var(--pixel);letter-spacing:.16em;color:var(--pearl-dim);margin:26px 0 12px}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;font:500 13px/1 var(--mono);border:1px solid rgba(201,168,255,.3);border-radius:999px;padding:9px 14px;color:#d9cfee;background:rgba(8,5,18,.4);transition:.18s;user-select:none}
+.chip:hover{border-color:var(--violet);color:#fff;transform:translateY(-1px)}
+.chip[data-on="true"]{color:#1b0f2e;background:var(--holo);background-size:200% auto;border-color:transparent;animation:sh 6s linear infinite;font-weight:600}
+.chip.suggest{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,227,163,.15)}
+.sym{font-size:1.05rem;margin-right:7px}
+
+.extras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:26px}
+.xbox{padding:14px 16px;border-radius:16px;background:rgba(8,5,18,.45);border:1px solid var(--line)}
+.xbox .section-mini{margin:0 0 10px}
+.vivid{display:flex;gap:4px}
+.vivid button{font-size:24px;line-height:1;color:rgba(255,255,255,.18);transition:transform .15s,color .15s}
+.vivid button.lit{color:var(--gold);text-shadow:0 0 12px rgba(255,227,163,.7)}
+.vivid button:hover{transform:scale(1.15)}
+.vivid-word{font:400 12px/1.4 var(--mono);color:var(--pearl-dim);margin-top:6px;min-height:1.4em}
+.toggle{display:flex;align-items:center;gap:10px;font:400 14px/1.3 var(--serif);color:#e6dcf7;text-align:left}
+.toggle .sw{flex:0 0 auto;width:42px;height:24px;border-radius:999px;background:rgba(255,255,255,.12);position:relative;transition:.2s}
+.toggle .sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}
+.toggle[aria-pressed="true"] .sw{background:var(--violet)}
+.toggle[aria-pressed="true"] .sw::after{left:21px}
+
+.editor-actions{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap;align-items:center}
+.draft-note{font:400 11px/1 var(--mono);color:var(--pearl-dim);margin-left:auto}
+
+/* ---------- the reading ---------- */
+.reading-wrap{display:none;margin-top:18px;perspective:1400px}
+.reading-wrap.on{display:block}
+.reading{position:relative;padding:clamp(22px,3.5vw,40px);border-radius:24px;overflow:hidden;
+  background:radial-gradient(80% 90% at 100% 0%,rgba(255,168,217,.18),transparent 60%),radial-gradient(70% 80% at 0% 100%,rgba(159,227,255,.14),transparent 60%),linear-gradient(160deg,#1d1238,#120b26);
+  border:1px solid rgba(255,227,163,.35);box-shadow:0 40px 80px -40px rgba(0,0,0,.9),0 0 60px -20px rgba(201,168,255,.5);transform-origin:50% 0}
+.reading.flip{animation:flip .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes flip{from{opacity:0;transform:rotateX(-70deg) translateY(-20px)}to{opacity:1;transform:none}}
+.reading::before{content:"";position:absolute;inset:10px;border-radius:16px;border:1px solid rgba(255,227,163,.18);pointer-events:none}
+.r-top{display:flex;gap:18px;align-items:center;margin-bottom:20px}
+.r-top img{width:76px;height:76px;border-radius:18px;flex:0 0 auto;box-shadow:0 0 0 1px rgba(255,255,255,.15),0 0 30px -6px var(--violet)}
+.r-k{font:400 10px/1 var(--pixel);letter-spacing:.2em;color:var(--gold);margin-bottom:8px}
+.r-title{font:700 clamp(22px,3vw,30px)/1.15 var(--display);color:#fff;margin:0}
+.r-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:0 0 18px;padding:0;list-style:none}
+.r-list li{padding:14px 16px;border-radius:16px;background:rgba(8,5,18,.5);border:1px solid rgba(201,168,255,.2);font:400 15px/1.55 var(--serif);color:#e6dcf7;animation:in .5s ease both}
+.r-list li strong{display:block;font:600 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#fff;margin-bottom:6px}
+.r-list li .e{font-size:20px;margin-right:6px;vertical-align:-2px}
+.r-msg{margin:0;padding:18px 20px;border-radius:16px;background:linear-gradient(120deg,rgba(255,227,163,.12),rgba(255,168,217,.1));border:1px solid rgba(255,227,163,.3);font:italic 400 clamp(18px,2.2vw,22px)/1.45 var(--display);color:#fff7e2}
+.r-msg small{display:block;margin-top:10px;font:400 10px/1.4 var(--pixel);font-style:normal;letter-spacing:.16em;color:var(--gold)}
+.r-do{margin:14px 0 0;font:400 15px/1.55 var(--serif);color:#d9cfee}
+.r-do b{font:400 10px/1 var(--pixel);letter-spacing:.16em;color:var(--mint);margin-right:8px}
+.r-close{position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;color:#fff;background:rgba(255,255,255,.08);font-size:16px}
+.r-close:hover{background:rgba(255,255,255,.18)}
+
+/* ---------- inspiration ---------- */
+.inspo-card{display:grid;grid-template-columns:150px minmax(0,1fr);gap:22px;align-items:center;padding:18px;text-decoration:none;color:inherit;transition:.25s}
+.inspo-card:hover{border-color:var(--pink);box-shadow:0 0 30px -6px rgba(255,168,217,.35);transform:translateY(-2px)}
+.inspo-card img{width:150px;height:150px;object-fit:cover;border-radius:16px;border:1px solid var(--line);background:#1a1033}
+.inspo-quote{font:italic 400 clamp(18px,2.2vw,24px)/1.4 var(--display);color:#fff;margin-bottom:10px;white-space:pre-line}
+.inspo-meta{font:400 10px/1.4 var(--pixel);letter-spacing:.14em;color:var(--gold)}
+.inspo-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ---------- dream sky ---------- */
+.skygrid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px}
+.skymap{position:relative;padding:0;overflow:hidden;min-height:360px;background:radial-gradient(120% 100% at 50% 0%,#24164a,#0d0820 70%)}
+.skymap svg{display:block;width:100%;height:100%}
+.skymap .sky-empty:empty{display:none}
+.skymap .sky-empty{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(86%,440px);text-align:center;font:italic 400 16px/1.4 var(--serif);color:#e6dcf7;padding:16px 20px;border-radius:18px;background:rgba(13,8,32,.72);border:1px solid var(--line)}
+.sky-label{font:500 11px var(--mono);fill:#e6dcf7;letter-spacing:.04em}
+.sky-star{cursor:default;transition:r .2s}
+.stats{padding:22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-content:start}
+.stat{padding:14px;border-radius:16px;background:rgba(8,5,18,.45);border:1px solid var(--line)}
+.stat .n{font:700 28px/1 var(--arcade);color:#fff}
+.stat .n small{font-size:14px}
+.stat .l{margin-top:8px;font:400 10px/1.4 var(--pixel);letter-spacing:.12em;color:var(--pearl-dim)}
+.nights{grid-column:1/-1;padding:14px;border-radius:16px;background:rgba(8,5,18,.45);border:1px solid var(--line)}
+.nights .l{font:400 10px/1.4 var(--pixel);letter-spacing:.12em;color:var(--pearl-dim);margin-bottom:10px}
+.dots{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:5px}
+.dot{aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.07)}
+.dot.y{background:radial-gradient(circle at 35% 30%,#fff,var(--violet) 60%);box-shadow:0 0 8px rgba(201,168,255,.7)}
+.dot.y.l{background:radial-gradient(circle at 35% 30%,#fff,var(--gold) 60%);box-shadow:0 0 8px rgba(255,227,163,.7)}
+.dot.t{outline:1px solid rgba(255,255,255,.5);outline-offset:1px}
+
+/* ---------- archive ---------- */
+.arch-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+.search{flex:1 1 240px;display:flex;align-items:center;gap:8px;padding:0 14px;border-radius:999px;background:rgba(8,5,18,.6);border:1px solid var(--line)}
+.search input{flex:1;min-width:0;background:none;border:0;padding:12px 0;color:#fff;font:400 14px var(--mono)}
+.search input:focus{outline:none}
+.search:focus-within{border-color:var(--violet)}
+.arch-tools select{padding:11px 14px;border-radius:999px;background:rgba(8,5,18,.6);border:1px solid var(--line);font:400 13px var(--mono);color:#e6dcf7}
+.fbtn{padding:10px 14px;border-radius:999px;font:500 12px/1 var(--mono);color:#d9cfee;border:1px solid var(--line);background:rgba(8,5,18,.4)}
+.fbtn[aria-pressed="true"]{color:#1b0f2e;background:var(--violet);border-color:var(--violet)}
+.entries-sub{font:400 12px/1.4 var(--mono);color:var(--pearl-dim);margin:-6px 0 18px}
+#entriesList{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.entry{position:relative;padding:20px 22px 18px;border-radius:20px;background:var(--card);border:1px solid var(--line);overflow:hidden;animation:in .4s ease both}
+.entry::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--mc,var(--violet));box-shadow:0 0 18px var(--mc,var(--violet))}
+.entry-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
+.entry-title{font:700 1.25rem/1.2 var(--display);color:#fff}
+.entry-date{font:400 11px/1.4 var(--mono);color:var(--pearl-dim);flex-shrink:0;text-align:right}
+.entry-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;align-items:center}
+.badge{font:400 9px/1 var(--pixel);letter-spacing:.12em;padding:5px 8px;border-radius:999px;color:#1b0f2e;background:var(--gold)}
+.badge.rec{background:var(--cyan)}
+.entry-stars{font-size:13px;color:var(--gold);letter-spacing:1px}
+.entry-syms{font-size:1.15rem;margin-bottom:8px;letter-spacing:2px}
+.entry-text{font:400 1rem/1.65 var(--serif);color:rgba(239,233,251,.92);white-space:pre-wrap;max-height:9.9em;overflow:hidden;position:relative}
+.entry-text.clip::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3em;background:linear-gradient(transparent,rgba(22,14,44,.95))}
+.entry.open .entry-text{max-height:none}
+.entry.open .entry-text::after{display:none}
+.entry-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.entry-tag{font:400 11px/1 var(--mono);color:var(--cyan);border:1px solid rgba(159,227,255,.3);border-radius:999px;padding:5px 9px}
+.entry-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.ebtn{padding:8px 12px;border-radius:999px;font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#e6dcf7;border:1px solid var(--line)}
+.ebtn:hover{border-color:#fff;color:#fff}
+.ebtn.read{color:#1b0f2e;background:var(--violet);border-color:var(--violet)}
+.ebtn.del{color:var(--pearl-dim);border-color:rgba(255,120,150,.3)}
+.ebtn.del.armed{color:#fff;background:#c2416b;border-color:#c2416b}
+.entry .reading{margin-top:16px;padding:20px}
+.entries-empty{grid-column:1/-1;text-align:center;font:italic 400 18px/1.5 var(--serif);color:var(--pearl-dim);padding:46px 20px;border:1px dashed var(--line);border-radius:22px}
+.backup{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px;padding:16px 18px;border-radius:18px;border:1px dashed var(--line);font:400 13px/1.5 var(--serif);color:var(--pearl-dim)}
+.backup p{margin:0;flex:1 1 260px}
+
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);z-index:9600;background:#1b1036;border:1px solid var(--violet);border-radius:999px;padding:12px 20px;font:500 13px var(--mono);color:#fff;opacity:0;transition:.3s;pointer-events:none;box-shadow:0 0 30px rgba(201,168,255,.35)}
 .toast[data-on="true"]{opacity:1;transform:translateX(-50%) translateY(0)}
 
-.foot{text-align:center;padding:3rem 1rem 2rem;font-family:var(--pixel);font-size:.62rem;letter-spacing:.12em;color:var(--pearl-dim)}
+.foot{position:relative;z-index:2;text-align:center;padding:3rem 1rem 5rem;font:400 11px/1.8 var(--pixel);letter-spacing:.12em;color:var(--pearl-dim)}
 .foot a{color:var(--pink)}
+
+@media(max-width:860px){
+  .tonight,.skygrid{grid-template-columns:minmax(0,1fr)}
+  .extras{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:600px){
+  .moon-card{grid-template-columns:84px minmax(0,1fr);gap:16px;padding:20px}
+  .moon-svg{width:84px;height:84px}
+  .prompt-card{padding:24px 20px}
+  .inspo-card{grid-template-columns:96px minmax(0,1fr);gap:14px;padding:14px}
+  .inspo-card img{width:96px;height:96px}
+  #entriesList{grid-template-columns:minmax(0,1fr)}
+  .skymap{min-height:0}
+  .sky-label{font-size:14px}
+  .draft-note{margin-left:0;width:100%}
+  .chip{font-size:12px;padding:8px 12px}
+}
 </style>
+<link rel="stylesheet" href="mm-chapterpage.css?v=1">
 <meta property="og:image" content="https://magickmica.github.io/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -114,69 +258,127 @@ a{color:var(--cyan)}
 <meta property="og:title" content="MAGICK MICA ✦ Dream Journal">
 <meta property="og:type" content="website">
 </head>
-<body>
-<div id="sky"></div><div id="stars"></div>
+<body class="cp" style="--acc:#c9a8ff;--cp-bg:radial-gradient(60% 70% at 88% 18%,rgba(201,168,255,.3),transparent 70%),radial-gradient(50% 60% at 0% 100%,rgba(255,168,217,.2),transparent 70%),radial-gradient(40% 40% at 40% 10%,rgba(159,227,255,.12),transparent 70%),linear-gradient(180deg,#160d33,#1d1140)">
+<div id="sky"></div><div id="drift" aria-hidden="true"></div>
+
+<header class="cp-open"><div class="cp-in"><div class="cp-rv"><p class="cp-k">Dream &amp; Divine · after midnight</p><h1 class="cp-h">The Dream <em>Journal</em></h1><p class="cp-lede">Catch the vision before it fades. Write it down, tap the symbols you saw, and the Dream Archivist will read back what the night was trying to tell you.</p><p class="cp-stats" id="heroStats"><b id="statDreams">0</b> dreams kept · <b id="statStreak">0</b>-night streak · tonight: <b id="statMoon">…</b></p><div class="cp-btns"><a class="cp-btn" href="#write">Write tonight's dream ↓</a><a class="cp-btn ghost" href="#dreamsky">✦ My dream sky</a></div></div><figure class="cp-art cp-rv d2"><div class="cp-port"><img src="char-dream-archivist.png" width="560" height="560" alt="The Dream Archivist in cloud pajamas and headphones, holding a bottle of stars labelled dreams inside" decoding="async"></div><figcaption class="cp-cap">Dreams inside · The Dream Archivist</figcaption></figure></div></header>
+<nav class="nav-links cp-nav" aria-label="Dream and Divine"><a href="index.html">← Home</a><a href="dream-journal.html">Dream Journal</a><a href="affirmations.html">Daily Affirmation</a><a href="affirmations-100.html">Fortune Machine</a><a href="abundance-oracle.html">Abundance Oracle</a><a href="abundance-scratch.html">Scratch a Sign</a><a href="https://magickmica.github.io/oracle">Crystal Ball</a><a href="https://magickmica.github.io/musicbox/">Music Box</a></nav>
+
 <div class="wrap">
 
-<header class="top">
-  <h1>Dream Journal</h1>
-  <p>✦ RECORD THE VISIONS OF THE NIGHT ✦</p>
-  <nav>
-    <a href="index.html">HOME</a>
-    <a href="arcade.html">ARCADE</a>
-    <a href="notes.html">NOTES</a>
-    <a href="blog.html">BLOG</a>
-    <a href="https://magickmica.substack.com" target="_blank">SUBSCRIBE</a>
-  </nav>
-</header>
-
-<div class="prompt-card">
-  <div class="prompt-eyebrow">✦ TONIGHT'S DREAM PROMPT ✦</div>
-  <div class="prompt-text" id="promptText"></div>
-  <button class="prompt-refresh" id="promptRefresh">↻ ANOTHER PROMPT</button>
-</div>
-
-<div class="editor">
-  <label class="editor-label">DREAM TITLE</label>
-  <input type="text" id="dTitle" placeholder="Give your dream a name…" maxlength="80" />
-  <label class="editor-label">WHAT DID YOU DREAM?</label>
-  <textarea id="dText" placeholder="Describe the dream while it's still fresh… the places, the feelings, the strange logic of it all."></textarea>
-
-  <div class="section-mini">✦ DREAM SYMBOLS (tap any that appeared)</div>
-  <div class="chip-row" id="symbolRow"></div>
-
-  <div class="section-mini">✦ MOOD OF THE DREAM</div>
-  <div class="chip-row" id="moodRow"></div>
-
-  <div class="editor-actions">
-    <button class="btn gold" id="saveBtn">✦ Save Dream</button>
-    <button class="btn ghost" id="clearBtn">Clear</button>
+<section class="sec" style="margin-top:0" aria-labelledby="tonightH">
+  <p class="sec-k">Chapter 1 · Tonight</p>
+  <h2 class="sec-h" id="tonightH">Before you <em>forget</em></h2>
+  <p class="sec-p">Dreams dissolve within minutes of waking. Start with tonight's prompt, and see what the moon is up to.</p>
+  <div class="tonight">
+    <div class="prompt-card">
+      <div class="prompt-eyebrow">✦ TONIGHT'S DREAM PROMPT ✦</div>
+      <div class="prompt-text" id="promptText" aria-live="polite"></div>
+      <div class="prompt-row">
+        <button class="pill gold" id="promptRefresh">↻ Another prompt</button>
+        <button class="pill ghost" id="promptUse">✎ Use this prompt</button>
+      </div>
+    </div>
+    <div class="card moon-card">
+      <svg class="moon-svg" id="moonSvg" viewBox="-60 -60 120 120" role="img" aria-label="Tonight's moon"></svg>
+      <div>
+        <div class="moon-k">TONIGHT'S MOON</div>
+        <div class="moon-name" id="moonName"></div>
+        <div class="moon-pct" id="moonPct"></div>
+        <p class="moon-note" id="moonNote"></p>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
-<div class="inspo">
+<section class="sec" id="write" aria-labelledby="writeH">
+  <p class="sec-k">Chapter 2 · Write it down</p>
+  <h2 class="sec-h" id="writeH">What did you <em>dream?</em></h2>
+  <p class="sec-p">Everything you write stays in this browser. Nobody else can see it, not even Mica.</p>
+  <div class="card editor">
+    <label class="field-label" for="dTitle">DREAM TITLE</label>
+    <input type="text" id="dTitle" placeholder="Give your dream a name…" maxlength="80" autocomplete="off" />
+    <label class="field-label" for="dText"><span>WHAT DID YOU DREAM?</span></label>
+    <div class="ta-wrap">
+      <textarea id="dText" placeholder="Describe the dream while it's still fresh… the places, the feelings, the strange logic of it all."></textarea>
+      <div class="ta-bar"><span class="ta-meta" id="wordCount">0 words</span><button class="mic" id="micBtn" type="button" aria-pressed="false">🎙 Speak it</button></div>
+    </div>
+    <div class="noticed" id="noticed" aria-live="polite"></div>
+
+    <div class="section-mini">✦ DREAM SYMBOLS · tap any that appeared</div>
+    <div class="chip-row" id="symbolRow"></div>
+
+    <div class="section-mini">✦ MOOD OF THE DREAM</div>
+    <div class="chip-row" id="moodRow"></div>
+
+    <div class="extras">
+      <div class="xbox">
+        <div class="section-mini">✦ HOW VIVID?</div>
+        <div class="vivid" id="vivid" role="radiogroup" aria-label="How vivid was the dream"></div>
+        <div class="vivid-word" id="vividWord"></div>
+      </div>
+      <div class="xbox"><div class="section-mini">✦ LUCID</div><button class="toggle" id="lucidBtn" type="button" aria-pressed="false"><span class="sw"></span>I knew I was dreaming</button></div>
+      <div class="xbox"><div class="section-mini">✦ RECURRING</div><button class="toggle" id="recurBtn" type="button" aria-pressed="false"><span class="sw"></span>I've had this dream before</button></div>
+    </div>
+
+    <div class="editor-actions">
+      <button class="pill gold" id="saveBtn">✦ Save &amp; read my dream</button>
+      <button class="pill ghost" id="clearBtn">Clear</button>
+      <span class="draft-note" id="draftNote"></span>
+    </div>
+  </div>
+  <div class="reading-wrap" id="readingWrap" aria-live="polite"></div>
+</section>
+
+<section class="sec" aria-labelledby="inspoH">
   <div class="inspo-head">
-    <div class="inspo-title">✦ DREAM INSPIRATION</div>
-    <button class="btn ghost" id="inspoRefresh" style="padding:.4rem .9rem">↻ New</button>
+    <div><p class="sec-k">Chapter 3 · A little inspiration</p>
+    <h2 class="sec-h" id="inspoH">From the <em>dream archive</em></h2></div>
+    <button class="pill ghost small" id="inspoRefresh" style="margin-bottom:12px">↻ Another</button>
   </div>
-  <a class="inspo-card" id="inspoCard" href="#" target="_blank" rel="noopener">
+  <p class="sec-p">A transmission from Mica's notes to set the mood.</p>
+  <a class="card inspo-card" id="inspoCard" href="#" target="_blank" rel="noopener">
     <img id="inspoImg" alt="" />
     <div class="inspo-body">
       <div class="inspo-quote" id="inspoQuote"></div>
       <div class="inspo-meta" id="inspoMeta"></div>
     </div>
   </a>
-</div>
+</section>
 
-<div class="entries">
-  <div class="entries-head">✦ YOUR DREAM ARCHIVE ✦</div>
+<section class="sec" id="dreamsky" aria-labelledby="skyH">
+  <p class="sec-k">Chapter 4 · Your dream sky</p>
+  <h2 class="sec-h" id="skyH">Every symbol becomes a <em>star</em></h2>
+  <p class="sec-p">Symbols you dream often shine brighter. When two show up in the same dream, a line joins them. Over time your own constellation appears.</p>
+  <div class="skygrid">
+    <div class="card skymap" id="skymap"><svg id="skySvg" viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Constellation of your dream symbols"></svg><div class="sky-empty" id="skyEmpty"></div></div>
+    <div class="card stats" id="stats"></div>
+  </div>
+</section>
+
+<section class="sec entries" id="archive" aria-labelledby="archH">
+  <p class="sec-k">Chapter 5 · The archive</p>
+  <h2 class="sec-h" id="archH">Your dream <em>archive</em></h2>
   <div class="entries-sub" id="entriesCount">saved privately in this browser</div>
+  <div class="arch-tools">
+    <label class="search"><span aria-hidden="true">⌕</span><span class="sr">Search your dreams</span><input id="search" type="search" placeholder="Search your dreams…" autocomplete="off"></label>
+    <label class="sr" for="symFilter">Filter by symbol or mood</label>
+    <select id="symFilter"><option value="">All symbols &amp; moods</option></select>
+    <button class="fbtn" id="fLucid" aria-pressed="false">Lucid</button>
+    <button class="fbtn" id="fRecur" aria-pressed="false">Recurring</button>
+  </div>
   <div id="entriesList"></div>
-</div>
+  <div class="backup">
+    <p>Your dreams live only in this browser. Download a backup now and then, so clearing your browser never erases them.</p>
+    <button class="pill ghost small" id="exportBtn">⤓ Download backup</button>
+    <button class="pill ghost small" id="importBtn">⤒ Restore a backup</button>
+    <input type="file" id="importFile" accept="application/json,.json" hidden>
+  </div>
+</section>
 
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status"></div>
 
 <div class="foot">
   ✦ MAGICK MICA DREAM JOURNAL ✦ your entries stay private on your device ✦<br>
@@ -189,6 +391,8 @@ const $ = s => document.querySelector(s);
 const rand = a => a[Math.floor(Math.random()*a.length)];
 const noteUrl = id => `https://substack.com/@magickmica/note/c-${id}`;
 const SAVE_KEY = 'magickmica_dreams_v1';
+const DRAFT_KEY = 'magickmica_dream_draft_v1';
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* prompts */
 const PROMPTS = [
@@ -211,8 +415,18 @@ const PROMPTS = [
   "Did you have powers you don't have while awake?",
   "What part of the dream felt most real?"
 ];
-function newPrompt(){ $('#promptText').textContent = rand(PROMPTS); }
+function newPrompt(){
+  const el=$('#promptText'); let p=rand(PROMPTS);
+  if(PROMPTS.length>1) while(p===el.textContent) p=rand(PROMPTS);
+  if(REDUCE||!el.textContent){ el.textContent=p; return; }
+  el.classList.add('fade'); setTimeout(()=>{el.textContent=p;el.classList.remove('fade');},300);
+}
 $('#promptRefresh').addEventListener('click',newPrompt);
+$('#promptUse').addEventListener('click',()=>{
+  const ta=$('#dText'); const q=$('#promptText').textContent;
+  ta.value = (ta.value.trim()? ta.value.replace(/\s*$/,'\n\n') : '') + q + '\n';
+  location.hash='write'; ta.focus(); ta.setSelectionRange(ta.value.length,ta.value.length); onType();
+});
 newPrompt();
 
 /* symbols + moods */
@@ -227,99 +441,450 @@ const MOODS = [
   ['🌫️','Foggy'],['⚡','Intense'],['🥲','Bittersweet'],['🔮','Mystical'],
   ['😱','Frightening'],['🎠','Playful']
 ];
+const SYM_MAP=Object.fromEntries([...SYMBOLS,...MOODS].map(([s,l])=>[l,s]));
+
+/* what each symbol and mood whispers (used by the Dream Archivist's reading) */
+const MEANINGS = {
+  Moon:"Your intuition is turning up the volume. Something hidden is ready to be seen by softer light.",
+  Water:"Feelings are moving. Calm water means you're at peace with them; wild water means they want to be felt, not managed.",
+  Flight:"You're rising above an old limit. Part of you already knows you're freer than you act.",
+  Fire:"Passion, anger or a creative spark is asking for room. Something wants to be burned clean or lit up.",
+  Doorway:"A threshold. A choice or new chapter is close, and you're allowed to walk through it.",
+  Eyes:"You're being seen, or you're learning to see. Pay attention to what you've been glancing past.",
+  Serpent:"Shedding season. An old skin (a habit, a story about yourself) is ready to come off.",
+  Stars:"Guidance and hope. Your wishes are closer to the map than you think.",
+  Mirror:"A conversation with yourself. What you saw reflected is how you secretly see you.",
+  Forest:"The unknown, and growth that happens slowly in the dark. You're finding your own path.",
+  Ruins:"Something from the past is being reviewed. Keep what still glitters and leave the rubble.",
+  Key:"An answer you already hold. The solution is in your pocket, not out there.",
+  Transformation:"You're mid-metamorphosis. It's messy in the cocoon, and that's how wings happen.",
+  Falling:"A loss of control, or a call to let go. The fall usually ends the moment you stop bracing.",
+  Spirits:"Memories, ancestors or unfinished feelings came to visit. They'd like to be acknowledged.",
+  Color:"Your imagination is wide awake. Bring that palette into the day.",
+  Animal:"Instinct speaks through animals. What the creature was doing is what your gut wants you to do.",
+  Chase:"Something you're avoiding is running after you. Turning around to face it often shrinks it.",
+  Wondrous:"your spirit is hungry for awe", Peaceful:"your nervous system is finding its way home",
+  Uneasy:"something unresolved is asking for a little attention", Loving:"your heart is open and receiving",
+  Foggy:"answers are still forming, so give them time", Intense:"big energy is moving through you",
+  Bittersweet:"you're making peace with something you've outgrown", Mystical:"you're tuned to a higher frequency right now",
+  Frightening:"a fear is surfacing so it can finally be released", Playful:"your inner child wants more play in waking life"
+};
+const MOOD_COLOR={Wondrous:'#ffe3a3',Peaceful:'#b8f0d8',Uneasy:'#9fb0ff',Loving:'#ffa8d9',Foggy:'#c8c2d8',Intense:'#ff8a6b',
+  Bittersweet:'#e0b3ff',Mystical:'#c9a8ff',Frightening:'#ff6f91',Playful:'#9fe3ff'};
+/* words that hint a symbol was in the dream */
+const KEYWORDS = {
+  Moon:/\bmoon|lunar|moonlight/i, Water:/\bwater|ocean|sea\b|river|lake|swim|wave|rain|pool|flood|tide/i,
+  Flight:/\bfly|flying|flew|float|soar|wings?\b|bird/i, Fire:/\bfire|flame|burn|candle|smoke|lava/i,
+  Doorway:/\bdoor|gate|portal|threshold|hallway/i, Eyes:/\beyes?\b|watching|stare|staring/i,
+  Serpent:/\bsnake|serpent|dragon/i, Stars:/\bstars?\b|galaxy|constellation|cosmic|space\b/i,
+  Mirror:/\bmirror|reflection/i, Forest:/\bforest|woods|trees?\b|jungle/i, Ruins:/\bruins?|castle|temple|abandoned|old house/i,
+  Key:/\bkeys?\b|lock|unlock/i, Transformation:/\bbutterfly|transform|turned into|changed into|became/i,
+  Falling:/\bfall|falling|fell|drop|cliff/i, Spirits:/\bghost|spirit|grandm|grandp|passed away|angel/i,
+  Color:/\brainbow|neon|glow|glitter|colou?r/i, Animal:/\bcat|dog|wolf|horse|fox|owl|rabbit|bunny|frog|animal|bear/i,
+  Chase:/\bchase|chasing|chased|running from|ran from|hunted/i
+};
+const MESSAGES = [
+  "The night doesn't speak in riddles to confuse you. It speaks in pictures because pictures stay.",
+  "You were never lost in that dream. You were looking around.",
+  "Something in you is ready before you are. Let it lead a little.",
+  "Notice where this dream shows up today. It will.",
+  "The dream is a letter you wrote to yourself in invisible ink. Tonight, read it by moonlight.",
+  "Soft nights make strong mornings.",
+  "The universe is not in a hurry, and neither is your becoming.",
+  "Whatever wandered through tonight came to help, even the strange parts.",
+  "You hold more keys than doors right now.",
+  "Wake slowly. The message keeps."
+];
+const TODAY = [
+  "Write one line from the dream on a sticky note and put it somewhere you'll see it.",
+  "Drink a glass of water and name one feeling the dream left behind.",
+  "Take a five-minute walk and look for one symbol from the dream in real life.",
+  "Before bed tonight, ask the dream a question. See who answers.",
+  "Do one small thing your dream self would have done.",
+  "Tell someone a single image from the dream, nothing more."
+];
+const VIVID_WORDS=['','A faint shimmer','Hazy but there','Clear enough to describe','Bright and detailed','Realer than real'];
+
+/* ---------- chips ---------- */
 let selSymbols=new Set(), selMoods=new Set();
 function buildChips(row, items, sel){
   const el=$(row); el.innerHTML='';
   items.forEach(([sym,label])=>{
-    const chip=document.createElement('div');
-    chip.className='chip';
-    chip.innerHTML=`<span class="sym">${sym}</span>${label}`;
-    chip.addEventListener('click',()=>{
-      if(sel.has(label)){sel.delete(label);chip.dataset.on='false';}
-      else{sel.add(label);chip.dataset.on='true';}
-    });
+    const chip=document.createElement('button');
+    chip.type='button'; chip.className='chip'; chip.dataset.label=label;
+    chip.setAttribute('aria-pressed','false');
+    chip.innerHTML=`<span class="sym" aria-hidden="true">${sym}</span>${label}`;
+    chip.addEventListener('click',()=>{ setChip(chip, sel, !sel.has(label)); saveDraft(); suggest(); });
     el.appendChild(chip);
   });
 }
+function setChip(chip, sel, on){
+  const l=chip.dataset.label;
+  if(on) sel.add(l); else sel.delete(l);
+  chip.dataset.on=on?'true':'false'; chip.setAttribute('aria-pressed',on?'true':'false');
+}
 buildChips('#symbolRow',SYMBOLS,selSymbols);
 buildChips('#moodRow',MOODS,selMoods);
-const SYM_MAP=Object.fromEntries([...SYMBOLS,...MOODS].map(([s,l])=>[l,s]));
+function chipFor(label){ return document.querySelector(`.chip[data-label="${label}"]`); }
 
-/* inspiration */
+/* ---------- vividness, lucid, recurring ---------- */
+let vivid=0, lucid=false, recur=false;
+const vEl=$('#vivid');
+for(let i=1;i<=5;i++){
+  const b=document.createElement('button'); b.type='button'; b.textContent='★';
+  b.setAttribute('role','radio'); b.setAttribute('aria-label',`${i} of 5: ${VIVID_WORDS[i]}`);
+  b.addEventListener('click',()=>{ vivid = vivid===i?0:i; paintVivid(); saveDraft(); });
+  vEl.appendChild(b);
+}
+function paintVivid(){
+  [...vEl.children].forEach((b,i)=>{ b.classList.toggle('lit',i<vivid); b.setAttribute('aria-checked',i+1===vivid?'true':'false'); });
+  $('#vividWord').textContent=VIVID_WORDS[vivid]||'Tap a star';
+}
+function paintToggles(){ $('#lucidBtn').setAttribute('aria-pressed',lucid); $('#recurBtn').setAttribute('aria-pressed',recur); }
+$('#lucidBtn').addEventListener('click',()=>{ lucid=!lucid; paintToggles(); saveDraft(); });
+$('#recurBtn').addEventListener('click',()=>{ recur=!recur; paintToggles(); saveDraft(); });
+paintVivid();
+
+/* ---------- typing: word count, symbol suggestions, draft ---------- */
+function words(t){ return (t.trim().match(/\S+/g)||[]).length; }
+function suggest(){
+  const t=$('#dText').value; const box=$('#noticed');
+  document.querySelectorAll('.chip.suggest').forEach(c=>c.classList.remove('suggest'));
+  const found=Object.keys(KEYWORDS).filter(l=>KEYWORDS[l].test(t) && !selSymbols.has(l));
+  if(!found.length){ box.classList.remove('on'); box.innerHTML=''; return; }
+  found.forEach(l=>chipFor(l)?.classList.add('suggest'));
+  box.innerHTML=`<b>THE ARCHIVIST NOTICED</b> your dream might hold these symbols. Tap to add:<br>`+
+    found.map(l=>`<button type="button" data-add="${l}">${SYM_MAP[l]} ${l}</button>`).join('');
+  box.classList.add('on');
+}
+$('#noticed').addEventListener('click',e=>{
+  const l=e.target.closest('[data-add]')?.dataset.add; if(!l) return;
+  setChip(chipFor(l), selSymbols, true); saveDraft(); suggest();
+});
+let sugT;
+function onType(){
+  const n=words($('#dText').value);
+  $('#wordCount').textContent=`${n} word${n===1?'':'s'}`;
+  clearTimeout(sugT); sugT=setTimeout(suggest,500); saveDraft();
+}
+$('#dText').addEventListener('input',onType);
+$('#dTitle').addEventListener('input',saveDraft);
+
+let draftT;
+function saveDraft(){
+  clearTimeout(draftT);
+  draftT=setTimeout(()=>{
+    const d={title:$('#dTitle').value,text:$('#dText').value,symbols:[...selSymbols],moods:[...selMoods],vivid,lucid,recur};
+    const empty=!d.title.trim()&&!d.text.trim()&&!d.symbols.length&&!d.moods.length;
+    try{ empty?localStorage.removeItem(DRAFT_KEY):localStorage.setItem(DRAFT_KEY,JSON.stringify(d)); }catch(e){}
+    $('#draftNote').textContent = empty?'':'✓ draft kept on this device';
+  },400);
+}
+function loadDraft(){
+  let d; try{ d=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null'); }catch(e){}
+  if(!d) return;
+  $('#dTitle').value=d.title||''; $('#dText').value=d.text||'';
+  (d.symbols||[]).forEach(l=>chipFor(l)&&setChip(chipFor(l),selSymbols,true));
+  (d.moods||[]).forEach(l=>chipFor(l)&&setChip(chipFor(l),selMoods,true));
+  vivid=d.vivid||0; lucid=!!d.lucid; recur=!!d.recur; paintVivid(); paintToggles();
+  onType(); $('#draftNote').textContent='✓ picked up your unsaved draft';
+}
+
+/* ---------- dictation, where the browser supports it ---------- */
+(function(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition; if(!SR) return;
+  const btn=$('#micBtn'); btn.classList.add('on');
+  let rec=null, base='';
+  btn.addEventListener('click',()=>{
+    if(rec){ rec.stop(); return; }
+    rec=new SR(); rec.continuous=true; rec.interimResults=true; rec.lang=navigator.language||'en-US';
+    const ta=$('#dText'); base=ta.value.trim()?ta.value.replace(/\s*$/,' '):'';
+    rec.onresult=e=>{ let s=''; for(const r of e.results) s+=r[0].transcript; ta.value=base+s; onType(); };
+    rec.onend=()=>{ rec=null; btn.setAttribute('aria-pressed','false'); btn.textContent='🎙 Speak it'; };
+    rec.onerror=()=>toast('The microphone is not available here');
+    rec.start(); btn.setAttribute('aria-pressed','true'); btn.textContent='● Listening… tap to stop';
+  });
+})();
+
+/* ---------- moon ---------- */
+const SYNODIC=29.530588853;
+function moonInfo(date){
+  const ref=Date.UTC(2000,0,6,18,14);
+  let age=((date-ref)/864e5)%SYNODIC; if(age<0) age+=SYNODIC;
+  const f=age/SYNODIC, illum=(1-Math.cos(2*Math.PI*f))/2;
+  const names=[['New Moon','🌑'],['Waxing Crescent','🌒'],['First Quarter','🌓'],['Waxing Gibbous','🌔'],['Full Moon','🌕'],['Waning Gibbous','🌖'],['Last Quarter','🌗'],['Waning Crescent','🌘']];
+  const i=Math.floor(f*8+0.5)%8;
+  return {f,illum,name:names[i][0],emoji:names[i][1],i};
+}
+const MOON_NOTES=[
+  "A blank sky. Set an intention before sleep; new-moon dreams tend to plant seeds.",
+  "The light is returning. Dreams now often hint at what wants to begin.",
+  "Half lit, half hidden. Watch for dreams about choices and crossroads.",
+  "Building toward full. Dreams get louder and more vivid this week.",
+  "Full moon. The brightest, strangest dreams of the month. Keep the journal close.",
+  "The light is letting go. Dreams may replay the past so you can release it.",
+  "Half lit again. A good night to dream about what to keep and what to drop.",
+  "The quietest sky. Rest dreams, healing dreams, and sometimes prophetic ones."
+];
+function drawMoon(){
+  const m=moonInfo(Date.now()), r=50, k=Math.cos(2*Math.PI*m.f), rx=Math.abs(k)*r, wax=m.f<.5;
+  const s1=wax?1:0, s2=wax?(k>0?0:1):(k>0?1:0);
+  const lit=`M0,${-r} A${r},${r} 0 0 ${s1} 0,${r} A${rx},${r} 0 0 ${s2} 0,${-r}Z`;
+  $('#moonSvg').innerHTML=`<defs><radialGradient id="mg" cx="35%" cy="35%"><stop offset="0" stop-color="#fffaf0"/><stop offset=".7" stop-color="#ffe3a3"/><stop offset="1" stop-color="#e8c47a"/></radialGradient></defs>
+    <circle r="${r}" fill="#231a40" stroke="rgba(255,227,163,.25)"/>
+    <path d="${lit}" fill="url(#mg)"/>
+    <g fill="rgba(160,120,60,.18)"><circle cx="-16" cy="-12" r="8"/><circle cx="14" cy="18" r="11"/><circle cx="20" cy="-20" r="5"/><circle cx="-20" cy="22" r="4"/></g>`;
+  $('#moonName').textContent=`${m.emoji} ${m.name}`;
+  $('#moonPct').textContent=`${Math.round(m.illum*100)}% lit · day ${Math.floor(m.f*SYNODIC)+1} of the cycle`;
+  $('#moonNote').textContent=MOON_NOTES[m.i];
+  $('#moonSvg').setAttribute('aria-label',`Tonight's moon: ${m.name}, ${Math.round(m.illum*100)} percent lit`);
+  $('#statMoon').textContent=`${m.emoji} ${m.name}`;
+}
+drawMoon();
+
+/* ---------- inspiration ---------- */
 function newInspo(){
-  const n=rand(DREAM_POOL);
-  $('#inspoImg').src=n.t;
-  $('#inspoQuote').textContent=n.b||'✦ a wordless transmission ✦';
-  $('#inspoMeta').textContent=`❤ ${n.l} · from the archive`;
+  const n=rand(DREAM_POOL), img=$('#inspoImg');
+  img.onerror=()=>{ img.onerror=null; img.src='char-dream-archivist.png'; };
+  img.src=n.t;
+  $('#inspoQuote').textContent=(n.b||'✦ a wordless transmission ✦').replace(/\n{2,}/g,'\n');
+  $('#inspoMeta').textContent=`❤ ${n.l} · from the archive · open on Substack ↗`;
   $('#inspoCard').href=noteUrl(n.id);
 }
 $('#inspoRefresh').addEventListener('click',e=>{e.preventDefault();newInspo();});
 newInspo();
 
-/* toast */
+/* ---------- toast ---------- */
 let toastT;
-function toast(msg){const t=$('#toast');t.textContent=msg;t.dataset.on='true';clearTimeout(toastT);toastT=setTimeout(()=>t.dataset.on='false',2200);}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.dataset.on='true';clearTimeout(toastT);toastT=setTimeout(()=>t.dataset.on='false',2400);}
 
-/* storage */
+/* ---------- storage ---------- */
 function loadEntries(){ try{return JSON.parse(localStorage.getItem(SAVE_KEY)||'[]');}catch(e){return [];} }
-function saveEntries(list){ try{localStorage.setItem(SAVE_KEY,JSON.stringify(list));}catch(e){toast('⚠ Could not save');} }
+function saveEntries(list){ try{localStorage.setItem(SAVE_KEY,JSON.stringify(list)); return true;}catch(e){toast('⚠ Could not save'); return false;} }
 
 function fmtDate(ts){
   const d=new Date(ts);
   return d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})+' · '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'});
 }
-function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function dayKey(ts){ const d=new Date(ts); return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`; }
+function hash(s){ let h=2166136261; for(const c of String(s)) h=Math.imul(h^c.charCodeAt(0),16777619); return h>>>0; }
 
+/* ---------- the Dream Archivist's reading ---------- */
+function readingHTML(entry, closable){
+  let syms=[...(entry.symbols||[])];
+  const guessed=!syms.length;
+  if(guessed) syms=Object.keys(KEYWORDS).filter(l=>KEYWORDS[l].test(entry.text||''));
+  syms=syms.slice(0,6);
+  const moods=entry.moods||[];
+  const h=hash((entry.text||'')+entry.ts);
+  const items=syms.map(l=>`<li style="animation-delay:${0.08*syms.indexOf(l)}s"><strong><span class="e" aria-hidden="true">${SYM_MAP[l]||'✦'}</span>${esc(l)}</strong>${MEANINGS[l]||''}</li>`);
+  if(!items.length) items.push(`<li><strong><span class="e" aria-hidden="true">🌫️</span>Unmarked dream</strong>No symbols this time, and that's a message too: this one is about the feeling more than the pictures. Sit with how you woke up.</li>`);
+  let moodLine='';
+  if(moods.length){
+    const parts=moods.map(m=>MEANINGS[m]).filter(Boolean);
+    moodLine=`<p class="r-do"><b>THE MOOD</b>${moods.map(m=>SYM_MAP[m]).join(' ')} Feeling ${moods.map(m=>m.toLowerCase()).join(' and ')} suggests ${parts.join(', and ')}.</p>`;
+  }
+  let extra='';
+  if(entry.lucid) extra+=`<p class="r-do"><b>LUCID</b>You knew you were dreaming. That's real magic: the part of you that notices is getting stronger.</p>`;
+  if(entry.recur) extra+=`<p class="r-do"><b>RECURRING</b>A dream that returns is a message that hasn't been received yet. Look at what's different this time.</p>`;
+  if(entry.vivid>=4) extra+=`<p class="r-do"><b>VIVID</b>${VIVID_WORDS[entry.vivid]}. Vivid dreams tend to carry the clearest signals, so this one is worth rereading in a week.</p>`;
+  return `<div class="reading${REDUCE?'':' flip'}">
+    ${closable?'<button class="r-close" type="button" aria-label="Close the reading" data-close>✕</button>':''}
+    <div class="r-top"><img src="char-dream-archivist.png" alt="" width="76" height="76"><div><div class="r-k">✦ THE DREAM ARCHIVIST READS ✦${guessed&&syms.length?' (from your words)':''}</div><h3 class="r-title">${esc(entry.title)||'Untitled Dream'}</h3></div></div>
+    <ul class="r-list">${items.join('')}</ul>
+    ${moodLine}${extra}
+    <p class="r-msg">“${MESSAGES[h%MESSAGES.length]}”<small>✦ A MESSAGE FROM THE NIGHT</small></p>
+    <p class="r-do"><b>CARRY IT INTO TODAY</b>${TODAY[(h>>>4)%TODAY.length]}</p>
+  </div>`;
+}
+$('#readingWrap').addEventListener('click',e=>{ if(e.target.closest('[data-close]')){ $('#readingWrap').classList.remove('on'); $('#readingWrap').innerHTML=''; } });
+
+/* ---------- stats, nights, dream sky ---------- */
+function streakOf(list){
+  const days=new Set(list.map(e=>dayKey(e.ts)));
+  const d=new Date(); if(!days.has(dayKey(d))) d.setDate(d.getDate()-1);
+  let n=0; while(days.has(dayKey(d))){ n++; d.setDate(d.getDate()-1); }
+  return n;
+}
+function renderStats(list){
+  const lucidN=list.filter(e=>e.lucid).length;
+  const rated=list.filter(e=>e.vivid); const avg=rated.length?(rated.reduce((a,e)=>a+e.vivid,0)/rated.length):0;
+  const moodCount={}; list.forEach(e=>(e.moods||[]).forEach(m=>moodCount[m]=(moodCount[m]||0)+1));
+  const topMood=Object.entries(moodCount).sort((a,b)=>b[1]-a[1])[0];
+  const streak=streakOf(list);
+  $('#statDreams').textContent=list.length; $('#statStreak').textContent=streak;
+  const days=new Map(); list.forEach(e=>{ const k=dayKey(e.ts); days.set(k,(days.get(k)||false)||!!e.lucid); });
+  let dots=''; const d=new Date(); d.setDate(d.getDate()-27);
+  for(let i=0;i<28;i++){ const k=dayKey(d); const has=days.has(k);
+    dots+=`<span class="dot${has?' y':''}${has&&days.get(k)?' l':''}${i===27?' t':''}" title="${d.toLocaleDateString(undefined,{month:'short',day:'numeric'})}${has?' · dreamed':''}"></span>`;
+    d.setDate(d.getDate()+1); }
+  $('#stats').innerHTML=`
+    <div class="stat"><div class="n">${list.length}</div><div class="l">DREAMS KEPT</div></div>
+    <div class="stat"><div class="n">${streak}</div><div class="l">NIGHT STREAK</div></div>
+    <div class="stat"><div class="n">${lucidN}</div><div class="l">LUCID DREAMS</div></div>
+    <div class="stat"><div class="n">${avg?avg.toFixed(1):'–'}<small>${avg?' ★':''}</small></div><div class="l">AVERAGE VIVIDNESS</div></div>
+    <div class="nights"><div class="l">THE LAST 28 NIGHTS · <span style="color:#c9a8ff">●</span> dreamed <span style="color:#ffe3a3">●</span> lucid</div><div class="dots">${dots}</div></div>
+    <div class="stat" style="grid-column:1/-1"><div class="n" style="font-size:20px">${topMood?SYM_MAP[topMood[0]]+' '+topMood[0]:'Not yet'}</div><div class="l">YOUR MOST COMMON DREAM MOOD</div></div>`;
+}
+function renderSky(list){
+  const svg=$('#skySvg'); const W=640,H=400;
+  const count={}, pairs={};
+  list.forEach(e=>{ const s=[...new Set(e.symbols||[])]; s.forEach(a=>count[a]=(count[a]||0)+1);
+    for(let i=0;i<s.length;i++) for(let j=i+1;j<s.length;j++){ const k=[s[i],s[j]].sort().join('|'); pairs[k]=(pairs[k]||0)+1; } });
+  const used=Object.keys(count);
+  const demo=!used.length;
+  const labels=demo?SYMBOLS.map(s=>s[1]):used;
+  /* each symbol has its own fixed place in the sky */
+  const pos={}; SYMBOLS.forEach(([,l],i)=>{ const h=hash(l); const col=i%6, row=Math.floor(i/6);
+    pos[l]=[60+col*104, 78+row*122+(col%2?34:0)+((h>>>8)%16)-8]; });
+  const max=Math.max(1,...Object.values(count));
+  let bg=''; for(let i=0;i<90;i++){ const h=hash('bg'+i); bg+=`<circle cx="${h%W}" cy="${(h>>>10)%H}" r="${((h>>>20)%10)/10+.3}" fill="#fff" opacity="${(((h>>>5)%60)+15)/100}"/>`; }
+  let lines='';
+  Object.entries(pairs).forEach(([k,n])=>{ const [a,b]=k.split('|'); if(!pos[a]||!pos[b]) return;
+    lines+=`<line x1="${pos[a][0]}" y1="${pos[a][1]}" x2="${pos[b][0]}" y2="${pos[b][1]}" stroke="#c9a8ff" stroke-width="${Math.min(3,.8+n*.5)}" stroke-opacity="${Math.min(.85,.25+n*.15)}"/>`; });
+  let stars='';
+  labels.forEach(l=>{ if(!pos[l]) return; const [x,y]=pos[l]; const c=demo?0:count[l]; const r=demo?2.2:3+9*(c/max);
+    const col=demo?'#a69cc6':'#ffe3a3';
+    stars+=`<g opacity="${demo?.55:1}"><title>${l}${demo?'':` · ${c} dream${c>1?'s':''}`}</title>
+      ${demo?'':`<circle cx="${x}" cy="${y}" r="${r*2.6}" fill="url(#glow)"/>`}
+      <circle class="sky-star" cx="${x}" cy="${y}" r="${r}" fill="${col}"/>
+      ${demo?'':`<text class="sky-label" x="${Math.max(92,Math.min(548,x))}" y="${SYMBOLS.findIndex(q=>q[1]===l)%2?y-r-9:y+r+17}" text-anchor="middle">${SYM_MAP[l]} ${l}${demo||c<2?'':` ×${c}`}</text>`}</g>`; });
+  svg.innerHTML=`<defs><radialGradient id="glow"><stop offset="0" stop-color="#ffe3a3" stop-opacity=".55"/><stop offset="1" stop-color="#ffe3a3" stop-opacity="0"/></radialGradient></defs>${bg}${lines}${stars}`;
+  $('#skyEmpty').textContent = demo ? 'Your sky is still dark. Save a dream with symbols and its first stars will light up here.' :
+    (Object.keys(pairs).length ? '' : 'Tap two or more symbols in one dream to draw your first constellation line.');
+}
+
+/* ---------- archive ---------- */
+const filters={q:'',sym:'',lucid:false,recur:false};
+function fillFilter(list){
+  const sel=$('#symFilter'), cur=sel.value; const seen=new Set();
+  list.forEach(e=>[...(e.symbols||[]),...(e.moods||[])].forEach(l=>seen.add(l)));
+  sel.innerHTML='<option value="">All symbols &amp; moods</option>'+[...SYMBOLS,...MOODS].filter(([,l])=>seen.has(l)).map(([s,l])=>`<option value="${l}">${s} ${l}</option>`).join('');
+  sel.value=seen.has(cur)?cur:'';
+  filters.sym=sel.value;
+}
 function renderEntries(){
-  const list=loadEntries();
+  const all=loadEntries();
+  renderStats(all); renderSky(all); fillFilter(all);
   const el=$('#entriesList');
-  $('#entriesCount').textContent = list.length ? `${list.length} dream${list.length>1?'s':''} · saved privately in this browser` : 'saved privately in this browser';
-  if(!list.length){ el.innerHTML='<div class="entries-empty">No dreams recorded yet. Your first vision awaits above. ✦</div>'; return; }
+  $('#entriesCount').textContent = all.length ? `${all.length} dream${all.length>1?'s':''} · saved privately in this browser` : 'saved privately in this browser';
+  if(!all.length){ el.innerHTML='<div class="entries-empty">No dreams recorded yet. Your first vision awaits above. ✦</div>'; return; }
+  const q=filters.q.toLowerCase();
+  const list=all.filter(e=>(!q||(e.title+' '+e.text).toLowerCase().includes(q))
+    &&(!filters.sym||[...(e.symbols||[]),...(e.moods||[])].includes(filters.sym))
+    &&(!filters.lucid||e.lucid)&&(!filters.recur||e.recur));
+  if(!list.length){ el.innerHTML='<div class="entries-empty">No dreams match that search. ✦</div>'; return; }
   el.innerHTML='';
   list.forEach(entry=>{
     const syms=[...(entry.symbols||[]),...(entry.moods||[])].map(l=>SYM_MAP[l]||'').join(' ');
     const tags=[...(entry.symbols||[]),...(entry.moods||[])].map(l=>`<span class="entry-tag">${esc(l)}</span>`).join('');
-    const div=document.createElement('div');
-    div.className='entry';
+    const mc=MOOD_COLOR[(entry.moods||[])[0]];
+    const div=document.createElement('article');
+    div.className='entry'; if(mc) div.style.setProperty('--mc',mc);
+    const badges=(entry.lucid?'<span class="badge">LUCID</span>':'')+(entry.recur?'<span class="badge rec">RECURRING</span>':'')+(entry.vivid?`<span class="entry-stars" aria-label="Vividness ${entry.vivid} of 5">${'★'.repeat(entry.vivid)}<span style="opacity:.25">${'★'.repeat(5-entry.vivid)}</span></span>`:'');
     div.innerHTML=`
-      <div class="entry-top"><div class="entry-title">${esc(entry.title)||'Untitled Dream'}</div><div class="entry-date">${fmtDate(entry.ts)}</div></div>
-      ${syms?`<div class="entry-syms">${syms}</div>`:''}
+      <div class="entry-top"><h3 class="entry-title" style="margin:0">${esc(entry.title)||'Untitled Dream'}</h3><div class="entry-date">${fmtDate(entry.ts)}</div></div>
+      ${badges?`<div class="entry-badges">${badges}</div>`:''}
+      ${syms?`<div class="entry-syms" aria-hidden="true">${syms}</div>`:''}
       <div class="entry-text">${esc(entry.text)}</div>
       ${tags?`<div class="entry-tags">${tags}</div>`:''}
-      <button class="entry-del" data-id="${entry.ts}">✕ Delete</button>`;
-    div.querySelector('.entry-del').addEventListener('click',()=>{
-      if(confirm('Delete this dream entry?')){
-        saveEntries(loadEntries().filter(e=>e.ts!==entry.ts));
-        renderEntries(); toast('Dream released ✦');
-      }
+      <div class="entry-actions">
+        <button class="ebtn read" type="button">✦ Read this dream</button>
+        <button class="ebtn more" type="button" hidden>Show all</button>
+        <button class="ebtn del" type="button">✕ Delete</button>
+      </div>
+      <div class="entry-reading"></div>`;
+    const txt=div.querySelector('.entry-text'), more=div.querySelector('.more');
+    requestAnimationFrame(()=>{ if(txt.scrollHeight>txt.clientHeight+4){ txt.classList.add('clip'); more.hidden=false; } });
+    more.addEventListener('click',()=>{ const o=div.classList.toggle('open'); more.textContent=o?'Show less':'Show all'; });
+    const rd=div.querySelector('.entry-reading');
+    div.querySelector('.read').addEventListener('click',e=>{
+      if(rd.innerHTML){ rd.innerHTML=''; e.currentTarget.textContent='✦ Read this dream'; return; }
+      rd.innerHTML=readingHTML(entry,false); e.currentTarget.textContent='Hide the reading';
+    });
+    const del=div.querySelector('.del'); let armT;
+    del.addEventListener('click',()=>{
+      if(!del.classList.contains('armed')){ del.classList.add('armed'); del.textContent='Tap again to release it'; clearTimeout(armT);
+        armT=setTimeout(()=>{del.classList.remove('armed');del.textContent='✕ Delete';},3500); return; }
+      saveEntries(loadEntries().filter(e=>e.ts!==entry.ts));
+      renderEntries(); toast('Dream released ✦');
     });
     el.appendChild(div);
   });
 }
+$('#search').addEventListener('input',e=>{ filters.q=e.target.value; renderEntries(); });
+$('#symFilter').addEventListener('change',e=>{ filters.sym=e.target.value; renderEntries(); });
+$('#fLucid').addEventListener('click',e=>{ filters.lucid=!filters.lucid; e.currentTarget.setAttribute('aria-pressed',filters.lucid); renderEntries(); });
+$('#fRecur').addEventListener('click',e=>{ filters.recur=!filters.recur; e.currentTarget.setAttribute('aria-pressed',filters.recur); renderEntries(); });
 
-/* save */
+/* ---------- save ---------- */
+function resetEditor(){
+  $('#dTitle').value=''; $('#dText').value='';
+  selSymbols.clear(); selMoods.clear();
+  document.querySelectorAll('.chip').forEach(c=>{c.dataset.on='false';c.setAttribute('aria-pressed','false');c.classList.remove('suggest');});
+  vivid=0; lucid=false; recur=false; paintVivid(); paintToggles();
+  $('#noticed').classList.remove('on'); onType();
+  try{localStorage.removeItem(DRAFT_KEY);}catch(e){} $('#draftNote').textContent='';
+}
 $('#saveBtn').addEventListener('click',()=>{
   const title=$('#dTitle').value.trim();
   const text=$('#dText').value.trim();
   if(!text){ toast('✦ Write your dream first'); $('#dText').focus(); return; }
   const entry={ts:Date.now(),title,text,symbols:[...selSymbols],moods:[...selMoods]};
-  const list=loadEntries(); list.unshift(entry); saveEntries(list);
-  // reset
-  $('#dTitle').value=''; $('#dText').value='';
-  selSymbols.clear(); selMoods.clear();
-  document.querySelectorAll('.chip').forEach(c=>c.dataset.on='false');
+  if(vivid) entry.vivid=vivid; if(lucid) entry.lucid=true; if(recur) entry.recur=true;
+  const list=loadEntries(); list.unshift(entry); if(!saveEntries(list)) return;
+  clearTimeout(draftT); resetEditor();
   renderEntries(); toast('✦ Dream saved to your archive');
+  const rw=$('#readingWrap'); rw.innerHTML=readingHTML(entry,true); rw.classList.add('on');
+  rw.scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'start'});
+  if(window.MM_FX&&!REDUCE) setTimeout(()=>{ try{ const r=rw.getBoundingClientRect(); const y=Math.max(60,Math.min(innerHeight-60,r.top+60));
+    [.2,.5,.8].forEach((p,i)=>setTimeout(()=>window.MM_FX.emit(innerWidth*p,y,26,3),i*160)); }catch(e){} },650);
   newPrompt();
 });
-$('#clearBtn').addEventListener('click',()=>{
-  $('#dTitle').value=''; $('#dText').value='';
-  selSymbols.clear(); selMoods.clear();
-  document.querySelectorAll('.chip').forEach(c=>c.dataset.on='false');
+$('#clearBtn').addEventListener('click',()=>{ resetEditor(); toast('Cleared'); });
+
+/* ---------- backup ---------- */
+$('#exportBtn').addEventListener('click',()=>{
+  const list=loadEntries(); if(!list.length){ toast('No dreams to back up yet'); return; }
+  const blob=new Blob([JSON.stringify({app:'magickmica-dream-journal',v:1,exported:new Date().toISOString(),dreams:list},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`dream-journal-${new Date().toISOString().slice(0,10)}.json`; document.body.appendChild(a); a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500); toast(`✦ ${list.length} dream${list.length>1?'s':''} downloaded`);
+});
+$('#importBtn').addEventListener('click',()=>$('#importFile').click());
+$('#importFile').addEventListener('change',async e=>{
+  const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  try{
+    const data=JSON.parse(await f.text()); const inc=Array.isArray(data)?data:data.dreams;
+    if(!Array.isArray(inc)) throw 0;
+    const list=loadEntries(); const have=new Set(list.map(x=>x.ts)); let added=0;
+    inc.forEach(x=>{ if(x&&typeof x.ts==='number'&&typeof x.text==='string'&&!have.has(x.ts)){
+      list.push({ts:x.ts,title:String(x.title||''),text:x.text,symbols:Array.isArray(x.symbols)?x.symbols.map(String):[],moods:Array.isArray(x.moods)?x.moods.map(String):[],
+        ...(x.vivid?{vivid:Math.max(1,Math.min(5,x.vivid|0))}:{}),...(x.lucid?{lucid:true}:{}),...(x.recur?{recur:true}:{})}); have.add(x.ts); added++; } });
+    list.sort((a,b)=>b.ts-a.ts); saveEntries(list); renderEntries();
+    toast(added?`✦ Restored ${added} dream${added>1?'s':''}`:'Those dreams are already here');
+  }catch(err){ toast('⚠ That file is not a dream journal backup'); }
 });
 
+/* ---------- drifting stars and bubbles ---------- */
+(function(){
+  if(REDUCE) return; const d=$('#drift'); const small=innerWidth<600;
+  const glyphs=['✦','✧','⋆','·','✦'];
+  for(let i=0;i<(small?18:34);i++){ const s=document.createElement('span'); s.className='mote'; s.textContent=rand(glyphs);
+    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--s:${6+Math.random()*12}px;--d:${4+Math.random()*6}s;--w:${-Math.random()*8}s;--o:${.35+Math.random()*.5};color:${rand(['#fff','#ffe3a3','#ffa8d9','#9fe3ff','#c9a8ff'])}`;
+    d.appendChild(s); }
+  for(let i=0;i<(small?4:8);i++){ const b=document.createElement('span'); b.className='bubble'; const z=14+Math.random()*34;
+    b.style.cssText=`left:${Math.random()*100}%;width:${z}px;height:${z}px;--d:${22+Math.random()*20}s;--w:${-Math.random()*40}s;--x:${(Math.random()-.5)*120}px`;
+    d.appendChild(b); }
+})();
+
+loadDraft();
 renderEntries();
 </script>
 <script src="mm-nav.js?v=3" defer></script>
 <script src="mm-store.js?v=1" defer></script>
+<script src="mm-chapterpage.js?v=1" defer></script>
+<script src="mm-wand.js" defer></script>
 </body>
 </html>
