@@ -295,24 +295,16 @@ footer a:hover{color:var(--cream)}
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <link rel="stylesheet" href="mm-pagebar.css?v=1">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=IBM+Plex+Mono:wght@400;500;700&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mm-chapterpage.css?v=1">
 </head>
-<body>
+<body class="cp" style="--acc:#ff5c8a;--cp-bg:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px),radial-gradient(60% 60% at 85% 20%,rgba(255,36,64,.3),transparent 70%),radial-gradient(50% 60% at 0% 100%,rgba(208,107,255,.24),transparent 70%),linear-gradient(180deg,#14051f,#1d0828)">
 
 <div id="stars"></div>
 <div class="holo-bar"></div>
 
-<header>
-  <div class="site-title">✦ NOTES ARCHIVE ✦</div>
-  <div class="site-sub">☆ every transmission, never lost ☆</div>
-  <div class="stats-row">Searchable archive of <span id="totalCount">0</span> notes &nbsp;·&nbsp; <span id="dateSpan"></span></div>
-  <nav class="nav-links">
-    <a href="blog.html">✦ BLOG ✦</a>
-    <a href="articles.html">📰 ARTICLES</a>
-    <a href="archive.html">📚 ARTICLE ARCHIVE</a>
-    <a href="https://magickmica.substack.com/notes" target="_blank">📺 LIVE NOTES</a>
-    <a href="https://magickmica.github.io" target="_blank">🌐 HOME</a>
-  </nav>
-</header>
+<header class="cp-open"><div class="cp-in"><div class="cp-rv"><p class="cp-k">Chapter 01 · The Transmissions</p><h1 class="cp-h">Every note, <em>never lost</em></h1><p class="cp-lede">Every art note, cosmic dispatch and late-night transmission, all in one searchable archive. Search a word, pick a date, or let fate choose one.</p><p class="cp-stats">Searchable archive of <span id="totalCount">0</span> notes &nbsp;·&nbsp; <span id="dateSpan"></span></p><div class="cp-btns"><a class="cp-btn " href="#search">Search the notes ↓</a><a class="cp-btn ghost" href="explore/">Explore the Notes</a></div></div><figure class="cp-art cp-rv d2"><div class="cp-port"><img src="char-glitch-angel.png" width="560" height="560" alt="The Glitch Angel, a pixel-art angel with crystal wings holding a hand mirror" decoding="async"></div><figcaption class="cp-cap">Your host · The Glitch Angel</figcaption></figure></div></header>
+<nav class="nav-links cp-nav" aria-label="Reading room"><a href="index.html#read">← Home</a><a href="notes.html">Notes</a><a href="blog.html">Blog</a><a href="articles.html">Articles</a><a href="minimags.html">Y3K Magazine</a><a href="archive.html">Archive</a><a href="explore/">Explore the Notes</a><a href="reader/">Reader 98</a><a href="https://magickmica.substack.com/notes" target="_blank" rel="noopener">Live notes ↗</a></nav>
 
 <!-- mm-otherways --><style>.other-ways{position:relative;z-index:2;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.5rem .6rem;margin:.2rem auto 1rem;padding:0 1rem;max-width:960px}.other-ways span{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;color:var(--ink-dim)}.other-ways a{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;color:var(--mint);text-decoration:none;padding:.4rem .8rem;border:1px solid rgba(95,232,208,.35);border-radius:999px;background:rgba(95,232,208,.06)}.other-ways a:hover,.other-ways a:focus-visible{color:var(--void);background:var(--mint);border-color:var(--mint)}</style><nav class="other-ways" aria-label="Other ways to read the notes"><span>OTHER WAYS TO READ</span><a href="explore/">✦ EXPLORE THE NOTES</a><a href="reader/">✉ TRANSMISSION READER 98</a><a href="almanac/">☽ Y3K ALMANAC</a></nav><!-- /mm-otherways -->
 
@@ -708,5 +700,6 @@ render();
 <script src="mm-store.js?v=1" defer></script>
 <script src="mm-subscribe.js?v=3" defer></script>
 <script src="crystal-hunt.js?v=1" defer></script>
+<script src="mm-chapterpage.js?v=1" defer></script>
 </body>
 </html>

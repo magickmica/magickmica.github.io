@@ -326,21 +326,16 @@ footer{margin-top:clamp(40px,6vw,64px); padding-top:1.4rem; border-top:1px solid
 <meta property="og:image" content="https://magickmica.github.io/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=IBM+Plex+Mono:wght@400;500;700&family=Silkscreen&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mm-chapterpage.css?v=1">
 </head>
-<body>
+<body class="cp" style="--acc:#e7b8ff;--cp-bg:radial-gradient(60% 60% at 85% 20%,rgba(231,184,255,.25),transparent 70%),radial-gradient(50% 60% at 0% 100%,rgba(102,232,242,.14),transparent 70%),linear-gradient(180deg,#1e1036,#2b1450)">
 
 <div id="stars"></div>
 <div class="holo-bar"></div>
 
-<header>
-  <div class="site-title">✦ ARTICLES ✦</div>
-  <div class="site-sub">the full magazine ✧ every issue, every story</div>
-  <nav class="nav-links">
-    <a href="blog.html">✦ BLOG HOME ✦</a>
-    <a href="notes.html">📝 NOTES ARCHIVE</a>
-    <a href="https://magickmica.substack.com" target="_blank">📺 SUBSCRIBE</a>
-  </nav>
-</header>
+<header class="cp-open"><div class="cp-in"><div class="cp-rv"><p class="cp-k">The Magazine · Every issue</p><h1 class="cp-h">Every issue, <em>every story</em></h1><p class="cp-lede">The full magazine from Magick Mica TV and Magick Mica Art: every broadcast and feature, with the newest issue up front.</p><div class="cp-btns"><a class="cp-btn " href="#featuredSpotlight">Latest issue ↓</a><a class="cp-btn ghost" href="https://magickmica.substack.com/subscribe" target="_blank" rel="noopener">✦ Subscribe free</a></div></div><figure class="cp-art cp-rv d2"><div class="cp-port"><img src="char-crystal-oracle.png" width="560" height="560" alt="The Crystal Oracle holding a glowing orb, surrounded by tarot cards and crystals" decoding="async"></div><figcaption class="cp-cap">She already read them all · The Crystal Oracle</figcaption></figure></div></header>
+<nav class="nav-links cp-nav" aria-label="Reading room"><a href="index.html#read">← Home</a><a href="notes.html">Notes</a><a href="blog.html">Blog</a><a href="articles.html">Articles</a><a href="minimags.html">Y3K Magazine</a><a href="archive.html">Archive</a><a href="explore/">Explore the Notes</a><a href="reader/">Reader 98</a><a href="https://magickmica.substack.com/notes" target="_blank" rel="noopener">Live notes ↗</a></nav>
 
 <div class="controls">
   <div class="search-wrap">
@@ -611,5 +606,6 @@ render();
 <script src="mm-ads.js?v=1" defer></script>
 <script src="mm-subscribe.js?v=3" defer></script>
 <script src="crystal-hunt.js?v=1" data-geode defer></script>
+<script src="mm-chapterpage.js?v=1" defer></script>
 </body>
 </html>
