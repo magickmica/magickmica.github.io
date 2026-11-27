@@ -50,195 +50,388 @@
 }
 </script>
 <style>
+/* ===== Academy as chapters · built-in fonts only ===== */
 :root{
   --deep:#120418; --night:#21143d; --violet:#3b2585; --purple:#8c54e8; --pink:#d7609f; --cyan:#66e8f2; --gold:#ffce5c;
   --pearl:#e8e3f1; --pearl-hi:#fff; --pearl-lo:#8a819f; --pearl-dk:#4a4360; --paper:#fbfaff; --ink:#1a1530; --quiet:#5d5675; --select:#2b1f72;
   --title:linear-gradient(90deg,#3b2585,#8c54e8 40%,#d7609f 75%,#66e8f2);
-  --chrome:"Pixelify Sans",Tahoma,Verdana,"Segoe UI",sans-serif;
   --ui:Tahoma,Verdana,"Segoe UI","DejaVu Sans",sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Courier New",monospace;
+  --bar-h:52px;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;color:#efe8fb;font:16px/1.6 var(--ui);
-  background:radial-gradient(1000px 600px at 80% -10%,rgba(140,84,232,.35),transparent 70%),radial-gradient(900px 600px at -10% 40%,rgba(215,96,159,.18),transparent 70%),
-    radial-gradient(800px 600px at 100% 100%,rgba(102,232,242,.12),transparent 70%),var(--deep);background-attachment:fixed}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.6;
-  background-image:radial-gradient(1px 1px at 20px 30px,#fff,transparent 60%),radial-gradient(1px 1px at 140px 90px,rgba(255,255,255,.7),transparent 60%),
-  radial-gradient(1.5px 1.5px at 90px 170px,rgba(255,255,255,.8),transparent 60%),radial-gradient(1px 1px at 230px 210px,rgba(255,255,255,.6),transparent 60%);background-size:260px 240px}
+body{margin:0;color:#efe8fb;font:16px/1.6 var(--ui);background:var(--deep);overflow-x:hidden}
 a{color:var(--cyan)}
 img{display:block;max-width:100%;height:auto}
 :focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.wrap{position:relative;max-width:1120px;margin:0 auto;padding:0 20px}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0}
+
+/* site strip + chapter bar */
+.top{position:relative;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1280px;margin:0 auto;padding:14px clamp(16px,3vw,32px)}
 .top a{color:#d9cdf0;text-decoration:none;font:13px var(--mono);letter-spacing:.12em;text-transform:uppercase}
 .top a:hover{color:var(--gold)}
+.chn{position:sticky;top:0;z-index:40;height:var(--bar-h);display:flex;align-items:center;background:rgba(18,4,24,.84);
+  backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.08)}
+.chn ol{display:flex;gap:4px;margin:0 auto;padding:0 clamp(12px,3vw,32px);list-style:none;max-width:1280px;width:100%;overflow-x:auto;scrollbar-width:none;
+  -webkit-mask:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 24px),transparent);mask:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 24px),transparent)}
+.chn ol::-webkit-scrollbar{display:none}
+.chn a{display:flex;align-items:center;gap:7px;padding:9px 13px;border-radius:999px;white-space:nowrap;text-decoration:none;font:600 13px/1 var(--ui);color:#c9bfe2;transition:background .2s,color .2s}
+.chn a span{font:700 10px/1 var(--mono);color:#8d82ad}
+.chn a:hover{color:#fff;background:rgba(255,255,255,.07)}
+.chn a[aria-current="true"]{color:#120418;background:var(--cur,#ffce5c)}
+.chn a[aria-current="true"] span{color:#120418;opacity:.7}
 
-/* hero */
-.hero{padding:10px 0 8px;text-align:center}
-.eyebrow{font:13px var(--mono);letter-spacing:.3em;text-transform:uppercase;color:#f0a6cf}
-h1{margin:10px 0 10px;font:800 clamp(38px,7vw,74px)/1.02 var(--mono);letter-spacing:.02em;
-  background:linear-gradient(90deg,#d7a8ff,#66e8f2 35%,#ffce5c 60%,#f597c6 85%);-webkit-background-clip:text;background-clip:text;color:transparent}
-h1 small{display:block;font-size:.36em;letter-spacing:.12em;margin-top:6px}
-.lede{max-width:680px;margin:0 auto 22px;font-size:clamp(17px,2.1vw,20px);color:#e6dcf6}
+/* chapters */
+.ch{position:relative;isolation:isolate;overflow:hidden;padding:clamp(88px,11vw,156px) 0;scroll-margin-top:calc(var(--bar-h) - 2px)}
+.ch::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--bg)}
+.ch::after{content:"";position:absolute;left:0;right:0;bottom:0;height:130px;z-index:-1;pointer-events:none;background:linear-gradient(180deg,transparent,var(--next,transparent))}
+.in{position:relative;max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.k{display:inline-flex;align-items:center;gap:12px;margin:0 0 20px;font:700 13px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--acc)}
+.k::before{content:"";width:34px;height:2px;background:currentColor;box-shadow:0 0 12px currentColor}
+.h{margin:0 0 22px;font:800 clamp(38px,5.8vw,78px)/1.02 var(--mono);letter-spacing:-.01em;color:#fff;text-wrap:balance}
+.h em{font-style:normal;color:var(--acc)}
+.lede{margin:0 0 30px;max-width:42ch;font-size:clamp(17px,1.7vw,21px);line-height:1.6;color:#e6dcf6}
 .lede b{color:var(--gold)}
-.ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 14px;margin-bottom:10px}
-.go{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:999px;text-decoration:none;font:700 17px var(--ui);color:#2a1a05;
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(36px,6vw,96px);align-items:center}
+.split.flip>.art{order:-1}
+.art{position:relative}
+.glyph{position:absolute;z-index:-1;right:-6%;top:-18%;font-size:clamp(160px,22vw,300px);line-height:1;opacity:.16;filter:blur(1px) saturate(1.3);transform:rotate(-10deg);pointer-events:none}
+.split.flip .glyph{right:auto;left:-8%}
+
+/* buttons */
+.ctas{display:flex;flex-wrap:wrap;gap:12px 14px;align-items:center}
+.go{display:inline-flex;align-items:center;gap:10px;padding:16px 28px;border-radius:999px;text-decoration:none;font:700 17px var(--ui);color:#2a1a05;
   background:linear-gradient(180deg,#ffe08a,#ffc94a);box-shadow:0 6px 0 #b8862a,0 0 30px rgba(255,206,92,.45);transition:transform .12s,box-shadow .12s}
 .go:hover{transform:translateY(-2px);box-shadow:0 8px 0 #b8862a,0 0 40px rgba(255,206,92,.6)}
 .go:active{transform:translateY(3px);box-shadow:0 2px 0 #b8862a}
-.sub{display:inline-flex;align-items:center;padding:14px 22px;border-radius:999px;text-decoration:none;font:700 15px var(--ui);color:#efe8fb;border:1.5px solid rgba(102,232,242,.55)}
-.sub:hover{background:rgba(102,232,242,.12)}
-.fine{font-size:14px;color:#b8acd2;margin:4px 0 0}
-.banner{display:block;margin:26px auto 0;border-radius:16px;overflow:hidden;border:1px solid rgba(102,232,242,.35);box-shadow:0 0 50px -14px rgba(140,84,232,.8)}
-.banner img{aspect-ratio:4/1;width:100%}
+.sub{display:inline-flex;align-items:center;padding:15px 24px;border-radius:999px;text-decoration:none;font:700 15px var(--ui);color:#efe8fb;border:1.5px solid rgba(255,255,255,.45)}
+.sub:hover{background:rgba(255,255,255,.08);border-color:#fff}
+.fine{font-size:14px;color:#c3b7dc;margin:14px 0 0}
 
-/* sections */
-section{padding:46px 0 6px}
-h2{margin:0 0 6px;font:800 clamp(24px,3.2vw,32px)/1.15 var(--mono);color:#fff}
-h2 span{color:var(--pink)}
-.secl{margin:0 0 22px;color:#cfc3e8;max-width:720px}
-
-/* 98 windows */
-.depts{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+/* 98 window (the department "artwork") */
 .win{display:flex;flex-direction:column;background:var(--pearl);padding:3px;color:var(--ink);
-  box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 #f6f3fb,6px 8px 0 rgba(0,0,0,.28)}
-.tb{display:flex;align-items:center;gap:7px;padding:5px 6px;color:#fff;background:var(--title);font:700 13px/1 var(--mono);letter-spacing:.02em}
+  box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 #f6f3fb,0 40px 80px -24px rgba(0,0,0,.75),0 0 90px -20px var(--acc)}
+.tb{display:flex;align-items:center;gap:8px;padding:7px 7px 7px 9px;color:#fff;background:var(--title);font:700 14px/1 var(--mono)}
 .tb .b{margin-left:auto;display:flex;gap:3px}
-.tb .b i{width:16px;height:14px;background:var(--pearl);box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 #fff}
-.wb{flex:1;background:var(--paper);margin-top:3px;padding:14px 16px 16px;box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 #fff}
-.kick{font:700 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#8c54e8}
-.win h3{margin:3px 0 6px;font:800 21px/1.2 var(--mono);color:var(--select)}
-.win p{margin:0 0 10px;font-size:14.5px;color:var(--quiet)}
-.win ol{margin:0;padding:0;list-style:none;display:grid;gap:5px;counter-reset:l}
-.win li{counter-increment:l;display:flex;gap:8px;align-items:center;font-size:13.5px;padding:5px 8px;background:#fff;box-shadow:inset 1px 1px 0 #d6cfe6,inset -1px -1px 0 #fff,0 0 0 1px #e9e4f3}
-.win li::before{content:counter(l);flex:none;width:20px;height:20px;display:grid;place-items:center;font:700 11px var(--mono);color:var(--select);background:#ece6fa}
+.tb .b i{width:18px;height:16px;background:var(--pearl);box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 #fff}
+.wb{flex:1;background:var(--paper);margin-top:3px;padding:20px 22px 22px;box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 #fff}
+.kick{font:700 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#8c54e8}
+.wb h3{margin:4px 0 14px;font:800 24px/1.2 var(--mono);color:var(--select)}
+.win ol{margin:0;padding:0;list-style:none;display:grid;gap:7px;counter-reset:l}
+.win li{counter-increment:l;display:flex;gap:10px;align-items:center;font-size:15px;padding:8px 10px;background:#fff;box-shadow:inset 1px 1px 0 #d6cfe6,inset -1px -1px 0 #fff,0 0 0 1px #e9e4f3}
+.win li::before{content:counter(l);flex:none;width:24px;height:24px;display:grid;place-items:center;font:700 12px var(--mono);color:var(--select);background:#ece6fa}
 .win li.more{color:var(--quiet);font-style:italic}
 .win li.more::before{content:"+"}
+.task{display:flex;justify-content:space-between;gap:10px;margin-top:3px;padding:4px 6px;font:12px var(--ui);color:var(--ink)}
+.task span{padding:3px 9px;box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 #fff}
+.task span+span{box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 #fff}
 
-/* extras */
-.extras{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-.ex{padding:16px 16px 14px;border-radius:14px;background:rgba(33,20,61,.75);border:1px solid rgba(140,84,232,.4)}
-.ex .e{font-size:28px;line-height:1}
-.ex h3{margin:8px 0 4px;font:700 17px var(--mono);color:#fff}
-.ex p{margin:0;font-size:14.5px;color:#cfc3e8}
+/* editorial list */
+.list{list-style:none;margin:clamp(48px,6vw,80px) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid rgba(255,255,255,.16)}
+.list li{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;padding:26px 18px 26px 0;border-bottom:1px solid rgba(255,255,255,.16)}
+.list .e{grid-row:span 2;font-size:34px;line-height:1}
+.list h3{margin:0;font:800 20px/1.2 var(--mono);color:#fff}
+.list p{margin:0;font-size:15px;color:#d3c8ea}
 
 /* steps */
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:s}
-.step{position:relative;padding:20px 18px 16px;border-radius:14px;background:rgba(33,20,61,.75);border:1px solid rgba(102,232,242,.3)}
-.step::before{counter-increment:s;content:counter(s);position:absolute;top:-14px;left:16px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
-  font:800 15px var(--mono);color:#2a1a05;background:var(--gold)}
-.step h3{margin:4px 0 4px;font:700 17px var(--mono);color:#fff}
-.step p{margin:0;font-size:14.5px;color:#cfc3e8}
+.steps{list-style:none;margin:clamp(48px,6vw,80px) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,56px);counter-reset:s}
+.steps li{counter-increment:s;border-top:2px solid var(--acc);padding-top:22px}
+.steps li::before{content:"0" counter(s);display:block;margin-bottom:12px;font:800 clamp(48px,6vw,80px)/1 var(--mono);color:var(--acc)}
+.steps h3{margin:0 0 6px;font:800 22px/1.2 var(--mono);color:#fff}
+.steps p{margin:0;font-size:16px;color:#e6dcf6}
 
 /* faq */
-.faq details{border-bottom:1px solid rgba(140,84,232,.35);padding:12px 2px}
-.faq summary{cursor:pointer;font:700 17px var(--mono);color:#fff;list-style:none}
+.faq{margin-top:clamp(40px,5vw,64px);max-width:860px}
+.faq details{border-bottom:1px solid rgba(255,255,255,.18);padding:20px 2px}
+.faq summary{cursor:pointer;font:800 clamp(18px,1.8vw,22px)/1.3 var(--mono);color:#fff;list-style:none}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::before{content:"▸ ";color:var(--pink)}
+.faq summary::before{content:"▸ ";color:var(--acc)}
 .faq details[open] summary::before{content:"▾ "}
-.faq p{margin:8px 0 2px;color:#d9cdf0;max-width:760px}
+.faq p{margin:10px 0 2px;font-size:17px;color:#e6dcf6;max-width:720px}
 
-.final{margin:50px 0 0;padding:30px 22px;text-align:center;border-radius:18px;
-  background:radial-gradient(120% 140% at 100% 0,#3b2585 0,#21143d 55%,#120418 100%);border:1px solid rgba(102,232,242,.35)}
-.final h2{margin-bottom:8px}
-.final p{color:#d9cdf0;margin:0 0 18px}
-footer{padding:30px 0 40px;text-align:center;font-size:13.5px;color:#a297bf}
+/* opening */
+.c-open{--acc:#66e8f2;--bg:radial-gradient(900px 600px at 80% 0%,rgba(140,84,232,.4),transparent 70%),radial-gradient(800px 600px at 0% 80%,rgba(215,96,159,.22),transparent 70%),#120418;--next:#0d2a22;
+  min-height:calc(100svh - var(--bar-h) - 52px);display:flex;align-items:center;padding:clamp(48px,7vw,96px) 0 clamp(80px,9vw,130px)}
+.c-open .in{width:100%}
+.eyebrow{margin:0 0 14px;font:700 13px var(--mono);letter-spacing:.28em;text-transform:uppercase;color:#f0a6cf}
+h1{margin:0 0 18px;font:800 clamp(46px,6vw,88px)/1 var(--mono);letter-spacing:.01em;
+  background:linear-gradient(90deg,#d7a8ff,#66e8f2 35%,#ffce5c 60%,#f597c6 85%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 small{display:block;margin-top:12px;font-size:.3em;letter-spacing:.1em}
+.scholar{width:min(440px,100%);margin:0 auto;filter:drop-shadow(0 30px 60px rgba(140,84,232,.6))}
+.banner{display:block;margin:clamp(56px,7vw,90px) 0 0;border-radius:22px;overflow:hidden;border:1px solid rgba(102,232,242,.4);box-shadow:0 0 90px -20px rgba(140,84,232,.9);transition:transform .3s}
+.banner:hover{transform:translateY(-4px)}
+.banner img{aspect-ratio:4/1;width:100%}
+.cue{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font:700 11px var(--mono);letter-spacing:.2em;color:#c9bfe2;text-decoration:none;text-transform:uppercase}
+.cue::after{content:"";width:2px;height:34px;background:linear-gradient(var(--gold),transparent);animation:cue 2s infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* department worlds */
+.c-d1{--acc:#7ee3a4;--bg:radial-gradient(70% 60% at 85% 20%,rgba(126,227,164,.2),transparent 70%),linear-gradient(180deg,#0d2a22,#103428 55%,#0e2c25);--next:#2a0d2a}
+.c-d1::before{background:radial-gradient(70% 60% at 85% 20%,rgba(126,227,164,.2),transparent 70%),radial-gradient(1px 1px at 20% 30%,#cfffe0,transparent),radial-gradient(1px 1px at 70% 80%,#cfffe0,transparent),linear-gradient(180deg,#0d2a22,#103428 55%,#0e2c25)}
+.c-d2{--acc:#ff9dd8;--bg:radial-gradient(60% 60% at 10% 30%,rgba(255,157,216,.22),transparent 70%),repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px),linear-gradient(180deg,#2a0d2a,#381239 55%,#2c0f2e);--next:#2d1a0c}
+.c-d3{--acc:#ffb86b;--bg:radial-gradient(60% 60% at 90% 70%,rgba(255,184,107,.22),transparent 70%),linear-gradient(180deg,#2d1a0c,#3a2210 55%,#2b190d);--next:#0a2236}
+.c-d4{--acc:#6fc3ff;--bg:linear-gradient(rgba(111,195,255,.06) 1px,transparent 1px) 0 0/36px 36px,linear-gradient(90deg,rgba(111,195,255,.06) 1px,transparent 1px) 0 0/36px 36px,radial-gradient(60% 60% at 15% 20%,rgba(111,195,255,.22),transparent 70%),linear-gradient(180deg,#0a2236,#0d2c46 55%,#0b2540);--next:#1d0f3e}
+.c-d5{--acc:#bda7ff;--bg:repeating-conic-gradient(from 0deg at 80% 40%,rgba(189,167,255,.08) 0 10deg,transparent 10deg 20deg),radial-gradient(50% 50% at 80% 40%,rgba(189,167,255,.3),transparent 70%),linear-gradient(180deg,#1d0f3e,#26134f 55%,#1c0e3c);--next:#060a1e}
+.c-d6{--acc:#9fe8ff;--bg:radial-gradient(1.5px 1.5px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 32% 62%,#fff,transparent),radial-gradient(2px 2px at 64% 12%,#fff,transparent),radial-gradient(1px 1px at 82% 48%,#fff,transparent),radial-gradient(1.5px 1.5px at 92% 82%,#cfe9ff,transparent),radial-gradient(1px 1px at 48% 88%,#fff,transparent),radial-gradient(60% 60% at 20% 80%,rgba(159,232,255,.14),transparent 70%),linear-gradient(180deg,#060a1e,#0a1230 55%,#080d26);--next:#2b0f22}
+.c-d7{--acc:#ffd86b;--bg:radial-gradient(40% 50% at 10% 20%,rgba(255,157,216,.25),transparent 70%),radial-gradient(40% 50% at 90% 30%,rgba(102,232,242,.2),transparent 70%),radial-gradient(50% 50% at 50% 100%,rgba(255,216,107,.22),transparent 70%),linear-gradient(180deg,#2b0f22,#331434 55%,#22102e);--next:#1b1150}
+.c-desk{--acc:#66e8f2;--bg:linear-gradient(180deg,transparent 55%,rgba(102,232,242,.08)),linear-gradient(rgba(102,232,242,.1) 1px,transparent 1px) 0 100%/100% 44px,radial-gradient(70% 50% at 50% 0%,rgba(140,84,232,.35),transparent 70%),linear-gradient(180deg,#1b1150,#160e44);--next:#2a0a1e}
+.c-enroll{--acc:#ffce5c;--bg:radial-gradient(80% 70% at 50% 110%,rgba(255,206,92,.3),rgba(255,36,64,.2) 40%,transparent 75%),linear-gradient(180deg,#2a0a1e,#2b0c2a);--next:#120418}
+.c-faq{--acc:#f597c6;--bg:linear-gradient(180deg,#120418,#170824);--next:#170824}
+.c-final{--acc:#66e8f2;--bg:radial-gradient(120% 140% at 100% 0,#3b2585 0,#21143d 55%,#120418 100%);text-align:center}
+.c-final::after{display:none}
+.c-final .lede{margin-left:auto;margin-right:auto}
+.c-final .ctas{justify-content:center}
+.c-d1::before,.c-d2::before,.c-d3::before,.c-d4::before,.c-d5::before,.c-d6::before,.c-d7::before,.c-desk::before,.c-enroll::before,.c-faq::before,.c-final::before,.c-open::before{background:var(--bg)}
+.center{text-align:center;max-width:860px;margin:0 auto}
+.center .lede{margin-left:auto;margin-right:auto}
+.center .ctas{justify-content:center}
+footer{padding:44px 0 0;text-align:center;font-size:13.5px;color:#a297bf}
 footer a{color:#d9cdf0;margin:0 8px}
 
-@media (max-width:760px){
-  .steps{grid-template-columns:1fr;gap:22px}
-  .depts{grid-template-columns:1fr}
+/* reveal */
+.rv{opacity:0;transform:translateY(32px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv.on{opacity:1;transform:none}
+.rv.d2{transition-delay:.2s}
+.no-io .rv{opacity:1;transform:none}
+
+@media (max-width:1000px){.list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:820px){
+  .split{grid-template-columns:minmax(0,1fr)}
+  .split.flip>.art{order:1}
+  .glyph{font-size:180px;top:-30%;right:-4%}
+  .scholar{width:min(260px,70%)}
+  .c-open{min-height:0}
+  .cue{display:none}
+  .steps{grid-template-columns:minmax(0,1fr)}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.go{transition:none}}
+@media (max-width:600px){
+  .ch{padding:76px 0 84px}
+  .list{grid-template-columns:minmax(0,1fr)}
+  .chn a span{display:none}
+  .k{letter-spacing:.14em;font-size:12px}
+  .wb{padding:16px}
+  .win li{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.go,.banner{transition:none}.rv{opacity:1;transform:none;transition:none}.cue::after{animation:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <nav class="top" aria-label="Site"><a href="../">← Magick Mica</a><a href="https://magickmica-members.vercel.app/academy/">Members sign in →</a></nav>
+<nav class="top" aria-label="Site"><a href="../">← Magick Mica</a><a href="https://magickmica-members.vercel.app/academy/">Members sign in →</a></nav>
+<nav class="chn" aria-label="Chapters on this page"><ol>
+<li><a href="#welcome" data-c="#66e8f2"><span>00</span>Welcome</a></li>
+<li><a href="#foundations" data-c="#7ee3a4"><span>01</span>Foundations</a></li>
+<li><a href="#prompt-lab" data-c="#ff9dd8"><span>02</span>Prompt Lab</a></li>
+<li><a href="#claude" data-c="#ffb86b"><span>03</span>Claude</a></li>
+<li><a href="#claude-code" data-c="#6fc3ff"><span>04</span>Claude Code</a></li>
+<li><a href="#mcp" data-c="#bda7ff"><span>05</span>MCP</a></li>
+<li><a href="#agents" data-c="#9fe8ff"><span>06</span>Agents</a></li>
+<li><a href="#studio" data-c="#ffd86b"><span>07</span>Creative Studio</a></li>
+<li><a href="#desktop" data-c="#66e8f2"><span>08</span>The desktop</a></li>
+<li><a href="#enroll" data-c="#ffce5c"><span>09</span>Enroll</a></li>
+<li><a href="#questions" data-c="#f597c6"><span>10</span>Questions</a></li>
+</ol></nav>
 
-  <header class="hero">
-    <div class="eyebrow">Magick Mica · MagickOS 98 Academy Edition</div>
-    <h1>AI Academy<small>A secret computer school from 1998</small></h1>
-    <p class="lede">Learn AI one cozy window at a time. <b>82 bite-size lessons</b> on how AI works, writing better prompts, working with Claude, building websites with Claude Code, MCP and AI agents, plus a Creative Studio for AI art.</p>
-    <div class="ctas">
-      <a class="go" href="https://magickmica-members.vercel.app/academy/">✦ Step inside the Academy →</a>
-      <a class="sub" href="https://magickmica.substack.com/subscribe" target="_blank" rel="noopener">Not a subscriber? Join free</a>
-    </div>
-    <p class="fine">Free for Magick Mica newsletter subscribers. Your curiosity is the password.</p>
-    <a class="banner" href="https://magickmica-members.vercel.app/academy/" aria-label="Step inside the Magick Mica AI Academy">
-      <picture><source srcset="academy-banner.webp" type="image/webp"><img src="academy-banner.gif" width="1200" height="300" alt="Animated banner: the Magick Mica AI Academy, with a crystal ball in a graduation cap and a MagickOS 98 window cycling through the Prompt Lab, the Creative Studio and the Daily Signal"></picture>
-    </a>
-  </header>
-
-  <section aria-labelledby="dept-h">
-    <h2 id="dept-h">The departments <span>✦</span></h2>
-    <p class="secl">Each department is its own window on the Academy desktop. Lessons are short: an idea, why it matters, an example to try, and a quick check.</p>
-    <div class="depts">
-      <article class="win"><div class="tb">🌱 Department 01<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
-        <div class="kick">School of AI</div><h3>AI Foundations</h3><p>What AI is, how it writes its answers, and how to use it safely.</p>
-        <ol><li>Hello, Artificial Intelligence</li><li>What Is a Large Language Model?</li><li>How AI Generates Answers</li><li>Hallucinations, Errors and Fact Checking</li><li class="more">and more, through Your First AI Collaboration</li></ol></div></article>
-      <article class="win"><div class="tb">🧪 Department 02<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
-        <div class="kick">Prompt Lab</div><h3>Prompt Engineering</h3><p>The building blocks of a prompt that gets you what you meant.</p>
-        <ol><li>The Anatomy of a Good Prompt</li><li>Give AI a Role</li><li>Define the Task</li><li>Add Context</li><li>Set Constraints</li><li>Give Examples</li><li class="more">and more, up to your own Prompt Library</li></ol></div></article>
-      <article class="win"><div class="tb">💬 Department 03<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
-        <div class="kick">Claude Workshop</div><h3>Working with Claude</h3><p>Conversations, documents, projects, research and artifacts.</p>
-        <ol><li>Meet Claude</li><li>Giving Claude Context</li><li>Using Projects and Project Instructions</li><li>Understanding Artifacts</li><li class="more">and more, including Knowing When to Verify</li></ol></div></article>
-      <article class="win"><div class="tb">🛠️ Department 04<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
-        <div class="kick">Building with AI</div><h3>Claude Code Garage</h3><p>From "what is a file?" to your own website online, no experience needed.</p>
-        <ol><li>What Is Claude Code?</li><li>HTML, CSS and JavaScript, gently</li><li>Build a Tiny Website</li><li>Find and Fix a Bug</li><li>GitHub Pages: Put Your Website Online</li><li class="more">and more</li></ol></div></article>
-      <article class="win"><div class="tb">🌀 Department 05<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
-        <div class="kick">Model Context Protocol</div><h3>MCP Portal</h3><p>How AI apps connect to tools and data, in plain language.</p>
-        <ol><li>What Is MCP?</li><li>The Client, Server and Host</li><li>What Happens During a Tool Call?</li><li>Permissions and Trust</li><li>MCP Security Basics</li><li class="more">and more</li></ol></div></article>
-      <article class="win"><div class="tb">🔭 Department 06<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
-        <div class="kick">AI Agents</div><h3>Agent Observatory</h3><p>What makes an agent different from a chatbot, and how to keep it safe.</p>
-        <ol><li>What Is an AI Agent?</li><li>The Observe → Plan → Act → Check Loop</li><li>Human Approval</li><li>Agent Safety and Boundaries</li><li>Design Your First Agent Workflow</li><li class="more">and more</li></ol></div></article>
-      <article class="win"><div class="tb">🎨 Department 07<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
-        <div class="kick">Creative Studio · New</div><h3>AI Art &amp; Style Recipes</h3><p>Prompting for images: subjects, styles, palettes and moods you can mix like a recipe.</p>
-        <ol><li>The Style Recipe Mixer</li><li class="more">and more in the studio</li></ol></div></article>
-    </div>
-  </section>
-
-  <section aria-labelledby="ex-h">
-    <h2 id="ex-h">Also on the desktop <span>✦</span></h2>
-    <p class="secl">Little rooms that make the learning stick.</p>
-    <div class="extras">
-      <div class="ex"><div class="e">📡</div><h3>Daily Signal</h3><p>A two-minute lesson a day, with a streak that keeps glowing.</p></div>
-      <div class="ex"><div class="e">🕹️</div><h3>Quiz Arcade</h3><p>One cabinet per department. Test yourself, no pressure.</p></div>
-      <div class="ex"><div class="e">🏆</div><h3>Certificate Cabinet</h3><p>Little victories and certificates as you finish lessons and departments.</p></div>
-      <div class="ex"><div class="e">📖</div><h3>AI Dictionary</h3><p>Friendly definitions of AI words, each with a little analogy.</p></div>
-      <div class="ex"><div class="e">🧰</div><h3>Project Workshop</h3><p>Guided projects, like building your own personal prompt library.</p></div>
-      <div class="ex"><div class="e">👾</div><h3>PIXEL</h3><p>Your tiny pixel guide, popping up with hints along the way.</p></div>
-    </div>
-  </section>
-
-  <section aria-labelledby="how-h">
-    <h2 id="how-h">How to enroll <span>✦</span></h2>
-    <p class="secl">It takes about a minute.</p>
-    <div class="steps">
-      <div class="step"><h3>Subscribe free</h3><p>Join the Magick Mica newsletter on <a href="https://magickmica.substack.com/subscribe" target="_blank" rel="noopener">Substack</a>. It costs nothing.</p></div>
-      <div class="step"><h3>Step inside</h3><p>Open the <a href="https://magickmica-members.vercel.app/academy/">members Academy</a> and sign in as a subscriber.</p></div>
-      <div class="step"><h3>Learn at your pace</h3><p>Pick any department and go a few minutes at a time.</p></div>
-    </div>
-  </section>
-
-  <section class="faq" aria-labelledby="faq-h">
-    <h2 id="faq-h">Questions <span>✦</span></h2>
-    <details><summary>Is the Magick Mica AI Academy free?</summary><p>Yes. It's free for Magick Mica newsletter subscribers, and subscribing on Substack is free too.</p></details>
-    <details><summary>Do I need to know how to code?</summary><p>No. The Academy starts from zero with what AI is and how to talk to it. The Claude Code Garage teaches files, HTML, CSS and JavaScript one small step at a time.</p></details>
-    <details><summary>What is MCP?</summary><p>MCP, the Model Context Protocol, is an open standard that lets AI apps connect to tools and data. The MCP Portal explains clients, servers, tool calls, permissions and security in plain language.</p></details>
-    <details><summary>How long are the lessons?</summary><p>A few minutes each. The Daily Signal is a two-minute lesson a day with a streak counter, if you like a little routine.</p></details>
-    <details><summary>Why does it look like a computer from 1998?</summary><p>Because learning feels better when it's playful. The Academy runs on MagickOS 98, the same retro desktop as <a href="../desktop/">Magick Mica's MagickOS 98</a>: icons, windows, a Start menu and a taskbar.</p></details>
-  </section>
-
-  <div class="final">
-    <h2>Your curiosity is the password</h2>
-    <p>82 lessons, seven departments, one cozy desktop.</p>
-    <div class="ctas"><a class="go" href="https://magickmica-members.vercel.app/academy/">✦ Step inside →</a><a class="sub" href="https://magickmica.substack.com/subscribe" target="_blank" rel="noopener">Subscribe free</a></div>
-  </div>
-
-  <footer><a href="../">Magick Mica</a>·<a href="../desktop/">MagickOS 98</a>·<a href="https://substack.com/@magickmica" target="_blank" rel="noopener">@magickmica on Substack</a></footer>
+<main>
+<!-- 00 · welcome -->
+<header class="ch c-open" id="welcome">
+<div class="in">
+<div class="split">
+<div class="rv">
+<p class="eyebrow">Magick Mica · MagickOS 98 Academy Edition</p>
+<h1>AI Academy<small>A secret computer school from 1998</small></h1>
+<p class="lede">Learn AI one cozy window at a time. <b>82 bite-size lessons</b> on how AI works, writing better prompts, working with Claude, building websites with Claude Code, MCP and AI agents, plus a Creative Studio for AI art.</p>
+<div class="ctas"><a class="go" href="https://magickmica-members.vercel.app/academy/">✦ Step inside the Academy →</a><a class="sub" href="https://magickmica.substack.com/subscribe" target="_blank" rel="noopener">Not a subscriber? Join free</a></div>
+<p class="fine">Free for Magick Mica newsletter subscribers. Your curiosity is the password.</p>
 </div>
+<div class="art rv d2"><img class="scholar" src="crystal-scholar.svg" width="440" height="440" alt="The Crystal Scholar: an iridescent crystal ball wearing a graduation cap"></div>
+</div>
+<a class="banner rv" href="https://magickmica-members.vercel.app/academy/" aria-label="Step inside the Magick Mica AI Academy">
+<picture><source srcset="academy-banner.webp" type="image/webp"><img src="academy-banner.gif" width="1200" height="300" alt="Animated banner: the Magick Mica AI Academy, with a crystal ball in a graduation cap and a MagickOS 98 window cycling through the Prompt Lab, the Creative Studio and the Daily Signal"></picture></a>
+</div>
+<a class="cue" href="#foundations">Scroll to class</a>
+</header>
+
+<!-- 01 · foundations -->
+<section class="ch c-d1" id="foundations" aria-labelledby="d1-h">
+<div class="in"><div class="split">
+<div class="rv">
+<p class="k">Department 01 · School of AI</p>
+<h2 class="h" id="d1-h">AI <em>Foundations</em></h2>
+<p class="lede">What AI is, how it writes its answers, and how to use it safely. This is where every student starts: no jargon, no experience needed.</p>
+<p class="fine">Lessons are short: an idea, why it matters, an example to try, and a quick check.</p>
+</div>
+<div class="art rv d2"><span class="glyph" aria-hidden="true">🌱</span>
+<article class="win"><div class="tb">🌱 Department 01<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+<div class="kick">School of AI</div><h3>AI Foundations</h3>
+<ol><li>Hello, Artificial Intelligence</li><li>What Is a Large Language Model?</li><li>How AI Generates Answers</li><li>Hallucinations, Errors and Fact Checking</li><li class="more">and more, through Your First AI Collaboration</li></ol></div>
+<div class="task" aria-hidden="true"><span>Start</span><span>📡 lesson 1 of 82</span></div></article></div>
+</div></div>
+</section>
+
+<!-- 02 · prompt lab -->
+<section class="ch c-d2" id="prompt-lab" aria-labelledby="d2-h">
+<div class="in"><div class="split flip">
+<div class="art rv"><span class="glyph" aria-hidden="true">🧪</span>
+<article class="win"><div class="tb">🧪 Department 02<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+<div class="kick">Prompt Lab</div><h3>Prompt Engineering</h3>
+<ol><li>The Anatomy of a Good Prompt</li><li>Give AI a Role</li><li>Define the Task</li><li>Add Context</li><li>Set Constraints</li><li>Give Examples</li><li class="more">and more, up to your own Prompt Library</li></ol></div></article></div>
+<div class="rv d2">
+<p class="k">Department 02 · Prompt Lab</p>
+<h2 class="h" id="d2-h">Prompt <em>Engineering</em></h2>
+<p class="lede">The building blocks of a prompt that gets you what you meant. Mix a role, a task, context and examples, and watch the answers change.</p>
+</div>
+</div></div>
+</section>
+
+<!-- 03 · claude -->
+<section class="ch c-d3" id="claude" aria-labelledby="d3-h">
+<div class="in"><div class="split">
+<div class="rv">
+<p class="k">Department 03 · Claude Workshop</p>
+<h2 class="h" id="d3-h">Working with <em>Claude</em></h2>
+<p class="lede">Conversations, documents, projects, research and artifacts. Learn how to give Claude the right context and when to double-check its work.</p>
+</div>
+<div class="art rv d2"><span class="glyph" aria-hidden="true">💬</span>
+<article class="win"><div class="tb">💬 Department 03<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+<div class="kick">Claude Workshop</div><h3>Working with Claude</h3>
+<ol><li>Meet Claude</li><li>Giving Claude Context</li><li>Using Projects and Project Instructions</li><li>Understanding Artifacts</li><li class="more">and more, including Knowing When to Verify</li></ol></div></article></div>
+</div></div>
+</section>
+
+<!-- 04 · claude code -->
+<section class="ch c-d4" id="claude-code" aria-labelledby="d4-h">
+<div class="in"><div class="split flip">
+<div class="art rv"><span class="glyph" aria-hidden="true">🛠️</span>
+<article class="win"><div class="tb">🛠️ Department 04<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+<div class="kick">Building with AI</div><h3>Claude Code Garage</h3>
+<ol><li>What Is Claude Code?</li><li>HTML, CSS and JavaScript, gently</li><li>Build a Tiny Website</li><li>Find and Fix a Bug</li><li>GitHub Pages: Put Your Website Online</li><li class="more">and more</li></ol></div></article></div>
+<div class="rv d2">
+<p class="k">Department 04 · Building with AI</p>
+<h2 class="h" id="d4-h">Claude Code <em>Garage</em></h2>
+<p class="lede">From "what is a file?" to your own website online, no experience needed. Files, HTML, CSS and JavaScript, one small step at a time.</p>
+</div>
+</div></div>
+</section>
+
+<!-- 05 · mcp -->
+<section class="ch c-d5" id="mcp" aria-labelledby="d5-h">
+<div class="in"><div class="split">
+<div class="rv">
+<p class="k">Department 05 · Model Context Protocol</p>
+<h2 class="h" id="d5-h">The MCP <em>Portal</em></h2>
+<p class="lede">How AI apps connect to tools and data, in plain language: clients, servers, tool calls, permissions and keeping it all secure.</p>
+</div>
+<div class="art rv d2"><span class="glyph" aria-hidden="true">🌀</span>
+<article class="win"><div class="tb">🌀 Department 05<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+<div class="kick">Model Context Protocol</div><h3>MCP Portal</h3>
+<ol><li>What Is MCP?</li><li>The Client, Server and Host</li><li>What Happens During a Tool Call?</li><li>Permissions and Trust</li><li>MCP Security Basics</li><li class="more">and more</li></ol></div></article></div>
+</div></div>
+</section>
+
+<!-- 06 · agents -->
+<section class="ch c-d6" id="agents" aria-labelledby="d6-h">
+<div class="in"><div class="split flip">
+<div class="art rv"><span class="glyph" aria-hidden="true">🔭</span>
+<article class="win"><div class="tb">🔭 Department 06<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+<div class="kick">AI Agents</div><h3>Agent Observatory</h3>
+<ol><li>What Is an AI Agent?</li><li>The Observe → Plan → Act → Check Loop</li><li>Human Approval</li><li>Agent Safety and Boundaries</li><li>Design Your First Agent Workflow</li><li class="more">and more</li></ol></div></article></div>
+<div class="rv d2">
+<p class="k">Department 06 · AI Agents</p>
+<h2 class="h" id="d6-h">Agent <em>Observatory</em></h2>
+<p class="lede">What makes an agent different from a chatbot, and how to keep it safe. Watch it observe, plan, act and check, with a human holding the telescope.</p>
+</div>
+</div></div>
+</section>
+
+<!-- 07 · creative studio -->
+<section class="ch c-d7" id="studio" aria-labelledby="d7-h">
+<div class="in"><div class="split">
+<div class="rv">
+<p class="k">Department 07 · Creative Studio · New</p>
+<h2 class="h" id="d7-h">AI Art &amp; <em>Style Recipes</em></h2>
+<p class="lede">Prompting for images: subjects, styles, palettes and moods you can mix like a recipe. A moth made of opal, risograph print, neon dusk glow.</p>
+</div>
+<div class="art rv d2"><span class="glyph" aria-hidden="true">🎨</span>
+<article class="win"><div class="tb">🎨 Department 07<span class="b"><i></i><i></i><i></i></span></div><div class="wb">
+<div class="kick">Creative Studio · New</div><h3>AI Art &amp; Style Recipes</h3>
+<ol><li>The Style Recipe Mixer</li><li class="more">and more in the studio</li></ol></div></article></div>
+</div></div>
+</section>
+
+<!-- 08 · the desktop -->
+<section class="ch c-desk" id="desktop" aria-labelledby="desk-h">
+<div class="in">
+<div class="center rv">
+<p class="k">Chapter 08 · Also on the desktop</p>
+<h2 class="h" id="desk-h">Little rooms that make <em>learning stick</em></h2>
+<p class="lede">Each department is its own window on the Academy desktop, and between lessons there's always somewhere fun to click.</p>
+</div>
+<ul class="list rv">
+<li><span class="e" aria-hidden="true">📡</span><h3>Daily Signal</h3><p>A two-minute lesson a day, with a streak that keeps glowing.</p></li>
+<li><span class="e" aria-hidden="true">🕹️</span><h3>Quiz Arcade</h3><p>One cabinet per department. Test yourself, no pressure.</p></li>
+<li><span class="e" aria-hidden="true">🏆</span><h3>Certificate Cabinet</h3><p>Little victories and certificates as you finish lessons and departments.</p></li>
+<li><span class="e" aria-hidden="true">📖</span><h3>AI Dictionary</h3><p>Friendly definitions of AI words, each with a little analogy.</p></li>
+<li><span class="e" aria-hidden="true">🧰</span><h3>Project Workshop</h3><p>Guided projects, like building your own personal prompt library.</p></li>
+<li><span class="e" aria-hidden="true">👾</span><h3>PIXEL</h3><p>Your tiny pixel guide, popping up with hints along the way.</p></li>
+</ul>
+</div>
+</section>
+
+<!-- 09 · enroll -->
+<section class="ch c-enroll" id="enroll" aria-labelledby="how-h">
+<div class="in">
+<div class="rv">
+<p class="k">Chapter 09 · How to enroll</p>
+<h2 class="h" id="how-h">It takes about <em>a minute</em></h2>
+</div>
+<ol class="steps rv">
+<li><h3>Subscribe free</h3><p>Join the Magick Mica newsletter on <a href="https://magickmica.substack.com/subscribe" target="_blank" rel="noopener">Substack</a>. It costs nothing.</p></li>
+<li><h3>Step inside</h3><p>Open the <a href="https://magickmica-members.vercel.app/academy/">members Academy</a> and sign in as a subscriber.</p></li>
+<li><h3>Learn at your pace</h3><p>Pick any department and go a few minutes at a time.</p></li>
+</ol>
+</div>
+</section>
+
+<!-- 10 · questions -->
+<section class="ch c-faq" id="questions" aria-labelledby="faq-h">
+<div class="in">
+<p class="k rv">Chapter 10 · Questions</p>
+<h2 class="h rv" id="faq-h">Asked in the <em>hallway</em></h2>
+<div class="faq rv">
+<details><summary>Is the Magick Mica AI Academy free?</summary><p>Yes. It's free for Magick Mica newsletter subscribers, and subscribing on Substack is free too.</p></details>
+<details><summary>Do I need to know how to code?</summary><p>No. The Academy starts from zero with what AI is and how to talk to it. The Claude Code Garage teaches files, HTML, CSS and JavaScript one small step at a time.</p></details>
+<details><summary>What is MCP?</summary><p>MCP, the Model Context Protocol, is an open standard that lets AI apps connect to tools and data. The MCP Portal explains clients, servers, tool calls, permissions and security in plain language.</p></details>
+<details><summary>How long are the lessons?</summary><p>A few minutes each. The Daily Signal is a two-minute lesson a day with a streak counter, if you like a little routine.</p></details>
+<details><summary>Why does it look like a computer from 1998?</summary><p>Because learning feels better when it's playful. The Academy runs on MagickOS 98, the same retro desktop as <a href="../desktop/">Magick Mica's MagickOS 98</a>: icons, windows, a Start menu and a taskbar.</p></details>
+</div>
+</div>
+</section>
+
+<!-- final -->
+<section class="ch c-final" aria-labelledby="final-h">
+<div class="in rv">
+<h2 class="h" id="final-h">Your curiosity is <em>the password</em></h2>
+<p class="lede">82 lessons, seven departments, one cozy desktop.</p>
+<div class="ctas"><a class="go" href="https://magickmica-members.vercel.app/academy/">✦ Step inside →</a><a class="sub" href="https://magickmica.substack.com/subscribe" target="_blank" rel="noopener">Subscribe free</a></div>
+<footer><a href="../">Magick Mica</a>·<a href="../desktop/">MagickOS 98</a>·<a href="https://substack.com/@magickmica" target="_blank" rel="noopener">@magickmica on Substack</a></footer>
+</div>
+</section>
+</main>
+
+<script>(function(){
+var root=document.documentElement,reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!('IntersectionObserver' in window)){root.classList.add('no-io');return}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.06});
+document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+var links={},bar=document.querySelector('.chn'),ol=bar.querySelector('ol'),cur=null;
+bar.querySelectorAll('a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a});
+function mark(id){if(id===cur||!links[id])return;cur=id;for(var k in links)links[k].removeAttribute('aria-current');
+var a=links[id];a.setAttribute('aria-current','true');bar.style.setProperty('--cur',a.getAttribute('data-c'));
+if(ol.scrollTo)ol.scrollTo({left:a.offsetLeft-ol.clientWidth/2+a.offsetWidth/2,behavior:reduce?'auto':'smooth'})}
+var spy=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)mark(e.target.id)})},{rootMargin:'-45% 0px -54% 0px'});
+document.querySelectorAll('main>.ch[id]').forEach(function(s){spy.observe(s)});
+mark('welcome');
+})();</script>
 </body>
 </html>
