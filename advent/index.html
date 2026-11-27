@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Advent Calendar · Magick Mica AI Academy</title>
+<style>
+:root{
+  --violet:#21143D; --plum:#30204F; --lav:#BDA7FF; --cyan:#66E8F2; --pink:#FF9DD8;
+  --uv:#8C54E8; --ink:#21172D; --gold:#FFD86B; --mint:#7EE3A4; --red:#d23a63;
+  --pearl:#e6e2f4; --pearl-hi:#fff; --pearl-lo:#8f87ab; --pearl-dk:#4a4166;
+  --paper:#fcfaff; --quiet:#5d5478; --line:#ddd5ef;
+  --title:linear-gradient(90deg,#3b2585,var(--uv) 40%,#d7609f 75%,#3fa9c4);
+  --f-chrome:ui-monospace,"SF Mono","Cascadia Mono",Consolas,"DejaVu Sans Mono","Courier New",monospace;
+  --f-ui:Tahoma,Verdana,"Segoe UI","DejaVu Sans",sans-serif;
+  --f-read:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.5 var(--f-ui);color:var(--ink);min-height:100vh;
+  background:radial-gradient(circle at 20% 10%,#4b2c86 0,transparent 40%),radial-gradient(circle at 85% 80%,#173a5c 0,transparent 45%),var(--violet)}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:#4a2bb0}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+.raised{background:var(--pearl);box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 #f7f5fc}
+.sunken{background:var(--paper);box-shadow:inset 1px 1px 0 var(--pearl-lo),inset -1px -1px 0 var(--pearl-hi),inset 2px 2px 0 var(--pearl-dk),inset -2px -2px 0 #f7f5fc}
+.btn{border:0;cursor:pointer;padding:6px 14px;min-height:34px;background:var(--pearl);color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  box-shadow:inset -1px -1px 0 var(--pearl-dk),inset 1px 1px 0 var(--pearl-hi),inset -2px -2px 0 var(--pearl-lo),inset 2px 2px 0 #f7f5fc;touch-action:manipulation}
+.btn:hover{background:#f2eefb}
+.btn:active,.btn[aria-pressed="true"]{box-shadow:inset 1px 1px 0 var(--pearl-dk),inset -1px -1px 0 var(--pearl-hi),inset 2px 2px 0 var(--pearl-lo);transform:translateY(1px)}
+.btn.candy{font:700 14px var(--f-chrome);letter-spacing:.04em;color:#fff;background:linear-gradient(180deg,#b88cff,var(--uv) 55%,#6a37c9);text-shadow:0 1px 0 #3b2585;
+  box-shadow:inset -1px -1px 0 #2b1468,inset 1px 1px 0 #e5d6ff,inset -2px -2px 0 #4b25a0,inset 2px 2px 0 #c9b0ff,0 0 14px rgba(140,84,232,.55)}
+.wrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:22px 14px 60px}
+.win{margin-bottom:18px}
+.tb{display:flex;align-items:center;gap:8px;padding:5px 6px 5px 10px;background:var(--title);color:#fff;font:700 13px var(--f-chrome);letter-spacing:.03em}
+.tb .ctl{margin-left:auto;display:flex;gap:3px}
+.tb .ctl span{width:20px;height:18px;display:grid;place-items:center;font-size:11px;color:var(--ink)}
+.body{padding:14px}
+.moonlogo{background:radial-gradient(circle at 45% 45%,#3b2585,#21143D 70%);border-radius:50%;padding:8px;box-shadow:0 0 0 3px var(--pearl-lo),0 0 18px rgba(189,167,255,.7)}
+.hero{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.hero h1{margin:0 0 4px;font:700 26px var(--f-chrome);letter-spacing:.02em;color:#3b2585}
+.hero p{margin:4px 0;font-family:var(--f-read)}
+.bubble{position:relative;padding:10px 12px;font-family:var(--f-read);margin-top:8px}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;padding:8px 8px 0}
+.tabs .btn{font:700 12px var(--f-chrome);min-height:32px;padding:5px 10px}
+.pane{padding:14px}
+.pane[hidden]{display:none}
+h2{font:700 17px var(--f-chrome);color:#3b2585;margin:2px 0 10px}
+h3{font:700 14px var(--f-chrome);margin:0 0 6px;color:#3b2585}
+.read{font-family:var(--f-read);font-size:15px;line-height:1.6}
+.read p{margin:.5em 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.card{padding:12px;display:flex;flex-direction:column;gap:6px}
+.card .tag{display:inline-block;font:700 10px var(--f-chrome);letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;background:#efe8ff;color:#3b2585;border:1px solid var(--line);margin-right:4px}
+.card .tag.pd{background:#e3fbe9;color:#17663a}
+.card .tag.lic{background:#fff3d6;color:#7a5300}
+.card p{margin:0;font-family:var(--f-read)}
+.card .go{margin-top:auto;padding-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+.lessons{display:grid;grid-template-columns:220px 1fr;gap:12px}
+.lnav{display:flex;flex-direction:column;gap:4px}
+.lnav .btn{justify-content:flex-start;text-align:left;font-size:13px}
+.lnav .btn .ck{margin-left:auto;color:#17663a;font-weight:700}
+.lesson{padding:14px 16px}
+.try{margin-top:12px;padding:10px 12px;background:#f4efff;border-left:4px solid var(--uv);font-family:var(--f-read)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.inp{flex:1;min-width:200px;padding:8px 10px;border:0;min-height:38px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chips .btn{min-height:30px;padding:4px 10px;font-size:12px}
+.results{margin-top:12px}
+.res{display:flex;gap:10px;align-items:center;padding:9px 10px;border-bottom:1px solid var(--line);font-family:var(--f-read)}
+.res b{min-width:170px}
+.res .why{color:var(--quiet);font-size:13px;flex:1}
+pre.out{white-space:pre-wrap;font:13px/1.5 var(--f-chrome);padding:12px;margin:10px 0 0;min-height:70px}
+label.f{display:block;font:700 12px var(--f-chrome);margin:8px 0 3px;color:#3b2585}
+select.inp,input.inp,textarea.inp{width:100%}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.q{padding:12px;margin-bottom:10px}
+.q .opts{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.q .opts .btn{justify-content:flex-start;text-align:left}
+.q .opts .btn.right{background:#dff8e7}
+.q .opts .btn.wrong{background:#ffe1ea}
+.q .fb{margin-top:6px;font-family:var(--f-read);font-size:13px}
+.badge{display:flex;align-items:center;gap:12px;padding:12px;margin-top:10px;background:linear-gradient(90deg,#fff6d6,#f4efff)}
+.note{font-size:12px;color:var(--quiet);font-family:var(--f-read)}
+.status{display:flex;gap:10px;align-items:center;padding:4px 8px;font:12px var(--f-chrome);color:var(--quiet)}
+.meter{flex:1;height:14px;max-width:240px}
+.meter i{display:block;height:100%;background:repeating-linear-gradient(90deg,var(--uv) 0 10px,transparent 10px 12px);width:0;transition:width .3s}
+.toast{position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:9;padding:10px 16px;font:700 13px var(--f-chrome);opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.on{opacity:1}
+table.lic{border-collapse:collapse;width:100%;font-family:var(--f-read);font-size:14px;margin:8px 0}
+table.lic th,table.lic td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+table.lic th{background:#f4efff;font:700 12px var(--f-chrome)}
+@media (max-width:720px){
+  .lessons,.two{grid-template-columns:1fr}
+  .hero{grid-template-columns:1fr;justify-items:start}
+  .hero h1{font-size:21px}
+  .res{flex-wrap:wrap}.res b{min-width:0;width:100%}
+}
+.moonlogo{background:radial-gradient(circle at 45% 45%,#3b2585,#21143D 70%);border-radius:50%;padding:8px;box-shadow:0 0 0 3px var(--pearl-lo),0 0 18px rgba(189,167,255,.7)}
+.cal{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;padding:14px}
+.door{position:relative;aspect-ratio:1;border:0;cursor:pointer;font:700 22px var(--f-chrome);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+ background:linear-gradient(150deg,#3b2585,#8C54E8 60%,#d7609f);box-shadow:inset -2px -2px 0 #21143D,inset 2px 2px 0 #c9b0ff,0 0 0 2px #21172D;touch-action:manipulation;text-shadow:0 2px 0 #21143D}
+.door:nth-child(3n+2){background:linear-gradient(150deg,#174a6b,#3fa9c4 60%,#66E8F2)}
+.door:nth-child(4n+3){background:linear-gradient(150deg,#7a2a5c,#d7609f 60%,#FF9DD8)}
+.door:nth-child(5n+4){background:linear-gradient(150deg,#6b4a00,#d9a520 60%,#FFD86B)}
+.door .em{font-size:12px;font-weight:400;min-height:14px}
+.door.locked{filter:saturate(.5) brightness(.85)}
+.door.locked .em::before{content:"🔒"}
+.door.today{animation:glow 1.6s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:inset -2px -2px 0 #21143D,inset 2px 2px 0 #c9b0ff,0 0 0 2px #21172D,0 0 18px 4px #FFD86B}}
+.door.open{background:var(--paper)!important;color:#3b2585;text-shadow:none;box-shadow:inset 2px 2px 0 var(--pearl-dk),inset -1px -1px 0 #fff}
+.door.open .em{font-size:26px}
+.door:hover{filter:brightness(1.12)}
+.door .rib{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,transparent 46%,rgba(255,255,255,.3) 46% 54%,transparent 54%),linear-gradient(0deg,transparent 46%,rgba(255,255,255,.3) 46% 54%,transparent 54%)}
+.door.open .rib{display:none}
+.modal{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:14px;background:rgba(18,10,36,.6)}
+.modal[hidden]{display:none}
+.modal .win{width:min(560px,100%);max-height:calc(100vh - 28px);overflow:auto;margin:0}
+.modal .tb button{border:0;width:22px;height:20px;cursor:pointer;font:700 12px var(--f-chrome);color:var(--ink)}
+.tip h2{font-size:20px}
+.tip .school{display:inline-block;font:700 11px var(--f-chrome);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;background:#efe8ff;color:#3b2585;border:1px solid var(--line)}
+.tip .big{font-size:46px;line-height:1;float:right;margin:0 0 6px 10px}
+.cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.count{font:700 12px var(--f-chrome);color:#3b2585}
+@media (max-width:720px){.cal{grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}.door{font-size:18px}}
+@media (prefers-reduced-motion:reduce){.door.today{animation:none}}
+
+.cal{perspective:900px}
+.door{overflow:visible;padding:0;background:var(--paper)!important;box-shadow:inset 2px 2px 0 var(--pearl-dk),inset -1px -1px 0 #fff;color:#3b2585;text-shadow:none}
+.door .inside{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:absolute;inset:0;background:radial-gradient(circle,#fff6d6,#f4efff 70%)}
+.door .inside .em{font-size:26px}
+.door .leaf{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#fff;text-shadow:0 2px 0 #21143D;transform-origin:left center;transition:transform .6s cubic-bezier(.3,.7,.3,1.2);backface-visibility:hidden;overflow:hidden;
+ background:linear-gradient(150deg,#3b2585,#8C54E8 60%,#d7609f);box-shadow:inset -2px -2px 0 #21143D,inset 2px 2px 0 #c9b0ff,0 0 0 2px #21172D;z-index:2}
+.door:nth-child(3n+2) .leaf{background:linear-gradient(150deg,#174a6b,#3fa9c4 60%,#66E8F2)}
+.door:nth-child(4n+3) .leaf{background:linear-gradient(150deg,#7a2a5c,#d7609f 60%,#FF9DD8)}
+.door:nth-child(5n+4) .leaf{background:linear-gradient(150deg,#6b4a00,#d9a520 60%,#FFD86B)}
+.door.locked .leaf{filter:saturate(.75) brightness(.95)}
+.door.locked .inside{visibility:hidden}
+.door.locked .leaf .em::before{content:"🔒"}
+.door.locked .em::before{content:none}
+.door.open .leaf,.door.swing .leaf{transform:rotateY(-105deg)}
+.door.open .leaf{visibility:hidden;transition:none}
+.door.swing .leaf{visibility:visible}
+.door:not(.locked):not(.open):hover .leaf{transform:rotateY(-14deg)}
+.door .shine{position:absolute;inset:-50%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);transform:translateX(-60%);animation:sheen 4.5s ease-in-out infinite;z-index:1}
+.door:nth-child(odd) .shine{animation-delay:1.2s}.door:nth-child(3n) .shine{animation-delay:2.4s}
+@keyframes sheen{0%,60%{transform:translateX(-60%)}100%{transform:translateX(60%)}}
+.door.today .leaf{animation:glow 1.6s ease-in-out infinite}
+.door.today{animation:none}
+.door.today::after{content:"✦ TODAY ✦";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);z-index:3;font:700 9px var(--f-chrome);background:#FFD86B;color:#21172D;padding:1px 5px;white-space:nowrap}
+.door.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+.win.pop{animation:popin .35s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes popin{0%{transform:scale(.6) rotate(-3deg);opacity:0}100%{transform:none;opacity:1}}
+.tip .big{animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(6deg)}}
+.fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:30}
+canvas.snow{position:fixed;inset:0;pointer-events:none;z-index:0}
+h1{background:linear-gradient(90deg,#3b2585,#8C54E8,#d7609f,#3fa9c4,#3b2585);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent!important;animation:holo 6s linear infinite}
+@keyframes holo{to{background-position:200% 0}}
+@media (prefers-reduced-motion:reduce){.door .shine,.door.today .leaf,.tip .big,h1{animation:none}.door .leaf{transition:none}}
+
+</style>
+<meta name="description" content="24 little doors, 24 tiny AI spells. A free advent calendar from the Magick Mica AI Academy: one AI tip a day, December 1 to 24.">
+<meta name="theme-color" content="#21143D">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magick Mica">
+<meta property="og:title" content="The AI Advent Calendar · Magick Mica AI Academy">
+<meta property="og:description" content="24 little doors, 24 tiny AI spells. Open one a day, December 1 to 24.">
+<meta property="og:url" content="https://magickmica.github.io/advent/">
+<meta property="og:image" content="https://magickmica.github.io/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../apple-touch-icon.png">
+</head>
+<body>
+<svg class="stars" aria-hidden="true" id="stars"></svg>
+<div class="wrap">
+
+<section class="win raised" aria-labelledby="t1">
+  <div class="tb"><span>✦</span><span id="t1">AI_ADVENT.EXE</span><span class="ctl"><span class="raised">_</span><span class="raised">□</span><span class="raised">×</span></span></div>
+  <div class="body hero">
+    <svg width="104" height="104" viewBox="0 0 100 100" role="img" aria-label="Holographic moon logo with a star and a heart" class="moonlogo">
+  <defs>
+    <linearGradient id="holo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#66E8F2"/><stop offset=".3" stop-color="#BDA7FF"/><stop offset=".55" stop-color="#FF9DD8"/><stop offset=".8" stop-color="#FFD86B"/><stop offset="1" stop-color="#7EE3A4"/>
+      <animateTransform attributeName="gradientTransform" type="rotate" values="0 .5 .5;360 .5 .5" dur="8s" repeatCount="indefinite"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      <animate attributeName="x1" values="-1;1" dur="3.5s" repeatCount="indefinite"/><animate attributeName="x2" values="0;2" dur="3.5s" repeatCount="indefinite"/>
+    </linearGradient>
+    <mask id="cres"><rect width="100" height="100" fill="#000"/><circle cx="46" cy="50" r="40" fill="#fff"/><circle cx="64" cy="42" r="33" fill="#000"/></mask>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <g filter="url(#glow)">
+    <rect width="100" height="100" fill="url(#holo)" mask="url(#cres)"/>
+    <rect width="100" height="100" fill="url(#sheen)" mask="url(#cres)" opacity=".7"/>
+  </g>
+  <circle cx="46" cy="50" r="40" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width=".8" mask="url(#cres)"/>
+  <path d="M68 24 l3.2 7.3 7.8.7-5.9 5.2 1.8 7.7-6.9-4.1-6.9 4.1 1.8-7.7-5.9-5.2 7.8-.7z" fill="url(#holo)" stroke="#fff" stroke-width="1.2" stroke-linejoin="round" filter="url(#glow)"/>
+  <path d="M66 70 c-6-4.5-10-8-10-12.5 0-3 2.3-5.2 5-5.2 2 0 3.8 1.2 5 3 1.2-1.8 3-3 5-3 2.7 0 5 2.2 5 5.2 0 4.5-4 8-10 12.5z" fill="url(#holo)" stroke="#fff" stroke-width="1.2" stroke-linejoin="round" filter="url(#glow)"/>
+  <circle cx="84" cy="56" r="1.4" fill="#fff"><animate attributeName="opacity" values="1;.2;1" dur="2.2s" repeatCount="indefinite"/></circle>
+  <circle cx="58" cy="35" r="1" fill="#fff"><animate attributeName="opacity" values=".2;1;.2" dur="1.8s" repeatCount="indefinite"/></circle>
+</svg>
+    <div>
+      <h1>The AI Advent Calendar</h1>
+      <p><b>24 little doors. 24 tiny AI spells. One a day, December 1 to 24.</b></p>
+      <p class="note">A gift from the Magick Mica AI Academy: every door holds one small tip from our schools, from prompting and Claude to public domain art and tarot. Come back each day to open the next one.</p>
+      <div class="bubble sunken"><b>The Moon says:</b> <span id="pixline">Loading the doors…</span></div>
+    </div>
+  </div>
+  <div class="status"><span class="count" id="count">0 of 24 opened</span><span class="meter sunken"><i id="meter"></i></span><span id="badgetxt"></span></div>
+</section>
+
+<section class="win raised" aria-label="Calendar doors">
+  <div class="tb"><span>❄</span><span>DECEMBER.CAL</span></div>
+  <div class="cal" id="cal"></div>
+  <div class="status"><span id="hint">Tap a glowing door.</span></div>
+</section>
+
+<p class="note" style="color:#BDA7FF;text-align:center">Made with love by the Magick Mica AI Academy · <a style="color:#66E8F2" href="https://magickmica.github.io/academy/" target="_blank" rel="noopener">Visit the Academy ↗</a></p>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <section class="win raised" role="dialog" aria-modal="true" aria-labelledby="mt">
+    <div class="tb"><span>🎁</span><span id="mt">DOOR_01.TXT</span><span class="ctl"><button class="raised" id="mx" aria-label="Close">×</button></span></div>
+    <div class="body tip read" id="mbody"></div>
+  </section>
+</div>
+<div class="toast raised" id="toast" role="status" aria-live="polite"></div>
+<script>
+const ACADEMY="https://magickmica.github.io/academy/";
+const TIPS=[
+ {s:"AI Foundations",e:"🧠",t:"AI predicts, it doesn't know",b:"A chatbot writes one likely word after another. That's why it can sound sure and still be wrong. Treat it like a brilliant, overconfident intern: great drafts, always double-check facts.",y:"Ask an AI a question you already know the answer to. Did it get it fully right?"},
+ {s:"Prompt Lab",e:"🎯",t:"Give it a role, a goal and a reader",b:"\"Write a post\" gets you beige. \"You're a cozy-witch copywriter. Write a 3-line post for busy moms about our candle sale\" gets you magic. Who is it, what's the goal, who's reading?",y:"Rewrite one boring prompt with a role, a goal and a reader."},
+ {s:"Prompt Lab",e:"🧾",t:"Show, don't just tell",b:"Paste one example of what you love: a past caption, an email that worked, a paragraph in your voice. Examples teach style faster than any adjective.",y:"Add \"Here's an example of my voice:\" plus a real sample to your next prompt."},
+ {s:"Claude Workshop",e:"💬",t:"Have a conversation, not a vending machine",b:"Your first answer is a draft. Say \"shorter\", \"warmer\", \"more like a fairy tale\", \"give me 5 options\". The magic is in round two and three.",y:"Take any AI answer and ask for it three different ways."},
+ {s:"Daily Signal",e:"📡",t:"Tiny daily practice beats big weekends",b:"Five minutes a day with AI builds more skill than one long weekend binge. Small reps, every day, like stretching.",y:"Set a daily 5-minute AI play date for the rest of December."},
+ {s:"Claude Workshop",e:"📎",t:"Feed it your files",b:"Upload the PDF, the spreadsheet, the messy notes. AI is best when it works on your real stuff instead of guessing.",y:"Upload a long document and ask for the three most important points."},
+ {s:"Prompt Lab",e:"🪜",t:"Ask it to think step by step",b:"For anything tricky (plans, numbers, decisions) ask the AI to lay out its steps first. You'll catch mistakes and understand its reasoning.",y:"Ask: \"Before answering, list the steps you'll take.\""},
+ {s:"Creative Studio",e:"🎨",t:"Lock a style recipe",b:"For consistent AI art, write one recipe (medium + palette + light + texture) and reuse it word for word. Only the subject changes. Now your images look like a family.",y:"Write your signature style recipe in one sentence and save it."},
+ {s:"School of the Commons",e:"📚",t:"Millions of free masterpieces",b:"Museums like The Met and the Art Institute of Chicago have released hundreds of thousands of public domain images, free for anyone to use, even commercially. Look for 'CC0' or 'Public Domain'.",y:"Search \"moth\" on the Art Institute of Chicago with the public domain filter on."},
+ {s:"AI Foundations",e:"🪟",t:"Context windows are short-term memory",b:"AI only 'remembers' what's in the current chat. Long chats get fuzzy. When things drift, start fresh with a short summary of what matters.",y:"Ask the AI to summarize your long chat, then paste that into a new one."},
+ {s:"Tarot & Symbol School",e:"🌙",t:"Symbols are a visual language",b:"A moon means intuition, a key means access, a butterfly means change. Use old symbols in your AI art prompts and your images instantly carry meaning.",y:"Add one meaningful symbol to your next image prompt."},
+ {s:"Claude Workshop",e:"🧑‍🏫",t:"Ask it to interview you",b:"Stuck? Flip it: \"Ask me 5 questions, one at a time, to help me write my About page.\" The AI pulls the good stuff out of you.",y:"Have the AI interview you about one project."},
+ {s:"Claude Code",e:"💻",t:"You can build tiny apps by describing them",b:"Tools like Claude Code turn plain English into working code. This whole Academy was built that way. Start tiny: \"a page that picks a random tarot card\".",y:"Describe one tiny tool you wish existed, in 3 sentences."},
+ {s:"MCP Portal",e:"🔌",t:"MCP plugs AI into your tools",b:"MCP (Model Context Protocol) is like a universal adapter that lets AI read your calendar, docs or design apps, so it can help with your real work, not just chat.",y:"List 3 apps you'd love your AI assistant to see."},
+ {s:"Agent Observatory",e:"🛰",t:"Agents take steps, not just answers",b:"An AI agent can plan, use tools and take several steps toward a goal. Give it clear limits: what it may do, and when to stop and check with you.",y:"Write a 3-line job description for an imaginary AI helper."},
+ {s:"Prompt Lab",e:"✂️",t:"Say what to leave out",b:"\"No hashtags. No emojis. Under 50 words. Don't start with 'In today's world'.\" Constraints make writing sharper and stop the AI clichés.",y:"Add three \"don'ts\" to a prompt and compare."},
+ {s:"School of the Commons",e:"🏷",t:"Credit like a pro",b:"Title, Artist (Year). Collection. License. Even when credit isn't required, it builds trust and helps people find the original.",y:"Write a credit line for one public domain image you love."},
+ {s:"Creative Studio",e:"🖼",t:"Use a reference image",b:"Most AI image tools accept an upload. A vintage plate or your own sketch as reference gives you far more control than words alone.",y:"Generate one image with and one without a reference. Compare."},
+ {s:"AI Foundations",e:"🛡",t:"Keep secrets out of chats",b:"Don't paste passwords, bank details or other people's private info into AI tools. Share what's needed, nothing more.",y:"Check your last AI chat: anything you'd rather not have shared?"},
+ {s:"Tarot & Symbol School",e:"🃏",t:"Use AI for reflection, not prediction",b:"Pull a card, then ask an AI: \"Help me reflect on this card as it relates to my week. Ask me two journaling questions.\" Gentle, useful, no fortune telling.",y:"Try it with today's card."},
+ {s:"Claude Workshop",e:"📋",t:"Save your best prompts",b:"Keep a prompt notebook. When something works, save it with a name. In a month you'll have your own spellbook.",y:"Start a note called 'My Spellbook' and save one prompt."},
+ {s:"Agent Observatory",e:"🔁",t:"Check its work",b:"Ask the AI to review its own answer: \"What might be wrong or missing here?\" A second pass catches a surprising amount.",y:"Ask for a self-review on your next AI answer."},
+ {s:"Creative Studio",e:"🎁",t:"Make a gift with AI",b:"A custom poem, a coloring page, a tiny storybook starring your kid's cat. AI is wonderful for personal, one-of-a-kind presents.",y:"Make one small AI gift for someone this week."},
+ {s:"Magick Mica AI Academy",e:"✨",t:"Your curiosity is the password",b:"You opened 24 doors of AI magic. The Academy has a whole desktop of schools waiting: Prompt Lab, Claude Code, Creative Studio, Tarot & Symbol and more. Merry everything!",y:"Come explore the full Academy."},
+];
+const KEY="mmadvent.v1";let S={open:[],preview:false};
+try{S=Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("on"),2400)}
+function copy(txt){(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast("Copied ✦"),()=>{const a=document.createElement("textarea");a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Copied ✦")}catch(e){toast("Select and copy by hand")}a.remove()})}
+const now=new Date(), Y=now.getFullYear();
+// a door opens on December N (viewer's own date). In January, everything stays open.
+function unlocked(n){if(S.preview)return true;const m=now.getMonth();if(m===11)return now.getDate()>=n;if(m===0)return true;return false}
+function todayN(){return now.getMonth()===11&&now.getDate()<=24?now.getDate():0}
+const ORDER=Array.from({length:24},(_,i)=>i+1);
+function render(){
+ $("#cal").innerHTML=ORDER.map(n=>{const o=S.open.includes(n),u=unlocked(n),t=n===todayN()&&!o;
+  return `<button class="door${o?" open":""}${u?"":" locked"}${t?" today":""}" data-n="${n}" aria-label="Door ${n}${o?", opened: "+esc(TIPS[n-1].t):u?", ready to open":", opens December "+n}"><span class="inside">${n}<span class="em">${o?TIPS[n-1].e:""}</span></span><span class="leaf"><span class="rib"></span><span class="shine"></span>${n}<span class="em"></span></span></button>`}).join("");
+ const k=S.open.length;$("#count").textContent=k+" of 24 opened";$("#meter").style.width=(k/24*100)+"%";$("#badgetxt").textContent=k===24?"🏅 Advent Adept":"";
+ const m=now.getMonth();
+ $("#pixline").textContent=S.preview?"Preview mode: every door is open so you can check them all.":m===11&&now.getDate()<=24?"Door "+now.getDate()+" is glowing. Go on, open it!":m===11||m===0?"All 24 doors are open. Catch up on any you missed!":"The first door opens on December 1. Come back then, or peek at the Academy while you wait.";
+}
+function openDoor(n,el){
+ if(!unlocked(n)){toast("Door "+n+" opens on December "+n+" ✦");if(el){el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake")}return}
+ const first=!S.open.includes(n);
+ if(first&&el&&!RM){S.open.push(n);save();el.classList.add("swing");burst(el,40);setTimeout(()=>showTip(n,true),650);return}
+ if(first){S.open.push(n);save()}
+ if(el)burst(el,14);showTip(n,first);
+}
+function showTip(n,first){
+ const T=TIPS[n-1],share=`Day ${n} of the Magick Mica AI Advent Calendar: ${T.t}. ${T.b} ✨ ${ACADEMY}`;
+ $("#mt").textContent="DOOR_"+String(n).padStart(2,"0")+".TXT";
+ $("#mbody").innerHTML=`<span class="big">${T.e}</span><span class="school">${esc(T.s)}</span><h2>Day ${n}: ${esc(T.t)}</h2><p>${esc(T.b)}</p><div class="try"><b>✦ Try it:</b> ${esc(T.y)}</div>
+ <div class="cta"><a class="btn candy" href="${ACADEMY}" target="_blank" rel="noopener">Explore the Academy ↗</a><button class="btn" id="share">Copy to share</button><button class="btn" id="close2">Close</button></div>`;
+ $("#modal").hidden=false;const W=$("#modal .win");W.classList.remove("pop");void W.offsetWidth;W.classList.add("pop");$("#mx").focus();if(first)setTimeout(()=>burst($("#mbody .big"),26),180);if(S.open.length===24&&first)setTimeout(finale,500);
+ $("#share").onclick=()=>copy(share);$("#close2").onclick=closeM;render();
+}
+function closeM(){$("#modal").hidden=true}
+$("#cal").onclick=e=>{const b=e.target.closest(".door");if(b)openDoor(+b.dataset.n,b)};
+const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const FX=document.createElement("canvas");FX.className="fx";document.body.appendChild(FX);const cx=FX.getContext("2d");let P=[],running=false;
+function sizeFX(){FX.width=innerWidth*devicePixelRatio;FX.height=innerHeight*devicePixelRatio;cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}sizeFX();addEventListener("resize",sizeFX);
+const FXC=["#FFD86B","#66E8F2","#FF9DD8","#BDA7FF","#fff","#7EE3A4"];
+function burst(el,k){if(RM||!el)return;const r=el.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
+ for(let i=0;i<k;i++){const a=Math.random()*Math.PI*2,v=2+Math.random()*5;P.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-2,life:1,s:2+Math.random()*4,c:FXC[i%FXC.length],star:Math.random()<.45,rot:Math.random()*6})}
+ if(!running){running=true;requestAnimationFrame(tick)}}
+function star(x,y,s,rot){cx.save();cx.translate(x,y);cx.rotate(rot);cx.beginPath();for(let i=0;i<8;i++){const r=i%2?s*.4:s*1.4,a=i*Math.PI/4;cx.lineTo(Math.cos(a)*r,Math.sin(a)*r)}cx.closePath();cx.fill();cx.restore()}
+function tick(){cx.clearRect(0,0,innerWidth,innerHeight);P=P.filter(p=>p.life>0);
+ P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.12;p.vx*=.98;p.life-=.016;p.rot+=.1;cx.globalAlpha=Math.max(0,p.life);cx.fillStyle=p.c;cx.shadowColor=p.c;cx.shadowBlur=8;
+  if(p.star)star(p.x,p.y,p.s,p.rot);else{cx.beginPath();cx.arc(p.x,p.y,p.s/2,0,7);cx.fill()}});
+ cx.globalAlpha=1;cx.shadowBlur=0;if(P.length)requestAnimationFrame(tick);else running=false}
+function finale(){if(RM)return;let i=0;const t=setInterval(()=>{const d=document.createElement("div");d.style.cssText=`position:fixed;left:${10+Math.random()*80}%;top:${10+Math.random()*50}%;width:1px;height:1px`;document.body.appendChild(d);burst(d,50);d.remove();if(++i>8)clearInterval(t)},260);toast("🏅 All 24 doors! You're an Advent Adept ✦")}
+// sparkle trail
+let lastT=0;addEventListener("pointermove",e=>{if(RM||e.pointerType!=="mouse")return;const t=performance.now();if(t-lastT<40)return;lastT=t;P.push({x:e.clientX,y:e.clientY,vx:(Math.random()-.5)*1.2,vy:Math.random()*.8,life:.6,s:2+Math.random()*2.5,c:FXC[Math.random()*FXC.length|0],star:true,rot:0});if(!running){running=true;requestAnimationFrame(tick)}});
+$("#mx").onclick=closeM;$("#modal").onclick=e=>{if(e.target.id==="modal")closeM()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeM()});
+S.preview=false;
+(function(){if(RM)return;const c=document.createElement("canvas");c.className="snow";document.body.prepend(c);const g=c.getContext("2d");let F=[];
+ function sz(){c.width=innerWidth;c.height=innerHeight;F=Array.from({length:Math.min(110,innerWidth/9|0)},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:.6+Math.random()*2.4,v:.3+Math.random()*1.1,w:Math.random()*6,c:FXC[Math.random()*5|0]}))}sz();addEventListener("resize",sz);
+ (function f(t){g.clearRect(0,0,c.width,c.height);F.forEach(p=>{p.y+=p.v;p.x+=Math.sin(t/1500+p.w)*.35;if(p.y>c.height+4){p.y=-4;p.x=Math.random()*c.width}g.globalAlpha=.55+.45*Math.sin(t/400+p.w);g.fillStyle=p.c;g.beginPath();g.arc(p.x,p.y,p.r,0,7);g.fill()});requestAnimationFrame(f)})(0)})();
+(function(){const sv=$("#stars"),w=innerWidth,h=innerHeight;let s="";for(let i=0;i<90;i++){const x=Math.random()*w,y=Math.random()*h,r=Math.random()<.2?2:1;s+=`<rect x="${x|0}" y="${y|0}" width="${r}" height="${r}" fill="${["#fff","#66E8F2","#FF9DD8","#BDA7FF"][i%4]}" opacity="${.4+Math.random()*.6}"><animate attributeName="opacity" values="1;.15;1" dur="${1.5+Math.random()*3}s" repeatCount="indefinite"/></rect>`}sv.setAttribute("viewBox",`0 0 ${w} ${h}`);sv.innerHTML=s})();
+render();
+</script>
+</body>
+</html>
