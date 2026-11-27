@@ -252,8 +252,12 @@ def main():
         target = HOME
     else:                                       # PREVIEW: index.html untouched
         if ANCHOR not in home:
-            print("whatsnew: couldn't find the Y3K MAGAZINE heading in index.html; nothing written")
-            return 1
+            # The homepage no longer has the spot this preview was built around
+            # (the Y3K MAGAZINE heading went away in the chapters redesign).
+            # Skip instead of failing, so one missing preview never stops the
+            # whole site update from publishing new notes and articles.
+            print("whatsnew: no <!--ONAIR:new--> marker or Y3K MAGAZINE heading in index.html; skipped")
+            return 0
         new = home.replace(ANCHOR, "<!--ONAIR:new-->" + block + "<!--/ONAIR:new-->\n\n" + ANCHOR, 1)
         new = ch02_cover(new)
         new = new.replace("<head>", '<head><meta name="robots" content="noindex">', 1)
