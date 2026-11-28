@@ -12,6 +12,9 @@ Edit these files, then rebuild. Don't edit `emoji/index.html` by hand.
 | `app.js` | Directory pages, search, copy, favorites, routing (`#/…` links) |
 | `playground-data.js` | Playground data only: Shuffler categories, the tool list, counts |
 | `playground.js` | Playground page and the Emoji Shuffler |
+| `egyptian-data.js` | Egyptian combos and the hieroglyph range |
+| `extras.js` | Egyptian and A–Z Letters pages, saving combos (♡) and the Bookmark button |
+| `../fonts/hieroglyphs.woff2` | Noto Sans Egyptian Hieroglyphs (OFL); only downloaded on pages that show hieroglyphs |
 
 ## Rebuild
 
@@ -37,3 +40,5 @@ Everything is in localStorage; bad or old saved data is ignored safely.
 - `sme-recent`: recently copied
 - `sme-tone`: skin tone
 - `sme-shuffler`: the Shuffler's category, count, mix and locks
+- `sme-saved`: saved combos, mixes and letters (shown on Favorites)
+- `sme-az-style`: the A–Z page's alphabet style

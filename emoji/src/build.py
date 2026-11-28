@@ -1,13 +1,14 @@
 """Build the single-file site (emoji/index.html) from the source files in this folder."""
 import sys, os
 SRC = os.path.dirname(os.path.abspath(__file__)) + "/"
-ORDER = ["emoji-data.js", "symbols.js", "substack.js", "app.js", "playground-data.js", "playground.js"]
+ORDER = ["emoji-data.js", "symbols.js", "substack.js", "app.js", "playground-data.js", "playground.js", "egyptian-data.js", "extras.js"]
 h = open(SRC + "index.html", encoding="utf8").read()
 for f in ORDER:
     tag = f'<script src="{f}"></script>'
     assert tag in h, f
     js = open(SRC + f, encoding="utf8").read().replace("</script", "<\\/script")
     h = h.replace(tag, "<script>\n" + js + "\n</script>")
+h = h.replace('url("../fonts/', 'url("fonts/')   # the built page sits next to emoji/fonts/
 lic = ("<!--\n  Super Magick Emoji + Magick Mica Emoji Playground: a single-file emoji site.\n"
        "  Emoji names/groups: unicode-emoji-json (MIT). Keywords: emojilib (MIT).\n\n"
        + open(SRC + "licenses/unicode-emoji-json.txt").read() + "\n\n" + open(SRC + "licenses/emojilib.txt").read() + "\n-->\n")
