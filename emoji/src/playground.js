@@ -91,7 +91,8 @@ function shufflerPanel(){
   const bShuf = el("button", "pg-big", "SHUFFLE THE MAGIC"); bShuf.type = "button";
   const bCopy = el("button", "pg-btn", "📋 Copy mix"); bCopy.type = "button";
   const bReset = el("button", "pg-btn ghost", "↺ Reset"); bReset.type = "button";
-  acts.append(bShuf, bCopy, bReset); body.appendChild(acts);
+  const bSave = el("button", "pg-btn ghost", "♡ Save mix"); bSave.type = "button";
+  acts.append(bShuf, bCopy, bSave, bReset); body.appendChild(acts);
   const fallback = el("div", "pg-fallback"); fallback.hidden = true;
   fallback.appendChild(el("p", null, "Your browser didn't let the page copy. Select the emojis below and copy them yourself:"));
   const fbInput = el("input"); fbInput.type = "text"; fbInput.readOnly = true; fbInput.setAttribute("aria-label", "Your mix, ready to copy"); fallback.appendChild(fbInput);
@@ -148,6 +149,11 @@ function shufflerPanel(){
     const ok = await copyText(t);
     if (ok){ fallback.hidden = true; say("Copied! " + t); bCopy.textContent = "✓ Copied!"; clearTimeout(bCopy._t); bCopy._t = setTimeout(() => bCopy.textContent = "📋 Copy mix", 1600); toast("Copied " + t); }
     else { fbInput.value = t; fallback.hidden = false; fbInput.focus(); fbInput.select(); say("Couldn't copy automatically. Your mix is selected below so you can copy it."); }
+  });
+  bSave.addEventListener("click", () => {
+    const t = mixText();
+    if (isSaved(t)){ say("This mix is already in your Favorites ♥"); return; }
+    toggleSaved(t); say("Saved to Favorites ♥ " + t);
   });
   bReset.addEventListener("click", () => {
     st.slots.forEach(s => s.locked = false); shuffleSlots(st); saveShuffler(st); drawSlots(true); fallback.hidden = true;

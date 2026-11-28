@@ -177,8 +177,8 @@ function pageCombos(app, which){
   app.appendChild(el("p", "pagesub", isOfficial ? "These are single emojis made by joining others together, like 🐻 + ❄️ = 🐻‍❄️. Newer phones show each as one picture; older ones may show the parts side by side." : "Emoji combinations ready to copy: reactions, aesthetics, love, party and more."));
   const bar = setBar([{s:"official", n:"Official combos", i:"🧬"}, ...COMBO_SETS], "combos", which); app.appendChild(bar);
   if (isOfficial){ app.appendChild(grid(ZWJ, true)); return; }
-  if (x){ app.appendChild(textGrid(x.t, "combo")); return; }
-  COMBO_SETS.forEach(y => app.appendChild(sec(y.i + " " + y.n, y.t.length + " combos", textGrid(y.t, "combo"), "#/combos/" + y.s, "Open →")));
+  if (x){ app.appendChild(savableGrid(x.t, "combo")); return; }
+  COMBO_SETS.forEach(y => app.appendChild(sec(y.i + " " + y.n, y.t.length + " combos", savableGrid(y.t, "combo"), "#/combos/" + y.s, "Open →")));
   app.appendChild(sec("🧬 Official combined emojis", ZWJ.length + " emojis made of other emojis, like 🐻‍❄️ ❤️‍🔥 🧑‍🚀", grid(ZWJ.slice(0, 40)), "#/combos/official", "All " + ZWJ.length + " →"));
 }
 
@@ -204,8 +204,8 @@ function pageHome(app, q){
     if (v){
       const r = search(v);
       const lv = v.toLowerCase();
-      const sets = [...SUB_SETS.map(y => ({...y, base:"substack"})), ...SYMBOL_SETS.map(y => ({...y, base:"symbols"})), ...COMBO_SETS.map(y => ({...y, base:"combos"}))].filter(y => y.n.toLowerCase().includes(lv) || y.s.includes(lv));
-      if (sets.length){ const g = el("nav", "groups"); sets.forEach(y => { const a = el("a"); a.href = "#/" + y.base + "/" + y.s; a.appendChild(el("b", null, y.i)); a.appendChild(document.createTextNode(y.n + (y.base === "symbols" ? " symbols" : y.base === "combos" ? " combos" : " · Substack"))); g.appendChild(a); }); body.appendChild(g); }
+      const sets = [...EGYPT_SETS.map(y => ({...y, base:"egyptian"})), ...SUB_SETS.map(y => ({...y, base:"substack"})), ...SYMBOL_SETS.map(y => ({...y, base:"symbols"})), ...COMBO_SETS.map(y => ({...y, base:"combos"}))].filter(y => y.n.toLowerCase().includes(lv) || y.s.includes(lv));
+      if (sets.length){ const g = el("nav", "groups"); sets.forEach(y => { const a = el("a"); a.href = "#/" + y.base + "/" + y.s; a.appendChild(el("b", null, y.i)); a.appendChild(document.createTextNode(y.n + (y.base === "symbols" ? " symbols" : y.base === "combos" ? " combos" : y.base === "egyptian" ? " · Egyptian" : " · Substack"))); g.appendChild(a); }); body.appendChild(g); }
       body.appendChild(sec("Results for “" + v + "”", r.length + " emoji" + (r.length === 1 ? "" : "s"), r.length ? grid(r.slice(0, 300), true) : el("p", "empty", "No emoji matches that. Try a simpler word, like “smile” or “dog”.")));
       return;
     }
@@ -213,6 +213,9 @@ function pageHome(app, q){
     if (recent.length) body.appendChild(sec("🕘 Recently copied", null, grid(recent.map(s => BYSLUG[s]).filter(Boolean))));
     body.appendChild(sec("🔥 Popular", "the emojis people use most", grid(POPULAR)));
     const ms = sec("💭 Emotions", "how are you feeling?", moodBar(), "#/emotions", "All emotions →"); body.appendChild(ms);
+    const eg = el("div"); eg.appendChild(setBar([...EGYPT_SETS, {s:"hieroglyphs", n:"All 1,071 hieroglyphs", i:"📜"}], "egyptian"));
+    body.appendChild(sec("☥ Egyptian", "hieroglyph combos and every hieroglyph", eg, "#/egyptian", "Open Egyptian →"));
+    body.appendChild(sec("🔤 A–Z Letters", "fancy letters for names, titles and bios", null, "#/letters", "Open A–Z →"));
     body.appendChild(sec("📰 Substack", "for writers, journalers, readers and podcasters", setBar(SUB_SETS, "substack"), "#/substack", "Open Substack →"));
     body.appendChild(sec("🧩 Combined emojis", "ready-made combos", setBar([{s:"official", n:"Official combos", i:"🧬"}, ...COMBO_SETS], "combos"), "#/combos", "All combos →"));
     body.appendChild(sec("✦ Special symbols", "stars, hearts, arrows and more", setBar(SYMBOL_SETS, "symbols"), "#/symbols", "All symbols →"));
@@ -257,14 +260,50 @@ function pageNew(app){
   draw();
 }
 
-function pageFavs(app){
+function pageFavs(app){ if (HIERO_RE.test(savedText.join(""))) withHieroFont(app, () => drawFavs(app)); else drawFavs(app); }
+function drawFavs(app){
   app.appendChild(el("h1", "pagetitle", "⭐ Favorites"));
-  app.appendChild(el("p", "pagesub", "Emojis you've starred. They're saved in this browser only."));
-  const list = favs.map(s => BYSLUG[s]).filter(Boolean);
-  if (!list.length){ app.appendChild(el("p", "empty", "No favorites yet. Open any emoji's details (tap it, then “Details”) and press ☆ Favorite.")); }
-  else app.appendChild(grid(list, true));
-  const rec = recent.map(s => BYSLUG[s]).filter(Boolean);
-  if (rec.length) app.appendChild(sec("🕘 Recently copied", null, grid(rec, true)));
+  app.appendChild(el("p", "pagesub", "Everything you've saved: combos, mixes and letters (♡) and single emojis (☆). It's kept in this browser only."));
+  const holder = el("div"); app.appendChild(holder);
+  const clearBtn = (label, ask, fn) => { const b = el("button", "btn ghost small", label); b.type = "button";
+    b.addEventListener("click", () => { if (confirmClear(b, ask)) { fn(); draw(); } }); return b; };
+  function draw(){
+    holder.innerHTML = "";
+    // saved combos & text
+    const s1 = sec("♡ Saved combos & text", savedText.length ? savedText.length + " saved" : null);
+    if (!savedText.length) s1.appendChild(el("p", "empty", "Nothing saved yet. Tap ♡ on any combo, Shuffler mix, Egyptian combo or fancy-letter result."));
+    else {
+      const g = el("div", "grid combo");
+      savedText.forEach(t => { const w = el("div", "tw"); const b = textTile(t); const x = el("button", "sv on", "×"); x.type = "button"; x.title = "Remove"; x.setAttribute("aria-label", "Remove from favorites: " + t);
+        x.addEventListener("click", e => { e.stopPropagation(); toggleSaved(t); draw(); }); w.append(b, x); g.appendChild(w); });
+      s1.appendChild(g);
+      const row = el("div", "btns"); row.style.marginTop = "12px";
+      const ca = el("button", "btn", "📋 Copy all saved"); ca.type = "button"; ca.addEventListener("click", () => copyEmoji(null, savedText.join("\n")));
+      row.append(ca, clearBtn("Clear saved", "Tap again to clear all saved combos", () => { savedText = []; store.set("sme-saved", savedText); }));
+      s1.appendChild(row);
+    }
+    holder.appendChild(s1);
+    // favorite single emojis
+    const list = favs.map(x => BYSLUG[x]).filter(Boolean);
+    const s2 = sec("☆ Favorite emojis", list.length ? list.length + " starred" : null);
+    if (!list.length) s2.appendChild(el("p", "empty", "No favorite emojis yet. Tap any emoji, choose “Details”, then press ☆ Favorite."));
+    else { s2.appendChild(grid(list, true)); const row = el("div", "btns"); row.style.marginTop = "12px";
+      const ca = el("button", "btn", "📋 Copy all"); ca.type = "button"; ca.addEventListener("click", () => copyEmoji(null, list.map(x => withTone(x)).join(" ")));
+      row.append(ca, clearBtn("Clear favorites", "Tap again to clear all favorite emojis", () => { favs = []; store.set("sme-favs", favs); })); s2.appendChild(row); }
+    holder.appendChild(s2);
+    // recently copied
+    const rec = recent.map(x => BYSLUG[x]).filter(Boolean);
+    if (rec.length){ const s3 = sec("🕘 Recently copied", null, grid(rec, true)); const row = el("div", "btns"); row.style.marginTop = "12px";
+      row.appendChild(clearBtn("Clear history", "Tap again to clear your history", () => { recent = []; store.set("sme-recent", recent); })); s3.appendChild(row); holder.appendChild(s3); }
+  }
+  draw();
+}
+/* two-tap confirm instead of a popup dialog */
+function confirmClear(b, ask){
+  if (b.dataset.armed){ return true; }
+  b.dataset.armed = "1"; const old = b.textContent; b.textContent = ask; b.classList.add("armed");
+  setTimeout(() => { if (b.isConnected){ delete b.dataset.armed; b.textContent = old; b.classList.remove("armed"); } }, 3000);
+  return false;
 }
 
 function pageEmoji(app, slug){
@@ -317,6 +356,10 @@ function route(){
   else if (h.startsWith("g/")){ key = "all"; pageGroup(app, h.slice(2)); }
   else if (h.startsWith("e/")){ key = ""; pageEmoji(app, decodeURIComponent(h.slice(2))); }
   else if (h === "emotions" || h.startsWith("emotions/")){ key = "emotions"; pageEmotions(app, h.startsWith("emotions/") ? h.slice(9) : null); }
+  else if (h === "egyptian/hieroglyphs"){ key = "egyptian"; pageHieroglyphs(app); }
+  else if (h === "egyptian" || h.startsWith("egyptian/")){ key = "egyptian"; pageEgyptian(app, h.startsWith("egyptian/") ? h.slice(9) : null); }
+  else if (h === "letters"){ key = "letters"; pageLetters(app); }
+  else if (h === "saved"){ key = "favorites"; pageFavs(app); }
   else if (h === "playground" || h.startsWith("playground/")){ key = "playground"; pagePlayground(app, h.startsWith("playground/") ? h.slice(11) : null); }
   else if (h === "substack" || h.startsWith("substack/")){ key = "substack"; pageSubstack(app, h.startsWith("substack/") ? h.slice(9) : null); }
   else if (h === "symbols" || h.startsWith("symbols/")){ key = "symbols"; pageSymbols(app, h.startsWith("symbols/") ? h.slice(8) : null); }

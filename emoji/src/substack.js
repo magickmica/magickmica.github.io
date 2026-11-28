@@ -58,7 +58,7 @@ function pageSubstack(app, which){
   const show = y => {
     if (y.s === "script") return scriptBlock(!!x);
     const box = el("div");
-    if (y.t) box.appendChild(textGrid(x ? y.t : y.t.slice(0, 12), "combo"));
+    if (y.t) box.appendChild(savableGrid(x ? y.t : y.t.slice(0, 12), "combo"));
     if (y.e){ const list = [...new Set(y.e.split(" ").map(c => BYCHAR[bare(c)]).filter(Boolean))]; const g = grid(list, !!x); g.style.marginTop = "8px"; box.appendChild(g); }
     return box;
   };
@@ -73,7 +73,7 @@ function scriptBlock(full){
   const g = el("div", "grid combo script"); g.style.marginTop = "12px"; box.appendChild(g);
   const alpha = el("div"); box.appendChild(alpha);
   const draw = () => { scriptInput = inp.value; g.innerHTML = ""; const raw = inp.value || "Magick Mica";
-    (full ? SCRIPT_STYLES : SCRIPT_STYLES.slice(0, 8)).forEach(st => { const t = scriptText(raw, st); const b = textTile(t); b.title = st.n; b.appendChild(el("small", "lbl", st.n)); g.appendChild(b); }); };
+    (full ? SCRIPT_STYLES : SCRIPT_STYLES.slice(0, 8)).forEach(st => { g.appendChild(savableTile(scriptText(raw, st), st.n)); }); };
   inp.addEventListener("input", draw); draw();
   if (full){
     alpha.appendChild(el("div", "pagesub", "Script alphabets (tap a letter to copy it):")).style.marginTop = "18px";
