@@ -150,6 +150,10 @@ code{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--soft);pa
 .toast a{color:inherit;font-weight:700;font-size:14px;white-space:nowrap;background:#ffffff22;border-radius:10px;padding:6px 10px;text-decoration:none}
 @media (prefers-color-scheme:dark){.toast a{background:#0002}}
 textarea.fb{position:fixed;left:-9999px;opacity:0}
+.flinks{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:0 0 18px}
+.flinks a{text-decoration:none;font-weight:700;font-size:14px;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:9px 15px}
+.flinks a:hover{border-color:var(--violet)}
+.flinks a.sub{background:var(--grad);color:#fff;border-color:transparent}
 footer{color:var(--ink2);font-size:13px;text-align:center;padding:30px 16px 40px;border-top:1px solid var(--line)}
 @media (max-width:640px){
   .topnav{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none}
@@ -177,7 +181,14 @@ footer{color:var(--ink2);font-size:13px;text-align:center;padding:30px 16px 40px
   <div class="minisearch"><input type="search" id="miniq" placeholder="Search emojis…" aria-label="Search emojis"></div>
 </div></header>
 <main class="wrap" id="app"></main>
-<footer>Tap any emoji to copy it, then paste it anywhere. How an emoji looks depends on the device: the same emoji looks a little different on iPhone, Android and Windows.<br>Emoji names: Unicode CLDR, via unicode-emoji-json. Keywords: emojilib. Both MIT licensed.</footer>
+<footer>
+<div class="flinks">
+  <a href="https://magickmica.github.io/">✨ Back to Magick Mica</a>
+  <a href="https://magickmica.substack.com">📺 MagickMica TV on Substack</a>
+  <a href="https://magickmicaart.substack.com/">🎨 MagickMica Art on Substack</a>
+  <a class="sub" href="https://magickmica.substack.com/subscribe">💌 Subscribe</a>
+</div>
+Tap any emoji to copy it, then paste it anywhere. How an emoji looks depends on the device: the same emoji looks a little different on iPhone, Android and Windows.<br>Emoji names: Unicode CLDR, via unicode-emoji-json. Keywords: emojilib. Both MIT licensed.</footer>
 <div class="toast" id="toast" role="status" hidden><span class="t" id="toastT"></span><a id="toastA" href="#/">Details</a></div>
 <script>
 /* Emoji names and groups: unicode-emoji-json (MIT). Keywords: emojilib (MIT). */
