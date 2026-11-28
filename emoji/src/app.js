@@ -182,6 +182,26 @@ function pageCombos(app, which){
   app.appendChild(sec("🧬 Official combined emojis", ZWJ.length + " emojis made of other emojis, like 🐻‍❄️ ❤️‍🔥 🧑‍🚀", grid(ZWJ.slice(0, 40)), "#/combos/official", "All " + ZWJ.length + " →"));
 }
 
+/* ---- home: Explore cards ---- */
+function exploreGrid(){
+  const newest = "🫨 🩷 🪼 🫎 🪿 🫚";   // recent emojis most phones and computers can show
+  const cards = [
+    ["#/emotions", "💭", "Emotions", "16 moods, from happy to sleepy", "😊 🥰 😂 😢 😠 😱"],
+    ["#/combos", "🧩", "Combos", "ready-made emoji combinations", "😭🙏  💀💀💀  🤍☁️🌿"],
+    ["#/letters", "🔤", "A–Z Letters", "fancy letters in 20 styles", "𝓜𝓪𝓰𝓲𝓬𝓴 𝕸𝖎𝖈𝖆 ⓜⓘⓒⓐ"],
+    ["#/egyptian", "☥", "Egyptian", "hieroglyph combos and all 1,071 glyphs", "☥ 👁️ 🔺 🪲 🐫 ☀️"],
+    ["#/substack", "📰", "Substack", "for writers, readers and podcasters", "✍️ 📓 📚 🎙️ 💌"],
+    ["#/symbols", "✦", "Symbols", "stars, hearts, arrows and more", "★ ♡ ➜ ✓ ∞ ♫"],
+    ["#/new", "🆕", "New emojis", "the latest releases, newest first", newest],
+    ["#/favorites", "⭐", "Favorites", "everything you've saved", "♡ ☆ ✨"]
+  ];
+  const g = el("div", "explore");
+  cards.forEach(c => { const a = el("a", "xcard"); a.href = c[0];
+    const top = el("div", "xtop"); top.append(el("span", "xi", c[1]), el("b", null, c[2])); a.appendChild(top);
+    a.appendChild(el("span", "xd", c[3])); a.appendChild(el("span", "xp", c[4])); g.appendChild(a); });
+  return g;
+}
+
 /* ---- pages ---- */
 function pageHome(app, q){
   const hero = el("div", "hero");
@@ -211,16 +231,8 @@ function pageHome(app, q){
     }
     if (favs.length) body.appendChild(sec("⭐ Your favorites", null, grid(favs.map(s => BYSLUG[s]).filter(Boolean).slice(0, 40)), "#/favorites"));
     if (recent.length) body.appendChild(sec("🕘 Recently copied", null, grid(recent.map(s => BYSLUG[s]).filter(Boolean))));
-    body.appendChild(sec("🔥 Popular", "the emojis people use most", grid(POPULAR)));
-    const ms = sec("💭 Emotions", "how are you feeling?", moodBar(), "#/emotions", "All emotions →"); body.appendChild(ms);
-    const eg = el("div"); eg.appendChild(setBar([...EGYPT_SETS, {s:"hieroglyphs", n:"All 1,071 hieroglyphs", i:"📜"}], "egyptian"));
-    body.appendChild(sec("☥ Egyptian", "hieroglyph combos and every hieroglyph", eg, "#/egyptian", "Open Egyptian →"));
-    body.appendChild(sec("🔤 A–Z Letters", "fancy letters for names, titles and bios", null, "#/letters", "Open A–Z →"));
-    body.appendChild(sec("📰 Substack", "for writers, journalers, readers and podcasters", setBar(SUB_SETS, "substack"), "#/substack", "Open Substack →"));
-    body.appendChild(sec("🧩 Combined emojis", "ready-made combos", setBar([{s:"official", n:"Official combos", i:"🧬"}, ...COMBO_SETS], "combos"), "#/combos", "All combos →"));
-    body.appendChild(sec("✦ Special symbols", "stars, hearts, arrows and more", setBar(SYMBOL_SETS, "symbols"), "#/symbols", "All symbols →"));
-    const newest = ALL.filter(x => x.v === NEWEST);
-    body.appendChild(sec("🆕 Newest emojis", "Emoji " + NEWEST + (YEAR[NEWEST] ? " · " + YEAR[NEWEST] : ""), grid(newest, true), "#/new", "All new emojis →"));
+    body.appendChild(sec("🔥 Popular", "the emojis people use most", grid(POPULAR.slice(0, 40))));
+    body.appendChild(sec("✨ Explore", "pick a corner of the emoji universe", exploreGrid()));
     EMOJI_GROUPS.forEach(gr => { const list = ALL.filter(x => x.g === gr.s);
       body.appendChild(sec(ICON[gr.s] + " " + gr.n, list.length + " emojis", grid(list.slice(0, 48)), "#/g/" + gr.s, "All " + list.length + " →")); });
   }
